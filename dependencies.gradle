@@ -2,7 +2,6 @@ allprojects {
   ext {
     dependencies = [
         androidSupportv7    : 'com.android.support:appcompat-v7:23.1.1',
-        androidSupportDesign: 'com.android.support:design:23.1.0',
         retrofit            : 'com.squareup.retrofit:retrofit:2.0.0-beta2',
         gsonConverter       : 'com.squareup.retrofit:converter-gson:2.0.0-beta2',
         loggingInterceptor  : 'com.squareup.okhttp:logging-interceptor:2.6.0',
@@ -10,12 +9,6 @@ allprojects {
         dagger              : 'com.google.dagger:dagger:2.0',
         javaXannotations    : 'org.glassfish:javax.annotation:10.0-b28',
         supportAnnotations  : 'com.android.support:support-annotations:23.0.0',
-        leakcanaryDebug     : 'com.squareup.leakcanary:leakcanary-android:1.3.1',
-        leakcanaryRelease   : 'com.squareup.leakcanary:leakcanary-android-no-op:1.3.1',
-        coordinator         : 'me.panavtec:coordinator:1.1.5',
-        coordinatorCompiler : 'me.panavtec:coordinator-compiler:1.1.5',
-        threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',
-        threaddecoratedviewcompiler : 'me.panavtec:threaddecoratedview-compiler:1.5.1'
     ]
 
     testDependencies = [
@@ -23,7 +16,7 @@ allprojects {
                         junit      :   'junit:junit:4.12',
                         testRunner : 'com.android.support.test:runner:0.4.1',
                         testRules  : 'com.android.support.test:rules:0.4.1',
-                        espresso   : 'com.android.support.test.espresso:espresso-core:2.2.1'
-    ]
+                        espresso   : 'com.android.support.test.espresso:espresso-core:2.2.1',
+                        mockWebServer: 'com.squareup.okhttp:mockwebserver:2.6.0']
   }
 }

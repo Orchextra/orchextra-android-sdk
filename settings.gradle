@@ -1,4 +1,4 @@
-include ':app', ':orchextrasdk',
+include ':orchextrasdk',
     ':ggglib', ':ggglogger'
 
 project(':ggglib').projectDir = new File(settingsDir, 'gigigo-gigigoutilssuite-android/ggglib')

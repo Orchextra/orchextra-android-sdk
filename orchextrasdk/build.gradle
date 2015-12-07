@@ -54,14 +54,16 @@ android {
 
 dependencies {
 
-  apt rootProject.ext.dependencies.daggerCompiler
-  compile rootProject.ext.dependencies.dagger
-  provided rootProject.ext.dependencies.javaXannotations
+  apt parent.ext.dependencies.daggerCompiler
+  compile parent.ext.dependencies.dagger
+  provided parent.ext.dependencies.javaXannotations
+  compile parent.ext.dependencies.retrofit
+  compile parent.ext.dependencies.gsonConverter
+  compile parent.ext.dependencies.loggingInterceptor
 
   compile project(':ggglib')
   compile project(':ggglogger')
 
-  testCompile rootProject.ext.testDependencies.junit
-  testCompile rootProject.ext.testDependencies.mockito
-
+  testCompile parent.ext.testDependencies.junit
+  testCompile parent.ext.testDependencies.mockito
 }
