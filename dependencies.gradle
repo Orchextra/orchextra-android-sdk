@@ -9,6 +9,10 @@ allprojects {
         dagger              : 'com.google.dagger:dagger:2.0',
         javaXannotations    : 'org.glassfish:javax.annotation:10.0-b28',
         supportAnnotations  : 'com.android.support:support-annotations:23.0.0',
+        coordinator         : 'me.panavtec:coordinator:1.1.5',
+        coordinatorCompiler : 'me.panavtec:coordinator-compiler:1.1.5',
+        threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',
+        threaddecoratedviewcompiler : 'me.panavtec:threaddecoratedview-compiler:1.5.1'
     ]
 
     testDependencies = [

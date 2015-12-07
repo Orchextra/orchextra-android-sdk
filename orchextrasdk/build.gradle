@@ -53,13 +53,15 @@ android {
 }
 
 dependencies {
-
   apt parent.ext.dependencies.daggerCompiler
   compile parent.ext.dependencies.dagger
   provided parent.ext.dependencies.javaXannotations
   compile parent.ext.dependencies.retrofit
   compile parent.ext.dependencies.gsonConverter
   compile parent.ext.dependencies.loggingInterceptor
+
+  compile parent.ext.dependencies.threaddecoratedview
+  apt parent.ext.dependencies.threaddecoratedviewcompiler
 
   compile project(':ggglib')
   compile project(':ggglogger')
