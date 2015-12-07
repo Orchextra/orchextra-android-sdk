@@ -1,5 +1,7 @@
+apply from: './gigigo-gigigoutilssuite-android/settings.gradle'
+
 include ':orchextrasdk',
     ':ggglib', ':ggglogger'
 
-project(':ggglib').projectDir = new File(settingsDir, 'gigigo-gigigoutilssuite-android/ggglib')
-project(':ggglogger').projectDir = new File(settingsDir, 'gigigo-gigigoutilssuite-android/ggglogger')
+project(':ggglib').projectDir = new File(settingsDir, './gigigo-gigigoutilssuite-android/ggglib')
+project(':ggglogger').projectDir = new File(settingsDir, './gigigo-gigigoutilssuite-android/ggglogger')
