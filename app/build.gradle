@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.1"
+  compileSdkVersion parent.ext.androidCompileSdkVersion
+  buildToolsVersion parent.ext.androidBuildToolsVersion
 
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
-    minSdkVersion 15
-    targetSdkVersion 23
-    versionCode 1
-    versionName "1.0"
+    minSdkVersion parent.ext.androidMinSdkVersion
+    targetSdkVersion parent.ext.androidTargetSdkVersion
+    versionCode parent.ext.androidVersionCode
+    versionName parent.ext.androidVersionName
   }
   buildTypes {
     release {
@@ -21,6 +21,7 @@ android {
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
-  compile 'com.android.support:appcompat-v7:23.1.1'
+  compile parent.ext.dependencies.androidSupportv7
+
+  testCompile parent.ext.testDependencies.junit
 }
