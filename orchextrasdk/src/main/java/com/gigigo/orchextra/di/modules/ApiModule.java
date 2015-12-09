@@ -2,8 +2,6 @@ package com.gigigo.orchextra.di.modules;
 
 import android.os.Build;
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.data.datasources.api.service.OrchextraApiService;
-import com.gigigo.orchextra.data.datasources.api.interceptors.Headers;
 import com.gigigo.orchextra.qualifiers.data.Endpoint;
 import com.gigigo.orchextra.qualifiers.data.HeadersInterceptor;
 import com.gigigo.orchextra.qualifiers.data.RetrofitLog;
@@ -13,6 +11,8 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import dagger.Module;
 import dagger.Provides;
+import gigigo.com.orchextra.data.datasources.api.interceptors.Headers;
+import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import java.util.List;
 import javax.inject.Singleton;
 import retrofit.GsonConverterFactory;

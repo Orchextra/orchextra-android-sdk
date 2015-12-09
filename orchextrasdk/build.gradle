@@ -59,10 +59,11 @@ dependencies {
   compile parent.ext.dependencies.retrofit
   compile parent.ext.dependencies.gsonConverter
   compile parent.ext.dependencies.loggingInterceptor
-
   compile parent.ext.dependencies.threaddecoratedview
   apt parent.ext.dependencies.threaddecoratedviewcompiler
 
+  compile project(':orchextrasdk-control')
+  compile project(':orchextrasdk-data')
   compile project(':ggglib')
   compile project(':ggglogger')
 

@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.domain.invoker;
 
+import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.domain.interactors.InteractorError;
 import com.gigigo.orchextra.domain.interactors.InteractorResponse;
-import com.gigigo.orchextra.presentation.InteractorResult;
-import com.gigigo.orchextra.presentation.invoker.InteractorExecution;
+import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 

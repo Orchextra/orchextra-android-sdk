@@ -1,6 +1,6 @@
 apply from: './gigigo-gigigoutilssuite-android/settings.gradle'
 
-include ':orchextrasdk',
+include ':orchextrasdk', ':orchextrasdk-control', ':orchextrasdk-domain', ':orchextrasdk-dataprovision', ':orchextrasdk-data',
     ':ggglib', ':ggglogger'
 
 project(':ggglib').projectDir = new File(settingsDir, './gigigo-gigigoutilssuite-android/ggglib')
