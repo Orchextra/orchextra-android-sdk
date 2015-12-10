@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.control.invoker;
 
 import com.gigigo.orchextra.control.InteractorResult;
-import com.gigigo.orchextra.domain.interactors.Interactor;
-import com.gigigo.orchextra.domain.interactors.InteractorError;
-import com.gigigo.orchextra.domain.interactors.InteractorResponse;
+import com.gigigo.orchextra.domain.interactors.base.Interactor;
+import com.gigigo.orchextra.domain.interactors.base.InteractorError;
+import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import java.util.HashMap;
 import java.util.Map;
 

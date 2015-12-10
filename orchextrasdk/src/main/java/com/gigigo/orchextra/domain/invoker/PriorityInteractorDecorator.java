@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.domain.invoker;
 
-import com.gigigo.orchextra.domain.interactors.Interactor;
-import com.gigigo.orchextra.domain.interactors.InteractorResponse;
+import com.gigigo.orchextra.domain.interactors.base.Interactor;
+import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import java.util.concurrent.Callable;
 
 public class PriorityInteractorDecorator<T extends InteractorResponse>

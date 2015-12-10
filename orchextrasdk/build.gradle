@@ -25,6 +25,7 @@ android {
     versionName parent.ext.androidVersionName
 
     buildConfigField STRING, "API_VERSION", '"v1"'
+    buildConfigField INT, "CONCURRENT_INTERACTORS", '1'
     buildConfigField STRING, "API_URL", '"http://api.s.orchextra.io"'
   }
 

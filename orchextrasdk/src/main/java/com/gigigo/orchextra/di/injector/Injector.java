@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.di.injector;
 
-import com.gigigo.orchextra.delegates.AuthenticationDelegate;
+import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.di.components.DelegateComponent;
 import com.gigigo.orchextra.delegates.FakeDelegate;
 
@@ -9,6 +9,6 @@ import com.gigigo.orchextra.delegates.FakeDelegate;
  * Date 3/12/15.
  */
 public interface Injector {
-  DelegateComponent injectAuthDelegate(AuthenticationDelegate authenticationDelegate);
+  DelegateComponent injectAuthDelegate(AuthenticationDelegateImpl authenticationDelegate);
   DelegateComponent injectFakeDelegate(FakeDelegate fakeDelegate);
 }

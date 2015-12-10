@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.di.injector;
 
-import com.gigigo.orchextra.delegates.AuthenticationDelegate;
+import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.di.components.DaggerDelegateComponent;
 import com.gigigo.orchextra.di.components.DelegateComponent;
 import com.gigigo.orchextra.delegates.FakeDelegate;
@@ -18,7 +18,7 @@ public class InjectorImpl implements Injector{
     this.orchextraComponent = orchextraComponent;
   }
 
-  @Override synchronized public DelegateComponent injectAuthDelegate(AuthenticationDelegate authenticationDelegate) {
+  @Override synchronized public DelegateComponent injectAuthDelegate(AuthenticationDelegateImpl authenticationDelegate) {
     DelegateComponent delegateComponent = DaggerDelegateComponent.builder().
         orchextraComponent(orchextraComponent).build();
     delegateComponent.injectAuhtDelegate(authenticationDelegate);

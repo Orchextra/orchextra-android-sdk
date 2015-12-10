@@ -6,6 +6,7 @@ import android.widget.Toast;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.R;
+import com.gigigo.orchextra.control.controllers.base.Delegate;
 import com.gigigo.orchextra.di.components.DelegateComponent;
 import javax.inject.Inject;
 
@@ -13,7 +14,7 @@ import javax.inject.Inject;
  * Created by Sergio Martinez Rodriguez
  * Date 3/12/15.
  */
-public class FakeDelegate implements Delegate{
+public class FakeDelegate implements Delegate {
 
   @Inject Context appContext;
   private static FakeDelegate me;

@@ -23,6 +23,8 @@ dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   compile parent.ext.dependencies.retrofit
   compile parent.ext.dependencies.gsonConverter
+  compile parent.ext.dependencies.javaxInjectAnnotations
+
 
   compile project(':orchextrasdk-dataprovision')
   compile project(':ggglib')
