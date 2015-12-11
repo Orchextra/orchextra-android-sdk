@@ -15,6 +15,7 @@ buildscript {
 }
 
 android {
+
   compileSdkVersion parent.ext.androidCompileSdkVersion
   buildToolsVersion parent.ext.androidBuildToolsVersion
 
