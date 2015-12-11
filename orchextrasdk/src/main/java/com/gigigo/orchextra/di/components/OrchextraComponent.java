@@ -1,8 +1,7 @@
 package com.gigigo.orchextra.di.components;
 
-import android.content.Context;
-import com.gigigo.orchextra.control.controllers.authentication.AuthenticationController;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
+import com.gigigo.orchextra.di.modules.OrchextraModuleProvider;
 import dagger.Component;
 import javax.inject.Singleton;
 
@@ -11,7 +10,6 @@ import javax.inject.Singleton;
  * Date 24/11/15.
  */
 @Singleton @Component(modules = {OrchextraModule.class})
-public interface OrchextraComponent {
-  Context provideContext();
-  AuthenticationController provideAuthenticationController();
+public interface OrchextraComponent extends OrchextraModuleProvider, DomainModuleProvider,
+    InteractorsModuleProvider {
 }

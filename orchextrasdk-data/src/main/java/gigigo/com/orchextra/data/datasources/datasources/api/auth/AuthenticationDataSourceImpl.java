@@ -1,6 +1,8 @@
 package gigigo.com.orchextra.data.datasources.datasources.api.auth;
 
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
+import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
 import com.gigigo.orchextra.domain.entities.Sdk;
@@ -17,25 +19,26 @@ public class AuthenticationDataSourceImpl implements AuthenticationDataSource {
 
   private final OrchextraApiService orchextraApiService;
   private final Provider<ApiServiceExecutor> serviceExecutorProvider;
+  private final ApiGenericResponseMapper sdkResponseMapper;
 
   public AuthenticationDataSourceImpl(OrchextraApiService orchextraApiService,
-      Provider<ApiServiceExecutor> serviceExecutorProvider) {
+      Provider<ApiServiceExecutor> serviceExecutorProvider,
+      ApiGenericResponseMapper sdkResponseMapper) {
     this.orchextraApiService = orchextraApiService;
     this.serviceExecutorProvider = serviceExecutorProvider;
+    this.sdkResponseMapper = sdkResponseMapper;
   }
 
-  @Override public Sdk authenticateSdk(SdkAuthCredentials sdkAuthCredentials) {
+  @Override public BusinessObject<Sdk> authenticateSdk(SdkAuthCredentials sdkAuthCredentials) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
     ApiGenericResponse apiGenericResponse = serviceExecutor.executeNetworkServiceConnection(
         Sdk.class, orchextraApiService.sdkAuthentication());
 
-    Sdk sdk = (Sdk) apiGenericResponse.getResult();
-
-    return sdk;
+    return sdkResponseMapper.mapApiGenericResponseToBusiness(apiGenericResponse);
   }
 
-  @Override public User authenticateUser(Sdk sdk) {
+  @Override public BusinessObject<User> authenticateUser(Sdk sdk) {
     return null;
   }
 }

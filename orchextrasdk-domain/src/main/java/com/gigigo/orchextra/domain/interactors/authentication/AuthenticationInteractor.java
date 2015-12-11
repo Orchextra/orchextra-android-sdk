@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.interactors.authentication;
 
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.entities.Sdk;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.User;
@@ -27,30 +28,17 @@ public class AuthenticationInteractor implements Interactor<InteractorResponse<S
 
   @Override public InteractorResponse<SdkAuthCredentials> call() {
 
-    InteractorResponse interactorResponse;
-
-    Sdk sdk = autheticateSdk();
-    interactorResponse = authenticateUser(sdk);
-
-    return interactorResponse;
-  }
-
-  private Sdk autheticateSdk() {
-    return authenticationRepository.authenticateSdk(sdkAuthCredentials);
-  }
-
-  private InteractorResponse authenticateUser(Sdk sdk) {
-
-    if (sdk ==  null){
-      return new InteractorResponse<>(new SdkAuthError());
+    BusinessObject<Sdk> sdk = authenticationRepository.authenticateSdk(sdkAuthCredentials);
+    if (!sdk.isSuccess()){
+      return new InteractorResponse<>(new SdkAuthError(sdk.getBusinessError()));
     }
 
-    User user = authenticationRepository.authenticateUser(sdk);
-
-    if (user == null){
-      return new InteractorResponse<>(new SdkAuthError());
+    BusinessObject<User> user = authenticationRepository.authenticateUser(sdk.getData());
+    if (!user.isSuccess()){
+      return new InteractorResponse<>(new SdkAuthError(user.getBusinessError()));
     }
 
-    return new InteractorResponse<>(user);
+    return new InteractorResponse<>(new SdkAuthCredentials(user.getData()));
   }
+
 }

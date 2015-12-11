@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.repository;
 
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.entities.Sdk;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.User;
@@ -10,8 +11,8 @@ import com.gigigo.orchextra.domain.entities.User;
  */
 public interface AuthenticationRepository {
 
-  Sdk authenticateSdk(SdkAuthCredentials sdkAuthCredentials);
+  BusinessObject<Sdk> authenticateSdk(SdkAuthCredentials sdkAuthCredentials);
 
-  User authenticateUser(Sdk sdk);
+  BusinessObject<User> authenticateUser(Sdk sdk);
 
 }

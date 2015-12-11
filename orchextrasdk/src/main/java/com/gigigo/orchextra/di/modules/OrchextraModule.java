@@ -12,7 +12,7 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
  * Created by Sergio Martinez Rodriguez
  * Date 24/11/15.
  */
-@Module(includes = ControllersModule.class)
+@Module(includes = {InteractorsModule.class, DomainModule.class})
 public class OrchextraModule {
 
   private Context context;
@@ -25,7 +25,4 @@ public class OrchextraModule {
     return context;
   }
 
-  @Singleton @Provides @BackThread ThreadSpec provideBackThread(){
-    return new BackThreadSpec();
-  }
 }

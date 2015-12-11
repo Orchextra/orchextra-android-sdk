@@ -13,6 +13,10 @@ public class SdkAuthCredentials {
     this.apiSecret = apiSecret;
   }
 
+  public SdkAuthCredentials(User data) {
+
+  }
+
   public String getApiKey() {
     return apiKey;
   }

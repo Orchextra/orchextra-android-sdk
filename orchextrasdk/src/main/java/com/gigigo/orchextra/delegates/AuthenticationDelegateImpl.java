@@ -16,6 +16,7 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
 
   @Inject Context appContext;
   @Inject AuthenticationController authenticationController;
+
   private static AuthenticationDelegateImpl me;
   private DelegateComponent delegateComponent;
 
