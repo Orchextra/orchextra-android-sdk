@@ -33,7 +33,7 @@ public class AuthenticationDataSourceImpl implements AuthenticationDataSource {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
     ApiGenericResponse apiGenericResponse = serviceExecutor.executeNetworkServiceConnection(
-        Sdk.class, orchextraApiService.sdkAuthentication());
+        Sdk.class, orchextraApiService.sdkAuthentication(null));
 
     return sdkResponseMapper.mapApiGenericResponseToBusiness(apiGenericResponse);
   }

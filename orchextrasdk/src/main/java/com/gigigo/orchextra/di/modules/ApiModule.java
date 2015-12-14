@@ -6,6 +6,7 @@ import com.gigigo.ggglib.network.defaultelements.RetryOnErrorPolicy;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.executors.RetrofitApiServiceExcecutor;
 import com.gigigo.orchextra.BuildConfig;
+import com.gigigo.orchextra.qualifiers.data.ApiVersion;
 import com.gigigo.orchextra.qualifiers.data.Endpoint;
 import com.gigigo.orchextra.qualifiers.data.HeadersInterceptor;
 import com.gigigo.orchextra.qualifiers.data.RetrofitLog;
@@ -36,6 +37,10 @@ public class ApiModule {
     return BuildConfig.API_URL;
   }
 
+  @Provides @Singleton @ApiVersion String provideApiVersion() {
+    return BuildConfig.API_VERSION;
+  }
+
   @Provides @Singleton @RetrofitLog boolean provideRetrofitLog() {
     return BuildConfig.RETROFIT_LOG;
   }
@@ -47,10 +52,11 @@ public class ApiModule {
   }
 
   @Provides @Singleton Retrofit provideOrchextraRetrofitObject(
-      @Endpoint String enpoint, GsonConverterFactory gsonConverterFactory, OkHttpClient okClient) {
+      @Endpoint String enpoint, @ApiVersion String version,
+      GsonConverterFactory gsonConverterFactory, OkHttpClient okClient) {
 
     Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl(enpoint)
+        .baseUrl(enpoint + version)
         .client(okClient)
         .addConverterFactory(gsonConverterFactory).build();
 
