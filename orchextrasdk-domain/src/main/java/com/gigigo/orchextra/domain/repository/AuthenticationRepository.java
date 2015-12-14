@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.domain.repository;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.entities.Sdk;
-import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
-import com.gigigo.orchextra.domain.entities.User;
+import com.gigigo.orchextra.domain.entities.Credentials;
+import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.domain.entities.ClientAuthData;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -11,8 +11,8 @@ import com.gigigo.orchextra.domain.entities.User;
  */
 public interface AuthenticationRepository {
 
-  BusinessObject<Sdk> authenticateSdk(SdkAuthCredentials sdkAuthCredentials);
+  BusinessObject<SdkAuthData> authenticateSdk(Credentials credentials);
 
-  BusinessObject<User> authenticateUser(Sdk sdk);
+  BusinessObject<ClientAuthData> authenticateUser(Credentials credentials);
 
 }

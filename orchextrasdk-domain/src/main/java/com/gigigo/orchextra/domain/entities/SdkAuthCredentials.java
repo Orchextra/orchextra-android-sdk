@@ -6,31 +6,20 @@ package com.gigigo.orchextra.domain.entities;
  */
 public class SdkAuthCredentials implements Credentials{
 
-  private String apiKey;
-  private String apiSecret;
+  private final String apiKey;
+  private final String apiSecret;
 
   public SdkAuthCredentials(String apiKey, String apiSecret) {
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
   }
 
-  public SdkAuthCredentials(User data) {
-
-  }
-
   public String getApiKey() {
     return apiKey;
-  }
-
-  public void setApiKey(String apiKey) {
-    this.apiKey = apiKey;
   }
 
   public String getApiSecret() {
     return apiSecret;
   }
 
-  public void setApiSecret(String apiSecret) {
-    this.apiSecret = apiSecret;
-  }
 }

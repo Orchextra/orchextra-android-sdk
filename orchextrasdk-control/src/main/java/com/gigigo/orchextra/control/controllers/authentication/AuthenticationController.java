@@ -4,6 +4,7 @@ import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.controllers.base.Controller;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationError;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
@@ -33,8 +34,8 @@ public class AuthenticationController extends Controller<AuthenticationDelegate>
 
     authenticationInteractor.setSdkAuthCredentials(new SdkAuthCredentials(apiKey, apiSecret));
 
-    new InteractorExecution<>(authenticationInteractor).result(new InteractorResult<SdkAuthCredentials>() {
-      @Override public void onResult(SdkAuthCredentials result) {
+    new InteractorExecution<>(authenticationInteractor).result(new InteractorResult<ClientAuthData>() {
+      @Override public void onResult(ClientAuthData result) {
 
         getDelegate().authenticationSuccessful();
 

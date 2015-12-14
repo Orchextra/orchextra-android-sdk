@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.di.modules;
 
+import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
 import com.gigigo.orchextra.domain.repository.AuthenticationRepository;
 import dagger.Module;
@@ -14,7 +15,7 @@ import javax.inject.Singleton;
 public class InteractorsModule {
 
   @Provides @Singleton AuthenticationInteractor provideAuthenticationInteractor(
-      AuthenticationRepository authenticationRepository){
-    return new AuthenticationInteractor(authenticationRepository);
+      AuthenticationRepository authenticationRepository, DeviceDetailsProvider deviceDetailsProvider){
+    return new AuthenticationInteractor(authenticationRepository, deviceDetailsProvider);
   }
 }
