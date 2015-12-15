@@ -2,7 +2,6 @@ package gigigo.com.orchextra.data.datasources.api.model.responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import java.util.Date;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -19,7 +18,7 @@ public class ApiClientAuthData {
   @Expose @SerializedName("expiresIn")
   private int expiresIn;
   @Expose @SerializedName("expiresAt")
-  private Date expiresAt;
+  private String expiresAt;
 
   public String getProjectId() {
     return projectId;
@@ -53,11 +52,11 @@ public class ApiClientAuthData {
     this.expiresIn = expiresIn;
   }
 
-  public Date getExpiresAt() {
+  public String getExpiresAt() {
     return expiresAt;
   }
 
-  public void setExpiresAt(Date expiresAt) {
+  public void setExpiresAt(String expiresAt) {
     this.expiresAt = expiresAt;
   }
 }
