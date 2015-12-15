@@ -17,7 +17,7 @@ import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import dagger.Module;
 import dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.interceptors.Headers;
-import gigigo.com.orchextra.data.datasources.api.model.responses.OrchextraApiErrorResponse;
+import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
 import gigigo.com.orchextra.data.datasources.api.service.DefatultErrorConverterImpl;
 import gigigo.com.orchextra.data.datasources.api.service.DefaultRetryOnErrorPolicyImpl;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;

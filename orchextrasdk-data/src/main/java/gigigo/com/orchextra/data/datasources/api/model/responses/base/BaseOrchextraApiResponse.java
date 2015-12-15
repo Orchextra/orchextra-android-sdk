@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.model.responses;
+package gigigo.com.orchextra.data.datasources.api.model.responses.base;
 
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.ggglib.network.responses.HttpResponse;

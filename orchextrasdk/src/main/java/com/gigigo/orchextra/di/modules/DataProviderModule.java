@@ -1,8 +1,8 @@
 package com.gigigo.orchextra.di.modules;
 
-import com.gigigo.orchextra.dataprovision.authentication.AuthenticationRepositoryImpl;
+import com.gigigo.orchextra.dataprovision.authentication.AuthenticationDataProviderImpl;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
-import com.gigigo.orchextra.domain.repository.AuthenticationRepository;
+import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -12,10 +12,10 @@ import javax.inject.Singleton;
  * Date 9/12/15.
  */
 @Module(includes = DataModule.class)
-public class RepositoryModule {
+public class DataProviderModule {
 
-  @Provides @Singleton AuthenticationRepository provideAuthenticationRepository(
+  @Provides @Singleton AuthenticationDataProvider provideAuthenticationRepository(
       AuthenticationDataSource authenticationDataSource){
-    return new AuthenticationRepositoryImpl(authenticationDataSource);
+    return new AuthenticationDataProviderImpl(authenticationDataSource);
   }
 }

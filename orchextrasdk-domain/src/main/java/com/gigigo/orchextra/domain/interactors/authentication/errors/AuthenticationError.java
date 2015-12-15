@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.domain.interactors.authentication;
+package com.gigigo.orchextra.domain.interactors.authentication.errors;
 
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 

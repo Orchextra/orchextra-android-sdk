@@ -8,7 +8,7 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthData;
  * Created by Sergio Martinez Rodriguez
  * Date 11/12/15.
  */
-public class SdkMapper implements Mapper<SdkAuthData, ApiSdkAuthData> {
+public class SdkApiResponseMapper implements Mapper<SdkAuthData, ApiSdkAuthData> {
 
   @Override public ApiSdkAuthData modelToData(SdkAuthData sdkAuthData) {
     ApiSdkAuthData apiSdkAuthData = new ApiSdkAuthData();

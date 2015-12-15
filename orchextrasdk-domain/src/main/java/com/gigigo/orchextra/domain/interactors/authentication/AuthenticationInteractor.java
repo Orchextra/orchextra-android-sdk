@@ -10,7 +10,7 @@ import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.interactors.authentication.errors.SdkAuthError;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.repository.AuthenticationRepository;
+import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -18,15 +18,14 @@ import com.gigigo.orchextra.domain.repository.AuthenticationRepository;
  */
 public class AuthenticationInteractor implements Interactor<InteractorResponse<ClientAuthData>> {
 
-  private final AuthenticationRepository authenticationRepository;
+  private final AuthenticationDataProvider authenticationDataProvider;
   private final DeviceDetailsProvider deviceDetatilsProvider;
 
   private SdkAuthCredentials sdkAuthCredentials;
 
-
-  public AuthenticationInteractor(AuthenticationRepository authenticationRepository,
+  public AuthenticationInteractor(AuthenticationDataProvider authenticationDataProvider,
       DeviceDetailsProvider deviceDetatilsProvider) {
-    this.authenticationRepository = authenticationRepository;
+    this.authenticationDataProvider = authenticationDataProvider;
     this.deviceDetatilsProvider = deviceDetatilsProvider;
   }
 
@@ -36,14 +35,14 @@ public class AuthenticationInteractor implements Interactor<InteractorResponse<C
 
   @Override public InteractorResponse<ClientAuthData> call() {
 
-    BusinessObject<SdkAuthData> sdk = authenticationRepository.authenticateSdk(sdkAuthCredentials);
+    BusinessObject<SdkAuthData> sdk = authenticationDataProvider.authenticateSdk(sdkAuthCredentials);
     if (!sdk.isSuccess()){
       return new InteractorResponse<>(new SdkAuthError(sdk.getBusinessError()));
     }
 
     Credentials clientAuthCredentials = new ClientAuthCredentials(sdk.getData(), deviceDetatilsProvider);
 
-    BusinessObject<ClientAuthData> user = authenticationRepository.authenticateUser(clientAuthCredentials);
+    BusinessObject<ClientAuthData> user = authenticationDataProvider.authenticateUser(clientAuthCredentials);
     if (!user.isSuccess()){
       return new InteractorResponse<>(new SdkAuthError(user.getBusinessError()));
     }

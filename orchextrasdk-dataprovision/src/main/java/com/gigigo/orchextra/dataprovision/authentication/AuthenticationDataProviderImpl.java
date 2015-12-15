@@ -5,19 +5,19 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.Authenticati
 import com.gigigo.orchextra.domain.entities.Credentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
-import com.gigigo.orchextra.domain.repository.AuthenticationRepository;
+import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 9/12/15.
  */
-public class AuthenticationRepositoryImpl implements AuthenticationRepository{
+public class AuthenticationDataProviderImpl implements AuthenticationDataProvider {
 
   //TODO Add Realm lib
 
   private final AuthenticationDataSource authenticationDataSource;
 
-  public AuthenticationRepositoryImpl(AuthenticationDataSource authenticationDataSource) {
+  public AuthenticationDataProviderImpl(AuthenticationDataSource authenticationDataSource) {
     this.authenticationDataSource = authenticationDataSource;
   }
 

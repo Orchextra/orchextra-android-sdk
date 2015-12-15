@@ -5,7 +5,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.entities.Sdk;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.User;
-import com.gigigo.orchextra.domain.repository.AuthenticationRepository;
+import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +20,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class AuthenticationInteractorTest {
 
-    @Mock
-    AuthenticationRepository authenticationRepository;
+    @Mock AuthenticationDataProvider authenticationDataProvider;
 
     @Mock
     BusinessError businessError;
@@ -36,13 +35,13 @@ public class AuthenticationInteractorTest {
 
     @Before
     public void setUp() throws Exception {
-        interactor = new AuthenticationInteractor(authenticationRepository);
+        interactor = new AuthenticationInteractor(authenticationDataProvider);
         interactor.setSdkAuthCredentials(new SdkAuthCredentials("Admin", "1234"));
     }
 
     @Test
     public void testCallNotSdkSuccess() throws Exception {
-        when(authenticationRepository.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
+        when(authenticationDataProvider.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
 
         when(sdk.isSuccess()).thenReturn(false);
 
@@ -53,11 +52,11 @@ public class AuthenticationInteractorTest {
 
     @Test
     public void testCallNotUserSuccess() throws Exception {
-        when(authenticationRepository.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
+        when(authenticationDataProvider.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
 
         when(sdk.isSuccess()).thenReturn(true);
 
-        when(authenticationRepository.authenticateUser(sdk.getData())).thenReturn(user);
+        when(authenticationDataProvider.authenticateUser(sdk.getData())).thenReturn(user);
 
         when(user.isSuccess()).thenReturn(false);
 
@@ -68,11 +67,11 @@ public class AuthenticationInteractorTest {
 
     @Test
     public void testCallSuccess() throws Exception {
-        when(authenticationRepository.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
+        when(authenticationDataProvider.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
 
         when(sdk.isSuccess()).thenReturn(true);
 
-        when(authenticationRepository.authenticateUser(sdk.getData())).thenReturn(user);
+        when(authenticationDataProvider.authenticateUser(sdk.getData())).thenReturn(user);
 
         when(user.isSuccess()).thenReturn(true);
 

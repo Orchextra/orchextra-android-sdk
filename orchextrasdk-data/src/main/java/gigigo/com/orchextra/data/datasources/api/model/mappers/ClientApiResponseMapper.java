@@ -13,7 +13,7 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthDa
  * Created by Sergio Martinez Rodriguez
  * Date 11/12/15.
  */
-public class ClientMapper implements Mapper<ApiClientAuthData, ClientAuthData> {
+public class ClientApiResponseMapper implements Mapper<ApiClientAuthData, ClientAuthData> {
 
   @Override public ClientAuthData modelToData(ApiClientAuthData apiClientAuthData) {
     ClientAuthData clientAuthData = new ClientAuthData();

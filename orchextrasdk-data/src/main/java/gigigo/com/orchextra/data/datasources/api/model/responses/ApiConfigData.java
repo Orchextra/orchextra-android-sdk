@@ -2,6 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.model.responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -9,58 +10,25 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiConfigData {
 
-  @Expose @SerializedName("projectId")
-  private String projectId;
+  @Expose @SerializedName("geoMarketing")
+  private List<ApiGeofence> geoMarketing;
 
-  @Expose @SerializedName("userId")
-  private String userId;
+  @Expose @SerializedName("proximity")
+  private List<ApiBeacon> proximity;
 
-  @Expose @SerializedName("value")
-  private String value;
-
-  @Expose @SerializedName("expiresIn")
-  private int expiresIn;
-
-  @Expose @SerializedName("expiresAt")
-  private String expiresAt;
-
-  public String getProjectId() {
-    return projectId;
+  public List<ApiGeofence> getGeoMarketing() {
+    return geoMarketing;
   }
 
-  public void setProjectId(String projectId) {
-    this.projectId = projectId;
+  public void setGeoMarketing(List<ApiGeofence> geoMarketing) {
+    this.geoMarketing = geoMarketing;
   }
 
-  public String getUserId() {
-    return userId;
+  public List<ApiBeacon> getProximity() {
+    return proximity;
   }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
-  }
-
-  public int getExpiresIn() {
-    return expiresIn;
-  }
-
-  public void setExpiresIn(int expiresIn) {
-    this.expiresIn = expiresIn;
-  }
-
-  public String getExpiresAt() {
-    return expiresAt;
-  }
-
-  public void setExpiresAt(String expiresAt) {
-    this.expiresAt = expiresAt;
+  public void setProximity(List<ApiBeacon> proximity) {
+    this.proximity = proximity;
   }
 }

@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.service;
 
 import com.gigigo.ggglib.network.defaultelements.RetryOnErrorPolicy;
 import com.gigigo.ggglib.network.responses.HttpResponse;
-import gigigo.com.orchextra.data.datasources.api.model.responses.OrchextraApiErrorResponse;
+import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
 
 /**
  * Created by Sergio Martinez Rodriguez

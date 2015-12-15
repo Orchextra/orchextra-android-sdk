@@ -6,7 +6,7 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
-import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationError;
+import com.gigigo.orchextra.domain.interactors.authentication.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 

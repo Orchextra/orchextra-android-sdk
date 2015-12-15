@@ -6,9 +6,9 @@ import com.gigigo.orchextra.di.qualifiers.ClientDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import dagger.Module;
 import dagger.Provides;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.ClientMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.ClientApiResponseMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.OrchextraGenericResponseMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.SdkMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.SdkApiResponseMapper;
 import javax.inject.Singleton;
 
 /**
@@ -20,21 +20,21 @@ public class ApiMappersModule {
 
 
   @Provides @Singleton @SdkDataResponseMapper ApiGenericResponseMapper
-  provideSdkDataResponseMapper(SdkMapper sdkMapper){
+  provideSdkDataResponseMapper(SdkApiResponseMapper sdkMapper){
     return createResponseMapper(sdkMapper);
   }
 
   @Provides @Singleton @ClientDataResponseMapper ApiGenericResponseMapper
-  provideClientDataResponseMapper(ClientMapper clientMapper){
+  provideClientDataResponseMapper(ClientApiResponseMapper clientMapper){
     return createResponseMapper(clientMapper);
   }
 
-  @Provides @Singleton SdkMapper provideSdkMapper(){
-   return new SdkMapper();
+  @Provides @Singleton SdkApiResponseMapper provideSdkMapper(){
+   return new SdkApiResponseMapper();
   }
 
-  @Provides @Singleton ClientMapper provideClientMapper(){
-    return new ClientMapper();
+  @Provides @Singleton ClientApiResponseMapper provideClientMapper(){
+    return new ClientApiResponseMapper();
   }
 
   private ApiGenericResponseMapper createResponseMapper(Mapper mapper) {
