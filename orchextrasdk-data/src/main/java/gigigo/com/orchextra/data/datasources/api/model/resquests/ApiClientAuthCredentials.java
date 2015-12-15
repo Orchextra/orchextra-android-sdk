@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.api.model.resquests;
 
 import android.net.Credentials;
-import com.gigigo.ggglib.general.utils.Utils;
+import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -35,8 +35,8 @@ public class ApiClientAuthCredentials implements ApiCredentials{
 
   public ApiClientAuthCredentials(Credentials credentials) {
 
-    ClientAuthCredentials clientCredentials = Utils.checkInstance(credentials,
-        ClientAuthCredentials.class);
+    ClientAuthCredentials clientCredentials = ConsistencyUtils.checkInstance(credentials,
+            ClientAuthCredentials.class);
 
     this.clientToken = clientCredentials.getClientToken();
     this.instanceId = clientCredentials.getInstanceId();

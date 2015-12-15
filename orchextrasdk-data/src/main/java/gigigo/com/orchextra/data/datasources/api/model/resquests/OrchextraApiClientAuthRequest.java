@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.resquests;
 
-import com.gigigo.ggglib.general.utils.Utils;
+import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.domain.entities.Credentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.google.gson.annotations.Expose;
@@ -20,7 +20,7 @@ public class OrchextraApiClientAuthRequest extends OrchextraApiAuthRequest{
 
   public OrchextraApiClientAuthRequest(GrantType grantType, Credentials credentials) {
     super(grantType, credentials);
-    SdkAuthCredentials sdkCredentials = Utils.checkInstance(credentials, SdkAuthCredentials.class);
+    SdkAuthCredentials sdkCredentials = ConsistencyUtils.checkInstance(credentials, SdkAuthCredentials.class);
     this.apiKey = sdkCredentials.getApiKey();
     this.apiSecret = sdkCredentials.getApiSecret();
   }
