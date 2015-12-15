@@ -25,7 +25,7 @@ public class DeviceDetailsFakeProviderImpl implements DeviceDetailsProvider {
     return "dfksdjf300304mmdfm05i30mvm";
   }
 
-  @Override public String getAndroidSerialNumner() {
+  @Override public String getAndroidSerialNumber() {
     return "fsfdhas8i3jfjdsh84u3irjdfj49olklskd9ewj";
   }
 

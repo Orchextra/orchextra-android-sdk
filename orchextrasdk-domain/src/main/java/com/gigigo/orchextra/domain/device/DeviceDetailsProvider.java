@@ -9,7 +9,7 @@ public interface DeviceDetailsProvider {
   String getAndroidInstanceId();
   String getAndroidCrmId();
   String getAndroidSecureId();
-  String getAndroidSerialNumner();
+  String getAndroidSerialNumber();
   String getWifiMac();
   String bluetoothMac();
 }

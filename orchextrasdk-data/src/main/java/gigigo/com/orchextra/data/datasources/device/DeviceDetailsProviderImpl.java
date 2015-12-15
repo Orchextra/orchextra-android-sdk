@@ -35,7 +35,7 @@ public class DeviceDetailsProviderImpl implements DeviceDetailsProvider {
     return null;
   }
 
-  @Override public String getAndroidSerialNumner() {
+  @Override public String getAndroidSerialNumber() {
     //TODO Implement using gggLib
     return null;
   }
