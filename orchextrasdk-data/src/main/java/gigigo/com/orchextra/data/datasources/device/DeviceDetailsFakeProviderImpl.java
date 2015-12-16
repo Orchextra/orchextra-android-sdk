@@ -17,10 +17,6 @@ public class DeviceDetailsFakeProviderImpl implements DeviceDetailsProvider {
     return "iouweoi-vendor";
   }
 
-  @Override public String getAndroidCrmId() {
-    return "73636367-crm";
-  }
-
   @Override public String getAndroidSecureId() {
     return "dfksdjf300304mmdfm05i30mvm";
   }
@@ -33,7 +29,7 @@ public class DeviceDetailsFakeProviderImpl implements DeviceDetailsProvider {
     return "00:50:F2:7E:2F:9B";
   }
 
-  @Override public String bluetoothMac() {
+  @Override public String getBluetoothMac() {
     return "00:50:F2:7E:2F:9B";
   }
 }

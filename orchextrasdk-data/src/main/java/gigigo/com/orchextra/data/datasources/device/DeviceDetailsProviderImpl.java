@@ -1,7 +1,10 @@
 package gigigo.com.orchextra.data.datasources.device;
 
 import android.content.Context;
+
+import com.gigigo.ggglib.device.DeviceInfoProvider;
 import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
+
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -16,37 +19,26 @@ public class DeviceDetailsProviderImpl implements DeviceDetailsProvider {
   }
 
   @Override public String getVendorId() {
-    //TODO Implement using gggLib
-    return null;
+    return DeviceInfoProvider.getVendorId();
   }
 
   @Override public String getAndroidInstanceId() {
-    //TODO Implement using gggLib
-    return null;
-  }
-
-  @Override public String getAndroidCrmId() {
-    //TODO Implement using gggLib
-    return null;
+    return DeviceInfoProvider.getAndroidInstanceId(context);
   }
 
   @Override public String getAndroidSecureId() {
-    //TODO Implement using gggLib
-    return null;
+    return DeviceInfoProvider.getAndroidSecureId(context);
   }
 
   @Override public String getAndroidSerialNumber() {
-    //TODO Implement using gggLib
-    return null;
+    return DeviceInfoProvider.getAndroidSerialNumber();
   }
 
   @Override public String getWifiMac() {
-    //TODO Implement using gggLib
-    return null;
+    return DeviceInfoProvider.getWifiMac(context);
   }
 
-  @Override public String bluetoothMac() {
-    //TODO Implement using gggLib
-    return null;
+  @Override public String getBluetoothMac() {
+    return DeviceInfoProvider.getBluetoothMac();
   }
 }
