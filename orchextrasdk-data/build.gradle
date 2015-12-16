@@ -17,6 +17,9 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
 }
 
 dependencies {
@@ -25,9 +28,9 @@ dependencies {
   compile parent.ext.dependencies.gsonConverter
   compile parent.ext.dependencies.javaxInjectAnnotations
 
-
   compile project(':orchextrasdk-dataprovision')
   compile project(':ggglib')
 
   testCompile parent.ext.testDependencies.junit
+  testCompile parent.ext.testDependencies.mockito
 }
