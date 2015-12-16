@@ -26,7 +26,7 @@ public class OrchextraApiClientAuthRequest extends OrchextraApiAuthRequest{
   }
 
   @Override ApiCredentials obtainApiCredentialsFromCredentials(Credentials credentials) {
-    return new ApiSdkAuthCredentials(credentials);
+    return new ApiClientAuthCredentials(credentials);
   }
 
   public String getApiKey() {

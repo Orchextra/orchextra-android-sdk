@@ -18,13 +18,9 @@ public class ClientAuthCredentials implements Credentials {
     private String wifiMacAddress;
     private String bluetoothMacAddress;
 
-    private String crmId;
-
-    public ClientAuthCredentials(String clientToken, String instanceId, String crmId,
-                                 String vendorId) {
+    public ClientAuthCredentials(String clientToken, String instanceId, String vendorId) {
         this.clientToken = clientToken;
         this.instanceId = instanceId;
-        this.crmId = crmId;
         this.vendorId = vendorId;
     }
 
@@ -44,14 +40,6 @@ public class ClientAuthCredentials implements Credentials {
 
     public String getInstanceId() {
         return instanceId;
-    }
-
-    public String getCrmId() {
-        return crmId;
-    }
-
-    public void setCrmId(String crmId) {
-        this.crmId = crmId;
     }
 
     public String getVendorId() {

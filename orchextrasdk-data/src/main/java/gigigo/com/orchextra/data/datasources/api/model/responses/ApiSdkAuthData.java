@@ -13,7 +13,7 @@ public class ApiSdkAuthData {
   private String value;
 
   @Expose @SerializedName("expiresIn")
-  private int expiresIn;
+  private Integer expiresIn;
 
   @Expose @SerializedName("expiresAt")
   private String expiresAt;
@@ -29,11 +29,11 @@ public class ApiSdkAuthData {
     this.value = value;
   }
 
-  public int getExpiresIn() {
+  public Integer getExpiresIn() {
     return expiresIn;
   }
 
-  public void setExpiresIn(int expiresIn) {
+  public void setExpiresIn(Integer expiresIn) {
     this.expiresIn = expiresIn;
   }
 

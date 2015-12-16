@@ -1,8 +1,8 @@
 package gigigo.com.orchextra.data.datasources.api.model.resquests;
 
-import android.net.Credentials;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
+import com.gigigo.orchextra.domain.entities.Credentials;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -16,8 +16,6 @@ public class ApiClientAuthCredentials implements ApiCredentials{
   private final String clientToken;
   @Expose @SerializedName("instanceId")
   private final String instanceId;
-  @Expose @SerializedName("crmId")
-  private final String crmId;
 
   @Expose @SerializedName("vendorId")
   private final String vendorId;
@@ -40,7 +38,6 @@ public class ApiClientAuthCredentials implements ApiCredentials{
 
     this.clientToken = clientCredentials.getClientToken();
     this.instanceId = clientCredentials.getInstanceId();
-    this.crmId = clientCredentials.getCrmId();
     this.vendorId = clientCredentials.getVendorId();
     this.advertiserId = clientCredentials.getAdvertiserId();
     this.secureId = clientCredentials.getSecureId();
@@ -55,10 +52,6 @@ public class ApiClientAuthCredentials implements ApiCredentials{
 
   public String getInstanceId() {
     return instanceId;
-  }
-
-  public String getCrmId() {
-    return crmId;
   }
 
   public String getVendorId() {

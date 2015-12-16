@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class ApiCrm {
 
+  @Expose @SerializedName("crmId")
+  private String crmId;
 
   @Expose @SerializedName("gender")
   private String gender;
@@ -42,5 +44,13 @@ public class ApiCrm {
 
   public void setKeywords(List<String> keywords) {
     this.keywords = keywords;
+  }
+
+  public String getCrmId() {
+    return crmId;
+  }
+
+  public void setCrmId(String crmId) {
+    this.crmId = crmId;
   }
 }
