@@ -10,7 +10,6 @@ import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -30,6 +29,8 @@ public class AuthenticationInteractorTest {
 
     @Mock
     BusinessObject<SdkAuthData> sdk;
+
+    @Mock SdkAuthData sdkAuthData;
 
     @Mock
     BusinessObject<ClientAuthData> user;
@@ -56,12 +57,13 @@ public class AuthenticationInteractorTest {
         verify(sdk).getBusinessError();
     }
 
-    @Ignore
     @Test
     public void testCallNotUserSuccess() throws Exception {
         when(authenticationDataProvider.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
 
         when(sdk.isSuccess()).thenReturn(true);
+
+        when(sdk.getData()).thenReturn(sdkAuthData);
 
         when(authenticationDataProvider.authenticateUser(isA(Credentials.class))).thenReturn(user);
 
@@ -72,12 +74,13 @@ public class AuthenticationInteractorTest {
         verify(user).getBusinessError();
     }
 
-    @Ignore
     @Test
     public void testCallSuccess() throws Exception {
         when(authenticationDataProvider.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
 
         when(sdk.isSuccess()).thenReturn(true);
+
+        when(sdk.getData()).thenReturn(sdkAuthData);
 
         when(authenticationDataProvider.authenticateUser(isA(Credentials.class))).thenReturn(user);
 
