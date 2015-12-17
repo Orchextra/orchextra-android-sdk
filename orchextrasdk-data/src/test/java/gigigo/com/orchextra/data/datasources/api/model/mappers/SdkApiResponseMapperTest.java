@@ -8,10 +8,13 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 
+import gigigo.com.orchextra.data.datasources.api.builders.ApiSdkAuthDataBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthData;
 
+import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class SdkApiResponseMapperTest {
 
@@ -32,19 +35,28 @@ public class SdkApiResponseMapperTest {
     public void testDataToModelOk() throws Exception {
         Date expectedDate = getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
 
-        ApiSdkAuthData apiSdkAuthData = new ApiSdkAuthData();
-        apiSdkAuthData.setValue("Test Value");
-        apiSdkAuthData.setProjectId("1234");
-        apiSdkAuthData.setExpiresIn(3000);
-        apiSdkAuthData.setExpiresAt("2013-09-29T18:46:19Z");
+        ApiSdkAuthData apiSdkAuthData = ApiSdkAuthDataBuilder.Builder().build();
 
         SdkAuthData sdkAuthData = mapper.dataToModel(apiSdkAuthData);
 
         assertNotNull(sdkAuthData);
-        assertEquals("Test Value", sdkAuthData.getValue());
-        assertEquals("1234", sdkAuthData.getProjectId());
-        assertEquals(3000, sdkAuthData.getExpiresIn());
-//        assertThat(expectedDate, isDateEqualTo(sdkAuthData.getExpiresAt()));
+        assertEquals(ApiSdkAuthDataBuilder.VALUE, sdkAuthData.getValue());
+        assertEquals(ApiSdkAuthDataBuilder.PROJECT_ID, sdkAuthData.getProjectId());
+        assertEquals(ApiSdkAuthDataBuilder.EXPIRES_IN, sdkAuthData.getExpiresIn());
+        assertThat(expectedDate, isDateEqualTo(sdkAuthData.getExpiresAt()));
+    }
+
+    @Test
+    public void testDataToModelDateNull() throws Exception {
+        ApiSdkAuthData apiSdkAuthData = ApiSdkAuthDataBuilder.Builder().setDate(null).build();
+
+        SdkAuthData sdkAuthData = mapper.dataToModel(apiSdkAuthData);
+
+        assertNotNull(sdkAuthData);
+        assertEquals(ApiSdkAuthDataBuilder.VALUE, sdkAuthData.getValue());
+        assertEquals(ApiSdkAuthDataBuilder.PROJECT_ID, sdkAuthData.getProjectId());
+        assertEquals(ApiSdkAuthDataBuilder.EXPIRES_IN, sdkAuthData.getExpiresIn());
+        assertNotNull(sdkAuthData.getExpiresAt());
     }
 
     @Test
