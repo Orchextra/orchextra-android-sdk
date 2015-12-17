@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
-import com.gigigo.ggglib.network.mappers.Mapper;
+import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericExceptionResponse;
 
 import org.junit.Before;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNotNull;
 public class OrchextraGenericResponseMapperTest {
 
     @Mock
-    Mapper mapper;
+    ResponseMapper mapper;
 
     private OrchextraGenericResponseMapper responseMapper;
 

@@ -9,13 +9,13 @@ public class ApiSdkAuthDataBuilder {
     public static final String EXPIRES_AT ="2013-09-29T18:46:19Z";
     public static final String PROJECT_ID = "1234";
 
-    private static String value = VALUE;
+    private String value = VALUE;
 
-    private static Integer expiresIn = EXPIRES_IN;
+    private Integer expiresIn = EXPIRES_IN;
 
-    private static String expiresAt = EXPIRES_AT;
+    private String expiresAt = EXPIRES_AT;
 
-    private static String projectId = PROJECT_ID;
+    private String projectId = PROJECT_ID;
 
     public static ApiSdkAuthDataBuilder Builder() {
         return new ApiSdkAuthDataBuilder();

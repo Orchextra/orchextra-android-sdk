@@ -22,31 +22,9 @@ public class SdkApiResponseMapper implements ResponseMapper<SdkAuthData, ApiSdkA
         Date expiredAtDate = DateUtils.stringToDateWithFormat(apiSdkAuthData.getExpiresAt(), DateFormatConstants.DATE_FORMAT);
         sdkAuthData.setExpiresAt(expiredAtDate);
 
-<<<<<<< Updated upstream
-    sdkAuthData.setExpiresIn(apiSdkAuthData.getExpiresIn());
-    sdkAuthData.setProjectId(apiSdkAuthData.getProjectId());
-    sdkAuthData.setValue(apiSdkAuthData.getValue());
-    return sdkAuthData;
-  }
-=======
         sdkAuthData.setExpiresIn(apiSdkAuthData.getExpiresIn());
         sdkAuthData.setProjectId(apiSdkAuthData.getProjectId());
         sdkAuthData.setValue(apiSdkAuthData.getValue());
-
         return sdkAuthData;
     }
-
-    @Override
-    public ApiSdkAuthData modelToData(SdkAuthData sdkAuthData) {
-        ApiSdkAuthData apiSdkAuthData = new ApiSdkAuthData();
-        apiSdkAuthData.setValue(sdkAuthData.getValue());
-
-        String expiredAtString = DateUtils.dateToStringWithFormat(sdkAuthData.getExpiresAt(), DateFormatConstants.DATE_FORMAT);
-        apiSdkAuthData.setExpiresAt(expiredAtString);
-
-        apiSdkAuthData.setExpiresIn(sdkAuthData.getExpiresIn());
-        apiSdkAuthData.setProjectId(sdkAuthData.getProjectId());
-        return apiSdkAuthData;
-    }
->>>>>>> Stashed changes
 }

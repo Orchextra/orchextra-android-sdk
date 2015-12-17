@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 
+import gigigo.com.orchextra.data.datasources.api.builders.ApiClientAuthDataBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthData;
 
 import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
@@ -25,39 +26,32 @@ public class ClientApiResponseMapperTest {
     }
 
     @Test
-    public void testDataToModel() throws Exception {
+    public void testDataToModelOk() throws Exception {
         Date expectedValue = SdkApiResponseMapperTest.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
 
-        ApiClientAuthData apiClientAuthData = new ApiClientAuthData();
-        apiClientAuthData.setValue("Test Value");
-        apiClientAuthData.setProjectId("1234");
-        apiClientAuthData.setExpiresIn(3000);
-        apiClientAuthData.setExpiresAt("2013-09-29T18:46:19Z");
-        apiClientAuthData.setUserId("Admin");
+        ApiClientAuthData apiClientAuthData = ApiClientAuthDataBuilder.Builder().build();
 
         ClientAuthData clientAuthData = mapper.dataToModel(apiClientAuthData);
 
         assertNotNull(clientAuthData);
-        assertEquals("Test Value", clientAuthData.getValue());
-        assertEquals("1234", clientAuthData.getProjectId());
-        assertEquals(3000, clientAuthData.getExpiresIn());
+        assertEquals(ApiClientAuthDataBuilder.VALUE, clientAuthData.getValue());
+        assertEquals(ApiClientAuthDataBuilder.PROJECT_ID, clientAuthData.getProjectId());
+        assertEquals(ApiClientAuthDataBuilder.USER_ID, clientAuthData.getUserId());
+        assertEquals(ApiClientAuthDataBuilder.EXPIRES_IN, clientAuthData.getExpiresIn());
         assertThat(expectedValue, isDateEqualTo(clientAuthData.getExpiresAt()));
     }
 
     @Test
-    public void testModelToData() throws Exception {
-        ClientAuthData sdkAuthData = new ClientAuthData();
-        sdkAuthData.setValue("Test Value");
-        sdkAuthData.setProjectId("1234");
-        sdkAuthData.setExpiresIn(3000);
-        sdkAuthData.setExpiresAt(SdkApiResponseMapperTest.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19));
+    public void testDataToModelNullDate() throws Exception {
+        ApiClientAuthData apiClientAuthData = ApiClientAuthDataBuilder.Builder().setDate(null).build();
 
-        ApiClientAuthData apiClientAuthData = mapper.modelToData(sdkAuthData);
+        ClientAuthData clientAuthData = mapper.dataToModel(apiClientAuthData);
 
-        assertNotNull(apiClientAuthData);
-        assertEquals("Test Value", apiClientAuthData.getValue());
-        assertEquals("1234", apiClientAuthData.getProjectId());
-        assertEquals(new Integer(3000), apiClientAuthData.getExpiresIn());
-        assertEquals("2013-09-29T18:46:19Z", apiClientAuthData.getExpiresAt());
+        assertNotNull(clientAuthData);
+        assertEquals(ApiClientAuthDataBuilder.VALUE, clientAuthData.getValue());
+        assertEquals(ApiClientAuthDataBuilder.PROJECT_ID, clientAuthData.getProjectId());
+        assertEquals(ApiClientAuthDataBuilder.USER_ID, clientAuthData.getUserId());
+        assertEquals(ApiClientAuthDataBuilder.EXPIRES_IN, clientAuthData.getExpiresIn());
+        assertNotNull(clientAuthData.getExpiresAt());
     }
 }

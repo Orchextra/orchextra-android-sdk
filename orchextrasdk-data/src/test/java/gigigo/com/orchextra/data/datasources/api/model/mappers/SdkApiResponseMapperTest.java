@@ -58,21 +58,4 @@ public class SdkApiResponseMapperTest {
         assertEquals(ApiSdkAuthDataBuilder.EXPIRES_IN, sdkAuthData.getExpiresIn());
         assertNotNull(sdkAuthData.getExpiresAt());
     }
-
-    @Test
-    public void testModelToDataOk() throws Exception {
-        SdkAuthData sdkAuthData = new SdkAuthData();
-        sdkAuthData.setValue("Test Value");
-        sdkAuthData.setProjectId("1234");
-        sdkAuthData.setExpiresIn(3000);
-        sdkAuthData.setExpiresAt(getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19));
-
-        ApiSdkAuthData apiSdkAuthData = mapper.modelToData(sdkAuthData);
-
-        assertNotNull(apiSdkAuthData);
-        assertEquals("Test Value", apiSdkAuthData.getValue());
-        assertEquals("1234", apiSdkAuthData.getProjectId());
-        assertEquals(new Integer(3000), apiSdkAuthData.getExpiresIn());
-        assertEquals("2013-09-29T18:46:19Z", apiSdkAuthData.getExpiresAt());
-    }
 }
