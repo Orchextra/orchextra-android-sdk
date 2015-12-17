@@ -2,6 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.orchextra.domain.entities.ActionCriteria;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,6 +13,6 @@ public class ActionCriteriaRequestMapper implements
     RequestMapper<ActionCriteria, Map<String, String>> {
 
   @Override public Map<String, String> modelToData(ActionCriteria actionCriteria) {
-    return null;
+    return new HashMap<String,String>((Map<String, String>)actionCriteria.getParams().clone());
   }
 }

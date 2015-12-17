@@ -3,10 +3,12 @@ package com.gigigo.orchextra.di.modules;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ClientDataResponseMapper;
+import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import dagger.Module;
 import dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.ClientApiResponseMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.ConfigApiResponseMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.OrchextraGenericResponseMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.SdkApiResponseMapper;
 import javax.inject.Singleton;
@@ -17,7 +19,6 @@ import javax.inject.Singleton;
  */
 @Module
 public class ApiMappersModule {
-
 
   @Provides @Singleton @SdkDataResponseMapper ApiGenericResponseMapper
   provideSdkDataResponseMapper(SdkApiResponseMapper sdkMapper){
@@ -36,6 +37,12 @@ public class ApiMappersModule {
   @Provides @Singleton ClientApiResponseMapper provideClientMapper(){
     return new ClientApiResponseMapper();
   }
+
+  @Provides @Singleton @ConfigResponseMapper ConfigApiResponseMapper provideConfigResponseMapper(){
+    //TODO this and many more mappers
+    return new ConfigApiResponseMapper(null, null, null, null);
+  }
+
 
   private ApiGenericResponseMapper createResponseMapper(ResponseMapper mapper) {
     return new OrchextraGenericResponseMapper(mapper);

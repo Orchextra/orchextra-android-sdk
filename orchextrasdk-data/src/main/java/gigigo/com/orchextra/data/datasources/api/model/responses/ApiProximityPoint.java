@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Sergio Martinez Rodriguez
  * Date 16/12/15.
  */
-public class ApiProximityPoint {
+public abstract class ApiProximityPoint {
 
   @Expose @SerializedName("id")
   private String id;
@@ -110,5 +110,13 @@ public class ApiProximityPoint {
 
   public void setStayTime(Integer stayTime) {
     this.stayTime = stayTime;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
   }
 }

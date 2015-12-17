@@ -1,4 +1,10 @@
-package com.gigigo.orchextra.domain.entities;
+package com.gigigo.orchextra.domain.entities.config;
+
+import com.gigigo.orchextra.domain.entities.App;
+import com.gigigo.orchextra.domain.entities.Crm;
+import com.gigigo.orchextra.domain.entities.Device;
+import com.gigigo.orchextra.domain.entities.GeoLocation;
+import com.gigigo.orchextra.domain.entities.NotificationPush;
 
 /**
  * Created by Sergio Martinez Rodriguez

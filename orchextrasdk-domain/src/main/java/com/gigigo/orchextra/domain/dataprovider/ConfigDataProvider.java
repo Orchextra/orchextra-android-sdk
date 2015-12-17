@@ -1,8 +1,8 @@
 package com.gigigo.orchextra.domain.dataprovider;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.entities.Config;
-import com.gigigo.orchextra.domain.entities.ConfigInfoResult;
+import com.gigigo.orchextra.domain.entities.config.Config;
+import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
 
 /**
  * Created by Sergio Martinez Rodriguez

@@ -13,6 +13,10 @@ public class AppRequestMapper implements RequestMapper<App, ApiApp> {
   @Override public ApiApp modelToData(App app) {
     ApiApp apiApp = new ApiApp();
 
+    apiApp.setAppVersion(app.getAppVersion());
+    apiApp.setBuildVersion(app.getBuildVersion());
+    apiApp.setBundleId(app.getBundleId());
+
     return apiApp;
   }
 }

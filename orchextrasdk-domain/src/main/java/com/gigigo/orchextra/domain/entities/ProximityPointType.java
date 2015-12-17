@@ -18,7 +18,7 @@ public enum ProximityPointType{
     return text;
   }
 
-  public ProximityPointType getProximityPointTypeValue(String type) {
+  public static ProximityPointType getProximityPointTypeValue(String type) {
     if (type.equals(BEACON.getStringValue())){
       return BEACON;
     }else{

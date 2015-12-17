@@ -10,13 +10,13 @@ import java.util.List;
 public class Crm {
 
   private String crmId;
-  private String gender;
+  private GenderType gender;
   private Date birthDate;
   private List<String> keywords;
 
   public Crm(String crmId, GenderType gender, Date birthDate, List<String> keywords) {
     this.crmId = crmId;
-    this.gender = gender.getStringValue();
+    this.gender = gender;
     this.birthDate = birthDate;
     this.keywords = keywords;
   }
@@ -29,11 +29,11 @@ public class Crm {
     this.crmId = crmId;
   }
 
-  public String getGender() {
+  public GenderType getGender() {
     return gender;
   }
 
-  public void setGender(String gender) {
+  public void setGender(GenderType gender) {
     this.gender = gender;
   }
 
