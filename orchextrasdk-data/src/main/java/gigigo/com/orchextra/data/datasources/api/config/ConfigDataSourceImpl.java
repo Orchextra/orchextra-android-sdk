@@ -3,11 +3,11 @@ package gigigo.com.orchextra.data.datasources.api.config;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
-import com.gigigo.ggglib.network.mappers.Mapper;
+import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.domain.entities.Config;
-import com.gigigo.orchextra.domain.entities.ProximityInfo;
+import com.gigigo.orchextra.domain.entities.ConfigInfoResult;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.resquests.OrchextraApiConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
@@ -22,13 +22,13 @@ public class ConfigDataSourceImpl implements ConfigDataSource {
   private final OrchextraApiService orchextraApiService;
   private final Provider<ApiServiceExecutor> serviceExecutorProvider;
 
-  private final Mapper<Config, OrchextraApiConfigRequest> configRequestMapper;
+  private final RequestMapper<Config, OrchextraApiConfigRequest> configRequestMapper;
   private final ApiGenericResponseMapper configResponseMapper;
 
   public ConfigDataSourceImpl(OrchextraApiService orchextraApiService,
       Provider<ApiServiceExecutor> serviceExecutorProvider,
       ApiGenericResponseMapper configResponseMapper,
-      Mapper configRequestMapper) {
+      RequestMapper configRequestMapper) {
 
     this.orchextraApiService = orchextraApiService;
     this.serviceExecutorProvider = serviceExecutorProvider;
@@ -36,7 +36,7 @@ public class ConfigDataSourceImpl implements ConfigDataSource {
     this.configRequestMapper = configRequestMapper;
   }
 
-  @Override public BusinessObject<ProximityInfo> sendConfigInfo(Config config) {
+  @Override public BusinessObject<ConfigInfoResult> sendConfigInfo(Config config) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
     OrchextraApiConfigRequest request = configRequestMapper.modelToData(config);

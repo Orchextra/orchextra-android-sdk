@@ -3,7 +3,7 @@ package gigigo.com.orchextra.data.datasources.api.action;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
-import com.gigigo.ggglib.network.mappers.Mapper;
+import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.actions.datasource.ActionsDataSource;
 import com.gigigo.orchextra.domain.entities.Action;
@@ -22,13 +22,13 @@ public class ActionsDataSourceImpl implements ActionsDataSource {
   private final OrchextraApiService orchextraApiService;
   private final Provider<ApiServiceExecutor> serviceExecutorProvider;
 
-  private final Mapper<ActionCriteria, Map<String, String>> actionQueryParamsMapper;
+  private final RequestMapper<ActionCriteria, Map<String, String>> actionQueryParamsMapper;
   private final ApiGenericResponseMapper actionResponseMapper;
 
   public ActionsDataSourceImpl(OrchextraApiService orchextraApiService,
       Provider<ApiServiceExecutor> serviceExecutorProvider,
       ApiGenericResponseMapper actionResponseMapper,
-      Mapper actionQueryParamsMapper) {
+      RequestMapper actionQueryParamsMapper) {
 
     this.orchextraApiService = orchextraApiService;
     this.serviceExecutorProvider = serviceExecutorProvider;

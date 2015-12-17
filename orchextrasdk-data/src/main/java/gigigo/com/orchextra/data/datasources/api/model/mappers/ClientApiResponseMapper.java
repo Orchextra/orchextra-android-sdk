@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
-import com.gigigo.ggglib.network.mappers.Mapper;
+import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
 
 import java.util.Date;
@@ -13,23 +13,7 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthDa
  * Created by Sergio Martinez Rodriguez
  * Date 11/12/15.
  */
-public class ClientApiResponseMapper implements Mapper<ClientAuthData, ApiClientAuthData> {
-
-  @Override
-  public ApiClientAuthData modelToData(ClientAuthData clientAuthData) {
-    ApiClientAuthData apiClientAuthData = new ApiClientAuthData();
-
-    apiClientAuthData.setValue(clientAuthData.getValue());
-
-    String expiredAtString = DateUtils.dateToStringWithFormat(clientAuthData.getExpiresAt(), DateFormatConstants.DATE_FORMAT);
-    apiClientAuthData.setExpiresAt(expiredAtString);
-
-    apiClientAuthData.setExpiresIn(clientAuthData.getExpiresIn());
-    apiClientAuthData.setProjectId(clientAuthData.getProjectId());
-    apiClientAuthData.setUserId(clientAuthData.getUserId());
-
-    return apiClientAuthData;
-  }
+public class ClientApiResponseMapper implements ResponseMapper<ClientAuthData, ApiClientAuthData> {
 
   @Override
   public ClientAuthData dataToModel(ApiClientAuthData apiClientAuthData) {

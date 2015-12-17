@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
-import com.gigigo.ggglib.network.mappers.Mapper;
+import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericExceptionResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
 
@@ -12,7 +12,7 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraA
  */
 public class OrchextraGenericResponseMapper<Model, Data> extends ApiGenericResponseMapper<Model, Data, OrchextraApiErrorResponse> {
 
-  public OrchextraGenericResponseMapper(Mapper<Model, Data> mapper) {
+  public OrchextraGenericResponseMapper(ResponseMapper<Model, Data> mapper) {
     super(mapper);
   }
 

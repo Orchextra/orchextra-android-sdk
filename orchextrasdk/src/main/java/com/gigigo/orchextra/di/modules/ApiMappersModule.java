@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.di.modules;
 
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
-import com.gigigo.ggglib.network.mappers.Mapper;
+import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ClientDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import dagger.Module;
@@ -37,7 +37,7 @@ public class ApiMappersModule {
     return new ClientApiResponseMapper();
   }
 
-  private ApiGenericResponseMapper createResponseMapper(Mapper mapper) {
+  private ApiGenericResponseMapper createResponseMapper(ResponseMapper mapper) {
     return new OrchextraGenericResponseMapper(mapper);
   }
 }

@@ -4,7 +4,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.entities.Config;
-import com.gigigo.orchextra.domain.entities.ProximityInfo;
+import com.gigigo.orchextra.domain.entities.ConfigInfoResult;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -18,7 +18,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     this.configDataSource = configDataSource;
   }
 
-  @Override public BusinessObject<ProximityInfo> sendConfigInfo(Config config) {
+  @Override public BusinessObject<ConfigInfoResult> sendConfigInfo(Config config) {
     return configDataSource.sendConfigInfo(config);
   }
 }
