@@ -7,10 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Sergio Martinez Rodriguez
  * Date 15/12/15.
  */
-public class ApiBeacon {
-
-  @Expose @SerializedName("id")
-  private String id;
+public class ApiBeacon extends ApiProximityPoint{
 
   @Expose @SerializedName("minor")
   private Integer minor;
@@ -21,19 +18,8 @@ public class ApiBeacon {
   @Expose @SerializedName("uuid")
   private String uuid;
 
-  @Expose @SerializedName("notifyOnEntry")
-  private Boolean notifyOnEntry;
-
-  @Expose @SerializedName("notifyOnExit")
-  private Boolean notifyOnExit;
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
+  @Expose @SerializedName("active")
+  private Boolean active;
 
   public Integer getMinor() {
     return minor;
@@ -59,19 +45,11 @@ public class ApiBeacon {
     this.uuid = uuid;
   }
 
-  public Boolean getNotifyOnEntry() {
-    return notifyOnEntry;
+  public Boolean getActive() {
+    return active;
   }
 
-  public void setNotifyOnEntry(Boolean notifyOnEntry) {
-    this.notifyOnEntry = notifyOnEntry;
-  }
-
-  public Boolean getNotifyOnExit() {
-    return notifyOnExit;
-  }
-
-  public void setNotifyOnExit(Boolean notifyOnExit) {
-    this.notifyOnExit = notifyOnExit;
+  public void setActive(Boolean active) {
+    this.active = active;
   }
 }

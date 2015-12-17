@@ -16,6 +16,15 @@ public class ApiConfigData {
   @Expose @SerializedName("proximity")
   private List<ApiBeacon> proximity;
 
+  @Expose @SerializedName("theme")
+  private ApiTheme theme;
+
+  @Expose @SerializedName("vuforia")
+  private ApiVuforia vuforia;
+
+  @Expose @SerializedName("requestWaitTime")
+  private Integer requestWaitTime;
+
   public List<ApiGeofence> getGeoMarketing() {
     return geoMarketing;
   }
@@ -30,5 +39,29 @@ public class ApiConfigData {
 
   public void setProximity(List<ApiBeacon> proximity) {
     this.proximity = proximity;
+  }
+
+  public ApiTheme getTheme() {
+    return theme;
+  }
+
+  public void setTheme(ApiTheme theme) {
+    this.theme = theme;
+  }
+
+  public ApiVuforia getVuforia() {
+    return vuforia;
+  }
+
+  public void setVuforia(ApiVuforia vuforia) {
+    this.vuforia = vuforia;
+  }
+
+  public Integer getRequestWaitTime() {
+    return requestWaitTime;
+  }
+
+  public void setRequestWaitTime(Integer requestWaitTime) {
+    this.requestWaitTime = requestWaitTime;
   }
 }

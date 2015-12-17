@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
-import com.gigigo.ggglib.network.mappers.Mapper;
+import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 
 import java.util.Date;
@@ -13,20 +13,7 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthData;
  * Created by Sergio Martinez Rodriguez
  * Date 11/12/15.
  */
-public class SdkApiResponseMapper implements Mapper<SdkAuthData, ApiSdkAuthData> {
-
-  @Override public ApiSdkAuthData modelToData(SdkAuthData sdkAuthData) {
-    ApiSdkAuthData apiSdkAuthData = new ApiSdkAuthData();
-    apiSdkAuthData.setValue(sdkAuthData.getValue());
-
-    String expiredAtString = DateUtils.dateToStringWithFormat(sdkAuthData.getExpiresAt(), DateFormatConstants.DATE_FORMAT);
-    apiSdkAuthData.setExpiresAt(expiredAtString);
-
-    apiSdkAuthData.setExpiresAt("2016-12-15T18:21:06Z");
-    apiSdkAuthData.setExpiresIn(sdkAuthData.getExpiresIn());
-    apiSdkAuthData.setProjectId(sdkAuthData.getProjectId());
-    return apiSdkAuthData;
-  }
+public class SdkApiResponseMapper implements ResponseMapper<SdkAuthData, ApiSdkAuthData> {
 
   @Override public SdkAuthData dataToModel(ApiSdkAuthData apiSdkAuthData) {
     SdkAuthData sdkAuthData = new SdkAuthData();

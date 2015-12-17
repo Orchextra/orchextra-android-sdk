@@ -1,48 +1,22 @@
-package gigigo.com.orchextra.data.datasources.api.model.resquests;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.gigigo.orchextra.domain.entities;
 
 /**
  * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
+ * Date 16/12/15.
  */
-public class ApiDevice {
+public class Device {
 
-  @Expose @SerializedName("handset")
   private String handset;
-
-  @Expose @SerializedName("language")
   private String language;
-
-  @Expose @SerializedName("osVersion")
-  private String osVersion;
-
-  @Expose @SerializedName("os")
   private String os;
-
-  @Expose @SerializedName("timeZone")
+  private String osVersion;
   private String timeZone;
-
-  @Expose @SerializedName("advertiserId")
   private String advertiserId;
-
-  @Expose @SerializedName("vendorId")
   private String vendorId;
-
-  @Expose @SerializedName("instanceId")
   private String instanceId;
-
-  @Expose @SerializedName("secureId")
   private String secureId;
-
-  @Expose @SerializedName("serialNumber")
   private String serialNumber;
-
-  @Expose @SerializedName("bluetoothMacAddress")
   private String bluetoothMacAddress;
-
-  @Expose @SerializedName("wifiMacAddress")
   private String wifiMacAddress;
 
   public String getHandset() {
@@ -125,19 +99,19 @@ public class ApiDevice {
     this.bluetoothMacAddress = bluetoothMacAddress;
   }
 
-  public String getOs() {
-    return os;
-  }
-
-  public void setOs(String os) {
-    this.os = os;
-  }
-
   public String getWifiMacAddress() {
     return wifiMacAddress;
   }
 
   public void setWifiMacAddress(String wifiMacAddress) {
     this.wifiMacAddress = wifiMacAddress;
+  }
+
+  public String getOs() {
+    return os;
+  }
+
+  public void setOs(String os) {
+    this.os = os;
   }
 }
