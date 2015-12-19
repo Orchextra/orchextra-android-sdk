@@ -1,10 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.resquests;
 
-import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.domain.entities.Credentials;
-import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -12,28 +8,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class OrchextraApiClientAuthRequest extends OrchextraApiAuthRequest{
 
-  @Expose @SerializedName("apiKey")
-  private final String apiKey;
+  private final String crmId;
 
-  @Expose @SerializedName("apiSecret")
-  private final String apiSecret;
-
-  public OrchextraApiClientAuthRequest(GrantType grantType, Credentials credentials) {
+  public OrchextraApiClientAuthRequest(GrantType grantType, Credentials credentials, String crmId) {
     super(grantType, credentials);
-    SdkAuthCredentials sdkCredentials = ConsistencyUtils.checkInstance(credentials, SdkAuthCredentials.class);
-    this.apiKey = sdkCredentials.getApiKey();
-    this.apiSecret = sdkCredentials.getApiSecret();
+    this.crmId = crmId;
   }
 
   @Override ApiCredentials obtainApiCredentialsFromCredentials(Credentials credentials) {
-    return new ApiClientAuthCredentials(credentials);
+    return new ApiClientAuthCredentials(credentials, crmId);
   }
 
-  public String getApiKey() {
-    return apiKey;
-  }
-
-  public String getApiSecret() {
-    return apiSecret;
-  }
 }

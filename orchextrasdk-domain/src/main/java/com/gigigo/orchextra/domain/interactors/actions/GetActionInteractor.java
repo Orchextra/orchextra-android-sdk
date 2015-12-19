@@ -2,8 +2,8 @@ package com.gigigo.orchextra.domain.interactors.actions;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
-import com.gigigo.orchextra.domain.entities.Action;
 import com.gigigo.orchextra.domain.entities.ActionCriteria;
+import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 
@@ -12,7 +12,7 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
  * Date 15/12/15.
  */
 //TODO generic type can change
-public class GetActionInteractor implements Interactor<InteractorResponse<Action>> {
+public class GetActionInteractor implements Interactor<InteractorResponse<BasicAction>> {
 
   private final ActionsDataProvider actionsDataProvider;
   private ActionCriteria actionCriteria;
@@ -29,8 +29,8 @@ public class GetActionInteractor implements Interactor<InteractorResponse<Action
     this.actionCriteria = actionCriteria;
   }
 
-  @Override public InteractorResponse<Action> call() throws Exception {
-    BusinessObject<Action> bo = actionsDataProvider.obtainAction(actionCriteria);
+  @Override public InteractorResponse<BasicAction> call() throws Exception {
+    BusinessObject<BasicAction> bo = actionsDataProvider.obtainAction(actionCriteria);
     //TODO error management
     return new InteractorResponse<>(bo.getData());
   }

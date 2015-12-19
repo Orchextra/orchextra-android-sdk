@@ -6,8 +6,8 @@ import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.actions.datasource.ActionsDataSource;
-import com.gigigo.orchextra.domain.entities.Action;
 import com.gigigo.orchextra.domain.entities.ActionCriteria;
+import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class ActionsDataSourceImpl implements ActionsDataSource {
     this.actionQueryParamsMapper = actionQueryParamsMapper;
   }
 
-  @Override public BusinessObject<Action> obtainAction(ActionCriteria actionCriteria) {
+  @Override public BusinessObject<BasicAction> obtainAction(ActionCriteria actionCriteria) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
     Map<String, String> queryParams = actionQueryParamsMapper.modelToData(actionCriteria);

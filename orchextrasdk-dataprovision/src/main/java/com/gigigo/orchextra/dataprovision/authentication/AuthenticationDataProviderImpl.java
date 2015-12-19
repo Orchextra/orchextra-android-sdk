@@ -26,7 +26,8 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   }
 
   @Override public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials) {
+    //Check if crmId !=null in database and switch between authenticateUser or authenticateAnonymousUser
     //TODO (Store info in realm fot session Management)
-    return authenticationDataSource.authenticateUser(credentials);
+    return authenticationDataSource.authenticateAnonymousUser(credentials);
   }
 }

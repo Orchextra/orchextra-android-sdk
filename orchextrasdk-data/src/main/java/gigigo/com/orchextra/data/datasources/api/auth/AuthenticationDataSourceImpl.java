@@ -48,14 +48,20 @@ public class AuthenticationDataSourceImpl implements AuthenticationDataSource {
     return sdkResponseMapper.mapApiGenericResponseToBusiness(apiGenericResponse);
   }
 
-  @Override public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials) {
+  @Override public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
-    OrchextraApiAuthRequest request = new OrchextraApiClientAuthRequest(GrantType.AUTH_USER, credentials);
+    OrchextraApiAuthRequest request = new OrchextraApiClientAuthRequest(
+        GrantType.AUTH_USER, credentials, crmId);
 
     ApiGenericResponse apiGenericResponse = serviceExecutor.executeNetworkServiceConnection(
         SdkAuthData.class, orchextraApiService.clientAuthentication(request));
 
     return clientResponseMapper.mapApiGenericResponseToBusiness(apiGenericResponse);
+  }
+
+  @Override
+  public BusinessObject<ClientAuthData> authenticateAnonymousUser(Credentials credentials) {
+    return authenticateUser(credentials, null);
   }
 }

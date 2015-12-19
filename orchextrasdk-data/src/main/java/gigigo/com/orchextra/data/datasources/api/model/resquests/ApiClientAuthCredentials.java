@@ -23,6 +23,8 @@ public class ApiClientAuthCredentials implements ApiCredentials{
   private final String advertiserId;
   @Expose @SerializedName("secureId")
   private final String secureId;
+  @Expose @SerializedName("crmId")
+  private final String crmId;
   @Expose @SerializedName("serialNumber")
   private final String serialNumber;
   @Expose @SerializedName("wifiMacAddress")
@@ -31,7 +33,7 @@ public class ApiClientAuthCredentials implements ApiCredentials{
   private final String bluetoothMacAddress;
 
 
-  public ApiClientAuthCredentials(Credentials credentials) {
+  public ApiClientAuthCredentials(Credentials credentials, String crmId) {
 
     ClientAuthCredentials clientCredentials = ConsistencyUtils.checkInstance(credentials,
             ClientAuthCredentials.class);
@@ -41,6 +43,7 @@ public class ApiClientAuthCredentials implements ApiCredentials{
     this.vendorId = clientCredentials.getVendorId();
     this.advertiserId = clientCredentials.getAdvertiserId();
     this.secureId = clientCredentials.getSecureId();
+    this.crmId = crmId;
     this.serialNumber = clientCredentials.getSerialNumber();
     this.wifiMacAddress = clientCredentials.getWifiMacAddress();
     this.bluetoothMacAddress = clientCredentials.getBluetoothMacAddress();
@@ -76,5 +79,9 @@ public class ApiClientAuthCredentials implements ApiCredentials{
 
   public String getBluetoothMacAddress() {
     return bluetoothMacAddress;
+  }
+
+  public String getCrmId() {
+    return crmId;
   }
 }

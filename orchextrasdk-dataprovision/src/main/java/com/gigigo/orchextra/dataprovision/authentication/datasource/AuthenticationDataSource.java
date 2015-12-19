@@ -2,6 +2,7 @@ package com.gigigo.orchextra.dataprovision.authentication.datasource;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.entities.Credentials;
+import com.gigigo.orchextra.domain.entities.Crm;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
 
@@ -13,6 +14,8 @@ public interface AuthenticationDataSource {
 
   BusinessObject<SdkAuthData> authenticateSdk(Credentials credentials);
 
-  BusinessObject<ClientAuthData> authenticateUser(Credentials credentials);
+  BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId);
+
+  BusinessObject<ClientAuthData> authenticateAnonymousUser(Credentials credentials);
 
 }

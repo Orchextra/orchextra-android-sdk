@@ -3,8 +3,8 @@ package com.gigigo.orchextra.dataprovision.actions;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.actions.datasource.ActionsDataSource;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
-import com.gigigo.orchextra.domain.entities.Action;
 import com.gigigo.orchextra.domain.entities.ActionCriteria;
+import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -18,7 +18,7 @@ public class ActionsDataProviderImpl implements ActionsDataProvider {
     this.actionsDataSource = actionsDataSource;
   }
 
-  public BusinessObject<Action> obtainAction(ActionCriteria actionCriteria){
+  public BusinessObject<BasicAction> obtainAction(ActionCriteria actionCriteria){
     return actionsDataSource.obtainAction(actionCriteria);
   }
 

@@ -1,8 +1,8 @@
 package com.gigigo.orchextra.dataprovision.actions.datasource;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.entities.Action;
 import com.gigigo.orchextra.domain.entities.ActionCriteria;
+import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -10,6 +10,6 @@ import com.gigigo.orchextra.domain.entities.ActionCriteria;
  */
 public interface ActionsDataSource {
 
-  BusinessObject<Action> obtainAction(ActionCriteria actionCriteria);
+  BusinessObject<BasicAction> obtainAction(ActionCriteria actionCriteria);
 
 }
