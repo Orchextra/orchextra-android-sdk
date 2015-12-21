@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.model.mappers;
+package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;

@@ -2,7 +2,7 @@ package com.gigigo.orchextra.domain.interactors.actions;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
-import com.gigigo.orchextra.domain.entities.ActionCriteria;
+import com.gigigo.orchextra.domain.entities.triggers.Trigger;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
@@ -15,7 +15,7 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 public class GetActionInteractor implements Interactor<InteractorResponse<BasicAction>> {
 
   private final ActionsDataProvider actionsDataProvider;
-  private ActionCriteria actionCriteria;
+  private Trigger actionCriteria;
 
   public GetActionInteractor(ActionsDataProvider actionsDataProvider) {
     this.actionsDataProvider = actionsDataProvider;
@@ -25,7 +25,7 @@ public class GetActionInteractor implements Interactor<InteractorResponse<BasicA
     //TODO add criteria;
   }
 
-  public void setActionCriteria(ActionCriteria actionCriteria) {
+  public void setActionCriteria(Trigger actionCriteria) {
     this.actionCriteria = actionCriteria;
   }
 

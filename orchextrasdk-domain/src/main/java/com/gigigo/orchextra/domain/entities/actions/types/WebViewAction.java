@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.domain.entities.actions.types;
 
+import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.entities.actions.ActionType;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
 
 /**
  * Created by Sergio Martinez Rodriguez

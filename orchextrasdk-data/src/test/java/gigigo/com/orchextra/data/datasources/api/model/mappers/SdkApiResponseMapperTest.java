@@ -2,6 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiResponseMapper;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,12 +1,12 @@
 package gigigo.com.orchextra.data.datasources.api.model.responses;
 
 import com.gigigo.orchextra.domain.entities.actions.ActionType;
+import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.entities.actions.types.CustomAction;
 import com.gigigo.orchextra.domain.entities.actions.types.EmptyAction;
 import com.gigigo.orchextra.domain.entities.actions.types.NotificationAction;
 import com.gigigo.orchextra.domain.entities.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.entities.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.entities.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.entities.actions.types.WebViewAction;

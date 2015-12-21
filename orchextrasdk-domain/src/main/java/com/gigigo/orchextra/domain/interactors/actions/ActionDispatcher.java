@@ -1,5 +1,7 @@
 package com.gigigo.orchextra.domain.interactors.actions;
 
+import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.entities.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.entities.actions.types.CustomAction;
 import com.gigigo.orchextra.domain.entities.actions.types.EmptyAction;
 import com.gigigo.orchextra.domain.entities.actions.types.NotificationAction;
@@ -13,19 +15,19 @@ import com.gigigo.orchextra.domain.entities.actions.types.WebViewAction;
  */
 public interface ActionDispatcher {
 
-  void dispatchAction(com.gigigo.orchextra.domain.entities.actions.types.BrowserAction action);
-  void dispatchAction(com.gigigo.orchextra.domain.entities.actions.types.BrowserAction action, com.gigigo.orchextra.domain.entities.actions.strategy.Notification notification);
-  void dispatchAction(com.gigigo.orchextra.domain.entities.actions.types.WebViewAction action);
-  void dispatchAction(WebViewAction action, com.gigigo.orchextra.domain.entities.actions.strategy.Notification notification);
-  void dispatchAction(com.gigigo.orchextra.domain.entities.actions.types.CustomAction action);
-  void dispatchAction(CustomAction action, com.gigigo.orchextra.domain.entities.actions.strategy.Notification notification);
-  void dispatchAction(com.gigigo.orchextra.domain.entities.actions.types.ScanAction action);
-  void dispatchAction(ScanAction action, com.gigigo.orchextra.domain.entities.actions.strategy.Notification notification);
-  void dispatchAction(com.gigigo.orchextra.domain.entities.actions.types.VuforiaScanAction action);
-  void dispatchAction(VuforiaScanAction action, com.gigigo.orchextra.domain.entities.actions.strategy.Notification notification);
-  void dispatchAction(com.gigigo.orchextra.domain.entities.actions.types.NotificationAction action);
-  void dispatchAction(NotificationAction action, com.gigigo.orchextra.domain.entities.actions.strategy.Notification notification);
-  void dispatchAction(com.gigigo.orchextra.domain.entities.actions.types.EmptyAction action);
-  void dispatchAction(EmptyAction action, com.gigigo.orchextra.domain.entities.actions.strategy.Notification notification);
+  void dispatchAction(BrowserAction action);
+  void dispatchAction(BrowserAction action, Notification notification);
+  void dispatchAction(WebViewAction action);
+  void dispatchAction(WebViewAction action, Notification notification);
+  void dispatchAction(CustomAction action);
+  void dispatchAction(CustomAction action, Notification notification);
+  void dispatchAction(ScanAction action);
+  void dispatchAction(ScanAction action, Notification notification);
+  void dispatchAction(VuforiaScanAction action);
+  void dispatchAction(VuforiaScanAction action, Notification notification);
+  void dispatchAction(NotificationAction action);
+  void dispatchAction(NotificationAction action, Notification notification);
+  void dispatchAction(EmptyAction action);
+  void dispatchAction(EmptyAction action, Notification notification);
 
 }

@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.model.mappers;
+package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;

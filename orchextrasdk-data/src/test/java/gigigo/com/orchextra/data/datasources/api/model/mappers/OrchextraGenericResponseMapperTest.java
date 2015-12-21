@@ -4,6 +4,7 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericExceptionResponse;
 
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.OrchextraGenericResponseMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

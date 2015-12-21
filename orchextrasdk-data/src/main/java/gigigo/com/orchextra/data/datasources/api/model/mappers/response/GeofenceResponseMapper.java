@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.model.mappers;
+package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
@@ -6,6 +6,7 @@ import com.gigigo.ggglib.network.mappers.MapperUtils;
 import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.ProximityPointType;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 
 /**

@@ -20,7 +20,7 @@ public class FakeDelegate implements Delegate {
   private static FakeDelegate me;
   private DelegateComponent delegateComponent;
 
-  public FakeDelegate() {
+  private FakeDelegate() {
     init();
   }
 

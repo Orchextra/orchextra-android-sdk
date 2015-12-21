@@ -7,10 +7,10 @@ import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import dagger.Module;
 import dagger.Provides;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.ClientApiResponseMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.ConfigApiResponseMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.OrchextraGenericResponseMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.SdkApiResponseMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ClientApiResponseMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ConfigApiResponseMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.OrchextraGenericResponseMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiResponseMapper;
 import javax.inject.Singleton;
 
 /**

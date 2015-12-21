@@ -20,7 +20,7 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
   private static AuthenticationDelegateImpl me;
   private DelegateComponent delegateComponent;
 
-  public AuthenticationDelegateImpl() {
+  private AuthenticationDelegateImpl() {
     init();
   }
 
