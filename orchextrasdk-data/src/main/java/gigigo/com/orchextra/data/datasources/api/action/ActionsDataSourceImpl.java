@@ -27,13 +27,13 @@ public class ActionsDataSourceImpl implements ActionsDataSource {
 
   public ActionsDataSourceImpl(OrchextraApiService orchextraApiService,
       Provider<ApiServiceExecutor> serviceExecutorProvider,
-      ApiGenericResponseMapper actionResponseMapper,
-      RequestMapper actionQueryParamsMapper) {
+      RequestMapper actionQueryParamsMapper,
+      ApiGenericResponseMapper actionResponseMapper) {
 
     this.orchextraApiService = orchextraApiService;
     this.serviceExecutorProvider = serviceExecutorProvider;
-    this.actionResponseMapper = actionResponseMapper;
     this.actionQueryParamsMapper = actionQueryParamsMapper;
+    this.actionResponseMapper = actionResponseMapper;
   }
 
   @Override public BusinessObject<BasicAction> obtainAction(Trigger actionCriteria) {

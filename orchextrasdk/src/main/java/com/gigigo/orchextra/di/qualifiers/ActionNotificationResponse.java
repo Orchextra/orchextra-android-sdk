@@ -26,4 +26,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Date 15/7/15.
  */
 @Qualifier @Retention(RUNTIME)
-public @interface ConfigRequestMapper {}
+public @interface ActionNotificationResponse {}
