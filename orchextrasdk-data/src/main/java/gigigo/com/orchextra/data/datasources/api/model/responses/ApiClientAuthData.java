@@ -16,7 +16,7 @@ public class ApiClientAuthData {
   @Expose @SerializedName("value")
   private String value;
   @Expose @SerializedName("expiresIn")
-  private Integer expiresIn;
+  private int expiresIn;
   @Expose @SerializedName("expiresAt")
   private String expiresAt;
 
@@ -44,11 +44,11 @@ public class ApiClientAuthData {
     this.value = value;
   }
 
-  public Integer getExpiresIn() {
+  public int getExpiresIn() {
     return expiresIn;
   }
 
-  public void setExpiresIn(Integer expiresIn) {
+  public void setExpiresIn(int expiresIn) {
     this.expiresIn = expiresIn;
   }
 

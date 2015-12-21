@@ -10,30 +10,30 @@ import com.google.gson.annotations.SerializedName;
 public class ApiBeacon extends ApiProximityPoint{
 
   @Expose @SerializedName("minor")
-  private Integer minor;
+  private int minor;
 
   @Expose @SerializedName("major")
-  private Integer major;
+  private int major;
 
   @Expose @SerializedName("uuid")
   private String uuid;
 
   @Expose @SerializedName("active")
-  private Boolean active;
+  private boolean active;
 
-  public Integer getMinor() {
+  public int getMinor() {
     return minor;
   }
 
-  public void setMinor(Integer minor) {
+  public void setMinor(int minor) {
     this.minor = minor;
   }
 
-  public Integer getMajor() {
+  public int getMajor() {
     return major;
   }
 
-  public void setMajor(Integer major) {
+  public void setMajor(int major) {
     this.major = major;
   }
 
@@ -45,11 +45,11 @@ public class ApiBeacon extends ApiProximityPoint{
     this.uuid = uuid;
   }
 
-  public Boolean getActive() {
+  public boolean getActive() {
     return active;
   }
 
-  public void setActive(Boolean active) {
+  public void setActive(boolean active) {
     this.active = active;
   }
 }

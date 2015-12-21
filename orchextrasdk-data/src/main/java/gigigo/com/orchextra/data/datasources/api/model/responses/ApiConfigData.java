@@ -32,7 +32,7 @@ public class ApiConfigData {
   private ApiVuforia vuforia;
 
   @Expose @SerializedName("requestWaitTime")
-  private Integer requestWaitTime;
+  private int requestWaitTime;
 
   public List<ApiGeofence> getGeoMarketing() {
     return geoMarketing;
@@ -66,11 +66,11 @@ public class ApiConfigData {
     this.vuforia = vuforia;
   }
 
-  public Integer getRequestWaitTime() {
+  public int getRequestWaitTime() {
     return requestWaitTime;
   }
 
-  public void setRequestWaitTime(Integer requestWaitTime) {
+  public void setRequestWaitTime(int requestWaitTime) {
     this.requestWaitTime = requestWaitTime;
   }
 

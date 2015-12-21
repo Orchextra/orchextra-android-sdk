@@ -13,7 +13,7 @@ public class ApiGeofence extends ApiProximityPoint{
   private ApiPoint point;
 
   @Expose @SerializedName("radius")
-  private Integer radius;
+  private int radius;
 
   public ApiPoint getPoint() {
     return point;
@@ -23,11 +23,11 @@ public class ApiGeofence extends ApiProximityPoint{
     this.point = point;
   }
 
-  public Integer getRadius() {
+  public int getRadius() {
     return radius;
   }
 
-  public void setRadius(Integer radius) {
+  public void setRadius(int radius) {
     this.radius = radius;
   }
 

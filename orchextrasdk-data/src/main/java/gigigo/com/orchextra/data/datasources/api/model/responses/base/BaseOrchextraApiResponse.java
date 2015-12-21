@@ -12,7 +12,7 @@ public class BaseOrchextraApiResponse<JSONData> implements
     ApiGenericResponse<JSONData, OrchextraApiErrorResponse> {
 
   @SerializedName("status")
-  private Boolean status;
+  private boolean status;
   @SerializedName("data")
   private JSONData data;
   @SerializedName("error")
@@ -20,11 +20,11 @@ public class BaseOrchextraApiResponse<JSONData> implements
 
   private HttpResponse httpResponse;
 
-  public Boolean getStatus() {
+  public boolean getStatus() {
     return status;
   }
 
-  public void setStatus(Boolean status) {
+  public void setStatus(boolean status) {
     this.status = status;
   }
 

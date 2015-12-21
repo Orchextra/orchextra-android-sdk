@@ -32,13 +32,13 @@ public abstract class ApiProximityPoint {
   private String updatedAt;
 
   @Expose @SerializedName("notifyOnExit")
-  private Boolean notifyOnExit;
+  private boolean notifyOnExit;
 
   @Expose @SerializedName("notifyOnEntry")
-  private Boolean notifyOnEntry;
+  private boolean notifyOnEntry;
 
   @Expose @SerializedName("stayTime")
-  private Integer stayTime;
+  private int stayTime;
 
   public String getId() {
     return id;
@@ -88,27 +88,27 @@ public abstract class ApiProximityPoint {
     this.updatedAt = updatedAt;
   }
 
-  public Boolean getNotifyOnExit() {
+  public boolean getNotifyOnExit() {
     return notifyOnExit;
   }
 
-  public void setNotifyOnExit(Boolean notifyOnExit) {
+  public void setNotifyOnExit(boolean notifyOnExit) {
     this.notifyOnExit = notifyOnExit;
   }
 
-  public Boolean getNotifyOnEntry() {
+  public boolean getNotifyOnEntry() {
     return notifyOnEntry;
   }
 
-  public void setNotifyOnEntry(Boolean notifyOnEntry) {
+  public void setNotifyOnEntry(boolean notifyOnEntry) {
     this.notifyOnEntry = notifyOnEntry;
   }
 
-  public Integer getStayTime() {
+  public int getStayTime() {
     return stayTime;
   }
 
-  public void setStayTime(Integer stayTime) {
+  public void setStayTime(int stayTime) {
     this.stayTime = stayTime;
   }
 
