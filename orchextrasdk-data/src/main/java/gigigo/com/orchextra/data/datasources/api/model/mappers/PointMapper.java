@@ -35,7 +35,7 @@ public class PointMapper implements RequestMapper<Point, ApiPoint>, ResponseMapp
     }
 
     point.setLat(lat);
-    point.setLat(lon);
+    point.setLng(lon);
 
     return point;
   }

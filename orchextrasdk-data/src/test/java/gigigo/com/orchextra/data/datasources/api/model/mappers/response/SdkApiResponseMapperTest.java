@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.model.mappers;
+package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 

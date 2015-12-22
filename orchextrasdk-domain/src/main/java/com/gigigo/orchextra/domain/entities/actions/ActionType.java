@@ -25,20 +25,24 @@ public enum ActionType {
 
   public static ActionType getActionTypeValue(String type) {
 
-    if (type.equals(BROWSER.getStringValue())){
-      return BROWSER;
-    }else if (type.equals(WEBVIEW.getStringValue())){
-      return WEBVIEW;
-    }else if (type.equals(CUSTOM_SCHEME.getStringValue())){
-      return CUSTOM_SCHEME;
-    }else if (type.equals(SCAN.getStringValue())){
-      return SCAN;
-    }else if (type.equals(VUFORIA_SCAN.getStringValue())){
-      return VUFORIA_SCAN;
-    }else if (type.equals(NOTIFICATION.getStringValue())){
-      return NOTIFICATION;
-    }else{
+    if (type == null) {
       return NOT_DEFINED;
+    } else {
+      if (type.equals(BROWSER.getStringValue())) {
+        return BROWSER;
+      } else if (type.equals(WEBVIEW.getStringValue())) {
+        return WEBVIEW;
+      } else if (type.equals(CUSTOM_SCHEME.getStringValue())) {
+        return CUSTOM_SCHEME;
+      } else if (type.equals(SCAN.getStringValue())) {
+        return SCAN;
+      } else if (type.equals(VUFORIA_SCAN.getStringValue())) {
+        return VUFORIA_SCAN;
+      } else if (type.equals(NOTIFICATION.getStringValue())) {
+        return NOTIFICATION;
+      } else {
+        return NOT_DEFINED;
+      }
     }
   }
 }

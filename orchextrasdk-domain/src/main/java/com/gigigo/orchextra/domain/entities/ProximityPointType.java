@@ -19,10 +19,14 @@ public enum ProximityPointType{
   }
 
   public static ProximityPointType getProximityPointTypeValue(String type) {
-    if (type.equals(BEACON.getStringValue())){
-      return BEACON;
-    }else{
-      return GEOFENCE;
+    if (type != null) {
+      if (type.equals(BEACON.getStringValue())) {
+        return BEACON;
+      } else {
+        return GEOFENCE;
+      }
+    } else {
+      return null;
     }
   }
 }

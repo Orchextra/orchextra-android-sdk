@@ -13,7 +13,7 @@ public class ScanTrigger extends Trigger {
 
   public ScanTrigger(TriggerType triggerType, String id, Point point,
       PhoneStatusType phoneStatusType) {
-    super(TriggerType.BARCODE, id, point, phoneStatusType);
+    super(triggerType, id, point, phoneStatusType);
   }
 
   @Override protected void setConcreteBehaviour() {

@@ -32,8 +32,6 @@ public abstract class Trigger {
     this.id = id;
     this.phoneStatusType = phoneStatusType;
     this.geoPointBehaviour = new GeoPointBehaviourImpl(point);
-
-    setConcreteBehaviour();
   }
 
   protected abstract void setConcreteBehaviour();
@@ -41,14 +39,18 @@ public abstract class Trigger {
   public static GeofenceTrigger createGeofenceTrigger(String id, Point point,
       PhoneStatusType phoneStatusType, double distance, GeoPointEventType geoPointEventType){
 
-    return new GeofenceTrigger(id, point, phoneStatusType, distance, geoPointEventType);
+    GeofenceTrigger geofenceTrigger = new GeofenceTrigger(id, point, phoneStatusType, distance, geoPointEventType);
+    geofenceTrigger.setConcreteBehaviour();
+    return geofenceTrigger;
   }
 
   public static BeaconTrigger createBeaconTrigger(String id, Point point,
       PhoneStatusType phoneStatusType, BeaconDistanceType beaconDistType,
       GeoPointEventType geoPointEventType){
 
-    return new BeaconTrigger(id, point, phoneStatusType, beaconDistType, geoPointEventType);
+    BeaconTrigger beaconTrigger = new BeaconTrigger(id, point, phoneStatusType, beaconDistType, geoPointEventType);
+    beaconTrigger.setConcreteBehaviour();
+    return beaconTrigger;
   }
 
   public static ScanTrigger createQrScanTrigger(String id, Point point){
@@ -64,7 +66,9 @@ public abstract class Trigger {
   }
 
   private static ScanTrigger createScanTrigger(String id, TriggerType scanType, Point point){
-    return new ScanTrigger(scanType, id, point, PhoneStatusType.FOREGROUND);
+    ScanTrigger scanTrigger = new ScanTrigger(scanType, id, point, PhoneStatusType.FOREGROUND);
+    scanTrigger.setConcreteBehaviour();
+    return scanTrigger;
   }
 
   public TriggerType getTriggerType() {

@@ -1,8 +1,7 @@
-package gigigo.com.orchextra.data.datasources.api.model.mappers;
+package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
 
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ClientApiResponseMapper;
 import org.junit.Before;
 import org.junit.Test;
 
