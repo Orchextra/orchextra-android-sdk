@@ -32,7 +32,6 @@ public class ApiSdkAuthDataBuilder {
         apiSdkAuthData.setValue(value);
         apiSdkAuthData.setProjectId(projectId);
         apiSdkAuthData.setExpiresIn(expiresIn);
-        apiSdkAuthData.setExpiresAt(expiresAt);
 
         return apiSdkAuthData;
     }

@@ -34,7 +34,7 @@ public class SdkApiResponseMapperTest {
 
     @Test
     public void testDataToModelOk() throws Exception {
-        Date expectedDate = getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
+        Date expectedDate = new Date(Calendar.getInstance().getTimeInMillis()+ApiSdkAuthDataBuilder.EXPIRES_IN);
 
         ApiSdkAuthData apiSdkAuthData = ApiSdkAuthDataBuilder.Builder().build();
 

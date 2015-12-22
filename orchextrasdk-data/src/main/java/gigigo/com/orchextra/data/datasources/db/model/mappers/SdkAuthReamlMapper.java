@@ -22,12 +22,15 @@ public class SdkAuthReamlMapper implements RealmMapper<SdkAuthData, SdkAuthRealm
   }
 
   @Override public SdkAuthData dataToModel(SdkAuthRealm sdkAuthRealm) {
-    SdkAuthData sdkAuthdata = new SdkAuthData();
-    sdkAuthdata.setExpiresAt(DateUtils.stringToDateWithFormat(sdkAuthRealm.getExpiresAt(),
-        DateFormatConstants.DATE_FORMAT));
-    sdkAuthdata.setExpiresIn(sdkAuthRealm.getExpiresIn());
-    sdkAuthdata.setProjectId(sdkAuthRealm.getProjectId());
-    sdkAuthdata.setValue(sdkAuthRealm.getValue());
+
+    SdkAuthData sdkAuthdata = new SdkAuthData(
+        sdkAuthRealm.getValue(),
+        sdkAuthRealm.getExpiresIn(),
+        DateUtils.stringToDateWithFormat(sdkAuthRealm.getExpiresAt(),
+            DateFormatConstants.DATE_FORMAT),
+        sdkAuthRealm.getProjectId()
+    );
+
     return sdkAuthdata;
   }
 }

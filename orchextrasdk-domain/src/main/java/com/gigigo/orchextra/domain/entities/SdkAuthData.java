@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.entities;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -8,40 +9,43 @@ import java.util.Date;
  */
 public class SdkAuthData {
 
-  private String value;
-  private int expiresIn;
-  private Date expiresAt;
-  private String projectId;
+  private final String value;
+  private final int expiresIn;
+  private final Date expiresAt;
+  private final String projectId;
+
+  public SdkAuthData(String value, int expiresIn, String projectId) {
+    this.value = value;
+    this.expiresIn = expiresIn;
+    this.projectId = projectId;
+    this.expiresAt = calculateExpireTime(expiresIn);
+  }
+
+  public SdkAuthData(String value, int expiresIn, Date expiresAt, String projectId) {
+    this.value = value;
+    this.expiresIn = expiresIn;
+    this.expiresAt = expiresAt;
+    this.projectId = projectId;
+  }
+
+  private Date calculateExpireTime(int expiresIn) {
+    return new Date(Calendar.getInstance().getTimeInMillis()+expiresIn);
+  }
 
   public String getValue() {
     return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
   }
 
   public int getExpiresIn() {
     return expiresIn;
   }
 
-  public void setExpiresIn(int expiresIn) {
-    this.expiresIn = expiresIn;
-  }
-
   public Date getExpiresAt() {
     return expiresAt;
-  }
-
-  public void setExpiresAt(Date expiresAt) {
-    this.expiresAt = expiresAt;
   }
 
   public String getProjectId() {
     return projectId;
   }
 
-  public void setProjectId(String projectId) {
-    this.projectId = projectId;
-  }
 }

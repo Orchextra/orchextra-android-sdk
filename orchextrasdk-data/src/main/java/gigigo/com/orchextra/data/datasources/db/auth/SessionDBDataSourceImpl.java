@@ -139,7 +139,7 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
       realm.commitTransaction();
     }catch (NotFountRealmObjectException | RealmException re ){
       //TODO throw businessException for get config from network again
-      return new SdkAuthData();
+      return new SdkAuthData("",0,"");
     }finally {
       realm.close();
     }

@@ -23,13 +23,15 @@ public class ClientAuthRealmMapper implements RealmMapper<ClientAuthData, Client
   }
 
   @Override public ClientAuthData dataToModel(ClientAuthRealm clientAuthRealm) {
-    ClientAuthData clientAuthData = new ClientAuthData();
-    clientAuthData.setExpiresAt(DateUtils.stringToDateWithFormat(
-        clientAuthRealm.getExpiresAt(), DateFormatConstants.DATE_FORMAT));
-    clientAuthData.setExpiresIn(clientAuthRealm.getExpiresIn());
-    clientAuthData.setProjectId(clientAuthRealm.getProjectId());
-    clientAuthData.setUserId(clientAuthRealm.getUserId());
-    clientAuthData.setValue(clientAuthData.getValue());
+
+    ClientAuthData clientAuthData = new ClientAuthData(
+        clientAuthRealm.getProjectId(),
+        clientAuthRealm.getUserId(),
+        clientAuthRealm.getValue(),
+        clientAuthRealm.getExpiresIn(),
+        DateUtils.stringToDateWithFormat(
+            clientAuthRealm.getExpiresAt(), DateFormatConstants.DATE_FORMAT));
+
     return clientAuthData;
   }
 }

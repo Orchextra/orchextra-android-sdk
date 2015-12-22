@@ -36,7 +36,6 @@ public class ApiClientAuthDataBuilder {
         apiClientAuthData.setValue(value);
         apiClientAuthData.setProjectId(projectId);
         apiClientAuthData.setExpiresIn(expiresIn);
-        apiClientAuthData.setExpiresAt(expiresAt);
         apiClientAuthData.setUserId(userId);
 
         return apiClientAuthData;
