@@ -14,6 +14,8 @@ public class Crm {
   private Date birthDate;
   private List<String> keywords;
 
+  public Crm() {}
+
   public Crm(String crmId, GenderType gender, Date birthDate, List<String> keywords) {
     this.crmId = crmId;
     this.gender = gender;

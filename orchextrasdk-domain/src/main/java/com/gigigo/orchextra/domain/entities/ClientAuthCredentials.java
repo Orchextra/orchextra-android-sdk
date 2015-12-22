@@ -14,6 +14,7 @@ public class ClientAuthCredentials implements Credentials {
     private String vendorId;
     private String advertiserId;
     private String secureId;
+    private String crmId;
     private String serialNumber;
     private String wifiMacAddress;
     private String bluetoothMacAddress;
@@ -88,5 +89,13 @@ public class ClientAuthCredentials implements Credentials {
 
     public void setBluetoothMacAddress(String bluetoothMacAddress) {
         this.bluetoothMacAddress = bluetoothMacAddress;
+    }
+
+    public String getCrmId() {
+        return crmId;
+    }
+
+    public void setCrmId(String crmId) {
+        this.crmId = crmId;
     }
 }

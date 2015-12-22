@@ -1,7 +1,6 @@
 package com.gigigo.orchextra.domain.interactors.user;
 
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
-import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.entities.Crm;
 import com.gigigo.orchextra.domain.entities.GenderType;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;

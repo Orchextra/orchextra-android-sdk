@@ -27,6 +27,7 @@ dependencies {
   compile parent.ext.dependencies.retrofit
   compile parent.ext.dependencies.gsonConverter
   compile parent.ext.dependencies.javaxInjectAnnotations
+  compile parent.ext.dependencies.realm
 
   compile project(':orchextrasdk-dataprovision')
   compile project(':ggglib')

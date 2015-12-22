@@ -35,7 +35,7 @@ public class InteractorsModule {
     return new SaveUserInfoInteractor(configDataProvider);
   }
 
-  @Provides @Singleton LogOnUserInteractor provideSaveUserInfoInteractor(
+  @Provides @Singleton LogOnUserInteractor provideLogOnUserInteractor(
       AuthenticationDataProvider authenticationDataProvider){
     return new LogOnUserInteractor(authenticationDataProvider);
   }

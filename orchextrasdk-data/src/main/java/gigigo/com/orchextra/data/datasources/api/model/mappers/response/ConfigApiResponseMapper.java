@@ -40,7 +40,7 @@ public class ConfigApiResponseMapper implements ResponseMapper<ConfigInfoResult,
     Theme theme = MapperUtils.checkNullDataResponse(themeResponseMapper, apiConfigData.getTheme());
     Vuforia vuforia = MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
-    return new ApiConfigData.ConfigInfoResultBuilder(geofences,beacons, theme,
+    return new ConfigInfoResult.ConfigInfoResultBuilder(geofences,beacons, theme,
         apiConfigData.getRequestWaitTime(), vuforia).build();
 
   }

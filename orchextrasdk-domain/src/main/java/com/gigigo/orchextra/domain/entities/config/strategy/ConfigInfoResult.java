@@ -19,7 +19,6 @@ public class ConfigInfoResult{
 
   private int requestWaitTime;
 
-
   public List<Geofence> getGeofences() {
     return geofences.getGeofences();
   }
@@ -74,5 +73,37 @@ public class ConfigInfoResult{
 
   public void setTheme(SupportsTheme theme) {
     this.theme = theme;
+  }
+
+  public static class ConfigInfoResultBuilder {
+
+    private List<Geofence> geoMarketing;
+    private List<Beacon> proximity;
+    private Theme theme;
+    private int requestWaitTime;
+    private Vuforia vuforia;
+
+    public ConfigInfoResultBuilder(List<Geofence> geoMarketing, List<Beacon> proximity,
+        Theme theme, int requestWaitTime, Vuforia vuforia) {
+
+      this.geoMarketing = geoMarketing;
+      this.proximity = proximity;
+      this.theme = theme;
+      this.requestWaitTime = requestWaitTime;
+      this.vuforia = vuforia;
+    }
+
+    public ConfigInfoResult build() {
+
+      ConfigInfoResult configInfoResult = new ConfigInfoResult();
+
+      configInfoResult.setRequestWaitTime(requestWaitTime);
+      configInfoResult.setBeacons(new RealBeaconListImpl(proximity));
+      configInfoResult.setGeofences(new RealGeofenceListImpl(geoMarketing));
+      configInfoResult.setTheme(new RealSupportsThemeImpl(theme));
+      configInfoResult.setVuforia(new VuforiaReadyImpl(vuforia));
+
+      return configInfoResult;
+    }
   }
 }
