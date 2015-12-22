@@ -43,7 +43,7 @@ public class ClientApiResponseMapperTest {
 
     @Test
     public void testDataToModelNullDate() throws Exception {
-        ApiClientAuthData apiClientAuthData = ApiClientAuthDataBuilder.Builder().setDate(null).build();
+        ApiClientAuthData apiClientAuthData = ApiClientAuthDataBuilder.Builder().build();
 
         ClientAuthData clientAuthData = mapper.dataToModel(apiClientAuthData);
 

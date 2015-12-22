@@ -49,7 +49,7 @@ public class SdkApiResponseMapperTest {
 
     @Test
     public void testDataToModelDateNull() throws Exception {
-        ApiSdkAuthData apiSdkAuthData = ApiSdkAuthDataBuilder.Builder().setDate(null).build();
+        ApiSdkAuthData apiSdkAuthData = ApiSdkAuthDataBuilder.Builder().build();
 
         SdkAuthData sdkAuthData = mapper.dataToModel(apiSdkAuthData);
 
