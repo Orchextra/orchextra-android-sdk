@@ -1,6 +1,8 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import android.content.Context;
+import com.gigigo.gggjavalib.business.model.BusinessError;
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.domain.entities.Beacon;
 import com.gigigo.orchextra.domain.entities.Geofence;
@@ -50,7 +52,7 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
     return true;
   }
 
-  public ConfigInfoResult obtainConfigData(){
+  public BusinessObject<ConfigInfoResult> obtainConfigData(){
 
     Realm realm = Realm.getDefaultInstance();
     ConfigInfoResult configInfoResult;
@@ -61,12 +63,12 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
       realm.commitTransaction();
     }catch (NotFountRealmObjectException | RealmException re ){
       //throw businessException for get config from network again
-      return new ConfigInfoResult();
+      return new BusinessObject(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
     }finally {
       realm.close();
     }
 
-    return configInfoResult;
+    return new BusinessObject<>(configInfoResult, BusinessError.createOKInstance());
   }
 
   public Beacon obtainBeaconByUuid(String uuid){

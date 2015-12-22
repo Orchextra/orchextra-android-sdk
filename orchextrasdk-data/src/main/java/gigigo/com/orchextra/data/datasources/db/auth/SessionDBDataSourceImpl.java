@@ -1,17 +1,17 @@
 package gigigo.com.orchextra.data.datasources.db.auth;
 
 import android.content.Context;
+import com.gigigo.gggjavalib.business.model.BusinessError;
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.Crm;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
-import com.gigigo.orchextra.domain.entities.SessionToken;
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
-import java.util.Date;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -111,7 +111,7 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     return true;
   }
 
-  @Override public SessionToken getSessionToken() {
+  @Override public BusinessObject<ClientAuthData> getSessionToken() {
     Realm realm = Realm.getDefaultInstance();
     ClientAuthData clientAuthData;
 
@@ -120,16 +120,15 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
       clientAuthData = sessionReader.readClientAuthData(realm);
       realm.commitTransaction();
     }catch (NotFountRealmObjectException | RealmException re ){
-      //TODO throw businessException for get config from network again
-      return new SessionToken("", new Date());
+      return new BusinessObject(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
     }finally {
       realm.close();
     }
 
-    return new SessionToken(clientAuthData.getValue(), clientAuthData.getExpiresAt());
+    return new BusinessObject(clientAuthData, BusinessError.createOKInstance());
   }
 
-  @Override public SdkAuthData getDeviceToken() {
+  @Override public BusinessObject<SdkAuthData> getDeviceToken() {
     Realm realm = Realm.getDefaultInstance();
     SdkAuthData sdkAuthData;
 
@@ -138,12 +137,11 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
       sdkAuthData = sessionReader.readSdkAuthData(realm);
       realm.commitTransaction();
     }catch (NotFountRealmObjectException | RealmException re ){
-      //TODO throw businessException for get config from network again
-      return new SdkAuthData("",0,"");
+      return new BusinessObject(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
     }finally {
       realm.close();
     }
 
-    return sdkAuthData;
+    return new BusinessObject(sdkAuthData, BusinessError.createOKInstance());
   }
 }

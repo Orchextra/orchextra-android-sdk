@@ -1,11 +1,11 @@
 package com.gigigo.orchextra.dataprovision.config.datasource;
 
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.Crm;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
-import com.gigigo.orchextra.domain.entities.SessionToken;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -18,6 +18,6 @@ public interface SessionDBDataSource {
   boolean saveClientAuthCredentials(ClientAuthCredentials clientAuthCredentials);
   boolean saveClientAuthResponse(ClientAuthData clientAuthData);
   boolean saveUser(Crm crm);
-  SessionToken getSessionToken();
-  SdkAuthData getDeviceToken();
+  BusinessObject<ClientAuthData> getSessionToken();
+  BusinessObject<SdkAuthData> getDeviceToken();
 }

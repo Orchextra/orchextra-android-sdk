@@ -48,4 +48,7 @@ public class SdkAuthData {
     return projectId;
   }
 
+  public boolean isExpired() {
+    return Calendar.getInstance().getTime().after(expiresAt);
+  }
 }

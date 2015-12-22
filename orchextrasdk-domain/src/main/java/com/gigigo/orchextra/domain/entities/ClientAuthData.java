@@ -1,6 +1,5 @@
 package com.gigigo.orchextra.domain.entities;
 
-import com.gigigo.gggjavalib.general.utils.DateUtils;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -57,4 +56,7 @@ public class ClientAuthData {
     return expiresAt;
   }
 
+  public boolean isExpired() {
+    return Calendar.getInstance().getTime().after(expiresAt);
+  }
 }
