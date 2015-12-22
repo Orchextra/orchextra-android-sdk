@@ -26,9 +26,6 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
   private final ConfigInfoResultReader configInfoResultReader;
 
   public ConfigDBDataSourceImpl(Context context, ConfigInfoResultUpdater configInfoResultUpdater,
-      RealmMapper beaconRealmMapper, RealmMapper<Geofence, GeofenceRealm> geofencesRealmMapper,
-      RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
-      RealmMapper<Theme, ThemeRealm> themeRealmMapper,
       ConfigInfoResultReader configInfoResultReader) {
 
     this.context = context;
@@ -74,7 +71,7 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
 
   public Beacon obtainBeaconByUuid(String uuid){
     //TODO Manage exceptions
-   return configInfoResultReader.getBeaconByUuid(Realm.getDefaultInstance(), uuid);
+    return configInfoResultReader.getBeaconByUuid(Realm.getDefaultInstance(), uuid);
   }
 
   public Geofence obtainGeofenceById(String id){
