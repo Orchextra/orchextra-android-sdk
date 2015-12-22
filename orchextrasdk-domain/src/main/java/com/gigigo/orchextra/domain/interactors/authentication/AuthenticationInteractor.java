@@ -35,6 +35,8 @@ public class AuthenticationInteractor implements Interactor<InteractorResponse<C
 
   @Override public InteractorResponse<ClientAuthData> call() {
 
+    //separate this operation
+
     BusinessObject<SdkAuthData> sdk = authenticationDataProvider.authenticateSdk(sdkAuthCredentials);
     if (!sdk.isSuccess()){
       return new InteractorResponse<>(new SdkAuthError(sdk.getBusinessError()));
