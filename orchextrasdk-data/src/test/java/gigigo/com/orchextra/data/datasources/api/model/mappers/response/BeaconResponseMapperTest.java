@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 
-import gigigo.com.orchextra.data.datasources.api.builders.ApiBeaconBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiBeaconBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeacon;
 
 import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;

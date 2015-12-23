@@ -26,10 +26,10 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
   private final ConfigInfoResultReader configInfoResultReader;
 
   public ConfigDBDataSourceImpl(Context context, ConfigInfoResultUpdater configInfoResultUpdater,
-      RealmMapper beaconRealmMapper, RealmMapper<Geofence, GeofenceRealm> geofencesRealmMapper,
-      RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
-      RealmMapper<Theme, ThemeRealm> themeRealmMapper,
-      ConfigInfoResultReader configInfoResultReader) {
+                                RealmMapper beaconRealmMapper, RealmMapper<Geofence, GeofenceRealm> geofencesRealmMapper,
+                                RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
+                                RealmMapper<Theme, ThemeRealm> themeRealmMapper,
+                                ConfigInfoResultReader configInfoResultReader) {
 
     this.context = context;
     this.configInfoResultUpdater = configInfoResultUpdater;

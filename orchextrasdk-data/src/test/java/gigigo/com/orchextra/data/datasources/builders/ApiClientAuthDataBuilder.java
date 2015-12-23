@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.builders;
+package gigigo.com.orchextra.data.datasources.builders;
 
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthData;
 

@@ -4,7 +4,7 @@ import com.gigigo.orchextra.domain.entities.Geofence;
 
 import org.junit.Test;
 
-import gigigo.com.orchextra.data.datasources.api.builders.ApiGeofenceBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiGeofenceBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 

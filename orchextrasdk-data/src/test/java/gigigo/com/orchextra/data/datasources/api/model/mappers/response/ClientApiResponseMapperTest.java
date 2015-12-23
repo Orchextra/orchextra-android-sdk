@@ -8,8 +8,9 @@ import org.junit.Test;
 import java.util.Calendar;
 import java.util.Date;
 
-import gigigo.com.orchextra.data.datasources.api.builders.ApiClientAuthDataBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiClientAuthDataBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthData;
+import gigigo.com.orchextra.data.datasources.builders.DateBuilder;
 
 import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
 import static org.junit.Assert.assertEquals;
@@ -27,7 +28,7 @@ public class ClientApiResponseMapperTest {
 
     @Test
     public void testDataToModelOk() throws Exception {
-        Date expectedValue = SdkApiResponseMapperTest.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
+        Date expectedValue = DateBuilder.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
 
         ApiClientAuthData apiClientAuthData = ApiClientAuthDataBuilder.Builder().build();
 

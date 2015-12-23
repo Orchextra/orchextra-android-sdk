@@ -10,8 +10,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.api.builders.ApiBeaconBuilder;
-import gigigo.com.orchextra.data.datasources.api.builders.ApiGeofenceBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiBeaconBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiGeofenceBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeacon;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;

@@ -28,4 +28,6 @@ public class VuforiaResponseMapperTest {
         assertEquals("ServerAccessKey", vuforia.getServerAccessKey());
         assertEquals("ServerSecretKey", vuforia.getServerSecretKey());
     }
+
+
 }

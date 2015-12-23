@@ -1,10 +1,12 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.network.mappers.MapperUtils;
-import gigigo.com.orchextra.data.datasources.db.model.KeyWordRealm;
-import io.realm.RealmList;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import gigigo.com.orchextra.data.datasources.db.model.KeyWordRealm;
+import io.realm.RealmList;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -24,7 +26,7 @@ public class KeyWordRealmMapper implements RealmMapper<String, KeyWordRealm>{
   public RealmList<KeyWordRealm> stringKeyWordsToRealmList(List<String> keywords) {
 
     RealmList<KeyWordRealm> keyWordRealms = new RealmList<>();
-    if (keyWordRealms == null ){
+    if (keywords == null ){
       return keyWordRealms;
     }
 

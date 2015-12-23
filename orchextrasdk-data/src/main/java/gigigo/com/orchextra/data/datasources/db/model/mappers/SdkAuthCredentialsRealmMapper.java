@@ -12,8 +12,8 @@ public class SdkAuthCredentialsRealmMapper
 
   @Override public SdkAuthCredentialsRealm modelToData(SdkAuthCredentials credentials) {
     SdkAuthCredentialsRealm sdkAuthCredentialsRealm = new SdkAuthCredentialsRealm();
-    sdkAuthCredentialsRealm.setApiKey(sdkAuthCredentialsRealm.getApiSecret());
-    sdkAuthCredentialsRealm.setApiSecret(sdkAuthCredentialsRealm.getApiSecret());
+    sdkAuthCredentialsRealm.setApiKey(credentials.getApiKey());
+    sdkAuthCredentialsRealm.setApiSecret(credentials.getApiSecret());
     return sdkAuthCredentialsRealm;
   }
 

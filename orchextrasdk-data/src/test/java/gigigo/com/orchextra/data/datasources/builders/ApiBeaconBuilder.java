@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.builders;
+package gigigo.com.orchextra.data.datasources.builders;
 
 import java.util.ArrayList;
 import java.util.List;

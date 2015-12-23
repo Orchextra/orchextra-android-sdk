@@ -2,15 +2,15 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiResponseMapper;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import gigigo.com.orchextra.data.datasources.api.builders.ApiSdkAuthDataBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiSdkAuthDataBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthData;
+import gigigo.com.orchextra.data.datasources.builders.DateBuilder;
 
 import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
 import static org.junit.Assert.assertEquals;
@@ -18,12 +18,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class SdkApiResponseMapperTest {
-
-    public static Date getCalendar(int year, int month, int day, int hour, int minute, int second) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day, hour, minute, second);
-        return calendar.getTime();
-    }
 
     private SdkApiResponseMapper mapper;
 
@@ -34,7 +28,7 @@ public class SdkApiResponseMapperTest {
 
     @Test
     public void testDataToModelOk() throws Exception {
-        Date expectedDate = getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
+        Date expectedDate = DateBuilder.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
 
         ApiSdkAuthData apiSdkAuthData = ApiSdkAuthDataBuilder.Builder().build();
 
