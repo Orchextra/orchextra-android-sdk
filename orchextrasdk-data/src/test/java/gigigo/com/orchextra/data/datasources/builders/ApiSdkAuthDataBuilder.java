@@ -7,6 +7,7 @@ public class ApiSdkAuthDataBuilder {
     public static final String VALUE = "Test Value";
     public static final int EXPIRES_IN = 3000;
     public static final String PROJECT_ID = "1234";
+    public static final String DATE = "2013-09-29T18:46:19Z";
 
     private String value = VALUE;
 

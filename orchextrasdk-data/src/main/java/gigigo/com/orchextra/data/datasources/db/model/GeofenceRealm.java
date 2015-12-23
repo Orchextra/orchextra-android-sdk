@@ -3,7 +3,6 @@ package gigigo.com.orchextra.data.datasources.db.model;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Required;
-import java.util.List;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -22,9 +21,9 @@ public class GeofenceRealm extends RealmObject {
   private String type;
   private String createdAt;
   private String updatedAt;
-  private Boolean notifyOnExit;
-  private Boolean notifyOnEntry;
-  private Integer stayTime;
+  private boolean notifyOnExit;
+  private boolean notifyOnEntry;
+  private int stayTime;
 
   public RealmPoint getPoint() {
     return point;
@@ -98,27 +97,27 @@ public class GeofenceRealm extends RealmObject {
     this.updatedAt = updatedAt;
   }
 
-  public Boolean getNotifyOnExit() {
+  public boolean getNotifyOnExit() {
     return notifyOnExit;
   }
 
-  public void setNotifyOnExit(Boolean notifyOnExit) {
+  public void setNotifyOnExit(boolean notifyOnExit) {
     this.notifyOnExit = notifyOnExit;
   }
 
-  public Boolean getNotifyOnEntry() {
+  public boolean getNotifyOnEntry() {
     return notifyOnEntry;
   }
 
-  public void setNotifyOnEntry(Boolean notifyOnEntry) {
+  public void setNotifyOnEntry(boolean notifyOnEntry) {
     this.notifyOnEntry = notifyOnEntry;
   }
 
-  public Integer getStayTime() {
+  public int getStayTime() {
     return stayTime;
   }
 
-  public void setStayTime(Integer stayTime) {
+  public void setStayTime(int stayTime) {
     this.stayTime = stayTime;
   }
 }

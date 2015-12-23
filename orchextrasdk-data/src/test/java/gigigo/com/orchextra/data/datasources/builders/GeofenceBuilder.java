@@ -15,12 +15,16 @@ public class GeofenceBuilder {
     public static final int RADIUS = 30;
     public static final String ID = "1234";
     public static final String CODE = "999";
-    public static final String NAME = "geofence";
+    public static final String NAME = "GEOFENCE";
     public static final ProximityPointType TYPE = ProximityPointType.GEOFENCE;
     public static final int STAY = 3000;
     public static final Date CREATED = DateBuilder.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
     public static final Date UPDATED = DateBuilder.getCalendar(2014, Calendar.SEPTEMBER, 29, 18, 46, 19);
     public static final String TAG_NAME = "tagName";
+
+    public static final String CREATEDS = "2013-09-29T18:46:19Z";
+    public static final String UPDATEDS = "2014-09-29T18:46:19Z";
+
 
     private Point point = POINT;
     private int radius = RADIUS;
