@@ -15,9 +15,6 @@ public class ApiSdkAuthData {
   @Expose @SerializedName("expiresIn")
   private int expiresIn;
 
-  @Expose @SerializedName("expiresAt")
-  private String expiresAt;
-
   @Expose @SerializedName("projectId")
   private String projectId;
 
@@ -35,14 +32,6 @@ public class ApiSdkAuthData {
 
   public void setExpiresIn(int expiresIn) {
     this.expiresIn = expiresIn;
-  }
-
-  public String getExpiresAt() {
-    return expiresAt;
-  }
-
-  public void setExpiresAt(String expiresAt) {
-    this.expiresAt = expiresAt;
   }
 
   public String getProjectId() {

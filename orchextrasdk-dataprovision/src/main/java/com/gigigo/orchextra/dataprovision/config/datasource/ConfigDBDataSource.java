@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.dataprovision.config.datasource;
 
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.entities.Beacon;
 import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
@@ -10,7 +11,7 @@ import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
  */
 public interface ConfigDBDataSource {
   boolean saveConfigData(ConfigInfoResult config);
-  ConfigInfoResult obtainConfigData();
+  BusinessObject<ConfigInfoResult> obtainConfigData();
   Geofence obtainGeofenceById(String uuid);
   Beacon obtainBeaconByUuid(String uuid);
 }

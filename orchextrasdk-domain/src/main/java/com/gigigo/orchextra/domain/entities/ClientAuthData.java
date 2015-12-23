@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.entities;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -8,49 +9,54 @@ import java.util.Date;
  */
 public class ClientAuthData {
 
-  private String projectId;
-  private String userId;
-  private String value;
-  private int expiresIn;
-  private Date expiresAt;
+  private final String projectId;
+  private final String userId;
+  private final String value;
+  private final int expiresIn;
+  private final Date expiresAt;
+
+  public ClientAuthData(String projectId, String userId, String value, int expiresIn) {
+    this.projectId = projectId;
+    this.userId = userId;
+    this.value = value;
+    this.expiresIn = expiresIn;
+    this.expiresAt = calculateExpireTime(expiresIn);
+  }
+
+  public ClientAuthData(String projectId, String userId, String value, int expiresIn,
+      Date expiresAt) {
+    this.projectId = projectId;
+    this.userId = userId;
+    this.value = value;
+    this.expiresIn = expiresIn;
+    this.expiresAt = expiresAt;
+  }
+
+  private Date calculateExpireTime(int expiresIn) {
+    return new Date(Calendar.getInstance().getTimeInMillis()+expiresIn);
+  }
 
   public String getProjectId() {
     return projectId;
-  }
-
-  public void setProjectId(String projectId) {
-    this.projectId = projectId;
   }
 
   public String getUserId() {
     return userId;
   }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
   public String getValue() {
     return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
   }
 
   public int getExpiresIn() {
     return expiresIn;
   }
 
-  public void setExpiresIn(int expiresIn) {
-    this.expiresIn = expiresIn;
-  }
-
   public Date getExpiresAt() {
     return expiresAt;
   }
 
-  public void setExpiresAt(Date expiresAt) {
-    this.expiresAt = expiresAt;
+  public boolean isExpired() {
+    return Calendar.getInstance().getTime().after(expiresAt);
   }
 }
