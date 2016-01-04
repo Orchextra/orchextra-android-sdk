@@ -4,7 +4,7 @@ import com.gigigo.orchextra.domain.entities.NotificationPush;
 
 import org.junit.Test;
 
-import gigigo.com.orchextra.data.datasources.api.model.resquests.ApiNotificationPush;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiNotificationPush;
 
 import static org.junit.Assert.assertEquals;
 

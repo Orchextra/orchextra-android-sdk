@@ -6,7 +6,7 @@ import com.gigigo.orchextra.domain.entities.Point;
 import org.junit.Test;
 
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.ApiGeoLocation;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiGeoLocation;
 
 import static org.junit.Assert.assertEquals;
 

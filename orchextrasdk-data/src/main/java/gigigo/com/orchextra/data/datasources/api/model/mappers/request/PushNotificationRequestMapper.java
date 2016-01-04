@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
 import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.orchextra.domain.entities.NotificationPush;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.ApiNotificationPush;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiNotificationPush;
 
 /**
  * Created by Sergio Martinez Rodriguez

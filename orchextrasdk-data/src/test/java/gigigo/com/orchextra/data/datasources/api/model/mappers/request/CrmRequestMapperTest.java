@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.api.model.resquests.ApiCrm;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrm;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.model.resquests;
+package gigigo.com.orchextra.data.datasources.api.model.requests;
 
 import com.gigigo.orchextra.domain.entities.Credentials;
 import com.google.gson.annotations.Expose;

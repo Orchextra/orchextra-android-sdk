@@ -4,8 +4,8 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionRespon
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthResponse;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.OrchextraApiAuthRequest;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.OrchextraApiConfigRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiAuthRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
 import java.util.Map;
 import retrofit.Call;
 import retrofit.http.Body;

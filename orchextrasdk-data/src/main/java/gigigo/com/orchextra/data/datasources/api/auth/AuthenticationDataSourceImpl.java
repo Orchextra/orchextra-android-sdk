@@ -8,10 +8,10 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.Authenticati
 import com.gigigo.orchextra.domain.entities.Credentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.GrantType;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.OrchextraApiAuthRequest;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.OrchextraApiClientAuthRequest;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.OrchextraApiSdkAuthRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.GrantType;
+import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiAuthRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiClientAuthRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiSdkAuthRequest;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import javax.inject.Provider;
 

@@ -1,4 +1,4 @@
-package gigigo.com.orchextra.data.datasources.api.model.resquests;
+package gigigo.com.orchextra.data.datasources.api.model.requests;
 
 /**
  * Created by Sergio Martinez Rodriguez

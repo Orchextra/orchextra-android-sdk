@@ -4,7 +4,7 @@ import com.gigigo.orchextra.domain.entities.App;
 
 import org.junit.Test;
 
-import gigigo.com.orchextra.data.datasources.api.model.resquests.ApiApp;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiApp;
 
 import static org.junit.Assert.assertEquals;
 

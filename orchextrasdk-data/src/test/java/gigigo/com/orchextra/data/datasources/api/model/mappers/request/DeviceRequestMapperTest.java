@@ -4,7 +4,7 @@ import com.gigigo.orchextra.domain.entities.Device;
 
 import org.junit.Test;
 
-import gigigo.com.orchextra.data.datasources.api.model.resquests.ApiDevice;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiDevice;
 
 import static org.junit.Assert.assertEquals;
 

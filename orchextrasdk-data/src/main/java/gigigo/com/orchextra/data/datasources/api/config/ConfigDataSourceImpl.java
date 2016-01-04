@@ -9,7 +9,7 @@ import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.domain.entities.config.Config;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.OrchextraApiConfigRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import javax.inject.Provider;
 

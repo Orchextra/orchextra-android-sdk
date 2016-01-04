@@ -4,7 +4,7 @@ import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.orchextra.domain.entities.Crm;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.ApiCrm;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrm;
 
 /**
  * Created by Sergio Martinez Rodriguez

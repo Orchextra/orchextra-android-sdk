@@ -3,7 +3,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 import com.gigigo.ggglib.network.mappers.MapperUtils;
 import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.orchextra.domain.entities.config.Config;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.OrchextraApiConfigRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
 
 /**
  * Created by Sergio Martinez Rodriguez

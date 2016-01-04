@@ -4,7 +4,7 @@ import com.gigigo.ggglib.network.mappers.MapperUtils;
 import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.orchextra.domain.entities.GeoLocation;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
-import gigigo.com.orchextra.data.datasources.api.model.resquests.ApiGeoLocation;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiGeoLocation;
 
 /**
  * Created by Sergio Martinez Rodriguez
