@@ -13,7 +13,7 @@ public class RealmPointMapperTest {
 
 
     @Test
-    public void should_map_model_to_data() throws Exception {
+    public void shouldMapModelToData() throws Exception {
         Point point = PointBuilder.Builder().build();
 
         RealmPointMapper mapper = new RealmPointMapper();
@@ -24,7 +24,7 @@ public class RealmPointMapperTest {
     }
 
     @Test
-    public void should_map_data_to_model() throws Exception {
+    public void shouldMapDataToModel() throws Exception {
         RealmPoint realmPoint = new RealmPoint();
         realmPoint.setLat(PointBuilder.LAT);
         realmPoint.setLng(PointBuilder.LNG);

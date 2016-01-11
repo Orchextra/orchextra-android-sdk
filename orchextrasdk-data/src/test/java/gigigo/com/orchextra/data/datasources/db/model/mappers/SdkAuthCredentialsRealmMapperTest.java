@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class SdkAuthCredentialsRealmMapperTest {
 
     @Test
-    public void should_map_model_to_data() throws Exception {
+    public void shouldMapModelToData() throws Exception {
         SdkAuthCredentials sdkAuthCredentials = SdkAuthCredentialsBuilder.Builder().build();
 
         SdkAuthCredentialsRealmMapper mapper = new SdkAuthCredentialsRealmMapper();
@@ -23,7 +23,7 @@ public class SdkAuthCredentialsRealmMapperTest {
     }
 
     @Test
-    public void should_map_data_to_model() throws Exception {
+    public void shouldMapDataToModel() throws Exception {
         SdkAuthCredentialsRealm sdkAuthCredentialsRealm = new SdkAuthCredentialsRealm();
         sdkAuthCredentialsRealm.setApiKey(SdkAuthCredentialsBuilder.KEY);
         sdkAuthCredentialsRealm.setApiSecret(SdkAuthCredentialsBuilder.SECRET);

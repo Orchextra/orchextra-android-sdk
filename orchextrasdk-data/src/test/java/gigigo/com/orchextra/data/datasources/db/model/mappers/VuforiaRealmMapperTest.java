@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class VuforiaRealmMapperTest {
 
     @Test
-    public void should_map_model_to_data() throws Exception {
+    public void shouldMapModelToData() throws Exception {
         Vuforia vuforia = VuforiaBuilder.Builder().build();
 
         VuforiaRealmMapper mapper = new VuforiaRealmMapper();
@@ -26,7 +26,7 @@ public class VuforiaRealmMapperTest {
     }
 
     @Test
-    public void should_map_data_to_model() throws Exception {
+    public void shouldMapDataToModel() throws Exception {
         VuforiaRealm vuforiaRealm = new VuforiaRealm();
         vuforiaRealm.setClientAccessKey(VuforiaBuilder.ACCESS_KEY);
         vuforiaRealm.setClientSecretKey(VuforiaBuilder.SECRET_KEY);

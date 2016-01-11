@@ -28,7 +28,7 @@ public class SdkAuthReamlMapperTest {
     }
 
     @Test
-    public void should_map_model_to_data() throws Exception {
+    public void shouldMapModelToData() throws Exception {
         SdkAuthData sdkAuthData = SdkAuthDataBuilder.Builder().build();
 
         SdkAuthRealm sdkAuthRealm = mapper.modelToData(sdkAuthData);
@@ -43,7 +43,7 @@ public class SdkAuthReamlMapperTest {
     }
 
     @Test
-    public void should_map_data_to_model() throws Exception {
+    public void shouldMapDataToModel() throws Exception {
         Date expectedDate = new Date(System.currentTimeMillis() + ApiSdkAuthDataBuilder.EXPIRES_IN);
 
         SdkAuthRealm sdkAuthRealm = new SdkAuthRealm();

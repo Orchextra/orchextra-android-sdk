@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class ThemeRealmMapperTest {
 
     @Test
-    public void should_map_model_to_data() throws Exception {
+    public void shouldMapModelToData() throws Exception {
         Theme theme = ThemeBuilder.Builder().builder();
 
         ThemeRealmMapper mapper = new ThemeRealmMapper();
@@ -23,7 +23,7 @@ public class ThemeRealmMapperTest {
     }
 
     @Test
-    public void should_map_data_to_model() throws Exception {
+    public void shouldMapDataToModel() throws Exception {
         ThemeRealm themeRealm = new ThemeRealm();
         themeRealm.setPrimaryColor(ThemeBuilder.PRIMARY_COLOR);
         themeRealm.setSecondaryColor(ThemeBuilder.SECONDARY_COLOR);
