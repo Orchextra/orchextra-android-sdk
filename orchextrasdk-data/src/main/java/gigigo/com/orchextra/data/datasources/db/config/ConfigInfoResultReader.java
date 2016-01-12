@@ -5,6 +5,10 @@ import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.Theme;
 import com.gigigo.orchextra.domain.entities.Vuforia;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
@@ -14,8 +18,6 @@ import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmMapper;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -90,7 +92,7 @@ public class ConfigInfoResultReader {
     return geofencesRealmMapper.dataToModel(geofenceRealm);
   }
 
-  public List<Beacon> readAllRealmBeacons(Realm realm) {
+  public List<Beacon> getAllBeacons(Realm realm) {
     RealmResults<BeaconRealm> beaconRealms = realm.where(BeaconRealm.class).findAll();
     List<Beacon> beacons = new ArrayList<>();
     for (BeaconRealm beaconRealm : beaconRealms){
@@ -99,7 +101,7 @@ public class ConfigInfoResultReader {
     return beacons;
   }
 
-  private List<Geofence> readAllRealmGeofences(Realm realm) {
+  public List<Geofence> getAllGeofences(Realm realm) {
     RealmResults<GeofenceRealm> geofencesRealm = realm.where(GeofenceRealm.class).findAll();
     List<Geofence> geofences = new ArrayList<>();
     for (GeofenceRealm geofenceRealm : geofencesRealm){
@@ -108,7 +110,7 @@ public class ConfigInfoResultReader {
     return geofences;
   }
 
-  private Theme readRealmTheme(Realm realm) {
+  public Theme getTheme(Realm realm) {
     RealmResults<ThemeRealm> themeRealm = realm.where(ThemeRealm.class).findAll();
     return themeRealmMapper.dataToModel(themeRealm.get(0));
   }
@@ -123,9 +125,9 @@ public class ConfigInfoResultReader {
   public ConfigInfoResult readConfigInfo(Realm realm) {
 
     Vuforia vuforia = readRealmVuforia(realm);
-    Theme theme = readRealmTheme(realm);
-    List<Geofence> geofences = readAllRealmGeofences(realm);
-    List<Beacon> beacons = readAllRealmBeacons(realm);
+    Theme theme = getTheme(realm);
+    List<Geofence> geofences = getAllGeofences(realm);
+    List<Beacon> beacons = getAllBeacons(realm);
 
     //TODO review 0 value for waitResponse
     return new ConfigInfoResult.ConfigInfoResultBuilder(geofences,

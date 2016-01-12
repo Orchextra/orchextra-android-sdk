@@ -44,7 +44,7 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
   @Override public void authenticationException() {}
 
   public static void authenticate (String apiKey, String apiSecret){
-    getInstace().authenticateTask(apiKey, apiSecret);
+    getInstance().authenticateTask(apiKey, apiSecret);
   }
 
   private void authenticateTask(String apiKey, String apiSecret) {
@@ -52,7 +52,7 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
     authenticationController.authenticate(apiKey, apiSecret);
   }
 
-  private static AuthenticationDelegateImpl getInstace(){
+  private static AuthenticationDelegateImpl getInstance(){
     if ( me != null ){
       return me;
     }else{

@@ -1,19 +1,19 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import android.content.Context;
+
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
+import com.gigigo.orchextra.domain.business.model.BusinessErrorConstantException;
 import com.gigigo.orchextra.domain.entities.Beacon;
 import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Theme;
-import com.gigigo.orchextra.domain.entities.Vuforia;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+
+import java.util.List;
+
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
-import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
-import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
-import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmMapper;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
 
@@ -74,6 +74,28 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
   public Beacon obtainBeaconByUuid(String uuid){
     //TODO Manage exceptions
     return configInfoResultReader.getBeaconByUuid(Realm.getDefaultInstance(), uuid);
+  }
+
+  @Override
+  public BusinessObject<List<Geofence>> obtainGeofences() {
+    Realm realm = Realm.getDefaultInstance();
+    try {
+      List<Geofence> geofenceList = configInfoResultReader.getAllGeofences(realm);
+
+      geofenceList = (List<Geofence>) ConsistencyUtils.checkNotEmpty(geofenceList);
+
+      return new BusinessObject<>(geofenceList, BusinessError.createOKInstance());
+
+    } catch (NotFountRealmObjectException | RealmException re) {
+      return new BusinessObject<>(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
+
+    } catch (NullPointerException | IllegalArgumentException ex) {
+      return new BusinessObject<>(null, new BusinessError(
+              BusinessErrorConstantException.EXCEPTION_EMPTY_DATABASE_ERROR_CODE,
+              ex.getMessage()));
+    } finally {
+      realm.close();
+    }
   }
 
   public Geofence obtainGeofenceById(String id){

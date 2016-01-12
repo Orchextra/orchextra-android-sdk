@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.di.injector;
 
 import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
+import com.gigigo.orchextra.delegates.proximity.ProximityItemDelegateImp;
 import com.gigigo.orchextra.di.components.DaggerDelegateComponent;
 import com.gigigo.orchextra.di.components.DelegateComponent;
 import com.gigigo.orchextra.delegates.FakeDelegate;
@@ -32,4 +33,11 @@ public class InjectorImpl implements Injector{
     return delegateComponent;
   }
 
+  public DelegateComponent injectProximityItemDelegate(ProximityItemDelegateImp proximityItemDelegateImp) {
+    DelegateComponent delegateComponent = DaggerDelegateComponent.builder().
+            orchextraComponent(orchextraComponent).build();
+    delegateComponent.injectProximityItemDelegate(proximityItemDelegateImp);
+    return delegateComponent;
+    return null;
+  }
 }
