@@ -68,4 +68,12 @@ public class KeyWordRealmMapperTest {
         assertEquals("keyword1", stringList.get(0));
         assertEquals("keyword2", stringList.get(1));
     }
+
+    @Test
+    public void shouldReturnRealmKeyWordsWhenKeyWordRealmsIsNull() throws Exception {
+        KeyWordRealmMapper mapper = new KeyWordRealmMapper();
+        List<String> keywords = mapper.realmKeyWordsToStringList(null);
+
+        assertEquals(0, keywords.size());
+    }
 }

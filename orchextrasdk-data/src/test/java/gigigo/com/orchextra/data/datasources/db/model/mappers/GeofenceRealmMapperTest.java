@@ -1,26 +1,54 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.Point;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import gigigo.com.orchextra.data.datasources.builders.GeofenceBuilder;
 import gigigo.com.orchextra.data.datasources.builders.GeofenceRealmBuilder;
 import gigigo.com.orchextra.data.datasources.builders.PointBuilder;
 import gigigo.com.orchextra.data.datasources.builders.PointRealmBuilder;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
+import gigigo.com.orchextra.data.datasources.db.model.KeyWordRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
+import io.realm.RealmList;
 
 import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GeofenceRealmMapperTest {
+
+    @Mock RealmPointMapper realmPointMapper;
+
+    @Mock KeyWordRealmMapper keyWordRealmMapper;
 
     @Test
     public void shouldMapModelToData() throws Exception {
         Geofence geofence = GeofenceBuilder.Builder().build();
 
-        GeofenceRealmMapper mapper = new GeofenceRealmMapper(new RealmPointMapper(), new KeyWordRealmMapper());
+        RealmPoint realmPoint = new RealmPoint();
+        realmPoint.setLat(PointBuilder.LAT);
+        realmPoint.setLng(PointBuilder.LNG);
+        when(realmPointMapper.modelToData(any(Point.class))).thenReturn(realmPoint);
+
+        RealmList<KeyWordRealm> keyWordRealmList = new RealmList<>();
+        KeyWordRealm keyWordRealm = new KeyWordRealm();
+        keyWordRealm.setKeyword(GeofenceBuilder.TAG_NAME);
+        keyWordRealmList.add(keyWordRealm);
+        when(keyWordRealmMapper.stringKeyWordsToRealmList(geofence.getTags())).thenReturn(keyWordRealmList);
+
+        GeofenceRealmMapper mapper = new GeofenceRealmMapper(realmPointMapper, keyWordRealmMapper);
         GeofenceRealm geofenceRealm = mapper.modelToData(geofence);
 
         assertEquals(PointBuilder.LAT, geofenceRealm.getPoint().getLat(), 0.0001);
@@ -41,7 +69,16 @@ public class GeofenceRealmMapperTest {
     public void shouldMapDataToModel() throws Exception {
         GeofenceRealm geofenceRealm = GeofenceRealmBuilder.Builder().build();
 
-        GeofenceRealmMapper mapper = new GeofenceRealmMapper(new RealmPointMapper(), new KeyWordRealmMapper());
+        Point realmPoint = new Point();
+        realmPoint.setLat(PointRealmBuilder.LAT);
+        realmPoint.setLng(PointRealmBuilder.LNG);
+        when(realmPointMapper.dataToModel(any(RealmPoint.class))).thenReturn(realmPoint);
+
+        List<String> keyWordList = new ArrayList<>();
+        keyWordList.add(GeofenceRealmBuilder.TAG_NAME);
+        when(keyWordRealmMapper.realmKeyWordsToStringList(geofenceRealm.getTags())).thenReturn(keyWordList);
+
+        GeofenceRealmMapper mapper = new GeofenceRealmMapper(realmPointMapper, keyWordRealmMapper);
         Geofence geofence = mapper.dataToModel(geofenceRealm);
 
         assertEquals(PointRealmBuilder.LAT, geofence.getPoint().getLat(), 0.0001);
