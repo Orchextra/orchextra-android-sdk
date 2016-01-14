@@ -63,3 +63,6 @@ private OrchextraStartCompletionCallback orchextraCallback = new OrchextraStartC
 };
 ```
 
+[releases]: https://github.com/Orchextra/orchextra-android-sdk/releases
+[dashboard]: https://dashboard.orchextra.io/home/
+
