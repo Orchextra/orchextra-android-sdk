@@ -54,10 +54,12 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
             return;
         }
 
+        LocationServices.GeofencingApi.removeGeofences(client, geofencePendingIntentCreator.getGeofencingPendingIntent());
+
         LocationServices.GeofencingApi.addGeofences(
                 client, geofencingRequest,
                 geofencePendingIntentCreator.getGeofencingPendingIntent()
-        ).setResultCallback(this); // Result processed in onResult().
+        ).setResultCallback(this);
     }
 
     @Override

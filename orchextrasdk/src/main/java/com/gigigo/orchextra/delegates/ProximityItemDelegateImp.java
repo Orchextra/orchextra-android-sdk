@@ -79,7 +79,7 @@ public class ProximityItemDelegateImp implements ProximityItemDelegate {
             Point triggeringPoint = locationMapper.delegateToModel(triggeringLocation);
             PhoneStatusType phoneStatusType = Orchextra.getOchextraLifeCycle().getPhoneStatusType();
 
-            controller.processTriggerGeofences(triggerGeofenceIds, triggeringPoint, phoneStatusType, distance, geofencingTransition);
+            controller.processTriggers(triggerGeofenceIds, triggeringPoint, phoneStatusType, distance, geofencingTransition);
         }
     }
 }
