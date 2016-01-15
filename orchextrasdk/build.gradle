@@ -64,6 +64,8 @@ dependencies {
   compile parent.ext.dependencies.threaddecoratedview
   apt parent.ext.dependencies.threaddecoratedviewcompiler
 
+  compile parent.ext.dependencies.playServicesLocation
+
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')
   compile project(':ggglib')

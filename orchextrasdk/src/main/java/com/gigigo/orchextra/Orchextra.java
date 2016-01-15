@@ -1,6 +1,8 @@
 package com.gigigo.orchextra;
 
+import android.app.Application;
 import android.content.Context;
+
 import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.delegates.FakeDelegate;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
@@ -17,6 +19,7 @@ public class Orchextra {
   private static Context applicationContext;
   private static InjectorImpl injector;
   private static OrchextraComponent orchextraComponent;
+  private static OrchextraActivityLifecycle orchextraLifecycle;
 
   private static void initDependencyInjection() {
     orchextraComponent = DaggerOrchextraComponent.builder()
@@ -34,6 +37,8 @@ public class Orchextra {
 
     checkSdkBasicPermissions();
 
+    startLifeCycle();
+
     authenticate(apiKey, apiSecret);
 
     startSdkServices();
@@ -50,6 +55,16 @@ public class Orchextra {
 
   private static void startSdkServices() {
 
+  }
+
+  private static void startLifeCycle() {
+    Application app = (Application) applicationContext;
+    orchextraLifecycle = new OrchextraActivityLifecycle();
+    app.registerActivityLifecycleCallbacks(orchextraLifecycle);
+  }
+
+  public static OrchextraActivityLifecycle getOchextraLifeCycle() {
+    return orchextraLifecycle;
   }
 
   public static InjectorImpl getInjector() {
