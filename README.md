@@ -31,7 +31,7 @@ To use *Orchextra*, head on over to the [releases][releases] page, and download 
    ```
 
 ### Start Orchextra SDK
-Edit or crate and Application class (**android.app.Application**) for your project, then add the following code inside:
+Edit or create an Application class (**android.app.Application**) for your project, then add the following code inside:
 
 ```java
 import com.gigigo.orchextra.authentication.Orchextra;
@@ -62,6 +62,62 @@ private OrchextraStartCompletionCallback orchextraCallback = new OrchextraStartC
    }
 };
 ```
+Don’t forget add the Application class to the (**AndroidManifest.xml**):
+```xml
+<application
+   android:name=".App"
+   ```
+   
+With this integration with Orchextra library your application can detect Geofences, and Beacons configured in dashboard.
+   
+If you want a custom icon for notifications Orchextra uses the "ic_launcher" icon for build notifications don't forget add your custom (**"drawable/ic_launcher"**) in order to get the default replaced by your own. Replace all the Screen Densities desired
+
+### More features Orchextra Android SDK
+
+####Customs Schemes
+You can use customScheme, for communicate trigger events from Orchextra to your application.
+A method can be defined to be executed when the event response is triggered by Orchextra
+
+```java
+...
+ Orchextra.setCustomSchemeReceiver(new CustomSchemeReceiver() {
+            @Override
+            public void onReceive(String scheme) {
+                Log.i("", "CUSTOM SCHEME-->" + scheme);
+              }
+        });
+...
+```
+
+You can set the CustomSchemeReceiver(), many times as you want and wherever you want.  
+
+####Orchextra User
+
+
+For tracking, segmentation or for more integration with your application you can add your user profiles inside Orchextra.
+The relationship is established through the "your_crm_id".
+
+```java
+...
+ Orchextra.setUser(new ORCUser("your_crm_id",
+                              new GregorianCalendar(1990,10,13),
+                              ORCUser.Gender.ORCGenderMale, 
+                              new ArrayList<>(Arrays.asList("keyword1", "keyword2"))));
+...
+```
+
+####Open Orchextra Barcode/QR Scanner
+To open Orchextra Barcode/QR Scanner from your application you need to add the next code. 
+
+```java
+...
+      Orchextra.startScannerActivity();
+...
+```
+
+
+
+
 
 [releases]: https://github.com/Orchextra/orchextra-android-sdk/releases
 [dashboard]: https://dashboard.orchextra.io/home/
