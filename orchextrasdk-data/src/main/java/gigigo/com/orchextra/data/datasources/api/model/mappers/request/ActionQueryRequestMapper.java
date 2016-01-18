@@ -35,7 +35,7 @@ public class ActionQueryRequestMapper implements RequestMapper<Trigger, Map<Stri
       query.put(EVENT_QUERY_PARAM, trigger.getGeoPointEventType().getStringValue());
     }
 
-    query.put(PHONE_STATUS_QUERY_PARAM, trigger.getPhoneStatusType().getStringValue());
+    query.put(PHONE_STATUS_QUERY_PARAM, trigger.getAppRunningModeType().getStringValue());
 
     if (trigger.getGeoDistance()>0){
       query.put(DISTANCE_QUERY_PARAM, String.valueOf(trigger.getGeoDistance()));

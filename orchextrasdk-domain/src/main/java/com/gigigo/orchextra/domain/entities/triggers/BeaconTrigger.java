@@ -14,9 +14,9 @@ public class BeaconTrigger extends Trigger {
   private final BeaconDistanceType beaconDistanceType;
   private final GeoPointEventType geoPointEventType;
 
-  public BeaconTrigger(String id, Point point, PhoneStatusType phoneStatusType,
+  public BeaconTrigger(String id, Point point, AppRunningModeType appRunningModeType,
       BeaconDistanceType beaconDistanceType, GeoPointEventType geoPointEventType) {
-    super(TriggerType.BEACON, id, point, phoneStatusType);
+    super(TriggerType.BEACON, id, point, appRunningModeType);
 
     this.beaconDistanceType = beaconDistanceType;
     this.geoPointEventType = geoPointEventType;
