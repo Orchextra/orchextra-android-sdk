@@ -1,4 +1,4 @@
-package com.gigigo.orchextra;
+package com.gigigo.orchextra.android.applifecycle;
 
 import android.app.Activity;
 

@@ -4,7 +4,7 @@ import com.gigigo.orchextra.domain.entities.Point;
 import com.gigigo.orchextra.domain.entities.triggers.BeaconDistanceType;
 import com.gigigo.orchextra.domain.entities.triggers.BeaconTrigger;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
-import com.gigigo.orchextra.domain.entities.triggers.PhoneStatusType;
+import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import com.gigigo.orchextra.domain.entities.triggers.ScanTrigger;
 import com.gigigo.orchextra.domain.entities.triggers.Trigger;
 
@@ -21,7 +21,7 @@ public class ActionQueryRequestMapperTest {
         Point point = new Point();
         point.setLat(23.45);
         point.setLng(74.32);
-        Trigger trigger = Trigger.createGeofenceTrigger("1234", point, PhoneStatusType.BACKGROUND, 300, GeoPointEventType.ENTER);
+        Trigger trigger = Trigger.createGeofenceTrigger("1234", point, AppRunningModeType.BACKGROUND, 300, GeoPointEventType.ENTER);
 
         ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
         Map<String, String> data = mapper.modelToData(trigger);
@@ -40,7 +40,7 @@ public class ActionQueryRequestMapperTest {
         point.setLat(23.45);
         point.setLng(74.32);
 
-        BeaconTrigger beaconTrigger = Trigger.createBeaconTrigger("1234", point, PhoneStatusType.FOREGROUND, BeaconDistanceType.NEAR, GeoPointEventType.EXIT);
+        BeaconTrigger beaconTrigger = Trigger.createBeaconTrigger("1234", point, AppRunningModeType.FOREGROUND, BeaconDistanceType.NEAR, GeoPointEventType.EXIT);
 
         ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
         Map<String, String> data = mapper.modelToData(beaconTrigger);

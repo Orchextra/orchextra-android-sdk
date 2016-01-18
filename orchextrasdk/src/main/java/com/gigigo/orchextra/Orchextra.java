@@ -55,4 +55,8 @@ public class Orchextra {
   public static InjectorImpl getInjector() {
     return injector;
   }
+
+  public static Context getAppContext() {
+    return applicationContext;
+  }
 }

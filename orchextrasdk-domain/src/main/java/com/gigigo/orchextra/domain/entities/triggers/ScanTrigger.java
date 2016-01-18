@@ -12,8 +12,8 @@ import com.gigigo.orchextra.domain.entities.triggers.strategy.GeoPointEventTypeB
 public class ScanTrigger extends Trigger {
 
   public ScanTrigger(TriggerType triggerType, String id, Point point,
-      PhoneStatusType phoneStatusType) {
-    super(triggerType, id, point, phoneStatusType);
+      AppRunningModeType appRunningModeType) {
+    super(triggerType, id, point, appRunningModeType);
   }
 
   @Override protected void setConcreteBehaviour() {

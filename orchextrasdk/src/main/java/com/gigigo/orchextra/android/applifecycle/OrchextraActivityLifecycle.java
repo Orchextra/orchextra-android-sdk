@@ -1,11 +1,14 @@
-package com.gigigo.orchextra;
+package com.gigigo.orchextra.android.applifecycle;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import com.gigigo.orchextra.domain.entities.triggers.PhoneStatusType;
+import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -13,11 +16,18 @@ import java.util.Stack;
  * Created by Sergio Martinez Rodriguez
  * Date 18/1/16.
  */
-public class OrchextraActivityLifecycle implements Application.ActivityLifecycleCallbacks{
+public class OrchextraActivityLifecycle implements Application.ActivityLifecycleCallbacks,
+    ContextProvider, AppRunningMode{
 
   private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
+  private final Context applicationContext;
 
-  public Activity getCurrentActivity() {
+  public OrchextraActivityLifecycle(Context applicationContext) {
+    this.applicationContext = applicationContext;
+  }
+
+  //region context provider interface
+  @Override public Activity getCurrentActivity() {
 
     Activity activity = lastForegroundActivity();
 
@@ -42,15 +52,34 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
     return null;
   }
 
-  public PhoneStatusType getPhoneStatusType(){
+  @Override public boolean isActivityContextAvailable() {
+    //this implementation gives context of pauses and stopped activities
+    return (applicationContext!=null)? true : false;
+  }
+
+  @Override public Context getApplicationContext() {
+    return Orchextra.getAppContext();
+  }
+
+  @Override public boolean isApplicationContextAvailable() {
+    return (applicationContext!=null)? true : false;
+  }
+
+  //endregion
+
+  //region running Mode interface
+
+  @Override public AppRunningModeType getRunningModeType() {
     Activity activity = lastPausedActivity();
 
     if (activity!=null){
-      return PhoneStatusType.FOREGROUND;
+      return AppRunningModeType.FOREGROUND;
     }else{
-      return PhoneStatusType.BACKGROUND;
+      return AppRunningModeType.BACKGROUND;
     }
   }
+
+  //endregion
 
   //region Activity lifecycle Management
 

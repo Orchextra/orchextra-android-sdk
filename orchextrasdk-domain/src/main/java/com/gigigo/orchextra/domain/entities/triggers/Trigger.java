@@ -18,7 +18,7 @@ public abstract class Trigger {
   //Mandatory
   private final String id;
   //Mandatory
-  private final PhoneStatusType phoneStatusType;
+  private final AppRunningModeType appRunningModeType;
 
   //Mandatory
   private final GeoPointBehaviour geoPointBehaviour;
@@ -27,28 +27,28 @@ public abstract class Trigger {
   protected BeaconDistanceTypeBehaviour beaconDistanceTypeBehaviour;
   protected GeoDistanceBehaviour geoDistanceBehaviour;
 
-  Trigger(TriggerType triggerType, String id, Point point, PhoneStatusType phoneStatusType) {
+  Trigger(TriggerType triggerType, String id, Point point, AppRunningModeType appRunningModeType) {
     this.triggerType = triggerType;
     this.id = id;
-    this.phoneStatusType = phoneStatusType;
+    this.appRunningModeType = appRunningModeType;
     this.geoPointBehaviour = new GeoPointBehaviourImpl(point);
   }
 
   protected abstract void setConcreteBehaviour();
 
   public static GeofenceTrigger createGeofenceTrigger(String id, Point point,
-      PhoneStatusType phoneStatusType, double distance, GeoPointEventType geoPointEventType){
+      AppRunningModeType appRunningModeType, double distance, GeoPointEventType geoPointEventType){
 
-    GeofenceTrigger geofenceTrigger = new GeofenceTrigger(id, point, phoneStatusType, distance, geoPointEventType);
+    GeofenceTrigger geofenceTrigger = new GeofenceTrigger(id, point, appRunningModeType, distance, geoPointEventType);
     geofenceTrigger.setConcreteBehaviour();
     return geofenceTrigger;
   }
 
   public static BeaconTrigger createBeaconTrigger(String id, Point point,
-      PhoneStatusType phoneStatusType, BeaconDistanceType beaconDistType,
+      AppRunningModeType appRunningModeType, BeaconDistanceType beaconDistType,
       GeoPointEventType geoPointEventType){
 
-    BeaconTrigger beaconTrigger = new BeaconTrigger(id, point, phoneStatusType, beaconDistType, geoPointEventType);
+    BeaconTrigger beaconTrigger = new BeaconTrigger(id, point, appRunningModeType, beaconDistType, geoPointEventType);
     beaconTrigger.setConcreteBehaviour();
     return beaconTrigger;
   }
@@ -66,7 +66,7 @@ public abstract class Trigger {
   }
 
   private static ScanTrigger createScanTrigger(String id, TriggerType scanType, Point point){
-    ScanTrigger scanTrigger = new ScanTrigger(scanType, id, point, PhoneStatusType.FOREGROUND);
+    ScanTrigger scanTrigger = new ScanTrigger(scanType, id, point, AppRunningModeType.FOREGROUND);
     scanTrigger.setConcreteBehaviour();
     return scanTrigger;
   }
@@ -83,8 +83,8 @@ public abstract class Trigger {
     return geoPointBehaviour.getPoint();
   }
 
-  public PhoneStatusType getPhoneStatusType() {
-    return phoneStatusType;
+  public AppRunningModeType getAppRunningModeType() {
+    return appRunningModeType;
   }
 
   public GeoPointEventType getGeoPointEventType() {
