@@ -1,21 +1,15 @@
 package com.gigigo.orchextra.delegates;
 
 import android.content.Intent;
-import android.location.Location;
 
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.control.controllers.proximity.ProximityItemController;
 import com.gigigo.orchextra.control.controllers.proximity.ProximityItemDelegate;
+import com.gigigo.orchextra.control.entities.ControlGeofence;
+import com.gigigo.orchextra.control.entities.ControlPoint;
 import com.gigigo.orchextra.di.components.DelegateComponent;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Point;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
-import com.gigigo.orchextra.domain.entities.triggers.PhoneStatusType;
-import com.gigigo.orchextra.modules.geofencing.GeofenceRegister;
-import com.gigigo.orchextra.modules.geofencing.pendingintent.GeofenceIntentPendingManager;
-import com.gigigo.orchextra.utils.location.LocationManager;
-import com.gigigo.orchextra.utils.mapper.LocationMapper;
-import com.google.android.gms.location.GeofencingEvent;
+import com.gigigo.orchextra.modules.geofencing.AndroidGeofenceManager;
 
 import java.util.List;
 
@@ -27,16 +21,7 @@ public class ProximityItemDelegateImp implements ProximityItemDelegate {
     ProximityItemController controller;
 
     @Inject
-    GeofenceRegister geofenceRegister;
-
-    @Inject
-    GeofenceIntentPendingManager manager;
-
-    @Inject
-    LocationManager locationManager;
-
-    @Inject
-    LocationMapper locationMapper;
+    AndroidGeofenceManager androidGeofenceManager;
 
     private DelegateComponent delegateComponent;
 
@@ -59,27 +44,18 @@ public class ProximityItemDelegateImp implements ProximityItemDelegate {
     @Override
     public void onControllerReady() {
         controller.retrieveGeofences();
-        locationManager.initClient();
     }
 
     @Override
-    public void registerGeofences(List<Geofence> geofenceList) {
-        geofenceRegister.registerGeofences(geofenceList);
+    public void registerGeofences(List<ControlGeofence> geofenceList) {
+        androidGeofenceManager.registerGeofences(geofenceList);
     }
 
     public void processGeofenceIntentPending(Intent intent) {
-        GeofencingEvent geofencingEvent = manager.getGeofencingEvent(intent);
+        List<String> geofenceIds = androidGeofenceManager.getTriggeringGeofenceIds(intent);
+        ControlPoint point = androidGeofenceManager.getTriggeringPoint(intent);
+        GeoPointEventType transition = androidGeofenceManager.getGeofenceTransition(intent);
 
-        if (!geofencingEvent.hasError()) {
-            GeoPointEventType geofencingTransition = manager.getGeofenceTransition(geofencingEvent);
-            Location triggeringLocation = manager.getTriggeringLocation(geofencingEvent);
-            List<String> triggerGeofenceIds = manager.getTriggeringGeofenceIds(geofencingEvent);
-
-            float distance = locationManager.calculateDistance(triggeringLocation);
-            Point triggeringPoint = locationMapper.delegateToModel(triggeringLocation);
-            PhoneStatusType phoneStatusType = Orchextra.getOchextraLifeCycle().getPhoneStatusType();
-
-            controller.processTriggers(triggerGeofenceIds, triggeringPoint, phoneStatusType, distance, geofencingTransition);
-        }
+        controller.processTriggers(geofenceIds, point, transition);
     }
 }

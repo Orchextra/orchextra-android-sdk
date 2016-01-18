@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.control.controllers.proximity;
 
 import com.gigigo.orchextra.control.controllers.base.Delegate;
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.control.entities.ControlGeofence;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ public interface ProximityItemDelegate extends Delegate{
     @NotDecorated
     void onControllerReady();
 
-    void registerGeofences(List<Geofence> geofenceControlList);
+    void registerGeofences(List<ControlGeofence> geofenceControlList);
 }

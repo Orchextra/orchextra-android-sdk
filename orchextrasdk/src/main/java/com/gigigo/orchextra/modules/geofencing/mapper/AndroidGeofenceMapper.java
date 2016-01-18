@@ -1,26 +1,27 @@
 package com.gigigo.orchextra.modules.geofencing.mapper;
 
-import com.gigigo.orchextra.utils.mapper.MapperModelToDelegate;
+import com.gigigo.orchextra.control.entities.ControlGeofence;
+import com.gigigo.orchextra.control.mapper.MapperModelToControl;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AndroidGeofenceMapper implements MapperModelToDelegate<List<com.gigigo.orchextra.domain.entities.Geofence>,GeofencingRequest> {
+public class AndroidGeofenceMapper implements MapperModelToControl<List<com.gigigo.orchextra.domain.entities.Geofence>,GeofencingRequest> {
 
-    public GeofencingRequest modelToDelegate(List<com.gigigo.orchextra.domain.entities.Geofence> geofencePointList) {
+    public GeofencingRequest modelToControl(List<ControlGeofence> geofencePointList) {
         List<Geofence> geofenceList = new ArrayList<>();
 
-        for (com.gigigo.orchextra.domain.entities.Geofence geofencePoint : geofencePointList) {
+        for (ControlGeofence controlGeofence : geofencePointList) {
             Geofence geofence = new Geofence.Builder()
-                    .setRequestId(geofencePoint.getCode()) // The coordinates of the center of the geofence and the radius in meters.
-                    .setCircularRegion(geofencePoint.getPoint().getLat(),
-                            geofencePoint.getPoint().getLng(),
-                            getRadius(geofencePoint.getRadius()))
+                    .setRequestId(controlGeofence.getCode()) // The coordinates of the center of the geofence and the radius in meters.
+                    .setCircularRegion(controlGeofence.getPoint().getLat(),
+                            controlGeofence.getPoint().getLng(),
+                            getRadius(controlGeofence.getRadius()))
                     .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                    .setLoiteringDelay(getStayTimeDelayMs(geofencePoint.getStayTime()))  // Required when we use the transition type of GEOFENCE_TRANSITION_DWELL
-                    .setTransitionTypes(getTransitionTypes(geofencePoint.isNotifyOnEntry(), geofencePoint.isNotifyOnExit()))
+                    .setLoiteringDelay(getStayTimeDelayMs(controlGeofence.getStayTime()))  // Required when we use the transition type of GEOFENCE_TRANSITION_DWELL
+                    .setTransitionTypes(getTransitionTypes(controlGeofence.isNotifyOnEntry(), controlGeofence.isNotifyOnExit()))
                     .build();
             geofenceList.add(geofence);
         }

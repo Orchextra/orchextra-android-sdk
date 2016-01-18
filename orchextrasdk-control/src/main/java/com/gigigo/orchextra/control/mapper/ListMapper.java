@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.utils.mapper;
+package com.gigigo.orchextra.control.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,21 +12,21 @@ public class ListMapper<M, P> implements Mapper<List<M>, List<P>> {
   }
 
 
-  @Override public List<P> modelToDelegate(List<M> models) {
+  @Override public List<P> modelToControl(List<M> models) {
     ArrayList<P> persistences = new ArrayList<>();
     if (models != null && models.size() > 0) {
       for (M model : models) {
-        persistences.add(mapper.modelToDelegate(model));
+        persistences.add(mapper.modelToControl(model));
       }
     }
     return persistences;
   }
 
-  @Override public List<M> delegateToModel(List<P> delegate) {
+  @Override public List<M> controlToModel(List<P> control) {
     ArrayList<M> models = new ArrayList<>();
-    if (delegate != null && delegate.size() > 0) {
-      for (P persistence : delegate) {
-        models.add(mapper.delegateToModel(persistence));
+    if (control != null && control.size() > 0) {
+      for (P persistence : control) {
+        models.add(mapper.controlToModel(persistence));
       }
     }
     return models;

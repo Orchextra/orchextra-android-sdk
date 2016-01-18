@@ -37,7 +37,7 @@ public class AndroidGeofenceMapperTest {
                 .setCode("Asxe")
                 .build());
 
-        GeofencingRequest geofencingRequest = mapper.modelToDelegate(geofenceList);
+        GeofencingRequest geofencingRequest = mapper.modelToControl(geofenceList);
 
         assertThat(geofenceList.size(), is(geofencingRequest.getGeofences().size()));
         assertThat(geofenceList.get(0).getCode(), is(geofencingRequest.getGeofences().get(0).getRequestId()));

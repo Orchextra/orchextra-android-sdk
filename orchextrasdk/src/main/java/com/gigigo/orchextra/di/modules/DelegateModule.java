@@ -5,6 +5,7 @@ import com.gigigo.orchextra.control.controllers.proximity.ProximityItemControlle
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
 import com.gigigo.orchextra.di.scopes.PerDelegate;
+import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofencesFromDatabaseInteractor;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
@@ -32,9 +33,10 @@ public class DelegateModule {
     ProximityItemController provideProximityItemController(
             @BackThread ThreadSpec backThreadSpec,
             InteractorInvoker interactorInvoker,
-            RetrieveGeofencesFromDatabaseInteractor retrieveGeofencesInteractor
+            RetrieveGeofencesFromDatabaseInteractor retrieveGeofencesInteractor,
+            GetActionInteractor getActionInteractor
             ) {
-        return new ProximityItemController(backThreadSpec, interactorInvoker, retrieveGeofencesInteractor);
+        return new ProximityItemController(backThreadSpec, interactorInvoker, retrieveGeofencesInteractor, getActionInteractor);
     }
 
   @PerDelegate @Provides @BackThread ThreadSpec provideBackThread(){
