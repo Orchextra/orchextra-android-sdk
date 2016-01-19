@@ -13,11 +13,10 @@ import com.gigigo.orchextra.domain.entities.Point;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
-import com.gigigo.orchextra.domain.entities.triggers.GeofenceTrigger;
 import com.gigigo.orchextra.domain.entities.triggers.Trigger;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
-import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceDistanceInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofencesFromDatabaseInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveProximityItemError;
 
@@ -32,21 +31,21 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
     private final GetActionInteractor getActionInteractor;
     private final ListMapper<Geofence, ControlGeofence> controlGeofenceListMapper;
     private final Mapper<Point, ControlPoint> controlPointMapper;
-    private final RetrieveGeofenceDistanceInteractor retrieveGeofenceDistanceInteractor;
+    private final RetrieveGeofenceTriggerInteractor retrieveGeofenceTriggerInteractor;
 
     public ProximityItemController(ThreadSpec mainThreadSpec, InteractorInvoker interactorInvoker,
                                    RetrieveGeofencesFromDatabaseInteractor retrieveGeofencesInteractor,
                                    GetActionInteractor getActionInteractor,
                                    ListMapper<Geofence, ControlGeofence> controlGeofenceListMapper,
                                    Mapper<Point, ControlPoint> controlPointMapper,
-                                   RetrieveGeofenceDistanceInteractor retrieveGeofenceDistanceInteractor) {
+                                   RetrieveGeofenceTriggerInteractor retrieveGeofenceTriggerInteractor) {
         super(mainThreadSpec);
         this.interactorInvoker = interactorInvoker;
         this.retrieveGeofencesInteractor = retrieveGeofencesInteractor;
         this.getActionInteractor = getActionInteractor;
         this.controlGeofenceListMapper = controlGeofenceListMapper;
         this.controlPointMapper = controlPointMapper;
-        this.retrieveGeofenceDistanceInteractor = retrieveGeofenceDistanceInteractor;
+        this.retrieveGeofenceTriggerInteractor = retrieveGeofenceTriggerInteractor;
     }
 
     @Override
@@ -89,30 +88,29 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
                                 final GeoPointEventType geofenceTransition, final AppRunningModeType runningModeType) {
         final Point triggeringPoint = controlPointMapper.controlToModel(triggeringControlPoint);
 
-        retrieveGeofenceDistanceInteractor.setTriggeringPoint(triggeringPoint);
+        retrieveGeofenceTriggerInteractor.setTriggeringGeofenceIds(triggeringGeofenceIds);
+        retrieveGeofenceTriggerInteractor.setTriggeringPoint(triggeringPoint);
+        retrieveGeofenceTriggerInteractor.setGeofenceTransition(geofenceTransition);
 
-        for (final String triggeringGeofenceId : triggeringGeofenceIds) {
-            executeGeofenceDistanceInteractor(geofenceTransition, runningModeType, triggeringPoint, triggeringGeofenceId);
+        new InteractorExecution<>(retrieveGeofenceTriggerInteractor)
+                .result(new InteractorResult<List<Trigger>>() {
+                    @Override
+                    public void onResult(List<Trigger> triggers) {
+                        executeActions(triggers);
+                    }
+                })
+                .execute(interactorInvoker);
+    }
+
+    private void executeActions(List<Trigger> triggers) {
+        for (Trigger trigger : triggers) {
+            executeAction(trigger);
         }
     }
 
-    public void executeGeofenceDistanceInteractor(final GeoPointEventType geofenceTransition, final AppRunningModeType runningModeType, final Point triggeringPoint, final String triggeringGeofenceId) {
-        retrieveGeofenceDistanceInteractor.setGeofenceId(triggeringGeofenceId);
+    private void executeAction(Trigger trigger) {
+        getActionInteractor.setActionCriteria(trigger);
 
-        new InteractorExecution<>(retrieveGeofenceDistanceInteractor)
-                .result(new InteractorResult<Double>() {
-                    @Override
-                    public void onResult(Double distance) {
-                        processTriger(triggeringGeofenceId, triggeringPoint, distance, geofenceTransition, runningModeType);
-                    }
-                }).execute(interactorInvoker);
-    }
-
-    private void processTriger(String triggeringGeofenceId, Point triggeringPoint, Double distance,
-                               GeoPointEventType geofenceTransition, AppRunningModeType runningModeType) {
-        GeofenceTrigger geofenceTrigger = Trigger.createGeofenceTrigger(triggeringGeofenceId, triggeringPoint, runningModeType, distance, geofenceTransition);
-
-        getActionInteractor.setActionCriteria(geofenceTrigger);
         new InteractorExecution<>(getActionInteractor)
                 .result(new InteractorResult<BasicAction>() {
                     @Override

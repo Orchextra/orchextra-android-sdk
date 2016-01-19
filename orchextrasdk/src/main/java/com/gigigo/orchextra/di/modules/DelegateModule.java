@@ -12,7 +12,7 @@ import com.gigigo.orchextra.di.scopes.PerDelegate;
 import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceDistanceInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofencesFromDatabaseInteractor;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 
@@ -43,7 +43,7 @@ public class DelegateModule {
             GetActionInteractor getActionInteractor,
             @ControlGeofenceListMapper ListMapper<Geofence, ControlGeofence> controlGeofenceListMapper,
             ControlPointMapper controlPointMapper,
-            RetrieveGeofenceDistanceInteractor retrieveGeofenceDistanceInteractor
+            RetrieveGeofenceTriggerInteractor retrieveGeofenceDistanceInteractor
             ) {
         return new ProximityItemController(backThreadSpec, interactorInvoker, retrieveGeofencesInteractor,
                 getActionInteractor, controlGeofenceListMapper, controlPointMapper, retrieveGeofenceDistanceInteractor);

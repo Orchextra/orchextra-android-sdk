@@ -8,7 +8,7 @@ import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceDistanceInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofencesFromDatabaseInteractor;
 import com.gigigo.orchextra.domain.interactors.user.LogOnUserInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInfoInteractor;
@@ -57,8 +57,8 @@ public class InteractorsModule {
 
     @Provides
     @Singleton
-    RetrieveGeofenceDistanceInteractor provideRetrieveGeofenceDistanceInteractor(GeofenceDataProvider geofenceDataProvider) {
-        return new RetrieveGeofenceDistanceInteractor(geofenceDataProvider);
+    RetrieveGeofenceTriggerInteractor provideRetrieveGeofenceDistanceInteractor(GeofenceDataProvider geofenceDataProvider) {
+        return new RetrieveGeofenceTriggerInteractor(geofenceDataProvider);
     }
 
 }
