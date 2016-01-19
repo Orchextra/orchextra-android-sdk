@@ -3,6 +3,7 @@ package com.gigigo.orchextra;
 import android.app.Application;
 import android.content.Context;
 
+import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.delegates.FakeDelegate;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
@@ -59,7 +60,7 @@ public class Orchextra {
 
   private static void startLifeCycle() {
     Application app = (Application) applicationContext;
-    orchextraLifecycle = new OrchextraActivityLifecycle();
+    orchextraLifecycle = new OrchextraActivityLifecycle(applicationContext);
     app.registerActivityLifecycleCallbacks(orchextraLifecycle);
   }
 

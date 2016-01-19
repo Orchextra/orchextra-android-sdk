@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.utils.googleClient;
+package com.gigigo.orchextra.android.googleClient;
 
 import android.content.Context;
 import android.os.Bundle;

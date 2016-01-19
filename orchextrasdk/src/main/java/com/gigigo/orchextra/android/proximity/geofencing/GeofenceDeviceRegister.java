@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.modules.geofencing;
+package com.gigigo.orchextra.android.proximity.geofencing;
 
 import android.Manifest;
 import android.content.Context;
@@ -8,8 +8,8 @@ import android.support.v4.app.ActivityCompat;
 
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
-import com.gigigo.orchextra.utils.googleClient.GoogleApiClientConnector;
-import com.gigigo.orchextra.modules.geofencing.pendingintent.GeofencePendingIntentCreator;
+import com.gigigo.orchextra.android.googleClient.GoogleApiClientConnector;
+import com.gigigo.orchextra.android.proximity.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;

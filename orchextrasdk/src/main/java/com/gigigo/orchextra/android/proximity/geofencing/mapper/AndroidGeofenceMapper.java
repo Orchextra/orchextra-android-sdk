@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.modules.geofencing.mapper;
+package com.gigigo.orchextra.android.proximity.geofencing.mapper;
 
 import com.gigigo.orchextra.control.entities.ControlGeofence;
 import com.gigigo.orchextra.control.mapper.MapperModelToControl;

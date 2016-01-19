@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.utils.mapper;
+package com.gigigo.orchextra.android.mapper;
 
 import android.location.Location;
 

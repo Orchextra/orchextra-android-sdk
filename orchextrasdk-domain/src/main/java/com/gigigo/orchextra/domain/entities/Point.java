@@ -27,7 +27,7 @@ public class Point {
     this.lng = lng;
   }
 
-  public double getDistanceFromLatLonInKm(Point point) {
+  public double getDistanceFromPointInKm(Point point) {
     int earthRadius = EARTH_RADIUS;
 
     double dLat = deg2rad(point.getLat() - this.lat);  // deg2rad below
@@ -44,12 +44,5 @@ public class Point {
 
   private double deg2rad(double deg) {
     return deg * (Math.PI/180);
-  }
-
-  public double getDistanceFromPoints(Point point) {
-    return Math.sqrt(
-            Math.pow(point.getLat() - this.lat, 2) +
-                    Math.pow(point.getLng() - this.lng, 2)
-    );
   }
 }

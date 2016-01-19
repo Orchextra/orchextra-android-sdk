@@ -19,8 +19,8 @@ public class RetrieveGeofenceDistanceInteractor implements Interactor<Interactor
     @Override
     public InteractorResponse<Double> call() throws Exception {
         Geofence geofence = geofenceDataProvider.obtainGeofenceByIdFromDatabase(geofenceId);
- /// Calcular distancia
-        return null;
+        double distanceFromGeofenceInKm = triggeringPoint.getDistanceFromPointInKm(geofence.getPoint());
+        return new InteractorResponse<>(distanceFromGeofenceInKm);
     }
 
     public void setGeofenceId(String geofenceId) {

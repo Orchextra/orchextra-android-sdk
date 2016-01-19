@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.modules.geofencing.pendingintent;
+package com.gigigo.orchextra.android.proximity.geofencing.pendingintent;
 
 import android.app.IntentService;
 import android.content.Intent;

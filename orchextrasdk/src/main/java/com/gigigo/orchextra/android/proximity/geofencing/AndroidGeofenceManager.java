@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.modules.geofencing;
+package com.gigigo.orchextra.android.proximity.geofencing;
 
 import android.content.Intent;
 import android.location.Location;
@@ -6,8 +6,8 @@ import android.location.Location;
 import com.gigigo.orchextra.control.entities.ControlGeofence;
 import com.gigigo.orchextra.control.entities.ControlPoint;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
-import com.gigigo.orchextra.modules.geofencing.mapper.AndroidGeofenceMapper;
-import com.gigigo.orchextra.utils.mapper.LocationMapper;
+import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceMapper;
+import com.gigigo.orchextra.android.mapper.LocationMapper;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.location.GeofencingRequest;
