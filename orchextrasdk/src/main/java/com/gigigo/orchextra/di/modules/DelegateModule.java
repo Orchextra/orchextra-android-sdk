@@ -24,7 +24,7 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
  * Created by Sergio Martinez Rodriguez
  * Date 9/12/15.
  */
-@Module(includes = ControlModule.class)
+@Module(includes = {ControlModule.class, AndroidModule.class})
 public class DelegateModule {
 
   @Provides @PerDelegate AuthenticationController provideAuthenticationController(

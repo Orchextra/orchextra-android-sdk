@@ -11,7 +11,6 @@ import com.gigigo.orchextra.control.mapper.Mapper;
 import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.Point;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
 import com.gigigo.orchextra.domain.entities.triggers.Trigger;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
@@ -65,15 +64,11 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
                 .error(RetrieveProximityItemError.class, new InteractorResult<InteractorError>() {
                     @Override
                     public void onResult(InteractorError result) {
+                        //TODO Verificar que tipo de error que devuelve el interactor
                         doConfigurationRequest();
                     }
                 })
-                .error(InteractorError.class, new InteractorResult<InteractorError>() {
-                    @Override
-                    public void onResult(InteractorError result) {
-                        doConfigurationRequest();
-                    }
-                }).execute(interactorInvoker);
+                .execute(interactorInvoker);
     }
 
     private void registerGeofences(List<ControlGeofence> geofenceList) {
@@ -85,7 +80,7 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
     }
 
     public void processTriggers(List<String> triggeringGeofenceIds, ControlPoint triggeringControlPoint,
-                                final GeoPointEventType geofenceTransition, final AppRunningModeType runningModeType) {
+                                final GeoPointEventType geofenceTransition) {
         final Point triggeringPoint = controlPointMapper.controlToModel(triggeringControlPoint);
 
         retrieveGeofenceTriggerInteractor.setTriggeringGeofenceIds(triggeringGeofenceIds);
@@ -97,6 +92,12 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
                     @Override
                     public void onResult(List<Trigger> triggers) {
                         executeActions(triggers);
+                    }
+                })
+                .error(RetrieveProximityItemError.class, new InteractorResult<InteractorError>() {
+                    @Override
+                    public void onResult(InteractorError result) {
+                        // TODO Do nothing when the trigger doesn't exist¿?
                     }
                 })
                 .execute(interactorInvoker);
@@ -115,7 +116,7 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
                 .result(new InteractorResult<BasicAction>() {
                     @Override
                     public void onResult(BasicAction result) {
-
+                        //TODO Do the action obtained
                     }
                 })
                 .execute(interactorInvoker);

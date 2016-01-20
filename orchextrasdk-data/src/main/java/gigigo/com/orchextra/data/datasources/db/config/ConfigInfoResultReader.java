@@ -89,6 +89,9 @@ public class ConfigInfoResultReader {
 
   public Geofence getGeofenceById(Realm realm, String id){
     GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("id", id).findFirst();
+    if (geofenceRealm == null) {
+      throw new NotFountRealmObjectException();
+    }
     return geofencesRealmMapper.dataToModel(geofenceRealm);
   }
 

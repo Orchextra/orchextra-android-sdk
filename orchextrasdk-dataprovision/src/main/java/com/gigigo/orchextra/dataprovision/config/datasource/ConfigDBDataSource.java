@@ -14,7 +14,7 @@ import java.util.List;
 public interface ConfigDBDataSource {
   boolean saveConfigData(ConfigInfoResult config);
   BusinessObject<ConfigInfoResult> obtainConfigData();
-  Geofence obtainGeofenceById(String uuid);
+  BusinessObject<Geofence> obtainGeofenceById(String uuid);
   Beacon obtainBeaconByUuid(String uuid);
   BusinessObject<List<Geofence>> obtainGeofences();
 }

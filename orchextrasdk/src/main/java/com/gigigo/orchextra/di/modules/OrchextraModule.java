@@ -1,12 +1,16 @@
 package com.gigigo.orchextra.di.modules;
 
 import android.content.Context;
-import com.gigigo.orchextra.di.qualifiers.BackThread;
-import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
+
+import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.orchextra.android.applifecycle.DeviceRunningModeTypeImp;
+import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
+import com.gigigo.orchextra.domain.device.DeviceRunningModeType;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -25,4 +29,14 @@ public class OrchextraModule {
     return context;
   }
 
+  @Provides @Singleton
+  DeviceRunningModeType provideDeviceRunningModeType() {
+    return new DeviceRunningModeTypeImp();
+  }
+
+  @Provides
+  @Singleton
+  ContextProvider provideContextProvider(Context context) {
+    return new OrchextraActivityLifecycle(context);
+  }
 }

@@ -6,7 +6,6 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
-import com.gigigo.orchextra.domain.business.model.BusinessErrorConstantException;
 import com.gigigo.orchextra.domain.entities.Beacon;
 import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
@@ -46,7 +45,9 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
     }catch (RealmException re){
       return false;
     }finally {
-      realm.close();
+      if (realm != null) {
+        realm.close();
+      }
     }
 
     return true;
@@ -65,7 +66,9 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
       //throw businessException for get config from network again
       return new BusinessObject(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
     }finally {
+    if (realm != null) {
       realm.close();
+    }
     }
 
     return new BusinessObject<>(configInfoResult, BusinessError.createOKInstance());
@@ -86,21 +89,30 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
 
       return new BusinessObject<>(geofenceList, BusinessError.createOKInstance());
 
-    } catch (NotFountRealmObjectException | RealmException re) {
+    } catch (NotFountRealmObjectException | RealmException | NullPointerException | IllegalArgumentException re) {
       return new BusinessObject<>(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
 
-    } catch (NullPointerException | IllegalArgumentException ex) {
-      return new BusinessObject<>(null, new BusinessError(
-              BusinessErrorConstantException.EXCEPTION_EMPTY_DATABASE_ERROR_CODE,
-              ex.getMessage()));
     } finally {
-      realm.close();
+      if(realm != null) {
+        realm.close();
+      }
     }
   }
 
-  public Geofence obtainGeofenceById(String id){
-    //TODO Manage exceptions
-    return configInfoResultReader.getGeofenceById(Realm.getDefaultInstance(), id);
+  public BusinessObject<Geofence> obtainGeofenceById(String id){
+    Realm realm = Realm.getDefaultInstance();
+    try {
+      Geofence geofence = configInfoResultReader.getGeofenceById(realm, id);
+      return new BusinessObject<>(geofence, BusinessError.createOKInstance());
+
+    } catch (NotFountRealmObjectException | RealmException re) {
+      return new BusinessObject<>(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
+
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
   }
 
 }

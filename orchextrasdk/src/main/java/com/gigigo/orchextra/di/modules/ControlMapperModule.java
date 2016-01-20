@@ -1,6 +1,5 @@
 package com.gigigo.orchextra.di.modules;
 
-import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceMapper;
 import com.gigigo.orchextra.control.entities.ControlGeofence;
 import com.gigigo.orchextra.control.mapper.ControlGeofenceMapper;
 import com.gigigo.orchextra.control.mapper.ControlPointMapper;
@@ -9,7 +8,6 @@ import com.gigigo.orchextra.control.mapper.ListMapper;
 import com.gigigo.orchextra.di.qualifiers.ControlGeofenceListMapper;
 import com.gigigo.orchextra.di.scopes.PerDelegate;
 import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.android.mapper.LocationMapper;
 
 import dagger.Module;
 import dagger.Provides;
@@ -43,17 +41,5 @@ public class ControlMapperModule {
                                                                        ControlProximityPointTypeMapper controlProximityPointTypeMapper) {
         ControlGeofenceMapper controlGeofenceMapper = new ControlGeofenceMapper(controlPointMapper, controlProximityPointTypeMapper);
         return new ListMapper<>(controlGeofenceMapper);
-    }
-
-    @PerDelegate
-    @Provides
-    AndroidGeofenceMapper provideAndroidGeofenceMapper() {
-        return new AndroidGeofenceMapper();
-    }
-
-    @PerDelegate
-    @Provides
-    LocationMapper provideLocationMapper() {
-        return new LocationMapper();
     }
 }

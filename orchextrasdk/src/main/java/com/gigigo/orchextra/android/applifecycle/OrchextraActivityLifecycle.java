@@ -9,6 +9,8 @@ import android.os.Bundle;
 import com.gigigo.ggglib.permissions.ContextProvider;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
+
+import java.util.EmptyStackException;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -88,8 +90,12 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   }
 
   @Override public void onActivityStarted(Activity activity) {
-    activityStack.peek().setIsStopped(false);
-    cleanZombieWrappersAtStack();
+    try {
+      activityStack.peek().setIsStopped(false);
+      cleanZombieWrappersAtStack();
+    } catch (EmptyStackException e) {
+
+    }
   }
 
   @Override public void onActivityResumed(Activity activity) {

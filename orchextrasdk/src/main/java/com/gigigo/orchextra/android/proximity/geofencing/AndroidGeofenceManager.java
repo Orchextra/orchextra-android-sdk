@@ -39,14 +39,14 @@ public class AndroidGeofenceManager {
     }
 
     public ControlPoint getTriggeringPoint(Intent intent) {
-        GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+        GeofencingEvent geofencingEvent = getGeofencingEvent(intent);
         Location triggeringLocation = geofencingEvent.getTriggeringLocation();
         ControlPoint point = locationMapper.controlToModel(triggeringLocation);
         return point;
     }
 
     public List<String> getTriggeringGeofenceIds(Intent intent) {
-        GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+        GeofencingEvent geofencingEvent = getGeofencingEvent(intent);
 
         List<String> triggerGeofenceIds = new ArrayList<>();
 
@@ -58,7 +58,7 @@ public class AndroidGeofenceManager {
     }
 
     public GeoPointEventType getGeofenceTransition(Intent intent) {
-        GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+        GeofencingEvent geofencingEvent = getGeofencingEvent(intent);
 
         if (!geofencingEvent.hasError()) {
             int transition = geofencingEvent.getGeofenceTransition();

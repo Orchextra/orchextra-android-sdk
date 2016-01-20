@@ -21,7 +21,7 @@ public class GeofenceDataProviderImp implements GeofenceDataProvider {
     }
 
     @Override
-    public Geofence obtainGeofenceByIdFromDatabase(String geofenceId) {
+    public BusinessObject<Geofence> obtainGeofenceByIdFromDatabase(String geofenceId) {
         return configDBDataSource.obtainGeofenceById(geofenceId);
     }
 }

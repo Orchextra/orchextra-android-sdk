@@ -9,7 +9,6 @@ import com.gigigo.orchextra.control.controllers.proximity.ProximityItemDelegate;
 import com.gigigo.orchextra.control.entities.ControlGeofence;
 import com.gigigo.orchextra.control.entities.ControlPoint;
 import com.gigigo.orchextra.di.components.DelegateComponent;
-import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
 
 import java.util.List;
@@ -33,6 +32,7 @@ public class ProximityItemDelegateImp implements ProximityItemDelegate {
     @Override
     public void init() {
         delegateComponent = Orchextra.getInjector().injectProximityItemDelegate(this);
+        delegateComponent.injectProximityItemDelegate(this);
         controller.attachDelegate(this);
     }
 
@@ -56,8 +56,7 @@ public class ProximityItemDelegateImp implements ProximityItemDelegate {
         List<String> geofenceIds = androidGeofenceManager.getTriggeringGeofenceIds(intent);
         ControlPoint point = androidGeofenceManager.getTriggeringPoint(intent);
         GeoPointEventType transition = androidGeofenceManager.getGeofenceTransition(intent);
-        AppRunningModeType runningModeType = Orchextra.getOchextraLifeCycle().getRunningModeType();
 
-        controller.processTriggers(geofenceIds, point, transition, runningModeType);
+        controller.processTriggers(geofenceIds, point, transition);
     }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 public interface GeofenceDataProvider {
     BusinessObject<List<Geofence>> obtainGeofencesFromDatabase();
 
-    Geofence obtainGeofenceByIdFromDatabase(String geofenceId);
+    BusinessObject<Geofence> obtainGeofenceByIdFromDatabase(String geofenceId);
 }

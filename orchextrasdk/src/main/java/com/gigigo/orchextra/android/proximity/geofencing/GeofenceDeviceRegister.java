@@ -1,16 +1,15 @@
 package com.gigigo.orchextra.android.proximity.geofencing;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 
+import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.ggglib.permissions.PermissionChecker;
+import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.android.googleClient.GoogleApiClientConnector;
+import com.gigigo.orchextra.android.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.android.proximity.geofencing.pendingintent.GeofencePendingIntentCreator;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.GeofencingRequest;
@@ -18,21 +17,25 @@ import com.google.android.gms.location.LocationServices;
 
 public class GeofenceDeviceRegister implements ResultCallback<Status> {
 
-    private final Context context;
-
+    private final ContextProvider contextProvider;
     private final GeofencePendingIntentCreator geofencePendingIntentCreator;
     private final GoogleApiClientConnector googleApiClientConnector;
-
-    private GoogleApiClient client;
+    private final PermissionChecker permissionChecker;
+    private final PermissionLocationImp accessFineLocationPermissionImp;
 
     private GeofencingRequest geofencingRequest;
 
-    public GeofenceDeviceRegister(Context context,
+    public GeofenceDeviceRegister(ContextProvider contextProvider,
                                   GoogleApiClientConnector googleApiClientConnector,
-                                  GeofencePendingIntentCreator geofencePendingIntentCreator) {
-        this.context = context;
+                                  GeofencePendingIntentCreator geofencePendingIntentCreator,
+                                  PermissionChecker permissionChecker,
+                                  PermissionLocationImp accessFineLocationPermissionImp) {
+
+        this.contextProvider = contextProvider;
         this.googleApiClientConnector = googleApiClientConnector;
         this.geofencePendingIntentCreator = geofencePendingIntentCreator;
+        this.permissionChecker = permissionChecker;
+        this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
     }
 
     public void register(GeofencingRequest geofencingRequest) {
@@ -43,23 +46,9 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     }
 
     private void registerGeofencesOnDevice() {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        if (contextProvider.getCurrentActivity() != null) {
+            permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
         }
-
-        LocationServices.GeofencingApi.removeGeofences(client, geofencePendingIntentCreator.getGeofencingPendingIntent());
-
-        LocationServices.GeofencingApi.addGeofences(
-                client, geofencingRequest,
-                geofencePendingIntentCreator.getGeofencingPendingIntent()
-        ).setResultCallback(this);
     }
 
     @Override
@@ -83,4 +72,24 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
                     registerGeofencesOnDevice();
                 }
             };
+
+    private UserPermissionRequestResponseListener userPermissionResponseListener = new UserPermissionRequestResponseListener() {
+        @Override
+        public void onPermissionAllowed(boolean permissionAllowed) {
+            if (permissionAllowed) {
+                registerGeofence();
+            }
+        }
+    };
+
+    @SuppressWarnings("ResourceType")
+    private void registerGeofence() {
+        LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(),
+                geofencePendingIntentCreator.getGeofencingPendingIntent());
+
+        LocationServices.GeofencingApi.addGeofences(
+                googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
+                geofencePendingIntentCreator.getGeofencingPendingIntent()
+        ).setResultCallback(this);
+    }
 }
