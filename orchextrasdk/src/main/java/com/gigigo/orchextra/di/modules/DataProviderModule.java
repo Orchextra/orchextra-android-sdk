@@ -8,12 +8,16 @@ import com.gigigo.orchextra.dataprovision.config.ConfigDataProviderImpl;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.SessionDBDataSource;
+import com.gigigo.orchextra.dataprovision.geofences.GeofenceDataProviderImp;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
+import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -36,4 +40,9 @@ public class DataProviderModule {
       ActionsDataSource actionsDataSource){
     return new ActionsDataProviderImpl(actionsDataSource);
   }
+
+    @Provides @Singleton
+    GeofenceDataProvider provideGeofenceDataProvider(ConfigDBDataSource configDBDataSource) {
+        return new GeofenceDataProviderImp(configDBDataSource);
+    }
 }

@@ -26,6 +26,7 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Confi
 
   @Override public InteractorResponse<ConfigInfoResult> call() throws Exception {
     BusinessObject<ConfigInfoResult> bo = configDataProvider.sendConfigInfo(config);
+
     //TODO manage Errors
     return new InteractorResponse<>(bo.getData());
   }

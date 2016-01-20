@@ -5,7 +5,6 @@ import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ActionNotificationResponse;
 import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
-import com.gigigo.orchextra.di.qualifiers.ActionsDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ActionsResponse;
 import com.gigigo.orchextra.di.qualifiers.AppRequest;
 import com.gigigo.orchextra.di.qualifiers.BeaconResponse;
@@ -21,6 +20,9 @@ import com.gigigo.orchextra.di.qualifiers.PushNotificationRequest;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ThemeResponse;
 import com.gigigo.orchextra.di.qualifiers.VuforiaResponse;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
@@ -41,7 +43,6 @@ import gigigo.com.orchextra.data.datasources.api.model.mappers.response.Orchextr
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiResponseMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ThemeResponseMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.VuforiaResponseMapper;
-import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -70,7 +71,7 @@ public class ApiMappersModule {
     return new ClientApiResponseMapper();
   }
 
-  @Provides @Singleton @ActionsDataResponseMapper ApiGenericResponseMapper provideActionsResMapper(
+  @Provides @Singleton   ApiGenericResponseMapper provideActionsResMapper(
       @ActionsResponse ActionsApiResponseMapper actionsApiResponseMapper){
     return createResponseMapper(actionsApiResponseMapper);
   }
@@ -112,7 +113,10 @@ public class ApiMappersModule {
     return new BeaconResponseMapper();
   }
 
-  private ApiGenericResponseMapper createResponseMapper(ResponseMapper mapper) {
+    @Provides
+    @Singleton
+    @ActionsResponse
+    ApiGenericResponseMapper createResponseMapper(@ActionNotificationResponse ResponseMapper mapper) {
     return new OrchextraGenericResponseMapper(mapper);
   }
 

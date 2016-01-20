@@ -7,5 +7,5 @@ import android.content.Context;
  * Date 11/12/15.
  */
 public interface OrchextraModuleProvider {
-  Context provideContext();
+  Context provideApplicationContext();
 }

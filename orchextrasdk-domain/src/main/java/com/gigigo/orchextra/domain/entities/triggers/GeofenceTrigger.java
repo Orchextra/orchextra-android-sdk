@@ -14,9 +14,9 @@ public class GeofenceTrigger extends Trigger {
   private final double distance;
   private final GeoPointEventType geoPointEventType;
 
-  public GeofenceTrigger(String id, Point point, PhoneStatusType phoneStatusType, double distance,
+  public GeofenceTrigger(String id, Point point, AppRunningModeType appRunningModeType, double distance,
       GeoPointEventType geoPointEventType) {
-    super(TriggerType.GEOFENCE, id, point, phoneStatusType);
+    super(TriggerType.GEOFENCE, id, point, appRunningModeType);
 
     this.distance = distance;
     this.geoPointEventType = geoPointEventType;
