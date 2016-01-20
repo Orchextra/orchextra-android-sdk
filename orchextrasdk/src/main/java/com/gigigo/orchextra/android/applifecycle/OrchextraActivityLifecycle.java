@@ -60,7 +60,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   }
 
   @Override public Context getApplicationContext() {
-    return Orchextra.getAppContext();
+    return applicationContext;
   }
 
   @Override public boolean isApplicationContextAvailable() {
