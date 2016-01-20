@@ -28,7 +28,7 @@ public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallb
         this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
     }
 
-    public void initGoogleApiClient() {
+    public void connect() {
         if (contextProvider.getApplicationContext() != null) {
             client = new GoogleApiClient.Builder(contextProvider.getApplicationContext())
                     .addConnectionCallbacks(this)
@@ -76,6 +76,16 @@ public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallb
         return client;
     }
 
+    public boolean isConnected() {
+        return client.isConnected();
+    }
+
+    public void disconnected() {
+        if (client != null) {
+            client.disconnect();
+        }
+    }
+
     public interface OnConnectedListener {
         void onConnected(Bundle bundle);
     }
@@ -88,7 +98,7 @@ public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallb
         @Override
         public void onPermissionAllowed(boolean permissionAllowed) {
             if (permissionAllowed) {
-                initGoogleApiClient();
+                connect();
             }
         }
     };

@@ -1,5 +1,7 @@
 package com.gigigo.orchextra.android.proximity.geofencing.utils;
 
+import com.google.android.gms.location.Geofence;
+
 public class GeofenceUtils {
 
     public static int getRadius(int radius) {
@@ -14,17 +16,17 @@ public class GeofenceUtils {
 
     public static int getTransitionTypes(boolean entry, boolean exit) {
         if (entry && exit) {
-            return com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_ENTER |
-                    com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_EXIT |
-                    com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_DWELL;
+            return Geofence.GEOFENCE_TRANSITION_ENTER |
+                    Geofence.GEOFENCE_TRANSITION_EXIT |
+                    Geofence.GEOFENCE_TRANSITION_DWELL;
         } else if (entry) {
-            return com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_ENTER |
-                    com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_DWELL;
+            return Geofence.GEOFENCE_TRANSITION_ENTER |
+                    Geofence.GEOFENCE_TRANSITION_DWELL;
         } else if (exit) {
-            return com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_EXIT |
-                    com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_DWELL;
+            return Geofence.GEOFENCE_TRANSITION_EXIT |
+                    Geofence.GEOFENCE_TRANSITION_DWELL;
         } else {
-            return com.google.android.gms.location.Geofence.GEOFENCE_TRANSITION_DWELL;
+            return Geofence.GEOFENCE_TRANSITION_DWELL;
         }
     }
 }

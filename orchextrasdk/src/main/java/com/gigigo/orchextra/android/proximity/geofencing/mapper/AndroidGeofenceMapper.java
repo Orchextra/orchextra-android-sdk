@@ -16,7 +16,7 @@ public class AndroidGeofenceMapper implements MapperModelToControl<List<com.gigi
         List<Geofence> geofenceList = new ArrayList<>();
 
         int i = 0;
-        while (i < geofencePointList.size() || i < ConstantsAndroidGeofence.MAX_NUM_GEOFENCES) {
+        while (i < geofencePointList.size() && i < ConstantsAndroidGeofence.MAX_NUM_GEOFENCES) {
             ControlGeofence controlGeofence = geofencePointList.get(i);
 
             Geofence geofence = new Geofence.Builder()
@@ -34,7 +34,10 @@ public class AndroidGeofenceMapper implements MapperModelToControl<List<com.gigi
             i++;
         }
 
-        GeofencingRequest geofencingRequest = new GeofencingRequest.Builder().addGeofences(geofenceList).build();
+        GeofencingRequest geofencingRequest = new GeofencingRequest.Builder()
+                .addGeofences(geofenceList)
+                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_DWELL)
+                .build();
 
         return geofencingRequest;
     }

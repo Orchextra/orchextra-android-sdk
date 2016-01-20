@@ -42,7 +42,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
         this.geofencingRequest = geofencingRequest;
 
         googleApiClientConnector.setOnConnectedListener(onConnectedListener);
-        googleApiClientConnector.initGoogleApiClient();
+        googleApiClientConnector.connect();
     }
 
     private void registerGeofencesOnDevice() {
@@ -62,6 +62,10 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
             GGGLogImpl.log("Canceled!", LogLevel.INFO);
         } else if (status.isInterrupted()) {
             GGGLogImpl.log("Interrupted!", LogLevel.INFO);
+        }
+
+        if (googleApiClientConnector.isConnected()) {
+            googleApiClientConnector.disconnected();
         }
     }
 
