@@ -3,11 +3,11 @@ package com.gigigo.orchextra.android.proximity.geofencing;
 import android.content.Intent;
 import android.location.Location;
 
+import com.gigigo.orchextra.android.mapper.LocationMapper;
+import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceMapper;
 import com.gigigo.orchextra.control.entities.ControlGeofence;
 import com.gigigo.orchextra.control.entities.ControlPoint;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
-import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceMapper;
-import com.gigigo.orchextra.android.mapper.LocationMapper;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.location.GeofencingRequest;
@@ -34,20 +34,17 @@ public class AndroidGeofenceManager {
         geofenceDeviceRegister.register(geofencingRequest);
     }
 
-    private GeofencingEvent getGeofencingEvent(Intent intent) {
+    public GeofencingEvent getGeofencingEvent(Intent intent) {
         return GeofencingEvent.fromIntent(intent);
     }
 
-    public ControlPoint getTriggeringPoint(Intent intent) {
-        GeofencingEvent geofencingEvent = getGeofencingEvent(intent);
+    public ControlPoint getTriggeringPoint(GeofencingEvent geofencingEvent) {
         Location triggeringLocation = geofencingEvent.getTriggeringLocation();
         ControlPoint point = locationMapper.controlToModel(triggeringLocation);
         return point;
     }
 
-    public List<String> getTriggeringGeofenceIds(Intent intent) {
-        GeofencingEvent geofencingEvent = getGeofencingEvent(intent);
-
+    public List<String> getTriggeringGeofenceIds(GeofencingEvent geofencingEvent) {
         List<String> triggerGeofenceIds = new ArrayList<>();
 
         List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
@@ -57,9 +54,7 @@ public class AndroidGeofenceManager {
         return triggerGeofenceIds;
     }
 
-    public GeoPointEventType getGeofenceTransition(Intent intent) {
-        GeofencingEvent geofencingEvent = getGeofencingEvent(intent);
-
+    public GeoPointEventType getGeofenceTransition(GeofencingEvent geofencingEvent) {
         if (!geofencingEvent.hasError()) {
             int transition = geofencingEvent.getGeofenceTransition();
             switch(transition) {

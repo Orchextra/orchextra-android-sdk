@@ -10,6 +10,7 @@ import com.gigigo.orchextra.control.entities.ControlGeofence;
 import com.gigigo.orchextra.control.entities.ControlPoint;
 import com.gigigo.orchextra.di.components.DelegateComponent;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
+import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
 
@@ -53,9 +54,11 @@ public class ProximityItemDelegateImp implements ProximityItemDelegate {
     }
 
     public void processGeofenceIntentPending(Intent intent) {
-        List<String> geofenceIds = androidGeofenceManager.getTriggeringGeofenceIds(intent);
-        ControlPoint point = androidGeofenceManager.getTriggeringPoint(intent);
-        GeoPointEventType transition = androidGeofenceManager.getGeofenceTransition(intent);
+        GeofencingEvent geofencingEvent = androidGeofenceManager.getGeofencingEvent(intent);
+
+        List<String> geofenceIds = androidGeofenceManager.getTriggeringGeofenceIds(geofencingEvent);
+        ControlPoint point = androidGeofenceManager.getTriggeringPoint(geofencingEvent);
+        GeoPointEventType transition = androidGeofenceManager.getGeofenceTransition(geofencingEvent);
 
         controller.processTriggers(geofenceIds, point, transition);
     }
