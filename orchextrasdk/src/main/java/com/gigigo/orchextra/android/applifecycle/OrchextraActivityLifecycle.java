@@ -7,6 +7,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
+import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.ggglib.permissions.ContextProvider;
 import com.gigigo.orchextra.android.notifications.AndroidBackgroundNotificationActionManager;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
@@ -108,21 +110,43 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
 
   @Override public void onActivityResumed(Activity activity) {
     //TODO Register for phase 2 shake detector
-    activityStack.peek().setIsPaused(false);
+
+    try {
+      ConsistencyUtils.checkNotEmpty(activityStack);
+      activityStack.peek().setIsPaused(false);
+    } catch (Exception e) {
+
+    }
   }
 
   @Override public void onActivityPaused(Activity activity) {
     //TODO Unregister for phase 2 shake detector
-    activityStack.peek().setIsPaused(true);
+
+    try {
+      ConsistencyUtils.checkNotEmpty(activityStack);
+      activityStack.peek().setIsPaused(true);
+    } catch (Exception e) {
+
+    }
   }
 
 
   @Override public void onActivityStopped(Activity activity) {
-    activityStack.peek().setIsStopped(true);
+    try {
+      ConsistencyUtils.checkNotEmpty(activityStack);
+      activityStack.peek().setIsStopped(true);
+    } catch (Exception e) {
+
+    }
   }
 
   @Override public void onActivityDestroyed(Activity activity) {
-    this.activityStack.pop();
+    try {
+      ConsistencyUtils.checkNotEmpty(activityStack);
+      this.activityStack.pop();
+    } catch (Exception e) {
+
+    }
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
@@ -174,10 +198,10 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   }
 
   private boolean isActivityDestroyed(Activity activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-      return checkActivityDestroyedUnderV17(activity);
-    }else{
+    if (AndroidSdkVersion.hasJellyBean17()){
       return checkActivityDestroyedV17(activity);
+    }else{
+      return checkActivityDestroyedUnderV17(activity);
     }
   }
 

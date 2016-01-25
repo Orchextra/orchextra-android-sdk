@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.interactors.actions;
 
+import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.entities.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.entities.actions.types.CustomAction;
@@ -8,6 +9,7 @@ import com.gigigo.orchextra.domain.entities.actions.types.NotificationAction;
 import com.gigigo.orchextra.domain.entities.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.entities.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.entities.actions.types.WebViewAction;
+import com.gigigo.orchextra.domain.notifications.ActionDispatcherListener;
 import com.gigigo.orchextra.domain.notifications.NotificationBehavior;
 
 /**
@@ -20,6 +22,8 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   public ActionDispatcherImpl(NotificationBehavior notificationBehavior) {
       this.notificationBehavior = notificationBehavior;
+
+      notificationBehavior.setActionDispatcherListener(actionDispatcherListener);
   }
 
   @Override public void dispatchAction(BrowserAction action) {
@@ -27,8 +31,8 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   }
 
   @Override public void dispatchAction(BrowserAction action, Notification notification) {
-      notificationBehavior.dispatchNotificationAction(action, notification);
-      notification.setShown(true);
+    notificationBehavior.dispatchNotificationAction(action, notification);
+    notification.setShown(true);
   }
 
   @Override public void dispatchAction(WebViewAction action) {
@@ -78,4 +82,16 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   @Override public void dispatchAction(EmptyAction action, Notification notification) {
 
   }
+
+    private ActionDispatcherListener actionDispatcherListener = new ActionDispatcherListener() {
+        @Override
+        public void onActionAccepted(BasicAction action, boolean isForeground) {
+
+        }
+
+        @Override
+        public void onActionDismissed(BasicAction action, boolean isForeground) {
+
+        }
+    };
 }
