@@ -28,7 +28,7 @@ public class ActionsApiResponseMapper implements ResponseMapper<BasicAction, Api
     Notification notification = MapperUtils.checkNullDataResponse(actionNotificationResponseMapper,
         apiActionData.getNotification());
 
-    return new ApiActionData.ActionBuilder(actionType, url, notification).build();
+    return new BasicAction.ActionBuilder(actionType, url, notification).build();
 
   }
 

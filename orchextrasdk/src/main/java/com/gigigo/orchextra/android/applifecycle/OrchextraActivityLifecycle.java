@@ -6,8 +6,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+
 import com.gigigo.ggglib.permissions.ContextProvider;
-import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.android.notifications.AndroidBackgroundNotificationActionManager;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 
 import java.util.EmptyStackException;
@@ -21,11 +22,16 @@ import java.util.Stack;
 public class OrchextraActivityLifecycle implements Application.ActivityLifecycleCallbacks,
     ContextProvider, AppRunningMode{
 
-  private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
+  private final AndroidBackgroundNotificationActionManager androidBackgroundNotificationActionManager;
   private final Context applicationContext;
 
-  public OrchextraActivityLifecycle(Context applicationContext) {
+  private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
+
+  public OrchextraActivityLifecycle(Context applicationContext,
+                                    AndroidBackgroundNotificationActionManager androidBackgroundNotificationActionManager) {
+
     this.applicationContext = applicationContext;
+    this.androidBackgroundNotificationActionManager = androidBackgroundNotificationActionManager;
   }
 
   //region context provider interface
@@ -87,6 +93,8 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     this.activityStack.push(new ActivityLifecyleWrapper(activity, true, true));
+
+    androidBackgroundNotificationActionManager.manageBackgroundNotification(activity);
   }
 
   @Override public void onActivityStarted(Activity activity) {

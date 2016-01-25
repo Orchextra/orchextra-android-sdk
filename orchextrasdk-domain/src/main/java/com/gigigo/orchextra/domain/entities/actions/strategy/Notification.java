@@ -8,6 +8,7 @@ public class Notification {
 
   private String title;
   private String body;
+  private boolean shown;
 
   public String getTitle() {
     return title;
@@ -23,5 +24,13 @@ public class Notification {
 
   public void setBody(String body) {
     this.body = body;
+  }
+
+  public boolean shouldBeShown() {
+    return shown;
+  }
+
+  public void setShown(boolean shown) {
+    this.shown = shown;
   }
 }
