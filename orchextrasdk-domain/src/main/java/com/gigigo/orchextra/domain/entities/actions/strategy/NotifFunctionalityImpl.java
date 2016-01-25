@@ -9,7 +9,7 @@ public class NotifFunctionalityImpl implements NotifFunctionality {
   private final Notification notification;
 
   public NotifFunctionalityImpl(Notification notification) {
-    this.notification = notification;
+      this.notification = notification;
   }
 
   @Override public Notification getNotification() {
@@ -17,6 +17,6 @@ public class NotifFunctionalityImpl implements NotifFunctionality {
   }
 
   @Override public boolean isSupported() {
-    return (notification==null)? false : true;
+    return (notification.shouldBeShown());
   }
 }
