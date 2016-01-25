@@ -5,4 +5,6 @@ import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
 
 public interface NotificationBuilder {
     void buildNotification(BasicAction action, Notification notification);
+
+    void setActionDispatcherListener(ActionDispatcherListener actionDispatcherListener);
 }

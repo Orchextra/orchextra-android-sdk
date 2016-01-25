@@ -11,6 +11,8 @@ public class NotificationBehaviorImp implements NotificationBehavior {
     private final NotificationBuilder foregroundNotificationBuilder;
     private final NotificationBuilder backgroundNotificationBuilder;
 
+    private ActionDispatcherListener actionDispatcherListener;
+
     public NotificationBehaviorImp(DeviceRunningModeType deviceRunningModeType,
                                    NotificationBuilder foregroundNotificationBuilder,
                                    NotificationBuilder backgroundNotificationBuilder) {
@@ -23,10 +25,16 @@ public class NotificationBehaviorImp implements NotificationBehavior {
     public void dispatchNotificationAction(BasicAction action, Notification notification) {
 
         if (deviceRunningModeType.getAppRunningModeType() == AppRunningModeType.FOREGROUND) {
+            foregroundNotificationBuilder.setActionDispatcherListener(actionDispatcherListener);
             foregroundNotificationBuilder.buildNotification(action, notification);
         } else {
+            backgroundNotificationBuilder.setActionDispatcherListener(actionDispatcherListener);
             backgroundNotificationBuilder.buildNotification(action, notification);
         }
+    }
 
+    @Override
+    public void setActionDispatcherListener(ActionDispatcherListener actionDispatcherListener) {
+        this.actionDispatcherListener = actionDispatcherListener;
     }
 }

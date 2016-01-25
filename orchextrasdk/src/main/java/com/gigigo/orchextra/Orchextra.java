@@ -60,7 +60,7 @@ public class Orchextra {
 
   private static void startLifeCycle() {
     Application app = (Application) applicationContext;
-    orchextraLifecycle = new OrchextraActivityLifecycle(applicationContext);
+    orchextraLifecycle = orchextraComponent.provideOrchextraActivityLifecycle();
     app.registerActivityLifecycleCallbacks(orchextraLifecycle);
   }
 
