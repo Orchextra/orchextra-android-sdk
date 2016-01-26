@@ -10,6 +10,8 @@ import android.os.Bundle;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.android.notifications.AndroidBackgroundNotificationActionManager;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 
@@ -104,7 +106,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
       activityStack.peek().setIsStopped(false);
       cleanZombieWrappersAtStack();
     } catch (EmptyStackException e) {
-
+      GGGLogImpl.log("Orchextra must be init in App", LogLevel.ERROR);
     }
   }
 
@@ -115,7 +117,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
       ConsistencyUtils.checkNotEmpty(activityStack);
       activityStack.peek().setIsPaused(false);
     } catch (Exception e) {
-
+      GGGLogImpl.log("Orchextra must be init in App", LogLevel.ERROR);
     }
   }
 
@@ -126,7 +128,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
       ConsistencyUtils.checkNotEmpty(activityStack);
       activityStack.peek().setIsPaused(true);
     } catch (Exception e) {
-
+      GGGLogImpl.log("Orchextra must be init in App", LogLevel.ERROR);
     }
   }
 
@@ -136,7 +138,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
       ConsistencyUtils.checkNotEmpty(activityStack);
       activityStack.peek().setIsStopped(true);
     } catch (Exception e) {
-
+      GGGLogImpl.log("Orchextra must be init in App", LogLevel.ERROR);
     }
   }
 
@@ -145,7 +147,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
       ConsistencyUtils.checkNotEmpty(activityStack);
       this.activityStack.pop();
     } catch (Exception e) {
-
+      GGGLogImpl.log("Orchextra must be init in App", LogLevel.ERROR);
     }
   }
 
