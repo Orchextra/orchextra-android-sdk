@@ -13,7 +13,6 @@ public class ClientAuthCredentialsRealmMapper implements
   public ClientAuthCredentialsRealm modelToData(ClientAuthCredentials clientAuthCredentials) {
     ClientAuthCredentialsRealm clientAuthCredentialsRealm = new ClientAuthCredentialsRealm();
 
-    clientAuthCredentialsRealm.setAdvertiserId(clientAuthCredentials.getAdvertiserId());
     clientAuthCredentialsRealm.setBluetoothMacAddress(
         clientAuthCredentials.getBluetoothMacAddress());
     clientAuthCredentialsRealm.setClientToken(clientAuthCredentials.getClientToken());
@@ -21,7 +20,6 @@ public class ClientAuthCredentialsRealmMapper implements
     clientAuthCredentialsRealm.setInstanceId(clientAuthCredentials.getInstanceId());
     clientAuthCredentialsRealm.setSecureId(clientAuthCredentials.getSecureId());
     clientAuthCredentialsRealm.setSerialNumber(clientAuthCredentials.getSerialNumber());
-    clientAuthCredentialsRealm.setVendorId(clientAuthCredentials.getVendorId());
     clientAuthCredentialsRealm.setWifiMacAddress(clientAuthCredentials.getWifiMacAddress());
 
     return clientAuthCredentialsRealm;
@@ -30,10 +28,8 @@ public class ClientAuthCredentialsRealmMapper implements
   @Override
   public ClientAuthCredentials dataToModel(ClientAuthCredentialsRealm clientAuthCredentialsRealm) {
     ClientAuthCredentials clientAuthCredentials = new ClientAuthCredentials(
-        clientAuthCredentialsRealm.getClientToken(), clientAuthCredentialsRealm.getInstanceId(),
-        clientAuthCredentialsRealm.getVendorId());
+        clientAuthCredentialsRealm.getClientToken(), clientAuthCredentialsRealm.getInstanceId());
 
-    clientAuthCredentials.setAdvertiserId(clientAuthCredentialsRealm.getAdvertiserId());
     clientAuthCredentials.setBluetoothMacAddress(clientAuthCredentialsRealm.getBluetoothMacAddress());
     clientAuthCredentials.setCrmId(clientAuthCredentialsRealm.getCrmId());
     clientAuthCredentials.setSecureId(clientAuthCredentialsRealm.getSecureId());

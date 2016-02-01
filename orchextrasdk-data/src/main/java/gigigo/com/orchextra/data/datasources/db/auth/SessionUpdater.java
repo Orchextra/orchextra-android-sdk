@@ -5,15 +5,16 @@ import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.Crm;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
+
+import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
 import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthRealm;
-import gigigo.com.orchextra.data.datasources.db.model.SessionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmMapper;
 import io.realm.Realm;
-import io.realm.RealmResults;
+import io.realm.RealmObject;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -41,45 +42,71 @@ public class SessionUpdater {
   }
 
   public void updateSdkAuthCredentials(Realm realm, SdkAuthCredentials sdkAuthCredentials) {
-    SessionRealm sessionRealm = getSessionRealm(realm);
-    sessionRealm.setSdkAuthCredentialsRealm(
-        sdkCredentialsRealmMapper.modelToData(sdkAuthCredentials));
-    realm.copyToRealmOrUpdate(sessionRealm);
+    SdkAuthCredentialsRealm realmItem = getRealmItem(realm, SdkAuthCredentialsRealm.class);
+
+    SdkAuthCredentialsRealm sdkAuthCredentialsRealm = sdkCredentialsRealmMapper.modelToData(sdkAuthCredentials);
+    if (realmItem == null) {
+      sdkAuthCredentialsRealm.setId(RealmDefaultInstance.getNextKey(realm, SdkAuthCredentialsRealm.class));
+    } else {
+      sdkAuthCredentialsRealm.setId(realmItem.getId());
+    }
+
+    realm.copyToRealmOrUpdate(sdkAuthCredentialsRealm);
   }
 
   public void updateSdkAuthResponse(Realm realm, SdkAuthData sdkAuthData) {
-    SessionRealm sessionRealm = getSessionRealm(realm);
-    sessionRealm.setSdkAuthRealm(sdkAuthRealmMapper.modelToData(sdkAuthData));
-    realm.copyToRealmOrUpdate(sessionRealm);
+    SdkAuthRealm realmItem = getRealmItem(realm, SdkAuthRealm.class);
+
+    SdkAuthRealm sdkAuthRealm = sdkAuthRealmMapper.modelToData(sdkAuthData);
+    if (realmItem == null) {
+      sdkAuthRealm.setId(RealmDefaultInstance.getNextKey(realm, SdkAuthRealm.class));
+    } else {
+      sdkAuthRealm.setId(realmItem.getId());
+    }
+
+    realm.copyToRealmOrUpdate(sdkAuthRealm);
   }
 
   public void updateClientAuthCredentials(Realm realm, ClientAuthCredentials clientAuthCred) {
-    SessionRealm sessionRealm = getSessionRealm(realm);
-    sessionRealm.setClientAuthCredentialsRealm(clientCredentialsRealmMapper.modelToData(clientAuthCred));
-    realm.copyToRealmOrUpdate(sessionRealm);
+    ClientAuthCredentialsRealm realmItem = getRealmItem(realm, ClientAuthCredentialsRealm.class);
+
+    ClientAuthCredentialsRealm clientAuthCredentialsRealm = clientCredentialsRealmMapper.modelToData(clientAuthCred);
+    if (realmItem == null) {
+      clientAuthCredentialsRealm.setId(RealmDefaultInstance.getNextKey(realm, ClientAuthCredentialsRealm.class));
+    } else {
+      clientAuthCredentialsRealm.setId(realmItem.getId());
+    }
+
+    realm.copyToRealmOrUpdate(clientAuthCredentialsRealm);
   }
 
   public void updateClientAuthResponse(Realm realm, ClientAuthData clientAuthData) {
-    SessionRealm sessionRealm = getSessionRealm(realm);
-    sessionRealm.setClientAuthRealm(clientAuthRealmMapper.modelToData(clientAuthData));
-    realm.copyToRealmOrUpdate(sessionRealm);
+    ClientAuthRealm realmItem = getRealmItem(realm, ClientAuthRealm.class);
+
+    ClientAuthRealm clientAuthRealm = clientAuthRealmMapper.modelToData(clientAuthData);
+    if (realmItem == null) {
+      clientAuthRealm.setId(RealmDefaultInstance.getNextKey(realm, ClientAuthRealm.class));
+    } else {
+      clientAuthRealm.setId(realmItem.getId());
+    }
+
+    realm.copyToRealmOrUpdate(clientAuthRealm);
   }
 
   public void updateCrm(Realm realm, Crm crm) {
-    SessionRealm sessionRealm = getSessionRealm(realm);
-    sessionRealm.setCrmRealm(crmRealmMapper.modelToData(crm));
-    realm.copyToRealmOrUpdate(sessionRealm);
-  }
+    CrmRealm realmItem = getRealmItem(realm, CrmRealm.class);
 
-  private SessionRealm getSessionRealm(Realm realm) {
-
-    RealmResults<SessionRealm> result = realm.where(SessionRealm.class).findAll();
-
-    if (result.isValid() && result.size()>0){
-      return result.first();
-    }else{
-      return new SessionRealm();
+    CrmRealm crmRealm = crmRealmMapper.modelToData(crm);
+    if (realmItem == null) {
+      crmRealm.setId(RealmDefaultInstance.getNextKey(realm, CrmRealm.class));
+    } else {
+      crmRealm.setId(realmItem.getId());
     }
 
+    realm.copyToRealmOrUpdate(crmRealm);
+  }
+
+  private <T extends RealmObject> T getRealmItem(Realm realm, Class<T> classType) {
+    return realm.where(classType).findFirst();
   }
 }

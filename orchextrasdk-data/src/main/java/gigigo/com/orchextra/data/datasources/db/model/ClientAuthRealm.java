@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -8,11 +9,14 @@ import io.realm.RealmObject;
  */
 public class ClientAuthRealm extends RealmObject{
 
+  @PrimaryKey
+  private int id;
   private String projectId;
   private String userId;
   private String value;
   private int expiresIn;
   private String expiresAt;
+
 
   public String getProjectId() {
     return projectId;
@@ -52,5 +56,13 @@ public class ClientAuthRealm extends RealmObject{
 
   public void setExpiresAt(String expiresAt) {
     this.expiresAt = expiresAt;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
   }
 }

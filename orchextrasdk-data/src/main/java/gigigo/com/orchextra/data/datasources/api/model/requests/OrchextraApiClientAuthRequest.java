@@ -8,15 +8,12 @@ import com.gigigo.orchextra.domain.entities.Credentials;
  */
 public class OrchextraApiClientAuthRequest extends OrchextraApiAuthRequest{
 
-  private final String crmId;
-
-  public OrchextraApiClientAuthRequest(GrantType grantType, Credentials credentials, String crmId) {
+  public OrchextraApiClientAuthRequest(GrantType grantType, Credentials credentials) {
     super(grantType, credentials);
-    this.crmId = crmId;
   }
 
   @Override ApiCredentials obtainApiCredentialsFromCredentials(Credentials credentials) {
-    return new ApiClientAuthCredentials(credentials, crmId);
+    return new ApiClientAuthCredentials(credentials);
   }
 
 }

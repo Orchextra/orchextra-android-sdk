@@ -13,6 +13,6 @@ public interface AuthenticationDataProvider {
 
   BusinessObject<SdkAuthData> authenticateSdk(Credentials credentials);
 
-  BusinessObject<ClientAuthData> authenticateUser(Credentials credentials);
+  BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId);
 
 }

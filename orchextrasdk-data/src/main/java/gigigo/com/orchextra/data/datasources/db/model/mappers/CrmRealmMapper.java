@@ -21,22 +21,33 @@ public class CrmRealmMapper implements RealmMapper<Crm, CrmRealm>{
   @Override public CrmRealm modelToData(Crm crm) {
     CrmRealm crmRealm = new CrmRealm();
 
-    crmRealm.setKeywords(keyWordRealmMapper.stringKeyWordsToRealmList(crm.getKeywords()));
-    crmRealm.setBirthDate(
-        DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT));
-    crmRealm.setCrmId(crm.getCrmId());
-    crmRealm.setGender(crm.getGender().getStringValue());
+    if (crm != null) {
+      crmRealm.setKeywords(keyWordRealmMapper.stringKeyWordsToRealmList(crm.getKeywords()));
+      crmRealm.setBirthDate(
+              DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT));
+      crmRealm.setCrmId(crm.getCrmId());
+      if (crm.getGender() != null) {
+        crmRealm.setGender(crm.getGender().getStringValue());
+      }
+    }
 
     return crmRealm;
   }
 
   @Override public Crm dataToModel(CrmRealm crmRealm) {
     Crm crm = new Crm();
-    crm.setCrmId(crmRealm.getCrmId());
-    crm.setKeywords(keyWordRealmMapper.realmKeyWordsToStringList(crmRealm.getKeywords()));
-    crm.setGender(GenderType.valueOf(crmRealm.getGender()));
-    crm.setBirthDate(DateUtils.stringToDateWithFormat(crmRealm.getBirthDate(),
-        DateFormatConstants.DATE_FORMAT));
+
+    if (crmRealm != null) {
+      crm.setCrmId(crmRealm.getCrmId());
+      crm.setKeywords(keyWordRealmMapper.realmKeyWordsToStringList(crmRealm.getKeywords()));
+      try {
+        crm.setGender(GenderType.valueOf(crmRealm.getGender()));
+      } catch (IllegalArgumentException | NullPointerException e) {
+      }
+      crm.setBirthDate(DateUtils.stringToDateWithFormat(crmRealm.getBirthDate(),
+              DateFormatConstants.DATE_FORMAT));
+    }
+
     return crm;
   }
 

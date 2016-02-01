@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -8,6 +9,8 @@ import io.realm.RealmObject;
  */
 public class SdkAuthCredentialsRealm extends RealmObject {
 
+  @PrimaryKey
+  private int id;
   private String apiKey;
   private String apiSecret;
 
@@ -27,4 +30,11 @@ public class SdkAuthCredentialsRealm extends RealmObject {
     this.apiSecret = apiSecret;
   }
 
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
+  }
 }

@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.di.modules;
 
 import android.content.Context;
+
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.mappers.RequestMapper;
@@ -15,18 +16,22 @@ import com.gigigo.orchextra.di.qualifiers.ClientDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ConfigRequest;
 import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
+import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
+
+import javax.inject.Provider;
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
 import gigigo.com.orchextra.data.datasources.api.action.ActionsDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.auth.AuthenticationDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.config.ConfigDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionDBDataSourceImpl;
+import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
+import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.device.DeviceDetailsProviderImpl;
-import javax.inject.Provider;
-import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -66,9 +71,9 @@ public class DataModule {
   }
 
 
-  @Provides @Singleton SessionDBDataSource provideSessionDBDataSource(Context context){
-    //TODO add readers and updaters in DBModule and Mappers in DBMappersModule
-    return new SessionDBDataSourceImpl(context,null, null);
+  @Provides @Singleton SessionDBDataSource provideSessionDBDataSource(Context context, SessionUpdater sessionUpdater,
+                                                                      SessionReader sessionReader){
+    return new SessionDBDataSourceImpl(context,sessionUpdater, sessionReader);
   }
 
   @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(Context context){

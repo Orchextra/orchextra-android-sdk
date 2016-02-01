@@ -6,8 +6,9 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
-import com.gigigo.orchextra.domain.interactors.authentication.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
+import com.gigigo.orchextra.domain.interactors.authentication.errors.SdkAuthError;
+
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 /**
@@ -40,11 +41,10 @@ public class AuthenticationController extends Controller<AuthenticationDelegate>
         getDelegate().authenticationSuccessful();
 
       }
-    }).error(AuthenticationError.class, new InteractorResult<AuthenticationError>() {
-      @Override public void onResult(AuthenticationError error) {
-
+    }).error(SdkAuthError.class, new InteractorResult<SdkAuthError>() {
+      @Override
+      public void onResult(SdkAuthError result) {
         getDelegate().authenticationError();
-
       }
     }).execute(interactorInvoker);
   }

@@ -24,9 +24,6 @@ public class ApiDevice {
   @Expose @SerializedName("timeZone")
   private String timeZone;
 
-  @Expose @SerializedName("advertiserId")
-  private String advertiserId;
-
   @Expose @SerializedName("vendorId")
   private String vendorId;
 
@@ -75,14 +72,6 @@ public class ApiDevice {
 
   public void setTimeZone(String timeZone) {
     this.timeZone = timeZone;
-  }
-
-  public String getAdvertiserId() {
-    return advertiserId;
-  }
-
-  public void setAdvertiserId(String advertiserId) {
-    this.advertiserId = advertiserId;
   }
 
   public String getVendorId() {

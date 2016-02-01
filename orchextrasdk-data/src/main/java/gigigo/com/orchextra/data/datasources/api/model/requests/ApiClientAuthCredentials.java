@@ -17,10 +17,6 @@ public class ApiClientAuthCredentials implements ApiCredentials{
   @Expose @SerializedName("instanceId")
   private final String instanceId;
 
-  @Expose @SerializedName("vendorId")
-  private final String vendorId;
-  @Expose @SerializedName("advertiserId")
-  private final String advertiserId;
   @Expose @SerializedName("secureId")
   private final String secureId;
   @Expose @SerializedName("crmId")
@@ -33,17 +29,15 @@ public class ApiClientAuthCredentials implements ApiCredentials{
   private final String bluetoothMacAddress;
 
 
-  public ApiClientAuthCredentials(Credentials credentials, String crmId) {
+  public ApiClientAuthCredentials(Credentials credentials) {
 
     ClientAuthCredentials clientCredentials = ConsistencyUtils.checkInstance(credentials,
             ClientAuthCredentials.class);
 
     this.clientToken = clientCredentials.getClientToken();
     this.instanceId = clientCredentials.getInstanceId();
-    this.vendorId = clientCredentials.getVendorId();
-    this.advertiserId = clientCredentials.getAdvertiserId();
     this.secureId = clientCredentials.getSecureId();
-    this.crmId = crmId;
+    this.crmId = clientCredentials.getCrmId();
     this.serialNumber = clientCredentials.getSerialNumber();
     this.wifiMacAddress = clientCredentials.getWifiMacAddress();
     this.bluetoothMacAddress = clientCredentials.getBluetoothMacAddress();
@@ -55,14 +49,6 @@ public class ApiClientAuthCredentials implements ApiCredentials{
 
   public String getInstanceId() {
     return instanceId;
-  }
-
-  public String getVendorId() {
-    return vendorId;
-  }
-
-  public String getAdvertiserId() {
-    return advertiserId;
   }
 
   public String getSecureId() {

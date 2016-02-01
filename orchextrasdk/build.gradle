@@ -27,13 +27,14 @@ android {
 
     buildConfigField STRING, "API_VERSION", '"v1/"'
     buildConfigField INT, "CONCURRENT_INTERACTORS", '1'
-    buildConfigField STRING, "API_URL", '"http://api.s.orchextra.io/"'
+    buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
+    buildConfigField STRING, "X_APP_SDK", '"ANDROID"'
   }
 
   buildTypes {
     debug{
       testCoverageEnabled = true
-      buildConfigField BOOLEAN, "RETROFIT_LOG", "false"
+      buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
     }
     release {
       buildConfigField BOOLEAN, "RETROFIT_LOG", "false"

@@ -13,7 +13,6 @@ public class DeviceRequestMapper implements RequestMapper<Device, ApiDevice>{
   @Override public ApiDevice modelToData(Device device) {
     ApiDevice apiDevice = new ApiDevice();
 
-    apiDevice.setAdvertiserId(device.getAdvertiserId());
     apiDevice.setInstanceId(device.getInstanceId());
     apiDevice.setLanguage(device.getLanguage());
     apiDevice.setOs(device.getOs());

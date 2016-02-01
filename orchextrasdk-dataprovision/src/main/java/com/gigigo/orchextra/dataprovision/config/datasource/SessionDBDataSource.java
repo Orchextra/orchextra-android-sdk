@@ -19,5 +19,6 @@ public interface SessionDBDataSource {
   boolean saveClientAuthResponse(ClientAuthData clientAuthData);
   boolean saveUser(Crm crm);
   BusinessObject<ClientAuthData> getSessionToken();
-  BusinessObject<SdkAuthData> getDeviceToken();
+  BusinessObject getDeviceToken();
+  BusinessObject<Crm> getCrm();
 }

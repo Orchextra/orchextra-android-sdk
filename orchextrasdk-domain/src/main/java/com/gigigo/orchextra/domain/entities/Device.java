@@ -11,7 +11,6 @@ public class Device {
   private String os;
   private String osVersion;
   private String timeZone;
-  private String advertiserId;
   private String vendorId;
   private String instanceId;
   private String secureId;
@@ -49,14 +48,6 @@ public class Device {
 
   public void setTimeZone(String timeZone) {
     this.timeZone = timeZone;
-  }
-
-  public String getAdvertiserId() {
-    return advertiserId;
-  }
-
-  public void setAdvertiserId(String advertiserId) {
-    this.advertiserId = advertiserId;
   }
 
   public String getVendorId() {

@@ -13,7 +13,6 @@ public class DeviceRequestMapperTest {
     @Test
     public void testModelToDataOk() throws Exception {
         Device device = new Device();
-        device.setAdvertiserId("AdvId");
         device.setBluetoothMacAddress("22:33:22:22:33:22");
         device.setHandset("Phone");
         device.setInstanceId("1324");
@@ -29,7 +28,6 @@ public class DeviceRequestMapperTest {
         DeviceRequestMapper mapper = new DeviceRequestMapper();
         ApiDevice apiDevice = mapper.modelToData(device);
 
-        assertEquals("AdvId",apiDevice.getAdvertiserId());
         assertEquals("22:33:22:22:33:22",apiDevice.getBluetoothMacAddress());
         assertEquals("Phone",apiDevice.getHandset());
         assertEquals("1324",apiDevice.getInstanceId());

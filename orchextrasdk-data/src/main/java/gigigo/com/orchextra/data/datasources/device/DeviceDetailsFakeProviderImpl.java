@@ -8,10 +8,6 @@ import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
  */
 public class DeviceDetailsFakeProviderImpl implements DeviceDetailsProvider {
   //TODO this class MUST be deleted when DeviceDetatilsProviderImpl was ready
-  
-  @Override public String getVendorId() {
-    return "iouweoi-vendor";
-  }
 
   @Override public String getAndroidInstanceId() {
     return "iouweoi-vendor";

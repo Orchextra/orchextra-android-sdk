@@ -18,10 +18,6 @@ public class DeviceDetailsProviderImpl implements DeviceDetailsProvider {
     this.context = context;
   }
 
-  @Override public String getVendorId() {
-    return DeviceInfoProvider.getVendorId();
-  }
-
   @Override public String getAndroidInstanceId() {
     return DeviceInfoProvider.getAndroidInstanceId(context);
   }

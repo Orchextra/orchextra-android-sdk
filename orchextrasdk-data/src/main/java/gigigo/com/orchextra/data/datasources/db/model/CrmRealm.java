@@ -1,8 +1,8 @@
 package gigigo.com.orchextra.data.datasources.db.model;
 
-import com.gigigo.orchextra.domain.entities.GenderType;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -10,10 +10,13 @@ import io.realm.RealmObject;
  */
 public class CrmRealm extends RealmObject {
 
+  @PrimaryKey
+  private int id;
   private String crmId;
   private String gender;
   private String birthDate;
   private RealmList<KeyWordRealm> keywords;
+
 
   public String getCrmId() {
     return crmId;
@@ -45,5 +48,13 @@ public class CrmRealm extends RealmObject {
 
   public void setKeywords(RealmList<KeyWordRealm> keywords) {
     this.keywords = keywords;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
   }
 }

@@ -5,7 +5,6 @@ package com.gigigo.orchextra.domain.device;
  * Date 14/12/15.
  */
 public interface DeviceDetailsProvider {
-  String getVendorId();
   String getAndroidInstanceId();
   String getAndroidSecureId();
   String getAndroidSerialNumber();

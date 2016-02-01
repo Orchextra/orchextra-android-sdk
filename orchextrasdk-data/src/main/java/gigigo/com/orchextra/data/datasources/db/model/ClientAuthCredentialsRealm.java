@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -8,16 +9,18 @@ import io.realm.RealmObject;
  */
 public class ClientAuthCredentialsRealm extends RealmObject {
 
+  @PrimaryKey
+  private int id;
+
   private String clientToken;
   private String instanceId;
 
-  private String vendorId;
-  private String advertiserId;
   private String secureId;
   private String crmId;
   private String serialNumber;
   private String wifiMacAddress;
   private String bluetoothMacAddress;
+
 
   public String getClientToken() {
     return clientToken;
@@ -33,22 +36,6 @@ public class ClientAuthCredentialsRealm extends RealmObject {
 
   public void setInstanceId(String instanceId) {
     this.instanceId = instanceId;
-  }
-
-  public String getVendorId() {
-    return vendorId;
-  }
-
-  public void setVendorId(String vendorId) {
-    this.vendorId = vendorId;
-  }
-
-  public String getAdvertiserId() {
-    return advertiserId;
-  }
-
-  public void setAdvertiserId(String advertiserId) {
-    this.advertiserId = advertiserId;
   }
 
   public String getSecureId() {
@@ -89,5 +76,13 @@ public class ClientAuthCredentialsRealm extends RealmObject {
 
   public void setBluetoothMacAddress(String bluetoothMacAddress) {
     this.bluetoothMacAddress = bluetoothMacAddress;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
   }
 }

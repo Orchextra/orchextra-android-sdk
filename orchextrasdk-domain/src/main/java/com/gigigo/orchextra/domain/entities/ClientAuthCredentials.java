@@ -11,28 +11,24 @@ public class ClientAuthCredentials implements Credentials {
     private final String clientToken;
     private final String instanceId;
 
-    private String vendorId;
-    private String advertiserId;
     private String secureId;
     private String crmId;
     private String serialNumber;
     private String wifiMacAddress;
     private String bluetoothMacAddress;
 
-    public ClientAuthCredentials(String clientToken, String instanceId, String vendorId) {
+    public ClientAuthCredentials(String clientToken, String instanceId) {
         this.clientToken = clientToken;
         this.instanceId = instanceId;
-        this.vendorId = vendorId;
     }
 
-    public ClientAuthCredentials(SdkAuthData data, DeviceDetailsProvider deviceDetailsProvider) {
-        this.clientToken = data.getValue();
-        this.instanceId = deviceDetailsProvider.getAndroidInstanceId();
-        this.vendorId = deviceDetailsProvider.getVendorId();
+    public ClientAuthCredentials(SdkAuthData data, DeviceDetailsProvider deviceDetailsProvider, String crmId) {
+        this(data.getValue(), deviceDetailsProvider.getAndroidInstanceId());
         this.secureId = deviceDetailsProvider.getAndroidSecureId();
         this.serialNumber = deviceDetailsProvider.getAndroidSerialNumber();
         this.wifiMacAddress = deviceDetailsProvider.getWifiMac();
         this.bluetoothMacAddress = deviceDetailsProvider.getBluetoothMac();
+        this.crmId = crmId;
     }
 
     public String getClientToken() {
@@ -41,22 +37,6 @@ public class ClientAuthCredentials implements Credentials {
 
     public String getInstanceId() {
         return instanceId;
-    }
-
-    public String getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(String vendorId) {
-        this.vendorId = vendorId;
-    }
-
-    public String getAdvertiserId() {
-        return advertiserId;
-    }
-
-    public void setAdvertiserId(String advertiserId) {
-        this.advertiserId = advertiserId;
     }
 
     public String getSecureId() {

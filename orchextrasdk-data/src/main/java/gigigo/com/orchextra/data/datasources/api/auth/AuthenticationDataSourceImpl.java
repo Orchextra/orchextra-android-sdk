@@ -5,15 +5,17 @@ import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
+import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.Credentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
-import com.gigigo.orchextra.domain.entities.ClientAuthData;
+
+import javax.inject.Provider;
+
 import gigigo.com.orchextra.data.datasources.api.model.requests.GrantType;
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiAuthRequest;
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiClientAuthRequest;
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiSdkAuthRequest;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
-import javax.inject.Provider;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -48,20 +50,15 @@ public class AuthenticationDataSourceImpl implements AuthenticationDataSource {
     return sdkResponseMapper.mapApiGenericResponseToBusiness(apiGenericResponse);
   }
 
-  @Override public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId) {
+  @Override public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
     OrchextraApiAuthRequest request = new OrchextraApiClientAuthRequest(
-        GrantType.AUTH_USER, credentials, crmId);
+        GrantType.AUTH_USER, credentials);
 
     ApiGenericResponse apiGenericResponse = serviceExecutor.executeNetworkServiceConnection(
         SdkAuthData.class, orchextraApiService.clientAuthentication(request));
 
     return clientResponseMapper.mapApiGenericResponseToBusiness(apiGenericResponse);
-  }
-
-  @Override
-  public BusinessObject<ClientAuthData> authenticateAnonymousUser(Credentials credentials) {
-    return authenticateUser(credentials, null);
   }
 }
