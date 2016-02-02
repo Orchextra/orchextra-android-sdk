@@ -2,6 +2,7 @@ package gigigo.com.orchextra.data.datasources.db.config;
 
 import android.content.Context;
 
+import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
@@ -13,6 +14,7 @@ import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
 import java.util.List;
 
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
+import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
 
@@ -20,7 +22,7 @@ import io.realm.exceptions.RealmException;
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
+public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements ConfigDBDataSource {
 
   private final Context context;
   private final ConfigInfoResultUpdater configInfoResultUpdater;
@@ -36,7 +38,7 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
 
   public boolean saveConfigData(ConfigInfoResult configInfoResult){
 
-    Realm realm = Realm.getDefaultInstance();
+    Realm realm = getRealmInstance(context);
 
     try {
       realm.beginTransaction();
@@ -54,24 +56,18 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
   }
 
   public BusinessObject<ConfigInfoResult> obtainConfigData(){
-
-    Realm realm = Realm.getDefaultInstance();
-    ConfigInfoResult configInfoResult;
+    Realm realm = getRealmInstance(context);
 
     try {
-      realm.beginTransaction();
-      configInfoResult = configInfoResultReader.readConfigInfoV2(realm);
-      realm.commitTransaction();
+      ConfigInfoResult configInfoResult = configInfoResultReader.readConfigInfoV2(realm);
+      return new BusinessObject<>(configInfoResult, BusinessError.createOKInstance());
     }catch (NotFountRealmObjectException | RealmException re ){
-      //throw businessException for get config from network again
-      return new BusinessObject(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
+      return new BusinessObject(null, BusinessError.createKoInstance(BusinessContentType.NO_CONFIG_ERROR, re.getMessage()));
     }finally {
-    if (realm != null) {
-      realm.close();
+      if (realm != null) {
+        realm.close();
+      }
     }
-    }
-
-    return new BusinessObject<>(configInfoResult, BusinessError.createOKInstance());
   }
 
   public Beacon obtainBeaconByUuid(String uuid){
@@ -81,7 +77,7 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
 
   @Override
   public BusinessObject<List<Geofence>> obtainGeofences() {
-    Realm realm = Realm.getDefaultInstance();
+    Realm realm = getRealmInstance(context);
     try {
       List<Geofence> geofenceList = configInfoResultReader.getAllGeofences(realm);
 
@@ -100,7 +96,7 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
   }
 
   public BusinessObject<Geofence> obtainGeofenceById(String id){
-    Realm realm = Realm.getDefaultInstance();
+    Realm realm = getRealmInstance(context);
     try {
       Geofence geofence = configInfoResultReader.getGeofenceById(realm, id);
       return new BusinessObject<>(geofence, BusinessError.createOKInstance());

@@ -5,6 +5,7 @@ import com.gigigo.ggglib.network.defaultelements.RetryOnErrorPolicy;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.executors.RetrofitApiServiceExcecutor;
 import com.gigigo.orchextra.BuildConfig;
+import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
 import com.gigigo.orchextra.qualifiers.data.AcceptLanguage;
 import com.gigigo.orchextra.qualifiers.data.ApiVersion;
 import com.gigigo.orchextra.qualifiers.data.Endpoint;
@@ -68,6 +69,12 @@ public class ApiModule {
 
     @Provides
     @Singleton
+    AuthenticationHeaderProvider provideAuthenticationHeaderProvider() {
+        return new AuthenticationHeaderProvider();
+    }
+
+    @Provides
+    @Singleton
     @AcceptLanguage
     String provideAcceptLanguage() {
         return Locale.getDefault().toString();
@@ -106,8 +113,9 @@ public class ApiModule {
     @Provides
     @Singleton
     @HeadersInterceptor
-    Interceptor provideHeadersInterceptor(@XAppSdk String xAppSdk, @AcceptLanguage String acceptLanguage) {
-        return new Headers(xAppSdk, acceptLanguage);
+    Interceptor provideHeadersInterceptor(@XAppSdk String xAppSdk, @AcceptLanguage String acceptLanguage,
+                                          AuthenticationHeaderProvider authenticationHeaderProvider) {
+        return new Headers(xAppSdk, acceptLanguage, authenticationHeaderProvider);
     }
 
     @Provides

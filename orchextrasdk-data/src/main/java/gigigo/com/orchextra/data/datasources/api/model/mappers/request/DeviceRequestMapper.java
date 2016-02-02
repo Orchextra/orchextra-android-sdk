@@ -15,12 +15,10 @@ public class DeviceRequestMapper implements RequestMapper<Device, ApiDevice>{
 
     apiDevice.setInstanceId(device.getInstanceId());
     apiDevice.setLanguage(device.getLanguage());
-    apiDevice.setOs(device.getOs());
     apiDevice.setOsVersion(device.getOsVersion());
     apiDevice.setSecureId(device.getSecureId());
     apiDevice.setSerialNumber(device.getSerialNumber());
     apiDevice.setTimeZone(device.getTimeZone());
-    apiDevice.setVendorId(device.getVendorId());
     apiDevice.setWifiMacAddress(device.getWifiMacAddress());
     apiDevice.setHandset(device.getHandset());
     apiDevice.setBluetoothMacAddress(device.getBluetoothMacAddress());

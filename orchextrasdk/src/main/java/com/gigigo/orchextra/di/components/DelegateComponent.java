@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.di.components;
 
 import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
+import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.delegates.FakeDelegate;
 import com.gigigo.orchextra.delegates.ProximityItemDelegateImp;
 import com.gigigo.orchextra.di.modules.DelegateModule;
@@ -16,4 +17,5 @@ public interface DelegateComponent {
   void injectAuhtDelegate(AuthenticationDelegateImpl authenticationDelegate);
   void injectFakeDelegate(FakeDelegate fakeDelegate);
   void injectProximityItemDelegate(ProximityItemDelegateImp proximityItemDelegate);
+  void injectConfigDelegate(ConfigDelegateImp configDelegateImp);
 }

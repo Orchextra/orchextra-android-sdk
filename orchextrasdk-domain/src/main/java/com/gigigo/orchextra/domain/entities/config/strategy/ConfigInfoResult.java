@@ -75,7 +75,7 @@ public class ConfigInfoResult{
     this.theme = theme;
   }
 
-  public static class ConfigInfoResultBuilder {
+  public static class Builder {
 
     private List<Geofence> geoMarketing;
     private List<Beacon> proximity;
@@ -83,8 +83,8 @@ public class ConfigInfoResult{
     private int requestWaitTime;
     private Vuforia vuforia;
 
-    public ConfigInfoResultBuilder(List<Geofence> geoMarketing, List<Beacon> proximity,
-        Theme theme, int requestWaitTime, Vuforia vuforia) {
+    public Builder(int requestWaitTime, List<Geofence> geoMarketing, List<Beacon> proximity,
+                   Theme theme, Vuforia vuforia) {
 
       this.geoMarketing = geoMarketing;
       this.proximity = proximity;

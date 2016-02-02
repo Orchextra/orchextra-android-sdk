@@ -63,6 +63,11 @@ public class ApiMappersModule {
     return createResponseMapper(clientMapper);
   }
 
+  @Provides @Singleton @ConfigResponseMapper ApiGenericResponseMapper
+  provideConfigResponseMapper(ConfigApiResponseMapper configApiResponseMapper) {
+    return createResponseMapper(configApiResponseMapper);
+  }
+
   @Provides @Singleton SdkApiResponseMapper provideSdkMapper(){
    return new SdkApiResponseMapper();
   }
@@ -86,7 +91,7 @@ public class ApiMappersModule {
     return new ActionNotificationResponseMapper();
   }
 
-  @Provides @Singleton @ConfigResponseMapper ResponseMapper provideConfigResponseMapper(
+  @Provides @Singleton ConfigApiResponseMapper provideConfigApiResponseMapper(
       @BeaconResponse BeaconResponseMapper beaconResponse,
       @GeofenceResponse GeofenceResponseMapper geofenceResponseMapper,
       @ThemeResponse ThemeResponseMapper themeResponseMapper,
@@ -96,20 +101,20 @@ public class ApiMappersModule {
         beaconResponse , geofenceResponseMapper);
   }
 
-  @Provides @Singleton @VuforiaResponse ResponseMapper provideVuforiaResponseMapper(){
+  @Provides @Singleton @VuforiaResponse VuforiaResponseMapper provideVuforiaResponseMapper(){
     return new VuforiaResponseMapper();
   }
 
-  @Provides @Singleton @ThemeResponse ResponseMapper provideThemeResponseMapper(){
+  @Provides @Singleton @ThemeResponse ThemeResponseMapper provideThemeResponseMapper(){
     return new ThemeResponseMapper();
   }
 
-  @Provides @Singleton @GeofenceResponse ResponseMapper provideGeofenceResponseMapper(
-      @PointReqResMapper PointMapper pointMapper){
+  @Provides @Singleton @GeofenceResponse GeofenceResponseMapper provideGeofenceResponseMapper(
+          @PointReqResMapper PointMapper pointMapper){
     return new GeofenceResponseMapper(pointMapper);
   }
 
-  @Provides @Singleton @BeaconResponse ResponseMapper provideBeaconResponseMapper(){
+  @Provides @Singleton @BeaconResponse BeaconResponseMapper provideBeaconResponseMapper(){
     return new BeaconResponseMapper();
   }
 
@@ -122,8 +127,7 @@ public class ApiMappersModule {
 
   //endregion
 
-  @Provides @Singleton @PointReqResMapper PointMapper providePointMapper(
-      @PointReqResMapper PointMapper pointMapper){
+  @Provides @Singleton @PointReqResMapper PointMapper providePointMapper(){
     return new PointMapper();
   }
 
@@ -133,23 +137,23 @@ public class ApiMappersModule {
     return new ActionQueryRequestMapper();
   }
 
-  @Provides @Singleton @AppRequest RequestMapper provideAppRequestMapper(){
+  @Provides @Singleton @AppRequest AppRequestMapper provideAppRequestMapper(){
     return new AppRequestMapper();
   }
 
-  @Provides @Singleton @CrmRequest RequestMapper provideCrmRequestMapper(){
+  @Provides @Singleton @CrmRequest CrmRequestMapper provideCrmRequestMapper(){
     return new CrmRequestMapper();
   }
 
-  @Provides @Singleton @PushNotificationRequest RequestMapper providePushNotifRequestMapper(){
+  @Provides @Singleton @PushNotificationRequest PushNotificationRequestMapper providePushNotifRequestMapper(){
     return new PushNotificationRequestMapper();
   }
 
-  @Provides @Singleton @DeviceRequest RequestMapper provideDeviceRequestMapper(){
+  @Provides @Singleton @DeviceRequest DeviceRequestMapper provideDeviceRequestMapper(){
     return new DeviceRequestMapper();
   }
 
-  @Provides @Singleton @GeoLocationRequest RequestMapper provideGeoLocationRequestMapper(
+  @Provides @Singleton @GeoLocationRequest GeoLocationRequestMapper provideGeoLocationRequestMapper(
       @PointReqResMapper PointMapper pointMapper){
     return new GeoLocationRequestMapper(pointMapper);
   }

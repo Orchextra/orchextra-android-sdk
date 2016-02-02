@@ -7,11 +7,9 @@ package com.gigigo.orchextra.domain.entities;
 public class Device {
 
   private String handset;
-  private String language;
-  private String os;
   private String osVersion;
+  private String language;
   private String timeZone;
-  private String vendorId;
   private String instanceId;
   private String secureId;
   private String serialNumber;
@@ -26,14 +24,6 @@ public class Device {
     this.handset = handset;
   }
 
-  public String getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
   public String getOsVersion() {
     return osVersion;
   }
@@ -42,20 +32,20 @@ public class Device {
     this.osVersion = osVersion;
   }
 
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
+  }
+
   public String getTimeZone() {
     return timeZone;
   }
 
   public void setTimeZone(String timeZone) {
     this.timeZone = timeZone;
-  }
-
-  public String getVendorId() {
-    return vendorId;
-  }
-
-  public void setVendorId(String vendorId) {
-    this.vendorId = vendorId;
   }
 
   public String getInstanceId() {
@@ -96,13 +86,5 @@ public class Device {
 
   public void setWifiMacAddress(String wifiMacAddress) {
     this.wifiMacAddress = wifiMacAddress;
-  }
-
-  public String getOs() {
-    return os;
-  }
-
-  public void setOs(String os) {
-    this.os = os;
   }
 }

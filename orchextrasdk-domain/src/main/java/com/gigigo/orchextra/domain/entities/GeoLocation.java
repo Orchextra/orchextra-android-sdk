@@ -9,7 +9,7 @@ public class GeoLocation {
   private String country;
   private String countryCode;
   private String locality;
-  private int zip;
+  private String zip;
   private String street;
   private Point point;
 
@@ -37,11 +37,11 @@ public class GeoLocation {
     this.locality = locality;
   }
 
-  public int getZip() {
+  public String getZip() {
     return zip;
   }
 
-  public void setZip(int zip) {
+  public void setZip(String zip) {
     this.zip = zip;
   }
 

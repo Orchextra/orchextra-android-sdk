@@ -20,7 +20,7 @@ public class ApiGeoLocation {
   private String locality;
 
   @Expose @SerializedName("zip")
-  private int zip;
+  private String zip;
 
   @Expose @SerializedName("street")
   private String street;
@@ -52,11 +52,11 @@ public class ApiGeoLocation {
     this.locality = locality;
   }
 
-  public int getZip() {
+  public String getZip() {
     return zip;
   }
 
-  public void setZip(int zip) {
+  public void setZip(String zip) {
     this.zip = zip;
   }
 

@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.domain.interactors.authentication;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
@@ -21,13 +22,18 @@ public class AuthenticationInteractor implements Interactor<InteractorResponse<C
   private final AuthenticationDataProvider authenticationDataProvider;
   private final DeviceDetailsProvider deviceDetailsProvider;
 
+  private final AuthenticationHeaderProvider authenticationHeaderProvider;
+
   private SdkAuthCredentials sdkAuthCredentials;
   private String crmId;
 
   public AuthenticationInteractor(AuthenticationDataProvider authenticationDataProvider,
-      DeviceDetailsProvider deviceDetailsProvider) {
+      DeviceDetailsProvider deviceDetailsProvider,
+                                  AuthenticationHeaderProvider authenticationHeaderProvider) {
     this.authenticationDataProvider = authenticationDataProvider;
     this.deviceDetailsProvider = deviceDetailsProvider;
+
+    this.authenticationHeaderProvider = authenticationHeaderProvider;
   }
 
   public void setSdkAuthCredentials(SdkAuthCredentials sdkAuthCredentials) {
@@ -53,6 +59,8 @@ public class AuthenticationInteractor implements Interactor<InteractorResponse<C
     if (!user.isSuccess()){
       return new InteractorResponse<>(new SdkAuthError(user.getBusinessError()));
     }
+
+    authenticationHeaderProvider.setAuthorizationToken(user.getData().getValue());
 
     return new InteractorResponse<>(user.getData());
   }
