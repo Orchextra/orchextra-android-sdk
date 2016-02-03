@@ -70,7 +70,7 @@ public class ApiModule {
     @Provides
     @Singleton
     AuthenticationHeaderProvider provideAuthenticationHeaderProvider() {
-        return new AuthenticationHeaderProvider();
+        return new AuthenticationHeaderProvider(BuildConfig.TOKEN_TYPE_BEARER);
     }
 
     @Provides

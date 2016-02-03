@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.android.dialogs;
+package com.gigigo.orchextra.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

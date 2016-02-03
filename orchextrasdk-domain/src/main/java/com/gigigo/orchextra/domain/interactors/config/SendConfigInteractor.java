@@ -58,6 +58,7 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Confi
     config.setDevice(device);
     config.setGeoLocation(geolocation);
 
+    //TODO Get notification info from app client
     NotificationPush notificationPush = new NotificationPush();
     notificationPush.setToken("qweqweq");
     notificationPush.setSenderId("dadadasdad");

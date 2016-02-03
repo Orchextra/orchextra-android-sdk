@@ -38,7 +38,7 @@ public class AndroidNotificationBuilder {
     public void createNotification(Notification notification, PendingIntent pendingIntent) {
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
 
-        NotificationCompat.Builder mBuilder =
+        NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setLargeIcon(largeIcon)
                         .setSmallIcon(getSmallIconResourceId())
@@ -47,12 +47,15 @@ public class AndroidNotificationBuilder {
                         .setTicker(notification.getTitle())
                         .setWhen(System.currentTimeMillis())
                         .setColor(context.getResources().getColor(R.color.orc_notification_background))
-                        .setAutoCancel(true)
-                        .setContentIntent(pendingIntent);
+                        .setAutoCancel(true);
+
+        if (pendingIntent != null) {
+            builder.setContentIntent(pendingIntent);
+        }
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0, mBuilder.build());
+        notificationManager.notify(0, builder.build());
     }
 
     private int getSmallIconResourceId() {

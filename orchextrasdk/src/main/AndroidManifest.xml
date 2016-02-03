@@ -9,6 +9,7 @@
       android:supportsRtl="true"
       >
 
+        <activity android:name=".ui.WebViewActivity"/>
   </application>
 
 </manifest>
