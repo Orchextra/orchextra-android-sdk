@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.ggglib.device.AndroidSdkVersion;
-import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.android.notifications.AndroidBackgroundNotificationActionManager;

@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.di.components;
 
-import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.android.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.android.mapper.AndroidNotificationMapper;

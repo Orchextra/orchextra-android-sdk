@@ -2,7 +2,7 @@ package com.gigigo.orchextra.di.modules;
 
 import android.content.Context;
 
-import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.android.applifecycle.DeviceRunningModeTypeImp;
 import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.android.mapper.AndroidBasicActionMapper;

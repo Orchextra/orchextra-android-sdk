@@ -3,7 +3,7 @@ package com.gigigo.orchextra.di.modules;
 import android.content.Context;
 
 import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
-import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.android.device.AndroidApp;
 import com.gigigo.orchextra.android.device.AndroidDevice;
