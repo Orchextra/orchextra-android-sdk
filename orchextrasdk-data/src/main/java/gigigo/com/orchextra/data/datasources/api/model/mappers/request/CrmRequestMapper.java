@@ -17,9 +17,13 @@ public class CrmRequestMapper implements RequestMapper<Crm, ApiCrm> {
     ApiCrm apiCrm = new ApiCrm();
 
     apiCrm.setBirthDate(DateUtils.dateToStringWithFormat(crm.getBirthDate(),
-        DateFormatConstants.DATE_FORMAT));
+            DateFormatConstants.DATE_FORMAT));
     apiCrm.setCrmId(crm.getCrmId());
-    apiCrm.setGender(crm.getGender().getStringValue());
+
+    if (crm.getGender() != null) {
+      apiCrm.setGender(crm.getGender().getStringValue());
+    }
+
     apiCrm.setKeywords(crm.getKeywords());
 
     return apiCrm;

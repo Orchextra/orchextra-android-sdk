@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import com.gigigo.orchextra.R;
-import com.gigigo.orchextra.android.dialogs.DialogTwoOptions;
+import com.gigigo.orchextra.ui.dialogs.DialogTwoOptions;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.notifications.ActionDispatcherListener;
@@ -40,7 +40,7 @@ public class ForegroundNotificationBuilderImp implements NotificationBuilder {
     private DialogInterface.OnClickListener positiveButtonListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            if (actionDispatcherListener != null) {
+            if (actionDispatcherListener != null && action != null) {
                 actionDispatcherListener.onActionAccepted(action, true);
             }
         }
@@ -49,7 +49,7 @@ public class ForegroundNotificationBuilderImp implements NotificationBuilder {
     private DialogInterface.OnClickListener negativeButtonListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            if (actionDispatcherListener != null) {
+            if (actionDispatcherListener != null && action != null) {
                 actionDispatcherListener.onActionDismissed(action, true);
             }
         }

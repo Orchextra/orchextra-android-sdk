@@ -1,11 +1,11 @@
 package com.gigigo.orchextra.delegates;
 
-import android.content.Context;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.control.controllers.authentication.AuthenticationController;
 import com.gigigo.orchextra.control.controllers.authentication.AuthenticationDelegate;
 import com.gigigo.orchextra.di.components.DelegateComponent;
+
 import javax.inject.Inject;
 
 /**
@@ -14,7 +14,6 @@ import javax.inject.Inject;
  */
 public class AuthenticationDelegateImpl implements AuthenticationDelegate {
 
-  @Inject Context appContext;
   @Inject AuthenticationController authenticationController;
 
   private static AuthenticationDelegateImpl me;
@@ -37,7 +36,12 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
 
   @Override public void onControllerReady() {}
 
-  @Override public void authenticationSuccessful() {}
+  @Override public void authenticationSuccessful() {
+    //TODO Move this to Orchextra class as singleton
+    ConfigDelegateImp configDelegate = new ConfigDelegateImp();
+    configDelegate.init();
+    configDelegate.sendConfiguration();
+  }
 
   @Override public void authenticationError() {}
 

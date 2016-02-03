@@ -18,8 +18,12 @@ public class ThemeRealmMapper implements RealmMapper<Theme, ThemeRealm> {
 
   @Override public Theme dataToModel(ThemeRealm themeRealm) {
     Theme theme = new Theme();
-    theme.setPrimaryColor(themeRealm.getPrimaryColor());
-    theme.setSecondaryColor(themeRealm.getSecondaryColor());
+
+    if (themeRealm != null) {
+      theme.setPrimaryColor(themeRealm.getPrimaryColor());
+      theme.setSecondaryColor(themeRealm.getSecondaryColor());
+    }
+
     return theme;
   }
 }

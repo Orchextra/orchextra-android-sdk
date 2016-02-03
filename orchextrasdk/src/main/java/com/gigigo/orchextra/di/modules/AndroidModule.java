@@ -5,7 +5,12 @@ import android.content.Context;
 import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
+import com.gigigo.orchextra.android.device.AndroidApp;
+import com.gigigo.orchextra.android.device.AndroidDevice;
 import com.gigigo.orchextra.android.googleClient.GoogleApiClientConnector;
+import com.gigigo.orchextra.android.location.AndroidGeocoder;
+import com.gigigo.orchextra.android.location.AndroidGeolocationManager;
+import com.gigigo.orchextra.android.location.RetrieveLastKnownLocation;
 import com.gigigo.orchextra.android.mapper.LocationMapper;
 import com.gigigo.orchextra.android.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.android.proximity.geofencing.AndroidGeofenceManager;
@@ -41,6 +46,41 @@ public class AndroidModule {
 
     @PerDelegate
     @Provides
+    AndroidApp provideAndroidApp() {
+        return new AndroidApp();
+    }
+
+    @PerDelegate
+    @Provides
+    AndroidDevice provideAndroidDevice(Context context) {
+        return new AndroidDevice(context);
+    }
+
+
+    @PerDelegate
+    @Provides
+    RetrieveLastKnownLocation provideRetrieveLastKnownLocation(ContextProvider contextProvider,
+                                                               GoogleApiClientConnector googleApiClientConnector,
+                                                               PermissionChecker permissionChecker,
+                                                               PermissionLocationImp permissionLocationImp) {
+        return new RetrieveLastKnownLocation(contextProvider, googleApiClientConnector, permissionChecker, permissionLocationImp);
+    }
+
+    @PerDelegate
+    @Provides
+    AndroidGeocoder provideAndroidGeocoder(Context context) {
+        return new AndroidGeocoder(context);
+    }
+
+    @PerDelegate
+    @Provides
+    AndroidGeolocationManager provideAndroidGeolocationManager(RetrieveLastKnownLocation retrieveLastKnownLocation,
+                                                               AndroidGeocoder androidGeocoder) {
+        return new AndroidGeolocationManager(retrieveLastKnownLocation, androidGeocoder);
+    }
+
+    @PerDelegate
+    @Provides
     GeofencePendingIntentCreator provideGeofencePendingIntentCreator(Context context,
                                                                      PermissionChecker permissionChecker,
                                                                      PermissionLocationImp permissionLocationImp) {
@@ -65,4 +105,6 @@ public class AndroidModule {
                                                          LocationMapper locationMapper) {
         return new AndroidGeofenceManager(androidGeofenceMapper, geofenceDeviceRegister, locationMapper);
     }
+
+
 }

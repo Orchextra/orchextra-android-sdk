@@ -45,13 +45,13 @@ public class ConfigInfoResultReader {
 
     ConfigInfoResultRealm config = readConfigObject(realm);
 
-    Vuforia vuforia = vuforiaRealmMapper.dataToModel(config.getVuforia());
-    Theme theme = themeRealmMapper.dataToModel(config.getTheme());
-    List<Geofence> geofences = geofencesToModel(config.getGeofences());
-    List<Beacon> beacons = beaconsToModel(config.getBeacons());
+    Vuforia vuforia = vuforiaRealmMapper.dataToModel(readVuforiaObject(realm));
+    Theme theme = themeRealmMapper.dataToModel(readThemeObject(realm));
+    List<Geofence> geofences = geofencesToModel(readGeofenceObjects(realm));
+    List<Beacon> beacons = beaconsToModel(readBeaconObjects(realm));
 
-    return new ConfigInfoResult.ConfigInfoResultBuilder(geofences,
-        beacons, theme, config.getRequestWaitTime(), vuforia).build();
+    return new ConfigInfoResult.Builder(config.getRequestWaitTime(), geofences,
+        beacons, theme, vuforia).build();
   }
 
   private List<Beacon> beaconsToModel(List<BeaconRealm> beaconRealms) {
@@ -71,15 +71,27 @@ public class ConfigInfoResultReader {
   }
 
   private ConfigInfoResultRealm readConfigObject(Realm realm){
-
-    RealmResults<ConfigInfoResultRealm> result = realm.where(ConfigInfoResultRealm.class).findAll();
-
-    if (result.size()>0){
-      return result.first();
-    }else{
-      throw new NotFountRealmObjectException();
+    ConfigInfoResultRealm configInfo = realm.where(ConfigInfoResultRealm.class).findFirst();
+    if (configInfo == null) {
+      configInfo = new ConfigInfoResultRealm();
     }
+    return configInfo;
+  }
 
+  private VuforiaRealm readVuforiaObject(Realm realm) {
+    return realm.where(VuforiaRealm.class).findFirst();
+  }
+
+  private ThemeRealm readThemeObject(Realm realm) {
+    return realm.where(ThemeRealm.class).findFirst();
+  }
+
+  private List<GeofenceRealm> readGeofenceObjects(Realm realm) {
+    return realm.where(GeofenceRealm.class).findAll();
+  }
+
+  private List<BeaconRealm> readBeaconObjects(Realm realm) {
+    return realm.where(BeaconRealm.class).findAll();
   }
 
   public Beacon getBeaconByUuid(Realm realm, String id){
@@ -133,8 +145,8 @@ public class ConfigInfoResultReader {
     List<Beacon> beacons = getAllBeacons(realm);
 
     //TODO review 0 value for waitResponse
-    return new ConfigInfoResult.ConfigInfoResultBuilder(geofences,
-        beacons, theme, 0, vuforia).build();
+    return new ConfigInfoResult.Builder(0, geofences,
+        beacons, theme, vuforia).build();
   }
 
 }

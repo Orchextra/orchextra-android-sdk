@@ -21,11 +21,15 @@ public class VuforiaRealmMapper implements RealmMapper<Vuforia, VuforiaRealm> {
 
   @Override public Vuforia dataToModel(VuforiaRealm vuforiaRealm) {
     Vuforia vuforia = new Vuforia();
-    vuforia.setClientAccessKey(vuforiaRealm.getClientAccessKey());
-    vuforia.setClientSecretKey(vuforiaRealm.getClientSecretKey());
-    vuforia.setLicenseKey(vuforiaRealm.getLicenseKey());
-    vuforia.setServerAccessKey(vuforiaRealm.getServerAccessKey());
-    vuforia.setServerSecretKey(vuforiaRealm.getServerSecretKey());
+
+    if (vuforiaRealm != null) {
+      vuforia.setClientAccessKey(vuforiaRealm.getClientAccessKey());
+      vuforia.setClientSecretKey(vuforiaRealm.getClientSecretKey());
+      vuforia.setLicenseKey(vuforiaRealm.getLicenseKey());
+      vuforia.setServerAccessKey(vuforiaRealm.getServerAccessKey());
+      vuforia.setServerSecretKey(vuforiaRealm.getServerSecretKey());
+    }
+
     return vuforia;
   }
 }

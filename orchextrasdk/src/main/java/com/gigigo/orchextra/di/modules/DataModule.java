@@ -31,6 +31,8 @@ import gigigo.com.orchextra.data.datasources.db.auth.SessionDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigDBDataSourceImpl;
+import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
+import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
 import gigigo.com.orchextra.data.datasources.device.DeviceDetailsProviderImpl;
 
 /**
@@ -76,9 +78,9 @@ public class DataModule {
     return new SessionDBDataSourceImpl(context,sessionUpdater, sessionReader);
   }
 
-  @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(Context context){
-    //TODO add readers and updaters in DBModule and Mappers in DBMappersModule
-    return new ConfigDBDataSourceImpl(context,null, null);
+  @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(Context context, ConfigInfoResultUpdater configInfoResultUpdater,
+                                                                    ConfigInfoResultReader configInfoResultReader){
+    return new ConfigDBDataSourceImpl(context,configInfoResultUpdater, configInfoResultReader);
   }
 
 

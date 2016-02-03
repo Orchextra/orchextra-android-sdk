@@ -57,7 +57,6 @@ public class ClientAuthData {
   }
 
   public boolean isExpired() {
-    return false;
-//    return Calendar.getInstance().getTime().after(expiresAt);
+    return Calendar.getInstance().getTime().after(expiresAt);
   }
 }

@@ -3,15 +3,17 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 import com.gigigo.ggglib.network.mappers.MapperUtils;
 import com.gigigo.ggglib.network.mappers.ResponseMapper;
 import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.Theme;
 import com.gigigo.orchextra.domain.entities.Vuforia;
+import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeacon;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -40,8 +42,8 @@ public class ConfigApiResponseMapper implements ResponseMapper<ConfigInfoResult,
     Theme theme = MapperUtils.checkNullDataResponse(themeResponseMapper, apiConfigData.getTheme());
     Vuforia vuforia = MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
-    return new ConfigInfoResult.ConfigInfoResultBuilder(geofences,beacons, theme,
-        apiConfigData.getRequestWaitTime(), vuforia).build();
+    return new ConfigInfoResult.Builder(apiConfigData.getRequestWaitTime(), geofences,beacons, theme,
+         vuforia).build();
 
   }
 

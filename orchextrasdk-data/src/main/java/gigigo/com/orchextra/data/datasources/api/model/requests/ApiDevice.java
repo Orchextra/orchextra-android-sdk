@@ -18,14 +18,8 @@ public class ApiDevice {
   @Expose @SerializedName("osVersion")
   private String osVersion;
 
-  @Expose @SerializedName("os")
-  private String os;
-
   @Expose @SerializedName("timeZone")
   private String timeZone;
-
-  @Expose @SerializedName("vendorId")
-  private String vendorId;
 
   @Expose @SerializedName("instanceId")
   private String instanceId;
@@ -74,14 +68,6 @@ public class ApiDevice {
     this.timeZone = timeZone;
   }
 
-  public String getVendorId() {
-    return vendorId;
-  }
-
-  public void setVendorId(String vendorId) {
-    this.vendorId = vendorId;
-  }
-
   public String getInstanceId() {
     return instanceId;
   }
@@ -112,14 +98,6 @@ public class ApiDevice {
 
   public void setBluetoothMacAddress(String bluetoothMacAddress) {
     this.bluetoothMacAddress = bluetoothMacAddress;
-  }
-
-  public String getOs() {
-    return os;
-  }
-
-  public void setOs(String os) {
-    this.os = os;
   }
 
   public String getWifiMacAddress() {

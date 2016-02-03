@@ -23,11 +23,9 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
   }
 
   @Override public BusinessObject<ConfigInfoResult> sendConfigInfo(Config config) {
-    BusinessObject<ConfigInfoResult> configResponse = configDBDataSource.obtainConfigData();
+//    BusinessObject<ConfigInfoResult> configResponse = configDBDataSource.obtainConfigData();
 
-    if (!configResponse.isSuccess()){
-      configResponse = configDataSource.sendConfigInfo(config);
-    }
+    BusinessObject<ConfigInfoResult> configResponse = configDataSource.sendConfigInfo(config);
 
     if (configResponse.isSuccess()){
       configDBDataSource.saveConfigData(configResponse.getData());

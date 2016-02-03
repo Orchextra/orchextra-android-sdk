@@ -39,6 +39,7 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   }
 
   @Override public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId) {
+    //TODO Must be unit tested
     BusinessObject<ClientAuthData> sessionToken = sessionDBDataSource.getSessionToken();
 
     Crm crm = sessionDBDataSource.getCrm().getData();
@@ -59,5 +60,10 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
     }
 
     return sessionToken;
+  }
+
+  @Override
+  public BusinessObject<Crm> retrieveCrm() {
+    return sessionDBDataSource.getCrm();
   }
 }

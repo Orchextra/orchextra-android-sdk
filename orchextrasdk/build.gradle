@@ -29,6 +29,7 @@ android {
     buildConfigField INT, "CONCURRENT_INTERACTORS", '1'
     buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
     buildConfigField STRING, "X_APP_SDK", '"ANDROID"'
+    buildConfigField STRING, "TOKEN_TYPE_BEARER", '"Bearer"'
   }
 
   buildTypes {
@@ -66,6 +67,8 @@ dependencies {
   apt parent.ext.dependencies.threaddecoratedviewcompiler
 
   compile parent.ext.dependencies.playServicesLocation
+
+  compile parent.ext.dependencies.butterKnife
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')

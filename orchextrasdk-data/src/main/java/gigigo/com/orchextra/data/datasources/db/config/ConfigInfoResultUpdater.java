@@ -5,6 +5,9 @@ import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.Theme;
 import com.gigigo.orchextra.domain.entities.Vuforia;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+
+import java.util.List;
+
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
@@ -14,7 +17,6 @@ import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmMapper;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
-import java.util.List;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -39,40 +41,39 @@ public class ConfigInfoResultUpdater {
   }
 
   public void updateConfigInfoV2(Realm realm, ConfigInfoResult config) {
+    clearDatabase(realm);
 
-    ConfigInfoResultRealm configInfoResultRealm = obtainConfigObject(realm);
-
+    ConfigInfoResultRealm configInfoResultRealm = new ConfigInfoResultRealm();
     configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
+    realm.copyToRealm(configInfoResultRealm);
 
     if (config.supportsBeacons()){
-      configInfoResultRealm.setBeacons(beaconsToRealm(config.getBeacons()));
+      RealmList<BeaconRealm> beaconRealm = beaconsToRealm(config.getBeacons());
+      realm.copyToRealm(beaconRealm);
     }
 
     if (config.supportsGeofences()){
-      configInfoResultRealm.setGeofences(geofencesToRealm(config.getGeofences()));
+      RealmList<GeofenceRealm> geofenceRealm = geofencesToRealm(config.getGeofences());
+      realm.copyToRealm(geofenceRealm);
     }
 
     if (config.supportsVuforia()){
-      configInfoResultRealm.setVuforia(vuforiaRealmMapper.modelToData(config.getVuforia()));
+      VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToData(config.getVuforia());
+      realm.copyToRealm(vuforiaRealm);
     }
 
     if (config.supportsTheme()){
-      configInfoResultRealm.setTheme(themeRealmMapper.modelToData(config.getTheme()));
+      ThemeRealm themeRealm = themeRealmMapper.modelToData(config.getTheme());
+      realm.copyToRealm(themeRealm);
     }
-
-    realm.copyToRealmOrUpdate(configInfoResultRealm);
   }
 
-  private ConfigInfoResultRealm obtainConfigObject(Realm realm) {
-
-    RealmResults<ConfigInfoResultRealm> result = realm.where(ConfigInfoResultRealm.class).findAll();
-
-    if (result.size()>0){
-      return result.first();
-    }else{
-      return new ConfigInfoResultRealm();
-    }
-
+  private void clearDatabase(Realm realm) {
+    realm.clear(ConfigInfoResultRealm.class);
+    realm.clear(BeaconRealm.class);
+    realm.clear(GeofenceRealm.class);
+    realm.clear(VuforiaRealm.class);
+    realm.clear(ThemeRealm.class);
   }
 
   private RealmList<BeaconRealm> beaconsToRealm(List<Beacon> beacons) {

@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.di.modules;
 
+import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
@@ -27,13 +28,15 @@ import dagger.Provides;
 public class InteractorsModule {
 
   @Provides @Singleton AuthenticationInteractor provideAuthenticationInteractor(
-      AuthenticationDataProvider authenticationDataProvider, DeviceDetailsProvider deviceDetailsProvider){
-    return new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider);
+      AuthenticationDataProvider authenticationDataProvider, DeviceDetailsProvider deviceDetailsProvider,
+      AuthenticationHeaderProvider authenticationHeaderProvider){
+    return new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, authenticationHeaderProvider);
   }
 
   @Provides @Singleton SendConfigInteractor provideSendConfigInteractor(
-      ConfigDataProvider configDataProvider){
-    return new SendConfigInteractor(configDataProvider);
+      ConfigDataProvider configDataProvider,
+      AuthenticationDataProvider authenticationDataProvider){
+    return new SendConfigInteractor(configDataProvider, authenticationDataProvider);
   }
 
   @Provides @Singleton SaveUserInfoInteractor provideSaveUserInfoInteractor(
