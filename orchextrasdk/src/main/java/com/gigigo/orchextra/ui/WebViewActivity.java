@@ -6,19 +6,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
+import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.domain.interactors.actions.ActionExecution;
 
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 
 public class WebViewActivity extends AppCompatActivity {
 
     private static final String EXTRA_URL = "EXTRA_URL";
 
-    @Bind(R.id.orchextraWebView)
-    OrchextraWebView orchextraWebView;
+    private OrchextraWebView orchextraWebView;
 
     @Inject
     ActionExecution actionExecution;
@@ -32,9 +29,9 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.id.activity_webview_layout);
+        setContentView(R.layout.activity_webview_layout);
 
-        ButterKnife.bind(this);
+        orchextraWebView = (OrchextraWebView) findViewById(R.id.ox_orchextraWebView);
 
         initWebView();
     }

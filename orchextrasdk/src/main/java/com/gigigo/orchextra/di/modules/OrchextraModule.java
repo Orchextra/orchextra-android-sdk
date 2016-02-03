@@ -13,6 +13,7 @@ import com.gigigo.orchextra.android.notifications.ForegroundNotificationBuilderI
 import com.gigigo.orchextra.domain.device.DeviceRunningModeType;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
+import com.gigigo.orchextra.domain.interactors.actions.ActionExecution;
 import com.gigigo.orchextra.domain.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.notifications.NotificationBehaviorImp;
 
@@ -55,7 +56,7 @@ public class OrchextraModule {
   @Provides
   @Singleton
   ActionDispatcher provideActionDispatcher(NotificationBehavior notificationBehavior) {
-    return new ActionDispatcherImpl(notificationBehavior);
+    return new ActionDispatcherImpl(null, notificationBehavior);
   }
 
   @Provides @Singleton

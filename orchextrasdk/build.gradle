@@ -64,11 +64,12 @@ dependencies {
   compile parent.ext.dependencies.gsonConverter
   compile parent.ext.dependencies.loggingInterceptor
   compile parent.ext.dependencies.threaddecoratedview
+  compile parent.ext.dependencies.androidSupportv7
+  compile 'org.altbeacon:android-beacon-library:2+'
   apt parent.ext.dependencies.threaddecoratedviewcompiler
 
   compile parent.ext.dependencies.playServicesLocation
-
-  compile parent.ext.dependencies.butterKnife
+  compile parent.ext.dependencies.playServicesGcm
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')

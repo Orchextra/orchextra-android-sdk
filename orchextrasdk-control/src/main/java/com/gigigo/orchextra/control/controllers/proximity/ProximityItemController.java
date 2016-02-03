@@ -38,8 +38,7 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
                                    GetActionInteractor getActionInteractor,
                                    ListMapper<Geofence, ControlGeofence> controlGeofenceListMapper,
                                    Mapper<Point, ControlPoint> controlPointMapper,
-                                   RetrieveGeofenceTriggerInteractor retrieveGeofenceTriggerInteractor,
-                                   ActionDispatcher actionDispatcher) {
+                                   RetrieveGeofenceTriggerInteractor retrieveGeofenceTriggerInteractor) {
         super(mainThreadSpec);
         this.interactorInvoker = interactorInvoker;
         this.retrieveGeofencesInteractor = retrieveGeofencesInteractor;
