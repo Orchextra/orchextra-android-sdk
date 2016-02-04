@@ -5,7 +5,7 @@ import android.content.Context;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.ui.WebViewActivity;
 
-public class WebViewActionExecutor implements ActionExecution {
+public class WebViewActionExecutor implements ActionExecutor {
 
     private final Context context;
 

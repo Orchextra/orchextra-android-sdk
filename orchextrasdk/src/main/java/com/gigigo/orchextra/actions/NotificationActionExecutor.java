@@ -4,7 +4,7 @@ import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.notifications.NotificationBehavior;
 
-public class NotificationActionExecutor implements ActionExecution {
+public class NotificationActionExecutor implements ActionExecutor {
 
     private final NotificationBehavior notificationBehavior;
 

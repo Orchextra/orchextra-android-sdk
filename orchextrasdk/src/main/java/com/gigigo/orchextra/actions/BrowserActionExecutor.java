@@ -6,7 +6,7 @@ import android.net.Uri;
 
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 
-public class BrowserActionExecutor implements ActionExecution {
+public class BrowserActionExecutor implements ActionExecutor {
 
     private final Context context;
 
