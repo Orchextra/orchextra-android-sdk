@@ -10,6 +10,8 @@ import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
+import com.gigigo.orchextra.initalization.OrchextraCompletionCallback;
+import javax.inject.Inject;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -17,62 +19,49 @@ import com.gigigo.orchextra.di.modules.OrchextraModule;
  */
 public class Orchextra {
 
-  private static Context applicationContext;
-  private static InjectorImpl injector;
-  private static OrchextraComponent orchextraComponent;
-  private static OrchextraActivityLifecycle orchextraLifecycle;
+  private static Orchextra instance;
+  private InjectorImpl injector;
 
-  private static void initDependencyInjection() {
-    orchextraComponent = DaggerOrchextraComponent.builder()
-        .orchextraModule(new OrchextraModule(Orchextra.applicationContext)).build();
+  @Inject
+  OrchextraActivityLifecycle orchextraActivityLifecycle;
 
+  public void initDependencyInjection(Context applicationContext, OrchextraCompletionCallback orchextraCompletionCallback) {
+    OrchextraComponent orchextraComponent = DaggerOrchextraComponent.builder()
+        .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback))
+        .build();
     injector = new InjectorImpl(orchextraComponent);
+    orchextraComponent.injectOrchextra(Orchextra.instance);
   }
 
-  public static synchronized void sdkInitialize(Context applicationContext,
-      String apiKey, String apiSecret) {
+  public static synchronized void sdkInitialize(Application application, String apiKey,
+      String apiSecret, OrchextraCompletionCallback orchextraCompletionCallback) {
+    Orchextra.instance = new Orchextra();
+    Orchextra.instance.init(application, orchextraCompletionCallback);
+    Orchextra.instance.start(apiKey, apiSecret);
+  }
 
-    Orchextra.applicationContext = applicationContext.getApplicationContext();
+  private void init(Application application, OrchextraCompletionCallback orchextraCompletionCallback) {
+    initDependencyInjection(application.getApplicationContext(), orchextraCompletionCallback);
 
-    initDependencyInjection();
+    initLifecyle(application);
 
-    checkSdkBasicPermissions();
+  }
 
-    startLifeCycle();
+  private void initLifecyle(Application application) {
+    application.registerActivityLifecycleCallbacks(orchextraActivityLifecycle);
+  }
 
+  private void start(String apiKey, String apiSecret) {
     authenticate(apiKey, apiSecret);
-
-    startSdkServices();
   }
 
-  private static void authenticate(String apiKey, String apiSecret) {
+  private void authenticate(String apiKey, String apiSecret) {
     AuthenticationDelegateImpl.authenticate(apiKey, apiSecret);
     FakeDelegate.showToast();
   }
 
-  private static void checkSdkBasicPermissions() {
-
-  }
-
-  private static void startSdkServices() {
-
-  }
-
-  private static void startLifeCycle() {
-    Application app = (Application) applicationContext;
-    orchextraLifecycle = orchextraComponent.provideOrchextraActivityLifecycle();
-    app.registerActivityLifecycleCallbacks(orchextraLifecycle);
-  }
-
-  public static OrchextraActivityLifecycle getOchextraLifeCycle() {
-    return orchextraLifecycle;
-  }
-
   public static InjectorImpl getInjector() {
-    return injector;
+    return Orchextra.instance.injector;
   }
 
-  public static Context getAppContext() {
-    return applicationContext;
-  }
 }

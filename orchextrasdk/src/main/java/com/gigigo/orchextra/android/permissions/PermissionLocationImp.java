@@ -14,21 +14,21 @@ public class PermissionLocationImp implements Permission {
 
     @Override
     public int getPermissionSettingsDeniedFeedback() {
-        return R.string.permission_settings;
+        return R.string.ox_permission_settings;
     }
 
     @Override
     public int getPermissionDeniedFeedback() {
-        return R.string.permission_denied_geolocation;
+        return R.string.ox_permission_denied_geolocation;
     }
 
     @Override
     public int getPermissionRationaleTitle() {
-        return R.string.permission_rationale_title_location;
+        return R.string.ox_permission_rationale_title_location;
     }
 
     @Override
     public int getPermissionRationaleMessage() {
-        return R.string.permission_rationale_message_location;
+        return R.string.ox_permission_rationale_message_location;
     }
 }

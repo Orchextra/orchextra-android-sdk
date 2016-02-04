@@ -57,6 +57,8 @@ android {
 }
 
 dependencies {
+
+  compile 'org.altbeacon:android-beacon-library:2+'
   apt parent.ext.dependencies.daggerCompiler
   compile parent.ext.dependencies.dagger
   provided parent.ext.dependencies.javaXannotations
@@ -67,9 +69,9 @@ dependencies {
   compile parent.ext.dependencies.androidSupportv7
   compile 'org.altbeacon:android-beacon-library:2+'
   apt parent.ext.dependencies.threaddecoratedviewcompiler
-
   compile parent.ext.dependencies.playServicesLocation
   compile parent.ext.dependencies.playServicesGcm
+
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')

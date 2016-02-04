@@ -13,7 +13,14 @@ allprojects {
         coordinatorCompiler : 'me.panavtec:coordinator-compiler:1.1.5',
         threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',
         threaddecoratedviewcompiler : 'me.panavtec:threaddecoratedview-compiler:1.5.1',
-        javaxInjectAnnotations: 'javax.inject:javax.inject:1'
+        javaxInjectAnnotations: 'javax.inject:javax.inject:1',
+        playServicesGcm            : 'com.google.android.gms:play-services-gcm:8.4.0',
+        playServicesLocation       : 'com.google.android.gms:play-services-location:8.4.0',
+        dexter                     : 'com.karumi:dexter:2.1.2',
+        butterKnife                : 'com.jakewharton:butterknife:7.0.1',
+        realm                      : 'io.realm:realm-android:0.87.0',
+        altBeacon                  : 'org.altbeacon:android-beacon-library:2+'
+
 
     ]
 

@@ -66,6 +66,7 @@ public class AndroidGeofenceManager {
                     return GeoPointEventType.EXIT;
             }
         }
+        //TODO review this
         return null;
     }
 }

@@ -26,8 +26,8 @@ public class ForegroundNotificationBuilderImp implements NotificationBuilder {
         this.action = action;
 
         DialogTwoOptions dialog = new DialogTwoOptions(context, notification.getTitle(), notification.getBody(),
-                context.getString(R.string.orc_accept_text), positiveButtonListener,
-                context.getString(R.string.orc_cancel_text), negativeButtonListener);
+                context.getString(R.string.ox_accept_text), positiveButtonListener,
+                context.getString(R.string.ox_cancel_text), negativeButtonListener);
 
         dialog.onCreateDialog().show();
     }

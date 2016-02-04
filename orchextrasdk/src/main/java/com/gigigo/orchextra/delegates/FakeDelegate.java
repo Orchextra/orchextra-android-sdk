@@ -1,8 +1,8 @@
 package com.gigigo.orchextra.delegates;
 
-import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.R;
@@ -16,7 +16,7 @@ import javax.inject.Inject;
  */
 public class FakeDelegate implements Delegate {
 
-  @Inject Context appContext;
+  @Inject ContextProvider contextProvider;
   private static FakeDelegate me;
   private DelegateComponent delegateComponent;
 
@@ -34,11 +34,12 @@ public class FakeDelegate implements Delegate {
   }
 
   private void showToastTask() {
-    Handler handler = new Handler(appContext.getMainLooper());
+    Handler handler = new Handler(contextProvider.getApplicationContext().getMainLooper());
     handler.postDelayed(new Runnable() {
       @Override public void run() {
-        Toast.makeText(appContext, " HEEEEYYYYYYYYYYY FakeDelegate", Toast.LENGTH_LONG);
-        GGGLogImpl.log("FakeDelegate is saying hello to " + appContext.getString(
+        Toast.makeText(contextProvider.getApplicationContext(), " HEEEEYYYYYYYYYYY FakeDelegate", Toast.LENGTH_LONG);
+        GGGLogImpl.log("FakeDelegate is saying hello to " +
+            contextProvider.getApplicationContext().getString(
             R.string.app_name));
 
       }

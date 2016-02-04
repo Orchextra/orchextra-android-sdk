@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.di.injector;
 
+import com.gigigo.orchextra.android.service.OrchextraBackgroundService;
 import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.delegates.ProximityItemDelegateImp;
@@ -7,6 +8,7 @@ import com.gigigo.orchextra.di.components.DaggerDelegateComponent;
 import com.gigigo.orchextra.di.components.DelegateComponent;
 import com.gigigo.orchextra.delegates.FakeDelegate;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
+import com.gigigo.orchextra.di.components.ServiceComponent;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -46,5 +48,12 @@ public class InjectorImpl implements Injector{
             .orchextraComponent(orchextraComponent).build();
     delegateComponent.injectConfigDelegate(configDelegateImp);
     return delegateComponent;
+  }
+
+  @Override public ServiceComponent injectServiceComponent(OrchextraBackgroundService myAppService) {
+    ServiceComponent serviceComponent = DaggerServiceComponent.builder().
+        orchextraComponent(orchextraComponent).build();
+    serviceComponent.injectOrchextraService(myAppService);
+    return serviceComponent;
   }
 }

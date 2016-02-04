@@ -2,7 +2,7 @@ package com.gigigo.orchextra.domain.interactors.geofences;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
-import com.gigigo.orchextra.domain.device.DeviceRunningModeType;
+import com.gigigo.orchextra.domain.device.AppRunningMode;
 import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.Point;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
@@ -19,14 +19,14 @@ import java.util.List;
 public class RetrieveGeofenceTriggerInteractor implements Interactor<InteractorResponse<List<Trigger>>> {
 
     private final GeofenceDataProvider geofenceDataProvider;
-    private final DeviceRunningModeType deviceRunningModeType;
+    private final AppRunningMode appRunningMode;
     private List<String> triggeringGeofenceIds;
     private Point triggeringPoint;
     private GeoPointEventType geofenceTransition;
 
-    public RetrieveGeofenceTriggerInteractor(GeofenceDataProvider geofenceDataProvider, DeviceRunningModeType deviceRunningModeType) {
+    public RetrieveGeofenceTriggerInteractor(GeofenceDataProvider geofenceDataProvider, AppRunningMode appRunningMode) {
         this.geofenceDataProvider = geofenceDataProvider;
-        this.deviceRunningModeType = deviceRunningModeType;
+        this.appRunningMode = appRunningMode;
     }
 
     @Override
@@ -38,9 +38,10 @@ public class RetrieveGeofenceTriggerInteractor implements Interactor<InteractorR
             if (boGeofence.isSuccess()) {
                 Geofence geofence = boGeofence.getData();
 
-                double distanceFromGeofenceInKm = triggeringPoint.getDistanceFromPointInKm(geofence.getPoint());
+                double distanceFromGeofenceInKm = triggeringPoint.getDistanceFromPointInKm(
+                    geofence.getPoint());
 
-                AppRunningModeType appRunningModeType = deviceRunningModeType.getAppRunningModeType();
+                AppRunningModeType appRunningModeType = appRunningMode.getRunningModeType();
 
                 GeofenceTrigger geofenceTrigger = Trigger.createGeofenceTrigger(triggeringGeofenceId, geofence.getPoint(),
                         appRunningModeType, distanceFromGeofenceInKm, geofenceTransition);

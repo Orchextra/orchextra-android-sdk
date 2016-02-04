@@ -6,7 +6,7 @@ import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
 import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
-import com.gigigo.orchextra.domain.device.DeviceRunningModeType;
+import com.gigigo.orchextra.domain.device.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
@@ -62,8 +62,8 @@ public class InteractorsModule {
     @Provides
     @Singleton
     RetrieveGeofenceTriggerInteractor provideRetrieveGeofenceDistanceInteractor(GeofenceDataProvider geofenceDataProvider,
-                                                                                DeviceRunningModeType deviceRunningModeType) {
-        return new RetrieveGeofenceTriggerInteractor(geofenceDataProvider, deviceRunningModeType);
+                                                                                AppRunningMode appRunningMode) {
+        return new RetrieveGeofenceTriggerInteractor(geofenceDataProvider, appRunningMode);
     }
 
 }

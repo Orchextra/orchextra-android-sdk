@@ -3,17 +3,14 @@ package com.gigigo.orchextra.android.applifecycle;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
-import com.gigigo.ggglib.device.AndroidSdkVersion;
-import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.android.notifications.AndroidBackgroundNotificationActionManager;
-import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
+import com.gigigo.orchextra.domain.device.LifeCycleAccessor;
 
 import java.util.EmptyStackException;
 import java.util.Iterator;
@@ -23,75 +20,21 @@ import java.util.Stack;
  * Created by Sergio Martinez Rodriguez
  * Date 18/1/16.
  */
+//TODO Refactor this class, is having too many responsibilities separate state and behavior
 public class OrchextraActivityLifecycle implements Application.ActivityLifecycleCallbacks,
-    ContextProvider, AppRunningMode{
+    LifeCycleAccessor {
 
-  private final AndroidBackgroundNotificationActionManager androidBackgroundNotificationActionManager;
-  private final Context applicationContext;
+  private final AndroidBackgroundNotificationActionManager
+      androidBackgroundNotificationActionManager;
+  private final AppStatusEventsListener appStatusEventsListener;
 
   private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
 
-  public OrchextraActivityLifecycle(Context applicationContext,
-                                    AndroidBackgroundNotificationActionManager androidBackgroundNotificationActionManager) {
-
-    this.applicationContext = applicationContext;
+  public OrchextraActivityLifecycle(AppStatusEventsListener listener,
+      AndroidBackgroundNotificationActionManager androidBackgroundNotificationActionManager) {
+    this.appStatusEventsListener = listener;
     this.androidBackgroundNotificationActionManager = androidBackgroundNotificationActionManager;
   }
-
-  //region context provider interface
-  @Override public Activity getCurrentActivity() {
-
-    Activity activity = lastForegroundActivity();
-
-    if (activity!=null){
-      return activity;
-    }
-
-    activity = lastPausedActivity();
-
-    if (activity!=null){
-      return activity;
-    }
-
-    if (activityStack.size()>0){
-      activity = activityStack.peek().getActivity();
-
-      if (activity!=null){
-        return activity;
-      }
-    }
-
-    return null;
-  }
-
-  @Override public boolean isActivityContextAvailable() {
-    //this implementation gives context of pauses and stopped activities
-    return (applicationContext!=null)? true : false;
-  }
-
-  @Override public Context getApplicationContext() {
-    return applicationContext;
-  }
-
-  @Override public boolean isApplicationContextAvailable() {
-    return (applicationContext!=null)? true : false;
-  }
-
-  //endregion
-
-  //region running Mode interface
-
-  @Override public AppRunningModeType getRunningModeType() {
-    Activity activity = lastPausedActivity();
-
-    if (activity!=null){
-      return AppRunningModeType.FOREGROUND;
-    }else{
-      return AppRunningModeType.BACKGROUND;
-    }
-  }
-
-  //endregion
 
   //region Activity lifecycle Management
 
@@ -103,16 +46,37 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
 
   @Override public void onActivityStarted(Activity activity) {
     try {
-      activityStack.peek().setIsStopped(false);
+      boolean wasInBackground = endBackgroundModeIfNeeded();
+      setCurrentStackActivityAsNotStopped();
+      if (wasInBackground) {
+        startForegroundMode();
+      }
       cleanZombieWrappersAtStack();
     } catch (EmptyStackException e) {
+      //TODO do something interesting
       GGGLogImpl.log("Orchextra must be init in App", LogLevel.ERROR);
     }
   }
 
-  @Override public void onActivityResumed(Activity activity) {
-    //TODO Register for phase 2 shake detector
+  private void startForegroundMode() {
+    appStatusEventsListener.onForegroundStart();
+  }
 
+  private boolean endBackgroundModeIfNeeded() {
+    //NOTE last paused activity == null means app is in background
+    if (lastPausedActivity() == null) {
+      appStatusEventsListener.onBackgroundEnd();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private void setCurrentStackActivityAsNotStopped() {
+    activityStack.peek().setIsStopped(false);
+  }
+
+  @Override public void onActivityResumed(Activity activity) {
     try {
       ConsistencyUtils.checkNotEmpty(activityStack);
       activityStack.peek().setIsPaused(false);
@@ -122,8 +86,6 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   }
 
   @Override public void onActivityPaused(Activity activity) {
-    //TODO Unregister for phase 2 shake detector
-
     try {
       ConsistencyUtils.checkNotEmpty(activityStack);
       activityStack.peek().setIsPaused(true);
@@ -132,13 +94,28 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
     }
   }
 
-
   @Override public void onActivityStopped(Activity activity) {
     try {
       ConsistencyUtils.checkNotEmpty(activityStack);
-      activityStack.peek().setIsStopped(true);
+
+      if (appWillGoToBackground()) {
+        appStatusEventsListener.onForegroundEnd();
+      }
+      setCurrentStackActivityAsStopped();
+      setBackgroundModeIfNeeded();
     } catch (Exception e) {
       GGGLogImpl.log("Orchextra must be init in App", LogLevel.ERROR);
+    }
+  }
+
+  private void setCurrentStackActivityAsStopped() {
+    activityStack.peek().setIsStopped(true);
+  }
+
+  private void setBackgroundModeIfNeeded() {
+    //Note that when last paused activity is null means app is in background
+    if (lastPausedActivity() == null) {
+      appStatusEventsListener.onBackgroundStart();
     }
   }
 
@@ -151,19 +128,32 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
     }
   }
 
-  @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
+  @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+  }
 
   //endregion
 
   //region StackUtils
 
   //region last activities recovery
-  private Activity lastPausedActivity() {
+
+  private boolean appWillGoToBackground() {
     Iterator<ActivityLifecyleWrapper> iter = activityStack.iterator();
 
-    while (iter.hasNext()){
+    int i = 0;
+    while (iter.hasNext()) {
       ActivityLifecyleWrapper activityLifecyleWrapper = iter.next();
-      if (!activityLifecyleWrapper.isStopped()){
+      if (!activityLifecyleWrapper.isStopped()) {
+        i++;
+      }
+    }
+    return (i == 1);
+  }
+
+  public Activity lastPausedActivity() {
+
+    for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
+      if (!activityLifecyleWrapper.isStopped()) {
         return activityLifecyleWrapper.getActivity();
       }
     }
@@ -172,11 +162,8 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
 
   private Activity lastForegroundActivity() {
 
-    Iterator<ActivityLifecyleWrapper> iter = activityStack.iterator();
-
-    while (iter.hasNext()){
-      ActivityLifecyleWrapper activityLifecyleWrapper = iter.next();
-      if (!activityLifecyleWrapper.isPaused()){
+    for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
+      if (!activityLifecyleWrapper.isPaused()) {
         return activityLifecyleWrapper.getActivity();
       }
     }
@@ -191,35 +178,65 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
 
     Iterator<ActivityLifecyleWrapper> iter = activityStack.iterator();
 
-    while (iter.hasNext()){
+    while (iter.hasNext()) {
       ActivityLifecyleWrapper activityLifecyleWrapper = iter.next();
-      if (isActivityDestroyed(activityLifecyleWrapper.getActivity())){
+      if (isActivityDestroyed(activityLifecyleWrapper.getActivity())) {
         iter.remove();
       }
     }
   }
 
   private boolean isActivityDestroyed(Activity activity) {
-    if (AndroidSdkVersion.hasJellyBean17()){
-      return checkActivityDestroyedV17(activity);
-    }else{
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
       return checkActivityDestroyedUnderV17(activity);
+    } else {
+      return checkActivityDestroyedV17(activity);
     }
   }
 
   private boolean checkActivityDestroyedUnderV17(Activity activity) {
-    if (activity == null || activity.getBaseContext() == null){
-      return true;
-    }
-    else return false;
+    return activity == null || activity.getBaseContext() == null;
   }
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   private boolean checkActivityDestroyedV17(Activity activity) {
-    if (activity == null || activity.isDestroyed()){
-      return true;
+    return activity == null || activity.isDestroyed();
+  }
+
+  public AppStatusEventsListener getAppStatusEventsListener() {
+    return appStatusEventsListener;
+  }
+
+  public Activity getCurrentActivity() {
+    Activity activity = lastForegroundActivity();
+
+    if (activity != null) {
+      return activity;
     }
-    else return false;
+
+    activity = lastPausedActivity();
+
+    if (activity != null) {
+      return activity;
+    }
+
+    if (activityStack.size() > 0) {
+      activity = activityStack.peek().getActivity();
+
+      if (activity != null) {
+        return activity;
+      }
+    }
+
+    return null;
+  }
+
+  public boolean isActivityContextAvailable() {
+    return (getCurrentActivity() != null);
+  }
+
+  @Override public boolean isInBackground() {
+    return lastPausedActivity() == null;
   }
 
   //endregion

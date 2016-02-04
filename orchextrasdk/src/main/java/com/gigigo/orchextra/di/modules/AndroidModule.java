@@ -1,7 +1,5 @@
 package com.gigigo.orchextra.di.modules;
 
-import android.content.Context;
-
 import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
@@ -52,8 +50,8 @@ public class AndroidModule {
 
     @PerDelegate
     @Provides
-    AndroidDevice provideAndroidDevice(Context context) {
-        return new AndroidDevice(context);
+    AndroidDevice provideAndroidDevice(ContextProvider contextProvider) {
+        return new AndroidDevice(contextProvider.getApplicationContext());
     }
 
 
@@ -68,8 +66,8 @@ public class AndroidModule {
 
     @PerDelegate
     @Provides
-    AndroidGeocoder provideAndroidGeocoder(Context context) {
-        return new AndroidGeocoder(context);
+    AndroidGeocoder provideAndroidGeocoder(ContextProvider contextProvider) {
+        return new AndroidGeocoder(contextProvider.getApplicationContext());
     }
 
     @PerDelegate
@@ -81,10 +79,10 @@ public class AndroidModule {
 
     @PerDelegate
     @Provides
-    GeofencePendingIntentCreator provideGeofencePendingIntentCreator(Context context,
+    GeofencePendingIntentCreator provideGeofencePendingIntentCreator(ContextProvider contextProvider,
                                                                      PermissionChecker permissionChecker,
                                                                      PermissionLocationImp permissionLocationImp) {
-        return new GeofencePendingIntentCreator(context);
+        return new GeofencePendingIntentCreator(contextProvider.getApplicationContext());
     }
 
     @PerDelegate

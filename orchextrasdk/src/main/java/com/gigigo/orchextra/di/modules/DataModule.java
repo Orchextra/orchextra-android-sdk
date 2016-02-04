@@ -1,7 +1,6 @@
 package com.gigigo.orchextra.di.modules;
 
-import android.content.Context;
-
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.mappers.RequestMapper;
@@ -73,19 +72,21 @@ public class DataModule {
   }
 
 
-  @Provides @Singleton SessionDBDataSource provideSessionDBDataSource(Context context, SessionUpdater sessionUpdater,
-                                                                      SessionReader sessionReader){
-    return new SessionDBDataSourceImpl(context,sessionUpdater, sessionReader);
+  @Provides @Singleton SessionDBDataSource provideSessionDBDataSource(
+      ContextProvider contextProvider, SessionUpdater sessionUpdater, SessionReader sessionReader){
+    return new SessionDBDataSourceImpl(contextProvider.getApplicationContext(),
+        sessionUpdater, sessionReader);
   }
 
-  @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(Context context, ConfigInfoResultUpdater configInfoResultUpdater,
+  @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(ContextProvider contextProvider, ConfigInfoResultUpdater configInfoResultUpdater,
                                                                     ConfigInfoResultReader configInfoResultReader){
-    return new ConfigDBDataSourceImpl(context,configInfoResultUpdater, configInfoResultReader);
+    return new ConfigDBDataSourceImpl(contextProvider.getApplicationContext(),
+        configInfoResultUpdater, configInfoResultReader);
   }
 
 
-  @Provides @Singleton DeviceDetailsProvider provideDeviceDetailsProvider(Context context){
-    return new DeviceDetailsProviderImpl(context);
+  @Provides @Singleton DeviceDetailsProvider provideDeviceDetailsProvider(ContextProvider contextProvider){
+    return new DeviceDetailsProviderImpl(contextProvider.getApplicationContext());
   }
 
 }
