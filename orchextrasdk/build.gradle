@@ -68,8 +68,6 @@ dependencies {
 
   compile parent.ext.dependencies.playServicesLocation
 
-  compile parent.ext.dependencies.butterKnife
-
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')
   compile project(':ggglib')

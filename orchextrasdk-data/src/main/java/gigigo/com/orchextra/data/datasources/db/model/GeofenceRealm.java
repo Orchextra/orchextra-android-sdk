@@ -13,8 +13,9 @@ public class GeofenceRealm extends RealmObject {
   private RealmPoint point;
   private int radius;
 
-  @Required
   private String id;
+
+  @Required
   private String code;
   private String name;
   private RealmList<KeyWordRealm> tags;

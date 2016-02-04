@@ -13,7 +13,6 @@ import com.gigigo.orchextra.domain.entities.Point;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
 import com.gigigo.orchextra.domain.entities.triggers.Trigger;
-import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
@@ -38,8 +37,7 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
                                    GetActionInteractor getActionInteractor,
                                    ListMapper<Geofence, ControlGeofence> controlGeofenceListMapper,
                                    Mapper<Point, ControlPoint> controlPointMapper,
-                                   RetrieveGeofenceTriggerInteractor retrieveGeofenceTriggerInteractor,
-                                   ActionDispatcher actionDispatcher) {
+                                   RetrieveGeofenceTriggerInteractor retrieveGeofenceTriggerInteractor) {
         super(mainThreadSpec);
         this.interactorInvoker = interactorInvoker;
         this.retrieveGeofencesInteractor = retrieveGeofencesInteractor;

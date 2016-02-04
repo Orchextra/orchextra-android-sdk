@@ -32,7 +32,9 @@ public class BeaconRealmMapper implements RealmMapper<Beacon, BeaconRealm> {
     beaconRealm.setNotifyOnExit(beacon.isNotifyOnExit());
     beaconRealm.setStayTime(beacon.getStayTime());
     beaconRealm.setTags(keyWordRealmMapper.stringKeyWordsToRealmList(beacon.getTags()));
-    beaconRealm.setType(beacon.getType().getStringValue());
+    if (beacon.getType() != null) {
+      beaconRealm.setType(beacon.getType().getStringValue());
+    }
 
     beaconRealm.setCreatedAt(
         DateUtils.dateToStringWithFormat(beacon.getCreatedAt(), DateFormatConstants.DATE_FORMAT));

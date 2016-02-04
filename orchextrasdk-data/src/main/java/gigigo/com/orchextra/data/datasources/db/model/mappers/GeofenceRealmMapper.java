@@ -38,7 +38,9 @@ public class GeofenceRealmMapper implements RealmMapper<Geofence, GeofenceRealm>
     geofenceRealm.setNotifyOnExit(geofence.isNotifyOnExit());
     geofenceRealm.setStayTime(geofence.getStayTime());
     geofenceRealm.setTags(keyWordRealmMapper.stringKeyWordsToRealmList(geofence.getTags()));
-    geofenceRealm.setType(geofence.getType().getStringValue());
+    if (geofence.getType() != null) {
+      geofenceRealm.setType(geofence.getType().getStringValue());
+    }
 
     geofenceRealm.setCreatedAt(
         DateUtils.dateToStringWithFormat(geofence.getCreatedAt(), DateFormatConstants.DATE_FORMAT));
