@@ -167,7 +167,6 @@ public class OrchextraModule {
     }
 
     return new ActionsSchedulerControllerImpl(actionsScheduler, actionsSchedulerPersistor);
-
   }
 
   @Provides
