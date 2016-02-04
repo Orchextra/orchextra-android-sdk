@@ -5,6 +5,7 @@ import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.delegates.ProximityItemDelegateImp;
 import com.gigigo.orchextra.di.components.DaggerDelegateComponent;
+import com.gigigo.orchextra.di.components.DaggerServiceComponent;
 import com.gigigo.orchextra.di.components.DelegateComponent;
 import com.gigigo.orchextra.delegates.FakeDelegate;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
