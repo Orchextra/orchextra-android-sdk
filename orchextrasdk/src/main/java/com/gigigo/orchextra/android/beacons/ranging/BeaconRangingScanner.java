@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.android.beacons.ranging;
 
 import com.gigigo.orchextra.android.beacons.BackgroundBeaconsRangingTimeType;
-import com.gigigo.orchextra.android.beacons.RegionsProviderListener;
+import com.gigigo.orchextra.control.controllers.proximity.beacons.RegionsProviderListener;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import java.util.List;
 import org.altbeacon.beacon.Region;

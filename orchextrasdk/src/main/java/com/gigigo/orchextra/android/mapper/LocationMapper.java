@@ -2,16 +2,16 @@ package com.gigigo.orchextra.android.mapper;
 
 import android.location.Location;
 
-import com.gigigo.orchextra.control.entities.ControlPoint;
-import com.gigigo.orchextra.control.mapper.MapperControlToModel;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
+import com.gigigo.orchextra.domain.mappers.MapperAndroidToModel;
 
-public class LocationMapper implements MapperControlToModel<ControlPoint, Location> {
+public class LocationMapper implements MapperAndroidToModel<Location, OrchextraPoint> {
 
-    public ControlPoint controlToModel(Location control) {
-        ControlPoint point = new ControlPoint();
+    @Override public OrchextraPoint androidToModel(Location location) {
+        OrchextraPoint point = new OrchextraPoint();
 
-        point.setLat(control.getLatitude());
-        point.setLng(control.getLongitude());
+        point.setLat(location.getLatitude());
+        point.setLng(location.getLongitude());
 
         return point;
     }

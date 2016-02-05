@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.domain.entities.triggers;
 
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 import com.gigigo.orchextra.domain.entities.triggers.strategy.BeaconDistanceTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.entities.triggers.strategy.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.entities.triggers.strategy.GeoPointEventTypeBehaviourImpl;
@@ -11,7 +11,7 @@ import com.gigigo.orchextra.domain.entities.triggers.strategy.GeoPointEventTypeB
  */
 public class ScanTrigger extends Trigger {
 
-  public ScanTrigger(TriggerType triggerType, String id, Point point,
+  public ScanTrigger(TriggerType triggerType, String id, OrchextraPoint point,
       AppRunningModeType appRunningModeType) {
     super(triggerType, id, point, appRunningModeType);
   }

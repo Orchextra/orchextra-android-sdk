@@ -3,8 +3,8 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.ggglib.network.mappers.MapperUtils;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 import com.gigigo.orchextra.domain.entities.ProximityPointType;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
@@ -13,19 +13,19 @@ import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class GeofenceRealmMapper implements RealmMapper<Geofence, GeofenceRealm> {
+public class GeofenceRealmMapper implements RealmMapper<OrchextraGeofence, GeofenceRealm> {
 
-  private final RealmMapper<Point, RealmPoint> realmPointMapper;
+  private final RealmMapper<OrchextraPoint, RealmPoint> realmPointMapper;
   private final KeyWordRealmMapper keyWordRealmMapper;
 
 
-  public GeofenceRealmMapper(RealmMapper<Point, RealmPoint> realmPointMapper,
+  public GeofenceRealmMapper(RealmMapper<OrchextraPoint, RealmPoint> realmPointMapper,
       KeyWordRealmMapper keyWordRealmMapper) {
     this.realmPointMapper = realmPointMapper;
     this.keyWordRealmMapper = keyWordRealmMapper;
   }
 
-  @Override public GeofenceRealm modelToData(Geofence geofence) {
+  @Override public GeofenceRealm modelToData(OrchextraGeofence geofence) {
     GeofenceRealm geofenceRealm = new GeofenceRealm();
 
     geofenceRealm.setRadius(geofence.getRadius());
@@ -50,8 +50,8 @@ public class GeofenceRealmMapper implements RealmMapper<Geofence, GeofenceRealm>
     return geofenceRealm;
   }
 
-  @Override public Geofence dataToModel(GeofenceRealm geofenceRealm) {
-    Geofence geofence = new Geofence();
+  @Override public OrchextraGeofence dataToModel(GeofenceRealm geofenceRealm) {
+    OrchextraGeofence geofence = new OrchextraGeofence();
 
     geofence.setRadius(geofenceRealm.getRadius());
     geofence.setPoint(MapperUtils.checkNullDataResponse(realmPointMapper, geofenceRealm.getPoint()));

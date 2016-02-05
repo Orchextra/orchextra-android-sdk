@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.domain.entities.triggers.strategy;
 
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -8,13 +8,13 @@ import com.gigigo.orchextra.domain.entities.Point;
  */
 public class GeoPointBehaviourImpl implements GeoPointBehaviour {
 
-  private Point point;
+  private OrchextraPoint point;
 
-  public GeoPointBehaviourImpl(Point point) {
+  public GeoPointBehaviourImpl(OrchextraPoint point) {
     this.point = point;
   }
 
-  @Override public Point getPoint() {
+  @Override public OrchextraPoint getPoint() {
     return point;
   }
 

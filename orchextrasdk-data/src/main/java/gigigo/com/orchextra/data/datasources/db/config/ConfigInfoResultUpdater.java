@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
-import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
 import com.gigigo.orchextra.domain.entities.Theme;
 import com.gigigo.orchextra.domain.entities.Vuforia;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
@@ -24,13 +24,13 @@ import io.realm.RealmResults;
  */
 public class ConfigInfoResultUpdater {
 
-  private final RealmMapper<Beacon, BeaconRealm> beaconRealmMapper;
-  private final RealmMapper<Geofence, GeofenceRealm> geofencesRealmMapper;
+  private final RealmMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper;
+  private final RealmMapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper;
   private final RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper;
   private final RealmMapper<Theme, ThemeRealm> themeRealmMapper;
 
-  public ConfigInfoResultUpdater(RealmMapper<Beacon, BeaconRealm> beaconRealmMapper,
-      RealmMapper<Geofence, GeofenceRealm> geofencesRealmMapper,
+  public ConfigInfoResultUpdater(RealmMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper,
+      RealmMapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper,
       RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
       RealmMapper<Theme, ThemeRealm> themeRealmMapper) {
 
@@ -48,7 +48,7 @@ public class ConfigInfoResultUpdater {
     realm.copyToRealm(configInfoResultRealm);
 
     if (config.supportsBeacons()){
-      RealmList<BeaconRealm> beaconRealm = beaconsToRealm(config.getBeacons());
+      RealmList<BeaconRealm> beaconRealm = beaconsToRealm(config.getRegions());
       realm.copyToRealm(beaconRealm);
     }
 
@@ -76,17 +76,17 @@ public class ConfigInfoResultUpdater {
     realm.clear(ThemeRealm.class);
   }
 
-  private RealmList<BeaconRealm> beaconsToRealm(List<Beacon> beacons) {
+  private RealmList<BeaconRealm> beaconsToRealm(List<OrchextraRegion> beacons) {
     RealmList<BeaconRealm> newBeacons = new RealmList<>();
-    for (Beacon beacon:beacons){
+    for (OrchextraRegion beacon:beacons){
       newBeacons.add(beaconRealmMapper.modelToData(beacon));
     }
     return newBeacons;
   }
 
-  private RealmList<GeofenceRealm> geofencesToRealm(List<Geofence> geofences) {
+  private RealmList<GeofenceRealm> geofencesToRealm(List<OrchextraGeofence> geofences) {
     RealmList<GeofenceRealm> newGeofences = new RealmList<>();
-    for (Geofence geofence:geofences){
+    for (OrchextraGeofence geofence:geofences){
       newGeofences.add(geofencesRealmMapper.modelToData(geofence));
     }
     return newGeofences;
@@ -96,7 +96,7 @@ public class ConfigInfoResultUpdater {
   public void updateConfigInfo(Realm realm, ConfigInfoResult configInfoResult) {
 
     if (configInfoResult.supportsBeacons()){
-      updateBeacons(realm, configInfoResult.getBeacons());
+      updateBeacons(realm, configInfoResult.getRegions());
     }else{
       clearBeacons(realm);
     }
@@ -141,10 +141,10 @@ public class ConfigInfoResultUpdater {
     vuforia.clear();
   }
 
-  private void updateGeofences(Realm realm, List<Geofence> geofences) {
+  private void updateGeofences(Realm realm, List<OrchextraGeofence> geofences) {
     clearGeofences(realm);
     RealmList<GeofenceRealm> newGeofences = new RealmList<>();
-    for (Geofence geofence:geofences){
+    for (OrchextraGeofence geofence:geofences){
       newGeofences.add(geofencesRealmMapper.modelToData(geofence));
     }
     realm.copyToRealm(newGeofences);
@@ -155,10 +155,10 @@ public class ConfigInfoResultUpdater {
     dbGeofences.clear();
   }
 
-  private void updateBeacons(Realm realm, List<Beacon> beacons) {
+  private void updateBeacons(Realm realm, List<OrchextraRegion> beacons) {
     clearBeacons(realm);
     RealmList<BeaconRealm> newBeacons = new RealmList<>();
-    for (Beacon beacon:beacons){
+    for (OrchextraRegion beacon:beacons){
       newBeacons.add(beaconRealmMapper.modelToData(beacon));
     }
     realm.copyToRealm(newBeacons);

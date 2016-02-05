@@ -2,7 +2,7 @@ package com.gigigo.orchextra.android.applifecycle;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.android.service.OrchextraBackgroundService;
 
 /**
@@ -11,7 +11,6 @@ import com.gigigo.orchextra.android.service.OrchextraBackgroundService;
  */
 public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
-  private final String TAG = "AppStatusEventsListener";
   private final Context context;
   private final ForegroundTasksManager foregroundTasksManager;
 
@@ -25,12 +24,12 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   }
 
   @Override public void onBackgroundStart() {
-    Log.d(TAG, "LOG :: App goes to backgroundmode ");
+    GGGLogImpl.log("App goes to backgroundmode ");
     startServices();
   }
 
   @Override public void onBackgroundEnd() {
-    Log.d(TAG, "LOG :: App leaves background mode");
+    GGGLogImpl.log("App leaves background mode");
     stopServices();
   }
 
@@ -41,12 +40,12 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
   @Override public void onForegroundStart() {
     //Stop Monitoring && startRanging
-    Log.d(TAG, "LOG :: App Come to Foreground mode");
+    GGGLogImpl.log("App Come to Foreground mode");
     startForegroundTasks();
   }
 
   @Override public void onForegroundEnd() {
-    Log.d(TAG, "LOG :: App leaves Foreground mode");
+    GGGLogImpl.log("App leaves Foreground mode");
     foregroundTasksManager.finalizeForegroundTasks();
   }
 

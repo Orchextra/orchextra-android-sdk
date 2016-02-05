@@ -1,8 +1,8 @@
 package com.gigigo.orchextra.di.modules;
 
-import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 import com.gigigo.orchextra.domain.entities.Theme;
 import com.gigigo.orchextra.domain.entities.Vuforia;
 
@@ -73,19 +73,19 @@ public class DBMapperModule {
 
     @Singleton
     @Provides
-    RealmMapper<Beacon, BeaconRealm> provideRealmMapperBeaconRealm(KeyWordRealmMapper keyWordRealmMapper) {
+    RealmMapper<OrchextraRegion, BeaconRealm> provideRealmMapperBeaconRealm(KeyWordRealmMapper keyWordRealmMapper) {
         return new BeaconRealmMapper(keyWordRealmMapper);
     }
 
     @Singleton
     @Provides
-    RealmMapper<Point, RealmPoint> provideRealmMapperRealmPoint() {
+    RealmMapper<OrchextraPoint, RealmPoint> provideRealmMapperRealmPoint() {
         return new RealmPointMapper();
     }
 
     @Singleton
     @Provides
-    RealmMapper<Geofence, GeofenceRealm> provideRealmMapperGeofenceRealm(RealmMapper<Point, RealmPoint> realmPointRealmMapper,
+    RealmMapper<OrchextraGeofence, GeofenceRealm> provideRealmMapperGeofenceRealm(RealmMapper<OrchextraPoint, RealmPoint> realmPointRealmMapper,
                                                                          KeyWordRealmMapper keyWordRealmMapper) {
         return new GeofenceRealmMapper(realmPointRealmMapper, keyWordRealmMapper);
     }

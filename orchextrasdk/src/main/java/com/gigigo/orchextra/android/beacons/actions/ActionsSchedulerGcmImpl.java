@@ -2,7 +2,11 @@ package com.gigigo.orchextra.android.beacons.actions;
 
 import android.content.Context;
 import android.os.Bundle;
+import com.gigigo.orchextra.android.entities.AndroidBasicAction;
+import com.gigigo.orchextra.android.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.android.service.OrchextraGcmTaskService;
+import com.gigigo.orchextra.domain.abstractions.ActionsScheduler;
+import com.gigigo.orchextra.domain.entities.actions.ScheduledAction;
 import com.gigigo.orchextra.initalization.FeatureListener;
 import com.gigigo.orchextra.initalization.features.GooglePlayServicesFeature;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -17,12 +21,15 @@ import com.google.android.gms.gcm.Task;
 public class ActionsSchedulerGcmImpl implements ActionsScheduler {
 
   private static final long DEFAULT_DELAY = 3600L;
+  public static final String BUNDLE_TASK_PARAM_NAME = "TASK";
 
   private final GcmNetworkManager gcmNetworkManager;
+  private final AndroidBasicActionMapper androidBasicActionMapper;
 
-  public ActionsSchedulerGcmImpl(Context context, FeatureListener featureListener) {
+  public ActionsSchedulerGcmImpl(Context context, FeatureListener featureListener, AndroidBasicActionMapper androidBasicActionMapper) {
     checkPlayServicesStatus(context, featureListener);
-    gcmNetworkManager = GcmNetworkManager.getInstance(context);
+    this.gcmNetworkManager = GcmNetworkManager.getInstance(context);
+    this.androidBasicActionMapper = androidBasicActionMapper;
   }
 
   private int checkPlayServicesStatus(Context context, FeatureListener featureListener) {
@@ -34,8 +41,10 @@ public class ActionsSchedulerGcmImpl implements ActionsScheduler {
 
   @Override public void scheduleAction(ScheduledAction action) {
 
+    AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToAndroid(action.getBasicAction());
+
     Bundle bundle = new Bundle();
-    //bundle.putParcelable(action);
+    bundle.putParcelable(BUNDLE_TASK_PARAM_NAME, androidBasicAction);
 
     OneoffTask task = new OneoffTask.Builder()
         .setService(OrchextraGcmTaskService.class)

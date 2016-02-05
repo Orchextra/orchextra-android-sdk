@@ -11,7 +11,7 @@ public class GeoLocation {
   private String locality;
   private String zip;
   private String street;
-  private Point point;
+  private OrchextraPoint point;
 
   public String getCountry() {
     return country;
@@ -53,11 +53,11 @@ public class GeoLocation {
     this.street = street;
   }
 
-  public Point getPoint() {
+  public OrchextraPoint getPoint() {
     return point;
   }
 
-  public void setPoint(Point point) {
+  public void setPoint(OrchextraPoint point) {
     this.point = point;
   }
 }

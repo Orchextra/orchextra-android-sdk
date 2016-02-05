@@ -3,8 +3,8 @@ package com.gigigo.orchextra.domain.interactors.geofences;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
 import com.gigigo.orchextra.domain.device.AppRunningMode;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
 import com.gigigo.orchextra.domain.entities.triggers.GeofenceTrigger;
@@ -21,7 +21,7 @@ public class RetrieveGeofenceTriggerInteractor implements Interactor<InteractorR
     private final GeofenceDataProvider geofenceDataProvider;
     private final AppRunningMode appRunningMode;
     private List<String> triggeringGeofenceIds;
-    private Point triggeringPoint;
+    private OrchextraPoint triggeringPoint;
     private GeoPointEventType geofenceTransition;
 
     public RetrieveGeofenceTriggerInteractor(GeofenceDataProvider geofenceDataProvider, AppRunningMode appRunningMode) {
@@ -34,9 +34,9 @@ public class RetrieveGeofenceTriggerInteractor implements Interactor<InteractorR
         List<Trigger> triggers = new ArrayList<>();
 
         for (String triggeringGeofenceId : triggeringGeofenceIds) {
-            BusinessObject<Geofence> boGeofence = geofenceDataProvider.obtainGeofenceByIdFromDatabase(triggeringGeofenceId);
+            BusinessObject<OrchextraGeofence> boGeofence = geofenceDataProvider.obtainGeofenceByIdFromDatabase(triggeringGeofenceId);
             if (boGeofence.isSuccess()) {
-                Geofence geofence = boGeofence.getData();
+                OrchextraGeofence geofence = boGeofence.getData();
 
                 double distanceFromGeofenceInKm = triggeringPoint.getDistanceFromPointInKm(
                     geofence.getPoint());
@@ -54,7 +54,7 @@ public class RetrieveGeofenceTriggerInteractor implements Interactor<InteractorR
 
         return new InteractorResponse<>(triggers);
     }
-    public void setTriggeringPoint(Point triggeringPoint) {
+    public void setTriggeringPoint(OrchextraPoint triggeringPoint) {
         this.triggeringPoint = triggeringPoint;
     }
 

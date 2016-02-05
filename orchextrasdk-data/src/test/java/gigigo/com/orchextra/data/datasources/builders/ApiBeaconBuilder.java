@@ -3,7 +3,7 @@ package gigigo.com.orchextra.data.datasources.builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeacon;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 
 public class ApiBeaconBuilder {
 
@@ -38,28 +38,28 @@ public class ApiBeaconBuilder {
         return new ApiBeaconBuilder();
     }
 
-    public ApiBeacon build() {
-        ApiBeacon apiBeacon = new ApiBeacon();
-        apiBeacon.setActive(true);
-        apiBeacon.setMajor(MAJOR);
-        apiBeacon.setMinor(MINOR);
-        apiBeacon.setUuid(UUID);
+    public ApiBeaconRegion build() {
+        ApiBeaconRegion apiBeaconRegion = new ApiBeaconRegion();
+        apiBeaconRegion.setActive(true);
+        apiBeaconRegion.setMajor(MAJOR);
+        apiBeaconRegion.setMinor(MINOR);
+        apiBeaconRegion.setUuid(UUID);
 
-        apiBeacon.setCode(CODE);
-        apiBeacon.setId(ID);
-        apiBeacon.setName(NAME);
-        apiBeacon.setNotifyOnEntry(true);
-        apiBeacon.setNotifyOnExit(true);
-        apiBeacon.setStayTime(STAY_TIME);
+        apiBeaconRegion.setCode(CODE);
+        apiBeaconRegion.setId(ID);
+        apiBeaconRegion.setName(NAME);
+        apiBeaconRegion.setNotifyOnEntry(true);
+        apiBeaconRegion.setNotifyOnExit(true);
+        apiBeaconRegion.setStayTime(STAY_TIME);
 
         List<String> tags = new ArrayList<>();
         tags.add(BEACON_TAG_NAME);
-        apiBeacon.setTags(tags);
+        apiBeaconRegion.setTags(tags);
 
-        apiBeacon.setType(TYPE);
-        apiBeacon.setCreatedAt(CREATED_AT);
-        apiBeacon.setUpdatedAt(UPDATED_AT);
+        apiBeaconRegion.setType(TYPE);
+        apiBeaconRegion.setCreatedAt(CREATED_AT);
+        apiBeaconRegion.setUpdatedAt(UPDATED_AT);
 
-        return apiBeacon;
+        return apiBeaconRegion;
     }
 }

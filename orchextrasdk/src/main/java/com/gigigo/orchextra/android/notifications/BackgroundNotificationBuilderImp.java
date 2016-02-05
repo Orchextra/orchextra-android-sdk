@@ -25,7 +25,7 @@ public class BackgroundNotificationBuilderImp implements NotificationBuilder, An
 
     @Override
     public void buildNotification(BasicAction action, Notification notification) {
-        AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToControl(action);
+        AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToAndroid(action);
 
         PendingIntent pendingIntent = androidNotification.getPendingIntent(androidBasicAction);
 
@@ -44,7 +44,7 @@ public class BackgroundNotificationBuilderImp implements NotificationBuilder, An
             if (intent != null) {
                 AndroidBasicAction androidBasicAction = intent.getParcelableExtra(AndroidNotificationBuilder.EXTRA_NOTIFICATION_ACTION);
                 if (androidBasicAction != null) {
-                    BasicAction basicAction = androidBasicActionMapper.controlToModel(androidBasicAction);
+                    BasicAction basicAction = androidBasicActionMapper.androidToModel(androidBasicAction);
                     actionDispatcherListener.onActionAccepted(basicAction, false);
                 }
             }

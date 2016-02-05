@@ -4,7 +4,7 @@ public class EmptyNotifFunctionalityImpl implements NotifFunctionality {
 
     @Override
     public Notification getNotification() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

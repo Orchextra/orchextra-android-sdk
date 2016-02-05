@@ -3,14 +3,9 @@ package com.gigigo.orchextra.di.modules;
 import com.gigigo.orchextra.control.controllers.authentication.AuthenticationController;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.proximity.ProximityItemController;
-import com.gigigo.orchextra.control.entities.ControlGeofence;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
-import com.gigigo.orchextra.control.mapper.ControlPointMapper;
-import com.gigigo.orchextra.control.mapper.ListMapper;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
-import com.gigigo.orchextra.di.qualifiers.ControlGeofenceListMapper;
 import com.gigigo.orchextra.di.scopes.PerDelegate;
-import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
@@ -51,12 +46,10 @@ public class DelegateModule {
             InteractorInvoker interactorInvoker,
             RetrieveGeofencesFromDatabaseInteractor retrieveGeofencesInteractor,
             GetActionInteractor getActionInteractor,
-            @ControlGeofenceListMapper ListMapper<Geofence, ControlGeofence> controlGeofenceListMapper,
-            ControlPointMapper controlPointMapper,
             RetrieveGeofenceTriggerInteractor retrieveGeofenceDistanceInteractor
             ) {
         return new ProximityItemController(backThreadSpec, interactorInvoker, retrieveGeofencesInteractor,
-                getActionInteractor, controlGeofenceListMapper, controlPointMapper, retrieveGeofenceDistanceInteractor);
+                getActionInteractor, retrieveGeofenceDistanceInteractor);
     }
 
   @PerDelegate @Provides @BackThread ThreadSpec provideBackThread(){

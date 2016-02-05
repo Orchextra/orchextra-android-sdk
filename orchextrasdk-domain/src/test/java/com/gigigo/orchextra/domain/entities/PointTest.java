@@ -14,11 +14,11 @@ public class PointTest {
 
     @Test
     public void shouldGetDistanceFromLatLonInKm() throws Exception {
-        Point point1 = new Point();
+        OrchextraPoint point1 = new OrchextraPoint();
         point1.setLat(40.4451852);
         point1.setLng(-3.6256787);
 
-        Point point2 = new Point();
+        OrchextraPoint point2 = new OrchextraPoint();
         point2.setLat(40.442284);
         point2.setLng(-3.6238204);
 
@@ -28,11 +28,11 @@ public class PointTest {
 
     @Test
     public void shouldGetDistanceFromLatLonInKm2() throws Exception {
-        Point point1 = new Point();
+        OrchextraPoint point1 = new OrchextraPoint();
         point1.setLat(40.4451852);
         point1.setLng(-3.6256787);
 
-        Point point2 = new Point();
+        OrchextraPoint point2 = new OrchextraPoint();
         point2.setLat(40.442127);
         point2.setLng(-3.623765);
 

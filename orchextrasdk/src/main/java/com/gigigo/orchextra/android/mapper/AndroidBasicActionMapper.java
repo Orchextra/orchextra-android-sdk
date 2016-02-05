@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.android.mapper;
 
 import com.gigigo.orchextra.android.entities.AndroidBasicAction;
-import com.gigigo.orchextra.control.mapper.Mapper;
 import com.gigigo.orchextra.domain.entities.actions.ActionType;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.mappers.Mapper;
 
 public class AndroidBasicActionMapper implements Mapper<BasicAction, AndroidBasicAction> {
 
@@ -14,25 +14,26 @@ public class AndroidBasicActionMapper implements Mapper<BasicAction, AndroidBasi
     }
 
     @Override
-    public AndroidBasicAction modelToControl(BasicAction basicAction) {
+    public AndroidBasicAction modelToAndroid(BasicAction basicAction) {
         AndroidBasicAction androidBasicAction = new AndroidBasicAction();
 
         androidBasicAction.setAction(basicAction.getActionType().getStringValue());
         androidBasicAction.setUrl(basicAction.getUrl());
 
-        androidBasicAction.setNotification(androidNotificationMapper.modelToControl(basicAction.getNotifFunctionality()));
+        androidBasicAction.setNotification(androidNotificationMapper.modelToAndroid(basicAction.getNotifFunctionality()));
 
         return androidBasicAction;
     }
 
     @Override
-    public BasicAction controlToModel(AndroidBasicAction androidBasicAction) {
+    public BasicAction androidToModel(AndroidBasicAction androidBasicAction) {
 
         BasicAction.ActionBuilder actionBuilder = new BasicAction.ActionBuilder(
                 ActionType.getActionTypeValue(androidBasicAction.getAction()),
                 androidBasicAction.getUrl(),
-                androidNotificationMapper.controlToModel(androidBasicAction.getNotification()));
+                androidNotificationMapper.androidToModel(androidBasicAction.getNotification()));
 
         return actionBuilder.build();
     }
+
 }

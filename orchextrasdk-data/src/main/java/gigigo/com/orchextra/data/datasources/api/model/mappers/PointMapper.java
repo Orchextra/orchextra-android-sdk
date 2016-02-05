@@ -2,16 +2,16 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.ggglib.network.mappers.RequestMapper;
 import com.gigigo.ggglib.network.mappers.ResponseMapper;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiPoint;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 17/12/15.
  */
-public class PointMapper implements RequestMapper<Point, ApiPoint>, ResponseMapper<Point, ApiPoint>{
+public class PointMapper implements RequestMapper<OrchextraPoint, ApiPoint>, ResponseMapper<OrchextraPoint, ApiPoint>{
 
-  @Override public ApiPoint modelToData(Point point) {
+  @Override public ApiPoint modelToData(OrchextraPoint point) {
     ApiPoint apiPoint = new ApiPoint();
 
     apiPoint.setLat(String.valueOf(point.getLat()));
@@ -20,8 +20,8 @@ public class PointMapper implements RequestMapper<Point, ApiPoint>, ResponseMapp
     return apiPoint;
   }
 
-  @Override public Point dataToModel(ApiPoint apiPoint) {
-    Point point = new Point();
+  @Override public OrchextraPoint dataToModel(ApiPoint apiPoint) {
+    OrchextraPoint point = new OrchextraPoint();
 
     Double lat, lon;
 

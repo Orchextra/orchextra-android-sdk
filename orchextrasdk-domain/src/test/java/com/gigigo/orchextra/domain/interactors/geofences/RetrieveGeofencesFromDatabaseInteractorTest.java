@@ -2,7 +2,7 @@ package com.gigigo.orchextra.domain.interactors.geofences;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 
 import org.junit.Before;
@@ -26,9 +26,9 @@ public class RetrieveGeofencesFromDatabaseInteractorTest {
     GeofenceDataProvider geofenceDataProvider;
 
     @Mock
-    BusinessObject<List<Geofence>> businessObject;
+    BusinessObject<List<OrchextraGeofence>> businessObject;
 
-    @Mock List<Geofence> geofenceList;
+    @Mock List<OrchextraGeofence> geofenceList;
 
     private RetrieveGeofencesFromDatabaseInteractor interactor;
 

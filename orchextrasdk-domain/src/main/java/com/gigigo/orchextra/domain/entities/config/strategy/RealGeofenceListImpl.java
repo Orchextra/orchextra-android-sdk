@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.domain.entities.config.strategy;
 
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
 import java.util.List;
 
 /**
@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class RealGeofenceListImpl implements GeofenceList{
 
-  private List<Geofence> geofences;
+  private List<OrchextraGeofence> geofences;
 
-  public RealGeofenceListImpl(List<Geofence> beacons) {
+  public RealGeofenceListImpl(List<OrchextraGeofence> beacons) {
     this.geofences = beacons;
   }
 
-  @Override public List<Geofence> getGeofences() {
+  @Override public List<OrchextraGeofence> getGeofences() {
     return geofences;
   }
 

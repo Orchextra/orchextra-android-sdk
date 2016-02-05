@@ -2,7 +2,8 @@ package com.gigigo.orchextra.android.applifecycle;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.initalization.OrchextraContextProvider;
 
 /**
@@ -11,7 +12,6 @@ import com.gigigo.orchextra.initalization.OrchextraContextProvider;
  */
 public class ContextProviderImpl implements OrchextraContextProvider {
 
-  private static final String TAG = "ContextProviderImpl";
   private final Context context;
 
   private OrchextraActivityLifecycle orchextraActivityLifecycle;
@@ -27,7 +27,7 @@ public class ContextProviderImpl implements OrchextraContextProvider {
   //region context provider interface
   @Override public Activity getCurrentActivity() {
     if (orchextraActivityLifecycle==null){
-      Log.w(TAG, "LOG ::Calling activity context before app finished initialization");
+      GGGLogImpl.log("Calling activity context before app finished initialization", LogLevel.WARN);
       return null;
     }
     return orchextraActivityLifecycle.getCurrentActivity();

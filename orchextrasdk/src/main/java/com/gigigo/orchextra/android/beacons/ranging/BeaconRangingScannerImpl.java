@@ -1,12 +1,18 @@
 package com.gigigo.orchextra.android.beacons.ranging;
 
 import android.os.RemoteException;
-import android.util.Log;
+import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.android.beacons.BackgroundBeaconsRangingTimeType;
 import com.gigigo.orchextra.android.beacons.BeaconRegionsFactory;
-import com.gigigo.orchextra.android.beacons.monitoring.BeaconsController;
+import com.gigigo.orchextra.android.mapper.BeaconAndroidMapper;
+import com.gigigo.orchextra.android.mapper.BeaconRegionAndroidMapper;
+import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
 import com.gigigo.orchextra.android.beacons.ranging.exceptions.BulkRangingScannInBackgroundException;
+import com.gigigo.orchextra.domain.entities.OrchextraBeacon;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -24,23 +30,25 @@ import org.altbeacon.beacon.Region;
  */
 public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingScanner{
 
-  private static final String TAG = "BeaconRangingScanner";
-
   //TODO SET OFICIAL TIME USING CONFIG
   //private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType = BackgroundBeaconsRangingTimeType.DISABLED;
   //private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType = BackgroundBeaconsRangingTimeType.MIN;
   private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType = BackgroundBeaconsRangingTimeType.MAX;
   private final BeaconManager beaconManager;
   private final BeaconsController beaconsController;
+  private final BeaconRegionAndroidMapper beaconRegionMapper;
+  private final BeaconAndroidMapper beaconAndroidMapper;
   private boolean ranging = false;
 
   //avoid possible duplicates in region using set collection
   private Set<Region> regions = (Set<Region>) Collections.synchronizedSet(new HashSet<Region>());
 
-  public BeaconRangingScannerImpl(BeaconManager beaconManager, BeaconsController beaconsController) {
+  public BeaconRangingScannerImpl(BeaconManager beaconManager, BeaconsController beaconsController,
+      BeaconRegionAndroidMapper beaconRegionMapper, BeaconAndroidMapper beaconAndroidMapper) {
     this.beaconManager = beaconManager;
     this.beaconsController = beaconsController;
-
+    this.beaconRegionMapper = beaconRegionMapper;
+    this.beaconAndroidMapper = beaconAndroidMapper;
     beaconManager.setRangeNotifier(this);
   }
 
@@ -52,12 +60,18 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
    * @param region region which all the scanned beacons received belongs to
    */
   @Override public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
-    beaconsController.onBeaconsDetectedInRegion(collection, region);
+    List beaconsList = new ArrayList<>(collection);
+    List<OrchextraBeacon> beacons = beaconAndroidMapper.androidListToModelList(beaconsList);
+    beaconsController.onBeaconsDetectedInRegion(beacons, beaconRegionMapper.androidToModel(region));
 
     if (collection.size() > 0) {
       for (Beacon beacon : collection) {
-        Log.i("BeaconScannerImpl", "LOG :: Beacon: " + beacon.getId1() + " major id:"
-            + beacon.getId2() + "  minor id: " + beacon.getId3());
+        GGGLogImpl.log("Beacon: "
+                + beacon.getId1()
+                + " major id:"
+                + beacon.getId2()
+                + "  minor id: "
+                + beacon.getId3());
       }
     }
   }
@@ -70,8 +84,9 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
    * This method will be called when regions are obtained from datasources and ready to be used
    * @param regions regions to be scanned in ranging
    */
-  @Override public void onRegionsReady(List<Region> regions) {
-    this.regions.addAll(regions);
+  @Override public void onRegionsReady(List<OrchextraRegion> regions) {
+    List<Region> altRegions = beaconRegionMapper.modelListToAndroidList(regions);
+    this.regions.addAll(altRegions);
     initRanging(BackgroundBeaconsRangingTimeType.INFINITE);
   }
 
@@ -197,7 +212,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       }
     }
     ranging = false;
-    Log.i("BeaconScannerImpl", "LOG :: Ranging stopped");
+    GGGLogImpl.log("Ranging stopped");
   }
 
   private void stopRangingRegion(Region region) {
@@ -209,7 +224,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     try {
       beaconManager.stopRangingBeaconsInRegion(region);
       regions.remove(region);
-      Log.i("BeaconScannerImpl", "LOG :: Ranging stopped in region: " + region.getUniqueId());
+      GGGLogImpl.log("Ranging stopped in region: " + region.getUniqueId());
     } catch (RemoteException e) {
       e.printStackTrace();
     }
@@ -220,11 +235,11 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   private void checkAvailableRegions() {
     if (regions.size()>0){
       for (Region region1 : regions){
-        Log.i("BeaconScannerImpl", "LOG :: Regions for scanning "+ regions.toString() +": " + region1.getUniqueId());
+        GGGLogImpl.log("Regions for scanning "+ regions.toString() +": " + region1.getUniqueId());
       }
     }else{
       ranging = false;
-      Log.i("BeaconScannerImpl", "LOG :: Regions to be ranged EMPTY: " + regions.toString());
+      GGGLogImpl.log("Regions to be ranged EMPTY: " + regions.toString());
     }
   }
 
@@ -232,8 +247,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   // region Background scanning time
   @Override public BackgroundBeaconsRangingTimeType getBackgroundBeaconsRangingTimeType() {
     if (this.backgroundBeaconsRangingTimeType == BackgroundBeaconsRangingTimeType.INFINITE) {
-      Log.w(TAG, "LOG :: WARNING --> INFINITE Background Beacons Ranging Time Type could provoke "
-          + "an extremely drain of you battery use MAX instead");
+      GGGLogImpl.log("WARNING --> INFINITE Background Beacons Ranging Time Type could provoke "
+          + "an extremely drain of you battery use MAX instead", LogLevel.WARN);
     }
     return this.backgroundBeaconsRangingTimeType;
   }

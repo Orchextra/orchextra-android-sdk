@@ -1,6 +1,5 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.entities.Beacon;
 import com.gigigo.orchextra.domain.entities.ProximityPointType;
 
 import org.junit.Test;
@@ -9,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import gigigo.com.orchextra.data.datasources.builders.ApiBeaconBuilder;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeacon;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 
 import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
 import static org.junit.Assert.assertEquals;
@@ -28,10 +27,10 @@ public class BeaconResponseMapperTest {
 
     @Test
     public void testDataToModelOk() throws Exception {
-        ApiBeacon apiBeacon = ApiBeaconBuilder.Builder().build();
+        ApiBeaconRegion apiBeaconRegion = ApiBeaconBuilder.Builder().build();
 
         BeaconResponseMapper mapper = new BeaconResponseMapper();
-        Beacon beacon = mapper.dataToModel(apiBeacon);
+        OrchextraBeacon beacon = mapper.dataToModel(apiBeaconRegion);
 
         assertEquals(ApiBeaconBuilder.MAJOR, beacon.getMajor());
         assertEquals(ApiBeaconBuilder.MINOR, beacon.getMinor());
@@ -55,10 +54,10 @@ public class BeaconResponseMapperTest {
 
     @Test
     public void testDataToModelEmptyValues() throws Exception {
-        ApiBeacon apiBeacon = new ApiBeacon();
+        ApiBeaconRegion apiBeaconRegion = new ApiBeaconRegion();
 
         BeaconResponseMapper mapper = new BeaconResponseMapper();
-        Beacon beacon = mapper.dataToModel(apiBeacon);
+        OrchextraBeacon beacon = mapper.dataToModel(apiBeaconRegion);
 
         assertEquals(0, beacon.getMajor());
         assertEquals(0, beacon.getMinor());

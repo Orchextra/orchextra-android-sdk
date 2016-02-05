@@ -5,6 +5,8 @@ import android.content.Context;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.PermissionChecker;
+import com.gigigo.orchextra.android.AndroidActionDispatcher;
+import com.gigigo.orchextra.android.ViewActionDispatcher;
 import com.gigigo.orchextra.android.applifecycle.AppRunningModeImp;
 import com.gigigo.orchextra.android.applifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.android.applifecycle.AppStatusEventsListenerImpl;
@@ -13,17 +15,17 @@ import com.gigigo.orchextra.android.applifecycle.ForegroundTasksManager;
 import com.gigigo.orchextra.android.applifecycle.ForegroundTasksManagerImpl;
 import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.android.beacons.BeaconScanner;
-import com.gigigo.orchextra.android.beacons.actions.ActionsScheduler;
-import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerControllerImpl;
 import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerGcmImpl;
-import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerPersistor;
 import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerPersistorNullImpl;
 import com.gigigo.orchextra.android.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.android.mapper.AndroidNotificationMapper;
 import com.gigigo.orchextra.android.notifications.AndroidNotificationBuilder;
 import com.gigigo.orchextra.android.notifications.BackgroundNotificationBuilderImp;
 import com.gigigo.orchextra.android.notifications.ForegroundNotificationBuilderImp;
+import com.gigigo.orchextra.domain.abstractions.ActionsScheduler;
+import com.gigigo.orchextra.domain.abstractions.ActionsSchedulerController;
+import com.gigigo.orchextra.domain.abstractions.ActionsSchedulerPersistor;
 import com.gigigo.orchextra.domain.device.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
@@ -147,9 +149,10 @@ public class OrchextraModule {
     return featureList;
   }
 
-  @Singleton @Provides ActionsScheduler provideActionsScheduler(ContextProvider contextProvider, FeatureListener
-      featureListener){
-    return new ActionsSchedulerGcmImpl(contextProvider.getApplicationContext(), featureListener);
+  @Singleton @Provides ActionsScheduler provideActionsScheduler(ContextProvider contextProvider,
+      FeatureListener featureListener, AndroidBasicActionMapper androidBasicActionMapper){
+    return new ActionsSchedulerGcmImpl(contextProvider.getApplicationContext(),
+        featureListener, androidBasicActionMapper);
   }
 
   @Singleton @Provides ActionsSchedulerPersistor provideActionsSchedulerPersistorNull(){
@@ -172,5 +175,11 @@ public class OrchextraModule {
   @Provides
   @Singleton PermissionChecker providesPermissionChecker(ContextProvider contextProvider){
     return new AndroidPermissionCheckerImpl(contextProvider.getApplicationContext(), contextProvider);
+  }
+
+  @Provides
+  @Singleton ViewActionDispatcher providesViewActionDispatcher(AndroidBasicActionMapper androidBasicActionMapper,
+      ActionDispatcher actionDispatcher){
+    return new AndroidActionDispatcher(actionDispatcher, androidBasicActionMapper);
   }
 }

@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
 
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class GeofenceResponseMapperTest {
         ApiGeofence apiGeofence = ApiGeofenceBuilder.Builder().build();
 
         GeofenceResponseMapper mapper = new GeofenceResponseMapper(new PointMapper());
-        Geofence geofence = mapper.dataToModel(apiGeofence);
+        OrchextraGeofence geofence = mapper.dataToModel(apiGeofence);
 
         assertEquals(ApiGeofenceBuilder.RADIUS, geofence.getRadius());
         assertEquals(ApiGeofenceBuilder.LAT, String.valueOf(geofence.getPoint().getLat()));

@@ -1,5 +1,7 @@
 package com.gigigo.orchextra.android.beacons.actions;
 
+import com.gigigo.orchextra.domain.abstractions.ActionsSchedulerPersistor;
+import com.gigigo.orchextra.domain.entities.actions.ScheduledAction;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * Created by Sergio Martinez Rodriguez
  * Date 3/2/16.
  */
-public class ActionsSchedulerPersistorNullImpl implements ActionsSchedulerPersistor{
+public class ActionsSchedulerPersistorNullImpl implements ActionsSchedulerPersistor {
 
   @Override public ScheduledAction getScheduledActionWithId(String id) {
     return null;

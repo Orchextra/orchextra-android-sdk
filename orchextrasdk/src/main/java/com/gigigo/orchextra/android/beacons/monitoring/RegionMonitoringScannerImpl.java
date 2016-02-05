@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.RemoteException;
-import android.util.Log;
 import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.android.beacons.BeaconRegionsFactory;
+import com.gigigo.orchextra.android.mapper.BeaconRegionAndroidMapper;
+import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,12 +26,11 @@ import org.altbeacon.beacon.Region;
 public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     BeaconConsumer, MonitorNotifier {
 
-  private static final String TAG = "RegionMonitoringScanner";
-
   private final BeaconManager beaconManager;
   private final Context context;
   private final MonitoringListener monitoringListener;
   private final BeaconsController beaconsController;
+  private final BeaconRegionAndroidMapper regionMapper;
 
   private List<Region> regionsToBeMonitored = (List<Region>) Collections.synchronizedList(new ArrayList<Region>());
   private List<Region> regionsInEnter = (List<Region>) Collections.synchronizedList(new ArrayList<Region>());
@@ -36,12 +38,14 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
   private boolean monitoring = false;
 
   public RegionMonitoringScannerImpl(ContextProvider contextProvider, BeaconManager beaconManager,
-      MonitoringListener monitoringListener, BeaconsController beaconsController) {
+      MonitoringListener monitoringListener, BeaconsController beaconsController,
+      BeaconRegionAndroidMapper regionMapper) {
 
     this.beaconManager = beaconManager;
     this.beaconsController = beaconsController;
     this.context = contextProvider.getApplicationContext();
     this.monitoringListener = monitoringListener;
+    this.regionMapper = regionMapper;
 
     this.beaconManager.setMonitorNotifier(this);
   }
@@ -71,19 +75,21 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
   //region MonitorNotifier Interface
 
   @Override public void didEnterRegion(Region region) {
-    beaconsController.onRegionEnter(region);
+    OrchextraRegion orchextraRegion = regionMapper.androidToModel(region);
+    beaconsController.onRegionEnter(orchextraRegion);
     monitoringListener.onRegionEnter(region);
     regionsInEnter.add(region);
 
-    Log.d(TAG, "LOG :: ENTER BEACON REGION : " + region.getUniqueId());
+    GGGLogImpl.log("ENTER BEACON REGION : " + region.getUniqueId());
   }
 
   @Override public void didExitRegion(Region region) {
-    beaconsController.onRegionExit(region);
+    OrchextraRegion orchextraRegion = regionMapper.androidToModel(region);
+    beaconsController.onRegionExit(orchextraRegion);
     monitoringListener.onRegionExit(region);
     regionsInEnter.remove(region);
 
-    Log.d(TAG, "LOG :: EXIT BEACON REGION : " + region.getUniqueId());
+    GGGLogImpl.log("EXIT BEACON REGION : " + region.getUniqueId());
   }
 
   @Override public void didDetermineStateForRegion(int i, Region region) {}
@@ -92,8 +98,7 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
 
   //region RegionMonitoringScanner Interface
 
-  @Override public void initMonitoring(AppRunningModeType appRunningModeType) {
-    beaconManager.setBackgroundMode(appRunningModeType == AppRunningModeType.BACKGROUND);
+  @Override public void initMonitoring() {
     beaconManager.bind(this);
   }
 
@@ -102,7 +107,7 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
       try {
         beaconManager.stopMonitoringBeaconsInRegion(region);
         monitoring = false;
-        Log.d(TAG, "LOG :: Stop Beacons Monitoring for region: " + region.getUniqueId());
+        GGGLogImpl.log("Stop Beacons Monitoring for region: " + region.getUniqueId());
       } catch (RemoteException e) {
         e.printStackTrace();
       }
@@ -122,16 +127,21 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     return monitoring;
   }
 
+  @Override public void setRunningMode(AppRunningModeType appRunningModeType) {
+    beaconManager.setBackgroundMode(appRunningModeType == AppRunningModeType.BACKGROUND);
+  }
+
   // region RegionsProviderListener Interface
 
-  @Override public void onRegionsReady(List<Region> regions) {
+  @Override public void onRegionsReady(List<OrchextraRegion> regions) {
+    List<Region> altRegions = regionMapper.modelListToAndroidList(regions);
     this.regionsToBeMonitored.clear();
-    this.regionsToBeMonitored.addAll(regions);
-    for (Region region:regions){
+    this.regionsToBeMonitored.addAll(altRegions);
+    for (Region region:altRegions){
       try {
         beaconManager.startMonitoringBeaconsInRegion(region);
         monitoring = true;
-        Log.d(TAG, "LOG :: Start Beacons Monitoring for region " + region.getUniqueId());
+        GGGLogImpl.log("Start Beacons Monitoring for region " + region.getUniqueId());
       } catch (RemoteException e) {
         e.printStackTrace();
       }

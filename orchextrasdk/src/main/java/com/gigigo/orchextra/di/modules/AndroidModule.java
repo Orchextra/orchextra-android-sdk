@@ -13,7 +13,7 @@ import com.gigigo.orchextra.android.mapper.LocationMapper;
 import com.gigigo.orchextra.android.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.android.proximity.geofencing.AndroidGeofenceManager;
 import com.gigigo.orchextra.android.proximity.geofencing.GeofenceDeviceRegister;
-import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceMapper;
+import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceConverter;
 import com.gigigo.orchextra.android.proximity.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.gigigo.orchextra.di.scopes.PerDelegate;
 
@@ -98,7 +98,7 @@ public class AndroidModule {
 
     @PerDelegate
     @Provides
-    AndroidGeofenceManager provideAndroidGeofenceManager(AndroidGeofenceMapper androidGeofenceMapper,
+    AndroidGeofenceManager provideAndroidGeofenceManager(AndroidGeofenceConverter androidGeofenceMapper,
                                                          GeofenceDeviceRegister geofenceDeviceRegister,
                                                          LocationMapper locationMapper) {
         return new AndroidGeofenceManager(androidGeofenceMapper, geofenceDeviceRegister, locationMapper);

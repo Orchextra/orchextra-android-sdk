@@ -1,12 +1,11 @@
 package com.gigigo.orchextra.domain.invoker;
 
-import android.util.Log;
+import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 
 public class LogExceptionHandler implements Thread.UncaughtExceptionHandler {
 
-  private static final String TAG = "LogExceptionHandler";
-
   @Override public void uncaughtException(Thread thread, Throwable ex) {
-    Log.e(TAG, "Unhandled Interactor Exception", ex);
+    GGGLogImpl.log("Unhandled Interactor Exception", LogLevel.ERROR);
   }
 }

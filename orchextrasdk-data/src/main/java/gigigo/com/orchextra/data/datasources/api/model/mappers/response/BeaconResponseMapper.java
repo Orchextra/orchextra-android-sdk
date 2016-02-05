@@ -1,41 +1,30 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.gggjavalib.general.utils.DateUtils;
-import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.ggglib.network.mappers.ResponseMapper;
-import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.ProximityPointType;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeacon;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 17/12/15.
  */
-public class BeaconResponseMapper implements ResponseMapper<Beacon, ApiBeacon>{
+public class BeaconResponseMapper implements ResponseMapper<OrchextraRegion, ApiBeaconRegion>{
 
-  @Override public Beacon dataToModel(ApiBeacon apiBeacon) {
-    Beacon beacon = new Beacon();
+  @Override public OrchextraRegion dataToModel(ApiBeaconRegion apiBeaconRegion) {
 
-    beacon.setActive(apiBeacon.getActive());
-    beacon.setMajor(apiBeacon.getMajor());
-    beacon.setMinor(apiBeacon.getMinor());
-    beacon.setUuid(apiBeacon.getUuid());
+    OrchextraRegion region = new OrchextraRegion(
+        apiBeaconRegion.getCode(),
+        apiBeaconRegion.getUuid(),
+        apiBeaconRegion.getMajor(),
+        apiBeaconRegion.getMinor(),
+        apiBeaconRegion.getActive());
 
-    beacon.setCode(apiBeacon.getCode());
-    beacon.setId(apiBeacon.getId());
-    beacon.setName(apiBeacon.getName());
-    beacon.setNotifyOnEntry(apiBeacon.getNotifyOnEntry());
-    beacon.setNotifyOnExit(apiBeacon.getNotifyOnExit());
-    beacon.setStayTime(apiBeacon.getStayTime());
-    beacon.setTags(apiBeacon.getTags());
-    beacon.setType(ProximityPointType.getProximityPointTypeValue(apiBeacon.getType()));
+    //Set supper fields
+    region.setNotifyOnEntry(apiBeaconRegion.getNotifyOnEntry());
+    region.setNotifyOnExit(apiBeaconRegion.getNotifyOnExit());
+    region.setTags(apiBeaconRegion.getTags());
 
-    beacon.setCreatedAt(DateUtils.stringToDateWithFormat(apiBeacon.getCreatedAt(),
-        DateFormatConstants.DATE_FORMAT));
-    beacon.setUpdatedAt(DateUtils.stringToDateWithFormat(apiBeacon.getUpdatedAt(),
-        DateFormatConstants.DATE_FORMAT));
-
-    return beacon;
+    return region;
   }
 
 }

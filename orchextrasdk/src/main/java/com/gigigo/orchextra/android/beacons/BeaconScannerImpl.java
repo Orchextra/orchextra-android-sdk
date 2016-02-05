@@ -1,14 +1,13 @@
 package com.gigigo.orchextra.android.beacons;
 
-import android.util.Log;
+import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.android.beacons.monitoring.RegionMonitoringScanner;
 import com.gigigo.orchextra.android.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.android.beacons.ranging.exceptions.RangingScanInBackgroundException;
 import com.gigigo.orchextra.domain.device.AppRunningMode;
-import com.gigigo.orchextra.domain.entities.config.Config;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
-import org.altbeacon.beacon.BeaconManager;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -16,21 +15,17 @@ import org.altbeacon.beacon.BeaconManager;
  */
 public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStatusListener{
 
-  private static final String TAG = "BeaconScannerImpl";
-
   private final RegionMonitoringScanner regionMonitoringScanner;
   private final BeaconRangingScanner beaconRangingScanner;
-  private final BeaconManager beaconManager;
   private final BluetoothStatusInfo bluetoothStatusInfo;
   private final AppRunningMode appRunningMode;
 
   public BeaconScannerImpl(RegionMonitoringScanner regionMonitoringScanner,
-      BeaconRangingScanner beaconRangingScanner, BeaconManager beaconManager,
-      BluetoothStatusInfo bluetoothStatusInfo, AppRunningMode appRunningMode) {
+      BeaconRangingScanner beaconRangingScanner, BluetoothStatusInfo bluetoothStatusInfo,
+      AppRunningMode appRunningMode) {
 
     this.regionMonitoringScanner = regionMonitoringScanner;
     this.beaconRangingScanner = beaconRangingScanner;
-    this.beaconManager = beaconManager;
     this.bluetoothStatusInfo = bluetoothStatusInfo;
     this.appRunningMode = appRunningMode;
   }
@@ -41,11 +36,9 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
   }
 
   private void initMonitoring() {
-    beaconManager.setBackgroundMode(
-        appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND);
-
+    regionMonitoringScanner.setRunningMode(appRunningMode.getRunningModeType());
     if (!regionMonitoringScanner.isMonitoring()){
-      regionMonitoringScanner.initMonitoring(appRunningMode.getRunningModeType());
+      regionMonitoringScanner.initMonitoring();
     }
 
   }
@@ -92,15 +85,19 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
   @Override public void onBluetoothStatus(BluetoothStatus bluetoothStatus) {
     switch (bluetoothStatus){
       case NO_BLTE_SUPPORTED:
-        Log.w(TAG, "LOG: CAUTION BLTE not supported, some features can not work as expected");
+        GGGLogImpl.log("CAUTION BLTE not supported, some features can not work as expected",
+            LogLevel.WARN);
         //TODO do something with error
         break;
       case NO_PERMISSIONS:
-        Log.w(TAG, "LOG: CAUTION Bluetooth permissions not granted, some features can not work as expected");
+        GGGLogImpl.log(
+            "CAUTION Bluetooth permissions not granted, some features can not work as expected",
+            LogLevel.WARN);
         //TODO do something with error
         break;
       case NOT_ENABLED:
-        Log.w(TAG, "LOG: CAUTION Bluetooth is off some features cannot start to work till the user switches it on");
+        GGGLogImpl.log("CAUTION Bluetooth is off some features "
+            + "cannot start to work till the user switches it on", LogLevel.WARN);
         //IMPORTANT: DO NOT "break;", SCAN SHOULD START AUTOMATICALLY WHEN BLUETOOTH IS SWITCHED ON
       case READY_FOR_SCAN:
         initMonitoring();

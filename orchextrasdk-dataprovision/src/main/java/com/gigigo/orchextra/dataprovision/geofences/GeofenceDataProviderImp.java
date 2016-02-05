@@ -3,7 +3,7 @@ package com.gigigo.orchextra.dataprovision.geofences;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ public class GeofenceDataProviderImp implements GeofenceDataProvider {
     }
 
     @Override
-    public BusinessObject<List<Geofence>> obtainGeofencesFromDatabase() {
+    public BusinessObject<List<OrchextraGeofence>> obtainGeofencesFromDatabase() {
         return configDBDataSource.obtainGeofences();
     }
 
     @Override
-    public BusinessObject<Geofence> obtainGeofenceByIdFromDatabase(String geofenceId) {
+    public BusinessObject<OrchextraGeofence> obtainGeofenceByIdFromDatabase(String geofenceId) {
         return configDBDataSource.obtainGeofenceById(geofenceId);
     }
 }

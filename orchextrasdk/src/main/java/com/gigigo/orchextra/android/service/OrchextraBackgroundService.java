@@ -3,15 +3,13 @@ package com.gigigo.orchextra.android.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
+import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.android.applifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
 import javax.inject.Inject;
 
 public class OrchextraBackgroundService extends Service {
-
-	private static final String TAG = "MyAppService";
 
 	@Inject
 	BackgroundTasksManager backgroundTasksManager;
@@ -25,7 +23,7 @@ public class OrchextraBackgroundService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d(TAG, "LOG :: Service method :: onStartCommand");
+		GGGLogImpl.log("Service method :: onStartCommand");
 		AppStatusEventsListener appStatusEventsListener = orchextraActivityLifecycle.getAppStatusEventsListener();
 		appStatusEventsListener.onServiceRecreated();
 		backgroundTasksManager.startBackgroundTasks();
@@ -36,12 +34,12 @@ public class OrchextraBackgroundService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Orchextra.getInjector().injectServiceComponent(this);
-		Log.d(TAG, "LOG :: Service method :: onCreate");
+		GGGLogImpl.log("Service method :: onCreate");
 	}
 
 	@Override
 	public void onDestroy() {
-		Log.d(TAG, "LOG :: Service method :: onDestroy");
+		GGGLogImpl.log("Service method :: onDestroy");
 		backgroundTasksManager.finalizeBackgroundTasks();
 		super.onDestroy();
 	}

@@ -2,8 +2,8 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.ggglib.network.mappers.MapperUtils;
 import com.gigigo.ggglib.network.mappers.ResponseMapper;
-import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
 import com.gigigo.orchextra.domain.entities.Theme;
 import com.gigigo.orchextra.domain.entities.Vuforia;
 import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
@@ -11,7 +11,7 @@ import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
 import java.util.ArrayList;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeacon;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 
@@ -37,8 +37,8 @@ public class ConfigApiResponseMapper implements ResponseMapper<ConfigInfoResult,
 
   @Override public ConfigInfoResult dataToModel(ApiConfigData apiConfigData) {
 
-    List<Beacon> beacons = mapBeacons(apiConfigData.getProximity());
-    List<Geofence> geofences = mapGeofences(apiConfigData.getGeoMarketing());
+    List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
+    List<OrchextraGeofence> geofences = mapGeofences(apiConfigData.getGeoMarketing());
     Theme theme = MapperUtils.checkNullDataResponse(themeResponseMapper, apiConfigData.getTheme());
     Vuforia vuforia = MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
@@ -47,8 +47,8 @@ public class ConfigApiResponseMapper implements ResponseMapper<ConfigInfoResult,
 
   }
 
-  private List<Geofence> mapGeofences(List<ApiGeofence> apiGeofences) {
-    List<Geofence> geofences =  new ArrayList<>();
+  private List<OrchextraGeofence> mapGeofences(List<ApiGeofence> apiGeofences) {
+    List<OrchextraGeofence> geofences =  new ArrayList<>();
 
     if (apiGeofences == null)
       return geofences;
@@ -60,14 +60,14 @@ public class ConfigApiResponseMapper implements ResponseMapper<ConfigInfoResult,
     return geofences;
   }
 
-  private List<Beacon> mapBeacons(List<ApiBeacon> apiBeacons) {
-    List<Beacon> beacons = new ArrayList<>();
+  private List<OrchextraRegion> mapBeacons(List<ApiBeaconRegion> apiBeaconRegions) {
+    List<OrchextraRegion> beacons = new ArrayList<>();
 
     if (beacons == null)
       return beacons;
 
-    for (ApiBeacon apiBeacon : apiBeacons){
-      beacons.add(MapperUtils.checkNullDataResponse(beaconResponseMapper, apiBeacon));
+    for (ApiBeaconRegion apiBeaconRegion : apiBeaconRegions){
+      beacons.add(MapperUtils.checkNullDataResponse(beaconResponseMapper, apiBeaconRegion));
     }
 
     return beacons;

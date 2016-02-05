@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.di.modules;
 
-import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
 import com.gigigo.orchextra.domain.entities.Theme;
 import com.gigigo.orchextra.domain.entities.Vuforia;
 
@@ -51,8 +51,8 @@ public class DBModule {
 
     @Singleton
     @Provides
-    ConfigInfoResultUpdater provideConfigInfoResultUpdater(RealmMapper<Beacon, BeaconRealm> beaconRealmMapper,
-                                                           RealmMapper<Geofence, GeofenceRealm> geofenceRealmMapper,
+    ConfigInfoResultUpdater provideConfigInfoResultUpdater(RealmMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper,
+                                                           RealmMapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper,
                                                            RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
                                                            RealmMapper<Theme, ThemeRealm> themeRealmMapper) {
         return new ConfigInfoResultUpdater(beaconRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper);
@@ -60,8 +60,8 @@ public class DBModule {
 
     @Singleton
     @Provides
-    ConfigInfoResultReader provideConfigInfoResultReader(RealmMapper<Beacon, BeaconRealm> beaconRealmMapper,
-                                                         RealmMapper<Geofence, GeofenceRealm> geofenceRealmMapper,
+    ConfigInfoResultReader provideConfigInfoResultReader(RealmMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper,
+                                                         RealmMapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper,
                                                          RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
                                                          RealmMapper<Theme, ThemeRealm> themeRealmMapper) {
         return new ConfigInfoResultReader(beaconRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper);

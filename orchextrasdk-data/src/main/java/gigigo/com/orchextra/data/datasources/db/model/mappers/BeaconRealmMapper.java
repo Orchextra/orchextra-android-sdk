@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
-import com.gigigo.orchextra.domain.entities.Beacon;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
 import com.gigigo.orchextra.domain.entities.ProximityPointType;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRealm;
 
@@ -10,7 +10,7 @@ import gigigo.com.orchextra.data.datasources.db.model.BeaconRealm;
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class BeaconRealmMapper implements RealmMapper<Beacon, BeaconRealm> {
+public class BeaconRealmMapper implements RealmMapper<OrchextraRegion, BeaconRealm> {
 
   private final KeyWordRealmMapper keyWordRealmMapper;
 
@@ -18,7 +18,7 @@ public class BeaconRealmMapper implements RealmMapper<Beacon, BeaconRealm> {
     this.keyWordRealmMapper = keyWordRealmMapper;
   }
 
-  @Override public BeaconRealm modelToData(Beacon beacon) {
+  @Override public BeaconRealm modelToData(OrchextraRegion beacon) {
     BeaconRealm beaconRealm = new BeaconRealm();
     beaconRealm.setActive(beacon.isActive());
     beaconRealm.setMajor(beacon.getMajor());
@@ -43,12 +43,14 @@ public class BeaconRealmMapper implements RealmMapper<Beacon, BeaconRealm> {
     return beaconRealm;
   }
 
-  @Override public Beacon dataToModel(BeaconRealm beaconRealm) {
-    Beacon beacon = new Beacon();
-    beacon.setActive(beaconRealm.isActive());
-    beacon.setMajor(beaconRealm.getMajor());
-    beacon.setMinor(beaconRealm.getMinor());
-    beacon.setUuid(beaconRealm.getUuid());
+  @Override public OrchextraRegion dataToModel(BeaconRealm beaconRealm) {
+
+    OrchextraRegion beacon = new OrchextraRegion(
+        beaconRealm.getCode(),
+        beaconRealm.getUuid(),
+        beaconRealm.getMajor(),
+        beaconRealm.getMinor(),
+        beaconRealm.isActive());
 
     beacon.setCode(beaconRealm.getCode());
     beacon.setId(beaconRealm.getId());

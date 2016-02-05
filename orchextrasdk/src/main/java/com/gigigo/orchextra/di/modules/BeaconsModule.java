@@ -9,13 +9,16 @@ import com.gigigo.orchextra.android.beacons.BluetoothAvailabilityImpl;
 import com.gigigo.orchextra.android.beacons.BluetoothStatusInfo;
 import com.gigigo.orchextra.android.beacons.BluetoothStatusInfoImpl;
 import com.gigigo.orchextra.android.beacons.MonitoringListenerImpl;
-import com.gigigo.orchextra.android.beacons.monitoring.BeaconsController;
+import com.gigigo.orchextra.android.mapper.BeaconAndroidMapper;
+import com.gigigo.orchextra.android.mapper.BeaconRegionAndroidMapper;
+import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
 import com.gigigo.orchextra.android.beacons.monitoring.MonitoringListener;
 import com.gigigo.orchextra.android.beacons.monitoring.RegionMonitoringScanner;
 import com.gigigo.orchextra.android.beacons.monitoring.RegionMonitoringScannerImpl;
 import com.gigigo.orchextra.android.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.android.beacons.ranging.BeaconRangingScannerImpl;
 import com.gigigo.orchextra.domain.device.AppRunningMode;
+import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.initalization.FeatureListener;
 import dagger.Module;
 import dagger.Provides;
@@ -48,7 +51,7 @@ public class BeaconsModule {
               //beaconManager.setAndroidLScanningDisabled(true);
 
           //}  catch (RemoteException e) {
-          //    Log.e("BeaconsModule", "LOG :: Cannot talk to service");
+          //      GGGLogImpl.log("Cannot talk to service", LogLevel.ERROR);
           //}
 
     return beaconManager;
@@ -59,26 +62,29 @@ public class BeaconsModule {
   }
 
   @Provides @Singleton BeaconScanner provideBeaconScanner(RegionMonitoringScanner regionMonitoringScanner,
-      BeaconRangingScanner beaconRangingScanner, AppRunningMode appRunningMode, BeaconManager beaconManager,
+      BeaconRangingScanner beaconRangingScanner, AppRunningMode appRunningMode,
       BluetoothStatusInfo bluetoothStatusInfo){
 
-    return new BeaconScannerImpl(regionMonitoringScanner, beaconRangingScanner, beaconManager
-        , bluetoothStatusInfo, appRunningMode);
+    return new BeaconScannerImpl(regionMonitoringScanner, beaconRangingScanner, bluetoothStatusInfo,
+        appRunningMode);
   }
 
   @Provides @Singleton BeaconRangingScanner provideBeaconRangingScanner(BeaconManager beaconManager,
-      BeaconsController beaconsController){
-    return new BeaconRangingScannerImpl(beaconManager, beaconsController);
+      BeaconsController beaconsController, BeaconRegionAndroidMapper beaconRegionControlMapper,
+      BeaconAndroidMapper beaconAndroidMapper){
+    return new BeaconRangingScannerImpl(beaconManager, beaconsController, beaconRegionControlMapper,
+        beaconAndroidMapper);
   }
 
   @Provides @Singleton RegionMonitoringScanner provideRegionMonitoringScanner(ContextProvider contextProvider,
-    BeaconManager beaconManager, MonitoringListener monitoringListener, BeaconsController beaconsController){
+    BeaconManager beaconManager, MonitoringListener monitoringListener, BeaconsController beaconsController,
+      BeaconRegionAndroidMapper beaconRegionControlMapper){
     return new RegionMonitoringScannerImpl(contextProvider, beaconManager, monitoringListener,
-        beaconsController);
+        beaconsController, beaconRegionControlMapper);
   }
 
-  @Provides @Singleton BeaconsController provideBeaconsController(){
-    return new BeaconsController(null, null, null);
+  @Provides @Singleton BeaconsController provideBeaconsController(GetActionInteractor getActionInteractor){
+    return new BeaconsController(getActionInteractor);
   }
 
   @Provides @Singleton MonitoringListener provideMonitoringListener(AppRunningMode appRunningMode,
@@ -88,6 +94,14 @@ public class BeaconsModule {
 
   @Provides @Singleton BluetoothAvailability provideBluetoothAvailability(BeaconManager beaconManager){
     return new BluetoothAvailabilityImpl(beaconManager);
+  }
+
+  @Provides @Singleton BeaconRegionAndroidMapper provideBeaconRegionAndroidMapper(){
+    return new BeaconRegionAndroidMapper();
+  }
+
+  @Provides @Singleton BeaconAndroidMapper provideBeaconAndroidMapper(){
+    return new BeaconAndroidMapper();
   }
 
   @Provides @Singleton BluetoothStatusInfo provideBluetoothStatusInfo(BluetoothAvailability bluetoothAvailability,

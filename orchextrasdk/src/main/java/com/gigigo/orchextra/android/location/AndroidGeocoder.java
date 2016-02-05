@@ -7,7 +7,7 @@ import android.location.Location;
 import android.support.annotation.Nullable;
 
 import com.gigigo.orchextra.domain.entities.GeoLocation;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,7 +42,7 @@ public class AndroidGeocoder {
 
             GeoLocation geoLocation = new GeoLocation();
 
-            Point point = new Point();
+            OrchextraPoint point = new OrchextraPoint();
             point.setLat(address.getLatitude());
             point.setLng(address.getLongitude());
             geoLocation.setPoint(point);

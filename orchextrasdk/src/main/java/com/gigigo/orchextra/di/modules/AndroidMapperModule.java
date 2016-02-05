@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.di.modules;
 
 import com.gigigo.orchextra.android.mapper.LocationMapper;
-import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceMapper;
+import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceConverter;
 import com.gigigo.orchextra.di.scopes.PerDelegate;
 
 import dagger.Module;
@@ -11,9 +11,8 @@ import dagger.Provides;
 public class AndroidMapperModule {
 
     @PerDelegate
-    @Provides
-    AndroidGeofenceMapper provideAndroidGeofenceMapper() {
-        return new AndroidGeofenceMapper();
+    @Provides AndroidGeofenceConverter provideAndroidGeofenceMapper() {
+        return new AndroidGeofenceConverter();
     }
 
     @PerDelegate
@@ -21,4 +20,5 @@ public class AndroidMapperModule {
     LocationMapper provideLocationMapper() {
         return new LocationMapper();
     }
+
 }

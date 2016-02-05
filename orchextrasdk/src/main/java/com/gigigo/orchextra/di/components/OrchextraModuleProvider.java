@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.di.components;
 
 import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.orchextra.android.ViewActionDispatcher;
 import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.domain.device.AppRunningMode;
 
@@ -11,5 +12,6 @@ import com.gigigo.orchextra.domain.device.AppRunningMode;
 public interface OrchextraModuleProvider {
   AppRunningMode provideAppRunningModeType();
   ContextProvider provideContextProvider();
+  ViewActionDispatcher provideViewActionDispatcher();
   OrchextraActivityLifecycle provideOrchextraActivityLifecycle();
 }

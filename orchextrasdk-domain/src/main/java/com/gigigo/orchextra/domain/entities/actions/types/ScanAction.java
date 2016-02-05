@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.domain.entities.actions.types;
 
 import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.entities.actions.strategy.Schedule;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.entities.actions.ActionType;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
@@ -11,8 +12,8 @@ import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
  */
 public class ScanAction extends BasicAction {
 
-  public ScanAction(String url, Notification notification) {
-    super(url, notification);
+  public ScanAction(String url, Notification notification, Schedule schedule) {
+    super(url, notification, schedule);
     this.actionType = ActionType.SCAN;
   }
 

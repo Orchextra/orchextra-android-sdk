@@ -2,18 +2,13 @@ package com.gigigo.orchextra.control.controllers.proximity;
 
 import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.controllers.base.Controller;
-import com.gigigo.orchextra.control.entities.ControlGeofence;
-import com.gigigo.orchextra.control.entities.ControlPoint;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
-import com.gigigo.orchextra.control.mapper.ListMapper;
-import com.gigigo.orchextra.control.mapper.Mapper;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
 import com.gigigo.orchextra.domain.entities.triggers.Trigger;
-import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
@@ -29,22 +24,16 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
     private final InteractorInvoker interactorInvoker;
     private final RetrieveGeofencesFromDatabaseInteractor retrieveGeofencesInteractor;
     private final GetActionInteractor getActionInteractor;
-    private final ListMapper<Geofence, ControlGeofence> controlGeofenceListMapper;
-    private final Mapper<Point, ControlPoint> controlPointMapper;
     private final RetrieveGeofenceTriggerInteractor retrieveGeofenceTriggerInteractor;
 
     public ProximityItemController(ThreadSpec mainThreadSpec, InteractorInvoker interactorInvoker,
                                    RetrieveGeofencesFromDatabaseInteractor retrieveGeofencesInteractor,
                                    GetActionInteractor getActionInteractor,
-                                   ListMapper<Geofence, ControlGeofence> controlGeofenceListMapper,
-                                   Mapper<Point, ControlPoint> controlPointMapper,
                                    RetrieveGeofenceTriggerInteractor retrieveGeofenceTriggerInteractor) {
         super(mainThreadSpec);
         this.interactorInvoker = interactorInvoker;
         this.retrieveGeofencesInteractor = retrieveGeofencesInteractor;
         this.getActionInteractor = getActionInteractor;
-        this.controlGeofenceListMapper = controlGeofenceListMapper;
-        this.controlPointMapper = controlPointMapper;
         this.retrieveGeofenceTriggerInteractor = retrieveGeofenceTriggerInteractor;
     }
 
@@ -55,11 +44,10 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
 
     public void retrieveGeofences() {
         new InteractorExecution<>(retrieveGeofencesInteractor)
-                .result(new InteractorResult<List<Geofence>>() {
+                .result(new InteractorResult<List<OrchextraGeofence>>() {
                     @Override
-                    public void onResult(List<Geofence> result) {
-                        List<ControlGeofence> controlGeofences = controlGeofenceListMapper.modelToControl(result);
-                        registerGeofences(controlGeofences);
+                    public void onResult(List<OrchextraGeofence> result) {
+                        registerGeofences(result);
                     }
                 })
                 .error(RetrieveProximityItemError.class, new InteractorResult<InteractorError>() {
@@ -72,7 +60,7 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
                 .execute(interactorInvoker);
     }
 
-    private void registerGeofences(List<ControlGeofence> geofenceList) {
+    private void registerGeofences(List<OrchextraGeofence> geofenceList) {
         getDelegate().registerGeofences(geofenceList);
     }
 
@@ -80,9 +68,8 @@ public class ProximityItemController extends Controller<ProximityItemDelegate> {
         //TODO Call configuration interactor
     }
 
-    public void processTriggers(List<String> triggeringGeofenceIds, ControlPoint triggeringControlPoint,
+    public void processTriggers(List<String> triggeringGeofenceIds, OrchextraPoint triggeringPoint,
                                 final GeoPointEventType geofenceTransition) {
-        final Point triggeringPoint = controlPointMapper.controlToModel(triggeringControlPoint);
 
         retrieveGeofenceTriggerInteractor.setTriggeringGeofenceIds(triggeringGeofenceIds);
         retrieveGeofenceTriggerInteractor.setTriggeringPoint(triggeringPoint);

@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.domain.entities.triggers;
 
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 import com.gigigo.orchextra.domain.entities.triggers.strategy.BeaconDistanceTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.entities.triggers.strategy.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.entities.triggers.strategy.GeoPointEventTypeBehaviourImpl;
@@ -14,7 +14,7 @@ public class GeofenceTrigger extends Trigger {
   private final double distance;
   private final GeoPointEventType geoPointEventType;
 
-  public GeofenceTrigger(String id, Point point, AppRunningModeType appRunningModeType, double distance,
+  public GeofenceTrigger(String id, OrchextraPoint point, AppRunningModeType appRunningModeType, double distance,
       GeoPointEventType geoPointEventType) {
     super(TriggerType.GEOFENCE, id, point, appRunningModeType);
 

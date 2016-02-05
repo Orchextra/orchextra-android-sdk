@@ -1,5 +1,9 @@
 package com.gigigo.orchextra.android.beacons.actions;
 
+import com.gigigo.orchextra.domain.abstractions.ActionsScheduler;
+import com.gigigo.orchextra.domain.abstractions.ActionsSchedulerController;
+import com.gigigo.orchextra.domain.abstractions.ActionsSchedulerPersistor;
+import com.gigigo.orchextra.domain.entities.actions.ScheduledAction;
 import java.util.List;
 
 /**

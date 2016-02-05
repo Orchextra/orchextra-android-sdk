@@ -3,8 +3,8 @@ package com.gigigo.orchextra.domain.interactors.geofences;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
 import com.gigigo.orchextra.domain.device.AppRunningMode;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraPoint;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
 import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
 import com.gigigo.orchextra.domain.entities.triggers.Trigger;
@@ -37,13 +37,12 @@ public class RetrieveGeofenceTriggerInteractorTest {
 
     GeoPointEventType geoPointEventType;
 
-    @Mock
-    Point point;
+    @Mock OrchextraPoint point;
 
     @Mock
-    BusinessObject<Geofence> businessGeofence;
+    BusinessObject<OrchextraGeofence> businessGeofence;
 
-    @Mock Geofence geofence;
+    @Mock OrchextraGeofence geofence;
 
     double distanceFromGeofenceInKm = 234;
 
@@ -61,7 +60,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
         idsList.add("bbbb");
 
 
-        Point geofencePoint = new Point();
+        OrchextraPoint geofencePoint = new OrchextraPoint();
         geofencePoint.setLat(123);
         geofencePoint.setLng(321);
 

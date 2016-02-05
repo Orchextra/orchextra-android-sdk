@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.domain.entities.config.strategy;
 
-import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
+import com.gigigo.orchextra.domain.entities.OrchextraRegion;
 import com.gigigo.orchextra.domain.entities.Theme;
 import com.gigigo.orchextra.domain.entities.Vuforia;
 import java.util.List;
@@ -12,19 +12,19 @@ import java.util.List;
  */
 public class ConfigInfoResult{
 
-  private BeaconList beacons;
+  private RegionList regions;
   private GeofenceList geofences;
   private VuforiaReady vuforia;
   private SupportsTheme theme;
 
   private int requestWaitTime;
 
-  public List<Geofence> getGeofences() {
+  public List<OrchextraGeofence> getGeofences() {
     return geofences.getGeofences();
   }
 
-  public List<Beacon> getBeacons() {
-    return beacons.getBeacons();
+  public List<OrchextraRegion> getRegions() {
+    return regions.getRegions();
   }
 
   public Vuforia getVuforia() {
@@ -44,7 +44,7 @@ public class ConfigInfoResult{
   }
 
   public boolean supportsBeacons(){
-    return beacons.isSupported();
+    return regions.isSupported();
   }
 
   public boolean supportsGeofences(){
@@ -59,8 +59,8 @@ public class ConfigInfoResult{
     this.requestWaitTime = requestWaitTime;
   }
 
-  public void setBeacons(BeaconList beacons) {
-    this.beacons = beacons;
+  public void setRegions(RegionList regions) {
+    this.regions = regions;
   }
 
   public void setGeofences(GeofenceList geofences) {
@@ -77,13 +77,13 @@ public class ConfigInfoResult{
 
   public static class Builder {
 
-    private List<Geofence> geoMarketing;
-    private List<Beacon> proximity;
+    private List<OrchextraGeofence> geoMarketing;
+    private List<OrchextraRegion> proximity;
     private Theme theme;
     private int requestWaitTime;
     private Vuforia vuforia;
 
-    public Builder(int requestWaitTime, List<Geofence> geoMarketing, List<Beacon> proximity,
+    public Builder(int requestWaitTime, List<OrchextraGeofence> geoMarketing, List<OrchextraRegion> proximity,
                    Theme theme, Vuforia vuforia) {
 
       this.geoMarketing = geoMarketing;
@@ -98,7 +98,8 @@ public class ConfigInfoResult{
       ConfigInfoResult configInfoResult = new ConfigInfoResult();
 
       configInfoResult.setRequestWaitTime(requestWaitTime);
-      configInfoResult.setBeacons(new RealBeaconListImpl(proximity));
+      //TODO Add changing check
+      configInfoResult.setRegions(new RealRegionListImpl(proximity));
       configInfoResult.setGeofences(new RealGeofenceListImpl(geoMarketing));
       configInfoResult.setTheme(new RealSupportsThemeImpl(theme));
       configInfoResult.setVuforia(new VuforiaReadyImpl(vuforia));

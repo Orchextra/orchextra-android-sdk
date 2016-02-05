@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.android.beacons;
 
-import android.util.Log;
+import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.android.beacons.monitoring.MonitoringListener;
 import com.gigigo.orchextra.android.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.domain.device.AppRunningMode;
@@ -14,8 +14,6 @@ import org.altbeacon.beacon.Region;
  * Date 28/1/16.
  */
 public class MonitoringListenerImpl implements MonitoringListener {
-
-  private static final String TAG = "MonitoringListenerImpl";
 
   private final AppRunningMode appRunningMode;
   private final BeaconRangingScanner beaconRangingScanner;
@@ -39,7 +37,7 @@ public class MonitoringListenerImpl implements MonitoringListener {
       beaconRangingScanner.initRangingScanForDetectedRegion(regions,
           BackgroundBeaconsRangingTimeType.INFINITE);
 
-      Log.v(TAG, "LOG :: Ranging will be Started with infinite duration");
+      GGGLogImpl.log("Ranging will be Started with infinite duration");
 
     }else if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND &&
         backgroundBeaconsRangingTimeType != BackgroundBeaconsRangingTimeType.DISABLED){
@@ -47,7 +45,7 @@ public class MonitoringListenerImpl implements MonitoringListener {
       beaconRangingScanner.initRangingScanForDetectedRegion(regions,
           backgroundBeaconsRangingTimeType);
 
-      Log.v(TAG, "LOG :: Ranging will be Started with " +
+      GGGLogImpl.log("Ranging will be Started with " +
           String.valueOf(backgroundBeaconsRangingTimeType.getIntValue()) + " duration");
 
     }

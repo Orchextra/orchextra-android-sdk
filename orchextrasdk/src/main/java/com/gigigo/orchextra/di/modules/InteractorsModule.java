@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.di.modules;
 
+import com.gigigo.orchextra.domain.abstractions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
@@ -50,8 +51,8 @@ public class InteractorsModule {
   }
 
   @Provides @Singleton GetActionInteractor provideGetActionInteractor (
-      ActionsDataProvider actionsDataProvider){
-    return new GetActionInteractor(actionsDataProvider);
+      ActionsDataProvider actionsDataProvider, ActionsSchedulerController actionsSchedulerController){
+    return new GetActionInteractor(actionsDataProvider, actionsSchedulerController);
   }
 
     @Provides @Singleton

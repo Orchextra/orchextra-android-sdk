@@ -5,7 +5,7 @@ import android.location.Location;
 import com.gigigo.orchextra.android.builders.ControlGeofenceBuilder;
 import com.gigigo.orchextra.android.builders.ControlPointBuilder;
 import com.gigigo.orchextra.android.mapper.LocationMapper;
-import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceMapper;
+import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceConverter;
 import com.gigigo.orchextra.control.entities.ControlGeofence;
 import com.gigigo.orchextra.control.entities.ControlPoint;
 import com.google.android.gms.location.Geofence;
@@ -28,8 +28,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class AndroidGeofenceManagerTest {
 
-    @Mock
-    AndroidGeofenceMapper androidGeofenceMapper;
+    @Mock AndroidGeofenceConverter androidGeofenceMapper;
 
     @Mock
     GeofenceDeviceRegister geofenceDeviceRegister;
