@@ -22,7 +22,7 @@ public class GeoLocationRequestMapperTest {
         geoLocation.setPoint(point);
         geoLocation.setStreet("Calle Alcala, 345");
         geoLocation.setLocality("Madrid");
-        geoLocation.setZip(28027);
+        geoLocation.setZip("28027");
         geoLocation.setCountry("Spain");
         geoLocation.setCountryCode("34");
 

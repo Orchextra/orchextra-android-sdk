@@ -3,7 +3,7 @@ package com.gigigo.orchextra.android.location;
 import android.location.Location;
 import android.os.Bundle;
 
-import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
 import com.gigigo.orchextra.android.googleClient.GoogleApiClientConnector;

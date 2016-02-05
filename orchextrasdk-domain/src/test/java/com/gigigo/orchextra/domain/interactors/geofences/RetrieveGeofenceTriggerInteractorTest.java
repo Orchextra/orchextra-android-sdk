@@ -2,7 +2,7 @@ package com.gigigo.orchextra.domain.interactors.geofences;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
-import com.gigigo.orchextra.domain.device.DeviceRunningModeType;
+import com.gigigo.orchextra.domain.device.AppRunningMode;
 import com.gigigo.orchextra.domain.entities.Geofence;
 import com.gigigo.orchextra.domain.entities.Point;
 import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
@@ -33,8 +33,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
     @Mock
     GeofenceDataProvider geofenceDataProvider;
 
-    @Mock
-    DeviceRunningModeType deviceRunningModeType;
+    @Mock AppRunningMode appRunningMode;
 
     GeoPointEventType geoPointEventType;
 
@@ -52,7 +51,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
 
     @Before
     public void setUp() throws Exception {
-        interactor = new RetrieveGeofenceTriggerInteractor(geofenceDataProvider, deviceRunningModeType);
+        interactor = new RetrieveGeofenceTriggerInteractor(geofenceDataProvider, appRunningMode);
     }
 
     @Test
@@ -75,7 +74,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
         when(businessGeofence.isSuccess()).thenReturn(true);
         when(businessGeofence.getData()).thenReturn(geofence);
         when(point.getDistanceFromPointInKm(geofence.getPoint())).thenReturn(distanceFromGeofenceInKm);
-        when(deviceRunningModeType.getAppRunningModeType()).thenReturn(AppRunningModeType.FOREGROUND);
+        when(appRunningMode.getRunningModeType()).thenReturn(AppRunningModeType.FOREGROUND);
         when(geofence.getPoint()).thenReturn(geofencePoint);
 
         InteractorResponse<List<Trigger>> response = interactor.call();
@@ -90,7 +89,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
         verify(businessGeofence, times(2)).isSuccess();
         verify(businessGeofence, times(2)).getData();
         verify(point, times(2)).getDistanceFromPointInKm(geofence.getPoint());
-        verify(deviceRunningModeType, times(2)).getAppRunningModeType();
+        verify(appRunningMode, times(2)).getRunningModeType();
         verify(geofence, times(6)).getPoint();
     }
 

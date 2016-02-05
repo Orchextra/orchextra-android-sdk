@@ -2,28 +2,40 @@ package com.gigigo.orchextra.di.modules;
 
 import android.content.Context;
 
-import com.gigigo.ggglib.permissions.ContextProvider;
-import com.gigigo.orchextra.actions.ActionExecutionImp;
-import com.gigigo.orchextra.actions.BrowserActionExecutor;
-import com.gigigo.orchextra.actions.CustomActionExecutor;
-import com.gigigo.orchextra.actions.NotificationActionExecutor;
-import com.gigigo.orchextra.actions.ScanActionExecutor;
-import com.gigigo.orchextra.actions.VuforiaActionExecutor;
-import com.gigigo.orchextra.actions.WebViewActionExecutor;
-import com.gigigo.orchextra.android.applifecycle.DeviceRunningModeTypeImp;
+import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
+import com.gigigo.ggglib.permissions.PermissionChecker;
+import com.gigigo.orchextra.android.applifecycle.AppRunningModeImp;
+import com.gigigo.orchextra.android.applifecycle.AppStatusEventsListener;
+import com.gigigo.orchextra.android.applifecycle.AppStatusEventsListenerImpl;
+import com.gigigo.orchextra.android.applifecycle.ContextProviderImpl;
+import com.gigigo.orchextra.android.applifecycle.ForegroundTasksManager;
+import com.gigigo.orchextra.android.applifecycle.ForegroundTasksManagerImpl;
 import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
+import com.gigigo.orchextra.android.beacons.BeaconScanner;
+import com.gigigo.orchextra.android.beacons.actions.ActionsScheduler;
+import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerController;
+import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerControllerImpl;
+import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerGcmImpl;
+import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerPersistor;
+import com.gigigo.orchextra.android.beacons.actions.ActionsSchedulerPersistorNullImpl;
 import com.gigigo.orchextra.android.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.android.mapper.AndroidNotificationMapper;
 import com.gigigo.orchextra.android.notifications.AndroidNotificationBuilder;
 import com.gigigo.orchextra.android.notifications.BackgroundNotificationBuilderImp;
 import com.gigigo.orchextra.android.notifications.ForegroundNotificationBuilderImp;
-import com.gigigo.orchextra.domain.device.DeviceRunningModeType;
+import com.gigigo.orchextra.domain.device.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
 import com.gigigo.orchextra.domain.interactors.actions.ActionExecution;
 import com.gigigo.orchextra.domain.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.notifications.NotificationBehaviorImp;
 
+import com.gigigo.orchextra.initalization.FeatureList;
+import com.gigigo.orchextra.initalization.FeatureListener;
+import com.gigigo.orchextra.initalization.FeatureStatus;
+import com.gigigo.orchextra.initalization.OrchextraCompletionCallback;
+import com.gigigo.orchextra.initalization.OrchextraContextProvider;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -33,17 +45,15 @@ import dagger.Provides;
  * Created by Sergio Martinez Rodriguez
  * Date 24/11/15.
  */
-@Module(includes = {InteractorsModule.class, DomainModule.class})
+@Module(includes = {InteractorsModule.class, DomainModule.class, BeaconsModule.class})
 public class OrchextraModule {
 
-  private Context context;
+  private final Context context;
+  private final OrchextraCompletionCallback orchextraCompletionCallback;
 
-  public OrchextraModule(Context context) {
+  public OrchextraModule(Context context, OrchextraCompletionCallback orchextraCompletionCallback) {
     this.context = context;
-  }
-
-  @Provides @Singleton Context provideApplicationContext(){
-    return context;
+    this.orchextraCompletionCallback = orchextraCompletionCallback;
   }
 
   @Provides
@@ -54,10 +64,10 @@ public class OrchextraModule {
 
   @Provides
   @Singleton
-  NotificationBehavior provideNotificationBehavior(DeviceRunningModeType deviceRunningModeType,
+  NotificationBehavior provideNotificationBehavior(AppRunningMode appRunningMode,
                                                    ForegroundNotificationBuilderImp foregroundNotificationBuilderImp,
                                                    BackgroundNotificationBuilderImp backgroundNotificationBuilderImp) {
-    return new NotificationBehaviorImp(deviceRunningModeType, foregroundNotificationBuilderImp, backgroundNotificationBuilderImp);
+    return new NotificationBehaviorImp(appRunningMode, foregroundNotificationBuilderImp, backgroundNotificationBuilderImp);
   }
 
   @Provides
@@ -70,53 +80,6 @@ public class OrchextraModule {
   @Singleton
   WebViewActionExecutor provideWebViewActionExecutor() {
     return new WebViewActionExecutor(context);
-  }
-
-  @Provides
-  @Singleton
-  CustomActionExecutor provideCustomActionExecutor() {
-    return new CustomActionExecutor();
-  }
-
-  @Provides
-  @Singleton
-  ScanActionExecutor provideScanActionExecutor() {
-    return new ScanActionExecutor();
-  }
-
-  @Provides
-  @Singleton
-  VuforiaActionExecutor provideVuforiaActionExecutor() {
-    return new VuforiaActionExecutor();
-  }
-
-  @Provides
-  @Singleton
-  NotificationActionExecutor provideNotificationActionExecutor(NotificationBehavior notificationBehavior) {
-    return new NotificationActionExecutor(notificationBehavior);
-  }
-
-  @Provides
-  @Singleton
-  ActionExecution provideActionExecution(BrowserActionExecutor browserActionExecutor,
-                                         WebViewActionExecutor webViewActionExecutor,
-                                         CustomActionExecutor customActionExecutor,
-                                         ScanActionExecutor scanActionExecutor,
-                                         VuforiaActionExecutor vuforiaActionExecutor,
-                                         NotificationActionExecutor notificationActionExecutor) {
-    return new ActionExecutionImp(browserActionExecutor, webViewActionExecutor,
-            customActionExecutor, scanActionExecutor, vuforiaActionExecutor, notificationActionExecutor);
-  }
-
-  @Provides
-  @Singleton
-  ActionDispatcher provideActionDispatcher(ActionExecution actionExecution, NotificationBehavior notificationBehavior) {
-    return new ActionDispatcherImpl(actionExecution, notificationBehavior);
-  }
-
-  @Provides @Singleton
-  DeviceRunningModeType provideDeviceRunningModeType() {
-    return new DeviceRunningModeTypeImp();
   }
 
   @Provides
@@ -144,15 +107,77 @@ public class OrchextraModule {
     return new BackgroundNotificationBuilderImp(androidNotificationBuilder, androidBasicActionMapper);
   }
 
+
   @Provides
-  @Singleton
-  OrchextraActivityLifecycle provideOrchextraActivityLifecycle(BackgroundNotificationBuilderImp backgroundNotificationBuilderImp) {
-    return new OrchextraActivityLifecycle(context, backgroundNotificationBuilderImp);
+  @Singleton AppStatusEventsListener provideAppStatusEventsListener(ForegroundTasksManager foregroundTasksManager){
+    return new AppStatusEventsListenerImpl(context, foregroundTasksManager);
+  }
+
+
+  @Provides
+  @Singleton OrchextraActivityLifecycle provideOrchextraActivityLifecycle(AppRunningMode appRunningMode, OrchextraContextProvider contextProvider,
+      AppStatusEventsListener appStatusEventsListener, BackgroundNotificationBuilderImp backgroundNotificationBuilderImp) {
+
+    OrchextraActivityLifecycle orchextraActivityLifecycle = new OrchextraActivityLifecycle(appStatusEventsListener, backgroundNotificationBuilderImp);
+    contextProvider.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
+    appRunningMode.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
+    return orchextraActivityLifecycle;
   }
 
   @Provides
-  @Singleton
-  ContextProvider provideContextProvider(OrchextraActivityLifecycle orchextraActivityLifecycle) {
-    return orchextraActivityLifecycle;
+  @Singleton ContextProvider provideContextProvider() {
+    return new ContextProviderImpl(context.getApplicationContext());
+  }
+
+  @Provides
+  @Singleton OrchextraContextProvider provideOrchextraContextProvider(ContextProvider contextProvider) {
+    return (OrchextraContextProvider)contextProvider;
+  }
+
+  @Provides @Singleton AppRunningMode provideAppRunningMode(){
+    return new AppRunningModeImp();
+  }
+
+  @Singleton @Provides ForegroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner){
+    return  new ForegroundTasksManagerImpl(beaconScanner);
+  }
+
+  @Singleton @Provides FeatureList provideFeatureList(){
+    return new FeatureList(orchextraCompletionCallback);
+  }
+
+  @Singleton @Provides FeatureListener provideFeatureListener(FeatureList featureList){
+    return featureList;
+  }
+
+  @Singleton @Provides FeatureStatus provideFeatureStatus(FeatureList featureList){
+    return featureList;
+  }
+
+  @Singleton @Provides ActionsScheduler provideActionsScheduler(ContextProvider contextProvider, FeatureListener
+      featureListener){
+    return new ActionsSchedulerGcmImpl(contextProvider.getApplicationContext(), featureListener);
+  }
+
+  @Singleton @Provides ActionsSchedulerPersistor provideActionsSchedulerPersistorNull(){
+    return new ActionsSchedulerPersistorNullImpl();
+  }
+
+  @Singleton @Provides ActionsSchedulerController provideActionsSchedulerController(
+      ActionsScheduler actionsScheduler, ActionsSchedulerPersistor actionsSchedulerPersistor){
+
+    if (actionsScheduler.hasPersistence() &&
+        !(actionsSchedulerPersistor instanceof ActionsSchedulerPersistorNullImpl)){
+      throw new IllegalArgumentException("Param ActionsSchedulerPersistor in"
+          + " ActionsSchedulerControllerImpl MUST be NullObject when ActionsScheduler "
+          + "already supports persistence ");
+    }
+
+    return new ActionsSchedulerControllerImpl(actionsScheduler, actionsSchedulerPersistor);
+  }
+
+  @Provides
+  @Singleton PermissionChecker providesPermissionChecker(ContextProvider contextProvider){
+    return new AndroidPermissionCheckerImpl(contextProvider.getApplicationContext(), contextProvider);
   }
 }

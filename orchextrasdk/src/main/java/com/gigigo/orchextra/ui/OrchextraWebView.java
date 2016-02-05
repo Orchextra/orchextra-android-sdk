@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 
 import com.gigigo.orchextra.R;
 
-
 public class OrchextraWebView extends LinearLayout {
 
     public static final String OPEN_SCANNER = "OpenScanner";
@@ -24,9 +23,9 @@ public class OrchextraWebView extends LinearLayout {
     public static final String CLOSE_IMAGE_RECOGNITION = "CloseImageRecog";
     public static final String CLOSE_UNKNOW = "CLOSE_UNKNOW";
 
-    WebView webView;
+    private WebView webView;
 
-    View progress;
+    private View progress;
 
     private final Context context;
 
@@ -69,12 +68,8 @@ public class OrchextraWebView extends LinearLayout {
     private void initView() {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.orchextra_webview_layout, this, true);
-        initViews(view);
-    }
-
-    private void initViews(View view) {
-        webView = (WebView) view.findViewById(R.id.webView);
-        progress = view.findViewById(R.id.progress);
+        webView = (WebView) view.findViewById(R.id.ox_webView);
+        progress = view.findViewById(R.id.ox_progress);
     }
 
     private void settingWebView() {

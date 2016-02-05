@@ -9,11 +9,13 @@ import android.text.TextUtils;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.domain.interactors.actions.ActionExecution;
 
+import javax.inject.Inject;
+
 public class WebViewActivity extends AppCompatActivity {
 
     private static final String EXTRA_URL = "EXTRA_URL";
 
-    OrchextraWebView orchextraWebView;
+    private OrchextraWebView orchextraWebView;
 
     
     ActionExecution actionExecution;
@@ -29,12 +31,13 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.orch_activity_webview_layout);
 
-        initViews();
+        ButterKnife.bind(this);
+
         initWebView();
     }
 
     private void initViews() {
-        orchextraWebView = (OrchextraWebView) findViewById(R.id.orchextraWebView);
+        orchextraWebView = (OrchextraWebView) findViewById(R.id.ox_orchextraWebView);
     }
 
     private void initWebView() {

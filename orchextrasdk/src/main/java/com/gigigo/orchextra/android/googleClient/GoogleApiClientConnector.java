@@ -2,7 +2,7 @@ package com.gigigo.orchextra.android.googleClient;
 
 import android.os.Bundle;
 
-import com.gigigo.ggglib.permissions.ContextProvider;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
 import com.gigigo.ggglogger.GGGLogImpl;
