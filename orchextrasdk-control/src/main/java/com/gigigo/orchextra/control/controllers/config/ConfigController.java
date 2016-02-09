@@ -35,6 +35,7 @@ public class ConfigController extends Controller<ConfigDelegate> {
     }
 
     public void sendConfiguration(App appInfo, Device deviceInfo, GeoLocation geoLocation) {
+
         sendConfigInteractor.setApp(appInfo);
         sendConfigInteractor.setDevice(deviceInfo);
         sendConfigInteractor.setGeoLocation(geoLocation);

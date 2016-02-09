@@ -3,13 +3,14 @@ package com.gigigo.orchextra.di.modules.device;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.PermissionChecker;
+import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
-import com.gigigo.orchextra.domain.foreground.ForegroundTasksManagerImpl;
+import com.gigigo.orchextra.sdk.application.ForegroundTasksManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
@@ -22,8 +23,8 @@ import javax.inject.Singleton;
 public class DeviceModule {
 
   @Singleton @Provides
-  ForegroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner){
-    return  new ForegroundTasksManagerImpl(beaconScanner);
+  ForegroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner, ConfigDelegateImp configDelegateImp){
+    return  new ForegroundTasksManagerImpl(beaconScanner, configDelegateImp);
   }
 
   @Provides PermissionChecker providePermissionChecker(ContextProvider contextProvider) {

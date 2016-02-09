@@ -2,16 +2,15 @@ package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.orchextra.control.controllers.authentication.AuthenticationController;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
-import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
-import com.gigigo.orchextra.control.invoker.InteractorInvoker;
-import com.gigigo.orchextra.di.qualifiers.BackThread;
-import com.gigigo.orchextra.di.scopes.PerDelegate;
-import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
-import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
+import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
+import com.gigigo.orchextra.delegates.ConfigDelegateImp;
+import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeolocationManager;
+import com.gigigo.orchextra.device.information.AndroidApp;
+import com.gigigo.orchextra.device.information.AndroidDevice;
 
 import dagger.Module;
 import dagger.Provides;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -20,22 +19,19 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
 @Module
 public class DelegateModule {
 
-  @Provides @PerDelegate AuthenticationController provideAuthenticationController(
-      InteractorInvoker interactorInvoker,
-      AuthenticationInteractor authenticationInteractor,
-      @BackThread ThreadSpec backThreadSpec){
-
-    return new AuthenticationController(interactorInvoker, authenticationInteractor, backThreadSpec);
+  @Provides @Singleton ConfigDelegateImp provideConfigDelegateImp(ConfigController configController,
+      AndroidApp androidApp, AndroidDevice androidDevice,
+      AndroidGeolocationManager androidGeolocationManager){
+    return new ConfigDelegateImp(configController, androidApp, androidDevice, androidGeolocationManager);
   }
 
-    @Provides
-    @PerDelegate
-    ConfigController provideConfigController(@BackThread ThreadSpec backThreadSpec,
-                                             InteractorInvoker interactorInvoker,
-                                             SendConfigInteractor sendConfigInteractor,
-                                              ConfigObservable configObservable) {
-        return new ConfigController(backThreadSpec, interactorInvoker, sendConfigInteractor, configObservable);
-    }
+
+  @Provides @Singleton AuthenticationDelegateImpl provideAuthenticationDelegateImpl(
+      AuthenticationController authenticationController){
+    return new AuthenticationDelegateImpl(authenticationController);
+  }
+
+
 
 
 }

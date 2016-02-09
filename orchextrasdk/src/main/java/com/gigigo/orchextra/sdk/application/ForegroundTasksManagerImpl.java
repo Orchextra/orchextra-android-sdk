@@ -1,5 +1,6 @@
-package com.gigigo.orchextra.domain.foreground;
+package com.gigigo.orchextra.sdk.application;
 
+import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 
@@ -9,15 +10,19 @@ import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManage
  */
 public class ForegroundTasksManagerImpl implements ForegroundTasksManager {
 
-  private BeaconScanner beaconScanner;
+  private final BeaconScanner beaconScanner;
+  private final ConfigDelegateImp configDelegateImp;
 
-  public ForegroundTasksManagerImpl(BeaconScanner beaconScanner) {
+  public ForegroundTasksManagerImpl(BeaconScanner beaconScanner, ConfigDelegateImp configDelegateImp) {
       this.beaconScanner = beaconScanner;
+      this.configDelegateImp = configDelegateImp;
   }
 
   @Override public void startForegroundTasks() {
     beaconScanner.startMonitoring();
     beaconScanner.initAvailableRegionsRangingScanner();
+
+    configDelegateImp.sendConfiguration();
   }
 
   @Override public void finalizeForegroundTasks() {

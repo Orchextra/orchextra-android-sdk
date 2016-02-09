@@ -5,6 +5,7 @@ import android.content.Context;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
+import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
 import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImp;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
@@ -12,7 +13,6 @@ import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListener
 import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
-import com.gigigo.orchextra.device.notifications.BackgroundNotificationBuilderImp;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 
 import com.gigigo.orchextra.domain.initalization.features.FeatureList;
@@ -29,7 +29,7 @@ import dagger.Provides;
  * Created by Sergio Martinez Rodriguez
  * Date 24/11/15.
  */
-@Module(includes = { ControlModule.class, DeviceModule.class })
+@Module(includes = { ControlModule.class, DeviceModule.class, DelegateModule.class })
 public class OrchextraModule {
 
   private final Context context;

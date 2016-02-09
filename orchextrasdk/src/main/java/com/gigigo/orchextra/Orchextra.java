@@ -3,8 +3,8 @@ package com.gigigo.orchextra;
 import android.app.Application;
 import android.content.Context;
 
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
-import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
@@ -24,6 +24,9 @@ public class Orchextra {
   @Inject
   OrchextraActivityLifecycle orchextraActivityLifecycle;
 
+  @Inject
+  Session session;
+
   public void initDependencyInjection(Context applicationContext, OrchextraCompletionCallback orchextraCompletionCallback) {
     OrchextraComponent orchextraComponent = DaggerOrchextraComponent.builder()
         .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback))
@@ -35,12 +38,16 @@ public class Orchextra {
   public static synchronized void sdkInitialize(Application application, String apiKey,
       String apiSecret, OrchextraCompletionCallback orchextraCompletionCallback) {
     Orchextra.instance = new Orchextra();
-    Orchextra.instance.init(application, orchextraCompletionCallback);
-    Orchextra.instance.start(apiKey, apiSecret);
+    Orchextra.instance.init(application, orchextraCompletionCallback, apiKey, apiSecret);
+    //Orchextra.instance.start(apiKey, apiSecret);
   }
 
-  private void init(Application application, OrchextraCompletionCallback orchextraCompletionCallback) {
+  private void init(Application application, OrchextraCompletionCallback orchextraCompletionCallback,
+      String apiKey, String apiSecret) {
+
     initDependencyInjection(application.getApplicationContext(), orchextraCompletionCallback);
+
+    session.setAppParams(apiKey, apiSecret);
 
     initLifecyle(application);
 
@@ -50,13 +57,13 @@ public class Orchextra {
     application.registerActivityLifecycleCallbacks(orchextraActivityLifecycle);
   }
 
-  private void start(String apiKey, String apiSecret) {
-    authenticate(apiKey, apiSecret);
-  }
-
-  private void authenticate(String apiKey, String apiSecret) {
-    AuthenticationDelegateImpl.authenticate(apiKey, apiSecret);
-  }
+  //private void start(String apiKey, String apiSecret) {
+  //  authenticate(apiKey, apiSecret);
+  //}
+  //
+  //private void authenticate(String apiKey, String apiSecret) {
+  //  AuthenticationDelegateImpl.authenticate(apiKey, apiSecret);
+  //}
 
   public static InjectorImpl getInjector() {
     return Orchextra.instance.injector;

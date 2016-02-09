@@ -3,6 +3,8 @@ package com.gigigo.orchextra.domain.interactors.config;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
+import com.gigigo.orchextra.domain.interactors.base.InteractorError;
+import com.gigigo.orchextra.domain.interactors.error.InteractorErrorChecker;
 import com.gigigo.orchextra.domain.model.entities.App;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.vo.Device;
@@ -21,14 +23,18 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Confi
 
   private final ConfigDataProvider configDataProvider;
   private final AuthenticationDataProvider authenticationDataProvider;
+  private final InteractorErrorChecker interactorErrorChecker;
 
   private App app;
   private Device device;
   private GeoLocation geolocation;
 
-  public SendConfigInteractor(ConfigDataProvider configDataProvider, AuthenticationDataProvider authenticationDataProvider) {
+  public SendConfigInteractor(ConfigDataProvider configDataProvider,
+      AuthenticationDataProvider authenticationDataProvider,
+      InteractorErrorChecker interactorErrorChecker) {
     this.configDataProvider = configDataProvider;
     this.authenticationDataProvider = authenticationDataProvider;
+    this.interactorErrorChecker = interactorErrorChecker;
   }
 
   @Override public InteractorResponse<ConfigInfoResult> call() throws Exception {
@@ -36,8 +42,12 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Confi
 
     BusinessObject<ConfigInfoResult> bo = configDataProvider.sendConfigInfo(config);
 
-    //TODO manage Errors
-    return new InteractorResponse<>(bo.getData());
+    if (bo.isSuccess()){
+      return new InteractorResponse<>(bo.getData());
+    }else{
+     return new InteractorResponse(interactorErrorChecker.checkErrors(bo.getBusinessError()));
+    }
+
   }
 
   public void setApp(App app) {
