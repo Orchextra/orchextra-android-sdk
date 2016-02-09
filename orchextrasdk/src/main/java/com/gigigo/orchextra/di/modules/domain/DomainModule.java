@@ -20,7 +20,7 @@ import javax.inject.Singleton;
  * Created by Sergio Martinez Rodriguez
  * Date 9/12/15.
  */
-@Module
+@Module(includes = InteractorsModule.class)
 public class DomainModule {
 
   @Provides @Singleton InteractorInvoker provideInteractorInvoker(ExecutorService executor,

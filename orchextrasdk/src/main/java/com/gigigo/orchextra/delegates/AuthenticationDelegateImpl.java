@@ -34,7 +34,9 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
     me = null;
   }
 
-  @Override public void onControllerReady() {}
+  @Override public void onControllerReady() {
+    destroy();
+  }
 
   @Override public void authenticationSuccessful() {
     //TODO Move this to Orchextra class as singleton
@@ -43,9 +45,13 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
     configDelegate.sendConfiguration();
   }
 
-  @Override public void authenticationError() {}
+  @Override public void authenticationError() {
+    destroy();
+  }
 
-  @Override public void authenticationException() {}
+  @Override public void authenticationException() {
+    destroy();
+  }
 
   public static void authenticate (String apiKey, String apiSecret){
     getInstance().authenticateTask(apiKey, apiSecret);

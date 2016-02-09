@@ -9,10 +9,8 @@ import java.util.Date;
 import gigigo.com.orchextra.data.datasources.builders.ApiRegionBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 
-import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 public class BeaconResponseMapperTest {
 

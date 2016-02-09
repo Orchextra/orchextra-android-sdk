@@ -28,39 +28,48 @@ public class InjectorImpl implements Injector{
   }
 
   @Override synchronized public DelegateComponent injectAuthDelegate(AuthenticationDelegateImpl authenticationDelegate) {
+
     DelegateComponent delegateComponent = DaggerDelegateComponent.builder().
         orchextraComponent(orchextraComponent).build();
     delegateComponent.injectAuhtDelegate(authenticationDelegate);
+
     return delegateComponent;
   }
 
   public DelegateComponent injectConfigDelegate(ConfigDelegateImp configDelegateImp) {
+
     DelegateComponent delegateComponent = DaggerDelegateComponent.builder()
             .orchextraComponent(orchextraComponent).build();
     delegateComponent.injectConfigDelegate(configDelegateImp);
+
     return delegateComponent;
   }
 
   @Override public ServiceComponent injectServiceComponent(OrchextraBackgroundService myAppService) {
+
     ServiceComponent serviceComponent = DaggerServiceComponent.builder().
         orchextraComponent(orchextraComponent).build();
     serviceComponent.injectOrchextraService(myAppService);
+
     return serviceComponent;
   }
 
   @Override public TaskServiceComponent injectTaskServiceComponent(OrchextraGcmTaskService orchextraGcmTaskService) {
+
     TaskServiceComponent taskServiceComponent = DaggerTaskServiceComponent.builder().
         orchextraComponent(orchextraComponent).build();
     taskServiceComponent.injectTaskService(orchextraGcmTaskService);
+
     return taskServiceComponent;
   }
 
   @Override public GeofenceIntentServiceComponent injectGeofenceIntentServiceComponent(
       GeofenceIntentService geofenceIntentService) {
-    GeofenceIntentServiceComponent geofenceIntentServiceComponent =
-        DaggerGeofenceIntentServiceComponent.builder().
+
+    GeofenceIntentServiceComponent gisc = DaggerGeofenceIntentServiceComponent.builder().
         orchextraComponent(orchextraComponent).build();
-    geofenceIntentServiceComponent.injectGeofenceIntentService(geofenceIntentService);
-    return geofenceIntentServiceComponent;
+    gisc.injectGeofenceIntentService(geofenceIntentService);
+
+    return gisc;
   }
 }

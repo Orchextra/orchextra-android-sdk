@@ -9,18 +9,18 @@ import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
  * Created by Sergio Martinez Rodriguez
  * Date 5/2/16.
  */
-public class AndroidActionDispatcher implements ViewActionDispatcher {
+public class AndroidActionRecovery implements ActionRecovery {
 
   private final ActionDispatcher actionDispatcher;
   private final AndroidBasicActionMapper androidBasicActionMapper;
 
-  public AndroidActionDispatcher(ActionDispatcher actionDispatcher,
+  public AndroidActionRecovery(ActionDispatcher actionDispatcher,
       AndroidBasicActionMapper androidBasicActionMapper) {
     this.actionDispatcher = actionDispatcher;
     this.androidBasicActionMapper = androidBasicActionMapper;
   }
 
-  @Override public void dispatchViewAction(AndroidBasicAction androidBasicAction) {
+  @Override public void recoverAction(AndroidBasicAction androidBasicAction) {
     BasicAction basicAction = androidBasicActionMapper.externalClassToModel(androidBasicAction);
     basicAction.performAction(actionDispatcher);
   }

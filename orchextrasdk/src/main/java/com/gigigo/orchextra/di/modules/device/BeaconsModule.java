@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.di.modules.android;
+package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
@@ -92,23 +92,12 @@ public class BeaconsModule {
     return new MonitoringListenerImpl(appRunningMode, beaconRangingScanner);
   }
 
-  @Provides @Singleton BluetoothAvailability provideBluetoothAvailability(BeaconManager beaconManager){
-    return new BluetoothAvailabilityImpl(beaconManager);
-  }
-
   @Provides @Singleton BeaconRegionAndroidMapper provideBeaconRegionAndroidMapper(){
     return new BeaconRegionAndroidMapper();
   }
 
   @Provides @Singleton BeaconAndroidMapper provideBeaconAndroidMapper(){
     return new BeaconAndroidMapper();
-  }
-
-  @Provides @Singleton BluetoothStatusInfo provideBluetoothStatusInfo(BluetoothAvailability bluetoothAvailability,
-      PermissionChecker permissionChecker, ContextProvider contextProvider, AppRunningMode appRunningMode,
-      FeatureListener featureListener){
-    return new BluetoothStatusInfoImpl(permissionChecker, bluetoothAvailability, contextProvider,
-        appRunningMode, featureListener);
   }
 
 }

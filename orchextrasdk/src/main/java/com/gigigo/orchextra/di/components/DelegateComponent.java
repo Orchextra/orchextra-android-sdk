@@ -2,7 +2,8 @@ package com.gigigo.orchextra.di.components;
 
 import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.delegates.ConfigDelegateImp;
-import com.gigigo.orchextra.di.modules.android.DelegateModule;
+import com.gigigo.orchextra.di.modules.device.DelegateModule;
+import com.gigigo.orchextra.di.modules.device.DelegateModuleProvider;
 import com.gigigo.orchextra.di.scopes.PerDelegate;
 import dagger.Component;
 
@@ -11,7 +12,7 @@ import dagger.Component;
  * Date 3/12/15.
  */
 @PerDelegate @Component(dependencies = OrchextraComponent.class, modules = DelegateModule.class)
-public interface DelegateComponent {
+public interface DelegateComponent extends DelegateModuleProvider {
   void injectAuhtDelegate(AuthenticationDelegateImpl authenticationDelegate);
   void injectConfigDelegate(ConfigDelegateImp configDelegateImp);
 }

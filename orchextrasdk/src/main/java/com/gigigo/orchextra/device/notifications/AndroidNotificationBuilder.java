@@ -16,7 +16,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
 
 public class AndroidNotificationBuilder {
 
-    public static final String EXTRA_NOTIFICATION_ACTION = "EXTRA_NOTIFICATION_ACTION";
+    public static final String EXTRA_NOTIFICATION_ACTION = "OX_EXTRA_NOTIFICATION_ACTION";
 
     private final Context context;
 

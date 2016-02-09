@@ -9,7 +9,8 @@ import android.os.Bundle;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
-import com.gigigo.orchextra.device.notifications.AndroidBackgroundNotificationActionManager;
+import com.gigigo.orchextra.device.actions.ActionRecovery;
+import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.LifeCycleAccessor;
 
@@ -25,16 +26,15 @@ import java.util.Stack;
 public class OrchextraActivityLifecycle implements Application.ActivityLifecycleCallbacks,
     LifeCycleAccessor {
 
-  private final AndroidBackgroundNotificationActionManager
-      androidBackgroundNotificationActionManager;
+  private final NotificationDispatcher notificationDispatcher;
   private final AppStatusEventsListener appStatusEventsListener;
 
   private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
 
   public OrchextraActivityLifecycle(AppStatusEventsListener listener,
-      AndroidBackgroundNotificationActionManager androidBackgroundNotificationActionManager) {
+                        NotificationDispatcher notificationDispatcher) {
     this.appStatusEventsListener = listener;
-    this.androidBackgroundNotificationActionManager = androidBackgroundNotificationActionManager;
+    this.notificationDispatcher = notificationDispatcher;
   }
 
   //region Activity lifecycle Management
@@ -42,7 +42,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     this.activityStack.push(new ActivityLifecyleWrapper(activity, true, true));
 
-    androidBackgroundNotificationActionManager.manageBackgroundNotification(activity);
+    notificationDispatcher.manageBackgroundNotification(activity);
   }
 
   @Override public void onActivityStarted(Activity activity) {

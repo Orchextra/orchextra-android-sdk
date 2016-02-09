@@ -4,7 +4,7 @@ import android.os.Bundle;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.device.actions.ViewActionDispatcher;
+import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.actions.scheduler.ActionsSchedulerGcmImpl;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.google.android.gms.gcm.GcmNetworkManager;
@@ -18,7 +18,7 @@ import javax.inject.Inject;
  */
 public class OrchextraGcmTaskService extends GcmTaskService {
 
-  @Inject ViewActionDispatcher viewActionDispatcher;
+  @Inject ActionRecovery actionRecovery;
 
   @Override
   public void onCreate() {
@@ -30,7 +30,7 @@ public class OrchextraGcmTaskService extends GcmTaskService {
     try{
       Bundle extras = taskParams.getExtras();
       AndroidBasicAction androidBasicAction = (AndroidBasicAction) extras.get(ActionsSchedulerGcmImpl.BUNDLE_TASK_PARAM_NAME);
-      viewActionDispatcher.dispatchViewAction(androidBasicAction);
+      actionRecovery.recoverAction(androidBasicAction);
       GGGLogImpl.log("Service method :: onCreate");
       return GcmNetworkManager.RESULT_SUCCESS;
     }catch (Exception e){

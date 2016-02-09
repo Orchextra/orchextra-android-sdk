@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import com.gigigo.orchextra.R;
+import com.gigigo.orchextra.domain.abstractions.notifications.ForegroundNotificationBuilder;
 import com.gigigo.orchextra.ui.dialogs.DialogTwoOptions;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder;
 
-public class ForegroundNotificationBuilderImp implements NotificationBuilder {
+public class ForegroundNotificationBuilderImp implements ForegroundNotificationBuilder {
 
     private final Context context;
 
