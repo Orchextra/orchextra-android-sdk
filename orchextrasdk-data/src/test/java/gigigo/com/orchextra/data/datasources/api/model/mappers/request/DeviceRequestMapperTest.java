@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
-import com.gigigo.orchextra.domain.entities.Device;
+import com.gigigo.orchextra.domain.model.vo.Device;
 
 import org.junit.Test;
 
@@ -23,8 +23,8 @@ public class DeviceRequestMapperTest {
         device.setTimeZone("Madrid");
         device.setWifiMacAddress("11:22:11:11:22:11");
 
-        DeviceRequestMapper mapper = new DeviceRequestMapper();
-        ApiDevice apiDevice = mapper.modelToData(device);
+        DeviceModelToExternalClassMapper mapper = new DeviceModelToExternalClassMapper();
+        ApiDevice apiDevice = mapper.modelToExternalClass(device);
 
         assertEquals("22:33:22:22:33:22",apiDevice.getBluetoothMacAddress());
         assertEquals("Phone",apiDevice.getHandset());

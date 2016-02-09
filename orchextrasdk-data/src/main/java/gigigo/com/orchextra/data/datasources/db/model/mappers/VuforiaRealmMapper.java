@@ -1,15 +1,16 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.Vuforia;
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class VuforiaRealmMapper implements RealmMapper<Vuforia, VuforiaRealm> {
+public class VuforiaRealmMapper implements Mapper<Vuforia, VuforiaRealm> {
 
-  @Override public VuforiaRealm modelToData(Vuforia vuforia) {
+  @Override public VuforiaRealm modelToExternalClass(Vuforia vuforia) {
     VuforiaRealm vuforiaRealm = new VuforiaRealm();
     vuforiaRealm.setClientAccessKey(vuforia.getClientAccessKey());
     vuforiaRealm.setClientSecretKey(vuforia.getClientSecretKey());
@@ -19,7 +20,7 @@ public class VuforiaRealmMapper implements RealmMapper<Vuforia, VuforiaRealm> {
     return vuforiaRealm;
   }
 
-  @Override public Vuforia dataToModel(VuforiaRealm vuforiaRealm) {
+  @Override public Vuforia externalClassToModel(VuforiaRealm vuforiaRealm) {
     Vuforia vuforia = new Vuforia();
 
     if (vuforiaRealm != null) {

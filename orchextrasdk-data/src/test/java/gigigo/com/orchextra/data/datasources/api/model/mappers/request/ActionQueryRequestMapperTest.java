@@ -1,12 +1,12 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
-import com.gigigo.orchextra.domain.entities.OrchextraPoint;
-import com.gigigo.orchextra.domain.entities.triggers.BeaconDistanceType;
-import com.gigigo.orchextra.domain.entities.triggers.BeaconTrigger;
-import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
-import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
-import com.gigigo.orchextra.domain.entities.triggers.ScanTrigger;
-import com.gigigo.orchextra.domain.entities.triggers.Trigger;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.BeaconTrigger;
+import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.ScanTrigger;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 
 import org.junit.Test;
 
@@ -23,8 +23,8 @@ public class ActionQueryRequestMapperTest {
         point.setLng(74.32);
         Trigger trigger = Trigger.createGeofenceTrigger("1234", point, AppRunningModeType.BACKGROUND, 300, GeoPointEventType.ENTER);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(trigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(trigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("geofence", data.get("type"));
@@ -42,8 +42,8 @@ public class ActionQueryRequestMapperTest {
 
         BeaconTrigger beaconTrigger = Trigger.createBeaconTrigger("1234", point, AppRunningModeType.FOREGROUND, BeaconDistanceType.NEAR, GeoPointEventType.EXIT);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(beaconTrigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(beaconTrigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("beacon", data.get("type"));
@@ -61,8 +61,8 @@ public class ActionQueryRequestMapperTest {
 
         ScanTrigger qrScanTrigger = Trigger.createQrScanTrigger("1234", point);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(qrScanTrigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(qrScanTrigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("qr", data.get("type"));
@@ -79,8 +79,8 @@ public class ActionQueryRequestMapperTest {
 
         ScanTrigger barcodeScanTrigger = Trigger.createBarcodeScanTrigger("1234", point);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(barcodeScanTrigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(barcodeScanTrigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("barcode", data.get("type"));
@@ -97,8 +97,8 @@ public class ActionQueryRequestMapperTest {
 
         ScanTrigger vuforiaScanTrigger = Trigger.createVuforiaScanTrigger("1234", point);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(vuforiaScanTrigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(vuforiaScanTrigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("vuforia", data.get("type"));

@@ -1,16 +1,16 @@
 package com.gigigo.orchextra.domain.interactors.actions;
 
-import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
-import com.gigigo.orchextra.domain.entities.actions.types.BrowserAction;
-import com.gigigo.orchextra.domain.entities.actions.types.CustomAction;
-import com.gigigo.orchextra.domain.entities.actions.types.EmptyAction;
-import com.gigigo.orchextra.domain.entities.actions.types.NotificationAction;
-import com.gigigo.orchextra.domain.entities.actions.types.ScanAction;
-import com.gigigo.orchextra.domain.entities.actions.types.VuforiaScanAction;
-import com.gigigo.orchextra.domain.entities.actions.types.WebViewAction;
-import com.gigigo.orchextra.domain.notifications.ActionDispatcherListener;
-import com.gigigo.orchextra.domain.notifications.NotificationBehavior;
+import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
+import com.gigigo.orchextra.domain.model.actions.types.CustomAction;
+import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
+import com.gigigo.orchextra.domain.model.actions.types.NotificationAction;
+import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
+import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
+import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
+import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener;
+import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -20,6 +20,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   private final ActionExecution actionExecution;
   private final NotificationBehavior notificationBehavior;
+  //private  final CustomSchemeReceiver customSchemeReceiver;
 
   public ActionDispatcherImpl(ActionExecution actionExecution, NotificationBehavior notificationBehavior) {
       this.actionExecution = actionExecution;
@@ -47,7 +48,8 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   }
 
   @Override public void dispatchAction(CustomAction action) {
-    actionExecution.execute(action);
+    //TODO unncomment when moved class
+    //customSchemeReceiver.onReceive(action.getUrl());
   }
 
   @Override public void dispatchAction(CustomAction action, Notification notification) {
@@ -74,7 +76,8 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   }
 
   @Override public void dispatchAction(NotificationAction action) {
-    actionExecution.execute(action);
+    Notification notification = action.getNotifFunctionality();
+    notificationBehavior.dispatchNotificationAction(null, notification);
   }
 
   @Override public void dispatchAction(NotificationAction action, Notification notification) {
@@ -83,7 +86,6 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   }
 
   @Override public void dispatchAction(EmptyAction action) {
-    actionExecution.execute(action);
   }
 
   @Override public void dispatchAction(EmptyAction action, Notification notification) {

@@ -5,12 +5,12 @@ import android.content.Context;
 import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.dataprovision.config.datasource.SessionDBDataSource;
-import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
-import com.gigigo.orchextra.domain.entities.ClientAuthData;
-import com.gigigo.orchextra.domain.entities.Crm;
-import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
-import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
+import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;

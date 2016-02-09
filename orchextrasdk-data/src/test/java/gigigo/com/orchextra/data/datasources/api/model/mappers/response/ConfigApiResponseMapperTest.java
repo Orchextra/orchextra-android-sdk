@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.builders.ApiBeaconBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiRegionBuilder;
 import gigigo.com.orchextra.data.datasources.builders.ApiGeofenceBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
@@ -30,20 +30,21 @@ public class ConfigApiResponseMapperTest {
     @Mock
     ApiVuforia apiVuforia;
 
-    @Mock VuforiaResponseMapper vuforiaResponseMapper;
+    @Mock VuforiaExternalClassToModelMapper vuforiaResponseMapper;
 
-    @Mock ThemeResponseMapper themeResponseMapper;
+    @Mock ThemeExternalClassToModelMapper themeResponseMapper;
 
-    BeaconResponseMapper beaconResponseMapper = new BeaconResponseMapper();
+    BeaconExternalClassToModelMapper beaconResponseMapper = new BeaconExternalClassToModelMapper();
 
-    GeofenceResponseMapper geofenceResponseMapper = new GeofenceResponseMapper(new PointMapper());
+    GeofenceExternalClassToModelMapper
+        geofenceResponseMapper = new GeofenceExternalClassToModelMapper(new PointMapper());
 
     @Test
     public void testDataToModelOk() throws Exception {
         List<ApiGeofence> apiGeofencesList = new ArrayList<>();
         apiGeofencesList.add(ApiGeofenceBuilder.Builder().build());
 
-        ApiBeaconRegion apiBeaconRegion = ApiBeaconBuilder.Builder().build();
+        ApiBeaconRegion apiBeaconRegion = ApiRegionBuilder.Builder().build();
         List<ApiBeaconRegion> apiBeaconRegionList = new ArrayList<>();
         apiBeaconRegionList.add(apiBeaconRegion);
 
@@ -55,19 +56,18 @@ public class ConfigApiResponseMapperTest {
         apiConfigData.setVuforia(apiVuforia);
         apiConfigData.setRequestWaitTime(3000);
 
-        ConfigApiResponseMapper mapper = new ConfigApiResponseMapper(vuforiaResponseMapper, themeResponseMapper,
+        ConfigApiExternalClassToModelMapper mapper = new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper, themeResponseMapper,
                 beaconResponseMapper, geofenceResponseMapper);
 
-        ConfigInfoResult configInfoResult = mapper.dataToModel(apiConfigData);
+        ConfigInfoResult configInfoResult = mapper.externalClassToModel(apiConfigData);
 
         assertEquals(1, configInfoResult.getGeofences().size());
         assertEquals(23.45, configInfoResult.getGeofences().get(0).getPoint().getLat(), 0.001);
         assertEquals(56.45, configInfoResult.getGeofences().get(0).getPoint().getLng(), 0.001);
         assertEquals(30, configInfoResult.getGeofences().get(0).getRadius(), 0.001);
         assertEquals(1, configInfoResult.getRegions().size());
-        assertEquals(ApiBeaconBuilder.NAME, configInfoResult.getRegions().get(0).getName());
-        assertEquals(ApiBeaconBuilder.CODE, configInfoResult.getRegions().get(0).getCode());
-        assertEquals(ApiBeaconBuilder.MAJOR, configInfoResult.getRegions().get(0).getMajor());
+        assertEquals(ApiRegionBuilder.CODE, configInfoResult.getRegions().get(0).getCode());
+        assertEquals(ApiRegionBuilder.MAJOR, configInfoResult.getRegions().get(0).getMajor());
         assertEquals(3000, configInfoResult.getRequestWaitTime());
     }
 }

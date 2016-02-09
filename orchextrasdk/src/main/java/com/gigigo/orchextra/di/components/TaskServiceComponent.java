@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.di.components;
 
-import com.gigigo.orchextra.android.service.OrchextraGcmTaskService;
-import com.gigigo.orchextra.di.modules.BackgroundModule;
+import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
+import com.gigigo.orchextra.di.modules.android.BackgroundModule;
 import com.gigigo.orchextra.di.scopes.PerService;
 import dagger.Component;
 

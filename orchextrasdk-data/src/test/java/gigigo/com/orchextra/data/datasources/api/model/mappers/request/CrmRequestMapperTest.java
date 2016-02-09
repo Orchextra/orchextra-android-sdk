@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
-import com.gigigo.orchextra.domain.entities.Crm;
-import com.gigigo.orchextra.domain.entities.GenderType;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.GenderType;
 
 import org.junit.Test;
 
@@ -29,8 +29,8 @@ public class CrmRequestMapperTest {
         keywords.add("palabra");
         Crm crm = new Crm("1234", GenderType.MALE, getCalendar(2012, 9, 21, 11, 22, 34), keywords);
 
-        CrmRequestMapper mapper = new CrmRequestMapper();
-        ApiCrm apiCrm = mapper.modelToData(crm);
+        CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
+        ApiCrm apiCrm = mapper.modelToExternalClass(crm);
 
         assertEquals("1234", apiCrm.getCrmId());
         assertEquals("m", apiCrm.getGender());
@@ -43,8 +43,8 @@ public class CrmRequestMapperTest {
     public void testModelToDataFeMaleWithoutKeywords() throws Exception {
         Crm crm = new Crm("1234", GenderType.FEMALE, getCalendar(2012, 9, 21, 11, 22, 34), new ArrayList<String>());
 
-        CrmRequestMapper mapper = new CrmRequestMapper();
-        ApiCrm apiCrm = mapper.modelToData(crm);
+        CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
+        ApiCrm apiCrm = mapper.modelToExternalClass(crm);
 
         assertEquals("1234", apiCrm.getCrmId());
         assertEquals("f", apiCrm.getGender());
@@ -56,8 +56,8 @@ public class CrmRequestMapperTest {
     public void testModelToDataNDAndNullKeywords() throws Exception {
         Crm crm = new Crm("1234", GenderType.ND, new Date(0), null);
 
-        CrmRequestMapper mapper = new CrmRequestMapper();
-        ApiCrm apiCrm = mapper.modelToData(crm);
+        CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
+        ApiCrm apiCrm = mapper.modelToExternalClass(crm);
 
         assertEquals("1234", apiCrm.getCrmId());
         assertEquals("n", apiCrm.getGender());

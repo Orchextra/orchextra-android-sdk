@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.requests;
 
-import com.gigigo.orchextra.domain.entities.Credentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 
 /**
  * Created by Sergio Martinez Rodriguez

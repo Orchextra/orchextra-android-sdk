@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 
 public class SdkAuthCredentialsBuilder {
 

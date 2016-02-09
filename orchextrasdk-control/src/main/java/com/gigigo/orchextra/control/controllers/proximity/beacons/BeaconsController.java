@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.control.controllers.proximity.beacons;
 
-import com.gigigo.orchextra.domain.entities.OrchextraBeacon;
-import com.gigigo.orchextra.domain.entities.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import java.util.Collection;
 
@@ -17,7 +17,8 @@ public class BeaconsController {
     this.getActionInteractor = getActionInteractor;
   }
 
-  public void getAllRegionsFromDataBase(RegionsProviderListener regionsProviderListener) {
+  public void getAllRegionsFromDataBase(
+      com.gigigo.orchextra.domain.abstractions.beacons.RegionsProviderListener regionsProviderListener) {
 
   }
 

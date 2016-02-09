@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.ggglib.network.mappers.MapperUtils;
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.ggglib.mappers.MapperUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +13,14 @@ import io.realm.RealmList;
  * Created by Sergio Martinez Rodriguez
  * Date 22/12/15.
  */
-public class KeyWordRealmMapper implements RealmMapper<String, KeyWordRealm>{
+public class KeyWordRealmMapper implements Mapper<String, KeyWordRealm> {
 
-  @Override public KeyWordRealm modelToData(String s) {
+  @Override public KeyWordRealm modelToExternalClass(String s) {
     KeyWordRealm keyWordRealm = new KeyWordRealm(s);
     return keyWordRealm;
   }
 
-  @Override public String dataToModel(KeyWordRealm keyWordRealm) {
+  @Override public String externalClassToModel(KeyWordRealm keyWordRealm) {
     return keyWordRealm.getKeyword();
   }
 

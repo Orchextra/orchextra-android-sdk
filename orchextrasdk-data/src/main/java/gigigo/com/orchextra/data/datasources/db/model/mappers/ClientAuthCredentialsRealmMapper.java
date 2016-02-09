@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthCredentialsRealm;
 
 /**
@@ -8,9 +9,10 @@ import gigigo.com.orchextra.data.datasources.db.model.ClientAuthCredentialsRealm
  * Date 22/12/15.
  */
 public class ClientAuthCredentialsRealmMapper implements
-    RealmMapper<ClientAuthCredentials, ClientAuthCredentialsRealm> {
+    Mapper<ClientAuthCredentials, ClientAuthCredentialsRealm> {
   @Override
-  public ClientAuthCredentialsRealm modelToData(ClientAuthCredentials clientAuthCredentials) {
+  public ClientAuthCredentialsRealm modelToExternalClass(
+      ClientAuthCredentials clientAuthCredentials) {
     ClientAuthCredentialsRealm clientAuthCredentialsRealm = new ClientAuthCredentialsRealm();
 
     clientAuthCredentialsRealm.setBluetoothMacAddress(
@@ -26,7 +28,8 @@ public class ClientAuthCredentialsRealmMapper implements
   }
 
   @Override
-  public ClientAuthCredentials dataToModel(ClientAuthCredentialsRealm clientAuthCredentialsRealm) {
+  public ClientAuthCredentials externalClassToModel(
+      ClientAuthCredentialsRealm clientAuthCredentialsRealm) {
     ClientAuthCredentials clientAuthCredentials = new ClientAuthCredentials(
         clientAuthCredentialsRealm.getClientToken(), clientAuthCredentialsRealm.getInstanceId());
 

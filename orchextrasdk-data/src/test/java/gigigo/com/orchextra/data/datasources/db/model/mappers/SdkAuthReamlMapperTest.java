@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
-import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class SdkAuthReamlMapperTest {
     public void shouldMapModelToData() throws Exception {
         SdkAuthData sdkAuthData = SdkAuthDataBuilder.Builder().build();
 
-        SdkAuthRealm sdkAuthRealm = mapper.modelToData(sdkAuthData);
+        SdkAuthRealm sdkAuthRealm = mapper.modelToExternalClass(sdkAuthData);
 
         assertNotNull(sdkAuthRealm);
         assertEquals(ApiSdkAuthDataBuilder.VALUE, sdkAuthRealm.getValue());
@@ -52,7 +52,7 @@ public class SdkAuthReamlMapperTest {
         sdkAuthRealm.setExpiresIn(ApiSdkAuthDataBuilder.EXPIRES_IN);
         sdkAuthRealm.setExpiresAt(DateUtils.dateToStringWithFormat(expectedDate, DateFormatConstants.DATE_FORMAT));
 
-        SdkAuthData sdkAuthData = mapper.dataToModel(sdkAuthRealm);
+        SdkAuthData sdkAuthData = mapper.externalClassToModel(sdkAuthRealm);
 
         assertNotNull(sdkAuthData);
         assertEquals(ApiSdkAuthDataBuilder.VALUE, sdkAuthData.getValue());

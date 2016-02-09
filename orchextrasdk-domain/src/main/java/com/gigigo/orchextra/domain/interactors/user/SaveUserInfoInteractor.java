@@ -2,10 +2,10 @@ package com.gigigo.orchextra.domain.interactors.user;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
-import com.gigigo.orchextra.domain.entities.config.Config;
-import com.gigigo.orchextra.domain.entities.Crm;
-import com.gigigo.orchextra.domain.entities.GenderType;
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.config.Config;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.GenderType;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import java.util.Date;

@@ -3,7 +3,7 @@ package gigigo.com.orchextra.data.datasources.device;
 import android.content.Context;
 
 import com.gigigo.ggglib.device.DeviceInfoProvider;
-import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
+import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 
 
 /**

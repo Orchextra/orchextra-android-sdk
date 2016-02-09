@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
-import com.gigigo.orchextra.domain.entities.NotificationPush;
+import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 
 import org.junit.Test;
 
@@ -17,8 +17,9 @@ public class PushNotificationRequestMapperTest {
         notificationPush.setSenderId("SenderId");
         notificationPush.setToken("TokenId");
 
-        PushNotificationRequestMapper mapper = new PushNotificationRequestMapper();
-        ApiNotificationPush apiNotificationPush = mapper.modelToData(notificationPush);
+        PushNotificationModelToExternalClassMapper
+            mapper = new PushNotificationModelToExternalClassMapper();
+        ApiNotificationPush apiNotificationPush = mapper.modelToExternalClass(notificationPush);
 
         assertEquals("SenderId", apiNotificationPush.getSenderId());
         assertEquals("TokenId", notificationPush.getToken());

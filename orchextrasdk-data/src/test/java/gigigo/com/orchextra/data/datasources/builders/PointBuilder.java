@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.entities.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 public class PointBuilder {
 

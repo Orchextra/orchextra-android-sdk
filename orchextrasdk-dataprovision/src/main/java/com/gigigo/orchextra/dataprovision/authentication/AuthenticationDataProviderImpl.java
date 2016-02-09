@@ -2,11 +2,11 @@ package com.gigigo.orchextra.dataprovision.authentication;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
-import com.gigigo.orchextra.dataprovision.config.datasource.SessionDBDataSource;
-import com.gigigo.orchextra.domain.entities.Credentials;
-import com.gigigo.orchextra.domain.entities.Crm;
-import com.gigigo.orchextra.domain.entities.SdkAuthData;
-import com.gigigo.orchextra.domain.entities.ClientAuthData;
+import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
+import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 
 /**

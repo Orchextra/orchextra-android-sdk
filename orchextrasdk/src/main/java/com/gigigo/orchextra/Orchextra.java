@@ -3,14 +3,13 @@ package com.gigigo.orchextra;
 import android.app.Application;
 import android.content.Context;
 
-import com.gigigo.orchextra.android.applifecycle.OrchextraActivityLifecycle;
+import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
-import com.gigigo.orchextra.delegates.FakeDelegate;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
-import com.gigigo.orchextra.initalization.OrchextraCompletionCallback;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraCompletionCallback;
 import javax.inject.Inject;
 
 /**
@@ -57,7 +56,6 @@ public class Orchextra {
 
   private void authenticate(String apiKey, String apiSecret) {
     AuthenticationDelegateImpl.authenticate(apiKey, apiSecret);
-    FakeDelegate.showToast();
   }
 
   public static InjectorImpl getInjector() {

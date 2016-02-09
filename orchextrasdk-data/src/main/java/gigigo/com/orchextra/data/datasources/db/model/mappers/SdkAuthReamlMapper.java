@@ -1,17 +1,18 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
+import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
-import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthRealm;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 22/12/15.
  */
-public class SdkAuthReamlMapper implements RealmMapper<SdkAuthData, SdkAuthRealm> {
+public class SdkAuthReamlMapper implements Mapper<SdkAuthData, SdkAuthRealm> {
 
-  @Override public SdkAuthRealm modelToData(SdkAuthData sdkAuthData) {
+  @Override public SdkAuthRealm modelToExternalClass(SdkAuthData sdkAuthData) {
     SdkAuthRealm sdkAuthRealm = new SdkAuthRealm();
     sdkAuthRealm.setExpiresAt(DateUtils.dateToStringWithFormat(
         sdkAuthData.getExpiresAt(), DateFormatConstants.DATE_FORMAT));
@@ -21,7 +22,7 @@ public class SdkAuthReamlMapper implements RealmMapper<SdkAuthData, SdkAuthRealm
     return sdkAuthRealm;
   }
 
-  @Override public SdkAuthData dataToModel(SdkAuthRealm sdkAuthRealm) {
+  @Override public SdkAuthData externalClassToModel(SdkAuthRealm sdkAuthRealm) {
 
     SdkAuthData sdkAuthdata = new SdkAuthData(
         sdkAuthRealm.getValue(),

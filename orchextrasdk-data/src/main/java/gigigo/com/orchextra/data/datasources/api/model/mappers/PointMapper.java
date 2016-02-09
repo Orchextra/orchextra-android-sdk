@@ -1,17 +1,18 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
-import com.gigigo.ggglib.network.mappers.RequestMapper;
-import com.gigigo.ggglib.network.mappers.ResponseMapper;
-import com.gigigo.orchextra.domain.entities.OrchextraPoint;
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
+import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiPoint;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 17/12/15.
  */
-public class PointMapper implements RequestMapper<OrchextraPoint, ApiPoint>, ResponseMapper<OrchextraPoint, ApiPoint>{
+public class PointMapper implements Mapper<OrchextraPoint, ApiPoint> {
 
-  @Override public ApiPoint modelToData(OrchextraPoint point) {
+  @Override public ApiPoint modelToExternalClass(OrchextraPoint point) {
     ApiPoint apiPoint = new ApiPoint();
 
     apiPoint.setLat(String.valueOf(point.getLat()));
@@ -20,7 +21,7 @@ public class PointMapper implements RequestMapper<OrchextraPoint, ApiPoint>, Res
     return apiPoint;
   }
 
-  @Override public OrchextraPoint dataToModel(ApiPoint apiPoint) {
+  @Override public OrchextraPoint externalClassToModel(ApiPoint apiPoint) {
     OrchextraPoint point = new OrchextraPoint();
 
     Double lat, lon;

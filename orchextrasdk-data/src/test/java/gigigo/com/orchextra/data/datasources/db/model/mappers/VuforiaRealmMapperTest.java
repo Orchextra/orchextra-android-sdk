@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class VuforiaRealmMapperTest {
         Vuforia vuforia = VuforiaBuilder.Builder().build();
 
         VuforiaRealmMapper mapper = new VuforiaRealmMapper();
-        VuforiaRealm vuforiaRealm = mapper.modelToData(vuforia);
+        VuforiaRealm vuforiaRealm = mapper.modelToExternalClass(vuforia);
 
         assertEquals(VuforiaBuilder.ACCESS_KEY, vuforiaRealm.getClientAccessKey());
         assertEquals(VuforiaBuilder.SECRET_KEY, vuforiaRealm.getClientSecretKey());
@@ -35,7 +35,7 @@ public class VuforiaRealmMapperTest {
         vuforiaRealm.setServerSecretKey(VuforiaBuilder.SERVER_SECRET_KEY);
 
         VuforiaRealmMapper mapper = new VuforiaRealmMapper();
-        Vuforia vuforia = mapper.dataToModel(vuforiaRealm);
+        Vuforia vuforia = mapper.externalClassToModel(vuforiaRealm);
 
         assertEquals(VuforiaBuilder.ACCESS_KEY, vuforia.getClientAccessKey());
         assertEquals(VuforiaBuilder.SECRET_KEY, vuforia.getClientSecretKey());

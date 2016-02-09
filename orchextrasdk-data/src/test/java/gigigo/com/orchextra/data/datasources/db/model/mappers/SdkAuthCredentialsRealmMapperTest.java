@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 
 import org.junit.Test;
 
@@ -16,7 +16,8 @@ public class SdkAuthCredentialsRealmMapperTest {
         SdkAuthCredentials sdkAuthCredentials = SdkAuthCredentialsBuilder.Builder().build();
 
         SdkAuthCredentialsRealmMapper mapper = new SdkAuthCredentialsRealmMapper();
-        SdkAuthCredentialsRealm sdkAuthCredentialsRealm = mapper.modelToData(sdkAuthCredentials);
+        SdkAuthCredentialsRealm sdkAuthCredentialsRealm = mapper.modelToExternalClass(
+            sdkAuthCredentials);
 
         assertEquals(SdkAuthCredentialsBuilder.KEY, sdkAuthCredentialsRealm.getApiKey());
         assertEquals(SdkAuthCredentialsBuilder.SECRET, sdkAuthCredentialsRealm.getApiSecret());
@@ -29,7 +30,7 @@ public class SdkAuthCredentialsRealmMapperTest {
         sdkAuthCredentialsRealm.setApiSecret(SdkAuthCredentialsBuilder.SECRET);
 
         SdkAuthCredentialsRealmMapper mapper = new SdkAuthCredentialsRealmMapper();
-        SdkAuthCredentials sdkAuthCredentials = mapper.dataToModel(sdkAuthCredentialsRealm);
+        SdkAuthCredentials sdkAuthCredentials = mapper.externalClassToModel(sdkAuthCredentialsRealm);
 
         assertEquals(SdkAuthCredentialsBuilder.KEY, sdkAuthCredentials.getApiKey());
         assertEquals(SdkAuthCredentialsBuilder.SECRET, sdkAuthCredentials.getApiSecret());

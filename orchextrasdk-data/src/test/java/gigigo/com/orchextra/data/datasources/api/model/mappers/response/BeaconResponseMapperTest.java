@@ -1,13 +1,12 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.entities.ProximityPointType;
-
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import gigigo.com.orchextra.data.datasources.builders.ApiBeaconBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiRegionBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 
 import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
@@ -27,54 +26,41 @@ public class BeaconResponseMapperTest {
 
     @Test
     public void testDataToModelOk() throws Exception {
-        ApiBeaconRegion apiBeaconRegion = ApiBeaconBuilder.Builder().build();
+        ApiBeaconRegion apiBeaconRegion = ApiRegionBuilder.Builder().build();
 
-        BeaconResponseMapper mapper = new BeaconResponseMapper();
-        OrchextraBeacon beacon = mapper.dataToModel(apiBeaconRegion);
+        BeaconExternalClassToModelMapper mapper = new BeaconExternalClassToModelMapper();
+        OrchextraRegion region = mapper.externalClassToModel(apiBeaconRegion);
 
-        assertEquals(ApiBeaconBuilder.MAJOR, beacon.getMajor());
-        assertEquals(ApiBeaconBuilder.MINOR, beacon.getMinor());
-        assertEquals(ApiBeaconBuilder.UUID, beacon.getUuid());
-        assertEquals(ApiBeaconBuilder.CODE, beacon.getCode());
-        assertEquals(ApiBeaconBuilder.ID, beacon.getId());
-        assertEquals(ApiBeaconBuilder.NAME, beacon.getName());
-        assertEquals(true, beacon.isNotifyOnEntry());
-        assertEquals(true, beacon.isNotifyOnExit());
-        assertEquals(ApiBeaconBuilder.STAY_TIME, beacon.getStayTime());
-        assertEquals(ProximityPointType.BEACON, beacon.getType());
-        assertEquals(1, beacon.getTags().size());
-        assertEquals(ApiBeaconBuilder.BEACON_TAG_NAME, beacon.getTags().get(0));
-
-        Date createdAt = getCalendar(2015, Calendar.OCTOBER, 21, 11, 46, 13);
-        Date updateAt = getCalendar(2015, Calendar.OCTOBER, 21, 18, 41, 39);
-
-        assertThat(createdAt, isDateEqualTo(beacon.getCreatedAt()));
-        assertThat(updateAt, isDateEqualTo(beacon.getUpdatedAt()));
+        assertEquals(ApiRegionBuilder.MAJOR, region.getMajor());
+        assertEquals(ApiRegionBuilder.MINOR, region.getMinor());
+        assertEquals(ApiRegionBuilder.UUID, region.getUuid());
+        assertEquals(ApiRegionBuilder.CODE, region.getCode());
+        assertEquals(true, region.isNotifyOnEntry());
+        assertEquals(true, region.isNotifyOnExit());
+        assertEquals(1, region.getTags().size());
+        assertEquals(ApiRegionBuilder.BEACON_TAG_NAME, region.getTags().get(0));
     }
 
     @Test
     public void testDataToModelEmptyValues() throws Exception {
         ApiBeaconRegion apiBeaconRegion = new ApiBeaconRegion();
 
-        BeaconResponseMapper mapper = new BeaconResponseMapper();
-        OrchextraBeacon beacon = mapper.dataToModel(apiBeaconRegion);
+        BeaconExternalClassToModelMapper mapper = new BeaconExternalClassToModelMapper();
+        OrchextraRegion region = mapper.externalClassToModel(apiBeaconRegion);
 
-        assertEquals(0, beacon.getMajor());
-        assertEquals(0, beacon.getMinor());
-        assertNull(beacon.getUuid());
-        assertNull(beacon.getCode());
-        assertNull(beacon.getId());
-        assertNull(beacon.getName());
-        assertEquals(false, beacon.isNotifyOnEntry());
-        assertEquals(false, beacon.isNotifyOnExit());
-        assertEquals(0, beacon.getStayTime());
-        assertNull(beacon.getType());
-        assertNull(beacon.getTags());
+        assertEquals(0, region.getMajor());
+        assertEquals(0, region.getMinor());
+        assertNull(region.getUuid());
+        assertNull(region.getCode());
+        assertNull(region.getId());
+        assertNull(region.getName());
+        assertEquals(false, region.isNotifyOnEntry());
+        assertEquals(false, region.isNotifyOnExit());
+        assertEquals(0, region.getStayTime());
+        assertNull(region.getType());
+        assertNull(region.getTags());
 
-        Date createdAt = getCalendar(1970, Calendar.JANUARY, 1, 1, 0, 0);
-        Date updateAt = getCalendar(1970, Calendar.JANUARY, 1, 1, 0, 0);
-
-        assertThat(createdAt, isDateEqualTo(beacon.getCreatedAt()));
-        assertThat(updateAt, isDateEqualTo(beacon.getUpdatedAt()));
+        assertNull(region.getCreatedAt());
+        assertNull(region.getUpdatedAt());
     }
 }

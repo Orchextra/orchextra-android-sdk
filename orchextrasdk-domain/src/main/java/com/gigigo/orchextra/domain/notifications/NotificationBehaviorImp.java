@@ -1,21 +1,25 @@
 package com.gigigo.orchextra.domain.notifications;
 
-import com.gigigo.orchextra.domain.device.AppRunningMode;
-import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
-import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
+import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener;
+import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder;
+import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
-public class NotificationBehaviorImp implements NotificationBehavior {
+public class NotificationBehaviorImp implements
+    com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior {
 
     private final AppRunningMode appRunningMode;
     private final NotificationBuilder foregroundNotificationBuilder;
-    private final NotificationBuilder backgroundNotificationBuilder;
+    private final com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder
+        backgroundNotificationBuilder;
 
     private ActionDispatcherListener actionDispatcherListener;
 
     public NotificationBehaviorImp(AppRunningMode appRunningMode,
-                                   NotificationBuilder foregroundNotificationBuilder,
-                                   NotificationBuilder backgroundNotificationBuilder) {
+                                   com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder foregroundNotificationBuilder,
+                                   com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder backgroundNotificationBuilder) {
         this.appRunningMode = appRunningMode;
         this.foregroundNotificationBuilder = foregroundNotificationBuilder;
         this.backgroundNotificationBuilder = backgroundNotificationBuilder;
@@ -34,7 +38,8 @@ public class NotificationBehaviorImp implements NotificationBehavior {
     }
 
     @Override
-    public void setActionDispatcherListener(ActionDispatcherListener actionDispatcherListener) {
+    public void setActionDispatcherListener(
+        ActionDispatcherListener actionDispatcherListener) {
         this.actionDispatcherListener = actionDispatcherListener;
     }
 }

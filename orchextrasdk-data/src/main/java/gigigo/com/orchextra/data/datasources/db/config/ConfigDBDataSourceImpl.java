@@ -7,9 +7,9 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
-import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
-import com.gigigo.orchextra.domain.entities.OrchextraRegion;
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
 import java.util.List;
 

@@ -1,10 +1,11 @@
 package com.gigigo.orchextra.di.injector;
 
-import com.gigigo.orchextra.android.service.OrchextraBackgroundService;
-import com.gigigo.orchextra.android.service.OrchextraGcmTaskService;
+import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
+import com.gigigo.orchextra.di.components.GeofenceIntentServiceComponent;
+import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
+import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
 import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
 import com.gigigo.orchextra.di.components.DelegateComponent;
-import com.gigigo.orchextra.delegates.FakeDelegate;
 import com.gigigo.orchextra.di.components.ServiceComponent;
 import com.gigigo.orchextra.di.components.TaskServiceComponent;
 
@@ -14,7 +15,7 @@ import com.gigigo.orchextra.di.components.TaskServiceComponent;
  */
 public interface Injector {
   DelegateComponent injectAuthDelegate(AuthenticationDelegateImpl authenticationDelegate);
-  DelegateComponent injectFakeDelegate(FakeDelegate fakeDelegate);
   ServiceComponent injectServiceComponent (OrchextraBackgroundService myAppService);
   TaskServiceComponent injectTaskServiceComponent(OrchextraGcmTaskService orchextraGcmTaskService);
+  GeofenceIntentServiceComponent injectGeofenceIntentServiceComponent(GeofenceIntentService geofenceIntentService);
 }

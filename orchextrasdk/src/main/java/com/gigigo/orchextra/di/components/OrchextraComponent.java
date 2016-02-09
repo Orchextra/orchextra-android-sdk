@@ -1,14 +1,18 @@
 package com.gigigo.orchextra.di.components;
 
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.android.mapper.AndroidBasicActionMapper;
-import com.gigigo.orchextra.android.mapper.AndroidNotificationMapper;
-import com.gigigo.orchextra.android.notifications.AndroidNotificationBuilder;
-import com.gigigo.orchextra.android.notifications.BackgroundNotificationBuilderImp;
-import com.gigigo.orchextra.android.notifications.ForegroundNotificationBuilderImp;
+import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
+import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidNotificationMapper;
+import com.gigigo.orchextra.device.notifications.AndroidNotificationBuilder;
+import com.gigigo.orchextra.device.notifications.BackgroundNotificationBuilderImp;
+import com.gigigo.orchextra.device.notifications.ForegroundNotificationBuilderImp;
+import com.gigigo.orchextra.di.components.providers.BeaconsModuleProvider;
+import com.gigigo.orchextra.di.components.providers.DomainModuleProvider;
+import com.gigigo.orchextra.di.components.providers.InteractorsModuleProvider;
+import com.gigigo.orchextra.di.components.providers.OrchextraModuleProvider;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.notifications.NotificationBehavior;
+import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 
 import javax.inject.Singleton;
 

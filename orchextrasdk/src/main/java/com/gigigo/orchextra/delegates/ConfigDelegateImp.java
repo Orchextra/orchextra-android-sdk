@@ -1,15 +1,15 @@
 package com.gigigo.orchextra.delegates;
 
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.android.device.AndroidApp;
-import com.gigigo.orchextra.android.device.AndroidDevice;
-import com.gigigo.orchextra.android.location.AndroidGeolocationManager;
+import com.gigigo.orchextra.device.information.AndroidApp;
+import com.gigigo.orchextra.device.information.AndroidDevice;
+import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeolocationManager;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigDelegate;
 import com.gigigo.orchextra.di.components.DelegateComponent;
-import com.gigigo.orchextra.domain.entities.App;
-import com.gigigo.orchextra.domain.entities.Device;
-import com.gigigo.orchextra.domain.entities.GeoLocation;
+import com.gigigo.orchextra.domain.model.entities.App;
+import com.gigigo.orchextra.domain.model.vo.Device;
+import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 
 import javax.inject.Inject;
 

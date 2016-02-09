@@ -1,8 +1,8 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.entities.actions.ActionType;
-import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.ActionType;
+import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ public class ActionsApiResponseMapperTest {
     @Mock
     ApiNotification apiNotification;
 
-    @Mock ActionNotificationResponseMapper actionNotificationResponseMapper;
+    @Mock ActionNotificationExternalClassToModelMapper actionNotificationResponseMapper;
 
     @Mock Notification notification;
 
@@ -37,10 +37,11 @@ public class ActionsApiResponseMapperTest {
         apiActionData.setType(ACTION_BROWSER);
         apiActionData.setNotification(apiNotification);
 
-        when(actionNotificationResponseMapper.dataToModel(isA(ApiNotification.class))).thenReturn(notification);
+        when(actionNotificationResponseMapper.externalClassToModel(isA(ApiNotification.class))).thenReturn(notification);
 
-        ActionsApiResponseMapper apiResponseMapper = new ActionsApiResponseMapper(actionNotificationResponseMapper);
-        BasicAction basicAction = apiResponseMapper.dataToModel(apiActionData);
+        ActionsApiExternalClassToModelMapper
+            apiResponseMapper = new ActionsApiExternalClassToModelMapper(actionNotificationResponseMapper);
+        BasicAction basicAction = apiResponseMapper.externalClassToModel(apiActionData);
 
         assertEquals(URL_GOOGLE, basicAction.getUrl());
         assertEquals(ActionType.BROWSER.getStringValue(), basicAction.getActionType().getStringValue());
@@ -52,10 +53,11 @@ public class ActionsApiResponseMapperTest {
         apiActionData.setType(ACTION_BROWSER);
         apiActionData.setNotification(apiNotification);
 
-        when(actionNotificationResponseMapper.dataToModel(isA(ApiNotification.class))).thenReturn(notification);
+        when(actionNotificationResponseMapper.externalClassToModel(isA(ApiNotification.class))).thenReturn(notification);
 
-        ActionsApiResponseMapper apiResponseMapper = new ActionsApiResponseMapper(actionNotificationResponseMapper);
-        BasicAction basicAction = apiResponseMapper.dataToModel(apiActionData);
+        ActionsApiExternalClassToModelMapper
+            apiResponseMapper = new ActionsApiExternalClassToModelMapper(actionNotificationResponseMapper);
+        BasicAction basicAction = apiResponseMapper.externalClassToModel(apiActionData);
 
         assertNull(basicAction.getUrl());
         assertEquals(ActionType.BROWSER.getStringValue(), basicAction.getActionType().getStringValue());
@@ -68,10 +70,11 @@ public class ActionsApiResponseMapperTest {
         apiActionData.setType("");
         apiActionData.setNotification(apiNotification);
 
-        when(actionNotificationResponseMapper.dataToModel(isA(ApiNotification.class))).thenReturn(notification);
+        when(actionNotificationResponseMapper.externalClassToModel(isA(ApiNotification.class))).thenReturn(notification);
 
-        ActionsApiResponseMapper apiResponseMapper = new ActionsApiResponseMapper(actionNotificationResponseMapper);
-        BasicAction basicAction = apiResponseMapper.dataToModel(apiActionData);
+        ActionsApiExternalClassToModelMapper
+            apiResponseMapper = new ActionsApiExternalClassToModelMapper(actionNotificationResponseMapper);
+        BasicAction basicAction = apiResponseMapper.externalClassToModel(apiActionData);
 
         assertEquals(URL_GOOGLE, basicAction.getUrl());
         assertEquals(ActionType.NOT_DEFINED.getStringValue(), basicAction.getActionType().getStringValue());
@@ -83,10 +86,11 @@ public class ActionsApiResponseMapperTest {
         apiActionData.setUrl(URL_GOOGLE);
         apiActionData.setNotification(apiNotification);
 
-        when(actionNotificationResponseMapper.dataToModel(isA(ApiNotification.class))).thenReturn(notification);
+        when(actionNotificationResponseMapper.externalClassToModel(isA(ApiNotification.class))).thenReturn(notification);
 
-        ActionsApiResponseMapper apiResponseMapper = new ActionsApiResponseMapper(actionNotificationResponseMapper);
-        BasicAction basicAction = apiResponseMapper.dataToModel(apiActionData);
+        ActionsApiExternalClassToModelMapper
+            apiResponseMapper = new ActionsApiExternalClassToModelMapper(actionNotificationResponseMapper);
+        BasicAction basicAction = apiResponseMapper.externalClassToModel(apiActionData);
 
         assertEquals(URL_GOOGLE, basicAction.getUrl());
         assertEquals(ActionType.NOT_DEFINED.getStringValue(), basicAction.getActionType().getStringValue());

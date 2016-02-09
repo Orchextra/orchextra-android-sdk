@@ -1,6 +1,5 @@
 package gigigo.com.orchextra.data.datasources.api.interceptors;
 
-import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;

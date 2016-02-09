@@ -1,10 +1,10 @@
 package com.gigigo.orchextra.domain.interactors.actions;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.abstractions.ActionsSchedulerController;
+import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
-import com.gigigo.orchextra.domain.entities.triggers.Trigger;
-import com.gigigo.orchextra.domain.entities.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
+import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 

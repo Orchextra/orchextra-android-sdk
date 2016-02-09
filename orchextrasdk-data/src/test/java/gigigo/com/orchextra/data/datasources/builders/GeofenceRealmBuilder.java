@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.entities.OrchextraPoint;
-import com.gigigo.orchextra.domain.entities.ProximityPointType;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.ProximityPointType;
 
 import java.util.Calendar;
 import java.util.Date;

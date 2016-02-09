@@ -1,8 +1,8 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
-import com.gigigo.orchextra.domain.entities.OrchextraPoint;
-import com.gigigo.orchextra.domain.entities.ProximityPointType;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.ProximityPointType;
 
 import java.util.ArrayList;
 import java.util.Calendar;

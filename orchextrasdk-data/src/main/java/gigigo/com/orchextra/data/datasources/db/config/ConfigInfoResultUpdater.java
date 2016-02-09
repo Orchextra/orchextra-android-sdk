@@ -1,10 +1,11 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
-import com.gigigo.orchextra.domain.entities.OrchextraGeofence;
-import com.gigigo.orchextra.domain.entities.OrchextraRegion;
-import com.gigigo.orchextra.domain.entities.Theme;
-import com.gigigo.orchextra.domain.entities.Vuforia;
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.vo.Theme;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
 import java.util.List;
 
@@ -13,7 +14,6 @@ import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmMapper;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -24,15 +24,15 @@ import io.realm.RealmResults;
  */
 public class ConfigInfoResultUpdater {
 
-  private final RealmMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper;
-  private final RealmMapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper;
-  private final RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper;
-  private final RealmMapper<Theme, ThemeRealm> themeRealmMapper;
+  private final ModelToExternalClassMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper;
+  private final ModelToExternalClassMapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper;
+  private final ModelToExternalClassMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper;
+  private final ModelToExternalClassMapper<Theme, ThemeRealm> themeRealmMapper;
 
-  public ConfigInfoResultUpdater(RealmMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper,
-      RealmMapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper,
-      RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
-      RealmMapper<Theme, ThemeRealm> themeRealmMapper) {
+  public ConfigInfoResultUpdater(ModelToExternalClassMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper,
+      ModelToExternalClassMapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper,
+      ModelToExternalClassMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
+      ModelToExternalClassMapper<Theme, ThemeRealm> themeRealmMapper) {
 
     this.beaconRealmMapper = beaconRealmMapper;
     this.geofencesRealmMapper = geofencesRealmMapper;
@@ -58,12 +58,12 @@ public class ConfigInfoResultUpdater {
     }
 
     if (config.supportsVuforia()){
-      VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToData(config.getVuforia());
+      VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToExternalClass(config.getVuforia());
       realm.copyToRealm(vuforiaRealm);
     }
 
     if (config.supportsTheme()){
-      ThemeRealm themeRealm = themeRealmMapper.modelToData(config.getTheme());
+      ThemeRealm themeRealm = themeRealmMapper.modelToExternalClass(config.getTheme());
       realm.copyToRealm(themeRealm);
     }
   }
@@ -79,7 +79,7 @@ public class ConfigInfoResultUpdater {
   private RealmList<BeaconRealm> beaconsToRealm(List<OrchextraRegion> beacons) {
     RealmList<BeaconRealm> newBeacons = new RealmList<>();
     for (OrchextraRegion beacon:beacons){
-      newBeacons.add(beaconRealmMapper.modelToData(beacon));
+      newBeacons.add(beaconRealmMapper.modelToExternalClass(beacon));
     }
     return newBeacons;
   }
@@ -87,7 +87,7 @@ public class ConfigInfoResultUpdater {
   private RealmList<GeofenceRealm> geofencesToRealm(List<OrchextraGeofence> geofences) {
     RealmList<GeofenceRealm> newGeofences = new RealmList<>();
     for (OrchextraGeofence geofence:geofences){
-      newGeofences.add(geofencesRealmMapper.modelToData(geofence));
+      newGeofences.add(geofencesRealmMapper.modelToExternalClass(geofence));
     }
     return newGeofences;
   }
@@ -123,7 +123,7 @@ public class ConfigInfoResultUpdater {
 
   private void updateTheme(Realm realm, Theme theme) {
     clearTheme(realm);
-    realm.copyToRealm(themeRealmMapper.modelToData(theme));
+    realm.copyToRealm(themeRealmMapper.modelToExternalClass(theme));
   }
 
   private void clearTheme(Realm realm) {
@@ -133,7 +133,7 @@ public class ConfigInfoResultUpdater {
 
   private void updateVuforia(Realm realm, Vuforia vuforia) {
     clearVuforia(realm);
-    realm.copyToRealm(vuforiaRealmMapper.modelToData(vuforia));
+    realm.copyToRealm(vuforiaRealmMapper.modelToExternalClass(vuforia));
   }
 
   private void clearVuforia(Realm realm) {
@@ -145,7 +145,7 @@ public class ConfigInfoResultUpdater {
     clearGeofences(realm);
     RealmList<GeofenceRealm> newGeofences = new RealmList<>();
     for (OrchextraGeofence geofence:geofences){
-      newGeofences.add(geofencesRealmMapper.modelToData(geofence));
+      newGeofences.add(geofencesRealmMapper.modelToExternalClass(geofence));
     }
     realm.copyToRealm(newGeofences);
   }
@@ -159,7 +159,7 @@ public class ConfigInfoResultUpdater {
     clearBeacons(realm);
     RealmList<BeaconRealm> newBeacons = new RealmList<>();
     for (OrchextraRegion beacon:beacons){
-      newBeacons.add(beaconRealmMapper.modelToData(beacon));
+      newBeacons.add(beaconRealmMapper.modelToExternalClass(beacon));
     }
     realm.copyToRealm(newBeacons);
   }

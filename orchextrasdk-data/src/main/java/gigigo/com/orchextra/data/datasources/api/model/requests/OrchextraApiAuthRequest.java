@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.requests;
 
-import com.gigigo.orchextra.domain.entities.Credentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

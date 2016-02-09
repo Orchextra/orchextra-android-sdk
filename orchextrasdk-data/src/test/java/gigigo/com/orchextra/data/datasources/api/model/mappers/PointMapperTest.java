@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class PointMapperTest {
         point.setLng(42.42);
 
         PointMapper mapper = new PointMapper();
-        ApiPoint apiPoint = mapper.modelToData(point);
+        ApiPoint apiPoint = mapper.modelToExternalClass(point);
 
         assertEquals(apiPoint.getLat(), String.valueOf(point.getLat()));
         assertEquals(apiPoint.getLng(), String.valueOf(point.getLng()));
@@ -30,7 +30,7 @@ public class PointMapperTest {
         apiPoint.setLng("45.54");
 
         PointMapper mapper = new PointMapper();
-        OrchextraPoint point = mapper.dataToModel(apiPoint);
+        OrchextraPoint point = mapper.externalClassToModel(apiPoint);
 
         assertEquals(String.valueOf(point.getLat()), apiPoint.getLat());
         assertEquals(String.valueOf(point.getLng()), apiPoint.getLng());
@@ -43,7 +43,7 @@ public class PointMapperTest {
         apiPoint.setLng("Prueba");
 
         PointMapper mapper = new PointMapper();
-        OrchextraPoint point = mapper.dataToModel(apiPoint);
+        OrchextraPoint point = mapper.externalClassToModel(apiPoint);
 
         assertEquals(point.getLat(), 0.0, 0.001);
         assertEquals(point.getLng(), 0.0, 0.001);
