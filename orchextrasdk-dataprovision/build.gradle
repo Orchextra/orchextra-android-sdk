@@ -4,4 +4,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile project(':orchextrasdk-domain')
+
+    testCompile parent.ext.testDependencies.junit
+    testCompile parent.ext.testDependencies.mockito
 }

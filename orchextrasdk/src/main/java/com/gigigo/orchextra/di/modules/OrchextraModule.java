@@ -3,23 +3,17 @@ package com.gigigo.orchextra.di.modules;
 import android.content.Context;
 
 import com.gigigo.ggglib.ContextProvider;
-import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
-import com.gigigo.ggglib.permissions.PermissionChecker;
-import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
-import com.gigigo.orchextra.control.controllers.proximity.ProximityItemController;
-import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.device.actions.ActionExecutionImp;
 import com.gigigo.orchextra.device.actions.AndroidActionDispatcher;
+import com.gigigo.orchextra.device.actions.BrowserActionExecutor;
+import com.gigigo.orchextra.device.actions.ScanActionExecutor;
 import com.gigigo.orchextra.device.actions.ViewActionDispatcher;
-import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceManager;
-import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceDeviceRegister;
-import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofenceConverter;
-import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
+import com.gigigo.orchextra.device.actions.VuforiaActionExecutor;
+import com.gigigo.orchextra.device.actions.WebViewActionExecutor;
 import com.gigigo.orchextra.di.modules.android.AndroidModule;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
-import com.gigigo.orchextra.di.scopes.PerDelegate;
+import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
-import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
 import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImp;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
@@ -89,10 +83,39 @@ public class OrchextraModule {
     return new NotificationBehaviorImp(appRunningMode, foregroundNotificationBuilderImp, backgroundNotificationBuilderImp);
   }
 
+  @Provides @Singleton
+  BrowserActionExecutor provideBrowserActionExecutor() {
+    return new BrowserActionExecutor(context);
+  }
+
+  @Provides
+  @Singleton WebViewActionExecutor provideWebViewActionExecutor() {
+    return new WebViewActionExecutor(context);
+  }
+
+  @Provides
+  @Singleton ScanActionExecutor provideScanActionExecutor() {
+    return new ScanActionExecutor();
+  }
+
+  @Provides
+  @Singleton VuforiaActionExecutor provideVuforiaActionExecutor() {
+    return new VuforiaActionExecutor();
+  }
+
+  @Provides
+  @Singleton ActionExecution provideActionExecution(BrowserActionExecutor browserActionExecutor,
+                                         WebViewActionExecutor webViewActionExecutor,
+                                         ScanActionExecutor scanActionExecutor,
+                                         VuforiaActionExecutor vuforiaActionExecutor) {
+    return new ActionExecutionImp(browserActionExecutor, webViewActionExecutor, scanActionExecutor,
+        vuforiaActionExecutor);
+  }
+
   @Provides
   @Singleton
-  ActionDispatcher provideActionDispatcher(NotificationBehavior notificationBehavior) {
-    return new ActionDispatcherImpl(null, notificationBehavior);
+  ActionDispatcher provideActionDispatcher(ActionExecution actionExecution, NotificationBehavior notificationBehavior) {
+    return new ActionDispatcherImpl(actionExecution, notificationBehavior);
   }
 
   @Provides

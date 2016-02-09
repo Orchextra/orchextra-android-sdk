@@ -3,11 +3,17 @@ package gigigo.com.orchextra.data.datasources.db;
 import android.content.Context;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public abstract class RealmDefaultInstance {
 
     public Realm getRealmInstance(Context context) {
-        return Realm.getInstance(context);
+        RealmConfiguration config = new RealmConfiguration.Builder(context)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
+
+        return Realm.getInstance(config);
     }
 
     public static int getNextKey(Realm realm, Class classType) {

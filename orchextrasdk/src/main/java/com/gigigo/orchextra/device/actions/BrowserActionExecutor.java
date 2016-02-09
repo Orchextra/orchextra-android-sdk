@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
+import com.gigigo.orchextra.domain.abstractions.actions.ActionExecutor;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 
-public class BrowserActionExecutor implements ActionExecution {
+public class BrowserActionExecutor implements ActionExecutor {
 
     private final Context context;
 

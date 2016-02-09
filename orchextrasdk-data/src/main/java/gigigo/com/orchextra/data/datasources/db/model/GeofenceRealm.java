@@ -10,20 +10,20 @@ import io.realm.annotations.Required;
  */
 public class GeofenceRealm extends RealmObject {
 
+  @Required
+  private String code;
   private RealmPoint point;
   private int radius;
+  private boolean notifyOnExit;
+  private boolean notifyOnEntry;
+  private int stayTime;
 
-  @Required
   private String id;
-  private String code;
   private String name;
   private RealmList<KeyWordRealm> tags;
   private String type;
   private String createdAt;
   private String updatedAt;
-  private boolean notifyOnExit;
-  private boolean notifyOnEntry;
-  private int stayTime;
 
   public RealmPoint getPoint() {
     return point;

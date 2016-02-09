@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.gigigo.orchextra.R;
-import com.gigigo.orchextra.domain.interactors.actions.ActionExecution;
 
+import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import javax.inject.Inject;
 
 public class WebViewActivity extends AppCompatActivity {
@@ -29,11 +29,14 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_webview_layout);
+        setContentView(R.layout.orch_activity_webview_layout);
 
-        orchextraWebView = (OrchextraWebView) findViewById(R.id.ox_orchextraWebView);
-
+        initViews();
         initWebView();
+    }
+
+    private void initViews() {
+        orchextraWebView = (OrchextraWebView) findViewById(R.id.ox_orchextraWebView);
     }
 
     private void initWebView() {

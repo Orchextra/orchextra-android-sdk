@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.interactors.actions;
 
+import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
