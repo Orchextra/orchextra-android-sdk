@@ -3,11 +3,11 @@ package com.gigigo.orchetra.dataprovision.authentication;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.authentication.AuthenticationDataProviderImpl;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
-import com.gigigo.orchextra.dataprovision.config.datasource.SessionDBDataSource;
-import com.gigigo.orchextra.domain.entities.ClientAuthData;
-import com.gigigo.orchextra.domain.entities.Credentials;
-import com.gigigo.orchextra.domain.entities.Crm;
 
+import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,22 +25,18 @@ public class AuthenticationDataProviderImplTest {
     @Mock
     AuthenticationDataSource authenticationDataSource;
 
-    @Mock
-    SessionDBDataSource sessionDBDataSource;
+    @Mock SessionDBDataSource sessionDBDataSource;
 
-    @Mock
-    BusinessObject<ClientAuthData> sessionToken;
+    @Mock BusinessObject<ClientAuthData> sessionToken;
 
     @Mock BusinessObject<Crm> businessObjectCrm;
 
-    @Mock
-    Crm crm;
+    @Mock Crm crm;
 
     @Mock
     ClientAuthData clientAuthData;
 
-    @Mock
-    Credentials credentials;
+    @Mock Credentials credentials;
 
     private AuthenticationDataProviderImpl authenticationDataProvider;
 
