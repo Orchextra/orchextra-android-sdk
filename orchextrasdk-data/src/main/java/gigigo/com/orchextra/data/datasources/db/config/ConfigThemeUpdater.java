@@ -1,16 +1,17 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
-import com.gigigo.orchextra.domain.entities.Theme;
+
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmMapper;
 import io.realm.Realm;
 
 public class ConfigThemeUpdater {
 
-    private final RealmMapper<Theme, ThemeRealm> themeRealmMapper;
+    private final Mapper<Theme, ThemeRealm> themeRealmMapper;
 
-    public ConfigThemeUpdater(RealmMapper<Theme, ThemeRealm> themeRealmMapper) {
+    public ConfigThemeUpdater(Mapper<Theme, ThemeRealm> themeRealmMapper) {
         this.themeRealmMapper = themeRealmMapper;
     }
 
@@ -18,7 +19,7 @@ public class ConfigThemeUpdater {
         boolean hasChangedTheme = false;
 
         if (theme != null){
-            ThemeRealm themeRealm = themeRealmMapper.modelToData(theme);
+            ThemeRealm themeRealm = themeRealmMapper.modelToExternalClass(theme);
             ThemeRealm oldTheme = realm.where(ThemeRealm.class).findFirst();
             hasChangedTheme = !checkThemeAreEquals(themeRealm, oldTheme);
             if (hasChangedTheme) {

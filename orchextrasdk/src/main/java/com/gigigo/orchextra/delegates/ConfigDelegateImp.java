@@ -1,47 +1,59 @@
 package com.gigigo.orchextra.delegates;
 
-import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.android.device.AndroidApp;
-import com.gigigo.orchextra.android.device.AndroidDevice;
-import com.gigigo.orchextra.android.location.AndroidGeolocationManager;
+import com.gigigo.orchextra.device.information.AndroidApp;
+import com.gigigo.orchextra.device.information.AndroidDevice;
+import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeolocationManager;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigDelegate;
-import com.gigigo.orchextra.di.components.DelegateComponent;
-import com.gigigo.orchextra.domain.entities.App;
-import com.gigigo.orchextra.domain.entities.Device;
-import com.gigigo.orchextra.domain.entities.GeoLocation;
-
-import javax.inject.Inject;
+import com.gigigo.orchextra.domain.model.entities.App;
+import com.gigigo.orchextra.domain.model.vo.Device;
+import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 
 public class ConfigDelegateImp implements ConfigDelegate {
 
-    private DelegateComponent delegateComponent;
+    //private DelegateComponent delegateComponent;
 
-    @Inject
-    ConfigController configController;
+    //@Inject
+    //ConfigController configController;
+    //
+    //@Inject
+    //AndroidApp androidApp;
+    //
+    //@Inject
+    //AndroidDevice androidDevice;
+    //
+    //@Inject
+    //AndroidGeolocationManager androidGeolocationManager;
 
-    @Inject
-    AndroidApp androidApp;
 
-    @Inject
-    AndroidDevice androidDevice;
+    private final ConfigController configController;
+    private final AndroidApp androidApp;
+    private final AndroidDevice androidDevice;
+    private final AndroidGeolocationManager androidGeolocationManager;
 
-    @Inject
-    AndroidGeolocationManager androidGeolocationManager;
+    public ConfigDelegateImp(ConfigController configController, AndroidApp androidApp,
+        AndroidDevice androidDevice, AndroidGeolocationManager androidGeolocationManager) {
+
+        this.configController = configController;
+        this.androidApp = androidApp;
+        this.androidDevice = androidDevice;
+        this.androidGeolocationManager = androidGeolocationManager;
+    }
 
     @Override
     public void init() {
-        delegateComponent = Orchextra.getInjector().injectConfigDelegate(this);
+        //delegateComponent = Orchextra.getInjector().injectConfigDelegate(this);
         configController.attachDelegate(this);
     }
 
     @Override
     public void destroy() {
-        delegateComponent = null;
+        //delegateComponent = null;
         configController.detachDelegate();
     }
 
     public void sendConfiguration() {
+        init();
         getDeviceGeoLocation();
     }
 
@@ -52,12 +64,12 @@ public class ConfigDelegateImp implements ConfigDelegate {
 
     @Override
     public void configSuccessful() {
-
+        destroy();
     }
 
     @Override
     public void configError() {
-
+        destroy();
     }
 
     private AndroidGeolocationManager.RetrieveGeolocationListener retrieveGeolocationListener =

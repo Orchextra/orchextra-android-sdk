@@ -1,15 +1,17 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class ConfigInfoResultRealmMapper implements RealmMapper<ConfigInfoResult, ConfigInfoResultRealm> {
+public class ConfigInfoResultRealmMapper implements
+    Mapper<ConfigInfoResult, ConfigInfoResultRealm> {
 
-  @Override public ConfigInfoResultRealm modelToData(ConfigInfoResult configInfoResult) {
+  @Override public ConfigInfoResultRealm modelToExternalClass(ConfigInfoResult configInfoResult) {
 
     if (configInfoResult.supportsBeacons()){
 
@@ -17,7 +19,8 @@ public class ConfigInfoResultRealmMapper implements RealmMapper<ConfigInfoResult
     return null;
   }
 
-  @Override public ConfigInfoResult dataToModel(ConfigInfoResultRealm configInfoResultRealm) {
+  @Override public ConfigInfoResult externalClassToModel(
+      ConfigInfoResultRealm configInfoResultRealm) {
     return null;
   }
 }

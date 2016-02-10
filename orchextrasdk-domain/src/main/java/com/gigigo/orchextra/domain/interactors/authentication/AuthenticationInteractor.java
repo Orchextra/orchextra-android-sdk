@@ -1,17 +1,17 @@
 package com.gigigo.orchextra.domain.interactors.authentication;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
-import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
-import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
-import com.gigigo.orchextra.domain.entities.ClientAuthData;
-import com.gigigo.orchextra.domain.entities.Credentials;
-import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
-import com.gigigo.orchextra.domain.entities.SdkAuthData;
-import com.gigigo.orchextra.domain.entities.Session;
 import com.gigigo.orchextra.domain.interactors.authentication.errors.SdkAuthError;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
+import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 
 /**
  * Created by Sergio Martinez Rodriguez

@@ -3,11 +3,13 @@ package com.gigigo.orchextra.android.proximity.geofencing;
 import android.location.Location;
 
 import com.gigigo.orchextra.android.builders.ControlGeofenceBuilder;
-import com.gigigo.orchextra.android.builders.ControlPointBuilder;
-import com.gigigo.orchextra.android.mapper.LocationMapper;
-import com.gigigo.orchextra.android.proximity.geofencing.mapper.AndroidGeofenceMapper;
-import com.gigigo.orchextra.control.entities.ControlGeofence;
-import com.gigigo.orchextra.control.entities.ControlPoint;
+import com.gigigo.orchextra.android.builders.OrchextraPointBuilder;
+import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceManager;
+import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceDeviceRegister;
+import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
+import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofenceConverter;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.location.GeofencingRequest;
@@ -28,11 +30,9 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class AndroidGeofenceManagerTest {
 
-    @Mock
-    AndroidGeofenceMapper androidGeofenceMapper;
+    @Mock AndroidGeofenceConverter androidGeofenceMapper;
 
-    @Mock
-    GeofenceDeviceRegister geofenceDeviceRegister;
+    @Mock GeofenceDeviceRegister geofenceDeviceRegister;
 
     @Mock
     LocationMapper locationMapper;
@@ -55,7 +55,7 @@ public class AndroidGeofenceManagerTest {
 
     @Test
     public void shouldRegisterGeofencesWhenIsFillGeofenceList() throws Exception {
-        List<ControlGeofence> geofenceList = new ArrayList<>();
+        List<OrchextraGeofence> geofenceList = new ArrayList<>();
         geofenceList.add(ControlGeofenceBuilder.Builder().build());
 
         when(androidGeofenceMapper.modelToControl(geofenceList)).thenReturn(geofencingRequest);
@@ -67,15 +67,15 @@ public class AndroidGeofenceManagerTest {
 
     @Test
     public void shouldObtainTriggerPointWithIntent() throws Exception {
-        ControlPoint controlPoint = ControlPointBuilder.Builder().build();
+        OrchextraPoint controlPoint = OrchextraPointBuilder.Builder().build();
 
         when(geofencingEvent.getTriggeringLocation()).thenReturn(location);
-        when(locationMapper.controlToModel(location)).thenReturn(controlPoint);
+        when(locationMapper.externalClassToModel(location)).thenReturn(controlPoint);
 
-        ControlPoint triggeringPoint = manager.getTriggeringPoint(geofencingEvent);
+        OrchextraPoint triggeringPoint = manager.getTriggeringPoint(geofencingEvent);
 
-        assertEquals(ControlPointBuilder.LAT, triggeringPoint.getLat(), 0.0001);
-        assertEquals(ControlPointBuilder.LNG, triggeringPoint.getLng(), 0.0001);
+        assertEquals(OrchextraPointBuilder.LAT, triggeringPoint.getLat(), 0.0001);
+        assertEquals(OrchextraPointBuilder.LNG, triggeringPoint.getLng(), 0.0001);
     }
 
     @Test

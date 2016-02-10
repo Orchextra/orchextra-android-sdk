@@ -1,13 +1,13 @@
 package com.gigigo.orchextra.domain.interactors.actions;
 
-import com.gigigo.orchextra.domain.entities.actions.strategy.Notification;
-import com.gigigo.orchextra.domain.entities.actions.types.BrowserAction;
-import com.gigigo.orchextra.domain.entities.actions.types.CustomAction;
-import com.gigigo.orchextra.domain.entities.actions.types.EmptyAction;
-import com.gigigo.orchextra.domain.entities.actions.types.NotificationAction;
-import com.gigigo.orchextra.domain.entities.actions.types.ScanAction;
-import com.gigigo.orchextra.domain.entities.actions.types.VuforiaScanAction;
-import com.gigigo.orchextra.domain.entities.actions.types.WebViewAction;
+import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
+import com.gigigo.orchextra.domain.model.actions.types.CustomAction;
+import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
+import com.gigigo.orchextra.domain.model.actions.types.NotificationAction;
+import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
+import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
+import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
 /**
  * Created by Sergio Martinez Rodriguez

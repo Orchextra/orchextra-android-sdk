@@ -1,12 +1,12 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
-import com.gigigo.orchextra.domain.entities.Point;
-import com.gigigo.orchextra.domain.entities.triggers.BeaconDistanceType;
-import com.gigigo.orchextra.domain.entities.triggers.BeaconTrigger;
-import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
-import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
-import com.gigigo.orchextra.domain.entities.triggers.ScanTrigger;
-import com.gigigo.orchextra.domain.entities.triggers.Trigger;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.BeaconTrigger;
+import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.ScanTrigger;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 
 import org.junit.Test;
 
@@ -18,13 +18,13 @@ public class ActionQueryRequestMapperTest {
 
     @Test
     public void testCreateGeofenceTrigger() throws Exception {
-        Point point = new Point();
+        OrchextraPoint point = new OrchextraPoint();
         point.setLat(23.45);
         point.setLng(74.32);
         Trigger trigger = Trigger.createGeofenceTrigger("1234", point, AppRunningModeType.BACKGROUND, 300, GeoPointEventType.ENTER);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(trigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(trigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("geofence", data.get("type"));
@@ -36,14 +36,14 @@ public class ActionQueryRequestMapperTest {
 
     @Test
     public void testCreateBeaconTrigger() throws Exception {
-        Point point = new Point();
+        OrchextraPoint point = new OrchextraPoint();
         point.setLat(23.45);
         point.setLng(74.32);
 
         BeaconTrigger beaconTrigger = Trigger.createBeaconTrigger("1234", point, AppRunningModeType.FOREGROUND, BeaconDistanceType.NEAR, GeoPointEventType.EXIT);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(beaconTrigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(beaconTrigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("beacon", data.get("type"));
@@ -55,14 +55,14 @@ public class ActionQueryRequestMapperTest {
 
     @Test
     public void testCreateQrScanTrigger() throws Exception {
-        Point point = new Point();
+        OrchextraPoint point = new OrchextraPoint();
         point.setLat(23.45);
         point.setLng(74.32);
 
         ScanTrigger qrScanTrigger = Trigger.createQrScanTrigger("1234", point);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(qrScanTrigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(qrScanTrigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("qr", data.get("type"));
@@ -73,14 +73,14 @@ public class ActionQueryRequestMapperTest {
 
     @Test
      public void testCreateBarcodeScanTrigger() throws Exception {
-        Point point = new Point();
+        OrchextraPoint point = new OrchextraPoint();
         point.setLat(23.45);
         point.setLng(74.32);
 
         ScanTrigger barcodeScanTrigger = Trigger.createBarcodeScanTrigger("1234", point);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(barcodeScanTrigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(barcodeScanTrigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("barcode", data.get("type"));
@@ -91,14 +91,14 @@ public class ActionQueryRequestMapperTest {
 
     @Test
     public void testCreateVuforiaScanTrigger() throws Exception {
-        Point point = new Point();
+        OrchextraPoint point = new OrchextraPoint();
         point.setLat(23.45);
         point.setLng(74.32);
 
         ScanTrigger vuforiaScanTrigger = Trigger.createVuforiaScanTrigger("1234", point);
 
-        ActionQueryRequestMapper mapper = new ActionQueryRequestMapper();
-        Map<String, String> data = mapper.modelToData(vuforiaScanTrigger);
+        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
+        Map<String, String> data = mapper.modelToExternalClass(vuforiaScanTrigger);
 
         assertEquals("1234", data.get("value"));
         assertEquals("vuforia", data.get("type"));

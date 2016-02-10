@@ -14,7 +14,7 @@ public class ApiConfigData {
   private List<ApiGeofence> geoMarketing;
 
   @Expose @SerializedName("proximity")
-  private List<ApiBeacon> proximity;
+  private List<ApiBeaconRegion> proximity;
 
   @Expose @SerializedName("theme")
   private ApiTheme theme;
@@ -33,11 +33,11 @@ public class ApiConfigData {
     this.geoMarketing = geoMarketing;
   }
 
-  public List<ApiBeacon> getProximity() {
+  public List<ApiBeaconRegion> getProximity() {
     return proximity;
   }
 
-  public void setProximity(List<ApiBeacon> proximity) {
+  public void setProximity(List<ApiBeaconRegion> proximity) {
     this.proximity = proximity;
   }
 

@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,12 +35,12 @@ public class GeofenceRealmMapperTest {
 
     @Test
     public void shouldMapModelToData() throws Exception {
-        Geofence geofence = GeofenceBuilder.Builder().build();
+        OrchextraGeofence geofence = GeofenceBuilder.Builder().build();
 
         RealmPoint realmPoint = new RealmPoint();
         realmPoint.setLat(PointBuilder.LAT);
         realmPoint.setLng(PointBuilder.LNG);
-        when(realmPointMapper.modelToData(any(Point.class))).thenReturn(realmPoint);
+        when(realmPointMapper.modelToExternalClass(any(OrchextraPoint.class))).thenReturn(realmPoint);
 
         RealmList<KeyWordRealm> keyWordRealmList = new RealmList<>();
         KeyWordRealm keyWordRealm = new KeyWordRealm();
@@ -49,7 +49,7 @@ public class GeofenceRealmMapperTest {
         when(keyWordRealmMapper.stringKeyWordsToRealmList(geofence.getTags())).thenReturn(keyWordRealmList);
 
         GeofenceRealmMapper mapper = new GeofenceRealmMapper(realmPointMapper, keyWordRealmMapper);
-        GeofenceRealm geofenceRealm = mapper.modelToData(geofence);
+        GeofenceRealm geofenceRealm = mapper.modelToExternalClass(geofence);
 
         assertEquals(PointBuilder.LAT, geofenceRealm.getPoint().getLat(), 0.0001);
         assertEquals(PointBuilder.LNG, geofenceRealm.getPoint().getLng(), 0.0001);
@@ -69,17 +69,17 @@ public class GeofenceRealmMapperTest {
     public void shouldMapDataToModel() throws Exception {
         GeofenceRealm geofenceRealm = GeofenceRealmBuilder.Builder().build();
 
-        Point realmPoint = new Point();
+        OrchextraPoint realmPoint = new OrchextraPoint();
         realmPoint.setLat(PointRealmBuilder.LAT);
         realmPoint.setLng(PointRealmBuilder.LNG);
-        when(realmPointMapper.dataToModel(any(RealmPoint.class))).thenReturn(realmPoint);
+        when(realmPointMapper.externalClassToModel(any(RealmPoint.class))).thenReturn(realmPoint);
 
         List<String> keyWordList = new ArrayList<>();
         keyWordList.add(GeofenceRealmBuilder.TAG_NAME);
         when(keyWordRealmMapper.realmKeyWordsToStringList(geofenceRealm.getTags())).thenReturn(keyWordList);
 
         GeofenceRealmMapper mapper = new GeofenceRealmMapper(realmPointMapper, keyWordRealmMapper);
-        Geofence geofence = mapper.dataToModel(geofenceRealm);
+        OrchextraGeofence geofence = mapper.externalClassToModel(geofenceRealm);
 
         assertEquals(PointRealmBuilder.LAT, geofence.getPoint().getLat(), 0.0001);
         assertEquals(PointRealmBuilder.LNG, geofence.getPoint().getLng(), 0.0001);

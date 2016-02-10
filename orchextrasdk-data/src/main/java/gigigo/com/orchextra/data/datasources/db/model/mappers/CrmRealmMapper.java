@@ -1,16 +1,19 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
+import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
-import com.gigigo.orchextra.domain.entities.Crm;
-import com.gigigo.orchextra.domain.entities.GenderType;
+import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
+import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.GenderType;
 import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 22/12/15.
  */
-public class CrmRealmMapper implements RealmMapper<Crm, CrmRealm>{
+public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
 
   private final KeyWordRealmMapper keyWordRealmMapper;
 
@@ -18,7 +21,7 @@ public class CrmRealmMapper implements RealmMapper<Crm, CrmRealm>{
     this.keyWordRealmMapper = keyWordRealmMapper;
   }
 
-  @Override public CrmRealm modelToData(Crm crm) {
+  @Override public CrmRealm modelToExternalClass(Crm crm) {
     CrmRealm crmRealm = new CrmRealm();
 
     if (crm != null) {
@@ -34,7 +37,7 @@ public class CrmRealmMapper implements RealmMapper<Crm, CrmRealm>{
     return crmRealm;
   }
 
-  @Override public Crm dataToModel(CrmRealm crmRealm) {
+  @Override public Crm externalClassToModel(CrmRealm crmRealm) {
     Crm crm = new Crm();
 
     if (crmRealm != null) {

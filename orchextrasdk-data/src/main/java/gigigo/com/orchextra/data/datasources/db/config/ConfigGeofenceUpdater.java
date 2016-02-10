@@ -1,32 +1,32 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
-import com.gigigo.orchextra.domain.entities.Geofence;
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmMapper;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class ConfigGeofenceUpdater {
 
-    private final RealmMapper<Geofence, GeofenceRealm> geofencesRealmMapper;
+    private final Mapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper;
 
-    public ConfigGeofenceUpdater(RealmMapper<Geofence, GeofenceRealm> geofencesRealmMapper) {
+    public ConfigGeofenceUpdater(Mapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper) {
         this.geofencesRealmMapper = geofencesRealmMapper;
     }
 
-    public void saveGeofences(Realm realm, List<Geofence> geofences) {
-        List<Geofence> newGeofences = new ArrayList<>();
-        List<Geofence> updateGeofences = new ArrayList<>();
-        List<Geofence> deleteGeofences = new ArrayList<>();
+    public void saveGeofences(Realm realm, List<OrchextraGeofence> geofences) {
+        List<OrchextraGeofence> newGeofences = new ArrayList<>();
+        List<OrchextraGeofence> updateGeofences = new ArrayList<>();
+        List<OrchextraGeofence> deleteGeofences = new ArrayList<>();
 
         List<String> used = new ArrayList<>();
 
-        for (Geofence geofence : geofences) {
-            GeofenceRealm newGeofence = geofencesRealmMapper.modelToData(geofence);
+        for (OrchextraGeofence geofence : geofences) {
+            GeofenceRealm newGeofence = geofencesRealmMapper.modelToExternalClass(geofence);
             GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofence.getCode()).findFirst();
             if(geofenceRealm == null) {
                 newGeofences.add(geofence);
@@ -45,7 +45,7 @@ public class ConfigGeofenceUpdater {
         RealmResults<GeofenceRealm> all = realm.where(GeofenceRealm.class).findAll();
         for (GeofenceRealm geofenceRealm : all) {
             if (!used.contains(geofenceRealm.getCode())) {
-                deleteGeofences.add(geofencesRealmMapper.dataToModel(geofenceRealm));
+                deleteGeofences.add(geofencesRealmMapper.externalClassToModel(geofenceRealm));
                 geofenceRealm.removeFromRealm();
             }
         }

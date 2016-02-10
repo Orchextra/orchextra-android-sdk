@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 
 public class VuforiaBuilder {
 

@@ -9,6 +9,11 @@ import com.gigigo.orchextra.domain.entities.Credentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
 import com.gigigo.orchextra.domain.entities.Session;
+import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +23,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +55,7 @@ public class AuthenticationInteractorTest {
     @Before
     public void setUp() throws Exception {
         interactor = new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, session);
+        interactor = new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider);
         interactor.setSdkAuthCredentials(new SdkAuthCredentials("Admin", "1234"));
     }
 
@@ -104,6 +108,6 @@ public class AuthenticationInteractorTest {
         interactor.setCrm(anyString());
         interactor.call();
 
-        verify(user, times(2)).getData();
+        verify(user).getData();
     }
 }

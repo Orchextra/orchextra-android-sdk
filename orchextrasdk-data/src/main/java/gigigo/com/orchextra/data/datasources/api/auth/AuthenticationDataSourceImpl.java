@@ -5,9 +5,9 @@ import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
-import com.gigigo.orchextra.domain.entities.ClientAuthData;
-import com.gigigo.orchextra.domain.entities.Credentials;
-import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 import javax.inject.Provider;
 

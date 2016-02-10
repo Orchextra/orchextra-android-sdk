@@ -1,13 +1,13 @@
 package com.gigigo.orchextra.domain.interactors.geofences;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
-import com.gigigo.orchextra.domain.device.AppRunningMode;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.Point;
-import com.gigigo.orchextra.domain.entities.triggers.AppRunningModeType;
-import com.gigigo.orchextra.domain.entities.triggers.GeoPointEventType;
-import com.gigigo.orchextra.domain.entities.triggers.Trigger;
+import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
+import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
+import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 
 import org.junit.Before;
@@ -30,20 +30,18 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class RetrieveGeofenceTriggerInteractorTest {
 
-    @Mock
-    GeofenceDataProvider geofenceDataProvider;
+    @Mock ProximityLocalDataProvider proximityLocalDataProvider;
 
     @Mock AppRunningMode appRunningMode;
 
     GeoPointEventType geoPointEventType;
 
-    @Mock
-    Point point;
+    @Mock OrchextraPoint point;
 
     @Mock
-    BusinessObject<Geofence> businessGeofence;
+    BusinessObject<OrchextraGeofence> businessGeofence;
 
-    @Mock Geofence geofence;
+    @Mock OrchextraGeofence geofence;
 
     double distanceFromGeofenceInKm = 234;
 
@@ -51,7 +49,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
 
     @Before
     public void setUp() throws Exception {
-        interactor = new RetrieveGeofenceTriggerInteractor(geofenceDataProvider, appRunningMode);
+        interactor = new RetrieveGeofenceTriggerInteractor(proximityLocalDataProvider, appRunningMode);
     }
 
     @Test
@@ -61,7 +59,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
         idsList.add("bbbb");
 
 
-        Point geofencePoint = new Point();
+        OrchextraPoint geofencePoint = new OrchextraPoint();
         geofencePoint.setLat(123);
         geofencePoint.setLng(321);
 
@@ -69,8 +67,8 @@ public class RetrieveGeofenceTriggerInteractorTest {
         interactor.setTriggeringPoint(point);
         interactor.setTriggeringGeofenceIds(idsList);
 
-        when(geofenceDataProvider.obtainGeofenceByIdFromDatabase(anyString())).thenReturn(businessGeofence);
-        when(geofenceDataProvider.obtainGeofenceByIdFromDatabase(anyString())).thenReturn(businessGeofence);
+        when(proximityLocalDataProvider.obtainGeofenceByCodeFromDatabase(anyString())).thenReturn(businessGeofence);
+        when(proximityLocalDataProvider.obtainGeofenceByCodeFromDatabase(anyString())).thenReturn(businessGeofence);
         when(businessGeofence.isSuccess()).thenReturn(true);
         when(businessGeofence.getData()).thenReturn(geofence);
         when(point.getDistanceFromPointInKm(geofence.getPoint())).thenReturn(distanceFromGeofenceInKm);
@@ -84,8 +82,8 @@ public class RetrieveGeofenceTriggerInteractorTest {
         assertNull(response.getError());
         assertEquals(2, response.getResult().size());
 
-        verify(geofenceDataProvider).obtainGeofenceByIdFromDatabase("aaaa");
-        verify(geofenceDataProvider).obtainGeofenceByIdFromDatabase("bbbb");
+        verify(proximityLocalDataProvider).obtainGeofenceByCodeFromDatabase("aaaa");
+        verify(proximityLocalDataProvider).obtainGeofenceByCodeFromDatabase("bbbb");
         verify(businessGeofence, times(2)).isSuccess();
         verify(businessGeofence, times(2)).getData();
         verify(point, times(2)).getDistanceFromPointInKm(geofence.getPoint());
@@ -101,7 +99,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
 
         interactor.setTriggeringGeofenceIds(idsList);
 
-        when(geofenceDataProvider.obtainGeofenceByIdFromDatabase(anyString())).thenReturn(businessGeofence);
+        when(proximityLocalDataProvider.obtainGeofenceByCodeFromDatabase(anyString())).thenReturn(businessGeofence);
         when(businessGeofence.isSuccess()).thenReturn(false);
 
         InteractorResponse response = interactor.call();
@@ -110,7 +108,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
         assertNull(response.getResult());
         assertNotNull(response.getError());
 
-        verify(geofenceDataProvider).obtainGeofenceByIdFromDatabase(anyString());
+        verify(proximityLocalDataProvider).obtainGeofenceByCodeFromDatabase(anyString());
         verify(businessGeofence).isSuccess();
     }
 

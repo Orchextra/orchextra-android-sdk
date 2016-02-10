@@ -1,23 +1,25 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthCredentialsRealm;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 22/12/15.
  */
-public class SdkAuthCredentialsRealmMapper
-    implements RealmMapper<SdkAuthCredentials, SdkAuthCredentialsRealm> {
+public class SdkAuthCredentialsRealmMapper implements
+    Mapper<SdkAuthCredentials, SdkAuthCredentialsRealm> {
 
-  @Override public SdkAuthCredentialsRealm modelToData(SdkAuthCredentials credentials) {
+  @Override public SdkAuthCredentialsRealm modelToExternalClass(SdkAuthCredentials credentials) {
     SdkAuthCredentialsRealm sdkAuthCredentialsRealm = new SdkAuthCredentialsRealm();
     sdkAuthCredentialsRealm.setApiKey(credentials.getApiKey());
     sdkAuthCredentialsRealm.setApiSecret(credentials.getApiSecret());
     return sdkAuthCredentialsRealm;
   }
 
-  @Override public SdkAuthCredentials dataToModel(SdkAuthCredentialsRealm sdkAuthCredentialsRealm) {
+  @Override public SdkAuthCredentials externalClassToModel(
+      SdkAuthCredentialsRealm sdkAuthCredentialsRealm) {
 
     String apiKey = sdkAuthCredentialsRealm.getApiKey();
     String apiSecret = sdkAuthCredentialsRealm.getApiSecret();

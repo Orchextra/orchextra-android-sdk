@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.interceptors;
 
-import com.gigigo.orchextra.domain.entities.Session;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;

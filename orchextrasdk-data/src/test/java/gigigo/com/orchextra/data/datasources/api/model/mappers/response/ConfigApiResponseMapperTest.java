@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,10 +10,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.builders.ApiBeaconBuilder;
+import gigigo.com.orchextra.data.datasources.builders.ApiRegionBuilder;
 import gigigo.com.orchextra.data.datasources.builders.ApiGeofenceBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeacon;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiTheme;
@@ -30,44 +30,44 @@ public class ConfigApiResponseMapperTest {
     @Mock
     ApiVuforia apiVuforia;
 
-    @Mock VuforiaResponseMapper vuforiaResponseMapper;
+    @Mock VuforiaExternalClassToModelMapper vuforiaResponseMapper;
 
-    @Mock ThemeResponseMapper themeResponseMapper;
+    @Mock ThemeExternalClassToModelMapper themeResponseMapper;
 
-    BeaconResponseMapper beaconResponseMapper = new BeaconResponseMapper();
+    BeaconExternalClassToModelMapper beaconResponseMapper = new BeaconExternalClassToModelMapper();
 
-    GeofenceResponseMapper geofenceResponseMapper = new GeofenceResponseMapper(new PointMapper());
+    GeofenceExternalClassToModelMapper
+        geofenceResponseMapper = new GeofenceExternalClassToModelMapper(new PointMapper());
 
     @Test
     public void testDataToModelOk() throws Exception {
         List<ApiGeofence> apiGeofencesList = new ArrayList<>();
         apiGeofencesList.add(ApiGeofenceBuilder.Builder().build());
 
-        ApiBeacon apiBeacon = ApiBeaconBuilder.Builder().build();
-        List<ApiBeacon> apiBeaconList = new ArrayList<>();
-        apiBeaconList.add(apiBeacon);
+        ApiBeaconRegion apiBeaconRegion = ApiRegionBuilder.Builder().build();
+        List<ApiBeaconRegion> apiBeaconRegionList = new ArrayList<>();
+        apiBeaconRegionList.add(apiBeaconRegion);
 
         ApiConfigData apiConfigData = new ApiConfigData();
 
         apiConfigData.setGeoMarketing(apiGeofencesList);
-        apiConfigData.setProximity(apiBeaconList);
+        apiConfigData.setProximity(apiBeaconRegionList);
         apiConfigData.setTheme(apiTheme);
         apiConfigData.setVuforia(apiVuforia);
         apiConfigData.setRequestWaitTime(3000);
 
-        ConfigApiResponseMapper mapper = new ConfigApiResponseMapper(vuforiaResponseMapper, themeResponseMapper,
+        ConfigApiExternalClassToModelMapper mapper = new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper, themeResponseMapper,
                 beaconResponseMapper, geofenceResponseMapper);
 
-        ConfigInfoResult configInfoResult = mapper.dataToModel(apiConfigData);
+        ConfigInfoResult configInfoResult = mapper.externalClassToModel(apiConfigData);
 
         assertEquals(1, configInfoResult.getGeofences().size());
         assertEquals(23.45, configInfoResult.getGeofences().get(0).getPoint().getLat(), 0.001);
         assertEquals(56.45, configInfoResult.getGeofences().get(0).getPoint().getLng(), 0.001);
         assertEquals(30, configInfoResult.getGeofences().get(0).getRadius(), 0.001);
-        assertEquals(1, configInfoResult.getBeacons().size());
-        assertEquals(ApiBeaconBuilder.NAME, configInfoResult.getBeacons().get(0).getName());
-        assertEquals(ApiBeaconBuilder.CODE, configInfoResult.getBeacons().get(0).getCode());
-        assertEquals(ApiBeaconBuilder.MAJOR, configInfoResult.getBeacons().get(0).getMajor());
+        assertEquals(1, configInfoResult.getRegions().size());
+        assertEquals(ApiRegionBuilder.CODE, configInfoResult.getRegions().get(0).getCode());
+        assertEquals(ApiRegionBuilder.MAJOR, configInfoResult.getRegions().get(0).getMajor());
         assertEquals(3000, configInfoResult.getRequestWaitTime());
     }
 }

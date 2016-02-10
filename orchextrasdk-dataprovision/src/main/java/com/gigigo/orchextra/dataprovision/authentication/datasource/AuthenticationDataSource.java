@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.dataprovision.authentication.datasource;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.entities.ClientAuthData;
-import com.gigigo.orchextra.domain.entities.Credentials;
-import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 /**
  * Created by Sergio Martinez Rodriguez

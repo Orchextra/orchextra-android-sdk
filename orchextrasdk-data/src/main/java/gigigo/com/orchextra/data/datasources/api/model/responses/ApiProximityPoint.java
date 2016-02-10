@@ -10,9 +10,6 @@ import java.util.List;
  */
 public abstract class ApiProximityPoint {
 
-  @Expose @SerializedName("id")
-  private String id;
-
   @Expose @SerializedName("code")
   private String code;
 
@@ -39,14 +36,6 @@ public abstract class ApiProximityPoint {
 
   @Expose @SerializedName("stayTime")
   private int stayTime;
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
 
   public String getCode() {
     return code;

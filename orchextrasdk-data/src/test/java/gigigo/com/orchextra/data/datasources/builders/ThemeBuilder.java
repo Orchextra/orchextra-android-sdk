@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.entities.Theme;
+import com.gigigo.orchextra.domain.model.vo.Theme;
 
 public class ThemeBuilder {
 

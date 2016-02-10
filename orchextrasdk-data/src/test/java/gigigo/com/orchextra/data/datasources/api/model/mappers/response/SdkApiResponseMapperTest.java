@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +10,6 @@ import java.util.Date;
 
 import gigigo.com.orchextra.data.datasources.builders.ApiSdkAuthDataBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthData;
-import gigigo.com.orchextra.data.datasources.builders.DateBuilder;
 
 import static gigigo.com.orchextra.data.testing.matchers.IsDateEqualTo.isDateEqualTo;
 import static org.junit.Assert.assertEquals;
@@ -19,11 +18,11 @@ import static org.junit.Assert.assertThat;
 
 public class SdkApiResponseMapperTest {
 
-    private SdkApiResponseMapper mapper;
+    private SdkApiExternalClassToModelMapper mapper;
 
     @Before
     public void setUp() throws Exception {
-        mapper = new SdkApiResponseMapper();
+        mapper = new SdkApiExternalClassToModelMapper();
     }
 
     @Test
@@ -32,7 +31,7 @@ public class SdkApiResponseMapperTest {
 
         ApiSdkAuthData apiSdkAuthData = ApiSdkAuthDataBuilder.Builder().build();
 
-        SdkAuthData sdkAuthData = mapper.dataToModel(apiSdkAuthData);
+        SdkAuthData sdkAuthData = mapper.externalClassToModel(apiSdkAuthData);
 
         assertNotNull(sdkAuthData);
         assertEquals(ApiSdkAuthDataBuilder.VALUE, sdkAuthData.getValue());
@@ -45,7 +44,7 @@ public class SdkApiResponseMapperTest {
     public void testDataToModelDateNull() throws Exception {
         ApiSdkAuthData apiSdkAuthData = ApiSdkAuthDataBuilder.Builder().build();
 
-        SdkAuthData sdkAuthData = mapper.dataToModel(apiSdkAuthData);
+        SdkAuthData sdkAuthData = mapper.externalClassToModel(apiSdkAuthData);
 
         assertNotNull(sdkAuthData);
         assertEquals(ApiSdkAuthDataBuilder.VALUE, sdkAuthData.getValue());

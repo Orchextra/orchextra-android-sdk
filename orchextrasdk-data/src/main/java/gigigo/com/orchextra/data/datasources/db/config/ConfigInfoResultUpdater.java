@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import io.realm.Realm;
@@ -52,11 +52,4 @@ public class ConfigInfoResultUpdater {
     }
   }
 
-//  private RealmList<BeaconRealm> beaconsToRealm(List<Beacon> beacons) {
-//    RealmList<BeaconRealm> newBeacons = new RealmList<>();
-//    for (Beacon beacon:beacons){
-//      newBeacons.add(beaconRealmMapper.modelToData(beacon));
-//    }
-//    return newBeacons;
-//  }
 }

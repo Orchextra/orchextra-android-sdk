@@ -6,9 +6,9 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
-import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
 import java.util.List;
 
@@ -69,18 +69,18 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
     }
   }
 
-  public Beacon obtainBeaconByUuid(String uuid){
+  public OrchextraRegion obtainBeaconByUuid(String uuid){
     //TODO Manage exceptions
     return configInfoResultReader.getBeaconByUuid(Realm.getDefaultInstance(), uuid);
   }
 
   @Override
-  public BusinessObject<List<Geofence>> obtainGeofences() {
+  public BusinessObject<List<OrchextraGeofence>> obtainGeofences() {
     Realm realm = getRealmInstance(context);
     try {
-      List<Geofence> geofenceList = configInfoResultReader.getAllGeofences(realm);
+      List<OrchextraGeofence> geofenceList = configInfoResultReader.getAllGeofences(realm);
 
-      geofenceList = (List<Geofence>) ConsistencyUtils.checkNotEmpty(geofenceList);
+      geofenceList = (List<OrchextraGeofence>) ConsistencyUtils.checkNotEmpty(geofenceList);
 
       return new BusinessObject<>(geofenceList, BusinessError.createOKInstance());
 
@@ -94,10 +94,10 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
     }
   }
 
-  public BusinessObject<Geofence> obtainGeofenceById(String id){
+  public BusinessObject<OrchextraGeofence> obtainGeofenceById(String id){
     Realm realm = getRealmInstance(context);
     try {
-      Geofence geofence = configInfoResultReader.getGeofenceById(realm, id);
+      OrchextraGeofence geofence = configInfoResultReader.getGeofenceById(realm, id);
       return new BusinessObject<>(geofence, BusinessError.createOKInstance());
 
     } catch (NotFountRealmObjectException | RealmException re) {

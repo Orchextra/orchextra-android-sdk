@@ -1,9 +1,9 @@
 package com.gigigo.orchextra.dataprovision.config.datasource;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.entities.Beacon;
-import com.gigigo.orchextra.domain.entities.Geofence;
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public interface ConfigDBDataSource {
   boolean saveConfigData(ConfigInfoResult config);
   BusinessObject<ConfigInfoResult> obtainConfigData();
-  BusinessObject<Geofence> obtainGeofenceById(String uuid);
-  Beacon obtainBeaconByUuid(String uuid);
-  BusinessObject<List<Geofence>> obtainGeofences();
+  BusinessObject<OrchextraGeofence> obtainGeofenceById(String uuid);
+  OrchextraRegion obtainBeaconByUuid(String uuid);
+  BusinessObject<List<OrchextraGeofence>> obtainGeofences();
 }

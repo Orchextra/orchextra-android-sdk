@@ -1,24 +1,26 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
-import com.gigigo.orchextra.domain.entities.Vuforia;
+
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmMapper;
+
 import io.realm.Realm;
 
 public class ConfigVuforiaUpdater {
 
-    private final RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper;
+    private final Mapper<Vuforia, VuforiaRealm> vuforiaRealmMapper;
 
-    public ConfigVuforiaUpdater(RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper) {
+    public ConfigVuforiaUpdater(Mapper<Vuforia, VuforiaRealm> vuforiaRealmMapper) {
         this.vuforiaRealmMapper = vuforiaRealmMapper;
     }
 
     public boolean saveVuforia(Realm realm, Vuforia vuforia) {
         boolean hasChangedVuforia = false;
 
-        if (vuforia != null){
-            VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToData(vuforia);
+        if (vuforia != null) {
+            VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToExternalClass(vuforia);
 
             VuforiaRealm olderVuforia = realm.where(VuforiaRealm.class).findFirst();
 

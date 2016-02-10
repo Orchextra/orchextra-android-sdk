@@ -4,8 +4,8 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
-import com.gigigo.orchextra.domain.entities.config.Config;
-import com.gigigo.orchextra.domain.entities.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.config.Config;
+import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
 /**
  * Created by Sergio Martinez Rodriguez

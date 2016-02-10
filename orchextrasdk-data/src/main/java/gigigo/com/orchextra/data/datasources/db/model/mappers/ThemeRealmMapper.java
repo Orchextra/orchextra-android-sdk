@@ -1,22 +1,23 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.entities.Theme;
+import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.vo.Theme;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class ThemeRealmMapper implements RealmMapper<Theme, ThemeRealm> {
+public class ThemeRealmMapper implements Mapper<Theme, ThemeRealm> {
 
-  @Override public ThemeRealm modelToData(Theme theme) {
+  @Override public ThemeRealm modelToExternalClass(Theme theme) {
     ThemeRealm themeRealm = new ThemeRealm();
     themeRealm.setPrimaryColor(theme.getPrimaryColor());
     themeRealm.setSecondaryColor(theme.getSecondaryColor());
     return themeRealm;
   }
 
-  @Override public Theme dataToModel(ThemeRealm themeRealm) {
+  @Override public Theme externalClassToModel(ThemeRealm themeRealm) {
     Theme theme = new Theme();
 
     if (themeRealm != null) {

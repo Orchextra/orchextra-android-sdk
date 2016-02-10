@@ -17,7 +17,7 @@ public class KeyWordRealmMapperTest {
         String keyword = "keyword";
 
         KeyWordRealmMapper mapper = new KeyWordRealmMapper();
-        KeyWordRealm keyWordRealm = mapper.modelToData(keyword);
+        KeyWordRealm keyWordRealm = mapper.modelToExternalClass(keyword);
 
         assertEquals("keyword", keyWordRealm.getKeyword());
     }
@@ -28,7 +28,7 @@ public class KeyWordRealmMapperTest {
         keyWordRealm.setKeyword("keyword");
 
         KeyWordRealmMapper mapper = new KeyWordRealmMapper();
-        String keyword = mapper.dataToModel(keyWordRealm);
+        String keyword = mapper.externalClassToModel(keyWordRealm);
 
         assertEquals("keyword", keyword);
     }

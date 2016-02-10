@@ -10,7 +10,7 @@ import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
  */
 @ThreadDecoratedView public interface AuthenticationDelegate extends Delegate {
 
-  @NotDecorated void onControllerReady();
+  //@NotDecorated void onControllerReady();
 
   void authenticationSuccessful();
 

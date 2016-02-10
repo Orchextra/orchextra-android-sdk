@@ -1,7 +1,9 @@
 package com.gigigo.orchextra.di.components;
 
-import com.gigigo.orchextra.android.service.OrchextraBackgroundService;
-import com.gigigo.orchextra.di.modules.BackgroundModule;
+import com.gigigo.orchextra.di.modules.OrchextraModuleProvider;
+import com.gigigo.orchextra.di.modules.device.ServicesModuleProvider;
+import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
+import com.gigigo.orchextra.di.modules.device.ServicesModule;
 import com.gigigo.orchextra.di.scopes.PerService;
 import dagger.Component;
 
@@ -9,7 +11,7 @@ import dagger.Component;
  * Created by Sergio Martinez Rodriguez
  * Date 24/11/15.
  */
-@PerService @Component(dependencies = OrchextraComponent.class, modules = BackgroundModule.class)
-public interface ServiceComponent {
+@PerService @Component(dependencies = OrchextraComponent.class, modules = ServicesModule.class)
+public interface ServiceComponent extends ServicesModuleProvider {
     void injectOrchextraService(OrchextraBackgroundService myAppService);
 }

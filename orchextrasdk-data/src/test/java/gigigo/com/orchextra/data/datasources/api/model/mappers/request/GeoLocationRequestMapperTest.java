@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
-import com.gigigo.orchextra.domain.entities.GeoLocation;
-import com.gigigo.orchextra.domain.entities.Point;
+import com.gigigo.orchextra.domain.model.vo.GeoLocation;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class GeoLocationRequestMapperTest {
 
     @Test
     public void testModelToDataOk() throws Exception {
-        Point point = new Point();
+        OrchextraPoint point = new OrchextraPoint();
         point.setLat(3.45);
         point.setLng(5.67);
 
@@ -26,12 +26,12 @@ public class GeoLocationRequestMapperTest {
         geoLocation.setCountry("Spain");
         geoLocation.setCountryCode("34");
 
-        GeoLocationRequestMapper mapper = new GeoLocationRequestMapper(new PointMapper());
-        ApiGeoLocation apiGeoLocation = mapper.modelToData(geoLocation);
+        GeoLocationModelToExternalClassMapper mapper = new GeoLocationModelToExternalClassMapper(new PointMapper());
+        ApiGeoLocation apiGeoLocation = mapper.modelToExternalClass(geoLocation);
 
         assertEquals("Calle Alcala, 345", apiGeoLocation.getStreet());
         assertEquals("Madrid", apiGeoLocation.getLocality());
-        assertEquals(28027, apiGeoLocation.getZip());
+        assertEquals("28027", apiGeoLocation.getZip());
         assertEquals("Spain", apiGeoLocation.getCountry());
         assertEquals("34", apiGeoLocation.getCountryCode());
         assertEquals("3.45", apiGeoLocation.getPoint().getLat());

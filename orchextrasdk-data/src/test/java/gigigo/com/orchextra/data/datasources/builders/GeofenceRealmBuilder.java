@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.entities.Point;
-import com.gigigo.orchextra.domain.entities.ProximityPointType;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.ProximityPointType;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +13,7 @@ import io.realm.RealmList;
 
 public class GeofenceRealmBuilder {
 
-    public static final Point POINT = PointBuilder.Builder().build();
+    public static final OrchextraPoint POINT = PointBuilder.Builder().build();
     public static final int RADIUS = 30;
     public static final String ID = "1234";
     public static final String CODE = "999";

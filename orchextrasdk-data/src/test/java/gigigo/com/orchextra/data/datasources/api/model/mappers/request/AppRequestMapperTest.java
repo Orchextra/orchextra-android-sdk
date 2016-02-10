@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
-import com.gigigo.orchextra.domain.entities.App;
+import com.gigigo.orchextra.domain.model.entities.App;
 
 import org.junit.Test;
 
@@ -17,8 +17,8 @@ public class AppRequestMapperTest {
         app.setBuildVersion("1.1");
         app.setBundleId("Bundle");
 
-        AppRequestMapper appRequestMapper = new AppRequestMapper();
-        ApiApp apiApp = appRequestMapper.modelToData(app);
+        AppModelToExternalClassMapper appRequestMapper = new AppModelToExternalClassMapper();
+        ApiApp apiApp = appRequestMapper.modelToExternalClass(app);
 
         assertEquals("3.14", apiApp.getAppVersion());
         assertEquals("1.1", apiApp.getBuildVersion());

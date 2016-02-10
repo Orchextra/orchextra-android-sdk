@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 
 import org.junit.Test;
 
@@ -19,8 +19,8 @@ public class VuforiaResponseMapperTest {
         apiVuforia.setServerAccessKey("ServerAccessKey");
         apiVuforia.setServerSecretKey("ServerSecretKey");
 
-        VuforiaResponseMapper mapper = new VuforiaResponseMapper();
-        Vuforia vuforia = mapper.dataToModel(apiVuforia);
+        VuforiaExternalClassToModelMapper mapper = new VuforiaExternalClassToModelMapper();
+        Vuforia vuforia = mapper.externalClassToModel(apiVuforia);
 
         assertEquals("AccessKey", vuforia.getClientAccessKey());
         assertEquals("SecretKey", vuforia.getClientSecretKey());
