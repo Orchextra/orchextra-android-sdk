@@ -70,11 +70,6 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
     }
   }
 
-  public OrchextraRegion obtainBeaconByUuid(String uuid){
-    //TODO Manage exceptions
-    return configInfoResultReader.getBeaconByUuid(Realm.getDefaultInstance(), uuid);
-  }
-
   @Override
   public BusinessObject<List<OrchextraGeofence>> obtainGeofences() {
     Realm realm = getRealmInstance(context);
@@ -93,6 +88,11 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
         realm.close();
       }
     }
+  }
+
+  @Override public BusinessObject<List<OrchextraRegion>> obtainRegionsForScan() {
+    List<OrchextraRegion> regions = configInfoResultReader.getAllRegions(getRealmInstance(context));
+    return new BusinessObject<>(regions, BusinessError.createOKInstance());
   }
 
   public BusinessObject<OrchextraGeofence> obtainGeofenceById(String id){

@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.model.triggers.strategy.types;
 
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
@@ -15,22 +16,24 @@ import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
  */
 public class BeaconTrigger extends Trigger {
 
-  private final BeaconDistanceType
-      beaconDistanceType;
-  private final GeoPointEventType geoPointEventType;
+  private final BeaconDistanceType beaconDistanceType;
 
-  public BeaconTrigger(String id, OrchextraPoint point, AppRunningModeType appRunningModeType,
+  public BeaconTrigger(String code, OrchextraPoint point, AppRunningModeType appRunningModeType,
       BeaconDistanceType beaconDistanceType, GeoPointEventType geoPointEventType) {
-    super(TriggerType.BEACON, id, point, appRunningModeType);
+    super(TriggerType.BEACON, code, point, appRunningModeType);
 
     this.beaconDistanceType = beaconDistanceType;
-    this.geoPointEventType = geoPointEventType;
 
+  }
+
+  public BeaconTrigger(OrchextraBeacon orchextraBeacon, AppRunningModeType appRunningMode) {
+    super(TriggerType.BEACON, orchextraBeacon.getCode(), null, appRunningMode);
+    this.beaconDistanceType = orchextraBeacon.getBeaconDistance();
   }
 
   @Override void setConcreteBehaviour() {
     this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(beaconDistanceType);
-    this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(geoPointEventType);
+    this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(null);
     this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
   }
 

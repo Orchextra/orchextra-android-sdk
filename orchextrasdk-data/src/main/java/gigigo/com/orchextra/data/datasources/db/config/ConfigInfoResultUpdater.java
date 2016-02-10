@@ -7,9 +7,10 @@ import com.gigigo.orchextra.domain.model.vo.Theme;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 
+import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
@@ -24,17 +25,17 @@ import io.realm.RealmResults;
  */
 public class ConfigInfoResultUpdater {
 
-  private final ModelToExternalClassMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper;
+  private final ModelToExternalClassMapper<OrchextraRegion, BeaconRegionRealm> regionRealmMapper;
   private final ModelToExternalClassMapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper;
   private final ModelToExternalClassMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper;
   private final ModelToExternalClassMapper<Theme, ThemeRealm> themeRealmMapper;
 
-  public ConfigInfoResultUpdater(ModelToExternalClassMapper<OrchextraRegion, BeaconRealm> beaconRealmMapper,
+  public ConfigInfoResultUpdater(ModelToExternalClassMapper<OrchextraRegion, BeaconRegionRealm> regionRealmMapper,
       ModelToExternalClassMapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper,
       ModelToExternalClassMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
       ModelToExternalClassMapper<Theme, ThemeRealm> themeRealmMapper) {
 
-    this.beaconRealmMapper = beaconRealmMapper;
+    this.regionRealmMapper = regionRealmMapper;
     this.geofencesRealmMapper = geofencesRealmMapper;
     this.vuforiaRealmMapper = vuforiaRealmMapper;
     this.themeRealmMapper = themeRealmMapper;
@@ -48,8 +49,8 @@ public class ConfigInfoResultUpdater {
     realm.copyToRealm(configInfoResultRealm);
 
     if (config.supportsBeacons()){
-      RealmList<BeaconRealm> beaconRealm = beaconsToRealm(config.getRegions());
-      realm.copyToRealm(beaconRealm);
+      RealmList<BeaconRegionRealm> beaconRegionRealm = beaconsToRealm(config.getRegions());
+      realm.copyToRealm(beaconRegionRealm);
     }
 
     if (config.supportsGeofences()){
@@ -70,18 +71,18 @@ public class ConfigInfoResultUpdater {
 
   private void clearDatabase(Realm realm) {
     realm.clear(ConfigInfoResultRealm.class);
-    realm.clear(BeaconRealm.class);
+    realm.clear(BeaconRegionRealm.class);
     realm.clear(GeofenceRealm.class);
     realm.clear(VuforiaRealm.class);
     realm.clear(ThemeRealm.class);
   }
 
-  private RealmList<BeaconRealm> beaconsToRealm(List<OrchextraRegion> beacons) {
-    RealmList<BeaconRealm> newBeacons = new RealmList<>();
-    for (OrchextraRegion beacon:beacons){
-      newBeacons.add(beaconRealmMapper.modelToExternalClass(beacon));
+  private RealmList<BeaconRegionRealm> beaconsToRealm(List<OrchextraRegion> regions) {
+    RealmList<BeaconRegionRealm> newRegions = new RealmList<>();
+    for (OrchextraRegion region:regions){
+      newRegions.add(regionRealmMapper.modelToExternalClass(region));
     }
-    return newBeacons;
+    return newRegions;
   }
 
   private RealmList<GeofenceRealm> geofencesToRealm(List<OrchextraGeofence> geofences) {
@@ -155,17 +156,17 @@ public class ConfigInfoResultUpdater {
     dbGeofences.clear();
   }
 
-  private void updateBeacons(Realm realm, List<OrchextraRegion> beacons) {
+  private void updateBeacons(Realm realm, List<OrchextraRegion> regions) {
     clearBeacons(realm);
-    RealmList<BeaconRealm> newBeacons = new RealmList<>();
-    for (OrchextraRegion beacon:beacons){
-      newBeacons.add(beaconRealmMapper.modelToExternalClass(beacon));
+    RealmList<BeaconRegionRealm> newRegions = new RealmList<>();
+    for (OrchextraRegion region:regions){
+      newRegions.add(regionRealmMapper.modelToExternalClass(region));
     }
-    realm.copyToRealm(newBeacons);
+    realm.copyToRealm(newRegions);
   }
 
   private void clearBeacons(Realm realm) {
-    RealmResults<BeaconRealm> dbBeacons = realm.where(BeaconRealm.class).findAll();
+    RealmResults<BeaconRegionRealm> dbBeacons = realm.where(BeaconRegionRealm.class).findAll();
     dbBeacons.clear();
   }
 

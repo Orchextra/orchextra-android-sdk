@@ -4,9 +4,16 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.List;
 
 public interface ProximityLocalDataProvider {
-    BusinessObject<OrchextraBeacon> obtainConcreteBeacon(OrchextraBeacon orchextraBeacon);
     BusinessObject<OrchextraGeofence> obtainGeofenceByCodeFromDatabase(String code);
+    BusinessObject<OrchextraRegion> obtainRegion(OrchextraRegion orchextraRegion);
+    BusinessObject<OrchextraRegion> storeRegion(OrchextraRegion orchextraRegion);
+    BusinessObject<OrchextraRegion> deleteRegion(OrchextraRegion orchextraRegion);
+    BusinessObject<OrchextraBeacon> storeBeaconEvent(OrchextraBeacon beacon);
+    BusinessObject<List<OrchextraRegion>> getBeaconRegionsForScan();
+    boolean purgeOldBeaconEventsWithRequestTime(List<OrchextraBeacon> beacons, int requestTime);
+    boolean isBeaconEventStored(OrchextraBeacon beacon);
 }

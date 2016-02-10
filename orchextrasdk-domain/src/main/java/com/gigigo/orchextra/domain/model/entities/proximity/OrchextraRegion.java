@@ -11,6 +11,7 @@ public class OrchextraRegion extends ProximityPoint {
   private final String uuid;
   private final int minor;
   private final int major;
+  private RegionEventType regionEvent;
 
   private String actionRelated;
 
@@ -55,5 +56,21 @@ public class OrchextraRegion extends ProximityPoint {
 
   public boolean hasActionRelated() {
     return (actionRelated!=null) && (actionRelated.length()>0);
+  }
+
+  public boolean isEnter(){
+    return regionEvent == RegionEventType.ENTER;
+  }
+
+  public boolean isExit(){
+    return regionEvent == RegionEventType.EXIT;
+  }
+
+  public RegionEventType getRegionEvent() {
+    return regionEvent;
+  }
+
+  public void setRegionEvent(RegionEventType regionEvent) {
+    this.regionEvent = regionEvent;
   }
 }

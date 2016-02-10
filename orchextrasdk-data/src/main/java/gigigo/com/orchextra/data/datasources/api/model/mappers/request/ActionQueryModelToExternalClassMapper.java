@@ -25,7 +25,7 @@ public class ActionQueryModelToExternalClassMapper
     Map<String, String> query = new HashMap<>();
 
     query.put(TYPE_QUERY_PARAM, trigger.getTriggerType().getStringValue());
-    query.put(VALUE_QUERY_PARAM, trigger.getId());
+    query.put(VALUE_QUERY_PARAM, trigger.getCode());
 
     if (trigger.geoPointIsSupported()){
       query.put(LAT_QUERY_PARAM, String.valueOf(trigger.getPoint().getLat()));
