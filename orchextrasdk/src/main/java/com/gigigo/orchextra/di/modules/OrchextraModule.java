@@ -5,6 +5,13 @@ import android.content.Context;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.PermissionChecker;
+import com.gigigo.orchextra.actions.ActionExecutionImp;
+import com.gigigo.orchextra.actions.BrowserActionExecutor;
+import com.gigigo.orchextra.actions.CustomActionExecutor;
+import com.gigigo.orchextra.actions.NotificationActionExecutor;
+import com.gigigo.orchextra.actions.ScanActionExecutor;
+import com.gigigo.orchextra.actions.VuforiaActionExecutor;
+import com.gigigo.orchextra.actions.WebViewActionExecutor;
 import com.gigigo.orchextra.android.applifecycle.AppRunningModeImp;
 import com.gigigo.orchextra.android.applifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.android.applifecycle.AppStatusEventsListenerImpl;
@@ -30,12 +37,12 @@ import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
 import com.gigigo.orchextra.domain.interactors.actions.ActionExecution;
 import com.gigigo.orchextra.domain.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.notifications.NotificationBehaviorImp;
-
 import com.gigigo.orchextra.initalization.FeatureList;
 import com.gigigo.orchextra.initalization.FeatureListener;
 import com.gigigo.orchextra.initalization.FeatureStatus;
 import com.gigigo.orchextra.initalization.OrchextraCompletionCallback;
 import com.gigigo.orchextra.initalization.OrchextraContextProvider;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -72,6 +79,24 @@ public class OrchextraModule {
 
   @Provides
   @Singleton
+  ActionExecution provideActionExecution(BrowserActionExecutor browserActionExecutor,
+                                         WebViewActionExecutor webViewActionExecutor,
+                                         CustomActionExecutor customActionExecutor,
+                                         ScanActionExecutor scanActionExecutor,
+                                         VuforiaActionExecutor vuforiaActionExecutor,
+                                         NotificationActionExecutor notificationActionExecutor) {
+    return new ActionExecutionImp(browserActionExecutor, webViewActionExecutor, customActionExecutor,
+            scanActionExecutor, vuforiaActionExecutor, notificationActionExecutor);
+  }
+
+  @Provides
+  @Singleton
+  ActionDispatcher provideActionDispatcher(ActionExecution actionExecution, NotificationBehavior notificationBehavior) {
+    return new ActionDispatcherImpl(actionExecution, notificationBehavior);
+  }
+
+  @Provides
+  @Singleton
   BrowserActionExecutor provideBrowserActionExecutor() {
     return new BrowserActionExecutor(context);
   }
@@ -80,6 +105,30 @@ public class OrchextraModule {
   @Singleton
   WebViewActionExecutor provideWebViewActionExecutor() {
     return new WebViewActionExecutor(context);
+  }
+
+  @Provides
+  @Singleton
+  CustomActionExecutor provideCustomActionExecutor() {
+    return new CustomActionExecutor();
+  }
+
+  @Provides
+  @Singleton
+  ScanActionExecutor provideScanActionExecutor() {
+    return new ScanActionExecutor();
+  }
+
+  @Provides
+  @Singleton
+  VuforiaActionExecutor provideVuforiaActionExecutor() {
+    return new VuforiaActionExecutor();
+  }
+
+  @Provides
+  @Singleton
+  NotificationActionExecutor provideNotificationActionExecutor(NotificationBehavior notificationBehavior) {
+    return new NotificationActionExecutor(notificationBehavior);
   }
 
   @Provides

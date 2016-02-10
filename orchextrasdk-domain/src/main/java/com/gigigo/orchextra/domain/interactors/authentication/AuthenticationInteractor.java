@@ -1,7 +1,6 @@
 package com.gigigo.orchextra.domain.interactors.authentication;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.entities.ClientAuthCredentials;
@@ -9,6 +8,7 @@ import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.Credentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.domain.entities.Session;
 import com.gigigo.orchextra.domain.interactors.authentication.errors.SdkAuthError;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
@@ -21,19 +21,16 @@ public class AuthenticationInteractor implements Interactor<InteractorResponse<C
 
   private final AuthenticationDataProvider authenticationDataProvider;
   private final DeviceDetailsProvider deviceDetailsProvider;
-
-  private final AuthenticationHeaderProvider authenticationHeaderProvider;
+  private final Session session;
 
   private SdkAuthCredentials sdkAuthCredentials;
   private String crmId;
 
   public AuthenticationInteractor(AuthenticationDataProvider authenticationDataProvider,
-      DeviceDetailsProvider deviceDetailsProvider,
-                                  AuthenticationHeaderProvider authenticationHeaderProvider) {
+      DeviceDetailsProvider deviceDetailsProvider, Session session) {
     this.authenticationDataProvider = authenticationDataProvider;
     this.deviceDetailsProvider = deviceDetailsProvider;
-
-    this.authenticationHeaderProvider = authenticationHeaderProvider;
+    this.session = session;
   }
 
   public void setSdkAuthCredentials(SdkAuthCredentials sdkAuthCredentials) {
@@ -60,7 +57,9 @@ public class AuthenticationInteractor implements Interactor<InteractorResponse<C
       return new InteractorResponse<>(new SdkAuthError(user.getBusinessError()));
     }
 
-    authenticationHeaderProvider.setAuthorizationToken(user.getData().getValue());
+    if (user.getData() != null) {
+      session.setTokenString(user.getData().getValue());
+    }
 
     return new InteractorResponse<>(user.getData());
   }

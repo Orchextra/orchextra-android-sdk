@@ -1,12 +1,12 @@
 package com.gigigo.orchextra.di.modules;
 
-import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.GeofenceDataProvider;
-import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.device.AppRunningMode;
+import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
+import com.gigigo.orchextra.domain.entities.Session;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
@@ -28,9 +28,8 @@ import dagger.Provides;
 public class InteractorsModule {
 
   @Provides @Singleton AuthenticationInteractor provideAuthenticationInteractor(
-      AuthenticationDataProvider authenticationDataProvider, DeviceDetailsProvider deviceDetailsProvider,
-      AuthenticationHeaderProvider authenticationHeaderProvider){
-    return new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, authenticationHeaderProvider);
+      AuthenticationDataProvider authenticationDataProvider, DeviceDetailsProvider deviceDetailsProvider, Session session){
+    return new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, session);
   }
 
   @Provides @Singleton SendConfigInteractor provideSendConfigInteractor(

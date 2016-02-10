@@ -3,14 +3,13 @@ package com.gigigo.orchextra.android.proximity.geofencing.mapper;
 import com.gigigo.orchextra.android.proximity.geofencing.utils.ConstantsAndroidGeofence;
 import com.gigigo.orchextra.android.proximity.geofencing.utils.GeofenceUtils;
 import com.gigigo.orchextra.control.entities.ControlGeofence;
-import com.gigigo.orchextra.control.mapper.MapperModelToControl;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AndroidGeofenceMapper implements MapperModelToControl<List<com.gigigo.orchextra.domain.entities.Geofence>,GeofencingRequest> {
+public class AndroidGeofenceMapper {
 
     public GeofencingRequest modelToControl(List<ControlGeofence> geofencePointList) {
         List<Geofence> geofenceList = new ArrayList<>();

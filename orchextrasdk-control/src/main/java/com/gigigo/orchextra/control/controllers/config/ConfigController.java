@@ -39,7 +39,6 @@ public class ConfigController extends Controller<ConfigDelegate> {
                 .result(new InteractorResult<ConfigInfoResult>() {
                     @Override
                     public void onResult(ConfigInfoResult result) {
-
                     }
                 })
                 .execute(interactorInvoker);

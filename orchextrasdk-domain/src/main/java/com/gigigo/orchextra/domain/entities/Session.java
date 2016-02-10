@@ -6,4 +6,18 @@ package com.gigigo.orchextra.domain.entities;
  */
 public class Session {
 
+    private String tokenType;
+    private String tokenString;
+
+    public Session(String tokenType) {
+        this.tokenType = tokenType;
+    }
+
+    public String getAuthToken() {
+        return tokenType + " " + tokenString;
+    }
+
+    public void setTokenString(String tokenString) {
+        this.tokenString = tokenString;
+    }
 }

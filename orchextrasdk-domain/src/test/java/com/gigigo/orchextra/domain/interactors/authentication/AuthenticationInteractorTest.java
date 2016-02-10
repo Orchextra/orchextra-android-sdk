@@ -2,13 +2,13 @@ package com.gigigo.orchextra.domain.interactors.authentication;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.entities.ClientAuthData;
 import com.gigigo.orchextra.domain.entities.Credentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.entities.SdkAuthData;
+import com.gigigo.orchextra.domain.entities.Session;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,13 +45,13 @@ public class AuthenticationInteractorTest {
     DeviceDetailsProvider deviceDetailsProvider;
 
     @Mock
-    AuthenticationHeaderProvider authenticationHeaderProvider;
+    Session session;
 
     private AuthenticationInteractor interactor;
 
     @Before
     public void setUp() throws Exception {
-        interactor = new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, authenticationHeaderProvider);
+        interactor = new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, session);
         interactor.setSdkAuthCredentials(new SdkAuthCredentials("Admin", "1234"));
     }
 
@@ -99,7 +99,7 @@ public class AuthenticationInteractorTest {
         when(user.getData()).thenReturn(clientAuthData);
         when(clientAuthData.getValue()).thenReturn("111");
 
-        doNothing().when(authenticationHeaderProvider).setAuthorizationToken(anyString());
+        doNothing().when(session).setTokenString(anyString());
 
         interactor.setCrm(anyString());
         interactor.call();

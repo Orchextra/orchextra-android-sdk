@@ -2,7 +2,6 @@ package gigigo.com.orchextra.data.datasources.db.config;
 
 import android.content.Context;
 
-import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
@@ -62,7 +61,7 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
       ConfigInfoResult configInfoResult = configInfoResultReader.readConfigInfoV2(realm);
       return new BusinessObject<>(configInfoResult, BusinessError.createOKInstance());
     }catch (NotFountRealmObjectException | RealmException re ){
-      return new BusinessObject(null, BusinessError.createKoInstance(BusinessContentType.NO_CONFIG_ERROR, re.getMessage()));
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     }finally {
       if (realm != null) {
         realm.close();
@@ -86,7 +85,7 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
       return new BusinessObject<>(geofenceList, BusinessError.createOKInstance());
 
     } catch (NotFountRealmObjectException | RealmException | NullPointerException | IllegalArgumentException re) {
-      return new BusinessObject<>(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
 
     } finally {
       if(realm != null) {
@@ -102,7 +101,7 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
       return new BusinessObject<>(geofence, BusinessError.createOKInstance());
 
     } catch (NotFountRealmObjectException | RealmException re) {
-      return new BusinessObject<>(null, new BusinessError(BusinessError.EXCEPTION_BUSINESS_ERROR_CODE, re.getMessage()));
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
 
     } finally {
       if (realm != null) {

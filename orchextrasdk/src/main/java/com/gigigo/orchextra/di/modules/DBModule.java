@@ -11,8 +11,12 @@ import dagger.Module;
 import dagger.Provides;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.ConfigBeaconUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.ConfigGeofenceUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.ConfigThemeUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.ConfigVuforiaUpdater;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
@@ -51,11 +55,35 @@ public class DBModule {
 
     @Singleton
     @Provides
-    ConfigInfoResultUpdater provideConfigInfoResultUpdater(RealmMapper<Beacon, BeaconRealm> beaconRealmMapper,
-                                                           RealmMapper<Geofence, GeofenceRealm> geofenceRealmMapper,
-                                                           RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
-                                                           RealmMapper<Theme, ThemeRealm> themeRealmMapper) {
-        return new ConfigInfoResultUpdater(beaconRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper);
+    ConfigBeaconUpdater provideConfigBeaconUpdater(RealmMapper<Beacon, BeaconRealm> beaconRealmMapper) {
+        return new ConfigBeaconUpdater(beaconRealmMapper);
+    }
+
+    @Singleton
+    @Provides
+    ConfigGeofenceUpdater provideConfigGeofenceUpdater(RealmMapper<Geofence, GeofenceRealm> geofenceRealmMapper) {
+        return new ConfigGeofenceUpdater(geofenceRealmMapper);
+    }
+
+    @Singleton
+    @Provides
+    ConfigVuforiaUpdater provideConfigVuforiaUpdater(RealmMapper<Vuforia, VuforiaRealm> vuforiaRealmMapper) {
+        return new ConfigVuforiaUpdater(vuforiaRealmMapper);
+    }
+
+    @Singleton
+    @Provides
+    ConfigThemeUpdater provideConfigThemeUpdater(RealmMapper<Theme, ThemeRealm> themeRealmMapper) {
+        return new ConfigThemeUpdater(themeRealmMapper);
+    }
+
+    @Singleton
+    @Provides
+    ConfigInfoResultUpdater provideConfigInfoResultUpdater(ConfigBeaconUpdater configBeaconUpdater,
+                                                           ConfigGeofenceUpdater configGeofenceUpdater,
+                                                           ConfigVuforiaUpdater configVuforiaUpdater,
+                                                           ConfigThemeUpdater configThemeUpdater) {
+        return new ConfigInfoResultUpdater(configBeaconUpdater, configGeofenceUpdater, configVuforiaUpdater, configThemeUpdater);
     }
 
     @Singleton

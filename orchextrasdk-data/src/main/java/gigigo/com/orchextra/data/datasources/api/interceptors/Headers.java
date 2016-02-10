@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.interceptors;
 
-import com.gigigo.orchextra.domain.data.api.auth.AuthenticationHeaderProvider;
+import com.gigigo.orchextra.domain.entities.Session;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -22,14 +22,13 @@ public class Headers implements Interceptor {
     private final String xAppSdk;
     private final String acceptLanguage;
     private final String contentType;
-    private final AuthenticationHeaderProvider authenticationHeaderProvider;
+    private final Session session;
 
-    public Headers(String xAppSdk, String acceptLanguage,
-                   AuthenticationHeaderProvider authenticationHeaderProvider) {
+    public Headers(String xAppSdk, String acceptLanguage, Session session) {
         this.xAppSdk = xAppSdk;
         this.acceptLanguage = acceptLanguage;
         this.contentType = CONTENT_TYPE_JSON;
-        this.authenticationHeaderProvider = authenticationHeaderProvider;
+        this.session = session;
     }
 
     @Override
@@ -42,8 +41,8 @@ public class Headers implements Interceptor {
                 .header(ACCEPT_LANGUAGE, acceptLanguage)
                 .header(CONTENT_TYPE, contentType);
 
-        if (authenticationHeaderProvider.getAuthorizationToken() != null) {
-            builder.header("Authorization", authenticationHeaderProvider.getAuthorizationToken());
+        if (session.getAuthToken() != null) {
+            builder.header("Authorization", session.getAuthToken());
         }
 
         Request request = builder

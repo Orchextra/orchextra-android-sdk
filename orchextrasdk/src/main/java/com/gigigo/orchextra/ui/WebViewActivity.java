@@ -29,10 +29,9 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.orch_activity_webview_layout);
+        setContentView(R.layout.ox_activity_webview_layout);
 
-        ButterKnife.bind(this);
-
+        initViews();
         initWebView();
     }
 
