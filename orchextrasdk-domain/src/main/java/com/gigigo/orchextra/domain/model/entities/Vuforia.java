@@ -51,4 +51,8 @@ public class Vuforia {
   public void setServerSecretKey(String serverSecretKey) {
     this.serverSecretKey = serverSecretKey;
   }
+
+  public boolean hasChanges() {
+    return false;
+  }
 }

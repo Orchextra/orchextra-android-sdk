@@ -52,4 +52,11 @@ public class OrchextraUpdates {
     public void setThemeUpdates(Theme themeUpdates) {
         this.themeUpdates = themeUpdates;
     }
+
+    public boolean hasChanges() {
+        return orchextraBeaconUpdates.hasChanges() ||
+                orchextraGeofenceUpdates.hasChanges() ||
+                vuforiaUpdates != null ||
+                themeUpdates != null;
+    }
 }

@@ -45,16 +45,16 @@ public class ConfigController extends Controller<ConfigDelegate> {
                     @Override
                     public void onResult(OrchextraUpdates result) {
                         if (result != null) {
-//                            notifyChanges(result);
+                            notifyChanges(result);
                         }
                     }
                 })
                 .execute(interactorInvoker);
     }
 
-//    private void notifyChanges(ConfigInfoResult result) {
-//        if (result.hasChanges()){
-//            configObservable.notifyObservers(result);
-//        }
-//    }
+    private void notifyChanges(OrchextraUpdates result) {
+        if (result.hasChanges()){
+            configObservable.notifyObservers(result);
+        }
+    }
 }

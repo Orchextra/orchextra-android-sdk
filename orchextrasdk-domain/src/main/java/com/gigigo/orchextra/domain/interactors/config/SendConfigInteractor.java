@@ -40,14 +40,14 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Orche
   @Override public InteractorResponse<OrchextraUpdates> call() throws Exception {
     Config config = generateConfig();
 
-    OrchextraUpdates orchextraUpdates = configDataProvider.sendConfigInfo(config);
+    BusinessObject<OrchextraUpdates> boOrchextraUpdates = configDataProvider.sendConfigInfo(config);
 
-    if (orchextraUpdates != null){
-      return new InteractorResponse<>(orchextraUpdates);
+    if (boOrchextraUpdates.isSuccess()){
+      return new InteractorResponse<>(boOrchextraUpdates.getData());
     }else{
-     return new InteractorResponse(interactorErrorChecker.checkErrors(BusinessError.createKoInstance(null)));
+     return new InteractorResponse(interactorErrorChecker.checkErrors(
+             BusinessError.createKoInstance(boOrchextraUpdates.getBusinessError().getMessage())));
     }
-
   }
 
   public void setApp(App app) {

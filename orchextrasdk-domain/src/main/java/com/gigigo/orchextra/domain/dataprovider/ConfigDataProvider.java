@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.dataprovider;
 
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.model.config.Config;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
@@ -9,6 +10,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
  */
 public interface ConfigDataProvider {
 
-  OrchextraUpdates sendConfigInfo(Config config);
+  BusinessObject sendConfigInfo(Config config);
 
 }

@@ -37,4 +37,10 @@ public class OrchextraGeofenceUpdates {
     public void setDeleteGeofences(List<OrchextraGeofence> deleteGeofences) {
         this.deleteGeofences = deleteGeofences;
     }
+
+    public boolean hasChanges() {
+        return newGeofences.size() > 0 ||
+                updateGeofences.size() > 0 ||
+                deleteGeofences.size() > 0;;
+    }
 }

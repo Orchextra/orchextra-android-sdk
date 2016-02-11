@@ -37,4 +37,10 @@ public class OrchextraBeaconUpdates {
     public void setDeleteRegions(List<OrchextraRegion> deleteRegions) {
         this.deleteRegions = deleteRegions;
     }
+
+    public boolean hasChanges() {
+        return newRegions.size() > 0 ||
+                updateRegions.size() > 0 ||
+                deleteRegions.size() > 0;
+    }
 }
