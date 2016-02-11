@@ -45,8 +45,7 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Orche
     if (boOrchextraUpdates.isSuccess()){
       return new InteractorResponse<>(boOrchextraUpdates.getData());
     }else{
-     return new InteractorResponse(interactorErrorChecker.checkErrors(
-             BusinessError.createKoInstance(boOrchextraUpdates.getBusinessError().getMessage())));
+     return new InteractorResponse(interactorErrorChecker.checkErrors(boOrchextraUpdates.getBusinessError()));
     }
   }
 

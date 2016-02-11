@@ -15,6 +15,7 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
+import gigigo.com.orchextra.data.datasources.api.model.responses.base.BaseOrchextraApiResponse;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,7 +24,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.interceptors.Headers;
-import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
 import gigigo.com.orchextra.data.datasources.api.service.DefatultErrorConverterImpl;
 import gigigo.com.orchextra.data.datasources.api.service.DefaultRetryOnErrorPolicyImpl;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
@@ -147,7 +147,7 @@ public class ApiModule {
     @Provides
     @Singleton
     ErrorConverter provideErrorConverter(Retrofit retrofit) {
-        return new DefatultErrorConverterImpl(retrofit, OrchextraApiErrorResponse.class);
+        return new DefatultErrorConverterImpl(retrofit, BaseOrchextraApiResponse.class);
     }
 
     @Provides

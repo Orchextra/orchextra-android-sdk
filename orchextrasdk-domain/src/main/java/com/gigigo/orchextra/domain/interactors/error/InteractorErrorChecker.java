@@ -54,9 +54,6 @@ public abstract class InteractorErrorChecker {
 
       switch (error) {
         case NO_AUTH_CREDENTIALS:
-
-          break;
-
         case NO_AUTH_EXPIRED:
           pendingInteractorExecution.loadInteractor(interactor);
           authErrorHandler.authenticateWhenError(pendingInteractorExecution);
