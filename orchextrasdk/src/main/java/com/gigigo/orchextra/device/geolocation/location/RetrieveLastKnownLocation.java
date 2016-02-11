@@ -40,7 +40,7 @@ public class RetrieveLastKnownLocation {
         @Override
         public void onConnected(Bundle bundle) {
             permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
-            getUserLocation();
+//            getUserLocation();
         }
     };
 
