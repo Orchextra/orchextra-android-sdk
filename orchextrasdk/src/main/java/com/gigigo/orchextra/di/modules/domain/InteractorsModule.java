@@ -9,6 +9,7 @@ import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.interactors.EventUpdaterInteractor;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconCheckerInteractor;
@@ -78,6 +79,11 @@ public class InteractorsModule {
   @Provides @Singleton BeaconCheckerInteractor provideBeaconCheckerInteractor (
       ProximityLocalDataProvider proximityLocalDataProvider){
     return new BeaconCheckerInteractor(proximityLocalDataProvider);
+  }
+
+  @Provides @Singleton EventUpdaterInteractor provideEventUpdaterInteractor (
+      ProximityLocalDataProvider proximityLocalDataProvider){
+    return new EventUpdaterInteractor(proximityLocalDataProvider);
   }
 
   @Provides @Singleton BeaconTriggerInteractor provideBeaconTriggerInteractor (

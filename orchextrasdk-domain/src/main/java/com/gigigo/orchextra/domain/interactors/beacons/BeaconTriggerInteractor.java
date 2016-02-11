@@ -60,6 +60,10 @@ public class BeaconTriggerInteractor implements Interactor<InteractorResponse<Li
         this.orchextraRegion = orchextraRegion;
     }
 
+    public OrchextraRegion getOrchextraRegion() {
+        return orchextraRegion;
+    }
+
     public void setOrchextraBeacons(List<OrchextraBeacon> orchextraBeacons) {
         this.orchextraBeacons = orchextraBeacons;
     }

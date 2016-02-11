@@ -16,4 +16,5 @@ public interface ProximityLocalDataProvider {
     BusinessObject<List<OrchextraRegion>> getBeaconRegionsForScan();
     boolean purgeOldBeaconEventsWithRequestTime(List<OrchextraBeacon> beacons, int requestTime);
     boolean isBeaconEventStored(OrchextraBeacon beacon);
+    BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion);
 }

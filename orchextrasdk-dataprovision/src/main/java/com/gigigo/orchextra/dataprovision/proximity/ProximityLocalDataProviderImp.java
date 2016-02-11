@@ -54,4 +54,11 @@ public class ProximityLocalDataProviderImp implements ProximityLocalDataProvider
     @Override public boolean isBeaconEventStored(OrchextraBeacon beacon) {
         return beaconsDBDataSource.isBeaconEventStored(beacon);
     }
+
+    @Override public BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion) {
+        return beaconsDBDataSource.updateRegionWithActionId(orchextraRegion);
+    }
+
+
+
 }

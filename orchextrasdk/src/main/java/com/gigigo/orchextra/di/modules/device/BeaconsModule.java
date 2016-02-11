@@ -1,14 +1,10 @@
 package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.ggglib.ContextProvider;
-import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconScannerImpl;
-import com.gigigo.orchextra.device.bluetooth.BluetoothAvailabilityImpl;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
-import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothAvailability;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusInfo;
-import com.gigigo.orchextra.device.bluetooth.BluetoothStatusInfoImpl;
 import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.MonitoringListenerImpl;
 import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconAndroidMapper;
 import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconRegionAndroidMapper;
@@ -19,9 +15,9 @@ import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoring
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScannerImpl;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.interactors.EventUpdaterInteractor;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
-import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconCheckerInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconTriggerInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.ObtainRegionsInteractor;
@@ -95,10 +91,12 @@ public class BeaconsModule {
       RegionCheckerInteractor regionCheckerInteractor,
       BeaconCheckerInteractor beaconCheckerInteractor,
       BeaconTriggerInteractor beaconTriggerInteractor,
-      GetActionInteractor getActionInteractor){
+      GetActionInteractor getActionInteractor,
+      EventUpdaterInteractor eventUpdaterInteractor){
 
     return new BeaconsController(interactorInvoker, actionDispatcher, obtainRegionsInteractor,
-        regionCheckerInteractor, beaconCheckerInteractor, beaconTriggerInteractor, getActionInteractor);
+        regionCheckerInteractor, beaconCheckerInteractor, beaconTriggerInteractor, getActionInteractor,
+        eventUpdaterInteractor);
   }
 
   @Provides @Singleton MonitoringListener provideMonitoringListener(AppRunningMode appRunningMode,
