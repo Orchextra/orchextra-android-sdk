@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.domain.model.config.strategy;
+package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
 /**
  * Created by Sergio Martinez Rodriguez

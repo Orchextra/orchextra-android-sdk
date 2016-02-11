@@ -2,6 +2,7 @@ package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,40 +19,60 @@ public class ConfigGeofenceUpdater {
         this.geofencesRealmMapper = geofencesRealmMapper;
     }
 
-    public void saveGeofences(Realm realm, List<OrchextraGeofence> geofences) {
+    public OrchextraGeofenceUpdates saveGeofences(Realm realm, List<OrchextraGeofence> geofences) {
         List<OrchextraGeofence> newGeofences = new ArrayList<>();
         List<OrchextraGeofence> updateGeofences = new ArrayList<>();
         List<OrchextraGeofence> deleteGeofences = new ArrayList<>();
 
         List<String> used = new ArrayList<>();
 
-        for (OrchextraGeofence geofence : geofences) {
-            GeofenceRealm newGeofence = geofencesRealmMapper.modelToExternalClass(geofence);
-            GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofence.getCode()).findFirst();
-            if(geofenceRealm == null) {
-                newGeofences.add(geofence);
-
-                realm.copyToRealm(newGeofence);
-            } else {
-                boolean hasChangedGeofence = !checkGeofenceAreEquals(geofenceRealm, newGeofence);
-                if (hasChangedGeofence) {
-                    updateGeofences.add(geofence);
-                    realm.copyToRealmOrUpdate(newGeofence);
-                }
+        if (geofences != null) {
+            for (OrchextraGeofence geofence : geofences) {
+                addOrUpdateGeofences(realm, newGeofences, updateGeofences, used, geofence);
             }
-            used.add(geofence.getCode());
+
+            deleteGeofences = removeUnusedGeofences(realm, used);
         }
 
+        return new OrchextraGeofenceUpdates(newGeofences, updateGeofences, deleteGeofences);
+    }
+
+    private void addOrUpdateGeofences(Realm realm, List<OrchextraGeofence> newGeofences, List<OrchextraGeofence> updateGeofences, List<String> used, OrchextraGeofence geofence) {
+        GeofenceRealm newGeofence = geofencesRealmMapper.modelToExternalClass(geofence);
+        GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofence.getCode()).findFirst();
+        if (geofenceRealm == null) {
+            newGeofences.add(geofence);
+
+            realm.copyToRealm(newGeofence);
+        } else {
+            boolean hasChangedGeofence = !checkGeofenceAreEquals(geofenceRealm, newGeofence);
+            if (hasChangedGeofence) {
+                updateGeofences.add(geofence);
+                realm.copyToRealmOrUpdate(newGeofence);
+            }
+        }
+        used.add(geofence.getCode());
+    }
+
+    private List<OrchextraGeofence> removeUnusedGeofences(Realm realm, List<String> used) {
+        List<OrchextraGeofence> deleteGeofences = new ArrayList<>();
+
+        List<String> geofenceToDelete = new ArrayList<>();
         RealmResults<GeofenceRealm> all = realm.where(GeofenceRealm.class).findAll();
         for (GeofenceRealm geofenceRealm : all) {
             if (!used.contains(geofenceRealm.getCode())) {
                 deleteGeofences.add(geofencesRealmMapper.externalClassToModel(geofenceRealm));
-                geofenceRealm.removeFromRealm();
+                geofenceToDelete.add(geofenceRealm.getCode());
             }
         }
+        for (String code : geofenceToDelete) {
+            realm.where(GeofenceRealm.class).equalTo("code", code).findFirst().removeFromRealm();
+        }
+
+        return deleteGeofences;
     }
 
-    public boolean checkGeofenceAreEquals(GeofenceRealm geofenceRealm, GeofenceRealm newGeofence) {
+    private boolean checkGeofenceAreEquals(GeofenceRealm geofenceRealm, GeofenceRealm newGeofence) {
         return geofenceRealm.getCode().equals(newGeofence.getCode()) &&
                 geofenceRealm.getPoint().getLat() == newGeofence.getPoint().getLat() &&
                 geofenceRealm.getPoint().getLng() == newGeofence.getPoint().getLng() &&

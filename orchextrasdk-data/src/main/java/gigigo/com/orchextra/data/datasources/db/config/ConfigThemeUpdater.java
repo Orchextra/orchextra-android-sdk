@@ -15,18 +15,31 @@ public class ConfigThemeUpdater {
         this.themeRealmMapper = themeRealmMapper;
     }
 
-    public boolean saveTheme(Realm realm, Theme theme) {
+    public Theme saveTheme(Realm realm, Theme theme) {
         boolean hasChangedTheme = false;
 
         if (theme != null){
-            ThemeRealm themeRealm = themeRealmMapper.modelToExternalClass(theme);
-            ThemeRealm oldTheme = realm.where(ThemeRealm.class).findFirst();
-            hasChangedTheme = !checkThemeAreEquals(themeRealm, oldTheme);
-            if (hasChangedTheme) {
-                realm.copyToRealm(themeRealm);
-            }
+            hasChangedTheme = checkIfChangedTheme(realm, theme);
         } else {
             realm.clear(ThemeRealm.class);
+        }
+        if (hasChangedTheme) {
+            return theme;
+        } else {
+            return null;
+        }
+    }
+
+    private boolean checkIfChangedTheme(Realm realm, Theme theme) {
+        boolean hasChangedTheme;ThemeRealm themeRealm = themeRealmMapper.modelToExternalClass(theme);
+
+        ThemeRealm oldTheme = realm.where(ThemeRealm.class).findFirst();
+
+        hasChangedTheme = !checkThemeAreEquals(themeRealm, oldTheme);
+
+        if (hasChangedTheme) {
+            realm.clear(ThemeRealm.class);
+            realm.copyToRealm(themeRealm);
         }
         return hasChangedTheme;
     }

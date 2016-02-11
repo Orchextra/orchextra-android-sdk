@@ -5,7 +5,8 @@ import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.model.config.Config;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -22,15 +23,16 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     this.configDBDataSource = configDBDataSource;
   }
 
-  @Override public BusinessObject<ConfigInfoResult> sendConfigInfo(Config config) {
+  @Override public OrchextraUpdates sendConfigInfo(Config config) {
 //    BusinessObject<ConfigInfoResult> configResponse = configDBDataSource.obtainConfigData();
 
     BusinessObject<ConfigInfoResult> configResponse = configDataSource.sendConfigInfo(config);
 
+    OrchextraUpdates orchextraUpdates = null;
     if (configResponse.isSuccess()){
-      configDBDataSource.saveConfigData(configResponse.getData());
+      orchextraUpdates = configDBDataSource.saveConfigData(configResponse.getData());
     }
 
-    return configResponse;
+    return orchextraUpdates;
   }
 }

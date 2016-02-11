@@ -8,7 +8,8 @@ import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
 import java.util.List;
 
@@ -35,23 +36,22 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
     this.configInfoResultReader = configInfoResultReader;
   }
 
-  public boolean saveConfigData(ConfigInfoResult configInfoResult){
+  public OrchextraUpdates saveConfigData(ConfigInfoResult configInfoResult){
 
     Realm realm = getRealmInstance(context);
 
     try {
       realm.beginTransaction();
-      configInfoResultUpdater.updateConfigInfoV2(realm, configInfoResult);
+      OrchextraUpdates orchextraUpdates = configInfoResultUpdater.updateConfigInfoV2(realm, configInfoResult);
       realm.commitTransaction();
+      return orchextraUpdates;
     }catch (RealmException re){
-      return false;
+      return null;
     }finally {
       if (realm != null) {
         realm.close();
       }
     }
-
-    return true;
   }
 
   public BusinessObject<ConfigInfoResult> obtainConfigData(){

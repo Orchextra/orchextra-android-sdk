@@ -1,19 +1,21 @@
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 16/12/15.
  */
 public class OrchextraGeofence extends ProximityPoint {
 
-  private com.gigigo.orchextra.domain.model.vo.OrchextraPoint point;
+  private OrchextraPoint point;
   private int radius;
 
-  public com.gigigo.orchextra.domain.model.vo.OrchextraPoint getPoint() {
+  public OrchextraPoint getPoint() {
     return point;
   }
 
-  public void setPoint(com.gigigo.orchextra.domain.model.vo.OrchextraPoint point) {
+  public void setPoint(OrchextraPoint point) {
     this.point = point;
   }
 

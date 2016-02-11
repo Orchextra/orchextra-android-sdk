@@ -2,6 +2,7 @@ package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
@@ -12,6 +13,7 @@ public class BeaconRealm extends RealmObject {
 
   private int minor;
   private int major;
+  @PrimaryKey
   @Required
   private String uuid;
   private boolean active;

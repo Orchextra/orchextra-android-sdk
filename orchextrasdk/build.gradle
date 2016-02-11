@@ -70,7 +70,7 @@ dependencies {
   compile parent.ext.dependencies.loggingInterceptor
   compile parent.ext.dependencies.threaddecoratedview
   compile parent.ext.dependencies.androidSupportv7
-  compile 'org.altbeacon:android-beacon-library:2+'
+  compile parent.ext.dependencies.altBeacon
   apt parent.ext.dependencies.threaddecoratedviewcompiler
 
   compile parent.ext.dependencies.playServicesLocation

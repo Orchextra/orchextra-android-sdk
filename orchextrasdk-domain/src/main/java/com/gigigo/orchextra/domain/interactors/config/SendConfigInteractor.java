@@ -1,25 +1,25 @@
 package com.gigigo.orchextra.domain.interactors.config;
 
+import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
-import com.gigigo.orchextra.domain.interactors.base.InteractorError;
+import com.gigigo.orchextra.domain.interactors.base.Interactor;
+import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.InteractorErrorChecker;
+import com.gigigo.orchextra.domain.model.config.Config;
 import com.gigigo.orchextra.domain.model.entities.App;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
-import com.gigigo.orchextra.domain.model.config.Config;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
-import com.gigigo.orchextra.domain.interactors.base.Interactor;
-import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 15/12/15.
  */
-public class SendConfigInteractor implements Interactor<InteractorResponse<ConfigInfoResult>> {
+public class SendConfigInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
 
   private final ConfigDataProvider configDataProvider;
   private final AuthenticationDataProvider authenticationDataProvider;
@@ -37,15 +37,15 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Confi
     this.interactorErrorChecker = interactorErrorChecker;
   }
 
-  @Override public InteractorResponse<ConfigInfoResult> call() throws Exception {
+  @Override public InteractorResponse<OrchextraUpdates> call() throws Exception {
     Config config = generateConfig();
 
-    BusinessObject<ConfigInfoResult> bo = configDataProvider.sendConfigInfo(config);
+    OrchextraUpdates orchextraUpdates = configDataProvider.sendConfigInfo(config);
 
-    if (bo.isSuccess()){
-      return new InteractorResponse<>(bo.getData());
+    if (orchextraUpdates != null){
+      return new InteractorResponse<>(orchextraUpdates);
     }else{
-     return new InteractorResponse(interactorErrorChecker.checkErrors(bo.getBusinessError()));
+     return new InteractorResponse(interactorErrorChecker.checkErrors(BusinessError.createKoInstance(null)));
     }
 
   }
