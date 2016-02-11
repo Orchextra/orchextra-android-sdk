@@ -31,7 +31,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
       OrchextraUpdates orchextraUpdates = configDBDataSource.saveConfigData(configResponse.getData());
       return new BusinessObject(orchextraUpdates, BusinessError.createOKInstance());
     } else {
-     return new BusinessObject<>(null, BusinessError.createKoInstance(configResponse.getBusinessError().getMessage()));
+     return new BusinessObject<>(null,configResponse.getBusinessError());
     }
   }
 }

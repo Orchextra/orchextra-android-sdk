@@ -9,6 +9,7 @@ import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.ProximityLocalDataProviderImp;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
@@ -41,7 +42,8 @@ public class DataProviderModule {
     return new ActionsDataProviderImpl(actionsDataSource);
   }
 
-    @Provides @Singleton ProximityLocalDataProvider provideGeofenceDataProvider(ConfigDBDataSource configDBDataSource) {
-        return new ProximityLocalDataProviderImp(configDBDataSource);
+    @Provides @Singleton ProximityLocalDataProvider provideGeofenceDataProvider(ConfigDBDataSource configDBDataSource,
+        BeaconsDBDataSource beaconsDBDataSource) {
+        return new ProximityLocalDataProviderImp(configDBDataSource, beaconsDBDataSource);
     }
 }

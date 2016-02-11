@@ -37,10 +37,9 @@ public class GetActionInteractor implements Interactor<InteractorResponse<BasicA
     BusinessObject<BasicAction> bo = actionsDataProvider.obtainAction(actionCriteria);
     //TODO error management
 
-    //TODO actionsScheduler.addAction(); this method is internally managed by actions controller
     BasicAction basicAction = bo.getData();
 
-    if (basicAction.idScheduled()){
+    if (basicAction.isScheduled()){
       actionsSchedulerController.addAction(basicAction.getScheduledAction());
     }
 

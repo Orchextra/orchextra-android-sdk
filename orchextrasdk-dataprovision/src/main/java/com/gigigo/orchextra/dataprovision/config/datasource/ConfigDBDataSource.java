@@ -16,6 +16,7 @@ public interface ConfigDBDataSource {
   OrchextraUpdates saveConfigData(ConfigInfoResult config);
   BusinessObject<ConfigInfoResult> obtainConfigData();
   BusinessObject<OrchextraGeofence> obtainGeofenceById(String uuid);
-  OrchextraRegion obtainBeaconByUuid(String uuid);
   BusinessObject<List<OrchextraGeofence>> obtainGeofences();
+
+  BusinessObject<List<OrchextraRegion>> obtainRegionsForScan();
 }

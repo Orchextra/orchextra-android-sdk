@@ -1,5 +1,8 @@
 package com.gigigo.orchextra.domain.model.triggers.strategy.types;
 
+import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
@@ -20,10 +23,9 @@ public abstract class Trigger {
   //Mandatory
   private final TriggerType triggerType;
   //Mandatory
-  private final String id;
+  private final String code;
   //Mandatory
-  private final AppRunningModeType
-      appRunningModeType;
+  private final AppRunningModeType appRunningModeType;
 
   //Mandatory
   private final GeoPointBehaviour
@@ -34,9 +36,9 @@ public abstract class Trigger {
       beaconDistanceTypeBehaviour;
   protected GeoDistanceBehaviour geoDistanceBehaviour;
 
-  Trigger(TriggerType triggerType, String id, OrchextraPoint point, AppRunningModeType appRunningModeType) {
+  Trigger(TriggerType triggerType, String code, OrchextraPoint point, AppRunningModeType appRunningModeType) {
     this.triggerType = triggerType;
-    this.id = id;
+    this.code = code;
     this.appRunningModeType = appRunningModeType;
     this.geoPointBehaviour = new GeoPointBehaviourImpl(point);
   }
@@ -82,8 +84,8 @@ public abstract class Trigger {
     return triggerType;
   }
 
-  public String getId() {
-    return id;
+  public String getCode() {
+    return code;
   }
 
   public OrchextraPoint getPoint() {
@@ -110,4 +112,16 @@ public abstract class Trigger {
     return geoPointBehaviour.isSupported();
   }
 
+  public static Trigger createBeaconRegionTrigger(AppRunningModeType appRunningMode,
+      OrchextraRegion orchextraRegion) {
+    BeaconRegionTrigger beaconRegionTrigger = new BeaconRegionTrigger(orchextraRegion, appRunningMode);
+    beaconRegionTrigger.setConcreteBehaviour();
+    return beaconRegionTrigger;
+  }
+
+  public static Trigger createBeaconTrigger(AppRunningModeType appRunningMode, OrchextraBeacon orchextraBeacon) {
+    BeaconTrigger beaconTrigger = new BeaconTrigger(orchextraBeacon, appRunningMode);
+    beaconTrigger.setConcreteBehaviour();
+    return beaconTrigger;
+  }
 }

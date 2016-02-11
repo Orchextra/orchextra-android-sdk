@@ -9,6 +9,8 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.Authenticati
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
+import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
 import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
 import com.gigigo.orchextra.di.qualifiers.ActionsResponse;
 import com.gigigo.orchextra.di.qualifiers.ClientDataResponseMapper;
@@ -17,6 +19,9 @@ import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsReader;
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsUpdater;
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconsDBDataSourceImpl;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -78,10 +83,18 @@ public class DataModule {
         sessionUpdater, sessionReader);
   }
 
-  @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(ContextProvider contextProvider, ConfigInfoResultUpdater configInfoResultUpdater,
-                                                                    ConfigInfoResultReader configInfoResultReader){
+  @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(ContextProvider contextProvider,
+      ConfigInfoResultUpdater configInfoResultUpdater,
+      ConfigInfoResultReader configInfoResultReader){
     return new ConfigDBDataSourceImpl(contextProvider.getApplicationContext(),
         configInfoResultUpdater, configInfoResultReader);
+  }
+
+  @Provides @Singleton BeaconsDBDataSource provideBeaconsDBDataSource(ContextProvider contextProvider,
+      BeaconEventsUpdater beaconEventsUpdater,
+      BeaconEventsReader beaconEventsReader){
+    return new BeaconsDBDataSourceImpl(contextProvider.getApplicationContext(),
+        beaconEventsUpdater, beaconEventsReader);
   }
 
 

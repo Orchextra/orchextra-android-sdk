@@ -1,22 +1,28 @@
 package com.gigigo.orchextra.di.modules.data;
 
 import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 
+import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconEventRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconRegionEventRealmMapper;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconRegionRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmRealmMapper;
@@ -72,9 +78,23 @@ public class DBMapperModule {
     }
 
     @Singleton
+    @RealmMapperBeaconRegion
     @Provides
-    Mapper<OrchextraRegion, BeaconRealm> provideRealmMapperBeaconRealm(KeyWordRealmMapper keyWordRealmMapper) {
-        return new BeaconRealmMapper(keyWordRealmMapper);
+    Mapper<OrchextraRegion, BeaconRegionRealm> provideRealmMapperBeaconRegion() {
+        return new BeaconRegionRealmMapper();
+    }
+
+    @Singleton
+    @Provides
+    Mapper<OrchextraRegion, BeaconRegionEventRealm> provideRealmMapperBeaconRegionEvent(
+        @RealmMapperBeaconRegion Mapper<OrchextraRegion, BeaconRegionRealm> realmMapperBeaconRegion) {
+        return new BeaconRegionEventRealmMapper(realmMapperBeaconRegion);
+    }
+
+    @Singleton
+    @Provides
+    Mapper<OrchextraBeacon, BeaconEventRealm> provideBeaconEventRealmMapper() {
+        return new BeaconEventRealmMapper();
     }
 
     @Singleton

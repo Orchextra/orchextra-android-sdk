@@ -41,10 +41,12 @@ public class BeaconRegionAndroidMapper implements
   @Override public Region modelToExternalClass(OrchextraRegion model) {
 
     Identifier id1 = Identifier.parse(model.getUuid());
-    Identifier id2 = Identifier.parse((model.getMajor()==-1)?
-        null : String.valueOf(model.getMajor()));
-    Identifier id3 = Identifier.parse((model.getMinor()==-1)?
-        null : String.valueOf(model.getMinor()));
+
+    Identifier id2 = (model.getMajor() == EMPTY_MAJOR)? null :
+        Identifier.parse(String.valueOf(model.getMajor()));
+
+    Identifier id3 = (model.getMinor() == EMPTY_MINOR)? null :
+        Identifier.parse(String.valueOf(model.getMinor()));
 
     Region region = new Region(model.getCode(), id1, id2, id3);
 

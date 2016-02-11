@@ -23,6 +23,8 @@ import javax.inject.Singleton;
 @Module(includes = InteractorsModule.class)
 public class DomainModule {
 
+  //TODO Interactors should be provides using provider instead of singleton
+
   @Provides @Singleton InteractorInvoker provideInteractorInvoker(ExecutorService executor,
       LogExceptionHandler logExceptionHandler) {
     return new InteractorInvokerImp(executor, logExceptionHandler);

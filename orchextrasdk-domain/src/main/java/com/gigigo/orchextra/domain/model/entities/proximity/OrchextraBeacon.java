@@ -8,12 +8,11 @@ import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
  */
 public class OrchextraBeacon {
 
-  private String id;
+  private String code;
   private final String uuid;
   private final int mayor;
   private final int minor;
   private final BeaconDistanceType beaconDistance;
-  private long timeStampt;
 
   public OrchextraBeacon(String uuid, int mayor, int minor, BeaconDistanceType beaconDistance) {
     this.uuid = uuid;
@@ -22,16 +21,12 @@ public class OrchextraBeacon {
     this.beaconDistance = beaconDistance;
   }
 
-  public void setTimeStampt(long timeStampt) {
-    this.timeStampt = timeStampt;
+  public String getCode() {
+    return code;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getId() {
-    return id;
+  public void setCode(String code) {
+    this.code = code;
   }
 
   public String getUuid() {
@@ -49,10 +44,5 @@ public class OrchextraBeacon {
   public BeaconDistanceType getBeaconDistance() {
     return beaconDistance;
   }
-
-  public long getTimeStampt() {
-    return timeStampt;
-  }
-
 
 }

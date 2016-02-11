@@ -1,11 +1,18 @@
 package com.gigigo.orchextra.di.modules.data;
 
 import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsReader;
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsUpdater;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -18,7 +25,6 @@ import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigThemeUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigVuforiaUpdater;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
@@ -55,8 +61,9 @@ public class DBModule {
 
     @Singleton
     @Provides
-    ConfigBeaconUpdater provideConfigBeaconUpdater(Mapper<OrchextraRegion, BeaconRealm> beaconRealmMapper) {
-        return new ConfigBeaconUpdater(beaconRealmMapper);
+    ConfigBeaconUpdater provideConfigBeaconUpdater(
+        @RealmMapperBeaconRegion Mapper<OrchextraRegion, BeaconRegionRealm> beaconRegionRealmMapper) {
+        return new ConfigBeaconUpdater(beaconRegionRealmMapper);
     }
 
     @Singleton
@@ -88,10 +95,27 @@ public class DBModule {
 
     @Singleton
     @Provides
-    ConfigInfoResultReader provideConfigInfoResultReader(Mapper<OrchextraRegion, BeaconRealm> beaconRealmMapper,
+    ConfigInfoResultReader provideConfigInfoResultReader(@RealmMapperBeaconRegion Mapper<OrchextraRegion, BeaconRegionRealm>  regionRealmMapper,
                                                          Mapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper,
                                                          Mapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
                                                          Mapper<Theme, ThemeRealm> themeRealmMapper) {
-        return new ConfigInfoResultReader(beaconRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper);
+        return new ConfigInfoResultReader(regionRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper);
     }
+
+  @Singleton
+  @Provides BeaconEventsUpdater provideBeaconEventsUpdater(
+      Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper,
+      Mapper<OrchextraBeacon, BeaconEventRealm> beaconEventRealmMapper
+  ) {
+    return new BeaconEventsUpdater(regionEventRealmMapper, beaconEventRealmMapper);
+  }
+
+  @Singleton
+  @Provides BeaconEventsReader provideBeaconEventsReader(
+      Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper
+  ) {
+    return new BeaconEventsReader(regionEventRealmMapper);
+  }
+
+
 }

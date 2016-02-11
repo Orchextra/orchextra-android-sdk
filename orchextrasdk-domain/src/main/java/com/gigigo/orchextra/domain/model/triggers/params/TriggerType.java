@@ -7,6 +7,7 @@ import com.gigigo.orchextra.domain.model.StringValueEnum;
  * Date 21/12/15.
  */
 public enum TriggerType implements StringValueEnum {
+  REGION("region"),
   BEACON("beacon"),
   GEOFENCE("geofence"),
   QR("qr"),

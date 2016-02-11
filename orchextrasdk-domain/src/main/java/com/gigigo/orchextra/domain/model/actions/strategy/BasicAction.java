@@ -51,7 +51,7 @@ public abstract class BasicAction{
 
   }
 
-  public boolean idScheduled() {
+  public boolean isScheduled() {
     return scheduleFunctionality.isSupported();
   }
 
