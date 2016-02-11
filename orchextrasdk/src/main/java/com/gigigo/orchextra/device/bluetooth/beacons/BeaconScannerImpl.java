@@ -93,8 +93,7 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
 
   @Override public void onBluetoothStatus(BluetoothStatus bluetoothStatus) {
     switch (bluetoothStatus){
-      case NO_BLTE_SUPPORTED:
-        GGGLogImpl.log("CAUTION BLTE not supported, some features can not work as expected",
+      case NO_BLTE_SUPPORTED:GGGLogImpl.log("CAUTION BLTE not supported, some features can not work as expected",
             LogLevel.WARN);
         //TODO do something with error
         break;

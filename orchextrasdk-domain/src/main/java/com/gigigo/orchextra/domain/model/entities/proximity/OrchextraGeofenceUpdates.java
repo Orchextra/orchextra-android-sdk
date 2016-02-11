@@ -41,6 +41,6 @@ public class OrchextraGeofenceUpdates {
     public boolean hasChanges() {
         return newGeofences.size() > 0 ||
                 updateGeofences.size() > 0 ||
-                deleteGeofences.size() > 0;;
+                deleteGeofences.size() > 0;
     }
 }

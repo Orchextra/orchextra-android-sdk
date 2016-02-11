@@ -27,9 +27,8 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
   @Override public BusinessObject<OrchextraUpdates> sendConfigInfo(Config config) {
     BusinessObject<ConfigInfoResult> configResponse = configDataSource.sendConfigInfo(config);
 
-    OrchextraUpdates orchextraUpdates = null;
     if (configResponse.isSuccess()){
-      orchextraUpdates = configDBDataSource.saveConfigData(configResponse.getData());
+      OrchextraUpdates orchextraUpdates = configDBDataSource.saveConfigData(configResponse.getData());
       return new BusinessObject(orchextraUpdates, BusinessError.createOKInstance());
     } else {
      return new BusinessObject<>(null, BusinessError.createKoInstance(configResponse.getBusinessError().getMessage()));
