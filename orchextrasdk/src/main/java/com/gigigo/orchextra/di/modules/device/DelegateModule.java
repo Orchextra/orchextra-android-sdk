@@ -8,9 +8,10 @@ import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeolocationManage
 import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez

@@ -13,9 +13,11 @@ import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 @Module(includes = DomainModule.class)

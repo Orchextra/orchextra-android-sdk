@@ -7,19 +7,19 @@ import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
-import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImp;
-import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
-import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListenerImpl;
-import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
-import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
-import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
-
-import com.gigigo.orchextra.domain.initalization.features.FeatureList;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureStatus;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraCompletionCallback;
+import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
+import com.gigigo.orchextra.domain.initalization.features.FeatureList;
+import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImp;
+import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListenerImpl;
+import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
+import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraContextProvider;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -40,46 +40,61 @@ public class OrchextraModule {
     this.orchextraCompletionCallback = orchextraCompletionCallback;
   }
 
-  @Provides @Singleton OrchextraActivityLifecycle provideOrchextraActivityLifecycle(
-      AppRunningMode appRunningMode, OrchextraContextProvider contextProvider,
-      AppStatusEventsListener appStatusEventsListener,
-      NotificationDispatcher notificationDispatcher) {
+  @Provides
+  @Singleton
+  OrchextraActivityLifecycle provideOrchextraActivityLifecycle(
+          AppRunningMode appRunningMode, OrchextraContextProvider contextProvider,
+          AppStatusEventsListener appStatusEventsListener,
+          NotificationDispatcher notificationDispatcher) {
 
     OrchextraActivityLifecycle orchextraActivityLifecycle =
-        new OrchextraActivityLifecycle(appStatusEventsListener, notificationDispatcher);
+            new OrchextraActivityLifecycle(appStatusEventsListener, notificationDispatcher);
     contextProvider.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
     appRunningMode.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
     return orchextraActivityLifecycle;
   }
 
-  @Provides @Singleton ContextProvider provideContextProvider() {
+  @Provides
+  @Singleton
+  ContextProvider provideContextProvider() {
     return new ContextProviderImpl(context.getApplicationContext());
   }
 
-  @Provides @Singleton OrchextraContextProvider provideOrchextraContextProvider(
-      ContextProvider contextProvider) {
+  @Provides
+  @Singleton
+  OrchextraContextProvider provideOrchextraContextProvider(
+          ContextProvider contextProvider) {
     return (OrchextraContextProvider) contextProvider;
   }
 
-  @Provides @Singleton AppStatusEventsListener provideAppStatusEventsListener(
-      ForegroundTasksManager foregroundTasksManager) {
+  @Provides
+  @Singleton
+  AppStatusEventsListener provideAppStatusEventsListener(
+          ForegroundTasksManager foregroundTasksManager) {
     return new AppStatusEventsListenerImpl(context, foregroundTasksManager);
   }
 
-  @Provides @Singleton AppRunningMode provideAppRunningMode() {
+  @Provides
+  @Singleton
+  AppRunningMode provideAppRunningMode() {
     return new AppRunningModeImp();
   }
 
-  @Singleton @Provides FeatureList provideFeatureList() {
+  @Singleton
+  @Provides
+  FeatureList provideFeatureList() {
     return new FeatureList(orchextraCompletionCallback);
   }
 
-  @Singleton @Provides FeatureListener provideFeatureListener(FeatureList featureList) {
+  @Singleton
+  @Provides
+  FeatureListener provideFeatureListener(FeatureList featureList) {
     return featureList;
   }
 
-  @Singleton @Provides FeatureStatus provideFeatureStatus(FeatureList featureList) {
+  @Singleton
+  @Provides
+  FeatureStatus provideFeatureStatus(FeatureList featureList) {
     return featureList;
   }
-
 }

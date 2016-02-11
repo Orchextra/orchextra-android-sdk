@@ -9,7 +9,6 @@ android {
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode
     versionName parent.ext.androidVersionName
-
   }
   buildTypes {
     release {
@@ -32,6 +31,6 @@ dependencies {
   compile project(':orchextrasdk-dataprovision')
   compile project(':ggglib')
 
-  testCompile parent.ext.testDependencies.junit
-  testCompile parent.ext.testDependencies.mockito
+  androidTestCompile parent.ext.testDependencies.junit
+  androidTestCompile parent.ext.testDependencies.mockito
 }

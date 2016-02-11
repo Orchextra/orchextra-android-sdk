@@ -15,7 +15,7 @@ import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusListener;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
 /**

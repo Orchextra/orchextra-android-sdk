@@ -1,7 +1,6 @@
 package gigigo.com.orchextra.data.datasources.db.beacons;
 
 import android.content.Context;
-import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
@@ -34,7 +33,7 @@ public class BeaconsDBDataSourceImpl extends RealmDefaultInstance implements Bea
       OrchextraRegion region = beaconEventsReader.obtainRegionEvent(getRealmInstance(context), orchextraRegion);
       return new BusinessObject<>(region, BusinessError.createOKInstance());
     }catch (Exception e){
-      return new BusinessObject<>(null, BusinessError.createKoInstance(BusinessContentType.EXCEPTION_CONTENT, e.getMessage()));
+      return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
     }
   }
 
@@ -45,7 +44,7 @@ public class BeaconsDBDataSourceImpl extends RealmDefaultInstance implements Bea
           orchextraRegion);
       return new BusinessObject<>(region, BusinessError.createOKInstance());
     }catch (Exception e){
-      return new BusinessObject<>(null, BusinessError.createKoInstance(BusinessContentType.EXCEPTION_CONTENT, e.getMessage()));
+      return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
     }
   }
 
@@ -56,7 +55,7 @@ public class BeaconsDBDataSourceImpl extends RealmDefaultInstance implements Bea
           orchextraRegion);
       return new BusinessObject<>(region, BusinessError.createOKInstance());
     }catch (Exception e){
-      return new BusinessObject<>(null, BusinessError.createKoInstance(BusinessContentType.EXCEPTION_CONTENT, e.getMessage()));
+      return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
     }
   }
 
@@ -66,7 +65,7 @@ public class BeaconsDBDataSourceImpl extends RealmDefaultInstance implements Bea
           beacon);
       return new BusinessObject<>(storedBeacon, BusinessError.createOKInstance());
     }catch (Exception e){
-      return new BusinessObject<>(null, BusinessError.createKoInstance(BusinessContentType.EXCEPTION_CONTENT, e.getMessage()));
+      return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
     }
   }
 
@@ -92,7 +91,7 @@ public class BeaconsDBDataSourceImpl extends RealmDefaultInstance implements Bea
       return new BusinessObject<>(orchextraRegionUpdated, BusinessError.createOKInstance());
     }catch (Exception e){
       return new BusinessObject<>(null,
-          BusinessError.createKoInstance(BusinessContentType.EXCEPTION_CONTENT, e.getMessage()));
+          BusinessError.createKoInstance(e.getMessage()));
     }
   }
 }

@@ -21,9 +21,11 @@ import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureL
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez

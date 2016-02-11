@@ -1,8 +1,8 @@
 package com.gigigo.orchextra.di.modules.data;
 
-import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
-import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
+import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
+import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ActionNotificationResponse;
 import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
 import com.gigigo.orchextra.di.qualifiers.ActionsResponse;
@@ -21,27 +21,27 @@ import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ThemeResponse;
 import com.gigigo.orchextra.di.qualifiers.VuforiaResponse;
 
-import gigigo.com.orchextra.data.datasources.api.model.mappers.request.AppModelToExternalClassMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.request.DeviceModelToExternalClassMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.request.PushNotificationModelToExternalClassMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionsApiExternalClassToModelMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.BeaconExternalClassToModelMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ClientApiExternalClassToModelMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ConfigApiExternalClassToModelMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.GeofenceExternalClassToModelMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiExternalClassToModelMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ThemeExternalClassToModelMapper;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.ActionQueryModelToExternalClassMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.request.AppModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.ConfigModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.CrmModelToExternalClassMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.request.DeviceModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.GeoLocationModelToExternalClassMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.request.PushNotificationModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionNotificationExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionsApiExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.BeaconExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ClientApiExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ConfigApiExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.GeofenceExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.OrchextraGenericResponseMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ThemeExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.VuforiaExternalClassToModelMapper;
 
 /**

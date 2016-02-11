@@ -4,11 +4,11 @@ import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.controllers.base.Controller;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.model.entities.App;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
-import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
@@ -41,16 +41,18 @@ public class ConfigController extends Controller<ConfigDelegate> {
         sendConfigInteractor.setGeoLocation(geoLocation);
 
         new InteractorExecution<>(sendConfigInteractor)
-                .result(new InteractorResult<ConfigInfoResult>() {
+                .result(new InteractorResult<OrchextraUpdates>() {
                     @Override
-                    public void onResult(ConfigInfoResult result) {
-                        notifyChanges(result);
+                    public void onResult(OrchextraUpdates result) {
+                        if (result != null) {
+                            notifyChanges(result);
+                        }
                     }
                 })
                 .execute(interactorInvoker);
     }
 
-    private void notifyChanges(ConfigInfoResult result) {
+    private void notifyChanges(OrchextraUpdates result) {
         if (result.hasChanges()){
             configObservable.notifyObservers(result);
         }

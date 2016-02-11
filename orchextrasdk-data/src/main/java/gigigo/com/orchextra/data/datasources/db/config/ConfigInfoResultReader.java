@@ -5,7 +5,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import java.util.ArrayList;

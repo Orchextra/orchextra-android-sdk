@@ -4,15 +4,13 @@ import com.gigigo.ggglib.network.converters.ErrorConverter;
 import com.gigigo.ggglib.network.defaultelements.RetryOnErrorPolicy;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.executors.RetrofitApiServiceExcecutor;
-import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.domain.model.entities.authentication.Session;
-import gigigo.com.orchextra.data.datasources.api.interceptors.AuthenticationHeaderProvider;
 import com.gigigo.orchextra.di.modules.data.qualifiers.AcceptLanguage;
 import com.gigigo.orchextra.di.modules.data.qualifiers.ApiVersion;
 import com.gigigo.orchextra.di.modules.data.qualifiers.Endpoint;
 import com.gigigo.orchextra.di.modules.data.qualifiers.HeadersInterceptor;
 import com.gigigo.orchextra.di.modules.data.qualifiers.RetrofitLog;
 import com.gigigo.orchextra.di.modules.data.qualifiers.XAppSdk;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
@@ -29,6 +27,9 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraA
 import gigigo.com.orchextra.data.datasources.api.service.DefatultErrorConverterImpl;
 import gigigo.com.orchextra.data.datasources.api.service.DefaultRetryOnErrorPolicyImpl;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
+
+import com.gigigo.orchextra.BuildConfig;
+
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -66,12 +67,6 @@ public class ApiModule {
     String provideXAppSdk() {
         //TODO Verify two decimals in version name
         return BuildConfig.X_APP_SDK + "_" + BuildConfig.VERSION_NAME;
-    }
-
-    @Provides
-    @Singleton
-    AuthenticationHeaderProvider provideAuthenticationHeaderProvider(Session session) {
-        return new AuthenticationHeaderProvider(BuildConfig.TOKEN_TYPE_BEARER, session);
     }
 
     @Provides
@@ -114,9 +109,8 @@ public class ApiModule {
     @Provides
     @Singleton
     @HeadersInterceptor
-    Interceptor provideHeadersInterceptor(@XAppSdk String xAppSdk, @AcceptLanguage String acceptLanguage,
-                                          AuthenticationHeaderProvider authenticationHeaderProvider) {
-        return new Headers(xAppSdk, acceptLanguage, authenticationHeaderProvider);
+    Interceptor provideHeadersInterceptor(@XAppSdk String xAppSdk, @AcceptLanguage String acceptLanguage, Session session) {
+        return new Headers(xAppSdk, acceptLanguage, session);
     }
 
     @Provides

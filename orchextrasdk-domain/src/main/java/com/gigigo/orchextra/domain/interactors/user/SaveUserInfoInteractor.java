@@ -1,13 +1,12 @@
 package com.gigigo.orchextra.domain.interactors.user;
 
-import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
-import com.gigigo.orchextra.domain.model.config.Config;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
-import com.gigigo.orchextra.domain.model.GenderType;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
+import com.gigigo.orchextra.domain.model.GenderType;
+import com.gigigo.orchextra.domain.model.config.Config;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+
 import java.util.Date;
 import java.util.List;
 
@@ -29,8 +28,9 @@ public class SaveUserInfoInteractor implements Interactor<InteractorResponse<Boo
   }
 
   @Override public InteractorResponse<Boolean> call() throws Exception {
+    //TODO Is this interactor needed??
     Config config = new Config(user);
-    BusinessObject<ConfigInfoResult> bo = configDataProvider.sendConfigInfo(config);
+//    BusinessObject<ConfigInfoResult> bo = configDataProvider.sendConfigInfo(config);
     //TODO manage Errors
     return new InteractorResponse<>(new Boolean(true));
   }

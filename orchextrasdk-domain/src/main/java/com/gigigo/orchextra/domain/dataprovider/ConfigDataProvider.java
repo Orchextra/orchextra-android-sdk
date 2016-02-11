@@ -2,7 +2,7 @@ package com.gigigo.orchextra.domain.dataprovider;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.model.config.Config;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -10,6 +10,6 @@ import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
  */
 public interface ConfigDataProvider {
 
-  BusinessObject<ConfigInfoResult> sendConfigInfo(Config config);
+  BusinessObject sendConfigInfo(Config config);
 
 }

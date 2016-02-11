@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.domain.model.config.strategy;
+package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
@@ -105,8 +105,8 @@ public class ConfigInfoResult{
       //TODO Add changing check
       configInfoResult.setRegions(new RealRegionListImpl(proximity));
       configInfoResult.setGeofences(new RealGeofenceListImpl(geoMarketing));
-      configInfoResult.setTheme(new RealSupportsThemeImpl(theme));
-      configInfoResult.setVuforia(new com.gigigo.orchextra.domain.model.config.strategy.VuforiaReadyImpl(vuforia));
+      configInfoResult.setTheme(new com.gigigo.orchextra.dataprovision.config.model.strategy.RealSupportsThemeImpl(theme));
+      configInfoResult.setVuforia(new VuforiaReadyImpl(vuforia));
 
       return configInfoResult;
     }

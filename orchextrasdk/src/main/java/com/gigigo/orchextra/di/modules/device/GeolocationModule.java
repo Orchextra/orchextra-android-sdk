@@ -9,9 +9,11 @@ import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.gigigo.orchextra.device.geolocation.location.RetrieveLastKnownLocation;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez

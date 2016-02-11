@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.domain.model.config.strategy;
+package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
 import com.gigigo.orchextra.domain.model.MethodSupported;
 import com.gigigo.orchextra.domain.model.vo.Theme;

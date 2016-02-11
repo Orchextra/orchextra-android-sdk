@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

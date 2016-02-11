@@ -1,15 +1,7 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.control.controllers.authentication.AuthenticationController;
-import com.gigigo.orchextra.control.controllers.authentication.AuthenticationDelegate;
-import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
-import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
-import com.gigigo.orchextra.delegates.ConfigDelegateImp;
-import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeolocationManager;
-import com.gigigo.orchextra.device.information.AndroidApp;
-import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.domain.invoker.InteractorInvokerImp;
 import com.gigigo.orchextra.domain.invoker.InteractorOutputThreadFactory;
 import com.gigigo.orchextra.domain.invoker.InteractorPriorityBlockingQueue;
@@ -39,7 +31,7 @@ public class DomainModule {
   }
 
   @Provides @Singleton Session provideSession() {
-    return new Session();
+    return new Session(BuildConfig.TOKEN_TYPE_BEARER);
   }
 
   @Provides @Singleton LogExceptionHandler provideLogExceptionHandler() {

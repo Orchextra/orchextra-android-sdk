@@ -7,7 +7,7 @@ import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.domain.model.config.Config;
-import com.gigigo.orchextra.domain.model.config.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;

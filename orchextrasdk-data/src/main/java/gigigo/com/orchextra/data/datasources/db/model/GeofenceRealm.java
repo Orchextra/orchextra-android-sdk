@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.Required;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -10,7 +10,7 @@ import io.realm.annotations.Required;
  */
 public class GeofenceRealm extends RealmObject {
 
-  @Required
+  @PrimaryKey
   private String code;
   private RealmPoint point;
   private int radius;

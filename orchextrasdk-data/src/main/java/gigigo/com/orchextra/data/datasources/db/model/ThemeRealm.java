@@ -26,5 +26,4 @@ public class ThemeRealm extends RealmObject {
   public void setSecondaryColor(String secondaryColor) {
     this.secondaryColor = secondaryColor;
   }
-
 }

@@ -1,12 +1,8 @@
 package com.gigigo.orchextra.delegates;
 
 import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.control.controllers.authentication.AuthenticationController;
 import com.gigigo.orchextra.control.controllers.authentication.AuthenticationDelegate;
-import com.gigigo.orchextra.di.components.DelegateComponent;
-
-import javax.inject.Inject;
 
 /**
  * Created by Sergio Martinez Rodriguez

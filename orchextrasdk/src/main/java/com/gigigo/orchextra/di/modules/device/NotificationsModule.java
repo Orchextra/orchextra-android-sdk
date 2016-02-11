@@ -12,9 +12,11 @@ import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidNotification
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.notifications.NotificationBehaviorImp;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez

@@ -2,12 +2,13 @@ package com.gigigo.orchextra.domain.interactors.authentication;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
+import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
-import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,11 +43,14 @@ public class AuthenticationInteractorTest {
     @Mock
     DeviceDetailsProvider deviceDetailsProvider;
 
+    @Mock
+    Session session;
+
     private AuthenticationInteractor interactor;
 
     @Before
     public void setUp() throws Exception {
-        interactor = new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider);
+        interactor = new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, session);
         interactor.setSdkAuthCredentials(new SdkAuthCredentials("Admin", "1234"));
     }
 
@@ -92,6 +97,8 @@ public class AuthenticationInteractorTest {
 
         when(user.getData()).thenReturn(clientAuthData);
         when(clientAuthData.getValue()).thenReturn("111");
+
+        doNothing().when(session).setTokenString(anyString());
 
         interactor.setCrm(anyString());
         interactor.call();

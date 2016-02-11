@@ -27,18 +27,23 @@ android {
 
     buildConfigField STRING, "API_VERSION", '"v1/"'
     buildConfigField INT, "CONCURRENT_INTERACTORS", '1'
-    buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
     buildConfigField STRING, "X_APP_SDK", '"ANDROID"'
     buildConfigField STRING, "TOKEN_TYPE_BEARER", '"Bearer"'
   }
 
   buildTypes {
+    demo1 {
+      buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
+      buildConfigField STRING, "API_URL", '"http://sdk-demo-1.s.orchextra.io/"'
+    }
     debug{
       testCoverageEnabled = true
       buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
+      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
     }
     release {
       buildConfigField BOOLEAN, "RETROFIT_LOG", "false"
+      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
 
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -65,7 +70,7 @@ dependencies {
   compile parent.ext.dependencies.loggingInterceptor
   compile parent.ext.dependencies.threaddecoratedview
   compile parent.ext.dependencies.androidSupportv7
-  compile 'org.altbeacon:android-beacon-library:2+'
+  compile parent.ext.dependencies.altBeacon
   apt parent.ext.dependencies.threaddecoratedviewcompiler
 
   compile parent.ext.dependencies.playServicesLocation

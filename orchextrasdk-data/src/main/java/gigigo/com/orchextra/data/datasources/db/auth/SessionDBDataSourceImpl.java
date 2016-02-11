@@ -2,7 +2,6 @@ package gigigo.com.orchextra.data.datasources.db.auth;
 
 import android.content.Context;
 
-import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
@@ -124,7 +123,7 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
       ClientAuthData clientAuthData = sessionReader.readClientAuthData(realm);
       return new BusinessObject(clientAuthData, BusinessError.createOKInstance());
     }catch (NotFountRealmObjectException | RealmException | NullPointerException re ){
-      return new BusinessObject(null, BusinessError.createKoInstance(BusinessContentType.NO_AUTH_SDK_ERROR, re.getMessage()));
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     }finally {
       if (realm != null) {
         realm.close();
@@ -139,7 +138,7 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
       SdkAuthData sdkAuthData = sessionReader.readSdkAuthData(realm);
       return new BusinessObject(sdkAuthData, BusinessError.createOKInstance());
     }catch (NotFountRealmObjectException | RealmException | NullPointerException re ){
-      return new BusinessObject(null, BusinessError.createKoInstance(BusinessContentType.NO_AUTH_USER_ERROR, re.getMessage()));
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     }finally {
       if (realm != null) {
         realm.close();
@@ -155,7 +154,7 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
       Crm crm = sessionReader.readCrmId(realm);
       return new BusinessObject(crm, BusinessError.createOKInstance());
     }catch (NotFountRealmObjectException | RealmException | NullPointerException re ){
-      return new BusinessObject(null, BusinessError.createKoInstance(BusinessContentType.NO_CRM_USER_ERROR, re.getMessage()));
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     }finally {
       if (realm != null) {
         realm.close();
