@@ -9,7 +9,9 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.InteractorErrorChecker;
 import com.gigigo.orchextra.domain.model.config.Config;
 import com.gigigo.orchextra.domain.model.entities.App;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
@@ -24,20 +26,26 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Orche
   private final ConfigDataProvider configDataProvider;
   private final AuthenticationDataProvider authenticationDataProvider;
   private final InteractorErrorChecker interactorErrorChecker;
+  private final Session session;
 
   private App app;
   private Device device;
   private GeoLocation geolocation;
 
   public SendConfigInteractor(ConfigDataProvider configDataProvider,
-      AuthenticationDataProvider authenticationDataProvider,
-      InteractorErrorChecker interactorErrorChecker) {
+                              AuthenticationDataProvider authenticationDataProvider,
+                              InteractorErrorChecker interactorErrorChecker,
+                              Session session) {
+
     this.configDataProvider = configDataProvider;
     this.authenticationDataProvider = authenticationDataProvider;
     this.interactorErrorChecker = interactorErrorChecker;
+    this.session = session;
   }
 
   @Override public InteractorResponse<OrchextraUpdates> call() throws Exception {
+    setAuthenticationToken();
+
     Config config = generateConfig();
 
     BusinessObject<OrchextraUpdates> boOrchextraUpdates = configDataProvider.sendConfigInfo(config);
@@ -46,6 +54,14 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Orche
       return new InteractorResponse<>(boOrchextraUpdates.getData());
     }else{
      return new InteractorResponse(interactorErrorChecker.checkErrors(boOrchextraUpdates.getBusinessError()));
+    }
+  }
+
+  private void setAuthenticationToken() {
+    BusinessObject<ClientAuthData> credentials = authenticationDataProvider.getCredentials();
+
+    if (credentials.isSuccess()) {
+      session.setTokenString(credentials.getData().getValue());
     }
   }
 
