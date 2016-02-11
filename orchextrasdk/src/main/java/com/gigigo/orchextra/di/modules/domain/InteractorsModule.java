@@ -38,10 +38,11 @@ public class InteractorsModule {
   @Provides @Singleton SendConfigInteractor provideSendConfigInteractor(
       ConfigDataProvider configDataProvider,
       AuthenticationDataProvider authenticationDataProvider,
-      @ConfigErrorChecker InteractorErrorChecker interactorErrorChecker){
+      @ConfigErrorChecker InteractorErrorChecker interactorErrorChecker,
+      Session session){
 
     SendConfigInteractor sendConfigInteractor = new SendConfigInteractor(configDataProvider, authenticationDataProvider,
-        interactorErrorChecker);
+        interactorErrorChecker, session);
 
     interactorErrorChecker.setInteractor(sendConfigInteractor);
 
