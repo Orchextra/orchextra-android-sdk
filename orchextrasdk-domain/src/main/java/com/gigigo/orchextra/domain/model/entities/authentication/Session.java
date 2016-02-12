@@ -30,10 +30,10 @@ public class Session {
   }
 
   public String getAuthToken() {
-    return tokenType + " " + tokenString;
+    return tokenString;
   }
 
   public void setTokenString(String tokenString) {
-    this.tokenString = tokenString;
+    this.tokenString = tokenType + " " + tokenString;
   }
 }
