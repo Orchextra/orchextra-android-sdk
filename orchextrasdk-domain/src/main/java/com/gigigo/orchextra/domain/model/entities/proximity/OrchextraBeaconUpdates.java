@@ -5,12 +5,10 @@ import java.util.List;
 public class OrchextraBeaconUpdates {
 
     List<OrchextraRegion> newRegions;
-    List<OrchextraRegion> updateRegions;
     List<OrchextraRegion> deleteRegions;
 
-    public OrchextraBeaconUpdates(List<OrchextraRegion> newRegions, List<OrchextraRegion> updateRegions, List<OrchextraRegion> deleteRegions) {
+    public OrchextraBeaconUpdates(List<OrchextraRegion> newRegions, List<OrchextraRegion> deleteRegions) {
         setNewRegions(newRegions);
-        setUpdateRegions(updateRegions);
         setDeleteRegions(deleteRegions);
     }
 
@@ -20,14 +18,6 @@ public class OrchextraBeaconUpdates {
 
     public void setNewRegions(List<OrchextraRegion> newRegions) {
         this.newRegions = newRegions;
-    }
-
-    public List<OrchextraRegion> getUpdateRegions() {
-        return updateRegions;
-    }
-
-    public void setUpdateRegions(List<OrchextraRegion> updateRegions) {
-        this.updateRegions = updateRegions;
     }
 
     public List<OrchextraRegion> getDeleteRegions() {
@@ -40,7 +30,6 @@ public class OrchextraBeaconUpdates {
 
     public boolean hasChanges() {
         return newRegions.size() > 0 ||
-                updateRegions.size() > 0 ||
                 deleteRegions.size() > 0;
     }
 }

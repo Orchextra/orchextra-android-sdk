@@ -66,4 +66,9 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   public BusinessObject<Crm> retrieveCrm() {
     return sessionDBDataSource.getCrm();
   }
+
+  @Override
+  public BusinessObject<ClientAuthData> getCredentials() {
+    return sessionDBDataSource.getSessionToken();
+  }
 }

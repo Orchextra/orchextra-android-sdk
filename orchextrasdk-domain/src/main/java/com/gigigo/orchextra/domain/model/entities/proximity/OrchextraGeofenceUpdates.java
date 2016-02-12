@@ -5,12 +5,10 @@ import java.util.List;
 public class OrchextraGeofenceUpdates {
 
     List<OrchextraGeofence> newGeofences;
-    List<OrchextraGeofence> updateGeofences;
     List<OrchextraGeofence> deleteGeofences;
 
-    public OrchextraGeofenceUpdates(List<OrchextraGeofence> newGeofences, List<OrchextraGeofence> updateGeofences, List<OrchextraGeofence> deleteGeofences) {
+    public OrchextraGeofenceUpdates(List<OrchextraGeofence> newGeofences, List<OrchextraGeofence> deleteGeofences) {
         setNewGeofences(newGeofences);
-        setUpdateGeofences(updateGeofences);
         setDeleteGeofences(deleteGeofences);
     }
 
@@ -20,14 +18,6 @@ public class OrchextraGeofenceUpdates {
 
     public void setNewGeofences(List<OrchextraGeofence> newGeofences) {
         this.newGeofences = newGeofences;
-    }
-
-    public List<OrchextraGeofence> getUpdateGeofences() {
-        return updateGeofences;
-    }
-
-    public void setUpdateGeofences(List<OrchextraGeofence> updateGeofences) {
-        this.updateGeofences = updateGeofences;
     }
 
     public List<OrchextraGeofence> getDeleteGeofences() {
@@ -40,7 +30,6 @@ public class OrchextraGeofenceUpdates {
 
     public boolean hasChanges() {
         return newGeofences.size() > 0 ||
-                updateGeofences.size() > 0 ||
                 deleteGeofences.size() > 0;
     }
 }

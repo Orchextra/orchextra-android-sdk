@@ -21,37 +21,30 @@ public class ConfigGeofenceUpdater {
 
     public OrchextraGeofenceUpdates saveGeofences(Realm realm, List<OrchextraGeofence> geofences) {
         List<OrchextraGeofence> newGeofences = new ArrayList<>();
-        List<OrchextraGeofence> updateGeofences = new ArrayList<>();
         List<OrchextraGeofence> deleteGeofences = new ArrayList<>();
 
         List<String> used = new ArrayList<>();
 
         if (geofences != null) {
-            for (OrchextraGeofence geofence : geofences) {
-                addOrUpdateGeofences(realm, newGeofences, updateGeofences, used, geofence);
-            }
-
+            addOrUpdateGeofences(realm, newGeofences, used, geofences);
             deleteGeofences = removeUnusedGeofences(realm, used);
         }
 
-        return new OrchextraGeofenceUpdates(newGeofences, updateGeofences, deleteGeofences);
+        return new OrchextraGeofenceUpdates(newGeofences, deleteGeofences);
     }
 
-    private void addOrUpdateGeofences(Realm realm, List<OrchextraGeofence> newGeofences, List<OrchextraGeofence> updateGeofences, List<String> used, OrchextraGeofence geofence) {
-        GeofenceRealm newGeofence = geofencesRealmMapper.modelToExternalClass(geofence);
-        GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofence.getCode()).findFirst();
-        if (geofenceRealm == null) {
-            newGeofences.add(geofence);
+    private void addOrUpdateGeofences(Realm realm, List<OrchextraGeofence> newGeofences, List<String> used, List<OrchextraGeofence> geofences) {
+        for (OrchextraGeofence geofence : geofences) {
+            GeofenceRealm newGeofence = geofencesRealmMapper.modelToExternalClass(geofence);
+            GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofence.getCode()).findFirst();
 
-            realm.copyToRealm(newGeofence);
-        } else {
-            boolean hasChangedGeofence = !checkGeofenceAreEquals(geofenceRealm, newGeofence);
-            if (hasChangedGeofence) {
-                updateGeofences.add(geofence);
+            if(!checkGeofenceAreEquals(geofenceRealm, newGeofence)) {
+                newGeofences.add(geofence);
                 realm.copyToRealmOrUpdate(newGeofence);
             }
+
+            used.add(geofence.getCode());
         }
-        used.add(geofence.getCode());
     }
 
     private List<OrchextraGeofence> removeUnusedGeofences(Realm realm, List<String> used) {
@@ -73,6 +66,9 @@ public class ConfigGeofenceUpdater {
     }
 
     private boolean checkGeofenceAreEquals(GeofenceRealm geofenceRealm, GeofenceRealm newGeofence) {
+        if (geofenceRealm == null || newGeofence == null) {
+            return false;
+        }
         return geofenceRealm.getCode().equals(newGeofence.getCode()) &&
                 geofenceRealm.getPoint().getLat() == newGeofence.getPoint().getLat() &&
                 geofenceRealm.getPoint().getLng() == newGeofence.getPoint().getLng() &&
