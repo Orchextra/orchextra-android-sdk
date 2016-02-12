@@ -1,6 +1,5 @@
 package com.gigigo.orchextra.domain.interactors.config;
 
-import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;

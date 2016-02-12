@@ -40,10 +40,10 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     try {
       realm.beginTransaction();
       sessionUpdater.updateSdkAuthCredentials(realm, sdkAuthCredentials);
-      realm.commitTransaction();
     }catch (RealmException re){
       return false;
     }finally {
+      realm.commitTransaction();
       realm.close();
     }
 
@@ -56,10 +56,10 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     try {
       realm.beginTransaction();
       sessionUpdater.updateSdkAuthResponse(realm, sdkAuthData);
-      realm.commitTransaction();
     }catch (RealmException re){
       return false;
     }finally {
+      realm.commitTransaction();
       if (realm != null) {
         realm.close();
       }
@@ -74,10 +74,10 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     try {
       realm.beginTransaction();
       sessionUpdater.updateClientAuthCredentials(realm, clientAuthCredentials);
-      realm.commitTransaction();
     }catch (RealmException re){
       return false;
     }finally {
+      realm.commitTransaction();
       realm.close();
     }
 
@@ -90,10 +90,10 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     try {
       realm.beginTransaction();
       sessionUpdater.updateClientAuthResponse(realm, clientAuthData);
-      realm.commitTransaction();
     }catch (RealmException re){
       return false;
     }finally {
+      realm.commitTransaction();
       realm.close();
     }
 
@@ -106,10 +106,10 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     try {
       realm.beginTransaction();
       sessionUpdater.updateCrm(realm, crm);
-      realm.commitTransaction();
     }catch (RealmException re){
       return false;
     }finally {
+      realm.commitTransaction();
       realm.close();
     }
 

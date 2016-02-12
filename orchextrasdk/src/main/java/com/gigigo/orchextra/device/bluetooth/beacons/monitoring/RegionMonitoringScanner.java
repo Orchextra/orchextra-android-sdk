@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.device.bluetooth.beacons.monitoring;
 
 import com.gigigo.orchextra.domain.abstractions.beacons.RegionsProviderListener;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import java.util.List;
 import org.altbeacon.beacon.Region;
@@ -18,4 +19,6 @@ public interface RegionMonitoringScanner extends RegionsProviderListener {
   boolean isMonitoring();
 
   void setRunningMode(AppRunningModeType appRunningMode);
+
+  void updateRegions(List deletedRegions, List newRegions);
 }

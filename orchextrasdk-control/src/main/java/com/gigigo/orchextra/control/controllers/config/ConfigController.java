@@ -4,6 +4,8 @@ import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.controllers.base.Controller;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.domain.interactors.base.Interactor;
+import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.model.entities.App;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
@@ -42,14 +44,26 @@ public class ConfigController extends Controller<ConfigDelegate> {
 
         new InteractorExecution<>(sendConfigInteractor)
                 .result(new InteractorResult<OrchextraUpdates>() {
-                    @Override
-                    public void onResult(OrchextraUpdates result) {
+                    @Override public void onResult(OrchextraUpdates result) {
+                        System.out.println("CONTROLLER SUCCESS :: " + result.toString());
                         if (result != null) {
                             notifyChanges(result);
                         }
                     }
-                })
-                .execute(interactorInvoker);
+                }).error(InteractorError.class, new InteractorResult<InteractorError>() {
+            @Override public void onResult(InteractorError result) {
+                    manageInteractorError(result);
+                System.out.println("CONTROLLER ERROR :: " + result.toString());
+            }
+        }).execute(interactorInvoker);
+    }
+
+    private void manageInteractorError(InteractorError result) {
+        //TODO
+        InteractorError error = result;
+
+        System.out.println("Error :: " + result.toString());
+
     }
 
     private void notifyChanges(OrchextraUpdates result) {

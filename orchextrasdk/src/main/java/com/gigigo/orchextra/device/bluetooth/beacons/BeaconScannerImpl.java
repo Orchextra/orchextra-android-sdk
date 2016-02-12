@@ -2,7 +2,6 @@ package com.gigigo.orchextra.device.bluetooth.beacons;
 
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
-import com.gigigo.orchextra.control.controllers.config.BeaconsData;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScanner;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
@@ -15,7 +14,8 @@ import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusListener;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
 /**
@@ -126,13 +126,10 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
 
     if (observable instanceof ConfigObservable){
 
-      ConfigInfoResult configInfoResult = (ConfigInfoResult) data;
+      OrchextraBeaconUpdates beaconUpdates = ((OrchextraUpdates)data).getOrchextraBeaconUpdates();
 
-      BeaconsData beaconsData = new BeaconsData();
-      //BeaconsData beaconsData = configInfoResult.beaconsHasChanged();
-
-      if (beaconsData.hasChanged()){
-        restartBeaconScanner();
+      if (beaconUpdates.hasChanges()){
+        regionMonitoringScanner.updateRegions(beaconUpdates.getDeleteRegions(), beaconUpdates.getNewRegions());
       }
     }
   }

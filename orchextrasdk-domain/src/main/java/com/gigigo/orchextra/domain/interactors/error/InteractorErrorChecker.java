@@ -2,6 +2,7 @@ package com.gigigo.orchextra.domain.interactors.error;
 
 import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
+import com.gigigo.orchextra.domain.interactors.authentication.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 
@@ -25,8 +26,8 @@ public abstract class InteractorErrorChecker {
 
     if (businessError.getBusinesContentType() == BusinessContentType.BUSINESS_ERROR_CONTENT){
       //BusinessError management
-      checkBusinessErrors(businessError);
-      return checkConcreteBusinessErrors(businessError);
+      InteractorError interactorError = checkBusinessErrors(businessError);
+      return checkConcreteBusinessErrors(businessError, interactorError);
     }else{
       //Exception management BusinessContentType.EXCEPTION_CONTENT
       checkExceptions(businessError);
@@ -46,7 +47,7 @@ public abstract class InteractorErrorChecker {
 
   }
 
-  private void checkBusinessErrors(BusinessError businessError) {
+  private InteractorError checkBusinessErrors(BusinessError businessError) {
     OrchextraBusinessErrors error = OrchextraBusinessErrors.getEnumTypeFromInt(
         businessError.getCode());
 
@@ -57,16 +58,17 @@ public abstract class InteractorErrorChecker {
         case NO_AUTH_EXPIRED:
           pendingInteractorExecution.loadInteractor(interactor);
           authErrorHandler.authenticateWhenError(pendingInteractorExecution);
-          break;
+          return new AuthenticationError(businessError);
 
         default:
-          break;
+          return new AuthenticationError(businessError);
       }
     }catch (Exception e){
-      //Log errors
+      return new AuthenticationError(businessError);
     }
   }
 
   protected abstract InteractorError checkConcreteException(BusinessError businessError);
-  protected abstract InteractorError checkConcreteBusinessErrors(BusinessError businessError);
+  protected abstract InteractorError checkConcreteBusinessErrors(BusinessError businessError,
+      InteractorError interactorError);
 }

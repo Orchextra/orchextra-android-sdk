@@ -43,11 +43,12 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
     try {
       realm.beginTransaction();
       OrchextraUpdates orchextraUpdates = configInfoResultUpdater.updateConfigInfoV2(realm, configInfoResult);
-      realm.commitTransaction();
       return orchextraUpdates;
-    }catch (RealmException re){
+    }catch (Exception re){
+      re.printStackTrace();
       return null;
     }finally {
+      realm.commitTransaction();
       if (realm != null) {
         realm.close();
       }

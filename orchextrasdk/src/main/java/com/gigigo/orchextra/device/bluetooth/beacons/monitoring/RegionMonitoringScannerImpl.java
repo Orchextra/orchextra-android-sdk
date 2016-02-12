@@ -103,15 +103,8 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
   }
 
   @Override public void stopMonitoring() {
-    for (Region region: regionsToBeMonitored){
-      try {
-        beaconManager.stopMonitoringBeaconsInRegion(region);
-        monitoring = false;
-        GGGLogImpl.log("Stop Beacons Monitoring for region: " + region.getUniqueId());
-      } catch (RemoteException e) {
-        e.printStackTrace();
-      }
-    }
+    stopMonitoringRegions(regionsToBeMonitored);
+    monitoring = false;
     regionsInEnter.clear();
     beaconManager.unbind(this);
   }
@@ -120,7 +113,7 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     beaconsController.getAllRegionsFromDataBase(this);
 
     //TODO remove this line below when above ready
-    BeaconRegionsFactory.obtainRegionsToScan(this);
+    //BeaconRegionsFactory.obtainRegionsToScan(this);
   }
 
   @Override public boolean isMonitoring() {
@@ -131,20 +124,46 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     beaconManager.setBackgroundMode(appRunningModeType == AppRunningModeType.BACKGROUND);
   }
 
+  @Override public void updateRegions(List deletedRegions, List newRegions) {
+    if (!deletedRegions.isEmpty()){
+      List<Region> deleted = regionMapper.modelListToExternalClassList(deletedRegions);
+      stopMonitoringRegions(deleted);
+    }
+
+    if (!newRegions.isEmpty()){
+      List<Region> added = regionMapper.modelListToExternalClassList(newRegions);
+      startMonitoringRegions(added);
+    }
+  }
   // region RegionsProviderListener Interface
 
   @Override public void onRegionsReady(List<OrchextraRegion> regions) {
     List<Region> altRegions = regionMapper.modelListToExternalClassList(regions);
     this.regionsToBeMonitored.clear();
     this.regionsToBeMonitored.addAll(altRegions);
-    for (Region region:altRegions){
-      try {
+    startMonitoringRegions(altRegions);
+  }
+
+  private void startMonitoringRegions(List<Region> altRegions) {
+    try {
+      for (Region region:altRegions){
         beaconManager.startMonitoringBeaconsInRegion(region);
-        monitoring = true;
         GGGLogImpl.log("Start Beacons Monitoring for region " + region.getUniqueId());
-      } catch (RemoteException e) {
-        e.printStackTrace();
       }
+    } catch (RemoteException e) {
+      e.printStackTrace();
+    }
+    monitoring = true;
+  }
+
+  private void stopMonitoringRegions(List<Region> altRegions) {
+    try {
+      for (Region region:altRegions){
+        beaconManager.stopMonitoringBeaconsInRegion(region);
+        GGGLogImpl.log("Stop Beacons Monitoring for region " + region.getUniqueId());
+      }
+    } catch (RemoteException e) {
+      e.printStackTrace();
     }
   }
 

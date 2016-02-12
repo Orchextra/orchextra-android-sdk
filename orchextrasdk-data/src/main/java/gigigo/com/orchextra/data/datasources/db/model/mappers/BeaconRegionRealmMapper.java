@@ -20,7 +20,10 @@ public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRe
     regionRealm.setMinor(region.getMinor());
 
     regionRealm.setActionRelated(region.getActionRelated());
-    regionRealm.setEventType(region.getRegionEvent().getStringValue());
+
+    if (region.getRegionEvent()!=null){
+      regionRealm.setEventType(region.getRegionEvent().getStringValue());
+    }
 
     return regionRealm;
   }
@@ -35,7 +38,13 @@ public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRe
         regionRealm.isActive());
 
     region.setActionRelated(regionRealm.getActionRelated());
-    region.setRegionEvent(RegionEventType.valueOf(RegionEventType.class, regionRealm.getEventType()));
+
+    if (regionRealm.getEventType() == null){
+      region.setRegionEvent(RegionEventType.EXIT);
+    }else{
+      region.setRegionEvent(RegionEventType.valueOf(RegionEventType.class, regionRealm.getEventType()));
+    }
+
 
     return region;
   }

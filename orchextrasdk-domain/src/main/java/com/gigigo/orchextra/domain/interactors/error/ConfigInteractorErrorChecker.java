@@ -17,8 +17,8 @@ public class ConfigInteractorErrorChecker extends InteractorErrorChecker{
     return null;
   }
 
-  @Override protected InteractorError checkConcreteBusinessErrors(BusinessError businessError) {
-    return null;
+  @Override protected InteractorError checkConcreteBusinessErrors(BusinessError businessError, InteractorError interactorError) {
+    return interactorError;
   }
 
 }

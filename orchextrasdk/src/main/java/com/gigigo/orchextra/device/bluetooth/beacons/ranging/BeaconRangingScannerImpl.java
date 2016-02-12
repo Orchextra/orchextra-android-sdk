@@ -122,7 +122,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     beaconsController.getAllRegionsFromDataBase(this);
 
     //TODO remove this line below when above ready
-    BeaconRegionsFactory.obtainRegionsToScan(this);
+    //BeaconRegionsFactory.obtainRegionsToScan(this);
   }
 
 

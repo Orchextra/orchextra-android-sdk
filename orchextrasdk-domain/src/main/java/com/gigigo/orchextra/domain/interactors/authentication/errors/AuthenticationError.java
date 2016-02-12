@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.interactors.authentication.errors;
 
+import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 
 /**
@@ -7,4 +8,10 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorError;
  * Date 4/12/15.
  */
 public class AuthenticationError implements InteractorError {
+
+  private final BusinessError businessError;
+
+  public AuthenticationError(BusinessError businessError) {
+  this.businessError = businessError;
+  }
 }
