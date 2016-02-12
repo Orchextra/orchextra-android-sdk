@@ -1,7 +1,6 @@
 package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeolocationManager;
-import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofencePendingIntentCreator;
 
 /**
@@ -11,5 +10,4 @@ import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.Geofence
 public interface GeolocationModuleProvider {
   AndroidGeolocationManager provideAndroidGeolocationManager();
   GeofencePendingIntentCreator provideGeofencePendingIntentCreator();
-  LocationMapper provideLocationMapper();
 }

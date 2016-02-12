@@ -5,8 +5,14 @@ package com.gigigo.orchextra.domain.interactors.error;
  * Date 9/2/16.
  */
 public enum OrchextraBusinessErrors {
-  NO_AUTH_EXPIRED,
-  NO_AUTH_CREDENTIALS;
+  NO_AUTH_EXPIRED(401),
+  NO_AUTH_CREDENTIALS(403);
+
+  private final int codeError;
+
+  OrchextraBusinessErrors(int codeError) {
+    this.codeError = codeError;
+  }
 
   public static OrchextraBusinessErrors getEnumTypeFromInt(int errorCode){
 

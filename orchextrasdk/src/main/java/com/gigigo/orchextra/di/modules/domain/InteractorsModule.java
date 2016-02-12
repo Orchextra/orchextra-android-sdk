@@ -9,8 +9,6 @@ import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
-import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
-import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.EventUpdaterInteractor;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
@@ -45,11 +43,10 @@ public class InteractorsModule {
   @Provides @Singleton SendConfigInteractor provideSendConfigInteractor(
       ConfigDataProvider configDataProvider,
       AuthenticationDataProvider authenticationDataProvider,
-      @ConfigErrorChecker InteractorErrorChecker interactorErrorChecker,
-      Session session){
+      @ConfigErrorChecker InteractorErrorChecker interactorErrorChecker){
 
-    SendConfigInteractor sendConfigInteractor = new SendConfigInteractor(configDataProvider, authenticationDataProvider,
-        interactorErrorChecker, session);
+    SendConfigInteractor sendConfigInteractor = new SendConfigInteractor(configDataProvider,
+            authenticationDataProvider, interactorErrorChecker);
 
     interactorErrorChecker.setInteractor(sendConfigInteractor);
 

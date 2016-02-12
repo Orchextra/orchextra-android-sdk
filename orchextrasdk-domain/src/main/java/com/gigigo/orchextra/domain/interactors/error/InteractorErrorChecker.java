@@ -48,8 +48,7 @@ public abstract class InteractorErrorChecker {
   }
 
   private InteractorError checkBusinessErrors(BusinessError businessError) {
-    OrchextraBusinessErrors error = OrchextraBusinessErrors.getEnumTypeFromInt(
-        businessError.getCode());
+    OrchextraBusinessErrors error = OrchextraBusinessErrors.getEnumTypeFromInt(businessError.getCode());
 
     try {
 
