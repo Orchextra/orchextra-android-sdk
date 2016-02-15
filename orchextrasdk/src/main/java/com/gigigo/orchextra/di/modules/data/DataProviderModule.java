@@ -14,6 +14,7 @@ import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
 import javax.inject.Singleton;
 
@@ -33,8 +34,11 @@ public class DataProviderModule {
   }
 
   @Provides @Singleton ConfigDataProvider provideConfigDataProvider(
-      ConfigDataSource configDataSource, ConfigDBDataSource configDBDataSource){
-    return new ConfigDataProviderImpl(configDataSource, configDBDataSource);
+      ConfigDataSource configDataSource,
+      ConfigDBDataSource configDBDataSource,
+      SessionDBDataSource sessionDBDataSource,
+      Session session){
+    return new ConfigDataProviderImpl(configDataSource, configDBDataSource, sessionDBDataSource, session);
   }
 
   @Provides @Singleton ActionsDataProvider provideActionsDataProvider(

@@ -4,34 +4,20 @@ import android.content.Intent;
 import android.location.Location;
 
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
-import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofenceConverter;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
-import com.google.android.gms.location.GeofencingRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
+public class AndroidGeofenceIntentServiceHandler {
 
-public class AndroidGeofenceManager {
-
-    private final AndroidGeofenceConverter androidGeofenceConverter;
-    private final GeofenceDeviceRegister geofenceDeviceRegister;
     private final LocationMapper locationMapper;
 
-    public AndroidGeofenceManager(AndroidGeofenceConverter androidGeofenceConverter, GeofenceDeviceRegister geofenceDeviceRegister,
-                                  LocationMapper locationMapper) {
-        this.androidGeofenceConverter = androidGeofenceConverter;
-        this.geofenceDeviceRegister = geofenceDeviceRegister;
+    public AndroidGeofenceIntentServiceHandler(LocationMapper locationMapper) {
         this.locationMapper = locationMapper;
-    }
-
-    public void registerGeofences(List<OrchextraGeofence> geofenceList) {
-        GeofencingRequest geofencingRequest = androidGeofenceConverter.modelToControl(geofenceList);
-        geofenceDeviceRegister.register(geofencingRequest);
     }
 
     public GeofencingEvent getGeofencingEvent(Intent intent) {

@@ -11,12 +11,12 @@ import java.util.List;
 
 public class AndroidGeofenceConverter {
 
-    public GeofencingRequest modelToControl(List<OrchextraGeofence> geofencePointList) {
-        List<Geofence> geofenceList = new ArrayList<>();
+    public GeofencingRequest convertGeofencesToGeofencingRequest(List<OrchextraGeofence> orchextraGeofenceList) {
+        List<Geofence> androidGeofenceList = new ArrayList<>();
 
         int i = 0;
-        while (i < geofencePointList.size() && i < ConstantsAndroidGeofence.MAX_NUM_GEOFENCES) {
-            OrchextraGeofence orchextraGeofence = geofencePointList.get(i);
+        while (i < orchextraGeofenceList.size() && i < ConstantsAndroidGeofence.MAX_NUM_GEOFENCES) {
+            OrchextraGeofence orchextraGeofence = orchextraGeofenceList.get(i);
 
             Geofence geofence = new Geofence.Builder()
                     .setRequestId(orchextraGeofence.getCode())
@@ -28,16 +28,24 @@ public class AndroidGeofenceConverter {
                     .setTransitionTypes(
                             GeofenceUtils.getTransitionTypes(orchextraGeofence.isNotifyOnEntry(), orchextraGeofence.isNotifyOnExit()))
                     .build();
-            geofenceList.add(geofence);
+            androidGeofenceList.add(geofence);
 
             i++;
         }
 
         GeofencingRequest geofencingRequest = new GeofencingRequest.Builder()
-                .addGeofences(geofenceList)
+                .addGeofences(androidGeofenceList)
                 .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_DWELL)
                 .build();
 
         return geofencingRequest;
+    }
+
+    public List<String> getCodeList(List<OrchextraGeofence> geofencesList) {
+        List<String> codeList = new ArrayList<>();
+        for (OrchextraGeofence geofence : geofencesList) {
+            codeList.add(geofence.getCode());
+        }
+        return codeList;
     }
 }

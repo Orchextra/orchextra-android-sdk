@@ -15,7 +15,6 @@ import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
-import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
 import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
 import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
@@ -42,14 +41,13 @@ public class InteractorsModule {
   }
 
   @Provides @Singleton SendConfigInteractor provideSendConfigInteractor(
-      ConfigDataProvider configDataProvider, AuthenticationDataProvider authenticationDataProvider,
-      @ConfigErrorChecker ServiceErrorChecker serviceErrorChecker,
-      Session session){
+      ConfigDataProvider configDataProvider,
+      AuthenticationDataProvider authenticationDataProvider,
+      @ConfigErrorChecker ServiceErrorChecker serviceErrorChecker){
 
-    SendConfigInteractor sendConfigInteractor = new SendConfigInteractor(configDataProvider, authenticationDataProvider,
-        serviceErrorChecker, session);
+    return new SendConfigInteractor(configDataProvider, authenticationDataProvider,
+        serviceErrorChecker);
 
-    return sendConfigInteractor;
   }
 
   @Provides @Singleton GetActionInteractor provideGetActionInteractor (

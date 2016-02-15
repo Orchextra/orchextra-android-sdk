@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.di.modules.control;
 
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
-import com.gigigo.orchextra.control.controllers.proximity.ProximityItemController;
+import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.di.modules.domain.DomainModuleProvider;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
@@ -12,6 +12,6 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
  */
 public interface ControlModuleProvider extends DomainModuleProvider{
   ConfigObservable provideConfigObservable();
-  ProximityItemController provideProximityItemController();
+  GeofenceController provideProximityItemController();
   @BackThread ThreadSpec provideThreadSpec();
 }

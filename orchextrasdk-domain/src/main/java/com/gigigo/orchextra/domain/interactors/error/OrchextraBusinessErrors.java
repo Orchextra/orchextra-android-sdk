@@ -5,18 +5,25 @@ package com.gigigo.orchextra.domain.interactors.error;
  * Date 9/2/16.
  */
 public enum OrchextraBusinessErrors {
-  NO_AUTH_EXPIRED,
-  NO_AUTH_CREDENTIALS;
+  NO_AUTH_EXPIRED(401),
+  NO_AUTH_CREDENTIALS(403);
+
+  private final int codeError;
+
+  OrchextraBusinessErrors(int codeError) {
+    this.codeError = codeError;
+  }
+
+  public int getValue() {
+    return codeError;
+  }
 
   public static OrchextraBusinessErrors getEnumTypeFromInt(int errorCode){
-
-    switch (errorCode){
-      case 401:
-        return NO_AUTH_EXPIRED;
-      case 403:
-        return NO_AUTH_CREDENTIALS;
-      default:
-        return NO_AUTH_EXPIRED;
+    for (OrchextraBusinessErrors error : OrchextraBusinessErrors.values()) {
+      if (error.getValue() == errorCode) {
+        return error;
+      }
     }
+    return NO_AUTH_EXPIRED;
   }
 }

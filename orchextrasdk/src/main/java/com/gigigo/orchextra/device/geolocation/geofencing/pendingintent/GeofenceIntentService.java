@@ -5,12 +5,14 @@ import android.content.Intent;
 
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.control.controllers.proximity.ProximityItemController;
-import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceManager;
+import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
+import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceIntentServiceHandler;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.google.android.gms.location.GeofencingEvent;
+
 import java.util.List;
+
 import javax.inject.Inject;
 
 public class GeofenceIntentService extends IntentService {
@@ -18,10 +20,10 @@ public class GeofenceIntentService extends IntentService {
     public static final String TAG = GeofenceIntentService.class.getSimpleName();
 
     @Inject
-    AndroidGeofenceManager androidGeofenceManager;
+    AndroidGeofenceIntentServiceHandler geofenceHandler;
 
     @Inject
-    ProximityItemController controller;
+    GeofenceController controller;
 
     public GeofenceIntentService() {
         super(TAG);
@@ -40,11 +42,11 @@ public class GeofenceIntentService extends IntentService {
     }
 
     public void processGeofenceIntentPending(Intent intent) {
-        GeofencingEvent geofencingEvent = androidGeofenceManager.getGeofencingEvent(intent);
+        GeofencingEvent geofencingEvent = geofenceHandler.getGeofencingEvent(intent);
 
-        List<String> geofenceIds = androidGeofenceManager.getTriggeringGeofenceIds(geofencingEvent);
-        OrchextraPoint point = androidGeofenceManager.getTriggeringPoint(geofencingEvent);
-        GeoPointEventType transition = androidGeofenceManager.getGeofenceTransition(geofencingEvent);
+        List<String> geofenceIds = geofenceHandler.getTriggeringGeofenceIds(geofencingEvent);
+        OrchextraPoint point = geofenceHandler.getTriggeringPoint(geofencingEvent);
+        GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
 
         controller.processTriggers(geofenceIds, point, transition);
     }
