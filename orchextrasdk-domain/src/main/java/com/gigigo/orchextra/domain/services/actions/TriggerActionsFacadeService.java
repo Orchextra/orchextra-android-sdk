@@ -4,8 +4,11 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 import java.util.List;
@@ -35,6 +38,11 @@ public class TriggerActionsFacadeService implements DomaninService {
 
   public InteractorResponse<List<BasicAction>> triggerActions(OrchextraRegion detectedRegion) {
     return triggerActions(triggerService.getTrigger(detectedRegion));
+  }
+
+  public InteractorResponse<List<BasicAction>> triggerActions(List<OrchextraGeofence> geofences,
+      GeoPointEventType geofenceTransition) {
+    return triggerActions(triggerService.getTrigger(geofences, geofenceTransition));
   }
 
   private InteractorResponse triggerActions(InteractorResponse response) {
@@ -72,4 +80,5 @@ public class TriggerActionsFacadeService implements DomaninService {
         scheduleActionService.cancelPendingActionWithId(event.getActionRelated(), false);
       }
     }
+
 }

@@ -18,6 +18,7 @@ import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationServiceImpl;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
+import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
@@ -47,8 +48,7 @@ public class DomainServicesModule {
   }
 
   @Provides @Singleton RegionCheckerService provideRegionCheckerService(
-      ProximityLocalDataProvider proximityLocalDataProvider,
-      ConfigDataProvider configDataProvider){
+      ProximityLocalDataProvider proximityLocalDataProvider){
 
     return new RegionCheckerService(proximityLocalDataProvider);
   }
@@ -90,6 +90,10 @@ public class DomainServicesModule {
     return new ObtainRegionsService(proximityLocalDataProvider);
   }
 
+  @Provides @Singleton GeofenceCheckerService provideGeofenceCheckerService(
+      ProximityLocalDataProvider proximityLocalDataProvider){
+    return new GeofenceCheckerService(proximityLocalDataProvider);
+  }
 
 
 }

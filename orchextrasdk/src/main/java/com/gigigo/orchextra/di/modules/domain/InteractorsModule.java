@@ -2,25 +2,21 @@ package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.di.modules.data.DataProviderModule;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
-import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
-import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
-import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
-import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
-import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
-import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
 
 import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
 import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
+import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import javax.inject.Singleton;
@@ -50,11 +46,6 @@ public class InteractorsModule {
 
   }
 
-  @Provides @Singleton GetActionInteractor provideGetActionInteractor (
-      ActionsDataProvider actionsDataProvider, ActionsSchedulerController actionsSchedulerController){
-    return new GetActionInteractor(actionsDataProvider, actionsSchedulerController);
-  }
-
   @Provides @Singleton RegionsProviderInteractor provideRegionsProviderInteractor (
       ObtainRegionsService obtainRegionsService){
     return new RegionsProviderInteractor(obtainRegionsService);
@@ -70,10 +61,11 @@ public class InteractorsModule {
   }
 
     @Provides
-    @Singleton
-    RetrieveGeofenceTriggerInteractor provideRetrieveGeofenceDistanceInteractor(ProximityLocalDataProvider proximityLocalDataProvider,
-                                                                                AppRunningMode appRunningMode) {
-        return new RetrieveGeofenceTriggerInteractor(proximityLocalDataProvider, appRunningMode);
+    @Singleton GeofenceInteractor provideGeofenceInteractor(
+        TriggerActionsFacadeService triggerActionsFacadeService,
+        GeofenceCheckerService geofenceCheckerService) {
+
+      return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService);
     }
 
 }

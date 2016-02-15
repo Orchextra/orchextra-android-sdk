@@ -16,7 +16,6 @@ import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanne
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScannerImpl;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import dagger.Module;

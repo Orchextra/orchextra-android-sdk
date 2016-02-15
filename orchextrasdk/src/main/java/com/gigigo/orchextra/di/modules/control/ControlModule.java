@@ -7,11 +7,10 @@ import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceContr
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.modules.domain.DomainModule;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
-import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
+import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
+import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
-import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 
 import javax.inject.Singleton;
@@ -24,12 +23,11 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
 public class ControlModule {
 
   @Provides @Singleton
-  GeofenceController provideProximityItemController(
-      InteractorInvoker interactorInvoker,
-      GetActionInteractor getActionInteractor,
-      RetrieveGeofenceTriggerInteractor retrieveGeofenceDistanceInteractor
-  ) {
-    return new GeofenceController(interactorInvoker, getActionInteractor, retrieveGeofenceDistanceInteractor);
+  GeofenceController provideProximityItemController(InteractorInvoker interactorInvoker,
+      GeofenceInteractor geofenceInteractor,
+      ActionDispatcher actionDispatcher) {
+
+    return new GeofenceController(interactorInvoker, geofenceInteractor, actionDispatcher);
   }
 
   @Provides

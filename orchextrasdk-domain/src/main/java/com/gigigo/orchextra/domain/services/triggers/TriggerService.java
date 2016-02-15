@@ -3,7 +3,9 @@ package com.gigigo.orchextra.domain.services.triggers;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import java.util.ArrayList;
@@ -43,5 +45,21 @@ public class TriggerService implements DomaninService {
         return new InteractorResponse(triggers);
     }
 
+    public InteractorResponse getTrigger(List<OrchextraGeofence> geofences, GeoPointEventType geofenceTransition) {
+        List<Trigger> triggers = new ArrayList<>();
 
+        for (OrchextraGeofence orchextraGeofence: geofences){
+
+            Trigger trigger = Trigger.createGeofenceTrigger(
+                orchextraGeofence.getGeofenceId(),
+                orchextraGeofence.getPoint(),
+                appRunningMode.getRunningModeType(),
+                orchextraGeofence.getDistanceToDeviceInKm(),
+                geofenceTransition);
+
+            triggers.add(trigger);
+        }
+
+        return new InteractorResponse(triggers);
+    }
 }

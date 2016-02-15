@@ -2,7 +2,7 @@ package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
-import com.gigigo.orchextra.domain.interactors.error.ConfigServiceErrorChecker;
+import com.gigigo.orchextra.domain.interactors.config.ConfigServiceErrorChecker;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 
 import com.gigigo.orchextra.domain.services.actions.ActionServiceErrorChecker;
