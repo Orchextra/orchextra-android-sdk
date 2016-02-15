@@ -5,7 +5,7 @@ import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.interactors.error.InteractorErrorChecker;
+import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.model.config.Config;
 import com.gigigo.orchextra.domain.model.entities.App;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
@@ -24,7 +24,7 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Orche
 
   private final ConfigDataProvider configDataProvider;
   private final AuthenticationDataProvider authenticationDataProvider;
-  private final InteractorErrorChecker interactorErrorChecker;
+  private final ServiceErrorChecker serviceErrorChecker;
   private final Session session;
 
   private App app;
@@ -33,12 +33,12 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Orche
 
   public SendConfigInteractor(ConfigDataProvider configDataProvider,
                               AuthenticationDataProvider authenticationDataProvider,
-                              InteractorErrorChecker interactorErrorChecker,
+                              ServiceErrorChecker serviceErrorChecker,
                               Session session) {
 
     this.configDataProvider = configDataProvider;
     this.authenticationDataProvider = authenticationDataProvider;
-    this.interactorErrorChecker = interactorErrorChecker;
+    this.serviceErrorChecker = serviceErrorChecker;
     this.session = session;
   }
 
@@ -52,7 +52,7 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Orche
     if (boOrchextraUpdates.isSuccess()){
       return new InteractorResponse<>(boOrchextraUpdates.getData());
     }else{
-     return new InteractorResponse(interactorErrorChecker.checkErrors(boOrchextraUpdates.getBusinessError()));
+     return new InteractorResponse(serviceErrorChecker.checkErrors(boOrchextraUpdates.getBusinessError()));
     }
   }
 

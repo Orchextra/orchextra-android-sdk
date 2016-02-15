@@ -4,6 +4,7 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
+import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AuthenticationInteractorTest {
+public class SaveUserInteractorTest {
 
     @Mock AuthenticationDataProvider authenticationDataProvider;
 
@@ -46,11 +47,11 @@ public class AuthenticationInteractorTest {
     @Mock
     Session session;
 
-    private AuthenticationInteractor interactor;
+    private SaveUserInteractor interactor;
 
     @Before
     public void setUp() throws Exception {
-        interactor = new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, session);
+        interactor = new SaveUserInteractor(authenticationDataProvider, deviceDetailsProvider, session);
         interactor.setSdkAuthCredentials(new SdkAuthCredentials("Admin", "1234"));
     }
 

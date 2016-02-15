@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.domain.interactors.authentication.errors;
+package com.gigigo.orchextra.domain.services.auth.errors;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;

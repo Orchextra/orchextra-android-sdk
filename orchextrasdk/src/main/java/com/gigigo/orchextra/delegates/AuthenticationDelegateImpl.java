@@ -55,7 +55,7 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
     destroy();
   }
 
-  //public static void authenticate (String apiKey, String apiSecret){
+  //public static void saveUser (String apiKey, String apiSecret){
   //
   //  getInstance().authenticateTask(apiKey, apiSecret);
   //}
@@ -63,7 +63,7 @@ public class AuthenticationDelegateImpl implements AuthenticationDelegate {
   private void authenticate(String apiKey, String apiSecret) {
     GGGLogImpl.log("Being Authenticated with credentials... " + apiKey + " // " + apiSecret);
     init();
-    //authenticationController.authenticate(apiKey, apiSecret);
+    //authenticationController.saveUser(apiKey, apiSecret);
   }
 
   //private static AuthenticationDelegateImpl getInstance(){

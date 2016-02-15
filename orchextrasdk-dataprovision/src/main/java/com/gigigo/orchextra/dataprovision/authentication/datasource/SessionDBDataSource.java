@@ -21,4 +21,6 @@ public interface SessionDBDataSource {
   BusinessObject<ClientAuthData> getSessionToken();
   BusinessObject getDeviceToken();
   BusinessObject<Crm> getCrm();
+
+  boolean saveUserId(String crmId);
 }

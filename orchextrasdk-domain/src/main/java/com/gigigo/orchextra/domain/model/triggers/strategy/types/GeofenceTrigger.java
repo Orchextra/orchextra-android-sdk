@@ -24,6 +24,7 @@ public class GeofenceTrigger extends Trigger {
 
     this.distance = distance;
     this.geoPointEventType = geoPointEventType;
+    this.isTriggerable = true;
 
   }
 

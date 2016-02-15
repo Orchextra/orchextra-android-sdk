@@ -12,4 +12,6 @@ public interface ConfigDataProvider {
 
   BusinessObject sendConfigInfo(Config config);
 
+  int obtainRequestTime();
+
 }

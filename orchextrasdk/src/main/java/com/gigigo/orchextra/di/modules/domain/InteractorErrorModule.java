@@ -1,12 +1,12 @@
 package com.gigigo.orchextra.di.modules.domain;
 
-import com.gigigo.orchextra.control.controllers.authentication.AuthenticationController;
+import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
-import com.gigigo.orchextra.domain.interactors.error.AuthErrorHandler;
-import com.gigigo.orchextra.domain.interactors.error.ConfigInteractorErrorChecker;
-import com.gigigo.orchextra.domain.interactors.error.InteractorErrorChecker;
-import com.gigigo.orchextra.domain.interactors.error.PendingInteractorExecution;
+import com.gigigo.orchextra.domain.interactors.error.ConfigServiceErrorChecker;
+import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 
+import com.gigigo.orchextra.domain.services.actions.ActionServiceErrorChecker;
+import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -20,16 +20,15 @@ import dagger.Provides;
 public class InteractorErrorModule {
 
   //TODO must be provider
-  @ConfigErrorChecker @Provides @Singleton InteractorErrorChecker provideInteractorErrorChecker(
-      AuthErrorHandler authErrorHandler, PendingInteractorExecution pendingInteractorExecution){
-    return new ConfigInteractorErrorChecker(authErrorHandler, pendingInteractorExecution);
+  @ConfigErrorChecker @Provides @Singleton ServiceErrorChecker provideConfigServiceErrorChecker(
+      AuthenticationService authenticationService){
+    return new ConfigServiceErrorChecker(authenticationService);
   }
 
-  @Provides @Singleton PendingInteractorExecution providePendingInteractorExecution(){
-    return new PendingInteractorExecution();
+
+  @ActionsErrorChecker @Provides @Singleton ServiceErrorChecker provideActionServiceErrorChecker(
+      AuthenticationService authenticationService){
+    return new ActionServiceErrorChecker(authenticationService);
   }
 
-  @Provides @Singleton AuthErrorHandler provideAuthErrorHandler(AuthenticationController authenticationController){
-    return authenticationController;
-  }
 }

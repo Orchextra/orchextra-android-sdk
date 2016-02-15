@@ -8,7 +8,7 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.modules.domain.DomainModule;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
 import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
-import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
@@ -47,11 +47,10 @@ public class ControlModule {
   }
 
   @Provides @Singleton AuthenticationController provideAuthenticationController(
-      InteractorInvoker interactorInvoker,
-      AuthenticationInteractor authenticationInteractor,
-      @BackThread ThreadSpec backThreadSpec, Session session){
+      InteractorInvoker interactorInvoker, SaveUserInteractor saveUserInteractor,
+      @BackThread ThreadSpec backThreadSpec){
 
-    return new AuthenticationController(interactorInvoker, authenticationInteractor, backThreadSpec, session);
+    return new AuthenticationController(interactorInvoker, saveUserInteractor, backThreadSpec);
   }
 
   @Singleton @Provides @BackThread ThreadSpec provideBackThread(){

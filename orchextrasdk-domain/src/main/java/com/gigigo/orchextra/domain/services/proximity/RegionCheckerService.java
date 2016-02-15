@@ -1,31 +1,30 @@
-package com.gigigo.orchextra.domain.interactors.beacons;
+package com.gigigo.orchextra.domain.services.proximity;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
-import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
+import com.gigigo.orchextra.domain.interactors.beacons.BeaconBusinessErrorType;
+import com.gigigo.orchextra.domain.interactors.beacons.BeaconsInteractorError;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.services.DomaninService;
 
-public class RegionCheckerInteractor implements Interactor<InteractorResponse<OrchextraRegion>> {
+public class RegionCheckerService implements DomaninService{
 
     private final ProximityLocalDataProvider proximityLocalDataProvider;
 
-    private OrchextraRegion orchextraRegion;
-
-    public RegionCheckerInteractor(ProximityLocalDataProvider proximityLocalDataProvider) {
+    public RegionCheckerService(ProximityLocalDataProvider proximityLocalDataProvider) {
         this.proximityLocalDataProvider = proximityLocalDataProvider;
     }
 
-    @Override
-    public InteractorResponse<OrchextraRegion> call() throws Exception {
+    public InteractorResponse obtainCheckedRegion(OrchextraRegion orchextraRegion){
         if (orchextraRegion.isEnter()) {
-            return new InteractorResponse(storeRegion());
+            return new InteractorResponse(storeRegion(orchextraRegion));
         } else {
-            return new InteractorResponse(deleteStoredRegion());
+            return new InteractorResponse(deleteStoredRegion(orchextraRegion));
         }
     }
 
-    private InteractorResponse deleteStoredRegion() {
+    private InteractorResponse deleteStoredRegion(OrchextraRegion orchextraRegion) {
         BusinessObject<OrchextraRegion> bo = proximityLocalDataProvider.deleteRegion(orchextraRegion);
         if (!bo.isSuccess()){
             return new InteractorResponse(new BeaconsInteractorError(BeaconBusinessErrorType.NO_SUCH_REGION_IN_ENTER));
@@ -34,7 +33,7 @@ public class RegionCheckerInteractor implements Interactor<InteractorResponse<Or
         }
     }
 
-    private InteractorResponse storeRegion() throws Exception {
+    private InteractorResponse storeRegion(OrchextraRegion orchextraRegion){
         BusinessObject<OrchextraRegion> bo = proximityLocalDataProvider.obtainRegion(orchextraRegion);
         if (bo.isSuccess()){
             return new InteractorResponse(new BeaconsInteractorError(BeaconBusinessErrorType.ALREADY_IN_ENTER_REGION));
@@ -44,7 +43,4 @@ public class RegionCheckerInteractor implements Interactor<InteractorResponse<Or
         }
     }
 
-    public void setOrchextraRegion(OrchextraRegion orchextraRegion) {
-        this.orchextraRegion = orchextraRegion;
-    }
 }

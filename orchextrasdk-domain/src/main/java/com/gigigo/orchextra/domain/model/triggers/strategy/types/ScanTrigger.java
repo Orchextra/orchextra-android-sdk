@@ -16,6 +16,7 @@ public class ScanTrigger extends Trigger {
   public ScanTrigger(TriggerType triggerType, String id, OrchextraPoint point,
       AppRunningModeType appRunningModeType) {
     super(triggerType, id, point, appRunningModeType);
+    this.isTriggerable = true;
   }
 
   @Override void setConcreteBehaviour() {
