@@ -37,12 +37,10 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
   }
 
   @Override public BusinessObject<OrchextraUpdates> sendConfigInfo(Config config) {
-    BusinessObject<SdkAuthData> deviceToken = sessionDBDataSource.getDeviceToken();
-    if (deviceToken.isSuccess()) {
-      setAuthenticationToken();
-    } else {
-      return new BusinessObject<>(null, new BusinessError(OrchextraBusinessErrors.NO_AUTH_EXPIRED.getValue(), deviceToken.getBusinessError().getMessage(),
-              BusinessContentType.BUSINESS_ERROR_CONTENT));
+
+    boolean isAuthenticated = checkAuthenticationToken();
+    if (!isAuthenticated) {
+      return new BusinessObject<>(null, new BusinessError(OrchextraBusinessErrors.NO_AUTH_EXPIRED.getValue(), null, BusinessContentType.BUSINESS_ERROR_CONTENT));
     }
 
     BusinessObject<ConfigInfoResult> configResponse = configDataSource.sendConfigInfo(config);
@@ -55,11 +53,16 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     }
   }
 
-  private void setAuthenticationToken() {
-    BusinessObject<ClientAuthData> credentials = sessionDBDataSource.getSessionToken();
+  private boolean checkAuthenticationToken() {
+    BusinessObject<SdkAuthData> deviceToken = sessionDBDataSource.getDeviceToken();
+    if (deviceToken.isSuccess()) {
+      BusinessObject<ClientAuthData> credentials = sessionDBDataSource.getSessionToken();
 
-    if (credentials.isSuccess()) {
-      session.setTokenString(credentials.getData().getValue());
+      if (credentials.isSuccess()) {
+        session.setTokenString(credentials.getData().getValue());
+        return true;
+      }
     }
+    return false;
   }
 }

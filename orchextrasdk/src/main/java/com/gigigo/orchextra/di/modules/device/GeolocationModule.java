@@ -46,9 +46,7 @@ public class GeolocationModule {
   }
 
   @Singleton
-  @Provides GeofencePendingIntentCreator provideGeofencePendingIntentCreator(ContextProvider contextProvider,
-      PermissionChecker permissionChecker,
-      PermissionLocationImp permissionLocationImp) {
+  @Provides GeofencePendingIntentCreator provideGeofencePendingIntentCreator(ContextProvider contextProvider) {
     return new GeofencePendingIntentCreator(contextProvider.getApplicationContext());
   }
 
