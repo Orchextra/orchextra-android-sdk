@@ -14,15 +14,16 @@ public enum OrchextraBusinessErrors {
     this.codeError = codeError;
   }
 
-  public static OrchextraBusinessErrors getEnumTypeFromInt(int errorCode){
+  public int getValue() {
+    return codeError;
+  }
 
-    switch (errorCode){
-      case 401:
-        return NO_AUTH_EXPIRED;
-      case 403:
-        return NO_AUTH_CREDENTIALS;
-      default:
-        return NO_AUTH_EXPIRED;
+  public static OrchextraBusinessErrors getEnumTypeFromInt(int errorCode){
+    for (OrchextraBusinessErrors error : OrchextraBusinessErrors.values()) {
+      if (error.getValue() == errorCode) {
+        return error;
+      }
     }
+    return NO_AUTH_EXPIRED;
   }
 }

@@ -8,6 +8,7 @@ import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
+import com.gigigo.orchextra.domain.interactors.error.OrchextraBusinessErrors;
 import com.gigigo.orchextra.domain.model.config.Config;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
@@ -40,7 +41,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     if (deviceToken.isSuccess()) {
       setAuthenticationToken();
     } else {
-      return new BusinessObject<>(null, new BusinessError(401, deviceToken.getBusinessError().getMessage(),
+      return new BusinessObject<>(null, new BusinessError(OrchextraBusinessErrors.NO_AUTH_EXPIRED.getValue(), deviceToken.getBusinessError().getMessage(),
               BusinessContentType.BUSINESS_ERROR_CONTENT));
     }
 
