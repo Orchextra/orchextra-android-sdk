@@ -4,15 +4,18 @@ import com.gigigo.orchextra.control.controllers.authentication.AuthenticationCon
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
+import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.modules.domain.DomainModule;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
+import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
-import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -24,10 +27,10 @@ public class ControlModule {
 
   @Provides @Singleton
   GeofenceController provideProximityItemController(InteractorInvoker interactorInvoker,
-      GeofenceInteractor geofenceInteractor,
+      @GeofenceInteractorExecution Provider<InteractorExecution> geofenceInteractorExecution,
       ActionDispatcher actionDispatcher) {
 
-    return new GeofenceController(interactorInvoker, geofenceInteractor, actionDispatcher);
+    return new GeofenceController(interactorInvoker, geofenceInteractorExecution, actionDispatcher);
   }
 
   @Provides
@@ -38,16 +41,17 @@ public class ControlModule {
   @Provides
   @Singleton ConfigController provideConfigController(@BackThread ThreadSpec backThreadSpec,
       InteractorInvoker interactorInvoker,
-      SendConfigInteractor sendConfigInteractor,
+      @ConfigInteractorExecution Provider<InteractorExecution> sendConfigInteractorProvider,
       ConfigObservable configObservable) {
-    return new ConfigController(backThreadSpec, interactorInvoker, sendConfigInteractor, configObservable);
+    return new ConfigController(backThreadSpec, interactorInvoker, sendConfigInteractorProvider, configObservable);
   }
 
   @Provides @Singleton AuthenticationController provideAuthenticationController(
-      InteractorInvoker interactorInvoker, SaveUserInteractor saveUserInteractor,
+      InteractorInvoker interactorInvoker,
+      @SaveUserInteractorExecution Provider<InteractorExecution> interactorExecutionProvider,
       @BackThread ThreadSpec backThreadSpec){
 
-    return new AuthenticationController(interactorInvoker, saveUserInteractor, backThreadSpec);
+    return new AuthenticationController(interactorInvoker, interactorExecutionProvider, backThreadSpec);
   }
 
   @Singleton @Provides @BackThread ThreadSpec provideBackThread(){

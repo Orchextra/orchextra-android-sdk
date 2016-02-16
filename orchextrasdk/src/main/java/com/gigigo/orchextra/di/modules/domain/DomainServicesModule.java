@@ -1,8 +1,13 @@
 package com.gigigo.orchextra.di.modules.domain;
 
+import com.gigigo.orchextra.device.information.AndroidApp;
+import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
+import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
+import com.gigigo.orchextra.di.scopes.PerExecution;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
+import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
@@ -18,81 +23,89 @@ import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationServiceImpl;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
+import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 import dagger.Module;
 import dagger.Provides;
-import javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 15/2/16.
  */
-@Module
+@Module(includes = DomainServiceErrorCheckerModule.class)
 public class DomainServicesModule {
 
-  @Provides @Singleton AuthenticationService provideAuthService(
+  @Provides @PerExecution AuthenticationService provideAuthService(
       AuthenticationDataProvider authDataProvider,
       DeviceDetailsProvider deviceDetailsProvider, Session session){
 
     return new AuthenticationServiceImpl(authDataProvider, deviceDetailsProvider, session);
   }
 
-  @Provides @Singleton BeaconCheckerService provideBeaconCheckerService(
+  @Provides @PerExecution BeaconCheckerService provideBeaconCheckerService(
       ProximityLocalDataProvider proximityLocalDataProvider,
       ConfigDataProvider configDataProvider){
 
     return new BeaconCheckerService(proximityLocalDataProvider, configDataProvider);
   }
 
-  @Provides @Singleton RegionCheckerService provideRegionCheckerService(
+  @Provides @PerExecution RegionCheckerService provideRegionCheckerService(
       ProximityLocalDataProvider proximityLocalDataProvider){
 
     return new RegionCheckerService(proximityLocalDataProvider);
   }
 
-  @Provides @Singleton EventUpdaterService provideEventUpdaterService(
+  @Provides @PerExecution EventUpdaterService provideEventUpdaterService(
       ProximityLocalDataProvider proximityLocalDataProvider){
 
     return new EventUpdaterService(proximityLocalDataProvider);
   }
 
-  @Provides @Singleton GetActionService provideGetActionService(
+  @Provides @PerExecution GetActionService provideGetActionService(
       ActionsDataProvider actionsDataProvider,
       @ActionsErrorChecker ServiceErrorChecker serviceErrorChecker){
 
     return new GetActionService(actionsDataProvider,serviceErrorChecker);
   }
 
-  @Provides @Singleton ScheduleActionService provideScheduleActionService(
+  @Provides @PerExecution ScheduleActionService provideScheduleActionService(
       ActionsSchedulerController actionsSchedulerController){
     return new ScheduleActionService(actionsSchedulerController);
   }
 
-  @Provides @Singleton TriggerService provideTriggerService(AppRunningMode appRunningMode){
+  @Provides @PerExecution TriggerService provideTriggerService(AppRunningMode appRunningMode){
     return new TriggerService(appRunningMode);
   }
 
-  @Provides @Singleton TriggerActionsFacadeService provideTriggerActionsFacadeService(
+  @Provides @PerExecution TriggerActionsFacadeService provideTriggerActionsFacadeService(
       TriggerService triggerService, GetActionService getActionService,
       ScheduleActionService scheduleActionService){
     return new TriggerActionsFacadeService(triggerService, getActionService, scheduleActionService);
   }
 
-  @Provides @Singleton ConfigService provideConfigService(){
-    return new ConfigService();
+  @Provides @PerExecution ConfigService provideConfigService(ConfigDataProvider configDataProvider,
+      AuthenticationDataProvider authenticationDataProvider,
+      @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
+      AndroidDevice androidDevice, FutureGeolocation futureGeolocation, GeolocationManager geolocationManager){
+    return new ConfigService(configDataProvider, authenticationDataProvider, errorChecker,
+        androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), futureGeolocation, geolocationManager);
   }
 
-  @Provides @Singleton ObtainRegionsService provideObtainRegionsService(
+  @Provides @PerExecution ObtainRegionsService provideObtainRegionsService(
       ProximityLocalDataProvider proximityLocalDataProvider){
     return new ObtainRegionsService(proximityLocalDataProvider);
   }
 
-  @Provides @Singleton GeofenceCheckerService provideGeofenceCheckerService(
+  @Provides @PerExecution GeofenceCheckerService provideGeofenceCheckerService(
       ProximityLocalDataProvider proximityLocalDataProvider){
     return new GeofenceCheckerService(proximityLocalDataProvider);
+  }
+
+  @Provides @PerExecution FutureGeolocation provideFutureGeolocation(){
+    return new FutureGeolocation();
   }
 
 

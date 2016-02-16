@@ -3,9 +3,11 @@ package com.gigigo.orchextra.device.geolocation.geocoder;
 import android.location.Location;
 
 import com.gigigo.orchextra.device.geolocation.location.RetrieveLastKnownLocation;
+import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
+import com.gigigo.orchextra.domain.abstractions.device.RetrieveGeolocationListener;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 
-public class AndroidGeolocationManager {
+public class AndroidGeolocationManager implements GeolocationManager {
 
     private final RetrieveLastKnownLocation retrieveLastKnownLocation;
     private final AndroidGeocoder androidGeocoder;
@@ -37,9 +39,6 @@ public class AndroidGeolocationManager {
                 }
             };
 
-    public interface RetrieveGeolocationListener {
-        void retrieveGeolocation(GeoLocation geoLocation);
-    }
 
     public void setRetrieveGeolocationListener(RetrieveGeolocationListener retrieveGeolocationListener) {
         this.retrieveGeolocationListener = retrieveGeolocationListener;

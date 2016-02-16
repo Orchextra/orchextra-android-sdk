@@ -13,6 +13,7 @@ import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.Geofence
 import com.gigigo.orchextra.device.geolocation.location.RetrieveLastKnownLocation;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 
+import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -40,8 +41,8 @@ public class GeolocationModule {
   }
 
   @Singleton
-  @Provides AndroidGeolocationManager provideAndroidGeolocationManager(RetrieveLastKnownLocation retrieveLastKnownLocation,
-      AndroidGeocoder androidGeocoder) {
+  @Provides GeolocationManager provideAndroidGeolocationManager(
+      RetrieveLastKnownLocation retrieveLastKnownLocation, AndroidGeocoder androidGeocoder) {
     return new AndroidGeolocationManager(retrieveLastKnownLocation, androidGeocoder);
   }
 
