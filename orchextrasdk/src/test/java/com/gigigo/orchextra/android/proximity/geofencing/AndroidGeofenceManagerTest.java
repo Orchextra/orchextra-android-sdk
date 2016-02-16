@@ -4,7 +4,7 @@ import android.location.Location;
 
 import com.gigigo.orchextra.android.builders.ControlGeofenceBuilder;
 import com.gigigo.orchextra.android.builders.OrchextraPointBuilder;
-import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegister;
+import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegisterImp;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceDeviceRegister;
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofenceConverter;
@@ -46,11 +46,11 @@ public class AndroidGeofenceManagerTest {
     @Mock
     Location location;
 
-    private AndroidGeofenceRegister manager;
+    private AndroidGeofenceRegisterImp manager;
 
     @Before
     public void setUp() throws Exception {
-        manager = new AndroidGeofenceRegister(androidGeofenceMapper, geofenceDeviceRegister, locationMapper);
+        manager = new AndroidGeofenceRegisterImp(androidGeofenceMapper, geofenceDeviceRegister, locationMapper);
     }
 
     @Test

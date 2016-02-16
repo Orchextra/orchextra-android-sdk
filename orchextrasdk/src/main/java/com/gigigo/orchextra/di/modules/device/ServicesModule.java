@@ -5,6 +5,7 @@ import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
 import com.gigigo.orchextra.di.scopes.PerService;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
+import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
 import com.gigigo.orchextra.domain.background.BackgroundTasksManagerImpl;
 
 import dagger.Module;
@@ -17,8 +18,9 @@ import dagger.Provides;
 @Module
 public class ServicesModule {
 
-  @PerService @Provides BackgroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner){
-    return new BackgroundTasksManagerImpl(beaconScanner);
+  @PerService @Provides BackgroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner,
+                                                                             GeofenceRegister geofenceRegister){
+    return new BackgroundTasksManagerImpl(beaconScanner, geofenceRegister);
   }
 
   @PerService

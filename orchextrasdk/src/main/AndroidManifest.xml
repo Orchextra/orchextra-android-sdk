@@ -36,6 +36,8 @@
         </intent-filter>
       </service>
 
+        <service android:name=".device.geolocation.geofencing.pendingintent.GeofenceIntentService"/>
+
     </application>
 
 </manifest>

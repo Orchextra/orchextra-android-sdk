@@ -6,12 +6,13 @@ import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeocoder;
 import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeolocationManager;
-import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegister;
+import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegisterImp;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceDeviceRegister;
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofenceConverter;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.gigigo.orchextra.device.geolocation.location.RetrieveLastKnownLocation;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
+import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
 
 import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
 import javax.inject.Singleton;
@@ -53,9 +54,9 @@ public class GeolocationModule {
 
   @Singleton
   @Provides
-  AndroidGeofenceRegister provideAndroidGeofenceManager(GeofenceDeviceRegister geofenceDeviceRegister,
+  GeofenceRegister provideAndroidGeofenceManager(GeofenceDeviceRegister geofenceDeviceRegister,
                                                         ConfigObservable configObservable) {
-    return new AndroidGeofenceRegister(geofenceDeviceRegister, configObservable);
+    return new AndroidGeofenceRegisterImp(geofenceDeviceRegister, configObservable);
   }
 
   @Singleton
