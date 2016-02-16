@@ -1,25 +1,45 @@
 package com.gigigo.orchextra.device.geolocation.geofencing;
 
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
+import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
 
-public class AndroidGeofenceRegister implements Observer {
+public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer {
 
     private final GeofenceDeviceRegister geofenceDeviceRegister;
+    private final ConfigObservable configObservable;
 
-    public AndroidGeofenceRegister(GeofenceDeviceRegister geofenceDeviceRegister,
-                                   ConfigObservable configObservable) {
+    private boolean isRegistered = false;
+
+    public AndroidGeofenceRegisterImp(GeofenceDeviceRegister geofenceDeviceRegister,
+                                      ConfigObservable configObservable) {
         this.geofenceDeviceRegister = geofenceDeviceRegister;
-
-        configObservable.registerObserver(this);
+        this.configObservable = configObservable;
     }
 
+    @Override
     public void registerGeofences(OrchextraGeofenceUpdates geofenceUpdates) {
         geofenceDeviceRegister.register(geofenceUpdates);
+    }
+
+    @Override
+    public void startGeofenceRegister() {
+        if (!isRegistered) {
+            configObservable.registerObserver(this);
+            isRegistered = true;
+        }
+    }
+
+    @Override
+    public void stopGeofenceRegister(){
+        if (isRegistered) {
+            configObservable.removeObserver(this);
+            isRegistered = false;
+        }
     }
 
     @Override
