@@ -10,6 +10,7 @@ import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
+import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
 import com.gigigo.orchextra.sdk.application.ForegroundTasksManagerImpl;
 
 import javax.inject.Singleton;
@@ -25,8 +26,10 @@ import dagger.Provides;
 public class DeviceModule {
 
   @Singleton @Provides
-  ForegroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner, ConfigDelegateImp configDelegateImp){
-    return  new ForegroundTasksManagerImpl(beaconScanner, configDelegateImp);
+  ForegroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner,
+                                                       ConfigDelegateImp configDelegateImp,
+                                                       GeofenceRegister geofenceRegister){
+    return  new ForegroundTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister);
   }
 
   @Provides PermissionChecker providePermissionChecker(ContextProvider contextProvider) {
