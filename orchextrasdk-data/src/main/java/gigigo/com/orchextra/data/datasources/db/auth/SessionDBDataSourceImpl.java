@@ -161,4 +161,21 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
       }
     }
   }
+
+  @Override public boolean saveUserId(String crmId) {
+
+    Realm realm = getRealmInstance(context);
+
+    try {
+      realm.beginTransaction();
+      sessionUpdater.updateCrmID(realm, crmId);
+    }catch (RealmException re){
+      return false;
+    }finally {
+      realm.commitTransaction();
+      realm.close();
+    }
+    return true;
+  }
+
 }

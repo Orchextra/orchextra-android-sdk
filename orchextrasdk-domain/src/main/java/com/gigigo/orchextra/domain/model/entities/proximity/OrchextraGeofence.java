@@ -10,6 +10,8 @@ public class OrchextraGeofence extends ProximityPoint {
 
   private OrchextraPoint point;
   private int radius;
+  private double distanceToDeviceInKm;
+  private String geofenceId;
 
   public OrchextraPoint getPoint() {
     return point;
@@ -25,5 +27,21 @@ public class OrchextraGeofence extends ProximityPoint {
 
   public void setRadius(int radius) {
     this.radius = radius;
+  }
+
+  public double getDistanceToDeviceInKm() {
+    return distanceToDeviceInKm;
+  }
+
+  public void setDistanceToDeviceInKm(double distanceToDeviceInKm) {
+    this.distanceToDeviceInKm = distanceToDeviceInKm;
+  }
+
+  public void setGeofenceId(String geofenceId) {
+    this.geofenceId = geofenceId;
+  }
+
+  public String getGeofenceId() {
+    return geofenceId;
   }
 }

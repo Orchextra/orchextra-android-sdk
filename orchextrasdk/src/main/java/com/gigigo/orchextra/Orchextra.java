@@ -27,7 +27,7 @@ public class Orchextra {
   @Inject
   Session session;
 
-  public void initDependencyInjection(Context applicationContext, OrchextraCompletionCallback orchextraCompletionCallback) {
+  private void initDependencyInjection(Context applicationContext, OrchextraCompletionCallback orchextraCompletionCallback) {
     OrchextraComponent orchextraComponent = DaggerOrchextraComponent.builder()
         .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback))
         .build();
@@ -58,11 +58,11 @@ public class Orchextra {
   }
 
   //private void start(String apiKey, String apiSecret) {
-  //  authenticate(apiKey, apiSecret);
+  //  saveUser(apiKey, apiSecret);
   //}
   //
-  //private void authenticate(String apiKey, String apiSecret) {
-  //  AuthenticationDelegateImpl.authenticate(apiKey, apiSecret);
+  //private void saveUser(String apiKey, String apiSecret) {
+  //  AuthenticationDelegateImpl.saveUser(apiKey, apiSecret);
   //}
 
   public static InjectorImpl getInjector() {

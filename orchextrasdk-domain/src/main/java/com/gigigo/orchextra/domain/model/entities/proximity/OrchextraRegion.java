@@ -1,10 +1,12 @@
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
+import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
+
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 4/2/16.
  */
-public class OrchextraRegion extends ProximityPoint {
+public class OrchextraRegion extends ProximityPoint implements ScheduledActionEvent {
 
   private final String code;
 
@@ -46,14 +48,17 @@ public class OrchextraRegion extends ProximityPoint {
     return active;
   }
 
+  @Override
   public String getActionRelated() {
     return actionRelated;
   }
 
+  @Override
   public void setActionRelated(String actionRelated) {
     this.actionRelated = actionRelated;
   }
 
+  @Override
   public boolean hasActionRelated() {
     return (actionRelated!=null) && (actionRelated.length()>0);
   }

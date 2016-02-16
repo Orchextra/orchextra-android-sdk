@@ -72,6 +72,7 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
 
   @Override
   public BusinessObject<List<OrchextraGeofence>> obtainGeofences() {
+    //TODO SHOULD BE USED
     Realm realm = getRealmInstance(context);
     try {
       List<OrchextraGeofence> geofenceList = configInfoResultReader.getAllGeofences(realm);
@@ -96,6 +97,10 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
   }
 
   public BusinessObject<OrchextraGeofence> obtainGeofenceById(String id){
+    //TODO Modify this because this implementation is wrong, this has to check if geofence was
+    // already been discovered instead of check if exists in DB, implementation has to be exactly
+    // the same that beacons
+
     Realm realm = getRealmInstance(context);
     try {
       OrchextraGeofence geofence = configInfoResultReader.getGeofenceById(realm, id);

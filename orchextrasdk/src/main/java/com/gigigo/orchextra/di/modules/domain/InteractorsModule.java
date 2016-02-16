@@ -2,27 +2,23 @@ package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.di.modules.data.DataProviderModule;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
-import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
-import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
-import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
-import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
-import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
-import com.gigigo.orchextra.domain.interactors.EventUpdaterInteractor;
-import com.gigigo.orchextra.domain.interactors.actions.GetActionInteractor;
-import com.gigigo.orchextra.domain.interactors.authentication.AuthenticationInteractor;
-import com.gigigo.orchextra.domain.interactors.beacons.BeaconCheckerInteractor;
-import com.gigigo.orchextra.domain.interactors.beacons.BeaconTriggerInteractor;
-import com.gigigo.orchextra.domain.interactors.beacons.ObtainRegionsInteractor;
-import com.gigigo.orchextra.domain.interactors.beacons.RegionCheckerInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
+import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
+import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
-import com.gigigo.orchextra.domain.interactors.error.InteractorErrorChecker;
-import com.gigigo.orchextra.domain.interactors.geofences.RetrieveGeofenceTriggerInteractor;
-import com.gigigo.orchextra.domain.interactors.user.LogOnUserInteractor;
-import com.gigigo.orchextra.domain.interactors.user.SaveUserInfoInteractor;
-import com.gigigo.orchextra.domain.model.entities.authentication.Session;
+import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 
+import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
+import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
+import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
+import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
+import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
+import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
+import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -32,71 +28,44 @@ import dagger.Provides;
  * Created by Sergio Martinez Rodriguez
  * Date 9/12/15.
  */
-@Module(includes = {DataProviderModule.class, InteractorErrorModule.class})
+@Module(includes = {DomainServicesModule.class, DataProviderModule.class, InteractorErrorModule.class})
 public class InteractorsModule {
 
-  @Provides @Singleton AuthenticationInteractor provideAuthenticationInteractor(
-      AuthenticationDataProvider authenticationDataProvider, DeviceDetailsProvider deviceDetailsProvider, Session session){
-    return new AuthenticationInteractor(authenticationDataProvider, deviceDetailsProvider, session);
+  @Provides @Singleton SaveUserInteractor provideAuthenticationInteractor(
+      AuthenticationService authenticationService, ConfigService configService){
+    return new SaveUserInteractor(authenticationService, configService);
   }
 
   @Provides @Singleton SendConfigInteractor provideSendConfigInteractor(
       ConfigDataProvider configDataProvider,
       AuthenticationDataProvider authenticationDataProvider,
-      @ConfigErrorChecker InteractorErrorChecker interactorErrorChecker){
+      @ConfigErrorChecker ServiceErrorChecker serviceErrorChecker){
 
-    SendConfigInteractor sendConfigInteractor = new SendConfigInteractor(configDataProvider,
-            authenticationDataProvider, interactorErrorChecker);
+    return new SendConfigInteractor(configDataProvider, authenticationDataProvider,
+        serviceErrorChecker);
 
-    interactorErrorChecker.setInteractor(sendConfigInteractor);
-
-    return sendConfigInteractor;
   }
 
-  @Provides @Singleton SaveUserInfoInteractor provideSaveUserInfoInteractor(
-      ConfigDataProvider configDataProvider){
-    return new SaveUserInfoInteractor(configDataProvider);
+  @Provides @Singleton RegionsProviderInteractor provideRegionsProviderInteractor (
+      ObtainRegionsService obtainRegionsService){
+    return new RegionsProviderInteractor(obtainRegionsService);
   }
 
-  @Provides @Singleton LogOnUserInteractor provideLogOnUserInteractor(
-      AuthenticationDataProvider authenticationDataProvider){
-    return new LogOnUserInteractor(authenticationDataProvider);
-  }
+  @Provides @Singleton BeaconEventsInteractor provideRegionCheckerInteractor (
+      BeaconCheckerService beaconCheckerService, RegionCheckerService regionCheckerService,
+      TriggerActionsFacadeService triggerActionsFacadeService,
+      EventUpdaterService eventUpdaterService){
 
-  @Provides @Singleton GetActionInteractor provideGetActionInteractor (
-      ActionsDataProvider actionsDataProvider, ActionsSchedulerController actionsSchedulerController){
-    return new GetActionInteractor(actionsDataProvider, actionsSchedulerController);
-  }
-
-  @Provides @Singleton ObtainRegionsInteractor provideObtainRegionsInteractor (
-      ProximityLocalDataProvider proximityLocalDataProvider){
-    return new ObtainRegionsInteractor(proximityLocalDataProvider);
-  }
-
-  @Provides @Singleton RegionCheckerInteractor provideRegionCheckerInteractor (ProximityLocalDataProvider proximityLocalDataProvider){
-    return new RegionCheckerInteractor(proximityLocalDataProvider);
-  }
-
-  @Provides @Singleton BeaconCheckerInteractor provideBeaconCheckerInteractor (
-      ProximityLocalDataProvider proximityLocalDataProvider){
-    return new BeaconCheckerInteractor(proximityLocalDataProvider);
-  }
-
-  @Provides @Singleton EventUpdaterInteractor provideEventUpdaterInteractor (
-      ProximityLocalDataProvider proximityLocalDataProvider){
-    return new EventUpdaterInteractor(proximityLocalDataProvider);
-  }
-
-  @Provides @Singleton BeaconTriggerInteractor provideBeaconTriggerInteractor (
-      ProximityLocalDataProvider proximityLocalDataProvider, AppRunningMode appRunningMode){
-    return new BeaconTriggerInteractor(proximityLocalDataProvider, appRunningMode);
+    return new BeaconEventsInteractor(beaconCheckerService, regionCheckerService,
+        triggerActionsFacadeService, eventUpdaterService);
   }
 
     @Provides
-    @Singleton
-    RetrieveGeofenceTriggerInteractor provideRetrieveGeofenceDistanceInteractor(ProximityLocalDataProvider proximityLocalDataProvider,
-                                                                                AppRunningMode appRunningMode) {
-        return new RetrieveGeofenceTriggerInteractor(proximityLocalDataProvider, appRunningMode);
+    @Singleton GeofenceInteractor provideGeofenceInteractor(
+        TriggerActionsFacadeService triggerActionsFacadeService,
+        GeofenceCheckerService geofenceCheckerService) {
+
+      return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService);
     }
 
 }

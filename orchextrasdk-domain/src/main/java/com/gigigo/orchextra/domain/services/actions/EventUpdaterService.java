@@ -1,26 +1,24 @@
-package com.gigigo.orchextra.domain.interactors;
+package com.gigigo.orchextra.domain.services.actions;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
-import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.services.DomaninService;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 11/2/16.
  */
-public class EventUpdaterInteractor implements Interactor<InteractorResponse<OrchextraRegion>> {
+public class EventUpdaterService implements DomaninService {
 
   private final ProximityLocalDataProvider proximityLocalDataProvider;
 
-  private OrchextraRegion orchextraRegion;
-
-  public EventUpdaterInteractor(ProximityLocalDataProvider proximityLocalDataProvider) {
+  public EventUpdaterService(ProximityLocalDataProvider proximityLocalDataProvider) {
     this.proximityLocalDataProvider = proximityLocalDataProvider;
   }
 
-  @Override public InteractorResponse<OrchextraRegion> call() throws Exception {
+  public InteractorResponse associateActionToRegionEvent(OrchextraRegion orchextraRegion)  {
 
     BusinessObject<OrchextraRegion> bo = proximityLocalDataProvider.updateRegionWithActionId(orchextraRegion);
 
@@ -31,7 +29,4 @@ public class EventUpdaterInteractor implements Interactor<InteractorResponse<Orc
     }
   }
 
-  public void setOrchextraRegion(OrchextraRegion orchextraRegion) {
-    this.orchextraRegion = orchextraRegion;
-  }
 }

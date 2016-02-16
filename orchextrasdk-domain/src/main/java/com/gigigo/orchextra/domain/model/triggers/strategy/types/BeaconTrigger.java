@@ -23,6 +23,7 @@ public class BeaconTrigger extends Trigger {
     super(TriggerType.BEACON, code, point, appRunningModeType);
 
     this.beaconDistanceType = beaconDistanceType;
+    this.isTriggerable = true;
 
   }
 

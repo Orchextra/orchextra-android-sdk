@@ -108,6 +108,20 @@ public class SessionUpdater {
     realm.copyToRealmOrUpdate(crmRealm);
   }
 
+  public void updateCrmID(Realm realm, String crmId) {
+
+    CrmRealm realmItem = getRealmItem(realm, CrmRealm.class);
+
+    if (realmItem == null) {
+      realmItem = new CrmRealm();
+      realmItem.setId(RealmDefaultInstance.getNextKey(realm, CrmRealm.class));
+    }
+
+    realmItem.setCrmId(crmId);
+
+    realm.copyToRealmOrUpdate(realmItem);
+  }
+
   private <T extends RealmObject> T getRealmItem(Realm realm, Class<T> classType) {
     return realm.where(classType).findFirst();
   }

@@ -26,7 +26,7 @@ android {
     versionName parent.ext.androidVersionName
 
     buildConfigField STRING, "API_VERSION", '"v1/"'
-    buildConfigField INT, "CONCURRENT_INTERACTORS", '10'
+    buildConfigField INT, "CONCURRENT_INTERACTORS", '3'
     buildConfigField STRING, "X_APP_SDK", '"ANDROID"'
     buildConfigField STRING, "TOKEN_TYPE_BEARER", '"Bearer"'
   }

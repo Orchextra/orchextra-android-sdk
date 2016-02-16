@@ -27,7 +27,7 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   @Override public BusinessObject<SdkAuthData> authenticateSdk(Credentials credentials) {
     BusinessObject<SdkAuthData> deviceToken = sessionDBDataSource.getDeviceToken();
 
-    if (!deviceToken.isSuccess() || deviceToken.getData() == null || deviceToken.getData().isExpired()){
+    if (!deviceToken.isSuccess() || deviceToken.getData().isExpired()){
       deviceToken = authenticationDataSource.authenticateSdk(credentials);
 
       if (deviceToken.isSuccess()){
@@ -70,5 +70,20 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   @Override
   public BusinessObject<ClientAuthData> getCredentials() {
     return sessionDBDataSource.getSessionToken();
+  }
+
+  @Override public BusinessObject<String> getCrmID() {
+
+    BusinessObject<Crm> bo = sessionDBDataSource.getCrm();
+
+    if (bo.isSuccess()){
+      return new BusinessObject<>(bo.getData().getCrmId(), bo.getBusinessError());
+    }
+
+    return new BusinessObject<>(null, bo.getBusinessError());
+  }
+
+  @Override public void storeCrmId(String crmId) {
+    sessionDBDataSource.saveUserId(crmId);
   }
 }

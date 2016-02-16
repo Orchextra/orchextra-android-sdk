@@ -1,9 +1,10 @@
-package com.gigigo.orchextra.domain.interactors.beacons;
+package com.gigigo.orchextra.domain.services.proximity;
 
+import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
-import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
+import com.gigigo.orchextra.domain.services.DomaninService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,26 +12,20 @@ import java.util.List;
  * Created by Sergio Martinez Rodriguez
  * Date 10/2/16.
  */
-public class BeaconCheckerInteractor  implements Interactor<InteractorResponse<List<OrchextraBeacon>>> {
+public class BeaconCheckerService implements DomaninService {
 
   private final ProximityLocalDataProvider proximityLocalDataProvider;
-  private List<OrchextraBeacon> orchextraBeacons;
-  private int requestTime;
+  private final ConfigDataProvider configDataProvider;
 
-  public BeaconCheckerInteractor(ProximityLocalDataProvider proximityLocalDataProvider) {
+  public BeaconCheckerService(ProximityLocalDataProvider proximityLocalDataProvider,
+      ConfigDataProvider configDataProvider) {
     this.proximityLocalDataProvider = proximityLocalDataProvider;
+    this.configDataProvider = configDataProvider;
   }
 
-  public void setRequestTime(int requestTime) {
-    this.requestTime = requestTime;
-  }
+  public InteractorResponse getCheckedBeaconList(List<OrchextraBeacon> orchextraBeacons) {
 
-  public void setOrchextraBeacons(List<OrchextraBeacon> orchextraBeacons) {
-    this.orchextraBeacons = orchextraBeacons;
-  }
-
-  @Override
-  public InteractorResponse<List<OrchextraBeacon>> call() throws Exception {
+    int requestTime = configDataProvider.obtainRequestTime();
 
     boolean empty = proximityLocalDataProvider.purgeOldBeaconEventsWithRequestTime(orchextraBeacons, requestTime);
 
@@ -54,6 +49,5 @@ public class BeaconCheckerInteractor  implements Interactor<InteractorResponse<L
     }
 
     return new InteractorResponse<>(triggerBeacons);
-
   }
 }

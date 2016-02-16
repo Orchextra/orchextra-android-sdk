@@ -21,6 +21,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
  */
 public class ConfigDataProviderImpl implements ConfigDataProvider {
 
+  private static final int DEFAULT_REQUEST_TIME = 100000;
   private final ConfigDataSource configDataSource;
   private final ConfigDBDataSource configDBDataSource;
   private final SessionDBDataSource sessionDBDataSource;
@@ -30,6 +31,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
                                 ConfigDBDataSource configDBDataSource,
                                 SessionDBDataSource sessionDBDataSource,
                                 Session session) {
+
     this.configDataSource = configDataSource;
     this.configDBDataSource = configDBDataSource;
     this.sessionDBDataSource = sessionDBDataSource;
@@ -51,6 +53,16 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     } else {
      return new BusinessObject<>(null,configResponse.getBusinessError());
     }
+  }
+
+  @Override public int obtainRequestTime() {
+    BusinessObject<ConfigInfoResult> bo = configDBDataSource.obtainConfigData();
+    if (bo.isSuccess()){
+      return bo.getData().getRequestWaitTime();
+    }else{
+      return DEFAULT_REQUEST_TIME;
+    }
+
   }
 
   private boolean checkAuthenticationToken() {

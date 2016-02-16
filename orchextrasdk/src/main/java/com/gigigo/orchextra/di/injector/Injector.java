@@ -14,7 +14,6 @@ import com.gigigo.orchextra.di.components.TaskServiceComponent;
  * Date 3/12/15.
  */
 public interface Injector {
-  DelegateComponent injectAuthDelegate(AuthenticationDelegateImpl authenticationDelegate);
   ServiceComponent injectServiceComponent (OrchextraBackgroundService myAppService);
   TaskServiceComponent injectTaskServiceComponent(OrchextraGcmTaskService orchextraGcmTaskService);
   GeofenceIntentServiceComponent injectGeofenceIntentServiceComponent(GeofenceIntentService geofenceIntentService);

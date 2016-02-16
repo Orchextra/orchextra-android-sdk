@@ -19,4 +19,8 @@ public interface AuthenticationDataProvider {
   BusinessObject<Crm> retrieveCrm();
 
   BusinessObject<ClientAuthData> getCredentials();
+
+  BusinessObject<String> getCrmID();
+
+  void storeCrmId(String crmId);
 }
