@@ -1,12 +1,12 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
-import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
-import com.gigigo.orchextra.domain.model.triggers.strategy.types.BeaconTrigger;
-import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
-import com.gigigo.orchextra.domain.model.triggers.strategy.types.ScanTrigger;
+import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
+import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 import org.junit.Test;
 
@@ -15,7 +15,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class ActionQueryRequestMapperTest {
-
     @Test
     public void testCreateGeofenceTrigger() throws Exception {
         OrchextraPoint point = new OrchextraPoint();
@@ -36,21 +35,15 @@ public class ActionQueryRequestMapperTest {
 
     @Test
     public void testCreateBeaconTrigger() throws Exception {
-        OrchextraPoint point = new OrchextraPoint();
-        point.setLat(23.45);
-        point.setLng(74.32);
+        OrchextraBeacon orchextraBeacon = new OrchextraBeacon("1234", 1, 2, BeaconDistanceType.NEAR);
+        orchextraBeacon.setCode("999");
 
-        BeaconTrigger beaconTrigger = Trigger.createBeaconTrigger("1234", point, AppRunningModeType.FOREGROUND, BeaconDistanceType.NEAR, GeoPointEventType.EXIT);
+        Trigger beaconTrigger = Trigger.createBeaconTrigger(AppRunningModeType.FOREGROUND, orchextraBeacon);
 
-        ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
-        Map<String, String> data = mapper.modelToExternalClass(beaconTrigger);
-
-        assertEquals("1234", data.get("value"));
-        assertEquals("beacon", data.get("type"));
-        assertEquals("exit", data.get("event"));
-        assertEquals("foreground", data.get("phoneStatus"));
-        assertEquals("23.45", data.get("lat"));
-        assertEquals("74.32", data.get("lng"));
+        assertEquals("999", beaconTrigger.getCode());
+        assertEquals(TriggerType.BEACON, beaconTrigger.getTriggerType());
+        assertEquals(BeaconDistanceType.NEAR, beaconTrigger.getBeaconDistanceType());
+        assertEquals(AppRunningModeType.FOREGROUND, beaconTrigger.getAppRunningModeType());
     }
 
     @Test
@@ -59,7 +52,7 @@ public class ActionQueryRequestMapperTest {
         point.setLat(23.45);
         point.setLng(74.32);
 
-        ScanTrigger qrScanTrigger = Trigger.createQrScanTrigger("1234", point);
+        Trigger qrScanTrigger = Trigger.createQrScanTrigger("1234", point);
 
         ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
         Map<String, String> data = mapper.modelToExternalClass(qrScanTrigger);
@@ -77,7 +70,7 @@ public class ActionQueryRequestMapperTest {
         point.setLat(23.45);
         point.setLng(74.32);
 
-        ScanTrigger barcodeScanTrigger = Trigger.createBarcodeScanTrigger("1234", point);
+        Trigger barcodeScanTrigger = Trigger.createBarcodeScanTrigger("1234", point);
 
         ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
         Map<String, String> data = mapper.modelToExternalClass(barcodeScanTrigger);
@@ -95,7 +88,7 @@ public class ActionQueryRequestMapperTest {
         point.setLat(23.45);
         point.setLng(74.32);
 
-        ScanTrigger vuforiaScanTrigger = Trigger.createVuforiaScanTrigger("1234", point);
+        Trigger vuforiaScanTrigger = Trigger.createVuforiaScanTrigger("1234", point);
 
         ActionQueryModelToExternalClassMapper mapper = new ActionQueryModelToExternalClassMapper();
         Map<String, String> data = mapper.modelToExternalClass(vuforiaScanTrigger);

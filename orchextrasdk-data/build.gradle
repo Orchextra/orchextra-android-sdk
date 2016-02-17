@@ -31,6 +31,6 @@ dependencies {
   compile project(':orchextrasdk-dataprovision')
   compile project(':ggglib')
 
-  androidTestCompile parent.ext.testDependencies.junit
-  androidTestCompile parent.ext.testDependencies.mockito
+  testCompile parent.ext.testDependencies.junit
+  testCompile parent.ext.testDependencies.mockito
 }

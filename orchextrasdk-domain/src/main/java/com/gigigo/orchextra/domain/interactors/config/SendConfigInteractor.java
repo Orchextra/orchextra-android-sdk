@@ -20,5 +20,4 @@ public class SendConfigInteractor implements Interactor<InteractorResponse<Orche
   @Override public InteractorResponse<OrchextraUpdates> call() throws Exception {
     return configService.refreshConfig();
   }
-
 }
