@@ -1,7 +1,6 @@
 apply from: './gigigo-utils-suite/settings.gradle'
 
-include ':orchextrasdk', ':orchextrasdk-control', ':orchextrasdk-domain', ':orchextrasdk-dataprovision', ':orchextrasdk-data',
-    ':ggg-java-lib', ':ggglib', ':ggglogger'
+include ':orchextrasdk', ':orchextrasdk-control', ':orchextrasdk-domain', ':orchextrasdk-dataprovision', ':orchextrasdk-data'
 
 project(':ggg-java-lib').projectDir = new File(settingsDir, './gigigo-utils-suite/ggg-java-lib')
 project(':ggglib').projectDir = new File(settingsDir, './gigigo-utils-suite/ggglib')

@@ -7,6 +7,7 @@ import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
+import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
@@ -14,6 +15,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureS
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.initalization.features.FeatureList;
+import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverNullImpl;
 import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImp;
 import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListenerImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
@@ -34,6 +36,7 @@ public class OrchextraModule {
 
   private final Context context;
   private final OrchextraCompletionCallback orchextraCompletionCallback;
+  private CustomSchemeReceiver customSchemeReceiver;
 
   public OrchextraModule(Context context, OrchextraCompletionCallback orchextraCompletionCallback) {
     this.context = context;
@@ -96,5 +99,23 @@ public class OrchextraModule {
   @Provides
   FeatureStatus provideFeatureStatus(FeatureList featureList) {
     return featureList;
+  }
+
+  @Singleton
+  @Provides
+  CustomSchemeReceiver customSchemeReceiver() {
+    if (customSchemeReceiver!=null){
+      return customSchemeReceiver;
+    }else{
+      return new CustomSchemeReceiverNullImpl();
+  }
+  }
+
+  @Singleton @Provides OrchextraModule provideOrchextraModule(){
+    return this;
+  }
+
+  public void setCustomSchemeReceiver(CustomSchemeReceiver customSchemeReceiver) {
+    this.customSchemeReceiver = customSchemeReceiver;
   }
 }

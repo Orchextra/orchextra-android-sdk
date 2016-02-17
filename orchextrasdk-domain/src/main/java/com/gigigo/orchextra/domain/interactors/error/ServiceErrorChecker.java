@@ -19,7 +19,7 @@ public abstract class ServiceErrorChecker {
 
   public InteractorResponse checkErrors(BusinessError businessError){
 
-    if (businessError.getBusinesContentType() == BusinessContentType.BUSINESS_ERROR_CONTENT){
+    if (businessError.getBusinessContentType() == BusinessContentType.BUSINESS_ERROR_CONTENT){
       //BusinessError management
       InteractorResponse response = checkBusinessErrors(businessError);
 

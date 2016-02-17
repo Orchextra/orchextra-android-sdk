@@ -15,7 +15,6 @@ import java.util.List;
  * Created by Sergio Martinez Rodriguez
  * Date 15/12/15.
  */
-//TODO generic type can change
 public class GetActionService implements DomaninService {
 
   private final ActionsDataProvider actionsDataProvider;

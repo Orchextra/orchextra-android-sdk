@@ -3,6 +3,7 @@ package com.gigigo.orchextra;
 import android.app.Application;
 import android.content.Context;
 
+import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
@@ -55,6 +56,12 @@ public class Orchextra {
 
   private void initLifecyle(Application application) {
     application.registerActivityLifecycleCallbacks(orchextraActivityLifecycle);
+  }
+
+  public static synchronized void setCustomSchemeReceiver(CustomSchemeReceiver customSchemeReceiver){
+    OrchextraComponent orchextraComponent = getInjector().getOrchextraComponent();
+    OrchextraModule orchextraModule = orchextraComponent.getOrchextraModule();
+    orchextraModule.setCustomSchemeReceiver(customSchemeReceiver);
   }
 
   //private void start(String apiKey, String apiSecret) {

@@ -50,4 +50,8 @@ public class InjectorImpl implements Injector {
 
     return gisc;
   }
+
+  public OrchextraComponent getOrchextraComponent() {
+    return orchextraComponent;
+  }
 }

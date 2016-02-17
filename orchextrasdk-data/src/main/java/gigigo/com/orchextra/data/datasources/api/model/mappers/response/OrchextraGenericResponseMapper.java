@@ -1,5 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
+import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
@@ -20,15 +21,14 @@ public class OrchextraGenericResponseMapper<Model, Data> extends ApiGenericRespo
   protected BusinessError createBusinessError(OrchextraApiErrorResponse orchextraApiErrorResponse) {
     int code = orchextraApiErrorResponse.getCode();
     String message = orchextraApiErrorResponse.getMessage();
-    BusinessError businessError = new BusinessError(code, message);
+    BusinessError businessError = new BusinessError(code, message, BusinessContentType.BUSINESS_ERROR_CONTENT);
     return businessError;
   }
 
   @Override protected BusinessError onException(ApiGenericExceptionResponse exceptionResponse) {
-    //TODO define custom business code for exception
     int code = BusinessError.EXCEPTION_BUSINESS_ERROR_CODE;
     String message = exceptionResponse.getBusinessError().getMessage();
-    BusinessError businessError = new BusinessError(code, message);
+    BusinessError businessError = new BusinessError(code, message, BusinessContentType.EXCEPTION_CONTENT);
     return businessError;
   }
 }

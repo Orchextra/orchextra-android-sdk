@@ -17,6 +17,7 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsScheduler;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerPersistor;
+import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
@@ -64,8 +65,9 @@ public class ActionsModule {
   }
 
   @Provides
-  @Singleton ActionDispatcher provideActionDispatcher(ActionExecution actionExecution, NotificationBehavior notificationBehavior) {
-    return new ActionDispatcherImpl(actionExecution, notificationBehavior);
+  @Singleton ActionDispatcher provideActionDispatcher(ActionExecution actionExecution, NotificationBehavior notificationBehavior,
+      CustomSchemeReceiver customSchemeReceiver) {
+    return new ActionDispatcherImpl(actionExecution, notificationBehavior, customSchemeReceiver);
   }
 
   @Provides

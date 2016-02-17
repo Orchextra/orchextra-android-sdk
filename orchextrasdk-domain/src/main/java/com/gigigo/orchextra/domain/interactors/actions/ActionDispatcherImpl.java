@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.domain.interactors.actions;
 
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
+import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
@@ -21,13 +22,15 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   private final ActionExecution actionExecution;
   private final NotificationBehavior notificationBehavior;
-  //private  final CustomSchemeReceiver customSchemeReceiver;
+  private  final CustomSchemeReceiver customSchemeReceiver;
 
-  public ActionDispatcherImpl(ActionExecution actionExecution, NotificationBehavior notificationBehavior) {
+  public ActionDispatcherImpl(ActionExecution actionExecution,
+      NotificationBehavior notificationBehavior, CustomSchemeReceiver customSchemeReceiver) {
       this.actionExecution = actionExecution;
       this.notificationBehavior = notificationBehavior;
+    this.customSchemeReceiver = customSchemeReceiver;
 
-      notificationBehavior.setActionDispatcherListener(actionDispatcherListener);
+    notificationBehavior.setActionDispatcherListener(actionDispatcherListener);
   }
 
   @Override public void dispatchAction(BrowserAction action) {
@@ -49,8 +52,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   }
 
   @Override public void dispatchAction(CustomAction action) {
-    //TODO unncomment when moved class
-    //customSchemeReceiver.onReceive(action.getUrl());
+    customSchemeReceiver.onReceive(action.getUrl());
   }
 
   @Override public void dispatchAction(CustomAction action, Notification notification) {

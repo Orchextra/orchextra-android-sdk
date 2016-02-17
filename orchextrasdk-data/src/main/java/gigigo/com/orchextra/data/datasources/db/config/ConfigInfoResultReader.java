@@ -41,7 +41,7 @@ public class ConfigInfoResultReader {
     this.themeRealmMapper = themeRealmMapper;
   }
 
-  public ConfigInfoResult readConfigInfoV2(Realm realm) {
+  public ConfigInfoResult readConfigInfo(Realm realm) {
 
     ConfigInfoResultRealm config = readConfigObject(realm);
 
@@ -94,11 +94,6 @@ public class ConfigInfoResultReader {
     return realm.where(BeaconRegionRealm.class).findAll();
   }
 
-  //public OrchextraRegion getBeaconByUuid(Realm realm, String id){
-  //  BeaconRealm beaconRealm = realm.where(BeaconRealm.class).equalTo("uuid", id).findFirst();
-  //  return regionRealmMapper.externalClassToModel(beaconRealm);
-  //}
-
   public OrchextraGeofence getGeofenceById(Realm realm, String id){
     GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("id", id).findFirst();
     if (geofenceRealm == null) {
@@ -134,19 +129,4 @@ public class ConfigInfoResultReader {
     RealmResults<VuforiaRealm> vuforiaRealm = realm.where(VuforiaRealm.class).findAll();
     return vuforiaRealmMapper.externalClassToModel(vuforiaRealm.get(0));
   }
-
-
-  @Deprecated
-  public ConfigInfoResult readConfigInfo(Realm realm) {
-
-    Vuforia vuforia = readRealmVuforia(realm);
-    Theme theme = getTheme(realm);
-    List<OrchextraGeofence> geofences = getAllGeofences(realm);
-    List<OrchextraRegion> beacons = getAllRegions(realm);
-
-    //TODO review 0 value for waitResponse
-    return new ConfigInfoResult.Builder(0, geofences,
-        beacons, theme, vuforia).build();
-  }
-
 }

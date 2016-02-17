@@ -14,6 +14,5 @@ import dagger.Component;
  */
 @Singleton @Component(modules = {OrchextraModule.class})
 public interface OrchextraComponent extends OrchextraModuleProvider {
-
     void injectOrchextra(Orchextra orchextra);
 }

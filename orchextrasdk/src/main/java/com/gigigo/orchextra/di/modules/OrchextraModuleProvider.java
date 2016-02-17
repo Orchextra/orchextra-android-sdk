@@ -12,4 +12,5 @@ import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecy
 public interface OrchextraModuleProvider extends ControlModuleProvider, DeviceModuleProvider {
   OrchextraActivityLifecycle provideOrchextraActivityLifecycle();
   ContextProvider provideContextProvider();
+  OrchextraModule getOrchextraModule();
 }

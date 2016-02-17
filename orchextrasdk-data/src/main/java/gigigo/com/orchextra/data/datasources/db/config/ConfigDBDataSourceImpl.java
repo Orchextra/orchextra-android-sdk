@@ -59,7 +59,7 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
     Realm realm = getRealmInstance(context);
 
     try {
-      ConfigInfoResult configInfoResult = configInfoResultReader.readConfigInfoV2(realm);
+      ConfigInfoResult configInfoResult = configInfoResultReader.readConfigInfo(realm);
       return new BusinessObject<>(configInfoResult, BusinessError.createOKInstance());
     }catch (NotFountRealmObjectException | RealmException re ){
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
