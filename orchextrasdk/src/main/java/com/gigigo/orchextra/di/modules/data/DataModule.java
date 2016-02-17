@@ -9,8 +9,8 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.Authenticati
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
-import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
 import com.gigigo.orchextra.di.qualifiers.ActionsResponse;
 import com.gigigo.orchextra.di.qualifiers.ClientDataResponseMapper;
@@ -19,9 +19,6 @@ import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 
-import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsReader;
-import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsUpdater;
-import gigigo.com.orchextra.data.datasources.db.beacons.BeaconsDBDataSourceImpl;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -34,9 +31,15 @@ import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsReader;
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsUpdater;
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconsDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
+import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceDBDataSourceImp;
+import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsReader;
+import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsUpdater;
 import gigigo.com.orchextra.data.datasources.device.DeviceDetailsProviderImpl;
 
 /**
@@ -97,6 +100,14 @@ public class DataModule {
         beaconEventsUpdater, beaconEventsReader);
   }
 
+  @Provides
+  @Singleton
+  GeofenceDBDataSource provideGeofenceDBDataSource(ContextProvider contextProvider,
+                                                   GeofenceEventsUpdater geofenceEventsUpdater,
+                                                   GeofenceEventsReader geofenceEventsReader) {
+    return new GeofenceDBDataSourceImp(contextProvider.getApplicationContext(),
+            geofenceEventsReader, geofenceEventsUpdater);
+  }
 
   @Provides @Singleton DeviceDetailsProvider provideDeviceDetailsProvider(ContextProvider contextProvider){
     return new DeviceDetailsProviderImpl(contextProvider.getApplicationContext());

@@ -3,6 +3,7 @@ package com.gigigo.orchextra.dataprovision.proximity;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
@@ -14,16 +15,45 @@ public class ProximityLocalDataProviderImp implements ProximityLocalDataProvider
 
     private final ConfigDBDataSource configDBDataSource;
     private final BeaconsDBDataSource beaconsDBDataSource;
+    private final GeofenceDBDataSource geofenceDBDataSource;
 
     public ProximityLocalDataProviderImp(ConfigDBDataSource configDBDataSource,
-        BeaconsDBDataSource beaconsDBDataSource) {
+                                         BeaconsDBDataSource beaconsDBDataSource,
+                                         GeofenceDBDataSource geofenceDBDataSource) {
         this.configDBDataSource = configDBDataSource;
         this.beaconsDBDataSource = beaconsDBDataSource;
+        this.geofenceDBDataSource = geofenceDBDataSource;
+    }
+
+    private BusinessObject<OrchextraGeofence> obtainSavedGeofenceInDatabase(String geofenceId) {
+        return configDBDataSource.obtainGeofenceById(geofenceId);
     }
 
     @Override
-    public BusinessObject<OrchextraGeofence> obtainGeofenceByCodeFromDatabase(String geofenceId) {
-        return configDBDataSource.obtainGeofenceById(geofenceId);
+    public BusinessObject<OrchextraGeofence> obtainGeofenceEvent(String geofenceId) {
+        BusinessObject<OrchextraGeofence> bo = obtainSavedGeofenceInDatabase(geofenceId);
+        if (bo.isSuccess()) {
+            return geofenceDBDataSource.obtainGeofenceEvent(bo.getData());
+        }
+        return new BusinessObject<>(null, bo.getBusinessError());
+    }
+
+    @Override
+    public BusinessObject<OrchextraGeofence> storeGeofenceEvent(String geofenceId) {
+        BusinessObject<OrchextraGeofence> bo = obtainSavedGeofenceInDatabase(geofenceId);
+        if (bo.isSuccess()) {
+            return geofenceDBDataSource.storeGeofenceEvent(bo.getData());
+        }
+        return new BusinessObject<>(null, bo.getBusinessError());
+    }
+
+    @Override
+    public BusinessObject<OrchextraGeofence> deleteGeofenceEvent(String geofenceId) {
+        BusinessObject<OrchextraGeofence> bo = obtainSavedGeofenceInDatabase(geofenceId);
+        if (bo.isSuccess()) {
+            return geofenceDBDataSource.deleteGeofenceEvent(bo.getData());
+        }
+        return new BusinessObject<>(null, bo.getBusinessError());
     }
 
     @Override public BusinessObject<List<OrchextraRegion>> getBeaconRegionsForScan() {
