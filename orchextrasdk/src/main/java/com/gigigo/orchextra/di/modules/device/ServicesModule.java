@@ -34,8 +34,4 @@ public class ServicesModule {
     return new AndroidGeofenceIntentServiceHandler(locationMapper);
   }
 
-
-
-
-
 }

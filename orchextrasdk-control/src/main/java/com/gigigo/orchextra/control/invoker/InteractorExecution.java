@@ -12,10 +12,17 @@ public class InteractorExecution<T> {
   private final Map<Class<? extends InteractorError>, InteractorResult<? extends InteractorError>>
       errors =
       new HashMap<>(0);
-  private final Interactor<InteractorResponse<T>> interactor;
+  private Interactor<InteractorResponse<T>> interactor;
   private int priority;
 
   public InteractorExecution(Interactor<InteractorResponse<T>> interactor) {
+    this.interactor = interactor;
+  }
+
+  public InteractorExecution() {
+  }
+
+  public void setInteractor(Interactor<InteractorResponse<T>> interactor) {
     this.interactor = interactor;
   }
 

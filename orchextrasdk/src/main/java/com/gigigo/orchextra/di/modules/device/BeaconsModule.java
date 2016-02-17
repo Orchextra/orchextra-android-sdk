@@ -1,8 +1,11 @@
 package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconScannerImpl;
+import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusInfo;
 import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.MonitoringListenerImpl;
@@ -16,10 +19,9 @@ import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanne
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScannerImpl;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
-import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import dagger.Module;
 import dagger.Provides;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
@@ -83,11 +85,11 @@ public class BeaconsModule {
 
   @Provides @Singleton BeaconsController provideBeaconsController(
       InteractorInvoker interactorInvoker, ActionDispatcher actionDispatcher,
-      BeaconEventsInteractor beaconEventsInteractor,
-      RegionsProviderInteractor regionsProviderInteractor){
+      @BeaconEventsInteractorExecution Provider<InteractorExecution> beaconsInteractorExecutionProvider,
+      @RegionsProviderInteractorExecution Provider<InteractorExecution> regionsProviderInteractorExecutionProvider){
 
-    return new BeaconsController(interactorInvoker, actionDispatcher, beaconEventsInteractor,
-        regionsProviderInteractor);
+    return new BeaconsController(interactorInvoker, actionDispatcher, beaconsInteractorExecutionProvider,
+        regionsProviderInteractorExecutionProvider);
   }
 
   @Provides @Singleton MonitoringListener provideMonitoringListener(AppRunningMode appRunningMode,

@@ -5,18 +5,15 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.beacons.RegionsProviderListener;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventType;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconsInteractorError;
-import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
-import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import java.util.List;
+import javax.inject.Provider;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -26,50 +23,57 @@ public class BeaconsController {
 
   private final InteractorInvoker interactorInvoker;
   private final ActionDispatcher actionDispatcher;
-  private final BeaconEventsInteractor beaconEventsInteractor;
-  private final RegionsProviderInteractor regionsProviderInteractor;
+  private final Provider<InteractorExecution> beaconsEventsInteractorExecutionProvider;
+  private final Provider<InteractorExecution> regionsProviderInteractorExecutionProvider;
 
   public BeaconsController(InteractorInvoker interactorInvoker, ActionDispatcher actionDispatcher,
-      BeaconEventsInteractor beaconEventsInteractor,
-      RegionsProviderInteractor regionsProviderInteractor) {
+      Provider<InteractorExecution> beaconsEventsInteractorExecutionProvider,
+      Provider<InteractorExecution> regionsProviderInteractorExecutionProvider) {
 
     this.interactorInvoker = interactorInvoker;
     this.actionDispatcher = actionDispatcher;
 
-    this.beaconEventsInteractor = beaconEventsInteractor;
-    this.regionsProviderInteractor = regionsProviderInteractor;
+    this.beaconsEventsInteractorExecutionProvider = beaconsEventsInteractorExecutionProvider;
+    this.regionsProviderInteractorExecutionProvider = regionsProviderInteractorExecutionProvider;
   }
 
   public void getAllRegionsFromDataBase(final RegionsProviderListener regionsProviderListener) {
-    executeBeaconInteractor(regionsProviderInteractor, new InteractorResult<List<OrchextraRegion>>() {
-      @Override public void onResult(List<OrchextraRegion> regions) {
-        regionsProviderListener.onRegionsReady(regions);
-      }
-    });
+    executeBeaconInteractor(regionsProviderInteractorExecutionProvider.get(),
+        new InteractorResult<List<OrchextraRegion>>() {
+          @Override public void onResult(List<OrchextraRegion> regions) {
+            regionsProviderListener.onRegionsReady(regions);
+          }
+        });
   }
 
   public void onBeaconsDetectedInRegion(List<OrchextraBeacon> beacons, OrchextraRegion region) {
-    //TODO beaconEventsInteractor get new instance
+    InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
+    BeaconEventsInteractor beaconEventsInteractor = (BeaconEventsInteractor) execution.getInteractor();
+
     beaconEventsInteractor.setEventType(BeaconEventType.BEACONS_DETECTED);
-    dispatchBeaconEvent(beacons);
+    dispatchBeaconEvent(beacons, execution, beaconEventsInteractor);
   }
 
   public void onRegionEnter(OrchextraRegion region) {
-    //TODO beaconEventsInteractor get new instance
+    InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
+    BeaconEventsInteractor beaconEventsInteractor = (BeaconEventsInteractor) execution.getInteractor();
+
     beaconEventsInteractor.setEventType(BeaconEventType.REGION_ENTER);
-    dispatchBeaconEvent(region);
+    dispatchBeaconEvent(region, execution, beaconEventsInteractor);
   }
 
   public void onRegionExit(OrchextraRegion region) {
-    //TODO beaconEventsInteractor get new instance
+    InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
+    BeaconEventsInteractor beaconEventsInteractor = (BeaconEventsInteractor) execution.getInteractor();
+
     beaconEventsInteractor.setEventType(BeaconEventType.REGION_EXIT);
-    dispatchBeaconEvent(region);
+    dispatchBeaconEvent(region, execution, beaconEventsInteractor);
   }
 
-  private void dispatchBeaconEvent(Object data) {
+  private void dispatchBeaconEvent(Object data, InteractorExecution interactorExecution, BeaconEventsInteractor beaconEventsInteractor) {
     //TODO beaconEventsInteractor get new instance
     beaconEventsInteractor.setData(data);
-    executeBeaconInteractor(beaconEventsInteractor, new InteractorResult<List<BasicAction>>() {
+    executeBeaconInteractor(interactorExecution, new InteractorResult<List<BasicAction>>() {
       @Override public void onResult(List<BasicAction> actions) {
         for (BasicAction action:actions){
           action.performAction(actionDispatcher);
@@ -79,8 +83,8 @@ public class BeaconsController {
     });
   }
 
-  private void executeBeaconInteractor(Interactor interactor, InteractorResult interactorResult) {
-    new InteractorExecution<>(interactor).result(interactorResult)
+  private void executeBeaconInteractor(InteractorExecution interactorExecution, InteractorResult interactorResult) {
+    interactorExecution.result(interactorResult)
         .error(InteractorError.class, new InteractorResult<InteractorError>() {
           @Override public void onResult(InteractorError result) {
             if (result instanceof BeaconsInteractorError) {
