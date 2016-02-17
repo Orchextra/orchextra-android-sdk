@@ -11,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 
 public class RealmPointMapperTest {
 
-
     @Test
     public void shouldMapModelToData() throws Exception {
         OrchextraPoint point = PointBuilder.Builder().build();

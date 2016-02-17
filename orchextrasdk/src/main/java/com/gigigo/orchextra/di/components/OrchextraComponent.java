@@ -4,6 +4,7 @@ import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 
 import com.gigigo.orchextra.di.modules.OrchextraModuleProvider;
+import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -15,4 +16,5 @@ import dagger.Component;
 @Singleton @Component(modules = {OrchextraModule.class})
 public interface OrchextraComponent extends OrchextraModuleProvider {
     void injectOrchextra(Orchextra orchextra);
+    InteractorExecutionComponent plus(InteractorsModule interactorsModule);
 }

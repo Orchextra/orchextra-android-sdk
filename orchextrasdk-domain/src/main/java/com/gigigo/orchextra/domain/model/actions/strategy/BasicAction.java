@@ -16,10 +16,10 @@ public abstract class BasicAction{
 
   protected ActionType actionType;
   protected URLFunctionality urlFunctionality;
-  protected com.gigigo.orchextra.domain.model.actions.strategy.NotifFunctionality
-      notifFunctionality;
-  protected com.gigigo.orchextra.domain.model.actions.strategy.ScheduleFunctionality
-      scheduleFunctionality;
+  protected NotifFunctionality notifFunctionality;
+  protected ScheduleFunctionality scheduleFunctionality;
+
+  private String eventCode;
 
   public BasicAction(String url, Notification notification, com.gigigo.orchextra.domain.model.actions.strategy.Schedule schedule) {
     this.urlFunctionality = new com.gigigo.orchextra.domain.model.actions.strategy.URLFunctionalityImpl(url);
@@ -73,6 +73,14 @@ public abstract class BasicAction{
 
   protected abstract void performSimpleAction(ActionDispatcher actionDispatcher);
   protected abstract void performNotifAction(ActionDispatcher actionDispatcher);
+
+  public String getEventCode() {
+    return eventCode;
+  }
+
+  public void setEventCode(String eventCode) {
+    this.eventCode = eventCode;
+  }
 
   public static class ActionBuilder {
 

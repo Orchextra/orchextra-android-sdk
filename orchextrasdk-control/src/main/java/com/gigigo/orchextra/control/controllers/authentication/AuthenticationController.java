@@ -8,6 +8,7 @@ import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.services.auth.errors.SdkAuthError;
 
+import javax.inject.Provider;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 /**
@@ -17,13 +18,13 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
 public class AuthenticationController extends Controller<AuthenticationDelegate>{
 
   private final InteractorInvoker interactorInvoker;
-  private final SaveUserInteractor saveUserInteractor;
+  private final Provider<InteractorExecution> interactorExecutionProvider;
 
   public AuthenticationController(InteractorInvoker interactorInvoker,
-      SaveUserInteractor saveUserInteractor, ThreadSpec mainThreadSpec) {
+      Provider<InteractorExecution> interactorExecutionProvider, ThreadSpec mainThreadSpec) {
     super(mainThreadSpec);
     this.interactorInvoker = interactorInvoker;
-    this.saveUserInteractor = saveUserInteractor;
+    this.interactorExecutionProvider = interactorExecutionProvider;
   }
 
   @Override public void onDelegateAttached() {
@@ -31,9 +32,11 @@ public class AuthenticationController extends Controller<AuthenticationDelegate>
   }
 
   public void saveUser(String crmId) {
+    InteractorExecution interactorExecution = interactorExecutionProvider.get();
+    SaveUserInteractor saveUserInteractor = (SaveUserInteractor) interactorExecution.getInteractor();
     saveUserInteractor.setCrm(crmId);
 
-    new InteractorExecution<>(saveUserInteractor).result(new InteractorResult<ClientAuthData>() {
+    interactorExecution.result(new InteractorResult<ClientAuthData>() {
       @Override public void onResult(ClientAuthData result) {
         getDelegate().authenticationSuccessful();
       }

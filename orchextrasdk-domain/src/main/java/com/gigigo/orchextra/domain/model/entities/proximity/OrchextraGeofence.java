@@ -1,17 +1,20 @@
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
+import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 16/12/15.
  */
-public class OrchextraGeofence extends ProximityPoint {
+public class OrchextraGeofence extends ProximityPoint implements ScheduledActionEvent {
 
   private OrchextraPoint point;
   private int radius;
   private double distanceToDeviceInKm;
   private String geofenceId;
+
+  private String actionRelated;
 
   public OrchextraPoint getPoint() {
     return point;
@@ -43,5 +46,20 @@ public class OrchextraGeofence extends ProximityPoint {
 
   public String getGeofenceId() {
     return geofenceId;
+  }
+
+  @Override
+  public String getActionRelated() {
+    return actionRelated;
+  }
+
+  @Override
+  public boolean hasActionRelated() {
+    return actionRelated != null && !actionRelated.isEmpty();
+  }
+
+  @Override
+  public void setActionRelated(String actionRelated) {
+    this.actionRelated = actionRelated;
   }
 }

@@ -6,41 +6,41 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveProximityItemError;
+import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveGeofenceItemError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 import java.util.List;
-
+import javax.inject.Provider;
 
 public class GeofenceController {
 
     private final InteractorInvoker interactorInvoker;
-    private final GeofenceInteractor geofenceInteractor;
+    private final Provider<InteractorExecution> interactorExecutionProvider;
     private final ActionDispatcher actionDispatcher;
 
     public GeofenceController(InteractorInvoker interactorInvoker,
-        GeofenceInteractor geofenceInteractor,
+        Provider<InteractorExecution> interactorExecutionProvider,
         ActionDispatcher actionDispatcher) {
         this.interactorInvoker = interactorInvoker;
-        this.geofenceInteractor = geofenceInteractor;
+        this.interactorExecutionProvider = interactorExecutionProvider;
         this.actionDispatcher = actionDispatcher;
     }
 
     public void processTriggers(List<String> triggeringGeofenceIds, OrchextraPoint triggeringPoint,
                                 final GeoPointEventType geofenceTransition) {
 
+      InteractorExecution interactorExecution = interactorExecutionProvider.get();
+      GeofenceInteractor geofenceInteractor = (GeofenceInteractor) interactorExecution.getInteractor();
       geofenceInteractor.setGeofenceData(triggeringGeofenceIds, triggeringPoint, geofenceTransition);
 
-        new InteractorExecution<>(geofenceInteractor)
-                .result(new InteractorResult<List<BasicAction>>() {
-                    @Override
-                    public void onResult(List<BasicAction> actions) {
-                        executeActions(actions);
-                    }
+      interactorExecution.result(new InteractorResult<List<BasicAction>>() {
+                  @Override public void onResult(List<BasicAction> actions) {
+                    executeActions(actions);
+                  }
                 })
-                .error(RetrieveProximityItemError.class, new InteractorResult<InteractorError>() {
+                .error(RetrieveGeofenceItemError.class, new InteractorResult<InteractorError>() {
                     @Override
                     public void onResult(InteractorError result) {
                         // TODO Do something with interactor error

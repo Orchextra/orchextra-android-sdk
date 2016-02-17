@@ -3,6 +3,7 @@ package com.gigigo.orchextra.domain.services.actions;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.DomaninService;
 
@@ -29,4 +30,13 @@ public class EventUpdaterService implements DomaninService {
     }
   }
 
+  public InteractorResponse associateActionToGeofenceEvent(OrchextraGeofence geofence) {
+    BusinessObject<OrchextraGeofence> bo = proximityLocalDataProvider.updateGeofenceWithActionId(geofence);
+
+    if (bo.isSuccess()) {
+      return new InteractorResponse(bo.getData());
+    } else {
+      return new InteractorResponse(false);
+    }
+  }
 }

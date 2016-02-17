@@ -4,11 +4,10 @@ import android.content.Context;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
 import java.util.List;
@@ -70,40 +69,16 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
     }
   }
 
-  @Override
-  public BusinessObject<List<OrchextraGeofence>> obtainGeofences() {
-    //TODO SHOULD BE USED
-    Realm realm = getRealmInstance(context);
-    try {
-      List<OrchextraGeofence> geofenceList = configInfoResultReader.getAllGeofences(realm);
-
-      geofenceList = (List<OrchextraGeofence>) ConsistencyUtils.checkNotEmpty(geofenceList);
-
-      return new BusinessObject<>(geofenceList, BusinessError.createOKInstance());
-
-    } catch (NotFountRealmObjectException | RealmException | NullPointerException | IllegalArgumentException re) {
-      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-
-    } finally {
-      if(realm != null) {
-        realm.close();
-      }
-    }
-  }
-
   @Override public BusinessObject<List<OrchextraRegion>> obtainRegionsForScan() {
     List<OrchextraRegion> regions = configInfoResultReader.getAllRegions(getRealmInstance(context));
     return new BusinessObject<>(regions, BusinessError.createOKInstance());
   }
 
-  public BusinessObject<OrchextraGeofence> obtainGeofenceById(String id){
-    //TODO Modify this because this implementation is wrong, this has to check if geofence was
-    // already been discovered instead of check if exists in DB, implementation has to be exactly
-    // the same that beacons
-
+  @Override
+  public BusinessObject<OrchextraGeofence> obtainGeofenceById(String geofenceId){
     Realm realm = getRealmInstance(context);
     try {
-      OrchextraGeofence geofence = configInfoResultReader.getGeofenceById(realm, id);
+      OrchextraGeofence geofence = configInfoResultReader.getGeofenceById(realm, geofenceId);
       return new BusinessObject<>(geofence, BusinessError.createOKInstance());
 
     } catch (NotFountRealmObjectException | RealmException re) {

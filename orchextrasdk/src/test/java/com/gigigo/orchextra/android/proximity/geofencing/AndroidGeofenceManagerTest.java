@@ -1,18 +1,10 @@
 package com.gigigo.orchextra.android.proximity.geofencing;
 
-import android.location.Location;
-
-import com.gigigo.orchextra.android.builders.ControlGeofenceBuilder;
-import com.gigigo.orchextra.android.builders.OrchextraPointBuilder;
+import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegisterImp;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceDeviceRegister;
-import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
-import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofenceConverter;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingEvent;
-import com.google.android.gms.location.GeofencingRequest;
+import com.gigigo.orchextra.domain.abstractions.observer.Observer;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,81 +12,76 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AndroidGeofenceManagerTest {
 
-    @Mock AndroidGeofenceConverter androidGeofenceMapper;
-
     @Mock GeofenceDeviceRegister geofenceDeviceRegister;
 
     @Mock
-    LocationMapper locationMapper;
+    ConfigObservable configObservable;
 
     @Mock
-    GeofencingRequest geofencingRequest;
+    OrchextraGeofenceUpdates orchextraGeofenceUpdates;
 
-    @Mock
-    GeofencingEvent geofencingEvent;
-
-    @Mock
-    Location location;
-
-    private AndroidGeofenceRegisterImp manager;
+    private AndroidGeofenceRegisterImp androidGeofenceRegisterImp;
 
     @Before
     public void setUp() throws Exception {
-        manager = new AndroidGeofenceRegisterImp(androidGeofenceMapper, geofenceDeviceRegister, locationMapper);
+        androidGeofenceRegisterImp = new AndroidGeofenceRegisterImp(geofenceDeviceRegister, configObservable);
     }
 
     @Test
     public void shouldRegisterGeofencesWhenIsFillGeofenceList() throws Exception {
-        List<OrchextraGeofence> geofenceList = new ArrayList<>();
-        geofenceList.add(ControlGeofenceBuilder.Builder().build());
+        doNothing().when(geofenceDeviceRegister).register(any(OrchextraGeofenceUpdates.class));
 
-        when(androidGeofenceMapper.convertGeofencesToGeofencingRequest(geofenceList)).thenReturn(geofencingRequest);
+        androidGeofenceRegisterImp.registerGeofences(any(OrchextraGeofenceUpdates.class));
 
-        manager.registerGeofences(geofenceList);
-
-        verify(geofenceDeviceRegister).register(geofencingRequest);
+        verify(geofenceDeviceRegister).register(any(OrchextraGeofenceUpdates.class));
     }
 
     @Test
-    public void shouldObtainTriggerPointWithIntent() throws Exception {
-        OrchextraPoint controlPoint = OrchextraPointBuilder.Builder().build();
+    public void shouldStartGeofenceRegister() throws Exception {
+        doNothing().when(configObservable).registerObserver(any(Observer.class));
 
-        when(geofencingEvent.getTriggeringLocation()).thenReturn(location);
-        when(locationMapper.externalClassToModel(location)).thenReturn(controlPoint);
+        androidGeofenceRegisterImp.startGeofenceRegister();
 
-        OrchextraPoint triggeringPoint = manager.getTriggeringPoint(geofencingEvent);
-
-        assertEquals(OrchextraPointBuilder.LAT, triggeringPoint.getLat(), 0.0001);
-        assertEquals(OrchextraPointBuilder.LNG, triggeringPoint.getLng(), 0.0001);
+        verify(configObservable).registerObserver(any(Observer.class));
     }
 
     @Test
-    public void shouldObtainTriggeringGeofencesWithIntent() throws Exception {
+    public void shouldStartGeofenceRegisterOnlyOnce() throws Exception {
+        doNothing().when(configObservable).registerObserver(any(Observer.class));
 
-        List<Geofence> geofenceList = new ArrayList<>();
-        Geofence geofence = new Geofence() {
-            @Override
-            public String getRequestId() {
-                return "aaa";
-            }
-        };
-        geofenceList.add(geofence);
+        androidGeofenceRegisterImp.startGeofenceRegister();
 
-        when(geofencingEvent.getTriggeringGeofences()).thenReturn(geofenceList);
+        androidGeofenceRegisterImp.startGeofenceRegister();
 
-        List<String> triggeringGeofenceIds = manager.getTriggeringGeofenceIds(geofencingEvent);
+        verify(configObservable).registerObserver(any(Observer.class));
+    }
 
-        assertEquals(1, triggeringGeofenceIds.size());
-        assertEquals("aaa", triggeringGeofenceIds.get(0));
+    @Test
+    public void shouldDoNothingWhenIsNotInitializated() throws Exception {
+        doNothing().when(configObservable).removeObserver(any(Observer.class));
+
+        androidGeofenceRegisterImp.stopGeofenceRegister();
+
+        verify(configObservable, never()).removeObserver(any(Observer.class));
+    }
+
+    @Test
+    public void shouldStopServeceWhenIsInitializated() throws Exception {
+        doNothing().when(configObservable).registerObserver(any(Observer.class));
+        doNothing().when(configObservable).removeObserver(any(Observer.class));
+
+        androidGeofenceRegisterImp.startGeofenceRegister();
+        androidGeofenceRegisterImp.stopGeofenceRegister();
+
+        verify(configObservable).registerObserver(any(Observer.class));
+        verify(configObservable).removeObserver(any(Observer.class));
     }
 }

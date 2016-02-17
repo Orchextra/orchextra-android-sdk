@@ -1,15 +1,9 @@
 package com.gigigo.orchextra.domain.interactors.authentication;
 
-import com.gigigo.gggjavalib.business.model.BusinessError;
-import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
-import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
+import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
-import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Session;
-import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
-import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
+import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
+import com.gigigo.orchextra.domain.services.config.ConfigService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,93 +11,54 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SaveUserInteractorTest {
 
-    @Mock AuthenticationDataProvider authenticationDataProvider;
+    @Mock
+    AuthenticationService authenticationService;
 
     @Mock
-    BusinessError businessError;
+    ConfigService configService;
 
     @Mock
-    BusinessObject<SdkAuthData> sdk;
-
-    @Mock SdkAuthData sdkAuthData;
-
-    @Mock
-    BusinessObject<ClientAuthData> user;
-
-    @Mock ClientAuthData clientAuthData;
-
-    @Mock
-    DeviceDetailsProvider deviceDetailsProvider;
-
-    @Mock
-    Session session;
+    InteractorResponse interactorResponse;
 
     private SaveUserInteractor interactor;
 
     @Before
     public void setUp() throws Exception {
-        interactor = new SaveUserInteractor(authenticationDataProvider, deviceDetailsProvider, session);
-        interactor.setSdkAuthCredentials(new SdkAuthCredentials("Admin", "1234"));
+        interactor = new SaveUserInteractor(authenticationService, configService);
+        interactor.setCrm("1111");
     }
 
     @Test
-    public void testCallNotSdkSuccess() throws Exception {
-        when(authenticationDataProvider.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
-
-        when(sdk.isSuccess()).thenReturn(false);
+    public void shouldReturnClientAuthData() throws Exception {
+        when(authenticationService.authenticateUserWithCrmId(anyString())).thenReturn(interactorResponse);
+        when(interactorResponse.hasError()).thenReturn(false);
+        when(configService.refreshConfig()).thenReturn(any(InteractorResponse.class));
 
         interactor.call();
 
-        verify(sdk).getBusinessError();
+        verify(authenticationService).authenticateUserWithCrmId(anyString());
+        verify(interactorResponse).hasError();
+        verify(configService).refreshConfig();
     }
 
     @Test
-    public void testCallNotUserSuccess() throws Exception {
-        when(authenticationDataProvider.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
+    public void shouldDontRefreshConfigWhenAutheticationFails() throws Exception {
+        when(authenticationService.authenticateUserWithCrmId(anyString())).thenReturn(interactorResponse);
+        when(interactorResponse.hasError()).thenReturn(true);
 
-        when(sdk.isSuccess()).thenReturn(true);
-
-        when(sdk.getData()).thenReturn(sdkAuthData);
-
-        when(authenticationDataProvider.authenticateUser(isA(Credentials.class), anyString())).thenReturn(user);
-
-        when(user.isSuccess()).thenReturn(false);
-
-        interactor.setCrm(anyString());
         interactor.call();
 
-        verify(user).getBusinessError();
-    }
-
-    @Test
-    public void testCallSuccess() throws Exception {
-        when(authenticationDataProvider.authenticateSdk(isA(SdkAuthCredentials.class))).thenReturn(sdk);
-
-        when(sdk.isSuccess()).thenReturn(true);
-
-        when(sdk.getData()).thenReturn(sdkAuthData);
-
-        when(authenticationDataProvider.authenticateUser(isA(Credentials.class), anyString())).thenReturn(user);
-
-        when(user.isSuccess()).thenReturn(true);
-
-        when(user.getData()).thenReturn(clientAuthData);
-        when(clientAuthData.getValue()).thenReturn("111");
-
-        doNothing().when(session).setTokenString(anyString());
-
-        interactor.setCrm(anyString());
-        interactor.call();
-
-        verify(user).getData();
+        verify(authenticationService).authenticateUserWithCrmId(anyString());
+        verify(interactorResponse).hasError();
+        verify(configService, never()).refreshConfig();
     }
 }
