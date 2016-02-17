@@ -36,7 +36,9 @@ public class GetActionService implements DomaninService {
       bo = actionsDataProvider.obtainAction(actionCriteria);
 
       if (bo.isSuccess()){
-        actions.add(bo.getData());
+        BasicAction basicAction = bo.getData();
+        basicAction.setEventCode(actionCriteria.getCode());
+        actions.add(basicAction);
       }else{
         break;
       }

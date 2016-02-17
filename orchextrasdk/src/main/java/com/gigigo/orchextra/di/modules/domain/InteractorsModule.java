@@ -1,6 +1,5 @@
 package com.gigigo.orchextra.di.modules.domain;
 
-import com.gigigo.orchextra.di.modules.data.DataProviderModule;
 import com.gigigo.orchextra.di.scopes.PerExecution;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
@@ -52,9 +51,10 @@ public class InteractorsModule {
 
     @Provides @PerExecution GeofenceInteractor provideGeofenceInteractor(
         TriggerActionsFacadeService triggerActionsFacadeService,
-        GeofenceCheckerService geofenceCheckerService) {
+        GeofenceCheckerService geofenceCheckerService,
+        EventUpdaterService eventUpdaterService) {
 
-      return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService);
+      return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService, eventUpdaterService);
     }
 
 }

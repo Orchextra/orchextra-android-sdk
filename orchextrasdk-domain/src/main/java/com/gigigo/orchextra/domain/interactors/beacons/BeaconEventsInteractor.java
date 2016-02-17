@@ -90,12 +90,12 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
     return triggerActionsFacadeService.triggerActions(detectedRegion);
   }
 
-  @Override public void updateEventWithAction(String actionId) {
+  @Override public void updateEventWithAction(BasicAction basicAction) {
     switch (eventType){
       case REGION_ENTER:
       case REGION_EXIT:
         OrchextraRegion detectedRegion = (OrchextraRegion) data;
-        detectedRegion.setActionRelated(actionId);
+        detectedRegion.setActionRelated(basicAction.getScheduledAction().getId());
         eventUpdaterService.associateActionToRegionEvent(detectedRegion);
         break;
       default:

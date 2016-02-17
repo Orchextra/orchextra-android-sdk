@@ -39,6 +39,11 @@ public class ProximityLocalDataProviderImp implements ProximityLocalDataProvider
     }
 
     @Override
+    public BusinessObject<OrchextraGeofence> updateGeofenceWithActionId(OrchextraGeofence geofence) {
+        return geofenceDBDataSource.updateGeofenceWithActionId(geofence);
+    }
+
+    @Override
     public BusinessObject<OrchextraGeofence> storeGeofenceEvent(String geofenceId) {
         BusinessObject<OrchextraGeofence> bo = obtainSavedGeofenceInDatabase(geofenceId);
         if (bo.isSuccess()) {

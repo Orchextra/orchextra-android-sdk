@@ -9,9 +9,11 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.services.actions.EventAccessor;
+import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
 import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +25,7 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
 
   private final TriggerActionsFacadeService triggerActionsFacadeService;
   private final GeofenceCheckerService geofenceCheckerService;
+  private final EventUpdaterService eventUpdaterService;
 
   private List<String> triggeringGeofenceIds;
   private OrchextraPoint triggeringPoint;
@@ -31,37 +34,48 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
   private List<OrchextraGeofence> geofenceList;
 
   public GeofenceInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
-      GeofenceCheckerService geofenceCheckerService) {
+                            GeofenceCheckerService geofenceCheckerService, EventUpdaterService eventUpdaterService) {
 
     this.triggerActionsFacadeService = triggerActionsFacadeService;
     this.geofenceCheckerService = geofenceCheckerService;
+    this.eventUpdaterService = eventUpdaterService;
 
     triggerActionsFacadeService.setEventAccessor(this);
   }
 
   @Override public InteractorResponse<List<BasicAction>> call() throws Exception {
 
-    InteractorResponse<List<OrchextraGeofence>> response =
-            geofenceCheckerService.obtainCheckedGeofences(triggeringGeofenceIds, geofenceTransition);
+    InteractorResponse<List<BasicAction>> result = new InteractorResponse<List<BasicAction>>(new ArrayList<BasicAction>());
 
-    if (response.getResult().size() == 0) {
-      return new InteractorResponse<>(new RetrieveGeofenceItemError(BusinessError.createKoInstance("")));
-    }
+    if (geofenceTransition != GeoPointEventType.STAY) {
+      InteractorResponse<List<OrchextraGeofence>> response =
+              geofenceCheckerService.obtainCheckedGeofences(triggeringGeofenceIds, geofenceTransition);
 
-    geofenceList = response.getResult();
-
-    if (geofenceTransition == GeoPointEventType.EXIT) {
-      for (OrchextraGeofence geofence : geofenceList) {
-        triggerActionsFacadeService.deleteScheduledActionIfExists(geofence);
+      if (response.getResult().size() == 0) {
+        return new InteractorResponse<>(new RetrieveGeofenceItemError(BusinessError.createKoInstance("")));
       }
+
+      geofenceList = response.getResult();
+
+      if (geofenceTransition == GeoPointEventType.EXIT) {
+        for (OrchextraGeofence geofence : geofenceList) {
+          triggerActionsFacadeService.deleteScheduledActionIfExists(geofence);
+        }
+      }
+
+      result = triggerActionsFacadeService.triggerActions(geofenceList, geofenceTransition);
     }
 
-    return triggerActionsFacadeService.triggerActions(geofenceList, geofenceTransition);
+    return result;
   }
 
-  @Override public void updateEventWithAction(String actionId) {
-
-    //TODO implement when geofence event triggers a scheduled action
+  @Override public void updateEventWithAction(BasicAction basicAction) {
+    for (OrchextraGeofence geofence : geofenceList) {
+      if (geofence.getCode().equals(basicAction.getEventCode())) {
+        geofence.setActionRelated(basicAction.getScheduledAction().getId());
+        eventUpdaterService.associateActionToGeofenceEvent(geofence);
+      }
+    }
   }
 
   public void setGeofenceData(List<String> triggeringGeofenceIds, OrchextraPoint triggeringPoint,

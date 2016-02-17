@@ -8,9 +8,9 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
+
 import java.util.List;
 
 /**
@@ -70,7 +70,7 @@ public class TriggerActionsFacadeService implements DomaninService {
     for (BasicAction action:actions){
       if (action.isScheduled()){
         scheduleActionService.schedulePendingAction(action);
-        eventAccessor.updateEventWithAction(action.getScheduledAction().getId());
+        eventAccessor.updateEventWithAction(action);
       }
     }
   }

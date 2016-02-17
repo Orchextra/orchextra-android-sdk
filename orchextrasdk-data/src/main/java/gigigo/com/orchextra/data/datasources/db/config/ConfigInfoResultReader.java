@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
+import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
@@ -99,8 +100,9 @@ public class ConfigInfoResultReader {
   //  return regionRealmMapper.externalClassToModel(beaconRealm);
   //}
 
-  public OrchextraGeofence getGeofenceById(Realm realm, String id){
-    GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", id).findFirst();
+  public OrchextraGeofence getGeofenceById(Realm realm, String geofenceId){
+    GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofenceId).findFirst();
+
     if (geofenceRealm == null) {
       throw new NotFountRealmObjectException();
     }
@@ -134,19 +136,4 @@ public class ConfigInfoResultReader {
     RealmResults<VuforiaRealm> vuforiaRealm = realm.where(VuforiaRealm.class).findAll();
     return vuforiaRealmMapper.externalClassToModel(vuforiaRealm.get(0));
   }
-
-
-  @Deprecated
-  public ConfigInfoResult readConfigInfo(Realm realm) {
-
-    Vuforia vuforia = readRealmVuforia(realm);
-    Theme theme = getTheme(realm);
-    List<OrchextraGeofence> geofences = getAllGeofences(realm);
-    List<OrchextraRegion> beacons = getAllRegions(realm);
-
-    //TODO review 0 value for waitResponse
-    return new ConfigInfoResult.Builder(0, geofences,
-        beacons, theme, vuforia).build();
-  }
-
 }

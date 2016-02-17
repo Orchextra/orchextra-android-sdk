@@ -20,4 +20,5 @@ public interface ProximityLocalDataProvider {
     BusinessObject<OrchextraGeofence> storeGeofenceEvent(String geofenceId);
     BusinessObject<OrchextraGeofence> deleteGeofenceEvent(String geofenceId);
     BusinessObject<OrchextraGeofence> obtainGeofenceEvent(String geofenceId);
+    BusinessObject<OrchextraGeofence> updateGeofenceWithActionId(OrchextraGeofence geofence);
 }

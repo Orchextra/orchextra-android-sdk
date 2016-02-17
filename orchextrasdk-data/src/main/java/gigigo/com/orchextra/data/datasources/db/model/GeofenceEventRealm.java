@@ -17,6 +17,7 @@ public class GeofenceEventRealm extends RealmObject {
     private int stayTime;
 
     private String type;
+    private String actionRelated;
 
     public String getCode() {
         return code;
@@ -72,5 +73,13 @@ public class GeofenceEventRealm extends RealmObject {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setActionRelated(String actionRelated) {
+        this.actionRelated = actionRelated;
+    }
+
+    public String getActionRelated() {
+        return actionRelated;
     }
 }

@@ -53,4 +53,17 @@ public class GeofenceDBDataSourceImp extends RealmDefaultInstance implements Geo
         return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
       }
     }
+
+    @Override
+    public BusinessObject<OrchextraGeofence> updateGeofenceWithActionId(OrchextraGeofence geofence) {
+        try {
+            OrchextraGeofence orchextraGeofence = geofenceEventsUpdater.addActionToGeofence(
+                    getRealmInstance(context), geofence);
+
+            return new BusinessObject<>(orchextraGeofence, BusinessError.createOKInstance());
+        }catch (Exception e){
+            return new BusinessObject<>(null,
+                    BusinessError.createKoInstance(e.getMessage()));
+        }
+    }
 }
