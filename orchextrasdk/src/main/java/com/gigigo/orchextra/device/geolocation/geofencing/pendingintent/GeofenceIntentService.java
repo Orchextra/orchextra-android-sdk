@@ -4,9 +4,11 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceIntentServiceHandler;
+import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceEventException;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.google.android.gms.location.GeofencingEvent;
@@ -46,9 +48,13 @@ public class GeofenceIntentService extends IntentService {
 
         List<String> geofenceIds = geofenceHandler.getTriggeringGeofenceIds(geofencingEvent);
         OrchextraPoint point = geofenceHandler.getTriggeringPoint(geofencingEvent);
-        GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
 
-        controller.processTriggers(geofenceIds, point, transition);
+        try {
+            GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
+            controller.processTriggers(geofenceIds, point, transition);
+        }catch (GeofenceEventException geofenceEventException){
+            GGGLogImpl.log(geofenceEventException.getMessage(), LogLevel.ERROR);
+        }
     }
 
 }

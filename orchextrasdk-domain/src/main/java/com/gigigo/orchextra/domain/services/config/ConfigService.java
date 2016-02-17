@@ -96,8 +96,7 @@ public class ConfigService implements DomaninService {
     try {
       return getGeolocationAsync().get();
     } catch (Exception e) {
-      //TODO create null geolocation Instance
-      return new GeoLocation();
+      return GeoLocation.createNullGeoLocationInstance();
     }
   }
 

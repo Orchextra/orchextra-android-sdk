@@ -5,6 +5,10 @@ def STRING = "String"
 def BOOLEAN = "boolean"
 def INT = "int"
 
+def DISABLED_RAGGING = '0'
+def MIN_RAGGING_TIME = '10000'
+def MAX_RAGGING_TIME = '180000'
+
 buildscript {
   repositories {
     jcenter()
@@ -25,6 +29,7 @@ android {
     versionCode parent.ext.androidVersionCode
     versionName parent.ext.androidVersionName
 
+    buildConfigField INT, "BACKGROUND_BEACONS_RANGING_TIME", MIN_RAGGING_TIME
     buildConfigField STRING, "API_VERSION", '"v1/"'
     buildConfigField INT, "CONCURRENT_INTERACTORS", '3'
     buildConfigField STRING, "X_APP_SDK", '"ANDROID"'

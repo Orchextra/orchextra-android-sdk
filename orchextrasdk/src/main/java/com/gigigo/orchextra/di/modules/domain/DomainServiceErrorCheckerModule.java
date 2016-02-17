@@ -19,7 +19,6 @@ import dagger.Provides;
 @Module
 public class DomainServiceErrorCheckerModule {
 
-  //TODO must be provider
   @ConfigErrorChecker @Provides @PerExecution ServiceErrorChecker provideConfigServiceErrorChecker(
       AuthenticationService authenticationService){
     return new ConfigServiceErrorChecker(authenticationService);

@@ -11,7 +11,6 @@ import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
-import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.invoker.InteractorInvokerImp;
 import com.gigigo.orchextra.domain.invoker.InteractorOutputThreadFactory;
 import com.gigigo.orchextra.domain.invoker.InteractorPriorityBlockingQueue;
@@ -33,8 +32,6 @@ import javax.inject.Singleton;
 @Module(includes = DataProviderModule.class)
 public class DomainModule {
 
-  //TODO Interactors should be provides using provider instead of singleton
-
   @Provides @Singleton InteractorInvoker provideInteractorInvoker(ExecutorService executor,
       LogExceptionHandler logExceptionHandler) {
     return new InteractorInvokerImp(executor, logExceptionHandler);
@@ -55,7 +52,6 @@ public class DomainModule {
         threadFactory);
   }
 
-  //This kind of provide must be a provider type
   @RegionsProviderInteractorExecution @Provides InteractorExecution provideRegionsProviderInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
     InteractorExecutionComponent interactorExecutionComponent = Orchextra.getInjector().injectRegionsProviderInteractorExecution(interactorExecution);

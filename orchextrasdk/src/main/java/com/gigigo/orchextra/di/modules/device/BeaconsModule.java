@@ -17,6 +17,7 @@ import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoring
 import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScannerImpl;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScannerImpl;
+import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import dagger.Module;
@@ -86,10 +87,11 @@ public class BeaconsModule {
   @Provides @Singleton BeaconsController provideBeaconsController(
       InteractorInvoker interactorInvoker, ActionDispatcher actionDispatcher,
       @BeaconEventsInteractorExecution Provider<InteractorExecution> beaconsInteractorExecutionProvider,
-      @RegionsProviderInteractorExecution Provider<InteractorExecution> regionsProviderInteractorExecutionProvider){
+      @RegionsProviderInteractorExecution Provider<InteractorExecution> regionsProviderInteractorExecutionProvider,
+      ErrorLogger errorLogger){
 
     return new BeaconsController(interactorInvoker, actionDispatcher, beaconsInteractorExecutionProvider,
-        regionsProviderInteractorExecutionProvider);
+        regionsProviderInteractorExecutionProvider, errorLogger);
   }
 
   @Provides @Singleton MonitoringListener provideMonitoringListener(AppRunningMode appRunningMode,

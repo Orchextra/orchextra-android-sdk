@@ -74,11 +74,6 @@ public class ConfigInfoResult{
     this.theme = theme;
   }
 
-  public boolean hasChanges() {
-    //TODO check if any has changed
-    return true;
-  }
-
   public static class Builder {
 
     private List<OrchextraGeofence> geoMarketing;
@@ -102,7 +97,6 @@ public class ConfigInfoResult{
       ConfigInfoResult configInfoResult = new ConfigInfoResult();
 
       configInfoResult.setRequestWaitTime(requestWaitTime);
-      //TODO Add changing check
       configInfoResult.setRegions(new RealRegionListImpl(proximity));
       configInfoResult.setGeofences(new RealGeofenceListImpl(geoMarketing));
       configInfoResult.setTheme(new com.gigigo.orchextra.dataprovision.config.model.strategy.RealSupportsThemeImpl(theme));

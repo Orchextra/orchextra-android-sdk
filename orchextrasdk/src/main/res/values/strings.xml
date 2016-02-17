@@ -8,10 +8,4 @@
   <string name="ox_accept_text">Aceptar</string>
   <string name="ox_cancel_text">Cancelar</string>
 
-  <string name="ox_accessCoarseLocationPermissionAllowedFeedback">Access coarse location has been allowed</string>
-  <string name="ox_accessCoarseLocationPermissionSettingsDeniedFeedback">SETTINGS</string>
-  <string name="ox_accessCoarseLocationPermissionDeniedFeedback">Access coarse location Permission is necessary for using iBeacon proximity technology.</string>
-  <string name="ox_accessCoarseLocationPermissionRationaleMessage">Access coarse location Permission is necessary for using some nice stuff of this app, allow it!</string>
-  <string name="ox_accessCoarseLocationPermissionRationaleTitle">Permission Request</string>
-
 </resources>

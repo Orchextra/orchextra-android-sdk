@@ -95,13 +95,13 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
     switch (bluetoothStatus){
       case NO_BLTE_SUPPORTED:GGGLogImpl.log("CAUTION BLTE not supported, some features can not work as expected",
             LogLevel.WARN);
-        //TODO do something with error
+        // would be great to do something with error? like show a toast...
         break;
       case NO_PERMISSIONS:
         GGGLogImpl.log(
             "CAUTION Bluetooth permissions not granted, some features can not work as expected",
             LogLevel.WARN);
-        //TODO do something with error
+        // would be great to do something with error? like show a toast...
         break;
       case NOT_ENABLED:
         GGGLogImpl.log("CAUTION Bluetooth is off some features "

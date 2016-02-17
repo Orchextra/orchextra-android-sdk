@@ -11,8 +11,8 @@ import com.gigigo.orchextra.di.qualifiers.BackThread;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
+import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 
 import javax.inject.Provider;
@@ -28,9 +28,10 @@ public class ControlModule {
   @Provides @Singleton
   GeofenceController provideProximityItemController(InteractorInvoker interactorInvoker,
       @GeofenceInteractorExecution Provider<InteractorExecution> geofenceInteractorExecution,
-      ActionDispatcher actionDispatcher) {
+      ActionDispatcher actionDispatcher, ErrorLogger errorLogger) {
 
-    return new GeofenceController(interactorInvoker, geofenceInteractorExecution, actionDispatcher);
+    return new GeofenceController(interactorInvoker, geofenceInteractorExecution, actionDispatcher,
+        errorLogger);
   }
 
   @Provides

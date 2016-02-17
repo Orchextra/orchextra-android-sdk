@@ -65,7 +65,6 @@ public class ApiModule {
     @Singleton
     @XAppSdk
     String provideXAppSdk() {
-        //TODO Verify two decimals in version name
         return BuildConfig.X_APP_SDK + "_" + BuildConfig.VERSION_NAME;
     }
 

@@ -3,7 +3,7 @@ package com.gigigo.orchextra.device.bluetooth.beacons.ranging;
 import android.os.RemoteException;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
-import com.gigigo.orchextra.device.bluetooth.beacons.fake.BeaconRegionsFactory;
+import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconAndroidMapper;
 import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconRegionAndroidMapper;
 import com.gigigo.orchextra.domain.abstractions.beacons.BackgroundBeaconsRangingTimeType;
@@ -30,10 +30,9 @@ import org.altbeacon.beacon.Region;
  */
 public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingScanner{
 
-  //TODO SET OFICIAL TIME USING CONFIG
-  //private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType = BackgroundBeaconsRangingTimeType.DISABLED;
-  //private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType = BackgroundBeaconsRangingTimeType.MIN;
-  private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType = BackgroundBeaconsRangingTimeType.MAX;
+  private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType =
+      BackgroundBeaconsRangingTimeType.getType(BuildConfig.BACKGROUND_BEACONS_RANGING_TIME);
+
   private final BeaconManager beaconManager;
   private final BeaconsController beaconsController;
   private final BeaconRegionAndroidMapper beaconRegionMapper;
@@ -120,9 +119,6 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
     //callback argument into obtainRegionsToScan will call to onRegionsReady
     beaconsController.getAllRegionsFromDataBase(this);
-
-    //TODO remove this line below when above ready
-    //BeaconRegionsFactory.obtainRegionsToScan(this);
   }
 
 

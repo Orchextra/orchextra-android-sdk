@@ -18,7 +18,6 @@ public class NotificationDispatcherImpl implements NotificationDispatcher {
   }
 
   @Override public void manageBackgroundNotification(Activity activity) {
-    //TODO Think about a better way to implement checking notifications when pressed
     Intent intent = activity.getIntent();
     if (intent != null) {
       AndroidBasicAction androidBasicAction = intent.getParcelableExtra(AndroidNotificationBuilder.EXTRA_NOTIFICATION_ACTION);

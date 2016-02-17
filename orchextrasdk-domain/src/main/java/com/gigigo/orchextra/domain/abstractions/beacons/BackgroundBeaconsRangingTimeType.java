@@ -7,7 +7,6 @@ package com.gigigo.orchextra.domain.abstractions.beacons;
 public enum BackgroundBeaconsRangingTimeType {
   DISABLED(0),
   MIN(10000),
-  //MAX(180000),
   MAX(180000),
   INFINITE(-1);
 
@@ -19,5 +18,13 @@ public enum BackgroundBeaconsRangingTimeType {
 
   public int getIntValue() {
     return backgroundTimeMilis;
+  }
+
+  public static BackgroundBeaconsRangingTimeType getType(int value){
+    for(BackgroundBeaconsRangingTimeType type: BackgroundBeaconsRangingTimeType.values()){
+      if (type.getIntValue() == value);
+      return type;
+    }
+    return MIN;
   }
 }

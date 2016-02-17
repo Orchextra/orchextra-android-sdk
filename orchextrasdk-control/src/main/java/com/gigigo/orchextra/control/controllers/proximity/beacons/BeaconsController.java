@@ -4,6 +4,7 @@ import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.beacons.RegionsProviderListener;
+import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventType;
@@ -25,16 +26,20 @@ public class BeaconsController {
   private final ActionDispatcher actionDispatcher;
   private final Provider<InteractorExecution> beaconsEventsInteractorExecutionProvider;
   private final Provider<InteractorExecution> regionsProviderInteractorExecutionProvider;
+  private final ErrorLogger errorLogger;
 
   public BeaconsController(InteractorInvoker interactorInvoker, ActionDispatcher actionDispatcher,
       Provider<InteractorExecution> beaconsEventsInteractorExecutionProvider,
-      Provider<InteractorExecution> regionsProviderInteractorExecutionProvider) {
+      Provider<InteractorExecution> regionsProviderInteractorExecutionProvider,
+      ErrorLogger errorLogger) {
 
     this.interactorInvoker = interactorInvoker;
     this.actionDispatcher = actionDispatcher;
 
     this.beaconsEventsInteractorExecutionProvider = beaconsEventsInteractorExecutionProvider;
+
     this.regionsProviderInteractorExecutionProvider = regionsProviderInteractorExecutionProvider;
+    this.errorLogger = errorLogger;
   }
 
   public void getAllRegionsFromDataBase(final RegionsProviderListener regionsProviderListener) {
@@ -71,7 +76,6 @@ public class BeaconsController {
   }
 
   private void dispatchBeaconEvent(Object data, InteractorExecution interactorExecution, BeaconEventsInteractor beaconEventsInteractor) {
-    //TODO beaconEventsInteractor get new instance
     beaconEventsInteractor.setData(data);
     executeBeaconInteractor(interactorExecution, new InteractorResult<List<BasicAction>>() {
       @Override public void onResult(List<BasicAction> actions) {
@@ -98,20 +102,20 @@ public class BeaconsController {
   }
 
   private void manageInteractorError(InteractorError result) {
-    //TODO implement if neccessary
+    errorLogger.log(result.getError());
   }
 
   private void manageBeaconInteractorError(BeaconsInteractorError result) {
 
     switch (result.getBeaconBusinessErrorType()){
       case NO_SUCH_REGION_IN_ENTER:
-        // TODO Log error about trying to make exit over not registered as entered Region
+        errorLogger.log(result.getError());
         break;
       case ALREADY_IN_ENTER_REGION:
-        // TODO Log error about Region Was already in enter
+        errorLogger.log(result.getError());
         break;
       default:
-        //TODO default error and log
+        errorLogger.log(result.getError());
         break;
     }
   }

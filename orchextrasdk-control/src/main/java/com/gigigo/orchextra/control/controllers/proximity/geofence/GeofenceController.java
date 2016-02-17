@@ -3,6 +3,7 @@ package com.gigigo.orchextra.control.controllers.proximity.geofence;
 import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
@@ -19,13 +20,15 @@ public class GeofenceController {
     private final InteractorInvoker interactorInvoker;
     private final Provider<InteractorExecution> interactorExecutionProvider;
     private final ActionDispatcher actionDispatcher;
+    private final ErrorLogger errorLogger;
 
     public GeofenceController(InteractorInvoker interactorInvoker,
         Provider<InteractorExecution> interactorExecutionProvider,
-        ActionDispatcher actionDispatcher) {
+        ActionDispatcher actionDispatcher, ErrorLogger errorLogger) {
         this.interactorInvoker = interactorInvoker;
         this.interactorExecutionProvider = interactorExecutionProvider;
         this.actionDispatcher = actionDispatcher;
+      this.errorLogger = errorLogger;
     }
 
     public void processTriggers(List<String> triggeringGeofenceIds, OrchextraPoint triggeringPoint,
@@ -43,7 +46,7 @@ public class GeofenceController {
                 .error(RetrieveGeofenceItemError.class, new InteractorResult<InteractorError>() {
                     @Override
                     public void onResult(InteractorError result) {
-                        // TODO Do something with interactor error
+                        errorLogger.log(result.getError());
                     }
                 })
                 .execute(interactorInvoker);

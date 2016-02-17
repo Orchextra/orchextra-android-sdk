@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.device.bluetooth.beacons.fake;
+package com.gigigo.orchextra.android.device.bluetooth.beacons.fake;
 
 import com.gigigo.gggjavalib.general.utils.Hashing;
 import com.gigigo.orchextra.domain.abstractions.beacons.RegionsProviderListener;
@@ -13,8 +13,6 @@ import java.util.List;
  * Date 25/1/16.
  */
 public class BeaconRegionsFactory {
-
-  //TODO DELETE class or move to testing purpose
 
   private static final String BEACONS_UUID = "e6775403-f0dd-40c4-87db-95e755738ad1";
   private static final int BEACON_MAYOR_10 = 10;

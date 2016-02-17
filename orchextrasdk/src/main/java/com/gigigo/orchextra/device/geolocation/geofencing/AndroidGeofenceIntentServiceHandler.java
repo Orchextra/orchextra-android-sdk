@@ -51,7 +51,6 @@ public class AndroidGeofenceIntentServiceHandler {
                     return GeoPointEventType.EXIT;
             }
         }
-        //TODO review this
-        return null;
+        throw new GeofenceEventException("Geofence Event Error was produced, code is: " +  geofencingEvent.getErrorCode() );
     }
 }

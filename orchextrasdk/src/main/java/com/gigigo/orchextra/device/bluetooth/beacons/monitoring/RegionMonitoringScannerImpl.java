@@ -6,7 +6,6 @@ import android.content.ServiceConnection;
 import android.os.RemoteException;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.orchextra.device.bluetooth.beacons.fake.BeaconRegionsFactory;
 import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconRegionAndroidMapper;
 import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
@@ -53,8 +52,6 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
   //region BeaconConsumer Interface
 
   @Override public void onBeaconServiceConnect() {
-    //TODO if Regions are changed service that handles monitoring should restart ::
-    //TODO @See Observer implementation in BeaconScannerImpl.java
     obtainRegionsToScan();
   }
 
@@ -111,9 +108,6 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
 
   private void obtainRegionsToScan() {
     beaconsController.getAllRegionsFromDataBase(this);
-
-    //TODO remove this line below when above ready
-    //BeaconRegionsFactory.obtainRegionsToScan(this);
   }
 
   @Override public boolean isMonitoring() {

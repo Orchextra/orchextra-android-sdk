@@ -35,26 +35,21 @@ public class ConfigController extends Controller<ConfigDelegate> {
 
     public void sendConfiguration() {
         sendConfigInteractorExecution.get().result(new InteractorResult<OrchextraUpdates>() {
-                    @Override public void onResult(OrchextraUpdates result) {
-                        System.out.println("CONTROLLER SUCCESS :: " + result.toString());
-                        if (result != null) {
-                            notifyChanges(result);
-                        }
-                    }
-                }).error(InteractorError.class, new InteractorResult<InteractorError>() {
+            @Override public void onResult(OrchextraUpdates result) {
+                if (result != null) {
+                    notifyChanges(result);
+                }
+                getDelegate().configSuccessful();
+            }
+        }).error(InteractorError.class, new InteractorResult<InteractorError>() {
             @Override public void onResult(InteractorError result) {
                     manageInteractorError(result);
-                System.out.println("CONTROLLER ERROR :: " + result.toString());
             }
         }).execute(interactorInvoker);
     }
 
     private void manageInteractorError(InteractorError result) {
-        //TODO
-        InteractorError error = result;
-
-        System.out.println("Error :: " + result.toString());
-
+        getDelegate().configError(result.getError());
     }
 
     private void notifyChanges(OrchextraUpdates result) {

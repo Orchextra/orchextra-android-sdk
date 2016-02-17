@@ -14,4 +14,8 @@ public class AuthenticationError implements InteractorError {
   public AuthenticationError(BusinessError businessError) {
   this.businessError = businessError;
   }
+
+  @Override public BusinessError getError() {
+    return businessError;
+  }
 }

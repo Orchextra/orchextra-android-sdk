@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.device.bluetooth.beacons.fake;
+package com.gigigo.orchextra.android.device.bluetooth.beacons.fake;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,7 +18,6 @@ import java.util.Set;
  * Created by Sergio Martinez Rodriguez
  * Date 3/2/16.
  */
-//TODO delete when DB implementation ready
 public class ActionsSchedulerPersistorFakePrefsImpl implements ActionsSchedulerPersistor {
 
   private final SharedPreferences prefReader;

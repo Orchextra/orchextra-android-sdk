@@ -1,5 +1,8 @@
 package com.gigigo.orchextra.delegates;
 
+import com.gigigo.gggjavalib.business.model.BusinessError;
+import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigDelegate;
 
@@ -32,7 +35,8 @@ public class ConfigDelegateImp implements ConfigDelegate {
     }
 
     @Override
-    public void configError() {
+    public void configError(BusinessError result) {
+        GGGLogImpl.log("Config Error: " + result.getMessage(), LogLevel.ERROR);
         destroy();
     }
 

@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.model.vo;
 
+
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 16/12/15.
@@ -59,5 +60,18 @@ public class GeoLocation {
 
   public void setPoint(OrchextraPoint point) {
     this.point = point;
+  }
+
+  public static GeoLocation createNullGeoLocationInstance(){
+    GeoLocation geoLocation = new GeoLocation();
+    geoLocation.country = "";
+    geoLocation.countryCode = "";
+    geoLocation.locality = "";
+    geoLocation.street = "";
+    geoLocation.zip = "";
+    geoLocation.point = new OrchextraPoint();
+    geoLocation.point.setLat(0);
+    geoLocation.point.setLng(0);
+    return geoLocation;
   }
 }

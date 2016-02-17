@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.interactors.beacons;
 
+import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 
 /**
@@ -20,5 +21,9 @@ public class BeaconsInteractorError implements InteractorError {
 
   public void setBeaconBusinessErrorType(BeaconBusinessErrorType beaconBusinessErrorType) {
     this.beaconBusinessErrorType = beaconBusinessErrorType;
+  }
+
+  @Override public BusinessError getError() {
+    return BusinessError.createKoInstance("Beacon exception produced : " + beaconBusinessErrorType.getStringValue());
   }
 }
