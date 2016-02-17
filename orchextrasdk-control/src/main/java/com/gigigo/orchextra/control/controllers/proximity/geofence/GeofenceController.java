@@ -6,7 +6,7 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveProximityItemError;
+import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveGeofenceItemError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
@@ -40,7 +40,7 @@ public class GeofenceController {
                         executeActions(actions);
                     }
                 })
-                .error(RetrieveProximityItemError.class, new InteractorResult<InteractorError>() {
+                .error(RetrieveGeofenceItemError.class, new InteractorResult<InteractorError>() {
                     @Override
                     public void onResult(InteractorError result) {
                         // TODO Do something with interactor error

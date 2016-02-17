@@ -2,29 +2,32 @@ package com.gigigo.orchextra.di.modules.data;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
-import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsReader;
-import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsUpdater;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsReader;
+import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigBeaconUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigGeofenceUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigThemeUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigVuforiaUpdater;
+import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsReader;
+import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsUpdater;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
@@ -117,5 +120,17 @@ public class DBModule {
     return new BeaconEventsReader(regionEventRealmMapper);
   }
 
+  @Singleton
+  @Provides
+    GeofenceEventsUpdater provideGeofenceEventsUpdater(
+          Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper) {
+      return new GeofenceEventsUpdater(geofenceEventRealmMapper);
+  }
 
+  @Singleton
+  @Provides
+  GeofenceEventsReader provideGeofenceEventsReader(
+          Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper) {
+      return new GeofenceEventsReader(geofenceEventRealmMapper);
+  }
 }

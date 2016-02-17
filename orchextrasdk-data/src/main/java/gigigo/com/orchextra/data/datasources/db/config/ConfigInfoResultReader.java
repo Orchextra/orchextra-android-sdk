@@ -1,17 +1,17 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import java.util.ArrayList;
 import java.util.List;
 
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
+import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
@@ -100,7 +100,7 @@ public class ConfigInfoResultReader {
   //}
 
   public OrchextraGeofence getGeofenceById(Realm realm, String id){
-    GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("id", id).findFirst();
+    GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", id).findFirst();
     if (geofenceRealm == null) {
       throw new NotFountRealmObjectException();
     }

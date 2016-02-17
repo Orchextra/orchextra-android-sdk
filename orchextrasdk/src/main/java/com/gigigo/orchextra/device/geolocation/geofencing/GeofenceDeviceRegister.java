@@ -95,6 +95,8 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
 
     @SuppressWarnings("ResourceType")
     private void registerGeofence() {
+        GGGLogImpl.log("Registrando geofences...");
+
         List<String> deleteCodeList = androidGeofenceConverter.getCodeList(geofenceUpdates.getDeleteGeofences());
 
         if (deleteCodeList.size() > 0) {

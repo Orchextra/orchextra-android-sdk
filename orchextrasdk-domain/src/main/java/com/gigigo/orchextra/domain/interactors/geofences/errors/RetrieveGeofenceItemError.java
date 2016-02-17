@@ -3,11 +3,11 @@ package com.gigigo.orchextra.domain.interactors.geofences.errors;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 
-public class RetrieveProximityItemError implements InteractorError {
+public class RetrieveGeofenceItemError implements InteractorError {
 
     private final BusinessError error;
 
-    public RetrieveProximityItemError(BusinessError businessError) {
+    public RetrieveGeofenceItemError(BusinessError businessError) {
         this.error = businessError;
     }
 

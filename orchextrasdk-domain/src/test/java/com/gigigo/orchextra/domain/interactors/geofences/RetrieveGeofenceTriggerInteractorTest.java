@@ -67,8 +67,8 @@ public class RetrieveGeofenceTriggerInteractorTest {
         interactor.setTriggeringPoint(point);
         interactor.setTriggeringGeofenceIds(idsList);
 
-        when(proximityLocalDataProvider.obtainGeofenceByCodeFromDatabase(anyString())).thenReturn(businessGeofence);
-        when(proximityLocalDataProvider.obtainGeofenceByCodeFromDatabase(anyString())).thenReturn(businessGeofence);
+        when(proximityLocalDataProvider.obtainGeofence(anyString())).thenReturn(businessGeofence);
+        when(proximityLocalDataProvider.obtainGeofence(anyString())).thenReturn(businessGeofence);
         when(businessGeofence.isSuccess()).thenReturn(true);
         when(businessGeofence.getData()).thenReturn(geofence);
         when(point.getDistanceFromPointInKm(geofence.getPoint())).thenReturn(distanceFromGeofenceInKm);
@@ -82,8 +82,8 @@ public class RetrieveGeofenceTriggerInteractorTest {
         assertNull(response.getError());
         assertEquals(2, response.getResult().size());
 
-        verify(proximityLocalDataProvider).obtainGeofenceByCodeFromDatabase("aaaa");
-        verify(proximityLocalDataProvider).obtainGeofenceByCodeFromDatabase("bbbb");
+        verify(proximityLocalDataProvider).obtainGeofence("aaaa");
+        verify(proximityLocalDataProvider).obtainGeofence("bbbb");
         verify(businessGeofence, times(2)).isSuccess();
         verify(businessGeofence, times(2)).getData();
         verify(point, times(2)).getDistanceFromPointInKm(geofence.getPoint());
@@ -99,7 +99,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
 
         interactor.setTriggeringGeofenceIds(idsList);
 
-        when(proximityLocalDataProvider.obtainGeofenceByCodeFromDatabase(anyString())).thenReturn(businessGeofence);
+        when(proximityLocalDataProvider.obtainGeofence(anyString())).thenReturn(businessGeofence);
         when(businessGeofence.isSuccess()).thenReturn(false);
 
         InteractorResponse response = interactor.call();
@@ -108,7 +108,7 @@ public class RetrieveGeofenceTriggerInteractorTest {
         assertNull(response.getResult());
         assertNotNull(response.getError());
 
-        verify(proximityLocalDataProvider).obtainGeofenceByCodeFromDatabase(anyString());
+        verify(proximityLocalDataProvider).obtainGeofence(anyString());
         verify(businessGeofence).isSuccess();
     }
 
