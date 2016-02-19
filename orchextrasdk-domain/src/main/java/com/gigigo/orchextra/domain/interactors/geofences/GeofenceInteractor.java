@@ -52,7 +52,7 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
               geofenceCheckerService.obtainCheckedGeofences(triggeringGeofenceIds, geofenceTransition);
 
       if (response.getResult().size() == 0) {
-        return new InteractorResponse<>(new RetrieveGeofenceItemError(BusinessError.createKoInstance("")));
+        return new InteractorResponse<>(new RetrieveGeofenceItemError(BusinessError.createKoInstance("No geofences retrieved")));
       }
 
       geofenceList = response.getResult();

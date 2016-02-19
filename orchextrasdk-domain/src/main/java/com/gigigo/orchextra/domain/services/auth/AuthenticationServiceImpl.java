@@ -3,6 +3,7 @@ package com.gigigo.orchextra.domain.services.auth;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
+import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.auth.errors.SdkAuthError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
@@ -63,12 +64,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return new InteractorResponse<>(sdk.getData());
   }
 
-  public InteractorResponse authenticateClient(Credentials credentials, String crmId) {
+  private InteractorResponse authenticateClient(Credentials credentials, String crmId) {
 
     BusinessObject<ClientAuthData> user = authDataProvider.authenticateUser(credentials, crmId);
 
     if (!user.isSuccess()){
-      return new InteractorResponse<>(new SdkAuthError(user.getBusinessError()));
+      return new InteractorResponse<>(new AuthenticationError(user.getBusinessError()));
     }
 
     if (user.getData() != null) {

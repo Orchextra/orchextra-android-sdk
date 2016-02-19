@@ -58,7 +58,11 @@ public class ConfigService implements DomaninService {
     if (boOrchextraUpdates.isSuccess()){
       return new InteractorResponse<>(boOrchextraUpdates.getData());
     }else{
-      return new InteractorResponse(serviceErrorChecker.checkErrors(boOrchextraUpdates.getBusinessError()));
+      InteractorResponse interactorResponse = serviceErrorChecker.checkErrors(boOrchextraUpdates.getBusinessError());
+      if (interactorResponse.hasError()){
+        return interactorResponse;
+      }
+      else return refreshConfig();
     }
   }
 
