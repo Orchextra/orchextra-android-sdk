@@ -12,8 +12,12 @@ public class ThemeRealmMapper implements Mapper<Theme, ThemeRealm> {
 
   @Override public ThemeRealm modelToExternalClass(Theme theme) {
     ThemeRealm themeRealm = new ThemeRealm();
-    themeRealm.setPrimaryColor(theme.getPrimaryColor());
-    themeRealm.setSecondaryColor(theme.getSecondaryColor());
+
+    if (theme != null) {
+      themeRealm.setPrimaryColor(theme.getPrimaryColor());
+      themeRealm.setSecondaryColor(theme.getSecondaryColor());
+    }
+
     return themeRealm;
   }
 

@@ -6,6 +6,7 @@ import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ConfigThemeUpdater {
 
@@ -31,11 +32,15 @@ public class ConfigThemeUpdater {
     }
 
     private boolean checkIfChangedTheme(Realm realm, Theme theme) {
-        boolean hasChangedTheme;ThemeRealm themeRealm = themeRealmMapper.modelToExternalClass(theme);
+        boolean hasChangedTheme = false;
 
-        ThemeRealm oldTheme = realm.where(ThemeRealm.class).findFirst();
+        ThemeRealm themeRealm = themeRealmMapper.modelToExternalClass(theme);
 
-        hasChangedTheme = !checkThemeAreEquals(themeRealm, oldTheme);
+        RealmResults<ThemeRealm> savedTheme = realm.where(ThemeRealm.class).findAll();
+
+        if (savedTheme.size() > 0) {
+            hasChangedTheme = !checkThemeAreEquals(themeRealm, savedTheme.first());
+        }
 
         if (hasChangedTheme) {
             realm.clear(ThemeRealm.class);
