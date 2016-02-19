@@ -21,23 +21,25 @@ import io.realm.exceptions.RealmException;
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements ConfigDBDataSource {
+public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
 
   private final Context context;
   private final ConfigInfoResultUpdater configInfoResultUpdater;
   private final ConfigInfoResultReader configInfoResultReader;
+  private final RealmDefaultInstance realmDefaultInstance;
 
   public ConfigDBDataSourceImpl(Context context, ConfigInfoResultUpdater configInfoResultUpdater,
-      ConfigInfoResultReader configInfoResultReader) {
+      ConfigInfoResultReader configInfoResultReader, RealmDefaultInstance realmDefaultInstance) {
 
     this.context = context;
     this.configInfoResultUpdater = configInfoResultUpdater;
     this.configInfoResultReader = configInfoResultReader;
+    this.realmDefaultInstance = realmDefaultInstance;
   }
 
   public OrchextraUpdates saveConfigData(ConfigInfoResult configInfoResult){
 
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
@@ -55,7 +57,7 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
   }
 
   public BusinessObject<ConfigInfoResult> obtainConfigData(){
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       ConfigInfoResult configInfoResult = configInfoResultReader.readConfigInfo(realm);
@@ -70,13 +72,19 @@ public class ConfigDBDataSourceImpl extends RealmDefaultInstance implements Conf
   }
 
   @Override public BusinessObject<List<OrchextraRegion>> obtainRegionsForScan() {
-    List<OrchextraRegion> regions = configInfoResultReader.getAllRegions(getRealmInstance(context));
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    List<OrchextraRegion> regions = configInfoResultReader.getAllRegions(realm);
+    if (realm != null) {
+      realm.close();
+    }
     return new BusinessObject<>(regions, BusinessError.createOKInstance());
   }
 
   @Override
   public BusinessObject<OrchextraGeofence> obtainGeofenceById(String geofenceId){
-    Realm realm = getRealmInstance(context);
+
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
     try {
       OrchextraGeofence geofence = configInfoResultReader.getGeofenceById(realm, geofenceId);
       return new BusinessObject<>(geofence, BusinessError.createOKInstance());

@@ -5,13 +5,12 @@ import android.content.Context;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public abstract class RealmDefaultInstance {
+public class RealmDefaultInstance {
 
-    public Realm getRealmInstance(Context context) {
+    public synchronized Realm createRealmInstance(Context context) {
         RealmConfiguration config = new RealmConfiguration.Builder(context)
                 .deleteRealmIfMigrationNeeded()
                 .build();
-
 
         return Realm.getInstance(config);
     }
@@ -23,4 +22,6 @@ public abstract class RealmDefaultInstance {
             return 1;
         }
     }
+
+
 }

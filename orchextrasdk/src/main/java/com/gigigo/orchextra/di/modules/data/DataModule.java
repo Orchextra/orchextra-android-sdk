@@ -28,6 +28,7 @@ import gigigo.com.orchextra.data.datasources.api.action.ActionsDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.auth.AuthenticationDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.config.ConfigDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
+import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
@@ -81,36 +82,46 @@ public class DataModule {
 
 
   @Provides @Singleton SessionDBDataSource provideSessionDBDataSource(
-      ContextProvider contextProvider, SessionUpdater sessionUpdater, SessionReader sessionReader){
+      ContextProvider contextProvider, SessionUpdater sessionUpdater, SessionReader sessionReader,
+      RealmDefaultInstance realmDefaultInstance){
     return new SessionDBDataSourceImpl(contextProvider.getApplicationContext(),
-        sessionUpdater, sessionReader);
+        sessionUpdater, sessionReader, realmDefaultInstance);
   }
 
   @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(ContextProvider contextProvider,
       ConfigInfoResultUpdater configInfoResultUpdater,
-      ConfigInfoResultReader configInfoResultReader){
+      ConfigInfoResultReader configInfoResultReader,
+      RealmDefaultInstance realmDefaultInstance){
     return new ConfigDBDataSourceImpl(contextProvider.getApplicationContext(),
-        configInfoResultUpdater, configInfoResultReader);
+        configInfoResultUpdater, configInfoResultReader, realmDefaultInstance);
   }
 
   @Provides @Singleton BeaconsDBDataSource provideBeaconsDBDataSource(ContextProvider contextProvider,
       BeaconEventsUpdater beaconEventsUpdater,
-      BeaconEventsReader beaconEventsReader){
+      BeaconEventsReader beaconEventsReader,
+      RealmDefaultInstance realmDefaultInstance){
     return new BeaconsDBDataSourceImpl(contextProvider.getApplicationContext(),
-        beaconEventsUpdater, beaconEventsReader);
+        beaconEventsUpdater, beaconEventsReader, realmDefaultInstance);
   }
 
   @Provides
   @Singleton
   GeofenceDBDataSource provideGeofenceDBDataSource(ContextProvider contextProvider,
                                                    GeofenceEventsUpdater geofenceEventsUpdater,
-                                                   GeofenceEventsReader geofenceEventsReader) {
+                                                   GeofenceEventsReader geofenceEventsReader,
+                                                   RealmDefaultInstance realmDefaultInstance) {
     return new GeofenceDBDataSourceImp(contextProvider.getApplicationContext(),
-            geofenceEventsReader, geofenceEventsUpdater);
+            geofenceEventsReader, geofenceEventsUpdater, realmDefaultInstance);
   }
 
   @Provides @Singleton DeviceDetailsProvider provideDeviceDetailsProvider(ContextProvider contextProvider){
     return new DeviceDetailsProviderImpl(contextProvider.getApplicationContext());
+  }
+
+  @Provides
+  @Singleton
+  RealmDefaultInstance provideRealmDefaultInstance() {
+      return new RealmDefaultInstance();
   }
 
 }

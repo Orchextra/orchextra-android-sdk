@@ -20,22 +20,24 @@ import io.realm.exceptions.RealmException;
  * Created by Sergio Martinez Rodriguez
  * Date 22/12/15.
  */
-public class SessionDBDataSourceImpl extends RealmDefaultInstance implements SessionDBDataSource {
+public class SessionDBDataSourceImpl implements SessionDBDataSource {
 
   private final Context context;
   private final SessionUpdater sessionUpdater;
   private final SessionReader sessionReader;
+  private final RealmDefaultInstance realmDefaultInstance;
 
   public SessionDBDataSourceImpl(Context context, SessionUpdater sessionUpdater,
-      SessionReader sessionReader) {
+      SessionReader sessionReader, RealmDefaultInstance realmDefaultInstance) {
 
     this.context = context;
     this.sessionUpdater = sessionUpdater;
     this.sessionReader = sessionReader;
+    this.realmDefaultInstance = realmDefaultInstance;
   }
 
   @Override public boolean saveSdkAuthCredentials(SdkAuthCredentials sdkAuthCredentials) {
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
@@ -43,15 +45,17 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     }catch (RealmException re){
       return false;
     }finally {
-      realm.commitTransaction();
-      realm.close();
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
     }
 
     return true;
   }
 
   @Override public boolean saveSdkAuthResponse(SdkAuthData sdkAuthData) {
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
@@ -59,8 +63,8 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     }catch (RealmException re){
       return false;
     }finally {
-      realm.commitTransaction();
       if (realm != null) {
+        realm.commitTransaction();
         realm.close();
       }
     }
@@ -69,7 +73,7 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
   }
 
   @Override public boolean saveClientAuthCredentials(ClientAuthCredentials clientAuthCredentials) {
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
@@ -77,15 +81,17 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     }catch (RealmException re){
       return false;
     }finally {
-      realm.commitTransaction();
-      realm.close();
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
     }
 
     return true;
   }
 
   @Override public boolean saveClientAuthResponse(ClientAuthData clientAuthData) {
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
@@ -93,15 +99,17 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     }catch (RealmException re){
       return false;
     }finally {
-      realm.commitTransaction();
-      realm.close();
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
     }
 
     return true;
   }
 
   @Override public boolean saveUser(Crm crm) {
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
@@ -109,15 +117,17 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     }catch (RealmException re){
       return false;
     }finally {
-      realm.commitTransaction();
-      realm.close();
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
     }
 
     return true;
   }
 
   @Override public BusinessObject<ClientAuthData> getSessionToken() {
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       ClientAuthData clientAuthData = sessionReader.readClientAuthData(realm);
@@ -132,7 +142,7 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
   }
 
   @Override public BusinessObject<SdkAuthData> getDeviceToken() {
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       SdkAuthData sdkAuthData = sessionReader.readSdkAuthData(realm);
@@ -148,7 +158,7 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
 
   @Override
   public BusinessObject<Crm> getCrm() {
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       Crm crm = sessionReader.readCrmId(realm);
@@ -163,8 +173,7 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
   }
 
   @Override public boolean saveUserId(String crmId) {
-
-    Realm realm = getRealmInstance(context);
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
@@ -172,8 +181,10 @@ public class SessionDBDataSourceImpl extends RealmDefaultInstance implements Ses
     }catch (RealmException re){
       return false;
     }finally {
-      realm.commitTransaction();
-      realm.close();
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
     }
     return true;
   }
