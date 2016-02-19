@@ -52,7 +52,7 @@ public class GeofenceCheckerService implements DomaninService {
   private InteractorResponse<OrchextraGeofence> storeGeofence(String triggeringGeofenceId) {
     BusinessObject<OrchextraGeofence> bo = proximityLocalDataProvider.obtainGeofenceEvent(triggeringGeofenceId);
 
-    if (!bo.isSuccess()) {
+    if (bo.getData() != null) {
       return new InteractorResponse(new RetrieveGeofenceItemError(BusinessError.createKoInstance(bo.getBusinessError().getMessage())));
     }else{
       bo = proximityLocalDataProvider.storeGeofenceEvent(triggeringGeofenceId);
