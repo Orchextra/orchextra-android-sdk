@@ -37,7 +37,7 @@ public class ConfigGeofenceUpdater {
     private void addOrUpdateGeofences(Realm realm, List<OrchextraGeofence> newGeofences, List<String> used, List<OrchextraGeofence> geofences) {
         for (OrchextraGeofence geofence : geofences) {
             GeofenceRealm newGeofence = geofencesRealmMapper.modelToExternalClass(geofence);
-            GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofence.getCode()).findFirst();
+            RealmResults<GeofenceRealm> geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofence.getCode()).findAll();
 
             if(!checkGeofenceAreEquals(geofenceRealm, newGeofence)) {
                 newGeofences.add(geofence);
@@ -61,23 +61,27 @@ public class ConfigGeofenceUpdater {
             }
         }
         for (String code : geofenceToDelete) {
-            realm.where(GeofenceRealm.class).equalTo("code", code).findFirst().removeFromRealm();
+            RealmResults<GeofenceRealm> geofenceRealms = realm.where(GeofenceRealm.class).equalTo("code", code).findAll();
+            if (geofenceRealms.size() > 0) {
+                geofenceRealms.first().removeFromRealm();
+            }
             GGGLogImpl.log("Eliminada geofence de la base de datos: " + code);
         }
 
         return deleteGeofences;
     }
 
-    private boolean checkGeofenceAreEquals(GeofenceRealm geofenceRealm, GeofenceRealm newGeofence) {
-        if (geofenceRealm == null || newGeofence == null) {
+    private boolean checkGeofenceAreEquals(RealmResults<GeofenceRealm> geofenceRealm, GeofenceRealm newGeofence) {
+        if (geofenceRealm.size() == 0 || newGeofence == null) {
             return false;
         }
-        return geofenceRealm.getCode().equals(newGeofence.getCode()) &&
-                geofenceRealm.getPoint().getLat() == newGeofence.getPoint().getLat() &&
-                geofenceRealm.getPoint().getLng() == newGeofence.getPoint().getLng() &&
-                geofenceRealm.getRadius() == newGeofence.getRadius() &&
-                geofenceRealm.getNotifyOnEntry() == newGeofence.getNotifyOnEntry() &&
-                geofenceRealm.getNotifyOnExit() == newGeofence.getNotifyOnExit() &&
-                geofenceRealm.getStayTime() == newGeofence.getStayTime();
+        GeofenceRealm savedGeofence = geofenceRealm.first();
+        return savedGeofence.getCode().equals(newGeofence.getCode()) &&
+                savedGeofence.getPoint().getLat() == newGeofence.getPoint().getLat() &&
+                savedGeofence.getPoint().getLng() == newGeofence.getPoint().getLng() &&
+                savedGeofence.getRadius() == newGeofence.getRadius() &&
+                savedGeofence.getNotifyOnEntry() == newGeofence.getNotifyOnEntry() &&
+                savedGeofence.getNotifyOnExit() == newGeofence.getNotifyOnExit() &&
+                savedGeofence.getStayTime() == newGeofence.getStayTime();
     }
 }

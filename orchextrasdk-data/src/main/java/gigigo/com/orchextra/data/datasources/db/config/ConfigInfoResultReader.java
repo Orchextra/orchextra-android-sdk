@@ -95,12 +95,13 @@ public class ConfigInfoResultReader {
   }
 
   public OrchextraGeofence getGeofenceById(Realm realm, String geofenceId){
-    GeofenceRealm geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofenceId).findFirst();
+    RealmResults<GeofenceRealm> geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofenceId).findAll();
 
-    if (geofenceRealm == null) {
+    if (geofenceRealm.size() == 0) {
       throw new NotFountRealmObjectException();
+    } else {
+      return geofencesRealmMapper.externalClassToModel(geofenceRealm.first());
     }
-    return geofencesRealmMapper.externalClassToModel(geofenceRealm);
   }
 
   public List<OrchextraRegion> getAllRegions(Realm realm) {
