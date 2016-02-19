@@ -19,7 +19,4 @@ public class SdkAuthError implements InteractorError{
     return error;
   }
 
-  public void setError(BusinessError error) {
-    this.error = error;
-  }
 }
