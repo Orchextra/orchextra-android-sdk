@@ -51,10 +51,10 @@ public abstract class Trigger {
 
   abstract void setConcreteBehaviour();
 
-  public static GeofenceTrigger createGeofenceTrigger(String id, OrchextraPoint point,
+  public static GeofenceTrigger createGeofenceTrigger(String code, OrchextraPoint point,
       AppRunningModeType appRunningModeType, double distance, GeoPointEventType geoPointEventType){
 
-    GeofenceTrigger geofenceTrigger = new GeofenceTrigger(id, point, appRunningModeType, distance, geoPointEventType);
+    GeofenceTrigger geofenceTrigger = new GeofenceTrigger(code, point, appRunningModeType, distance, geoPointEventType);
     geofenceTrigger.setConcreteBehaviour();
     return geofenceTrigger;
   }

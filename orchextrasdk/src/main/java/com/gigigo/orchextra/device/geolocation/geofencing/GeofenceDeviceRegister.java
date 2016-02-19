@@ -103,11 +103,13 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
             LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), deleteCodeList);
         }
 
-        GeofencingRequest geofencingRequest = androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
+        if (geofenceUpdates.getNewGeofences().size() > 0) {
+            GeofencingRequest geofencingRequest = androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
 
-        LocationServices.GeofencingApi.addGeofences(
-                googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
-                geofencePendingIntentCreator.getGeofencingPendingIntent()
-        ).setResultCallback(this);
+            LocationServices.GeofencingApi.addGeofences(
+                    googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
+                    geofencePendingIntentCreator.getGeofencingPendingIntent()
+            ).setResultCallback(this);
+        }
     }
 }

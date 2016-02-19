@@ -51,7 +51,7 @@ public class TriggerService implements DomaninService {
         for (OrchextraGeofence orchextraGeofence: geofences){
 
             Trigger trigger = Trigger.createGeofenceTrigger(
-                orchextraGeofence.getGeofenceId(),
+                orchextraGeofence.getCode(),
                 orchextraGeofence.getPoint(),
                 appRunningMode.getRunningModeType(),
                 orchextraGeofence.getDistanceToDeviceInKm(),

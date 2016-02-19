@@ -46,7 +46,12 @@ public class InteractorExecutionFutureTask<T> extends FutureTask<T>
   }
 
   private void handleResult(T result) {
-    interactorExecution.getInteractorResult().onResult(result);
+    //TODO When app is initialized at first time,
+    // the authentication is done and its returned value (ClientAuthData) is compared with OrchextraUpdates
+    // that is expected for the sendConfigutation interactor call.
+    // java.lang.ClassCastException: com.gigigo.orchextra.domain.interactors.base.InteractorResponse cannot be cast to com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates
+    InteractorResult<T> interactorResult = interactorExecution.getInteractorResult();
+    interactorResult.onResult(result);
   }
 
   private void handleError(InteractorError error) {

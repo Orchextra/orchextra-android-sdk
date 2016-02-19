@@ -5,6 +5,7 @@ import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 
+import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -41,6 +42,8 @@ public class GeofenceEventsReader {
 
         if (results.size()>1) {
             GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+        } else if (results.size() == 0) {
+            throw new NotFountRealmObjectException();
         }
 
         return geofenceEventRealmMapper.externalClassToModel(results.first());
