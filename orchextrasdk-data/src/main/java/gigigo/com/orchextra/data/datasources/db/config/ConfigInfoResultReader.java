@@ -30,10 +30,10 @@ public class ConfigInfoResultReader {
   private final ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper;
   private final ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper;
 
-  public ConfigInfoResultReader(ExternalClassToModelMapper regionRealmMapper,
-      ExternalClassToModelMapper geofencesRealmMapper,
-      ExternalClassToModelMapper vuforiaRealmMapper,
-      ExternalClassToModelMapper themeRealmMapper) {
+  public ConfigInfoResultReader(ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper,
+      ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper,
+      ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper,
+      ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper) {
 
     this.regionRealmMapper = regionRealmMapper;
     this.geofencesRealmMapper = geofencesRealmMapper;
@@ -113,23 +113,23 @@ public class ConfigInfoResultReader {
     return regions;
   }
 
-  public List<OrchextraGeofence> getAllGeofences(Realm realm) {
-    RealmResults<GeofenceRealm> geofencesRealm = realm.where(GeofenceRealm.class).findAll();
-    List<OrchextraGeofence> geofences = new ArrayList<>();
-    for (GeofenceRealm geofenceRealm : geofencesRealm){
-      geofences.add(geofencesRealmMapper.externalClassToModel(geofenceRealm));
-    }
-    return geofences;
-  }
-
-  public Theme getTheme(Realm realm) {
-    RealmResults<ThemeRealm> themeRealm = realm.where(ThemeRealm.class).findAll();
-    return themeRealmMapper.externalClassToModel(themeRealm.get(0));
-  }
-
-  private Vuforia readRealmVuforia(Realm realm) {
-    RealmResults<VuforiaRealm> vuforiaRealm = realm.where(VuforiaRealm.class).findAll();
-    return vuforiaRealmMapper.externalClassToModel(vuforiaRealm.get(0));
-  }
+//  public List<OrchextraGeofence> getAllGeofences(Realm realm) {
+//    RealmResults<GeofenceRealm> geofencesRealm = realm.where(GeofenceRealm.class).findAll();
+//    List<OrchextraGeofence> geofences = new ArrayList<>();
+//    for (GeofenceRealm geofenceRealm : geofencesRealm){
+//      geofences.add(geofencesRealmMapper.externalClassToModel(geofenceRealm));
+//    }
+//    return geofences;
+//  }
+//
+//  public Theme getTheme(Realm realm) {
+//    RealmResults<ThemeRealm> themeRealm = realm.where(ThemeRealm.class).findAll();
+//    return themeRealmMapper.externalClassToModel(themeRealm.get(0));
+//  }
+//
+//  private Vuforia readRealmVuforia(Realm realm) {
+//    RealmResults<VuforiaRealm> vuforiaRealm = realm.where(VuforiaRealm.class).findAll();
+//    return vuforiaRealmMapper.externalClassToModel(vuforiaRealm.get(0));
+//  }
 
 }

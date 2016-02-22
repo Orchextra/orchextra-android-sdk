@@ -7,6 +7,7 @@ import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ConfigVuforiaUpdater {
 
@@ -33,11 +34,14 @@ public class ConfigVuforiaUpdater {
     }
 
     private boolean checkIfChangedVuforia(Realm realm, Vuforia vuforia) {
-        boolean hasChangedVuforia;VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToExternalClass(vuforia);
+        boolean hasChangedVuforia = false;
 
-        VuforiaRealm olderVuforia = realm.where(VuforiaRealm.class).findFirst();
+        VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToExternalClass(vuforia);
 
-        hasChangedVuforia = !checkVuforiaAreEquals(vuforiaRealm, olderVuforia);
+        RealmResults<VuforiaRealm> savedVuforia = realm.where(VuforiaRealm.class).findAll();
+        if (savedVuforia.size() > 0) {
+            hasChangedVuforia = !checkVuforiaAreEquals(vuforiaRealm, savedVuforia.first());
+        }
 
         if (hasChangedVuforia) {
             realm.clear(VuforiaRealm.class);

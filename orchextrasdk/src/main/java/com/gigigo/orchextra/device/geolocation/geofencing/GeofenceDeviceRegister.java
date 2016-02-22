@@ -1,5 +1,7 @@
 package com.gigigo.orchextra.device.geolocation.geofencing;
 
+import android.app.Activity;
+import android.content.IntentSender;
 import android.os.Bundle;
 
 import com.gigigo.ggglib.ContextProvider;
@@ -61,14 +63,20 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     @Override
     public void onResult(Status status) {
         if (status.isSuccess()) {
-            GGGLogImpl.log("Success!", LogLevel.INFO);
+            GGGLogImpl.log("Registered Geofences Success!", LogLevel.INFO);
         } else if (status.hasResolution()) {
-            GGGLogImpl.log("Handle resolution!", LogLevel.INFO);
-            // TODO Handle resolution - startResolutionForResult (Activity, int)
+            Activity currentActivity = contextProvider.getCurrentActivity();
+            if (currentActivity != null) {
+                try {
+                    status.startResolutionForResult(currentActivity, status.getStatusCode());
+                } catch (IntentSender.SendIntentException e) {
+                    GGGLogImpl.log("Geofences Handle resolution!", LogLevel.INFO);
+                }
+            }
         } else if (status.isCanceled()) {
-            GGGLogImpl.log("Canceled!", LogLevel.INFO);
+            GGGLogImpl.log("Registered Geofences Canceled!", LogLevel.INFO);
         } else if (status.isInterrupted()) {
-            GGGLogImpl.log("Interrupted!", LogLevel.INFO);
+            GGGLogImpl.log("Registered Geofences Interrupted!", LogLevel.INFO);
         }
 
         if (googleApiClientConnector.isConnected()) {

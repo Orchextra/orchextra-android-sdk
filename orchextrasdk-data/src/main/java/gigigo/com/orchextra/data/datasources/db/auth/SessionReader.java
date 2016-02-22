@@ -1,16 +1,17 @@
 package gigigo.com.orchextra.data.datasources.db.auth;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
-import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
+import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
 import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthRealm;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmRealmMapper;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -32,17 +33,29 @@ public class SessionReader {
   }
 
   public ClientAuthData readClientAuthData(Realm realm) throws NullPointerException{
-      ClientAuthRealm clientAuthRealm = realm.where(ClientAuthRealm.class).findFirst();
-      return clientAuthRealmMapper.externalClassToModel(clientAuthRealm);
+      RealmResults<ClientAuthRealm> clientAuthRealm = realm.where(ClientAuthRealm.class).findAll();
+      if (clientAuthRealm.size() > 0) {
+          return clientAuthRealmMapper.externalClassToModel(clientAuthRealm.first());
+      } else {
+          throw new NotFountRealmObjectException();
+      }
   }
 
   public SdkAuthData readSdkAuthData(Realm realm) throws NullPointerException{
-      SdkAuthRealm sdkAuthRealm = realm.where(SdkAuthRealm.class).findFirst();
-      return sdkAuthRealmMapper.externalClassToModel(sdkAuthRealm);
+      RealmResults<SdkAuthRealm> sdkAuthRealm = realm.where(SdkAuthRealm.class).findAll();
+      if (sdkAuthRealm.size() > 0) {
+          return sdkAuthRealmMapper.externalClassToModel(sdkAuthRealm.first());
+      } else {
+          throw new NotFountRealmObjectException();
+      }
   }
 
     public Crm readCrmId(Realm realm) {
-      CrmRealm crmRealm = realm.where(CrmRealm.class).findFirst();
-      return crmRealmMapper.externalClassToModel(crmRealm);
+      RealmResults<CrmRealm> crmRealm = realm.where(CrmRealm.class).findAll();
+      if (crmRealm.size() > 0) {
+          return crmRealmMapper.externalClassToModel(crmRealm.first());
+      } else {
+        throw new NotFountRealmObjectException();
+      }
     }
 }

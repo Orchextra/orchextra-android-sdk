@@ -37,7 +37,7 @@ public class ConfigBeaconUpdater {
     private void addOrUpdateRegion(Realm realm, List<OrchextraRegion> newRegions, List<String> used, List<OrchextraRegion> regions) {
         for (OrchextraRegion region : regions) {
             BeaconRegionRealm newRegion = beaconRealmMapper.modelToExternalClass(region);
-            BeaconRegionRealm regionRealm = realm.where(BeaconRegionRealm.class).equalTo("code", region.getCode()).findFirst();
+            RealmResults<BeaconRegionRealm> regionRealm = realm.where(BeaconRegionRealm.class).equalTo("code", region.getCode()).findAll();
 
             if(!checkRegionAreEquals(regionRealm, newRegion)) {
                 newRegions.add(region);
@@ -60,20 +60,24 @@ public class ConfigBeaconUpdater {
             }
         }
         for (String code : beaconsToDelete) {
-            realm.where(BeaconRegionRealm.class).equalTo("code", code).findFirst().removeFromRealm();
+            RealmResults<BeaconRegionRealm> beaconRegionRealm = realm.where(BeaconRegionRealm.class).equalTo("code", code).findAll();
+            if (beaconRegionRealm.size() > 0) {
+                beaconRegionRealm.first().removeFromRealm();
+            }
         }
 
         return deleteRegions;
     }
 
-    private boolean checkRegionAreEquals(BeaconRegionRealm beaconRealm, BeaconRegionRealm newBeacon) {
-        if (beaconRealm == null || newBeacon == null) {
+    private boolean checkRegionAreEquals(RealmResults<BeaconRegionRealm> beaconRealm, BeaconRegionRealm newBeacon) {
+        if (beaconRealm.size() == 0 || newBeacon == null) {
             return false;
         }
-        return beaconRealm.getCode().equals(newBeacon.getCode()) &&
-                beaconRealm.getMinor() == newBeacon.getMinor() &&
-                beaconRealm.getMajor() == newBeacon.getMajor() &&
-                beaconRealm.getUuid() == newBeacon.getUuid() &&
-                beaconRealm.isActive() == newBeacon.isActive();
+        BeaconRegionRealm beacon = beaconRealm.first();
+        return beacon.getCode().equals(newBeacon.getCode()) &&
+                beacon.getMinor() == newBeacon.getMinor() &&
+                beacon.getMajor() == newBeacon.getMajor() &&
+                beacon.getUuid() == newBeacon.getUuid() &&
+                beacon.isActive() == newBeacon.isActive();
     }
 }
