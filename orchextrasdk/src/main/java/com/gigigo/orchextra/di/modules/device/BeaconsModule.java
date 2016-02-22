@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconScannerImpl;
@@ -66,10 +67,10 @@ public class BeaconsModule {
 
   @Provides @Singleton BeaconScanner provideBeaconScanner(RegionMonitoringScanner regionMonitoringScanner,
       BeaconRangingScanner beaconRangingScanner, AppRunningMode appRunningMode,
-      BluetoothStatusInfo bluetoothStatusInfo){
+      BluetoothStatusInfo bluetoothStatusInfo, ConfigObservable configObservable){
 
     return new BeaconScannerImpl(regionMonitoringScanner, beaconRangingScanner, bluetoothStatusInfo,
-        appRunningMode);
+        appRunningMode, configObservable);
   }
 
   @Provides @Singleton BeaconRangingScanner provideBeaconRangingScanner(BeaconManager beaconManager,

@@ -14,6 +14,7 @@ import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusListener;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.model.config.Config;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
@@ -28,15 +29,19 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
   private final BeaconRangingScanner beaconRangingScanner;
   private final BluetoothStatusInfo bluetoothStatusInfo;
   private final AppRunningMode appRunningMode;
+  private final ConfigObservable configObservable;
 
   public BeaconScannerImpl(RegionMonitoringScanner regionMonitoringScanner,
       BeaconRangingScanner beaconRangingScanner, BluetoothStatusInfo bluetoothStatusInfo,
-      AppRunningMode appRunningMode) {
+      AppRunningMode appRunningMode, ConfigObservable configObservable) {
 
     this.regionMonitoringScanner = regionMonitoringScanner;
     this.beaconRangingScanner = beaconRangingScanner;
     this.bluetoothStatusInfo = bluetoothStatusInfo;
     this.appRunningMode = appRunningMode;
+    this.configObservable = configObservable;
+
+    this.configObservable.registerObserver(this);
   }
 
   @Override public void startMonitoring() {
@@ -83,6 +88,7 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
     if (regionMonitoringScanner.isMonitoring()){
       regionMonitoringScanner.stopMonitoring();
     }
+    this.configObservable.removeObserver(this);
   }
 
   @Override public void stopRangingScanner() {
