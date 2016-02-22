@@ -25,17 +25,14 @@ public class ProximityLocalDataProviderImp implements ProximityLocalDataProvider
         this.geofenceDBDataSource = geofenceDBDataSource;
     }
 
-    private BusinessObject<OrchextraGeofence> obtainSavedGeofenceInDatabase(String geofenceId) {
+    @Override
+    public BusinessObject<OrchextraGeofence> obtainSavedGeofenceInDatabase(String geofenceId) {
         return configDBDataSource.obtainGeofenceById(geofenceId);
     }
 
     @Override
-    public BusinessObject<OrchextraGeofence> obtainGeofenceEvent(String geofenceId) {
-        BusinessObject<OrchextraGeofence> bo = obtainSavedGeofenceInDatabase(geofenceId);
-        if (bo.isSuccess()) {
-            return geofenceDBDataSource.obtainGeofenceEvent(bo.getData());
-        }
-        return new BusinessObject<>(null, bo.getBusinessError());
+    public BusinessObject<OrchextraGeofence> obtainGeofenceEvent(OrchextraGeofence geofence) {
+        return geofenceDBDataSource.obtainGeofenceEvent(geofence);
     }
 
     @Override
@@ -44,12 +41,8 @@ public class ProximityLocalDataProviderImp implements ProximityLocalDataProvider
     }
 
     @Override
-    public BusinessObject<OrchextraGeofence> storeGeofenceEvent(String geofenceId) {
-        BusinessObject<OrchextraGeofence> bo = obtainSavedGeofenceInDatabase(geofenceId);
-        if (bo.isSuccess()) {
-            return geofenceDBDataSource.storeGeofenceEvent(bo.getData());
-        }
-        return new BusinessObject<>(null, bo.getBusinessError());
+    public BusinessObject<OrchextraGeofence> storeGeofenceEvent(OrchextraGeofence geofence) {
+        return geofenceDBDataSource.storeGeofenceEvent(geofence);
     }
 
     @Override

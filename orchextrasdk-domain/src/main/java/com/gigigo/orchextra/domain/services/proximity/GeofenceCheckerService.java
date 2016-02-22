@@ -28,7 +28,7 @@ public class GeofenceCheckerService implements DomaninService {
   public InteractorResponse<List<OrchextraGeofence>> obtainCheckedGeofences(List<String> triggeringGeofenceIds,
                                                                             GeoPointEventType geofenceTransition) {
 
-  if (geofenceTransition == GeoPointEventType.ENTER) {
+  if (geofenceTransition != GeoPointEventType.EXIT) {
       return new InteractorResponse(storeGeofences(triggeringGeofenceIds));
     } else {
       return new InteractorResponse(deleteStoredGeofences(triggeringGeofenceIds));
@@ -50,13 +50,23 @@ public class GeofenceCheckerService implements DomaninService {
   }
 
   private InteractorResponse<OrchextraGeofence> storeGeofence(String triggeringGeofenceId) {
-    BusinessObject<OrchextraGeofence> bo = proximityLocalDataProvider.obtainGeofenceEvent(triggeringGeofenceId);
+    BusinessObject<OrchextraGeofence> boSavedGeofence = proximityLocalDataProvider.obtainSavedGeofenceInDatabase(triggeringGeofenceId);
 
-    if (bo.getData() != null) {
-      return new InteractorResponse(new RetrieveGeofenceItemError(BusinessError.createKoInstance(bo.getBusinessError().getMessage())));
-    }else{
-      bo = proximityLocalDataProvider.storeGeofenceEvent(triggeringGeofenceId);
-      return new InteractorResponse(bo.getData());
+    if (boSavedGeofence.isSuccess()) {
+      return storeGeofenceEvent(boSavedGeofence.getData());
+    } else {
+      return new InteractorResponse(new RetrieveGeofenceItemError(BusinessError.createKoInstance(boSavedGeofence.getBusinessError().getMessage())));
+    }
+  }
+
+  private InteractorResponse<OrchextraGeofence> storeGeofenceEvent(OrchextraGeofence geofence) {
+    BusinessObject<OrchextraGeofence> boEventGeofence = proximityLocalDataProvider.obtainGeofenceEvent(geofence);
+
+    if (boEventGeofence.getData() != null) {
+      return new InteractorResponse(new RetrieveGeofenceItemError(BusinessError.createKoInstance(boEventGeofence.getBusinessError().getMessage())));
+    } else {
+      boEventGeofence = proximityLocalDataProvider.storeGeofenceEvent(geofence);
+      return new InteractorResponse(boEventGeofence.getData());
     }
   }
 
@@ -66,7 +76,7 @@ public class GeofenceCheckerService implements DomaninService {
 
     for (String triggeringGeofenceId : triggeringGeofenceIds) {
       InteractorResponse<OrchextraGeofence> interactorResponse = deleteStoredGeofence(triggeringGeofenceId);
-      if (interactorResponse.hasError()) {
+      if (!interactorResponse.hasError()) {
         removedGeofenceList.add(interactorResponse.getResult());
       }
     }
@@ -81,5 +91,9 @@ public class GeofenceCheckerService implements DomaninService {
     }else{
       return new InteractorResponse(bo.getData());
     }
+  }
+
+  public BusinessObject<OrchextraGeofence> obtainCheckedGeofence(String eventCode) {
+    return proximityLocalDataProvider.obtainSavedGeofenceInDatabase(eventCode);
   }
 }

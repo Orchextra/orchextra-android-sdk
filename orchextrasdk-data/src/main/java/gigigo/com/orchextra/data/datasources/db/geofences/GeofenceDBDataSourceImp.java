@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 
@@ -54,7 +53,7 @@ public class GeofenceDBDataSourceImp implements GeofenceDBDataSource {
           if (realm != null) {
               realm.close();
           }
-    }
+      }
     }
 
     @Override
