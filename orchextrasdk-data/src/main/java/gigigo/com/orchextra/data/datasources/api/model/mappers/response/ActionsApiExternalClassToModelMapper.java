@@ -14,10 +14,10 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionData;
 public class ActionsApiExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiActionData, BasicAction> {
 
-  private final ActionNotificationExternalClassToModelMapper actionNotificationResponseMapper;
+  private final ExternalClassToModelMapper actionNotificationResponseMapper;
 
   public ActionsApiExternalClassToModelMapper(
-      ActionNotificationExternalClassToModelMapper actionNotificationResponseMapper) {
+      ExternalClassToModelMapper actionNotificationResponseMapper) {
     this.actionNotificationResponseMapper = actionNotificationResponseMapper;
   }
 
@@ -26,7 +26,7 @@ public class ActionsApiExternalClassToModelMapper
     ActionType actionType = ActionType.getActionTypeValue(apiActionData.getType());
     String url = apiActionData.getUrl();
 
-    Notification notification = MapperUtils.checkNullDataResponse(actionNotificationResponseMapper,
+    Notification notification = (Notification) MapperUtils.checkNullDataResponse(actionNotificationResponseMapper,
         apiActionData.getNotification());
 
     return new BasicAction.ActionBuilder(actionType, url, notification).build();
