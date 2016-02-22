@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
@@ -13,7 +14,7 @@ public class BeaconEventRealm extends RealmObject{
   public static final String CODE_FIELD_NAME = "code";
   public static final String DISTANCE_FIELD_NAME = "beaconDistance";
 
-  @Required
+  @PrimaryKey
   private String code;
   private String uuid;
   private int mayor;

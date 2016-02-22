@@ -18,8 +18,7 @@ public class BeaconRegionTrigger extends Trigger {
 
   public BeaconRegionTrigger(OrchextraRegion orchextraRegion, AppRunningModeType appRunningMode) {
     super(TriggerType.REGION, orchextraRegion.getCode(), null, appRunningMode);
-    this.geoPointEventType = GeoPointEventType.valueOf(GeoPointEventType.class ,
-        orchextraRegion.getRegionEvent().getStringValue());
+    this.geoPointEventType = GeoPointEventType.getTypeFromString(orchextraRegion.getRegionEvent().getStringValue());
     this.isTriggerable = true;
   }
 

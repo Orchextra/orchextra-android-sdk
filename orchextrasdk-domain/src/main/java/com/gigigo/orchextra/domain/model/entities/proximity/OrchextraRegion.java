@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
+import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventType;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 
 /**
@@ -77,5 +78,13 @@ public class OrchextraRegion extends ProximityPoint implements ScheduledActionEv
 
   public void setRegionEvent(RegionEventType regionEvent) {
     this.regionEvent = regionEvent;
+  }
+
+  public void setRegionEvent(BeaconEventType eventType) {
+    if (eventType == BeaconEventType.REGION_ENTER){
+      regionEvent = RegionEventType.ENTER;
+    }else{
+      regionEvent = RegionEventType.EXIT;
+    }
   }
 }

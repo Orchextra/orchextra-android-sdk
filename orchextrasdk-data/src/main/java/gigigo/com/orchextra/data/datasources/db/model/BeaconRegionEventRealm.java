@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
@@ -18,7 +19,7 @@ public class BeaconRegionEventRealm extends RealmObject{
   private String actionRelated;
   private boolean active;
   private long timeStampt;
-  @Required private String code;
+  @PrimaryKey private String code;
 
   public BeaconRegionEventRealm(BeaconRegionRealm beaconRegionRealm) {
     this.code = beaconRegionRealm.getCode();

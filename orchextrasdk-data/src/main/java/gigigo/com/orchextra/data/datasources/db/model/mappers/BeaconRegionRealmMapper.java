@@ -42,7 +42,7 @@ public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRe
     if (regionRealm.getEventType() == null){
       region.setRegionEvent(RegionEventType.EXIT);
     }else{
-      region.setRegionEvent(RegionEventType.valueOf(RegionEventType.class, regionRealm.getEventType()));
+      region.setRegionEvent(RegionEventType.getTypeFromString(regionRealm.getEventType()));
     }
 
 

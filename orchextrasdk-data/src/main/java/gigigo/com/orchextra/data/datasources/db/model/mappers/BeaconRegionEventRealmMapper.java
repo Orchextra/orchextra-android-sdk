@@ -33,7 +33,7 @@ public class BeaconRegionEventRealmMapper implements Mapper<OrchextraRegion, Bea
         regionEventRealm.isActive());
 
     orchextraRegion.setActionRelated(regionEventRealm.getActionRelated());
-    orchextraRegion.setRegionEvent(RegionEventType.valueOf(RegionEventType.class, regionEventRealm.getEventType()));
+    orchextraRegion.setRegionEvent(RegionEventType.getTypeFromString(regionEventRealm.getEventType()));
     return orchextraRegion;
   }
 }

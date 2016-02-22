@@ -20,4 +20,13 @@ public enum GeoPointEventType implements StringValueEnum {
   public String getStringValue() {
     return type;
   }
+
+  public static GeoPointEventType getTypeFromString(String stringValue) {
+    for(GeoPointEventType geoPointEventType:values()){
+      if (geoPointEventType.getStringValue().equals(stringValue)){
+        return geoPointEventType;
+      }
+    }
+    return ENTER;
+  }
 }

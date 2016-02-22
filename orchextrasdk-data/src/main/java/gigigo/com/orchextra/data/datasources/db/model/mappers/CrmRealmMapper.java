@@ -44,7 +44,7 @@ public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
       crm.setCrmId(crmRealm.getCrmId());
       crm.setKeywords(keyWordRealmMapper.realmKeyWordsToStringList(crmRealm.getKeywords()));
       try {
-        crm.setGender(GenderType.valueOf(crmRealm.getGender()));
+        crm.setGender(GenderType.getTypeFromString(crmRealm.getGender()));
       } catch (IllegalArgumentException | NullPointerException e) {
       }
       crm.setBirthDate(DateUtils.stringToDateWithFormat(crmRealm.getBirthDate(),
