@@ -76,14 +76,13 @@ public class ApiMappersModule {
     return new ClientApiExternalClassToModelMapper();
   }
 
-  @Provides @Singleton   ApiGenericResponseMapper provideActionsResMapper(
-      @ActionsResponse ActionsApiExternalClassToModelMapper actionsApiResponseMapper){
+  @Provides @Singleton @ActionsResponse   ApiGenericResponseMapper provideActionsResMapper(
+      @ActionsResponse ExternalClassToModelMapper actionsApiResponseMapper){
     return createResponseMapper(actionsApiResponseMapper);
   }
 
   @Provides @Singleton @ActionsResponse ExternalClassToModelMapper provideActionsApiResponseMapper(
-      @ActionNotificationResponse
-      ActionNotificationExternalClassToModelMapper actionNotifResponseMapper){
+      @ActionNotificationResponse ExternalClassToModelMapper actionNotifResponseMapper){
     return new ActionsApiExternalClassToModelMapper(actionNotifResponseMapper);
   }
 
@@ -121,11 +120,7 @@ public class ApiMappersModule {
     return new BeaconExternalClassToModelMapper();
   }
 
-    @Provides
-    @Singleton
-    @ActionsResponse
-    ApiGenericResponseMapper createResponseMapper(@ActionNotificationResponse
-    ExternalClassToModelMapper mapper) {
+  private ApiGenericResponseMapper createResponseMapper(ExternalClassToModelMapper mapper) {
     return new OrchextraGenericResponseMapper(mapper);
   }
 

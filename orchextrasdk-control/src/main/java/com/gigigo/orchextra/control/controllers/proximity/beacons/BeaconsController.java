@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.control.controllers.proximity.beacons;
 
 import com.gigigo.orchextra.control.InteractorResult;
+import com.gigigo.orchextra.control.controllers.base.Controller;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.beacons.RegionsProviderListener;
@@ -15,23 +16,25 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.List;
 import javax.inject.Provider;
+import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 3/2/16.
  */
-public class BeaconsController {
+public class BeaconsController{
 
   private final InteractorInvoker interactorInvoker;
   private final ActionDispatcher actionDispatcher;
   private final Provider<InteractorExecution> beaconsEventsInteractorExecutionProvider;
   private final Provider<InteractorExecution> regionsProviderInteractorExecutionProvider;
   private final ErrorLogger errorLogger;
+  private final ThreadSpec mainThreadSpec;
 
   public BeaconsController(InteractorInvoker interactorInvoker, ActionDispatcher actionDispatcher,
       Provider<InteractorExecution> beaconsEventsInteractorExecutionProvider,
       Provider<InteractorExecution> regionsProviderInteractorExecutionProvider,
-      ErrorLogger errorLogger) {
+      ErrorLogger errorLogger, ThreadSpec mainThreadSpec) {
 
     this.interactorInvoker = interactorInvoker;
     this.actionDispatcher = actionDispatcher;
@@ -40,6 +43,7 @@ public class BeaconsController {
 
     this.regionsProviderInteractorExecutionProvider = regionsProviderInteractorExecutionProvider;
     this.errorLogger = errorLogger;
+    this.mainThreadSpec = mainThreadSpec;
   }
 
   public void getAllRegionsFromDataBase(final RegionsProviderListener regionsProviderListener) {
@@ -79,10 +83,13 @@ public class BeaconsController {
     beaconEventsInteractor.setData(data);
     executeBeaconInteractor(interactorExecution, new InteractorResult<List<BasicAction>>() {
       @Override public void onResult(List<BasicAction> actions) {
-        for (BasicAction action:actions){
-          action.performAction(actionDispatcher);
+        for (final BasicAction action : actions) {
+          mainThreadSpec.execute(new Runnable() {
+            @Override public void run() {
+              action.performAction(actionDispatcher);
+            }
+          });
         }
-
       }
     });
   }

@@ -28,7 +28,7 @@ public class NotificationsModule {
   @Provides
   @Singleton
   ForegroundNotificationBuilderImp provideForegroundNotificationBuilderImp(ContextProvider contextProvider) {
-    return new ForegroundNotificationBuilderImp(contextProvider.getApplicationContext());
+    return new ForegroundNotificationBuilderImp(contextProvider);
   }
 
   @Provides
