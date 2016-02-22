@@ -52,7 +52,7 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
       if (sessionToken.isSuccess()){
         sessionDBDataSource.saveClientAuthResponse(sessionToken.getData());
 
-        if (crmId != null || crm.getCrmId() != null) {
+        if (crmId != null || (crm != null && crm.getCrmId() != null)) {
           crm.setCrmId(crmId);
           sessionDBDataSource.saveUser(crm);
         }
