@@ -77,7 +77,7 @@ public class ConfigBeaconUpdater {
         return beacon.getCode().equals(newBeacon.getCode()) &&
                 beacon.getMinor() == newBeacon.getMinor() &&
                 beacon.getMajor() == newBeacon.getMajor() &&
-                beacon.getUuid() == newBeacon.getUuid() &&
+                beacon.getUuid().equals(newBeacon.getUuid()) &&
                 beacon.isActive() == newBeacon.isActive();
     }
 }
