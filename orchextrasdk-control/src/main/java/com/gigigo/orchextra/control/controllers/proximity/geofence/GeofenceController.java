@@ -14,6 +14,7 @@ import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 import java.util.List;
 import javax.inject.Provider;
+import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 public class GeofenceController {
 
@@ -21,14 +22,16 @@ public class GeofenceController {
     private final Provider<InteractorExecution> interactorExecutionProvider;
     private final ActionDispatcher actionDispatcher;
     private final ErrorLogger errorLogger;
+    private final ThreadSpec mainThreadSpec;
 
     public GeofenceController(InteractorInvoker interactorInvoker,
         Provider<InteractorExecution> interactorExecutionProvider,
-        ActionDispatcher actionDispatcher, ErrorLogger errorLogger) {
+        ActionDispatcher actionDispatcher, ErrorLogger errorLogger, ThreadSpec mainThreadSpec) {
         this.interactorInvoker = interactorInvoker;
         this.interactorExecutionProvider = interactorExecutionProvider;
         this.actionDispatcher = actionDispatcher;
       this.errorLogger = errorLogger;
+      this.mainThreadSpec = mainThreadSpec;
     }
 
     public void processTriggers(List<String> triggeringGeofenceIds, OrchextraPoint triggeringPoint,
@@ -53,8 +56,13 @@ public class GeofenceController {
     }
 
     private void executeActions(List<BasicAction> actions) {
-        for (BasicAction action : actions) {
-            action.performAction(actionDispatcher);
+
+        for (final BasicAction action : actions) {
+          mainThreadSpec.execute(new Runnable() {
+            @Override public void run() {
+              action.performAction(actionDispatcher);
+            }
+          });
         }
     }
 }

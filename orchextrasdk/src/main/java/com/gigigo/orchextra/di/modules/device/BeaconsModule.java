@@ -5,6 +5,7 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconScannerImpl;
 import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusInfo;
@@ -24,6 +25,7 @@ import dagger.Module;
 import dagger.Provides;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
@@ -88,10 +90,10 @@ public class BeaconsModule {
       InteractorInvoker interactorInvoker, ActionDispatcher actionDispatcher,
       @BeaconEventsInteractorExecution Provider<InteractorExecution> beaconsInteractorExecutionProvider,
       @RegionsProviderInteractorExecution Provider<InteractorExecution> regionsProviderInteractorExecutionProvider,
-      ErrorLogger errorLogger){
+      ErrorLogger errorLogger, @MainThread ThreadSpec mainThreadSpec){
 
     return new BeaconsController(interactorInvoker, actionDispatcher, beaconsInteractorExecutionProvider,
-        regionsProviderInteractorExecutionProvider, errorLogger);
+        regionsProviderInteractorExecutionProvider, errorLogger, mainThreadSpec);
   }
 
   @Provides @Singleton MonitoringListener provideMonitoringListener(AppRunningMode appRunningMode,
