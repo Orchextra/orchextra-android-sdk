@@ -1,9 +1,8 @@
 package com.gigigo.orchextra.domain.interactors.geofences;
 
-import com.gigigo.gggjavalib.business.model.BusinessError;
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveGeofenceItemError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
@@ -28,8 +27,6 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
   private List<String> triggeringGeofenceIds;
   private GeoPointEventType geofenceTransition;
 
-  private List<OrchextraGeofence> geofenceList;
-
   public GeofenceInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
                             GeofenceCheckerService geofenceCheckerService, EventUpdaterService eventUpdaterService) {
 
@@ -44,11 +41,7 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
     InteractorResponse<List<OrchextraGeofence>> response =
             geofenceCheckerService.obtainCheckedGeofences(triggeringGeofenceIds, geofenceTransition);
 
-    if (response.getResult().size() == 0) {
-      return new InteractorResponse<>(new RetrieveGeofenceItemError(BusinessError.createKoInstance("No geofences retrieved")));
-    }
-
-    geofenceList = response.getResult();
+    List<OrchextraGeofence> geofenceList = response.getResult();
 
     if (geofenceTransition == GeoPointEventType.EXIT) {
       for (OrchextraGeofence geofence : geofenceList) {
@@ -62,11 +55,11 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
   }
 
   @Override public void updateEventWithAction(BasicAction basicAction) {
-    for (OrchextraGeofence geofence : geofenceList) {
-      if (geofence.getCode().equals(basicAction.getEventCode())) {
-        geofence.setActionRelated(basicAction.getScheduledAction().getId());
-        eventUpdaterService.associateActionToGeofenceEvent(geofence);
-      }
+    BusinessObject<OrchextraGeofence> boGeofence = geofenceCheckerService.obtainCheckedGeofence(basicAction.getEventCode());
+    if (boGeofence.isSuccess() && boGeofence.getData().getCode().equals(basicAction.getEventCode())) {
+      OrchextraGeofence geofence = boGeofence.getData();
+      geofence.setActionRelated(basicAction.getScheduledAction().getId());
+      eventUpdaterService.associateActionToGeofenceEvent(geofence);
     }
   }
 

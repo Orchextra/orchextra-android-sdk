@@ -17,8 +17,11 @@ public interface ProximityLocalDataProvider {
     boolean isBeaconEventStored(OrchextraBeacon beacon);
     BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion);
 
-    BusinessObject<OrchextraGeofence> storeGeofenceEvent(String geofenceId);
+    BusinessObject<OrchextraGeofence> storeGeofenceEvent(OrchextraGeofence geofence);
     BusinessObject<OrchextraGeofence> deleteGeofenceEvent(String geofenceId);
-    BusinessObject<OrchextraGeofence> obtainGeofenceEvent(String geofenceId);
+
+    BusinessObject<OrchextraGeofence> obtainSavedGeofenceInDatabase(String geofenceId);
+
+    BusinessObject<OrchextraGeofence> obtainGeofenceEvent(OrchextraGeofence geofence);
     BusinessObject<OrchextraGeofence> updateGeofenceWithActionId(OrchextraGeofence geofence);
 }
