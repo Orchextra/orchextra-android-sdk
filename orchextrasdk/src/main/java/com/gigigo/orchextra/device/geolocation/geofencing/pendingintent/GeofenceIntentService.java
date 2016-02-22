@@ -10,7 +10,6 @@ import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceContr
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceIntentServiceHandler;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceEventException;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
@@ -47,11 +46,10 @@ public class GeofenceIntentService extends IntentService {
         GeofencingEvent geofencingEvent = geofenceHandler.getGeofencingEvent(intent);
 
         List<String> geofenceIds = geofenceHandler.getTriggeringGeofenceIds(geofencingEvent);
-        OrchextraPoint point = geofenceHandler.getTriggeringPoint(geofencingEvent);
 
         try {
             GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
-            controller.processTriggers(geofenceIds, point, transition);
+            controller.processTriggers(geofenceIds, transition);
         }catch (GeofenceEventException geofenceEventException){
             GGGLogImpl.log(geofenceEventException.getMessage(), LogLevel.ERROR);
         }

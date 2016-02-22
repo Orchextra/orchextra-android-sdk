@@ -10,9 +10,9 @@ import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveGeofenceItemError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 import java.util.List;
+
 import javax.inject.Provider;
 
 public class GeofenceController {
@@ -31,12 +31,11 @@ public class GeofenceController {
       this.errorLogger = errorLogger;
     }
 
-    public void processTriggers(List<String> triggeringGeofenceIds, OrchextraPoint triggeringPoint,
-                                final GeoPointEventType geofenceTransition) {
+    public void processTriggers(List<String> triggeringGeofenceIds, GeoPointEventType geofenceTransition) {
 
       InteractorExecution interactorExecution = interactorExecutionProvider.get();
       GeofenceInteractor geofenceInteractor = (GeofenceInteractor) interactorExecution.getInteractor();
-      geofenceInteractor.setGeofenceData(triggeringGeofenceIds, triggeringPoint, geofenceTransition);
+      geofenceInteractor.setGeofenceData(triggeringGeofenceIds, geofenceTransition);
 
       interactorExecution.result(new InteractorResult<List<BasicAction>>() {
                   @Override public void onResult(List<BasicAction> actions) {
