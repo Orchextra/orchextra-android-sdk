@@ -41,7 +41,6 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
   }
 
   @Override public InteractorResponse<List<BasicAction>> call() throws Exception {
-    try{
     switch (eventType){
       case BEACONS_DETECTED:
         return beaconsEventResult();
@@ -50,10 +49,6 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
         return regionEventResult(eventType);
       default:
         return new InteractorResponse<>(new BeaconsInteractorError(BeaconBusinessErrorType.UNKNOWN_EVENT));
-    }
-    }catch (Exception e){
-      e.printStackTrace();
-      throw e;
     }
   }
 
@@ -80,28 +75,21 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
 
   private InteractorResponse<List<BasicAction>> regionEventResult(BeaconEventType eventType) {
 
-    InteractorResponse response = null;
+    OrchextraRegion detectedRegion = (OrchextraRegion) data;
+    detectedRegion.setRegionEvent(eventType);
 
-    try {
-      OrchextraRegion detectedRegion = (OrchextraRegion) data;
-      detectedRegion.setRegionEvent(eventType);
+    InteractorResponse response = regionCheckerService.obtainCheckedRegion(detectedRegion);
 
-      response = regionCheckerService.obtainCheckedRegion(detectedRegion);
-
-      if (response.hasError()) {
-        return response;
-      }
-
-      if (eventType == BeaconEventType.REGION_EXIT) {
-        if (response.getResult() instanceof OrchextraRegion){
-          triggerActionsFacadeService.deleteScheduledActionIfExists((ScheduledActionEvent) response.getResult());
-        }
-      }
-      response = triggerActionsFacadeService.triggerActions(detectedRegion);
-    }catch (Exception e){
-
-      e.printStackTrace();
+    if (response.hasError()) {
+      return response;
     }
+
+    if (eventType == BeaconEventType.REGION_EXIT) {
+      if (response.getResult() instanceof OrchextraRegion){
+        triggerActionsFacadeService.deleteScheduledActionIfExists((ScheduledActionEvent) response.getResult());
+      }
+    }
+    response = triggerActionsFacadeService.triggerActions(detectedRegion);
     return response;
   }
 

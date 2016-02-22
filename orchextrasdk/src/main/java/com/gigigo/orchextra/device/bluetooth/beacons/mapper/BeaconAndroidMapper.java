@@ -1,6 +1,5 @@
 package com.gigigo.orchextra.device.bluetooth.beacons.mapper;
 
-import com.gigigo.gggjavalib.general.utils.Hashing;
 import com.gigigo.ggglib.mappers.ExternalClassListToModelListMapper;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
