@@ -26,8 +26,8 @@ public class BeaconRegionAndroidMapper implements
   @Override public OrchextraRegion externalClassToModel(Region region) {
 
     Identifier uuid = region.getId1();
-    Identifier major = region.getId1();
-    Identifier minor = region.getId1();
+    Identifier major = region.getId2();
+    Identifier minor = region.getId3();
 
     OrchextraRegion orchextraRegion = new OrchextraRegion(region.getUniqueId(),
         (uuid == null)? null : uuid.toString(),
