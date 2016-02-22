@@ -23,6 +23,7 @@ public class WebViewActivity extends AppCompatActivity {
     public static void open(Context context, String url) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra(EXTRA_URL, url);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

@@ -6,6 +6,7 @@ import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class GetActionService implements DomaninService {
       bo = actionsDataProvider.obtainAction(actionCriteria);
 
       if (bo.isSuccess()){
-        BasicAction basicAction = bo.getData();
+        BasicAction basicAction = (bo.getData()!=null)? bo.getData() : new EmptyAction();
         basicAction.setEventCode(actionCriteria.getCode());
         actions.add(basicAction);
       }else{

@@ -41,6 +41,7 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
   }
 
   @Override public InteractorResponse<List<BasicAction>> call() throws Exception {
+    try{
     switch (eventType){
       case BEACONS_DETECTED:
         return beaconsEventResult();
@@ -49,6 +50,10 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
         return regionEventResult(eventType);
       default:
         return new InteractorResponse<>(new BeaconsInteractorError(BeaconBusinessErrorType.UNKNOWN_EVENT));
+    }
+    }catch (Exception e){
+      e.printStackTrace();
+      throw e;
     }
   }
 
@@ -88,7 +93,9 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
       }
 
       if (eventType == BeaconEventType.REGION_EXIT) {
-        triggerActionsFacadeService.deleteScheduledActionIfExists((ScheduledActionEvent) response.getResult());
+        if (response.getResult() instanceof OrchextraRegion){
+          triggerActionsFacadeService.deleteScheduledActionIfExists((ScheduledActionEvent) response.getResult());
+        }
       }
       response = triggerActionsFacadeService.triggerActions(detectedRegion);
     }catch (Exception e){
