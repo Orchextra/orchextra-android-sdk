@@ -76,6 +76,7 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
   private InteractorResponse<List<BasicAction>> regionEventResult(BeaconEventType eventType) {
 
     OrchextraRegion detectedRegion = (OrchextraRegion) data;
+    detectedRegion.setRegionEvent(eventType);
 
     InteractorResponse response = regionCheckerService.obtainCheckedRegion(detectedRegion);
 
@@ -84,10 +85,12 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
     }
 
     if (eventType == BeaconEventType.REGION_EXIT) {
-      triggerActionsFacadeService.deleteScheduledActionIfExists((ScheduledActionEvent)response.getResult());
+      if (response.getResult() instanceof OrchextraRegion){
+        triggerActionsFacadeService.deleteScheduledActionIfExists((ScheduledActionEvent) response.getResult());
+      }
     }
-
-    return triggerActionsFacadeService.triggerActions(detectedRegion);
+    response = triggerActionsFacadeService.triggerActions(detectedRegion);
+    return response;
   }
 
   @Override public void updateEventWithAction(BasicAction basicAction) {

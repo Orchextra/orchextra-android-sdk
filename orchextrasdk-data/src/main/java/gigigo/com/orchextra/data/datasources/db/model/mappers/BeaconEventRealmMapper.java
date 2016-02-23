@@ -16,7 +16,7 @@ public class BeaconEventRealmMapper implements Mapper<OrchextraBeacon, BeaconEve
         data.getUuid(),
         data.getMayor(),
         data.getMinor(),
-        BeaconDistanceType.valueOf(BeaconDistanceType.class, data.getBeaconDistance()));
+        BeaconDistanceType.getValueFromString(data.getBeaconDistance()));
 
     orchextraBeacon.setCode(data.getCode());
 

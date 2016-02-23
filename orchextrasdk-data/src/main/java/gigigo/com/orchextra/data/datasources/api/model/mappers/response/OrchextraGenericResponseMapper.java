@@ -19,10 +19,14 @@ public class OrchextraGenericResponseMapper<Model, Data> extends ApiGenericRespo
 
   @Override
   protected BusinessError createBusinessError(OrchextraApiErrorResponse orchextraApiErrorResponse) {
-    int code = orchextraApiErrorResponse.getCode();
-    String message = orchextraApiErrorResponse.getMessage();
-    BusinessError businessError = new BusinessError(code, message, BusinessContentType.BUSINESS_ERROR_CONTENT);
-    return businessError;
+
+    if (orchextraApiErrorResponse!=null){
+      int code = orchextraApiErrorResponse.getCode();
+      String message = orchextraApiErrorResponse.getMessage();
+      return new BusinessError(code, message, BusinessContentType.BUSINESS_ERROR_CONTENT);
+    }
+
+    return BusinessError.createKoInstance("Empty error message");
   }
 
   @Override protected BusinessError onException(ApiGenericExceptionResponse exceptionResponse) {

@@ -20,4 +20,14 @@ public enum RegionEventType  implements StringValueEnum {
   public String getStringValue() {
     return type;
   }
+
+  public static RegionEventType getTypeFromString(String eventType) {
+
+    for (RegionEventType regionEventType : RegionEventType.values()){
+      if (regionEventType.getStringValue().equals(eventType)){
+        return regionEventType;
+      }
+    }
+    return ENTER;
+  }
 }

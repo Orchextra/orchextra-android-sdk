@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
+import com.gigigo.gggjavalib.general.utils.Hashing;
 import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
 
 /**
@@ -7,6 +8,8 @@ import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
  * Date 3/2/16.
  */
 public class OrchextraBeacon {
+
+  private static final String BEACON_CODE_CONCAT_CHAR = "_";
 
   private String code;
   private final String uuid;
@@ -19,6 +22,12 @@ public class OrchextraBeacon {
     this.mayor = mayor;
     this.minor = minor;
     this.beaconDistance = beaconDistance;
+    try {
+      this.code = Hashing.generateMd5(uuid + BEACON_CODE_CONCAT_CHAR + String.valueOf(mayor)
+          + BEACON_CODE_CONCAT_CHAR + String.valueOf(minor));
+    }catch (Exception e){
+      this.code = e.getLocalizedMessage();
+    }
   }
 
   public String getCode() {

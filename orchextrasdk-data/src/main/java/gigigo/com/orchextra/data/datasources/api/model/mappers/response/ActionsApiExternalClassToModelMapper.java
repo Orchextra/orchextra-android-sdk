@@ -23,6 +23,10 @@ public class ActionsApiExternalClassToModelMapper
 
   @Override public BasicAction externalClassToModel(ApiActionData apiActionData) {
 
+    if (apiActionData == null){
+      return  new BasicAction.ActionBuilder(null, null, null).build();
+    }
+
     ActionType actionType = ActionType.getActionTypeValue(apiActionData.getType());
     String url = apiActionData.getUrl();
 

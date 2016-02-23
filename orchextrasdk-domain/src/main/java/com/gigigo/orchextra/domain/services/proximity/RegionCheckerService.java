@@ -4,6 +4,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconBusinessErrorType;
+import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventType;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconsInteractorError;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.DomaninService;
