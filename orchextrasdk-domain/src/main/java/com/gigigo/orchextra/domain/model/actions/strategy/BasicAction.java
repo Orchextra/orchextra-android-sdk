@@ -1,12 +1,14 @@
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
+import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
+import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.model.actions.types.CustomAction;
 import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
 import com.gigigo.orchextra.domain.model.actions.types.NotificationAction;
 import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
-import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
+import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -21,19 +23,19 @@ public abstract class BasicAction{
 
   private String eventCode;
 
-  public BasicAction(String url, Notification notification, com.gigigo.orchextra.domain.model.actions.strategy.Schedule schedule) {
-    this.urlFunctionality = new com.gigigo.orchextra.domain.model.actions.strategy.URLFunctionalityImpl(url);
+  public BasicAction(String url, Notification notification, Schedule schedule) {
+    this.urlFunctionality = new URLFunctionalityImpl(url);
 
     if (notification==null){
-      this.notifFunctionality = new com.gigigo.orchextra.domain.model.actions.strategy.EmptyNotifFunctionalityImpl();
+      this.notifFunctionality = new EmptyNotifFunctionalityImpl();
     }else{
-      this.notifFunctionality = new com.gigigo.orchextra.domain.model.actions.strategy.NotifFunctionalityImpl(notification);
+      this.notifFunctionality = new NotifFunctionalityImpl(notification);
     }
 
     if (schedule==null){
-      this.scheduleFunctionality = new com.gigigo.orchextra.domain.model.actions.strategy.EmptyScheduleFunctionalityImpl();
+      this.scheduleFunctionality = new EmptyScheduleFunctionalityImpl();
     }else{
-      this.scheduleFunctionality = new com.gigigo.orchextra.domain.model.actions.strategy.ScheduleFunctionalityImpl(schedule);
+      this.scheduleFunctionality = new ScheduleFunctionalityImpl(schedule);
     }
 
   }
@@ -44,20 +46,19 @@ public abstract class BasicAction{
 
   public void performAction(ActionDispatcher actionDispatcher) {
     if (notifFunctionality.isSupported()){
-      performSimpleAction(actionDispatcher);
-    }else{
       performNotifAction(actionDispatcher);
+    }else{
+      performSimpleAction(actionDispatcher);
     }
-
   }
 
   public boolean isScheduled() {
     return scheduleFunctionality.isSupported();
   }
 
-  public com.gigigo.orchextra.domain.model.actions.strategy.ScheduledActionImpl getScheduledAction() {
+  public ScheduledActionImpl getScheduledAction() {
     if (scheduleFunctionality.isSupported()){
-      return new com.gigigo.orchextra.domain.model.actions.strategy.ScheduledActionImpl(this);
+      return new ScheduledActionImpl(this);
     }else{
       throw new UnsupportedOperationException();
     }
@@ -87,10 +88,10 @@ public abstract class BasicAction{
     private ActionType actionType;
     private String url;
     private Notification notification;
-    private com.gigigo.orchextra.domain.model.actions.strategy.Schedule schedule;
+    private Schedule schedule;
 
     public ActionBuilder(ActionType actionType, String url,
-        Notification notification, com.gigigo.orchextra.domain.model.actions.strategy.Schedule schedule) {
+        Notification notification, Schedule schedule) {
       this(actionType,url,notification);
       this.schedule = schedule;
     }
@@ -106,9 +107,9 @@ public abstract class BasicAction{
     public BasicAction build() {
       switch (actionType){
         case BROWSER:
-          return new com.gigigo.orchextra.domain.model.actions.types.BrowserAction(url, notification, schedule);
+          return new BrowserAction(url, notification, schedule);
         case WEBVIEW:
-          return new com.gigigo.orchextra.domain.model.actions.types.WebViewAction(url, notification, schedule);
+          return new WebViewAction(url, notification, schedule);
         case SCAN:
           return new ScanAction(url, notification, schedule);
         case VUFORIA_SCAN:

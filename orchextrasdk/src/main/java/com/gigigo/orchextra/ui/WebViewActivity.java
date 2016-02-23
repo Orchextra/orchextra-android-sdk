@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.gigigo.orchextra.R;
-
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
+
 import javax.inject.Inject;
 
 public class WebViewActivity extends AppCompatActivity {
@@ -23,6 +23,7 @@ public class WebViewActivity extends AppCompatActivity {
     public static void open(Context context, String url) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra(EXTRA_URL, url);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

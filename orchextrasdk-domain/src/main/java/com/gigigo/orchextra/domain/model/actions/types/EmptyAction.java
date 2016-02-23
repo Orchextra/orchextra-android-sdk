@@ -22,10 +22,7 @@ public class EmptyAction extends BasicAction {
   }
 
   @Override protected void performNotifAction(ActionDispatcher actionDispatcher) {
-    Notification notification = notifFunctionality.getNotification();
-    if (notification != null) {
-      actionDispatcher.dispatchAction(this, notification);
-    }
+    actionDispatcher.dispatchAction(this, notifFunctionality.getNotification());
   }
 
 }
