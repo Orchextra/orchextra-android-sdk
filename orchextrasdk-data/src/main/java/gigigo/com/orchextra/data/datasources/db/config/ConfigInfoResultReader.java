@@ -55,10 +55,11 @@ public class ConfigInfoResultReader {
         geofences, regions, theme, vuforia).build();
 
     GGGLogImpl.log("Retrieved configInfoResult with properties"
-        + "Theme :" + theme.toString()
-        + "Vuforia :" + vuforia.toString()
-        + "Geofences :" + geofences.size()
-        + "Regions :" + regions.size() );
+        + " \n Theme :" + theme.toString()
+        + " Vuforia :" + vuforia.toString()
+        + " Geofences :" + geofences.size()
+        + " Regions :" + regions.size()
+        + " Request Time :" + config.getRequestWaitTime());
 
     return configInfoResult;
   }
