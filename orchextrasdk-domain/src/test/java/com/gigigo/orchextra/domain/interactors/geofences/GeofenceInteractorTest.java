@@ -67,14 +67,14 @@ public class GeofenceInteractorTest {
 
         interactor.setGeofenceData(idsList, point, eventType);
 
-        when(geofenceCheckerService.obtainCheckedGeofences(idsList, eventType)).thenReturn(interactorResponse);
+        when(geofenceCheckerService.obtainEventGeofences(idsList, eventType)).thenReturn(interactorResponse);
         when(interactorResponse.getResult()).thenReturn(list);
         when(list.size()).thenReturn(1);
         when(triggerActionsFacadeService.triggerActions(list, eventType)).thenReturn(interactorResponse);
 
         InteractorResponse<List<BasicAction>> response = interactor.call();
 
-        verify(geofenceCheckerService).obtainCheckedGeofences(idsList, eventType);
+        verify(geofenceCheckerService).obtainEventGeofences(idsList, eventType);
         verify(interactorResponse, times(2)).getResult();
         verify(triggerActionsFacadeService).triggerActions(list, eventType);
     }

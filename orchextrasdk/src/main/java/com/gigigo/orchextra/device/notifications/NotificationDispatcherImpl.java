@@ -19,6 +19,7 @@ public class NotificationDispatcherImpl implements NotificationDispatcher {
 
   @Override public void manageBackgroundNotification(Activity activity) {
     Intent intent = activity.getIntent();
+
     if (intent != null) {
       AndroidBasicAction androidBasicAction = intent.getParcelableExtra(AndroidNotificationBuilder.EXTRA_NOTIFICATION_ACTION);
       if (androidBasicAction != null) {

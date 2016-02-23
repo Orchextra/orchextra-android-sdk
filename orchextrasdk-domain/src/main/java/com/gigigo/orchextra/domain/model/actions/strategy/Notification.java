@@ -27,7 +27,7 @@ public class Notification {
   }
 
   public boolean shouldBeShown() {
-    return shown;
+    return !shown;
   }
 
   public void setShown(boolean shown) {

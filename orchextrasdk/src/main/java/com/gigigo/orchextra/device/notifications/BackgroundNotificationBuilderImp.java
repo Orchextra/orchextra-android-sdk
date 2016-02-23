@@ -1,13 +1,10 @@
 package com.gigigo.orchextra.device.notifications;
 
-import android.app.PendingIntent;
-
-import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
+import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
-import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder;
 
 public class BackgroundNotificationBuilderImp implements NotificationBuilder {
 
@@ -25,9 +22,7 @@ public class BackgroundNotificationBuilderImp implements NotificationBuilder {
         AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToExternalClass(
             action);
 
-        PendingIntent pendingIntent = androidNotification.getPendingIntent(androidBasicAction);
-
-        androidNotification.createNotification(notification, pendingIntent);
+        androidNotification.createNotification(notification, androidBasicAction);
     }
 
 }

@@ -25,8 +25,8 @@ public class GeofenceCheckerService implements DomaninService {
     this.proximityLocalDataProvider = proximityLocalDataProvider;
   }
 
-  public InteractorResponse<List<OrchextraGeofence>> obtainCheckedGeofences(List<String> triggeringGeofenceIds,
-                                                                            GeoPointEventType geofenceTransition) {
+  public InteractorResponse<List<OrchextraGeofence>> obtainEventGeofences(List<String> triggeringGeofenceIds,
+                                                                          GeoPointEventType geofenceTransition) {
 
   if (geofenceTransition != GeoPointEventType.EXIT) {
       return new InteractorResponse(storeGeofences(triggeringGeofenceIds));
@@ -95,5 +95,18 @@ public class GeofenceCheckerService implements DomaninService {
 
   public BusinessObject<OrchextraGeofence> obtainCheckedGeofence(String eventCode) {
     return proximityLocalDataProvider.obtainSavedGeofenceInDatabase(eventCode);
+  }
+
+  public List<OrchextraGeofence> obtainGeofencesById(List<String> triggeringGeofenceIds) {
+    List<OrchextraGeofence> orchextraGeofenceList = new ArrayList<>();
+
+    for (String triggeringGeofenceId : triggeringGeofenceIds) {
+      BusinessObject<OrchextraGeofence> boGeofence = proximityLocalDataProvider.obtainSavedGeofenceInDatabase(triggeringGeofenceId);
+      if (boGeofence.isSuccess()) {
+        orchextraGeofenceList.add(boGeofence.getData());
+      }
+    }
+
+    return orchextraGeofenceList;
   }
 }
