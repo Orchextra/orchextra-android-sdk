@@ -69,7 +69,7 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
     if (response.hasError()) {
       return response;
     }
-    return triggerActionsFacadeService.triggerActions(orchextraBeacons);
+    return triggerActionsFacadeService.triggerActions((List<OrchextraBeacon>)response.getResult());
   }
 
 

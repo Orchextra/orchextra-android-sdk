@@ -27,13 +27,9 @@ public class BeaconCheckerService implements DomaninService {
 
     int requestTime = configDataProvider.obtainRequestTime();
 
-    boolean empty = proximityLocalDataProvider.purgeOldBeaconEventsWithRequestTime(orchextraBeacons, requestTime);
+    proximityLocalDataProvider.purgeOldBeaconEventsWithRequestTime(orchextraBeacons, requestTime);
 
-    if (empty){
-      return new InteractorResponse<>(orchextraBeacons);
-    }else{
-      return obtainTriggerableBeacons(orchextraBeacons);
-    }
+    return obtainTriggerableBeacons(orchextraBeacons);
   }
 
   private InteractorResponse obtainTriggerableBeacons(List<OrchextraBeacon> orchextraBeacons) {
