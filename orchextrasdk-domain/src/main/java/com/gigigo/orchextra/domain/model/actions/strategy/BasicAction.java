@@ -45,6 +45,7 @@ public abstract class BasicAction{
   public void performAction(ActionDispatcher actionDispatcher) {
     if (notifFunctionality.isSupported()){
       performNotifAction(actionDispatcher);
+      notifFunctionality.getNotification().setShown(true);
     }else{
       performSimpleAction(actionDispatcher);
     }
