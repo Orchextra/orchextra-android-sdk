@@ -32,6 +32,13 @@ public class BeaconEventsReader {
           .equalTo(BeaconEventRealm.DISTANCE_FIELD_NAME, beacon.getBeaconDistance().getStringValue())
           .findAll();
       result = (!realms.isEmpty());
+
+      if (result){
+        GGGLogImpl.log("This beacon event was stored", LogLevel.WARN);
+      }else{
+        GGGLogImpl.log("This beacon event was not stored");
+      }
+
     }catch (Exception e){
       GGGLogImpl.log(e.getMessage(), LogLevel.ERROR);
     }finally {
@@ -47,6 +54,10 @@ public class BeaconEventsReader {
 
       if (results.size()>1) {
         GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+      }else if (results.size()==1){
+        GGGLogImpl.log("Recovered orchextra region " + orchextraRegion.getCode());
+      }else{
+        GGGLogImpl.log("Region Event not stored " + orchextraRegion.getCode());
       }
 
     return regionEventRealmMapper.externalClassToModel(results.first());
