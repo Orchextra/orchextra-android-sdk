@@ -80,7 +80,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   @Override public void dispatchAction(NotificationAction action) {
     Notification notification = action.getNotifFunctionality();
-    notificationBehavior.dispatchNotificationAction(null, notification);
+    notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
   @Override public void dispatchAction(NotificationAction action, Notification notification) {
