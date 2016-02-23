@@ -6,14 +6,13 @@ package com.gigigo.orchextra.domain.model.actions.strategy;
  */
 public class ScheduleFunctionalityImpl implements ScheduleFunctionality {
 
-  private final com.gigigo.orchextra.domain.model.actions.strategy.Schedule schedule;
+  private final Schedule schedule;
 
-  public ScheduleFunctionalityImpl(
-      com.gigigo.orchextra.domain.model.actions.strategy.Schedule schedule) {
+  public ScheduleFunctionalityImpl(Schedule schedule) {
     this.schedule = schedule;
   }
 
-  @Override public com.gigigo.orchextra.domain.model.actions.strategy.Schedule getSchedule() {
+  @Override public Schedule getSchedule() {
     return schedule;
   }
 

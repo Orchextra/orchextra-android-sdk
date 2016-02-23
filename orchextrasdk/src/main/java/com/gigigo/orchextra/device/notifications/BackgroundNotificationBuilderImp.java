@@ -22,7 +22,12 @@ public class BackgroundNotificationBuilderImp implements NotificationBuilder {
         AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToExternalClass(
             action);
 
-        androidNotification.createNotification(notification, androidBasicAction);
+        //needs to burn notification because is being already consumed
+        androidBasicAction.setNotification(null);
+
+        PendingIntent pendingIntent = androidNotification.getPendingIntent(androidBasicAction);
+
+        androidNotification.createNotification(notification, pendingIntent);
     }
 
 }

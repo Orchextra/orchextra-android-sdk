@@ -28,6 +28,13 @@ public class GeofenceEventsReader {
                     .equalTo(GeofenceEventRealm.TYPE_FIELD_NAME, geofence.getType().getStringValue())
                     .findAll();
             result = (!realms.isEmpty());
+
+          if (result){
+            GGGLogImpl.log("This geofence event was stored");
+          }else{
+            GGGLogImpl.log("This geofence event was not stored");
+          }
+
         }catch (Exception e){
             GGGLogImpl.log(e.getMessage(), LogLevel.ERROR);
         }finally {
@@ -44,7 +51,14 @@ public class GeofenceEventsReader {
         if (results.size()>1) {
             GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
         } else if (results.size() == 0) {
+
+            GGGLogImpl.log("No geofence events found with code" + orchextraGeofence.getCode()
+                + " and id " + orchextraGeofence.getGeofenceId());
+
             return new BusinessObject<>(null, BusinessError.createKoInstance("No geofence events found"));
+        }else{
+          GGGLogImpl.log("Retrieved geofence event found with code" + orchextraGeofence.getCode()
+              + " and id " + orchextraGeofence.getGeofenceId());
         }
 
         return new BusinessObject<>(geofenceEventRealmMapper.externalClassToModel(results.first()), BusinessError.createOKInstance());
