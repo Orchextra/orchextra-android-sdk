@@ -61,7 +61,7 @@ public class AndroidNotificationBuilder {
 
         intent.putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         return pendingIntent;
     }
