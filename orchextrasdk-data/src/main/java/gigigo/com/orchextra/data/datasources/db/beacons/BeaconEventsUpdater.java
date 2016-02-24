@@ -90,6 +90,7 @@ public class BeaconEventsUpdater {
     return orchextraRegionDeleted;
   }
 
+  //TODO TEST THIS METHOD
   public OrchextraRegion addActionToRegion(Realm realm, OrchextraRegion orchextraRegion) {
 
     RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
