@@ -15,6 +15,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,9 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   private final BeaconsController beaconsController;
   private final BeaconRegionAndroidMapper beaconRegionMapper;
   private final BeaconAndroidMapper beaconAndroidMapper;
+
+  private HashMap<String, Thread> regionThreads = new HashMap<>();
+
   private boolean ranging = false;
 
   //avoid possible duplicates in region using set collection
@@ -162,9 +166,11 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
   private void manageGeneralBackgroundScanTimes(BackgroundBeaconsRangingTimeType time) {
       if (time == BackgroundBeaconsRangingTimeType.MAX){
-        beaconManager.setBackgroundBetweenScanPeriod(11000l);
+        updateBackgroudScanTimes(BuildConfig.BACKGROUND_BEACONS_SCAN_TIME,
+            BuildConfig.BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME);
       }else{
-        beaconManager.setBackgroundBetweenScanPeriod(BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+        updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+            BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
       }
   }
 
@@ -182,12 +188,13 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         try {
           Thread.sleep(duration);
           stopRangingRegion(region);
+          regionThreads.remove(region.getUniqueId());
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
       }
     });
-
+    regionThreads.put(region.getUniqueId(), t);
     t.start();
   }
 
@@ -214,12 +221,15 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     Iterator<Region> iterator = regions.iterator();
     while (iterator.hasNext()){
       try {
-        beaconManager.stopRangingBeaconsInRegion(iterator.next());
+        Region region = iterator.next();
+        beaconManager.stopRangingBeaconsInRegion(region);
+        removeScheduledEndOfRanging(region);
         iterator.remove();
       } catch (RemoteException e) {
         e.printStackTrace();
       }
     }
+    updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD, BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
     ranging = false;
     GGGLogImpl.log("Ranging stopped");
   }
@@ -232,11 +242,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
     try {
       beaconManager.stopRangingBeaconsInRegion(region);
-      regions.remove(region);
-
-      if (!regions.isEmpty()){
-        beaconManager.setBackgroundBetweenScanPeriod(BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
-      }
+      removeRangingRegion(region);
 
       GGGLogImpl.log("Ranging stopped in region: " + region.getUniqueId());
     } catch (RemoteException e) {
@@ -244,6 +250,39 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     }
 
     checkAvailableRegions();
+  }
+
+  private void removeRangingRegion(Region region) {
+    removeScheduledEndOfRanging(region);
+    regions.remove(region);
+    if (regions.isEmpty()) {
+      updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+          BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+    }
+  }
+
+  private void removeScheduledEndOfRanging(Region region) {
+    if (regionThreads.containsKey(region.getUniqueId())){
+      Thread t = regionThreads.remove(region.getUniqueId());
+
+      if (t!=null && t.isAlive()){
+        t.interrupt();
+      }
+    }
+  }
+
+  private void updateBackgroudScanTimes(long scanPeriod, long beetweenScanPeriod) {
+    beaconManager.setBackgroundScanPeriod(scanPeriod);
+    beaconManager.setBackgroundBetweenScanPeriod(beetweenScanPeriod);
+    try {
+      beaconManager.updateScanPeriods();
+      GGGLogImpl.log("Update cycled Scan times");
+    } catch (RemoteException e) {
+      e.printStackTrace();
+      GGGLogImpl.log("Unable to update cycled Scan times", LogLevel.ERROR);
+    }
+
+
   }
 
   private void checkAvailableRegions() {
