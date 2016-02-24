@@ -21,7 +21,7 @@ public interface BeaconsDBDataSource {
 
   BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion);
 
-  boolean deleteAllBeaconsInListWithTimeStampt(List<OrchextraBeacon> beacons, int requestTime);
+  void deleteAllBeaconsInListWithTimeStampt(int requestTime);
 
-  boolean isBeaconEventStored(OrchextraBeacon beacon);
+  BusinessObject<List<OrchextraBeacon>> getNotStoredBeaconEvents(List<OrchextraBeacon> list);
 }

@@ -15,6 +15,7 @@ public class BeaconEventRealm extends RealmObject{
   public static final String DISTANCE_FIELD_NAME = "beaconDistance";
 
   @PrimaryKey
+  private String keyForRealm;
   private String code;
   private String uuid;
   private int mayor;
@@ -72,5 +73,13 @@ public class BeaconEventRealm extends RealmObject{
 
   public void setTimeStampt(long timeStampt) {
     this.timeStampt = timeStampt;
+  }
+
+  public void setKeyForRealm(String key) {
+    this.keyForRealm = key;
+  }
+
+  public String getKeyForRealm() {
+    return keyForRealm;
   }
 }

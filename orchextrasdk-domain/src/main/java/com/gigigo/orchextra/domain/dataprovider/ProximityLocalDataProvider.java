@@ -13,8 +13,7 @@ public interface ProximityLocalDataProvider {
     BusinessObject<OrchextraRegion> deleteRegion(OrchextraRegion orchextraRegion);
     BusinessObject<OrchextraBeacon> storeBeaconEvent(OrchextraBeacon beacon);
     BusinessObject<List<OrchextraRegion>> getBeaconRegionsForScan();
-    boolean purgeOldBeaconEventsWithRequestTime(List<OrchextraBeacon> beacons, int requestTime);
-    boolean isBeaconEventStored(OrchextraBeacon beacon);
+    void purgeOldBeaconEventsWithRequestTime(int requestTime);
     BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion);
 
     BusinessObject<OrchextraGeofence> storeGeofenceEvent(OrchextraGeofence geofence);
@@ -24,4 +23,6 @@ public interface ProximityLocalDataProvider {
 
     BusinessObject<OrchextraGeofence> obtainGeofenceEvent(OrchextraGeofence geofence);
     BusinessObject<OrchextraGeofence> updateGeofenceWithActionId(OrchextraGeofence geofence);
+
+    BusinessObject<List<OrchextraBeacon>> getNotStoredBeaconEvents(List<OrchextraBeacon> orchextraBeacons);
 }
