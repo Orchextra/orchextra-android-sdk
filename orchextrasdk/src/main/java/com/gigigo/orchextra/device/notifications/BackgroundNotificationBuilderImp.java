@@ -22,11 +22,9 @@ public class BackgroundNotificationBuilderImp implements NotificationBuilder {
 
     @Override
     public void buildNotification(BasicAction action, Notification notification) {
+        //TODO Review if is needed to call setShown here because it was already called from performAction in BasicAction.java
         AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToExternalClass(
             action);
-
-        //needs to burn notification because is being already consumed
-        androidBasicAction.setNotification(null);
 
         PendingIntent pendingIntent = androidNotification.getPendingIntent(androidBasicAction);
 
