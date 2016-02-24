@@ -66,12 +66,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
     if (collection.size() > 0) {
       for (Beacon beacon : collection) {
-        GGGLogImpl.log("Beacon: "
-                + beacon.getId1()
-                + " major id:"
-                + beacon.getId2()
-                + "  minor id: "
-                + beacon.getId3());
+        GGGLogImpl.log("Beacon: " + beacon.getId1() + " major id:" + beacon.getId2()
+            + "  minor id: " + beacon.getId3());
       }
     }
   }
@@ -148,18 +144,34 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   }
 
   private void initRanging(BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType) {
+
+    manageGeneralBackgroundScanTimes(backgroundBeaconsRangingTimeType);
+
     for (Region region:regions){
 
       try {
+        manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
         beaconManager.startRangingBeaconsInRegion(region);
         ranging = true;
-        if (backgroundBeaconsRangingTimeType != BackgroundBeaconsRangingTimeType.INFINITE){
-          scheduleEndOfRanging(region, backgroundBeaconsRangingTimeType.getIntValue());
-        }
       } catch (RemoteException e) {
         e.printStackTrace();
       }
 
+    }
+  }
+
+  private void manageGeneralBackgroundScanTimes(BackgroundBeaconsRangingTimeType time) {
+      if (time == BackgroundBeaconsRangingTimeType.MAX){
+        beaconManager.setBackgroundBetweenScanPeriod(11000l);
+      }else{
+        beaconManager.setBackgroundBetweenScanPeriod(BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+      }
+  }
+
+  private void manageRegionBackgroundScanTime(Region region,
+      BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType) {
+    if (backgroundBeaconsRangingTimeType != BackgroundBeaconsRangingTimeType.INFINITE){
+      scheduleEndOfRanging(region, backgroundBeaconsRangingTimeType.getIntValue());
     }
   }
 
@@ -221,6 +233,11 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     try {
       beaconManager.stopRangingBeaconsInRegion(region);
       regions.remove(region);
+
+      if (!regions.isEmpty()){
+        beaconManager.setBackgroundBetweenScanPeriod(BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+      }
+
       GGGLogImpl.log("Ranging stopped in region: " + region.getUniqueId());
     } catch (RemoteException e) {
       e.printStackTrace();
