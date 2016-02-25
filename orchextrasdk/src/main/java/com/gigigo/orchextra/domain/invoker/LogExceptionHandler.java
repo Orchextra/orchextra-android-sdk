@@ -6,6 +6,11 @@ import com.gigigo.ggglogger.LogLevel;
 public class LogExceptionHandler implements Thread.UncaughtExceptionHandler {
 
   @Override public void uncaughtException(Thread thread, Throwable ex) {
-    GGGLogImpl.log("Unhandled Interactor Exception: " + (ex != null ? ex.getMessage() : ""), LogLevel.ERROR);
+    if (ex!=null){
+      ex.printStackTrace();
+      GGGLogImpl.log("Unhandled Interactor Exception: " + ex.getMessage(), LogLevel.ERROR);
+    }else{
+      GGGLogImpl.log("Unhandled Interactor Exception: exception trace not available");
+    }
   }
 }

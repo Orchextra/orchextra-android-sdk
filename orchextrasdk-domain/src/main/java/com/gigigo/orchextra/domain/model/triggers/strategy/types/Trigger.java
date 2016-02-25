@@ -139,6 +139,10 @@ public abstract class Trigger {
     return beaconDistanceTypeBehaviour.getBeaconDistanceType();
   }
 
+  public boolean beaconDistanceTypeIsSupported() {
+    return beaconDistanceTypeBehaviour.isSupported();
+  }
+
   public double getGeoDistance() {
     return geoDistanceBehaviour.getGeoDistance();
   }

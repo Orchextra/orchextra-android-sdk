@@ -22,6 +22,8 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 public class ConfigApiExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiConfigData, ConfigInfoResult> {
 
+  private static final int ONE_SECOND = 1000;
+
   private final GeofenceExternalClassToModelMapper geofenceResponseMapper;
   private final BeaconExternalClassToModelMapper beaconResponseMapper;
   private final ThemeExternalClassToModelMapper themeResponseMapper;
@@ -44,7 +46,7 @@ public class ConfigApiExternalClassToModelMapper
     Theme theme = MapperUtils.checkNullDataResponse(themeResponseMapper, apiConfigData.getTheme());
     Vuforia vuforia = MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
-    return new ConfigInfoResult.Builder(apiConfigData.getRequestWaitTime(), geofences,beacons, theme,
+    return new ConfigInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND, geofences,beacons, theme,
          vuforia).build();
 
   }

@@ -39,7 +39,6 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   @Override public void dispatchAction(BrowserAction action, Notification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
-    notification.setShown(true);
   }
 
   @Override public void dispatchAction(WebViewAction action) {
@@ -48,7 +47,6 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   @Override public void dispatchAction(WebViewAction action, Notification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
-    notification.setShown(true);
   }
 
   @Override public void dispatchAction(CustomAction action) {
@@ -57,7 +55,6 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   @Override public void dispatchAction(CustomAction action, Notification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
-    notification.setShown(true);
   }
 
   @Override public void dispatchAction(ScanAction action) {
@@ -66,7 +63,6 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   @Override public void dispatchAction(ScanAction action, Notification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
-    notification.setShown(true);
   }
 
   @Override public void dispatchAction(VuforiaScanAction action) {
@@ -75,17 +71,17 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   @Override public void dispatchAction(VuforiaScanAction action, Notification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
-    notification.setShown(true);
   }
 
   @Override public void dispatchAction(NotificationAction action) {
     Notification notification = action.getNotifFunctionality();
-    notificationBehavior.dispatchNotificationAction(action, notification);
+    if (notification.shouldBeShown()){
+      notificationBehavior.dispatchNotificationAction(action, notification);
+    }
   }
 
   @Override public void dispatchAction(NotificationAction action, Notification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
-    notification.setShown(true);
   }
 
   @Override public void dispatchAction(EmptyAction action) {
@@ -93,7 +89,6 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   @Override public void dispatchAction(EmptyAction action, Notification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
-    notification.setShown(true);
   }
 
     private ActionDispatcherListener actionDispatcherListener = new ActionDispatcherListener() {

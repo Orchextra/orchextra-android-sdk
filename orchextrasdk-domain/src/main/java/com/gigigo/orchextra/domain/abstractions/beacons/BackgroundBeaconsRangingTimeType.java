@@ -22,8 +22,9 @@ public enum BackgroundBeaconsRangingTimeType {
 
   public static BackgroundBeaconsRangingTimeType getType(int value){
     for(BackgroundBeaconsRangingTimeType type: BackgroundBeaconsRangingTimeType.values()){
-      if (type.getIntValue() == value);
-      return type;
+      if (type.getIntValue() == value){
+        return type;
+      }
     }
     return MIN;
   }

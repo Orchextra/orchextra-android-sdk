@@ -32,6 +32,10 @@ public class ActionQueryModelToExternalClassMapper
       query.put(LNG_QUERY_PARAM, String.valueOf(trigger.getPoint().getLng()));
     }
 
+    if (trigger.beaconDistanceTypeIsSupported()){
+      query.put(DISTANCE_QUERY_PARAM, String.valueOf(trigger.getBeaconDistanceType().getStringValue()));
+    }
+
     if (trigger.getGeoPointEventType() != null) {
       query.put(EVENT_QUERY_PARAM, trigger.getGeoPointEventType().getStringValue());
     }

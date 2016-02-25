@@ -8,7 +8,7 @@ public class Notification {
 
   private String title;
   private String body;
-  private boolean shown;
+  private boolean shown = false;
 
   public String getTitle() {
     return title;

@@ -34,7 +34,7 @@ public class BeaconEventsReader {
       result = (!realms.isEmpty());
 
       if (result){
-        GGGLogImpl.log("This beacon event was stored", LogLevel.WARN);
+        GGGLogImpl.log("This beacon event was already stored: " + beacon.getUuid()+"_"+beacon.getMayor()+"_"+beacon.getMinor());
       }else{
         GGGLogImpl.log("This beacon event was not stored");
       }
