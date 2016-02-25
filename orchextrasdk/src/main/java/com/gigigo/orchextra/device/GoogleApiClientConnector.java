@@ -24,7 +24,7 @@ public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallb
     public GoogleApiClientConnector(ContextProvider contextProvider, PermissionChecker permissionChecker,
                                     PermissionLocationImp accessFineLocationPermissionImp) {
         this.contextProvider = contextProvider;
-        this.permissionChecker =  permissionChecker;
+        this.permissionChecker = permissionChecker;
         this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
     }
 
@@ -63,11 +63,14 @@ public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallb
                 break;
             case ConnectionResult.SERVICE_MISSING_PERMISSION:
                 GGGLogImpl.log("Faltan permisos: ACCESS_FINE_LOCATION");
-                if (contextProvider.getCurrentActivity() != null) {
-                    permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
+                boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
+                if (isGranted) {
+                    connect();
+                } else {
+                    if (contextProvider.getCurrentActivity() != null) {
+                        permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
+                    }
                 }
-                break;
-            default:
                 break;
         }
     }

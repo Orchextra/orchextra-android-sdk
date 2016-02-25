@@ -39,7 +39,14 @@ public class RetrieveLastKnownLocation {
     private GoogleApiClientConnector.OnConnectedListener onConnectedListener = new GoogleApiClientConnector.OnConnectedListener() {
         @Override
         public void onConnected(Bundle bundle) {
-            permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
+            boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
+            if (isGranted) {
+                getUserLocation();
+            } else {
+                if (contextProvider.getCurrentActivity() != null) {
+                    permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
+                }
+            }
         }
     };
 
