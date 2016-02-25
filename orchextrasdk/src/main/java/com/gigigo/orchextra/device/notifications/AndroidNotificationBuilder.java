@@ -51,7 +51,8 @@ public class AndroidNotificationBuilder {
         PackageManager pm = context.getPackageManager();
 
         Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(String.valueOf(System.currentTimeMillis()));
         intent.putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction);
 
         return PendingIntent.getActivity(context, 1, intent, 0);
