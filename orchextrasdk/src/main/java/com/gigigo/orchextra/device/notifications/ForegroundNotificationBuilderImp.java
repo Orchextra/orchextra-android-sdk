@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.domain.abstractions.notifications.ForegroundNotificationBuilder;
+import com.gigigo.orchextra.domain.model.actions.ActionType;
+import com.gigigo.orchextra.ui.dialogs.DialogOneOption;
 import com.gigigo.orchextra.ui.dialogs.DialogTwoOptions;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
@@ -25,12 +27,28 @@ public class ForegroundNotificationBuilderImp implements ForegroundNotificationB
     public void buildNotification(BasicAction action, Notification notification) {
         this.action = action;
 
+        if (action.getActionType() == ActionType.NOTIFICATION) {
+            buildAcceptDialog(notification);
+        } else {
+            buildTwoOptionsDialog(notification);
+        }
+    }
+
+    private void buildAcceptDialog(Notification notification) {
+        DialogOneOption dialog = new DialogOneOption(context.getCurrentActivity(), notification.getTitle(), notification.getBody(),
+                context.getCurrentActivity().getString(R.string.ox_accept_text), positiveButtonListener);
+
+        dialog.onCreateDialog().show();
+    }
+
+    private void buildTwoOptionsDialog(Notification notification) {
         DialogTwoOptions dialog = new DialogTwoOptions(context.getCurrentActivity(), notification.getTitle(), notification.getBody(),
                 context.getCurrentActivity().getString(R.string.ox_accept_text), positiveButtonListener,
                 context.getCurrentActivity().getString(R.string.ox_cancel_text), negativeButtonListener);
 
         dialog.onCreateDialog().show();
     }
+
 
     @Override
     public void setActionDispatcherListener(ActionDispatcherListener actionDispatcherListener) {
