@@ -20,8 +20,10 @@ public class BrowserActionExecutor implements ActionExecutor {
         String url = action.getUrl();
         Uri uriUrl = Uri.parse(url);
 
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, uriUrl);
-        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(browserIntent);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(uriUrl);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        context.startActivity(intent);
     }
 }

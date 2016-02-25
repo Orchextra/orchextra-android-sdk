@@ -1,5 +1,7 @@
 package com.gigigo.orchextra.device.notifications;
 
+import android.app.PendingIntent;
+
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder;
@@ -19,11 +21,11 @@ public class BackgroundNotificationBuilderImp implements NotificationBuilder {
 
     @Override
     public void buildNotification(BasicAction action, Notification notification) {
-        AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToExternalClass(
-            action);
-
         //needs to burn notification because is being already consumed
-        androidBasicAction.setNotification(null);
+        action.getNotifFunctionality().setShown(true);
+
+        AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToExternalClass(
+                action);
 
         PendingIntent pendingIntent = androidNotification.getPendingIntent(androidBasicAction);
 
