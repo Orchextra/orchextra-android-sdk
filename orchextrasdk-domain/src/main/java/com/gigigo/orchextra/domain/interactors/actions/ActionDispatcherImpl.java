@@ -1,7 +1,8 @@
 package com.gigigo.orchextra.domain.interactors.actions;
 
+import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
-import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
+import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
@@ -11,8 +12,6 @@ import com.gigigo.orchextra.domain.model.actions.types.NotificationAction;
 import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
-import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener;
-import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -22,13 +21,14 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   private final ActionExecution actionExecution;
   private final NotificationBehavior notificationBehavior;
-  private  final CustomSchemeReceiver customSchemeReceiver;
+  private  final CustomSchemeReceiverContainer customSchemeReceiverContainer;
 
   public ActionDispatcherImpl(ActionExecution actionExecution,
-      NotificationBehavior notificationBehavior, CustomSchemeReceiver customSchemeReceiver) {
-      this.actionExecution = actionExecution;
-      this.notificationBehavior = notificationBehavior;
-    this.customSchemeReceiver = customSchemeReceiver;
+                              NotificationBehavior notificationBehavior, CustomSchemeReceiverContainer customSchemeReceiverContainer) {
+
+    this.actionExecution = actionExecution;
+    this.notificationBehavior = notificationBehavior;
+    this.customSchemeReceiverContainer = customSchemeReceiverContainer;
 
     notificationBehavior.setActionDispatcherListener(actionDispatcherListener);
   }
@@ -50,7 +50,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   }
 
   @Override public void dispatchAction(CustomAction action) {
-    customSchemeReceiver.onReceive(action.getUrl());
+    customSchemeReceiverContainer.getCustomSchemeReceiver().onReceive(action.getUrl());
   }
 
   @Override public void dispatchAction(CustomAction action, Notification notification) {

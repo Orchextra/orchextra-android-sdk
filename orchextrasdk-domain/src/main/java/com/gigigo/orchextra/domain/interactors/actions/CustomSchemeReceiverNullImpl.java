@@ -7,6 +7,7 @@ import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
  * Date 17/2/16.
  */
 public class CustomSchemeReceiverNullImpl implements CustomSchemeReceiver {
+
   @Override public void onReceive(String scheme) {
   }
 }

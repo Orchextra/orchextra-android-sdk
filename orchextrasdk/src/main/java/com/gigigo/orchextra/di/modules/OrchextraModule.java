@@ -15,7 +15,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureS
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.initalization.features.FeatureList;
-import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverNullImpl;
+import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
 import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImp;
 import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListenerImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
@@ -37,6 +37,7 @@ public class OrchextraModule {
   private final Context context;
   private final OrchextraCompletionCallback orchextraCompletionCallback;
   private CustomSchemeReceiver customSchemeReceiver;
+  private CustomSchemeReceiverContainer customSchemeReceiverContainer;
 
   public OrchextraModule(Context context, OrchextraCompletionCallback orchextraCompletionCallback) {
     this.context = context;
@@ -103,12 +104,9 @@ public class OrchextraModule {
 
   @Singleton
   @Provides
-  CustomSchemeReceiver customSchemeReceiver() {
-    if (customSchemeReceiver!=null){
-      return customSchemeReceiver;
-    }else{
-      return new CustomSchemeReceiverNullImpl();
-  }
+  CustomSchemeReceiverContainer provideCustomSchemeReceiverContainer() {
+    customSchemeReceiverContainer = new CustomSchemeReceiverContainer();
+    return customSchemeReceiverContainer;
   }
 
   @Singleton @Provides OrchextraModule provideOrchextraModule(){
@@ -116,6 +114,6 @@ public class OrchextraModule {
   }
 
   public void setCustomSchemeReceiver(CustomSchemeReceiver customSchemeReceiver) {
-    this.customSchemeReceiver = customSchemeReceiver;
+    customSchemeReceiverContainer.setCustomSchemeReceiver(customSchemeReceiver);
   }
 }
