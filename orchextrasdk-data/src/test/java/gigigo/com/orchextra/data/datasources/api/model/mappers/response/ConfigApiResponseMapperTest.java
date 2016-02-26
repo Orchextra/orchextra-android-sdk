@@ -54,7 +54,7 @@ public class ConfigApiResponseMapperTest {
         apiConfigData.setProximity(apiBeaconRegionList);
         apiConfigData.setTheme(apiTheme);
         apiConfigData.setVuforia(apiVuforia);
-        apiConfigData.setRequestWaitTime(3000);
+        apiConfigData.setRequestWaitTime(120);
 
         ConfigApiExternalClassToModelMapper mapper = new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper, themeResponseMapper,
                 beaconResponseMapper, geofenceResponseMapper);
@@ -68,6 +68,6 @@ public class ConfigApiResponseMapperTest {
         assertEquals(1, configInfoResult.getRegions().size());
         assertEquals(ApiRegionBuilder.CODE, configInfoResult.getRegions().get(0).getCode());
         assertEquals(ApiRegionBuilder.MAJOR, configInfoResult.getRegions().get(0).getMajor());
-        assertEquals(3000, configInfoResult.getRequestWaitTime());
+        assertEquals(120000, configInfoResult.getRequestWaitTime());
     }
 }

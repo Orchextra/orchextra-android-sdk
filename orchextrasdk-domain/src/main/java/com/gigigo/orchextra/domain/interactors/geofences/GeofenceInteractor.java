@@ -59,7 +59,7 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
     BusinessObject<OrchextraGeofence> boGeofence = geofenceCheckerService.obtainCheckedGeofence(basicAction.getEventCode());
     if (boGeofence.isSuccess() && boGeofence.getData().getCode().equals(basicAction.getEventCode())) {
       OrchextraGeofence geofence = boGeofence.getData();
-      geofence.setActionRelated(basicAction.getScheduledAction().getId());
+      geofence.setActionRelated(basicAction.getScheduledAction().getEventId());
       eventUpdaterService.associateActionToGeofenceEvent(geofence);
     }
   }
