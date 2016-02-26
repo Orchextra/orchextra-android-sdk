@@ -2,6 +2,8 @@ package gigigo.com.orchextra.data.datasources.api.service;
 
 import com.gigigo.ggglib.network.defaultelements.RetryOnErrorPolicy;
 import com.gigigo.ggglib.network.responses.HttpResponse;
+import com.gigigo.orchextra.domain.interactors.error.OrchextraBusinessErrors;
+
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
 
 /**
@@ -23,14 +25,26 @@ public class DefaultRetryOnErrorPolicyImpl implements
    */
   @Override public boolean shouldRetryWithErrorAndTries(int tries, OrchextraApiErrorResponse error,
       HttpResponse httpResponse) {
-    if (tries<3){
-      return true;
-    }else {
-      return false;
-    }
+    return retryPolicy(tries, error.getCode());
   }
 
   @Override public boolean shouldRetryOnException(int tries, Exception e) {
+    return defaultRetryPolicy(tries);
+  }
+
+  private boolean retryPolicy(int tries, int errorCode) {
+    if (errorCode == OrchextraBusinessErrors.NO_AUTH_EXPIRED.getValue()
+            || errorCode == OrchextraBusinessErrors.NO_AUTH_CREDENTIALS.getValue()
+//            || errorCode == OrchextraBusinessErrors.INTERNAL_SERVER_ERROR.getValue()
+            ) {
+
+      return false;
+    } else {
+        return defaultRetryPolicy(tries);
+    }
+  }
+
+  private boolean defaultRetryPolicy(int tries) {
     if (tries<3){
       return true;
     }else {
