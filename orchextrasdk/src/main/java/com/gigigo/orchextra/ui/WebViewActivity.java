@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.gigigo.orchextra.R;
-
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
+
 import javax.inject.Inject;
 
 public class WebViewActivity extends AppCompatActivity {

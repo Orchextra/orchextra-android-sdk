@@ -59,6 +59,23 @@ public class AndroidBasicAction implements Parcelable {
     }
 
     @Override
+    public int hashCode() {
+        int megaHash = 0;
+        if (this.getNotification() != null) {
+            megaHash = megaHash + hashCodeObject(this.getNotification().getTitle());
+            megaHash = megaHash + hashCodeObject(this.getNotification().getBody());
+        }
+        megaHash = megaHash + hashCodeObject(this.getAction());
+        megaHash = megaHash + hashCodeObject(this.getUrl());
+
+        return megaHash;
+    }
+
+    public static int hashCodeObject(Object o) {
+        return (o == null) ? 0 : o.hashCode();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

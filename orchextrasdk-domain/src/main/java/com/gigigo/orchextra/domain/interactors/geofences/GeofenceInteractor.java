@@ -39,20 +39,21 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
   }
 
   @Override public InteractorResponse<List<BasicAction>> call() throws Exception {
-    InteractorResponse<List<OrchextraGeofence>> response =
-            geofenceCheckerService.obtainCheckedGeofences(triggeringGeofenceIds, geofenceTransition);
+    registerEventGeofences();
 
-    List<OrchextraGeofence> geofenceList = response.getResult();
+    List<OrchextraGeofence> orchextraGeofenceList = geofenceCheckerService.obtainGeofencesById(triggeringGeofenceIds);
+    return triggerActionsFacadeService.triggerActions(orchextraGeofenceList, geofenceTransition);
+  }
+
+  private void registerEventGeofences() {
+    InteractorResponse<List<OrchextraGeofence>> response =
+            geofenceCheckerService.obtainEventGeofences(triggeringGeofenceIds, geofenceTransition);
 
     if (geofenceTransition == GeoPointEventType.EXIT) {
-      for (OrchextraGeofence geofence : geofenceList) {
+      for (OrchextraGeofence geofence : response.getResult()) {
         triggerActionsFacadeService.deleteScheduledActionIfExists(geofence);
       }
     }
-
-    InteractorResponse<List<BasicAction>> result = triggerActionsFacadeService.triggerActions(geofenceList, geofenceTransition);
-
-    return result;
   }
 
   @Override public void updateEventWithAction(BasicAction basicAction) {

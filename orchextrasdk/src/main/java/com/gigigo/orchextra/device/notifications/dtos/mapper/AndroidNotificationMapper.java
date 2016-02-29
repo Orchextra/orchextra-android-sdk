@@ -12,7 +12,7 @@ public class AndroidNotificationMapper implements Mapper<Notification, AndroidNo
 
         androidNotification.setTitle(notification.getTitle());
         androidNotification.setBody(notification.getBody());
-        androidNotification.setShown(androidNotification.isShown());
+        androidNotification.setShown(notification.isShown());
 
         return androidNotification;
     }

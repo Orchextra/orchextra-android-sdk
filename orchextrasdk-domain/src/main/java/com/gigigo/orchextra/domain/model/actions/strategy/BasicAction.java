@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
+import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
@@ -8,7 +9,6 @@ import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
 import com.gigigo.orchextra.domain.model.actions.types.NotificationAction;
 import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
-import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
 /**
@@ -66,7 +66,6 @@ public abstract class BasicAction{
     }else{
       performSimpleAction(actionDispatcher);
     }
-
   }
 
   public boolean isScheduled() {

@@ -38,7 +38,6 @@ public class GeofenceIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        GGGLogImpl.log("Localizado");
         processGeofenceIntentPending(intent);
     }
 
@@ -49,6 +48,9 @@ public class GeofenceIntentService extends IntentService {
 
         try {
             GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
+
+            GGGLogImpl.log("Localizado: " + transition.getStringValue());
+
             controller.processTriggers(geofenceIds, transition);
         }catch (GeofenceEventException geofenceEventException){
             GGGLogImpl.log(geofenceEventException.getMessage(), LogLevel.ERROR);

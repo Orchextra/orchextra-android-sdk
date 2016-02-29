@@ -29,6 +29,7 @@ public class AuthenticationDataProviderImplTest {
 
     @Mock BusinessObject<ClientAuthData> sessionToken;
 
+
     @Mock BusinessObject<Crm> businessObjectCrm;
 
     @Mock Crm crm;
@@ -48,16 +49,16 @@ public class AuthenticationDataProviderImplTest {
     @Test
     public void shouldAuthenticateUserAndSaveCrmWhenCriteriaAreCorrectAndCrmIdIsNotEmpty() throws Exception {
         when(sessionDBDataSource.getSessionToken()).thenReturn(sessionToken);
-        when(sessionDBDataSource.getCrm()).thenReturn(businessObjectCrm);
-        when(businessObjectCrm.getData()).thenReturn(crm);
 
         when(sessionToken.isSuccess()).thenReturn(false);
-        when(sessionToken.getData()).thenReturn(clientAuthData);
-        when(sessionToken.getData().isExpired()).thenReturn(false);
 
         when(authenticationDataSource.authenticateUser(any(Credentials.class))).thenReturn(sessionToken);
 
         when(sessionToken.isSuccess()).thenReturn(true);
+
+        when(sessionDBDataSource.getCrm()).thenReturn(businessObjectCrm);
+        when(businessObjectCrm.getData()).thenReturn(crm);
+
 
         authenticationDataProvider.authenticateUser(credentials, "111111");
 
@@ -68,14 +69,8 @@ public class AuthenticationDataProviderImplTest {
     @Test
     public void shouldAuthenticateUserAndSaveWhenCriteriaAreCorrect() throws Exception {
         when(sessionDBDataSource.getSessionToken()).thenReturn(sessionToken);
-        when(sessionDBDataSource.getCrm()).thenReturn(businessObjectCrm);
-        when(businessObjectCrm.getData()).thenReturn(crm);
 
         when(sessionToken.isSuccess()).thenReturn(false);
-        when(sessionToken.getData()).thenReturn(clientAuthData);
-        when(sessionToken.getData().isExpired()).thenReturn(false);
-        when(crm.getCrmId()).thenReturn("111");
-
 
         when(authenticationDataSource.authenticateUser(any(Credentials.class))).thenReturn(sessionToken);
 
@@ -84,7 +79,6 @@ public class AuthenticationDataProviderImplTest {
         authenticationDataProvider.authenticateUser(credentials, null);
 
         verify(sessionDBDataSource).saveClientAuthResponse(any(ClientAuthData.class));
-        verify(sessionDBDataSource).saveUser(crm);
     }
 
     @Test

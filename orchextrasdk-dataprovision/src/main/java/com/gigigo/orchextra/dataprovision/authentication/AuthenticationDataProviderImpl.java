@@ -39,27 +39,32 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   }
 
   @Override public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId) {
-    //TODO Must be unit tested
     BusinessObject<ClientAuthData> sessionToken = sessionDBDataSource.getSessionToken();
 
-    Crm crm = sessionDBDataSource.getCrm().getData();
-
-    if (!sessionToken.isSuccess() || sessionToken.getData() == null || sessionToken.getData().isExpired()
-            || (crmId != null && crm.getCrmId() == null) || (crm.getCrmId() != null && !crm.getCrmId().equals(crmId))) {
+    if (!sessionToken.isSuccess() || sessionToken.getData() == null || sessionToken.getData().isExpired()) {
 
       sessionToken = authenticationDataSource.authenticateUser(credentials);
 
-      if (sessionToken.isSuccess()){
+      if (sessionToken.isSuccess()) {
         sessionDBDataSource.saveClientAuthResponse(sessionToken.getData());
-
-        if (crmId != null || (crm != null && crm.getCrmId() != null)) {
-          crm.setCrmId(crmId);
-          sessionDBDataSource.saveUser(crm);
-        }
+        saveCrmId(crmId);
       }
     }
 
     return sessionToken;
+  }
+
+  private void saveCrmId(String crmId) {
+    if (crmId != null) {
+      Crm crm = sessionDBDataSource.getCrm().getData();
+
+      if (crm == null) {
+        crm = new Crm();
+      }
+
+      crm.setCrmId(crmId);
+      sessionDBDataSource.saveUser(crm);
+    }
   }
 
   @Override

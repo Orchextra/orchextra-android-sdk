@@ -24,17 +24,6 @@ public class AndroidNotificationBuilder {
         this.context = context;
     }
 
-    public PendingIntent getPendingIntent(AndroidBasicAction androidBasicAction) {
-        PackageManager pm = context.getPackageManager();
-        Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        return pendingIntent;
-    }
-
     public void createNotification(Notification notification, PendingIntent pendingIntent) {
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
 
@@ -55,7 +44,18 @@ public class AndroidNotificationBuilder {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0, builder.build());
+        notificationManager.notify((int)(System.currentTimeMillis()%Integer.MAX_VALUE), builder.build());
+    }
+
+    public PendingIntent getPendingIntent(AndroidBasicAction androidBasicAction) {
+        PackageManager pm = context.getPackageManager();
+
+        Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setAction(String.valueOf(System.currentTimeMillis()));
+        intent.putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction);
+
+        return PendingIntent.getActivity(context, 1, intent, 0);
     }
 
     private int getSmallIconResourceId() {

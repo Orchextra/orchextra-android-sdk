@@ -33,4 +33,8 @@ public class Notification {
   public void setShown(boolean shown) {
     this.shown = shown;
   }
+
+  public boolean isShown() {
+    return shown;
+  }
 }

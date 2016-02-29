@@ -46,8 +46,8 @@ public class BeaconResponseMapperTest {
         BeaconExternalClassToModelMapper mapper = new BeaconExternalClassToModelMapper();
         OrchextraRegion region = mapper.externalClassToModel(apiBeaconRegion);
 
-        assertEquals(0, region.getMajor());
-        assertEquals(0, region.getMinor());
+        assertEquals(-1, region.getMajor());
+        assertEquals(-1, region.getMinor());
         assertNull(region.getUuid());
         assertNull(region.getCode());
         assertNull(region.getId());

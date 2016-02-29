@@ -55,8 +55,13 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     }
 
     private void registerGeofencesOnDevice() {
-        if (contextProvider.getCurrentActivity() != null) {
-            permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
+        boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
+        if (isGranted) {
+            registerGeofence();
+        } else {
+            if (contextProvider.getCurrentActivity() != null) {
+                permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
+            }
         }
     }
 
