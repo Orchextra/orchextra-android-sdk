@@ -90,24 +90,26 @@ public class BeaconEventsUpdater {
     return orchextraRegionDeleted;
   }
 
-  //TODO TEST THIS METHOD
   public OrchextraRegion addActionToRegion(Realm realm, OrchextraRegion orchextraRegion) {
 
     RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
         .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode()).findAll();
 
     if (results.isEmpty()){
-      GGGLogImpl.log("Required region does not Exist", LogLevel.ERROR);
+      GGGLogImpl.log("EVENT: Required region does not Exist", LogLevel.ERROR);
       throw new NoSuchElementException("Required region does not Exist");
     }else if(results.size()>1){
-      GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+      GGGLogImpl.log("EVENT: More than one region Event with same Code stored", LogLevel.ERROR);
     }else{
-      GGGLogImpl.log("Retrieved Region with id " + orchextraRegion.getCode() + " will be associated to action " + orchextraRegion.getActionRelated());
+      GGGLogImpl.log("EVENT: Retrieved Region with id " + orchextraRegion.getCode() + " will be associated to action " + orchextraRegion.getActionRelatedId());
     }
 
+    realm.beginTransaction();
     BeaconRegionEventRealm beaconRegionEventRealm = results.first();
-    beaconRegionEventRealm.setActionRelated(orchextraRegion.getActionRelated());
-    storeElement(realm, beaconRegionEventRealm);
+    beaconRegionEventRealm.setActionRelated(orchextraRegion.getActionRelatedId());
+    beaconRegionEventRealm.setActionRelatedCancelable((orchextraRegion.relatedActionIsCancelable()));
+    realm.copyToRealmOrUpdate(beaconRegionEventRealm);
+    realm.commitTransaction();
 
     return regionEventRealmMapper.externalClassToModel(beaconRegionEventRealm);
   }

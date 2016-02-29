@@ -19,9 +19,9 @@ public class RegionCheckerService implements DomaninService{
 
     public InteractorResponse obtainCheckedRegion(OrchextraRegion orchextraRegion){
         if (orchextraRegion.isEnter()) {
-            return new InteractorResponse(storeRegion(orchextraRegion));
+            return storeRegion(orchextraRegion);
         } else {
-            return new InteractorResponse(deleteStoredRegion(orchextraRegion));
+            return deleteStoredRegion(orchextraRegion);
         }
     }
 

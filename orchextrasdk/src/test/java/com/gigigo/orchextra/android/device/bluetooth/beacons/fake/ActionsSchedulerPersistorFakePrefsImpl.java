@@ -69,7 +69,7 @@ public class ActionsSchedulerPersistorFakePrefsImpl implements ActionsSchedulerP
 
   private ScheduledAction prefActionToScheduledAction(Set<String> actionData) {
     Schedule schedule = new Schedule(false, 30000);
-    BasicAction action = new BasicAction.ActionBuilder(ActionType.BROWSER, "www.marca.es", null, schedule).build();
+    BasicAction action = new BasicAction.ActionBuilder("1001", "10", ActionType.BROWSER, "www.marca.es", null, schedule).build();
     return action.getScheduledAction();
   }
 

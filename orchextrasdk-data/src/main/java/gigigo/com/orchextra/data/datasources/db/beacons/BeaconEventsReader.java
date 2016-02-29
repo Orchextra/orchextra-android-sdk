@@ -29,11 +29,11 @@ public class BeaconEventsReader {
           .findAll();
 
       if (results.size()>1) {
-        GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+        GGGLogImpl.log("EVENT: More than one region Event with same Code stored", LogLevel.ERROR);
       }else if (results.size()==1){
-        GGGLogImpl.log("Recovered orchextra region " + orchextraRegion.getCode());
+        GGGLogImpl.log("EVENT: Recovered orchextra region " + orchextraRegion.getCode());
       }else{
-        GGGLogImpl.log("Region Event not stored " + orchextraRegion.getCode());
+        GGGLogImpl.log("EVENT: Region Event not stored " + orchextraRegion.getCode());
       }
 
     return regionEventRealmMapper.externalClassToModel(results.first());

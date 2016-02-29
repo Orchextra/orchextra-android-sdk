@@ -31,7 +31,4 @@ public class Schedule {
     this.eventId = eventId;
   }
 
-  @Override public int hashCode() {
-    return (cancelable ? 1 : 0);
-  }
 }

@@ -72,9 +72,13 @@ public class GeofenceEventsUpdater {
             GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
         }
 
+        realm.beginTransaction();
         GeofenceEventRealm geofenceEventRealm = results.first();
-        geofenceEventRealm.setActionRelated(geofence.getActionRelated());
-        storeElement(realm, geofenceEventRealm);
+        geofenceEventRealm.setActionRelated(geofence.getActionRelatedId());
+        geofenceEventRealm.setActionRelatedCancelable(geofence.isActionRelatedCancelable());
+
+        realm.copyToRealmOrUpdate(geofenceEventRealm);
+        realm.commitTransaction();
 
         return geofenceEventRealmMapper.externalClassToModel(geofenceEventRealm);
     }

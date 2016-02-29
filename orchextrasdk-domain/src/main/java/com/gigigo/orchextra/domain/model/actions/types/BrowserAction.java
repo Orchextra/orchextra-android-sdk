@@ -12,8 +12,8 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
  */
 public class BrowserAction extends BasicAction {
 
-  public BrowserAction(String url, Notification notification, Schedule schedule) {
-    super(url, notification, schedule);
+  public BrowserAction(String id, String trackId, String url, Notification notification, Schedule schedule) {
+    super(id, trackId, url, notification, schedule);
     this.actionType = ActionType.BROWSER;
   }
 

@@ -1,6 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.RegionEventType;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
@@ -18,8 +19,8 @@ public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRe
     regionRealm.setUuid(region.getUuid());
     regionRealm.setMajor(region.getMajor());
     regionRealm.setMinor(region.getMinor());
-
-    regionRealm.setActionRelated(region.getActionRelated());
+    regionRealm.setActionRelatedCancelable(region.relatedActionIsCancelable());
+    regionRealm.setActionRelated(region.getActionRelatedId());
 
     if (region.getRegionEvent()!=null){
       regionRealm.setEventType(region.getRegionEvent().getStringValue());
@@ -37,7 +38,8 @@ public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRe
         regionRealm.getMinor(),
         regionRealm.isActive());
 
-    region.setActionRelated(regionRealm.getActionRelated());
+    region.setActionRelated(new ActionRelated(regionRealm.getActionRelated(),
+        regionRealm.isActionRelatedCancelable()));
 
     if (regionRealm.getEventType() == null){
       region.setRegionEvent(RegionEventType.EXIT);

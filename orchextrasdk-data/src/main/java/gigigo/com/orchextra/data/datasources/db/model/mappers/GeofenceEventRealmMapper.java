@@ -3,6 +3,7 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
 import com.gigigo.orchextra.domain.model.ProximityPointType;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
@@ -22,13 +23,18 @@ public class GeofenceEventRealmMapper implements Mapper<OrchextraGeofence, Geofe
         OrchextraGeofence geofence = new OrchextraGeofence();
 
         geofence.setRadius(geofenceEventRealm.getRadius());
-        geofence.setPoint(MapperUtils.checkNullDataResponse(realmPointMapper, geofenceEventRealm.getPoint()));
+        geofence.setPoint(
+            MapperUtils.checkNullDataResponse(realmPointMapper, geofenceEventRealm.getPoint()));
 
         geofence.setCode(geofenceEventRealm.getCode());
         geofence.setNotifyOnEntry(geofenceEventRealm.isNotifyOnEntry());
         geofence.setNotifyOnExit(geofenceEventRealm.isNotifyOnExit());
         geofence.setStayTime(geofenceEventRealm.getStayTime());
-        geofence.setType(ProximityPointType.getProximityPointTypeValue(geofenceEventRealm.getType()));
+        geofence.setType(
+            ProximityPointType.getProximityPointTypeValue(geofenceEventRealm.getType()));
+
+        geofence.setActionRelated(new ActionRelated(geofenceEventRealm.getActionRelated(),
+            geofenceEventRealm.isActionRelatedCancelable()));
 
         return geofence;
     }
@@ -44,6 +50,7 @@ public class GeofenceEventRealmMapper implements Mapper<OrchextraGeofence, Geofe
         geofenceRealm.setNotifyOnEntry(geofence.isNotifyOnEntry());
         geofenceRealm.setNotifyOnExit(geofence.isNotifyOnExit());
         geofenceRealm.setStayTime(geofence.getStayTime());
+
         if (geofence.getType() != null) {
             geofenceRealm.setType(geofence.getType().getStringValue());
         }

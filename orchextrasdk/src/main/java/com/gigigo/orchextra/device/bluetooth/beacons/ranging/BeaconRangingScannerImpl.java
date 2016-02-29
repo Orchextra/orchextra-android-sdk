@@ -31,7 +31,7 @@ import org.altbeacon.beacon.Region;
  */
 public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingScanner{
 
-  private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType =
+  private static BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType =
       BackgroundBeaconsRangingTimeType.getType(BuildConfig.BACKGROUND_BEACONS_RANGING_TIME);
 
   private final BeaconManager beaconManager;

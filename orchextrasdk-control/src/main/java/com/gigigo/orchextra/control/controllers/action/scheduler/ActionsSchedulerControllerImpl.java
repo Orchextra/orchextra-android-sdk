@@ -4,6 +4,7 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionsScheduler;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerPersistor;
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
+import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import java.util.List;
 
 /**
@@ -24,6 +25,11 @@ public class ActionsSchedulerControllerImpl implements ActionsSchedulerControlle
 
   @Override public void cancelPendingActionWithId(String id, boolean forceCancel) {
     ScheduledAction action = actionsSchedulerPersistor.getScheduledActionWithId(id);
+
+    if (action == null){
+      action = BasicAction.generateCancelActionHolder(id, forceCancel);
+    }
+
     cancelAction(forceCancel, action);
   }
 

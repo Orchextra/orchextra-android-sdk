@@ -5,6 +5,7 @@ import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ActionNotificationResponse;
 import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
+import com.gigigo.orchextra.di.qualifiers.ActionScheduleResponse;
 import com.gigigo.orchextra.di.qualifiers.ActionsResponse;
 import com.gigigo.orchextra.di.qualifiers.AppRequest;
 import com.gigigo.orchextra.di.qualifiers.BeaconResponse;
@@ -21,6 +22,7 @@ import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ThemeResponse;
 import com.gigigo.orchextra.di.qualifiers.VuforiaResponse;
 
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionScheduledExternalClassToModelMapper;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -82,13 +84,19 @@ public class ApiMappersModule {
   }
 
   @Provides @Singleton @ActionsResponse ExternalClassToModelMapper provideActionsApiResponseMapper(
-      @ActionNotificationResponse ExternalClassToModelMapper actionNotifResponseMapper){
-    return new ActionsApiExternalClassToModelMapper(actionNotifResponseMapper);
+      @ActionNotificationResponse ExternalClassToModelMapper actionNotifResponseMapper,
+      @ActionScheduleResponse ExternalClassToModelMapper actionScheduleResponseMapper){
+    return new ActionsApiExternalClassToModelMapper(actionNotifResponseMapper, actionScheduleResponseMapper);
   }
 
   @Provides @Singleton @ActionNotificationResponse
   ExternalClassToModelMapper provideActionNotificationResponseMapper(){
     return new ActionNotificationExternalClassToModelMapper();
+  }
+
+  @Provides @Singleton @ActionScheduleResponse
+  ExternalClassToModelMapper provideActionScheduleResponseMapper(){
+    return new ActionScheduledExternalClassToModelMapper();
   }
 
   @Provides @Singleton ConfigApiExternalClassToModelMapper provideConfigApiResponseMapper(

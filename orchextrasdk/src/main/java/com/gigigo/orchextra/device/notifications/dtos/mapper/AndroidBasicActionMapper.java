@@ -17,6 +17,8 @@ public class AndroidBasicActionMapper implements Mapper<BasicAction, AndroidBasi
     public AndroidBasicAction modelToExternalClass(BasicAction basicAction) {
         AndroidBasicAction androidBasicAction = new AndroidBasicAction();
 
+        androidBasicAction.setId(basicAction.getId());
+        androidBasicAction.setTrackId(basicAction.getTrackId());
         androidBasicAction.setAction(basicAction.getActionType().getStringValue());
         androidBasicAction.setUrl(basicAction.getUrl());
 
@@ -30,6 +32,8 @@ public class AndroidBasicActionMapper implements Mapper<BasicAction, AndroidBasi
     public BasicAction externalClassToModel(AndroidBasicAction androidBasicAction) {
 
         BasicAction.ActionBuilder actionBuilder = new BasicAction.ActionBuilder(
+                androidBasicAction.getId(),
+                androidBasicAction.getTrackId(),
                 ActionType.getActionTypeValue(androidBasicAction.getAction()),
                 androidBasicAction.getUrl(),
                 androidNotificationMapper.externalClassToModel(androidBasicAction.getNotification()));

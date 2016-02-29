@@ -4,6 +4,7 @@ import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.actions.EventAccessor;
@@ -96,10 +97,11 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
   @Override public void updateEventWithAction(BasicAction basicAction) {
     switch (eventType){
       case REGION_ENTER:
-      case REGION_EXIT:
         OrchextraRegion detectedRegion = (OrchextraRegion) data;
-        detectedRegion.setActionRelated(basicAction.getScheduledAction().getId());
+        detectedRegion.setActionRelated(new ActionRelated(basicAction.getScheduledAction().getId(),
+            basicAction.getScheduledAction().isCancelable()));
         eventUpdaterService.associateActionToRegionEvent(detectedRegion);
+      case REGION_EXIT:
         break;
       default:
         break;

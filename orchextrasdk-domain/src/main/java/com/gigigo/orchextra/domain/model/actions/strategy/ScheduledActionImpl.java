@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
+import com.gigigo.gggjavalib.general.utils.Hashing;
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 
 /**
@@ -10,6 +11,7 @@ public class ScheduledActionImpl implements ScheduledAction {
 
   private final BasicAction basicAction;
   private final ScheduleFunctionality scheduleFunctionality;
+  private String id = null;
 
   public ScheduledActionImpl(BasicAction basicAction) {
     this.scheduleFunctionality = basicAction.scheduleFunctionality;
@@ -25,7 +27,32 @@ public class ScheduledActionImpl implements ScheduledAction {
   }
 
   @Override public String getId() {
-    return String.valueOf(hashCode());
+    String id = basicAction.getId();
+
+    //TODO delete when action getId be ready
+    if (id != null && id != ""){
+      return id;
+    }else{
+      return calculateFakeActionHash();
+    }
+  }
+
+  private String calculateFakeActionHash() {
+
+    try {
+      return Hashing.generateMd5(
+          basicAction.getActionType().getStringValue() +
+              basicAction.getUrl() +
+              basicAction.getEventCode() +
+              ((basicAction.notifFunctionality.isSupported())?
+                  (basicAction.getNotifFunctionality().getBody() +
+                      basicAction.getNotifFunctionality().getTitle()) :
+                  "" )
+      );
+    } catch (Exception e) {
+      return basicAction.getEventCode();
+    }
+
   }
 
   @Override public String getEventId(){

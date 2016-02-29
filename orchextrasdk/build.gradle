@@ -32,7 +32,7 @@ android {
     versionCode parent.ext.androidVersionCode
     versionName parent.ext.androidVersionName
 
-    buildConfigField INT, "BACKGROUND_BEACONS_RANGING_TIME", MAX_RAGGING_TIME
+    buildConfigField INT, "BACKGROUND_BEACONS_RANGING_TIME", MIN_RAGGING_TIME
     buildConfigField LONG, "BACKGROUND_BEACONS_SCAN_TIME", BACKGROUND_BEACONS_SCAN_TIME
     buildConfigField LONG, "BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME", BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME
     buildConfigField STRING, "API_VERSION", '"v1/"'

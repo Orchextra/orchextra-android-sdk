@@ -14,7 +14,8 @@ public class OrchextraGeofence extends ProximityPoint implements ScheduledAction
   private double distanceToDeviceInKm;
   private String geofenceId;
 
-  private String actionRelated;
+  private ActionRelated actionRelated;
+  private boolean actionRelatedCancelable;
 
   public OrchextraPoint getPoint() {
     return point;
@@ -48,18 +49,29 @@ public class OrchextraGeofence extends ProximityPoint implements ScheduledAction
     return geofenceId;
   }
 
-  @Override
-  public String getActionRelated() {
-    return actionRelated;
+  @Override public String getActionRelatedId() {
+    return actionRelated.getActionId();
   }
 
   @Override
   public boolean hasActionRelated() {
-    return actionRelated != null && !actionRelated.isEmpty();
+    return actionRelated != null;
   }
 
-  @Override
-  public void setActionRelated(String actionRelated) {
+  @Override public void setActionRelated(ActionRelated actionRelated) {
     this.actionRelated = actionRelated;
+  }
+
+  @Override public boolean relatedActionIsCancelable() {
+    return actionRelated.isCancelable();
+  }
+
+  //TODO implement Realm Logic
+  public void setActionRelatedCancelable(boolean actionRelatedCancelable) {
+    this.actionRelatedCancelable = actionRelatedCancelable;
+  }
+
+  public boolean isActionRelatedCancelable() {
+    return actionRelatedCancelable;
   }
 }

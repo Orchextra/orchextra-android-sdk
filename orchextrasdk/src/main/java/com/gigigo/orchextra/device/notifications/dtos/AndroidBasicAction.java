@@ -2,12 +2,37 @@ package com.gigigo.orchextra.device.notifications.dtos;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class AndroidBasicAction implements Parcelable {
 
+    @Expose @SerializedName("id")
+    private String id;
+    @Expose @SerializedName("trackId")
+    private String trackId;
+    @Expose @SerializedName("action")
     private String action;
+    @Expose @SerializedName("url")
     private String url;
+    @Expose @SerializedName("notification")
     private AndroidNotification notification;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTrackId() {
+        return trackId;
+    }
+
+    public void setTrackId(String trackId) {
+        this.trackId = trackId;
+    }
 
     public String getAction() {
         return action;
