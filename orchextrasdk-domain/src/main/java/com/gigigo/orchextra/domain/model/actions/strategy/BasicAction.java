@@ -100,7 +100,11 @@ public abstract class BasicAction{
   }
 
   public static ScheduledAction generateCancelActionHolder(String id, boolean cancelable) {
-    BasicAction action = new BasicAction.ActionBuilder().actionId(id).cancelable(cancelable).build();
+    BasicAction action = new BasicAction.ActionBuilder()
+        .actionId(id)
+        .cancelable(cancelable)
+        .actionType(ActionType.NOT_DEFINED)
+        .build();
     return action.getScheduledAction();
   }
 
@@ -133,6 +137,11 @@ public abstract class BasicAction{
 
     public ActionBuilder actionId(String id) {
       this.id = id;
+      return this;
+    }
+
+    public ActionBuilder actionType(ActionType actionType) {
+      this.actionType = actionType;
       return this;
     }
 

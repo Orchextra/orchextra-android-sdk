@@ -75,7 +75,7 @@ public class GeofenceEventsUpdater {
         realm.beginTransaction();
         GeofenceEventRealm geofenceEventRealm = results.first();
         geofenceEventRealm.setActionRelated(geofence.getActionRelatedId());
-        geofenceEventRealm.setActionRelatedCancelable(geofence.isActionRelatedCancelable());
+        geofenceEventRealm.setActionRelatedCancelable(geofence.relatedActionIsCancelable());
 
         realm.copyToRealmOrUpdate(geofenceEventRealm);
         realm.commitTransaction();

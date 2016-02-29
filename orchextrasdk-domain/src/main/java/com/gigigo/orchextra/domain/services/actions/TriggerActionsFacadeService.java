@@ -82,8 +82,9 @@ public class TriggerActionsFacadeService implements DomaninService {
   }
 
     public void deleteScheduledActionIfExists(ScheduledActionEvent event) {
-      if (event.hasActionRelated() && event.relatedActionIsCancelable()){
-        scheduleActionService.cancelPendingActionWithId(event.getActionRelatedId(), false);
+      if (event.hasActionRelated()){
+        scheduleActionService.cancelPendingActionWithId(event.getActionRelatedId(),
+            event.relatedActionIsCancelable());
       }
     }
 

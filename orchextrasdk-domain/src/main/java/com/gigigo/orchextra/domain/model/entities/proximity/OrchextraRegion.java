@@ -78,7 +78,11 @@ public class OrchextraRegion extends ProximityPoint implements ScheduledActionEv
   }
 
   @Override public String getActionRelatedId() {
-    return this.actionRelated.getActionId();
+    if (actionRelated == null){
+      return "";
+    }else{
+      return actionRelated.getActionId();
+    }
   }
 
   @Override
@@ -87,7 +91,11 @@ public class OrchextraRegion extends ProximityPoint implements ScheduledActionEv
   }
 
   @Override public boolean relatedActionIsCancelable() {
-    return actionRelated.isCancelable();
+    if (actionRelated == null){
+      return false;
+    }else{
+      return actionRelated.isCancelable();
+    }
   }
 
 }

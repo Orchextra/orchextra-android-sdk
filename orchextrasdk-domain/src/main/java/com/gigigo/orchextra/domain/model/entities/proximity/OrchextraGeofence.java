@@ -15,7 +15,6 @@ public class OrchextraGeofence extends ProximityPoint implements ScheduledAction
   private String geofenceId;
 
   private ActionRelated actionRelated;
-  private boolean actionRelatedCancelable;
 
   public OrchextraPoint getPoint() {
     return point;
@@ -63,15 +62,11 @@ public class OrchextraGeofence extends ProximityPoint implements ScheduledAction
   }
 
   @Override public boolean relatedActionIsCancelable() {
-    return actionRelated.isCancelable();
+    if (actionRelated == null){
+      return false;
+    }else{
+      return actionRelated.isCancelable();
+    }
   }
 
-  //TODO implement Realm Logic
-  public void setActionRelatedCancelable(boolean actionRelatedCancelable) {
-    this.actionRelatedCancelable = actionRelatedCancelable;
-  }
-
-  public boolean isActionRelatedCancelable() {
-    return actionRelatedCancelable;
-  }
 }
