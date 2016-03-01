@@ -42,7 +42,17 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   //region Activity lifecycle Management
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    ActivityLifecyleWrapper previousStackActivity = null;
+
+    if (!activityStack.empty()){
+      previousStackActivity = this.activityStack.peek();
+    }
+
     this.activityStack.push(new ActivityLifecyleWrapper(activity, true, true));
+
+    if (previousStackActivity!=null){
+      previousStackActivity.cleanActivityReference();
+    }
 
     notificationDispatcher.manageBackgroundNotification(activity);
   }
@@ -52,6 +62,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
       boolean wasInBackground = endBackgroundModeIfNeeded();
       setCurrentStackActivityAsNotStopped();
       if (wasInBackground) {
+        restoreActivityContext(activity);
         startForegroundMode();
       }
       cleanZombieWrappersAtStack();
@@ -82,10 +93,17 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   @Override public void onActivityResumed(Activity activity) {
     try {
       ConsistencyUtils.checkNotEmpty(activityStack);
-      activityStack.peek().setIsPaused(false);
+      ActivityLifecyleWrapper activityLifecyleWrapper = activityStack.peek();
+      activityLifecyleWrapper.setIsPaused(false);
+      restoreActivityContext(activity);
     } catch (Exception e) {
       GGGLogImpl.log("Exception :" + e.getMessage(), LogLevel.ERROR);
     }
+  }
+
+  private void restoreActivityContext(Activity activity) {
+    ActivityLifecyleWrapper activityLifecyleWrapper = activityStack.peek();
+    activityLifecyleWrapper.restoreActivityReference(activity);
   }
 
   @Override public void onActivityPaused(Activity activity) {
@@ -103,6 +121,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
 
       if (appWillGoToBackground()) {
         appStatusEventsListener.onForegroundEnd();
+        activityStack.peek().cleanActivityReference();
       }
       setCurrentStackActivityAsStopped();
       setBackgroundModeIfNeeded();
