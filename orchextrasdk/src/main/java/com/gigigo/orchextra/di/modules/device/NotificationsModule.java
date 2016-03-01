@@ -11,7 +11,7 @@ import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionM
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidNotificationMapper;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
-import com.gigigo.orchextra.domain.notifications.NotificationBehaviorImp;
+import com.gigigo.orchextra.device.notifications.NotificationBehaviorImp;
 
 import javax.inject.Singleton;
 
@@ -34,8 +34,10 @@ public class NotificationsModule {
   @Provides
   @Singleton NotificationBehavior provideNotificationBehavior(AppRunningMode appRunningMode,
       ForegroundNotificationBuilderImp foregroundNotificationBuilderImp,
-      BackgroundNotificationBuilderImp backgroundNotificationBuilderImp) {
-    return new NotificationBehaviorImp(appRunningMode, foregroundNotificationBuilderImp, backgroundNotificationBuilderImp);
+      BackgroundNotificationBuilderImp backgroundNotificationBuilderImp,
+      ContextProvider contextProvider) {
+    return new NotificationBehaviorImp(appRunningMode, foregroundNotificationBuilderImp,
+            backgroundNotificationBuilderImp, contextProvider);
   }
 
   @Provides
