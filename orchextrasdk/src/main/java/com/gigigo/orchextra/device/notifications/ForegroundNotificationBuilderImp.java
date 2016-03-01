@@ -19,8 +19,8 @@ public class ForegroundNotificationBuilderImp implements ForegroundNotificationB
     private ActionDispatcherListener actionDispatcherListener;
     private BasicAction action;
 
-    public ForegroundNotificationBuilderImp(ContextProvider context) {
-        this.contextProvider = context;
+    public ForegroundNotificationBuilderImp(ContextProvider contextProvider) {
+        this.contextProvider = contextProvider;
     }
 
     @Override
