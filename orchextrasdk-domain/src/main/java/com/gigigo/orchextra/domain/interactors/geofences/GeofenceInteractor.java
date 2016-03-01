@@ -4,6 +4,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.services.actions.EventAccessor;
@@ -59,7 +60,8 @@ public class GeofenceInteractor implements Interactor<InteractorResponse<List<Ba
     BusinessObject<OrchextraGeofence> boGeofence = geofenceCheckerService.obtainCheckedGeofence(basicAction.getEventCode());
     if (boGeofence.isSuccess() && boGeofence.getData().getCode().equals(basicAction.getEventCode())) {
       OrchextraGeofence geofence = boGeofence.getData();
-      geofence.setActionRelated(basicAction.getScheduledAction().getEventId());
+      geofence.setActionRelated(new ActionRelated(basicAction.getScheduledAction().getId(),
+          basicAction.getScheduledAction().isCancelable()));
       eventUpdaterService.associateActionToGeofenceEvent(geofence);
     }
   }

@@ -18,6 +18,7 @@ public class GeofenceEventRealm extends RealmObject {
 
     private String type;
     private String actionRelated;
+    private boolean actionRelatedCancelable;
 
     public String getCode() {
         return code;
@@ -81,5 +82,13 @@ public class GeofenceEventRealm extends RealmObject {
 
     public String getActionRelated() {
         return actionRelated;
+    }
+
+    public boolean isActionRelatedCancelable() {
+        return actionRelatedCancelable;
+    }
+
+    public void setActionRelatedCancelable(boolean actionRelatedCancelable) {
+        this.actionRelatedCancelable = actionRelatedCancelable;
     }
 }

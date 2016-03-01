@@ -2,11 +2,16 @@ package com.gigigo.orchextra.device.notifications.dtos;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class AndroidNotification implements Parcelable {
 
+    @Expose @SerializedName("title")
     private String title;
+    @Expose @SerializedName("body")
     private String body;
+    @Expose @SerializedName("shown")
     private boolean shown;
 
     public String getTitle() {

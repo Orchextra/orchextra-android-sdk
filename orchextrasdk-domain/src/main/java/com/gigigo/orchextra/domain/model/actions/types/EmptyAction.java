@@ -12,13 +12,18 @@ import com.gigigo.orchextra.domain.model.actions.ActionType;
  */
 public class EmptyAction extends BasicAction {
 
-  public EmptyAction(String url, Notification notification, Schedule schedule) {
-    super(url, notification, schedule);
+  public EmptyAction(String id, String trackId, String url, Notification notification, Schedule schedule) {
+    super(id, trackId, url, notification, schedule);
     this.actionType = ActionType.NOT_DEFINED;
   }
 
   public EmptyAction() {
-    super(null, null, null);
+    super("0", "0", "", null, null);
+    this.actionType = ActionType.NOT_DEFINED;
+  }
+
+  public EmptyAction(String id) {
+    super(id, "0", "", null, null);
     this.actionType = ActionType.NOT_DEFINED;
   }
 

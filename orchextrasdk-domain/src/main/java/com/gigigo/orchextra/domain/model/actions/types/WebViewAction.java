@@ -12,8 +12,8 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
  */
 public class WebViewAction extends BasicAction {
 
-  public WebViewAction(String url, Notification notification, Schedule schedule) {
-    super(url, notification, schedule);
+  public WebViewAction(String id, String trackId, String url, Notification notification, Schedule schedule) {
+    super(id, trackId, url, notification, schedule);
     this.actionType = ActionType.WEBVIEW;
   }
 

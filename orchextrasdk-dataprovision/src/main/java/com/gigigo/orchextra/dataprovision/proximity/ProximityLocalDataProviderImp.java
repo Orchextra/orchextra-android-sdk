@@ -74,16 +74,15 @@ public class ProximityLocalDataProviderImp implements ProximityLocalDataProvider
         return beaconsDBDataSource.storeBeaconEvent(beacon);
     }
 
-    @Override public boolean purgeOldBeaconEventsWithRequestTime(List<OrchextraBeacon> beacons,
-        int requestTime) {
-        return beaconsDBDataSource.deleteAllBeaconsInListWithTimeStampt(beacons, requestTime);
+    @Override public void purgeOldBeaconEventsWithRequestTime(int requestTime) {
+        beaconsDBDataSource.deleteAllBeaconsInListWithTimeStampt(requestTime);
     }
 
-    @Override public boolean isBeaconEventStored(OrchextraBeacon beacon) {
-        return beaconsDBDataSource.isBeaconEventStored(beacon);
+    @Override public BusinessObject<List<OrchextraBeacon>> getNotStoredBeaconEvents(List<OrchextraBeacon> beacons) {
+        return beaconsDBDataSource.getNotStoredBeaconEvents(beacons);
     }
 
-    @Override public BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion) {
+        @Override public BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion) {
         return beaconsDBDataSource.updateRegionWithActionId(orchextraRegion);
     }
 

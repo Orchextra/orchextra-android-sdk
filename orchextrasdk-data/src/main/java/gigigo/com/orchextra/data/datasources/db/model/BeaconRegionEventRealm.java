@@ -18,6 +18,7 @@ public class BeaconRegionEventRealm extends RealmObject{
   private String eventType;
   private String actionRelated;
   private boolean active;
+  private boolean actionRelatedCancelable;
   private long timeStampt;
   @PrimaryKey private String code;
 
@@ -28,6 +29,7 @@ public class BeaconRegionEventRealm extends RealmObject{
     this.minor = beaconRegionRealm.getMinor();
     this.eventType = beaconRegionRealm.getEventType();
     this.actionRelated = beaconRegionRealm.getActionRelated();
+    this.actionRelatedCancelable = beaconRegionRealm.isActionRelatedCancelable();
     this.active = beaconRegionRealm.isActive();
     timeStampt = System.currentTimeMillis();
   }
@@ -80,6 +82,14 @@ public class BeaconRegionEventRealm extends RealmObject{
 
   public void setActionRelated(String actionRelated) {
     this.actionRelated = actionRelated;
+  }
+
+  public boolean isActionRelatedCancelable() {
+    return actionRelatedCancelable;
+  }
+
+  public void setActionRelatedCancelable(boolean actionRelatedCancelable) {
+    this.actionRelatedCancelable = actionRelatedCancelable;
   }
 
   public boolean isActive() {

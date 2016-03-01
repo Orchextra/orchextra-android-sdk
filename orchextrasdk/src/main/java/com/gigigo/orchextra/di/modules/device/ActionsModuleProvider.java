@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.orchextra.device.actions.ActionRecovery;
+import com.google.gson.Gson;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -8,4 +9,5 @@ import com.gigigo.orchextra.device.actions.ActionRecovery;
  */
 public interface ActionsModuleProvider {
   ActionRecovery providesActionRecovery();
+  Gson gson();
 }

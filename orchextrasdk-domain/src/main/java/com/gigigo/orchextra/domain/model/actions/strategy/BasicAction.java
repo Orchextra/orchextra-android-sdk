@@ -2,6 +2,7 @@ package com.gigigo.orchextra.domain.model.actions.strategy;
 
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
+import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.model.actions.types.CustomAction;
 import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
@@ -16,6 +17,8 @@ import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
  */
 public abstract class BasicAction{
 
+  private String id;
+  private String trackId;
   protected ActionType actionType;
   protected URLFunctionality urlFunctionality;
   protected NotifFunctionality notifFunctionality;
@@ -23,7 +26,11 @@ public abstract class BasicAction{
 
   private String eventCode;
 
-  public BasicAction(String url, Notification notification, Schedule schedule) {
+  public BasicAction(String id, String trackId, String url, Notification notification, Schedule schedule) {
+
+    this.id = id;
+    this.trackId = trackId;
+
     this.urlFunctionality = new URLFunctionalityImpl(url);
 
     if (notification==null){
@@ -42,6 +49,14 @@ public abstract class BasicAction{
 
   public ActionType getActionType() {
     return actionType;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public String getTrackId() {
+    return trackId;
   }
 
   public void performAction(ActionDispatcher actionDispatcher) {
@@ -84,45 +99,76 @@ public abstract class BasicAction{
     this.eventCode = eventCode;
   }
 
+  public static ScheduledAction generateCancelActionHolder(String id, boolean cancelable) {
+    BasicAction action = new BasicAction.ActionBuilder()
+        .actionId(id)
+        .cancelable(cancelable)
+        .actionType(ActionType.NOT_DEFINED)
+        .build();
+    return action.getScheduledAction();
+  }
+
   public static class ActionBuilder {
 
+    private String id;
+    private String trackId;
     private ActionType actionType;
     private String url;
     private Notification notification;
     private Schedule schedule;
 
-    public ActionBuilder(ActionType actionType, String url,
+    public ActionBuilder(){}
+
+    public ActionBuilder(String id, String tid, ActionType actionType, String url,
         Notification notification, Schedule schedule) {
-      this(actionType,url,notification);
+      this(id, tid, actionType,url,notification);
       this.schedule = schedule;
     }
 
-    public ActionBuilder(ActionType actionType, String url,
+    public ActionBuilder(String id, String tid, ActionType actionType, String url,
         Notification notification) {
 
+      this.id = id;
+      this.trackId = tid;
       this.actionType = actionType;
       this.url = url;
       this.notification = notification;
     }
 
+    public ActionBuilder actionId(String id) {
+      this.id = id;
+      return this;
+    }
+
+    public ActionBuilder actionType(ActionType actionType) {
+      this.actionType = actionType;
+      return this;
+    }
+
+    public ActionBuilder cancelable(boolean cancelable) {
+      this.schedule = new Schedule(cancelable, 0);
+      return this;
+    }
+
     public BasicAction build() {
       switch (actionType){
         case BROWSER:
-          return new BrowserAction(url, notification, schedule);
+          return new BrowserAction(id, trackId, url, notification, schedule);
         case WEBVIEW:
-          return new WebViewAction(url, notification, schedule);
+          return new WebViewAction(id, trackId, url, notification, schedule);
         case SCAN:
-          return new ScanAction(url, notification, schedule);
+          return new ScanAction(id, trackId, url, notification, schedule);
         case VUFORIA_SCAN:
-          return new VuforiaScanAction(url, notification, schedule);
+          return new VuforiaScanAction(id, trackId, url, notification, schedule);
         case CUSTOM_SCHEME:
-          return new CustomAction(url, notification, schedule);
+          return new CustomAction(id, trackId, url, notification, schedule);
         case NOTIFICATION:
-          return new NotificationAction(url, notification, schedule);
+          return new NotificationAction(id, trackId, url, notification, schedule);
         case NOT_DEFINED:
         default:
-          return new EmptyAction(url, notification, schedule);
+          return new EmptyAction(id, trackId, url, notification, schedule);
       }
     }
+
   }
 }

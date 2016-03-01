@@ -4,6 +4,7 @@ import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.actions.EventAccessor;
@@ -74,32 +75,37 @@ public class BeaconEventsInteractor implements Interactor<InteractorResponse<Lis
 
 
   private InteractorResponse<List<BasicAction>> regionEventResult(BeaconEventType eventType) {
+try {
+  OrchextraRegion detectedRegion = (OrchextraRegion) data;
+  detectedRegion.setRegionEvent(eventType);
 
-    OrchextraRegion detectedRegion = (OrchextraRegion) data;
-    detectedRegion.setRegionEvent(eventType);
+  InteractorResponse response = regionCheckerService.obtainCheckedRegion(detectedRegion);
 
-    InteractorResponse response = regionCheckerService.obtainCheckedRegion(detectedRegion);
-
-    if (response.hasError()) {
-      return response;
-    }
-
-    if (eventType == BeaconEventType.REGION_EXIT) {
-      if (response.getResult() instanceof OrchextraRegion){
-        triggerActionsFacadeService.deleteScheduledActionIfExists((ScheduledActionEvent) response.getResult());
-      }
-    }
-    response = triggerActionsFacadeService.triggerActions(detectedRegion);
+  if (response.hasError()) {
     return response;
+  }
+
+  if (eventType == BeaconEventType.REGION_EXIT) {
+    if (response.getResult() instanceof OrchextraRegion) {
+      triggerActionsFacadeService.deleteScheduledActionIfExists((ScheduledActionEvent) response.getResult());
+    }
+  }
+  response = triggerActionsFacadeService.triggerActions(detectedRegion);
+  return response;
+}catch (Exception e){
+  e.printStackTrace();
+  return null;
+}
   }
 
   @Override public void updateEventWithAction(BasicAction basicAction) {
     switch (eventType){
       case REGION_ENTER:
-      case REGION_EXIT:
         OrchextraRegion detectedRegion = (OrchextraRegion) data;
-        detectedRegion.setActionRelated(basicAction.getScheduledAction().getId());
+        detectedRegion.setActionRelated(new ActionRelated(basicAction.getScheduledAction().getId(),
+            basicAction.getScheduledAction().isCancelable()));
         eventUpdaterService.associateActionToRegionEvent(detectedRegion);
+      case REGION_EXIT:
         break;
       default:
         break;

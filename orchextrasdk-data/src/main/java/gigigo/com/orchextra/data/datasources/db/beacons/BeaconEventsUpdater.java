@@ -11,6 +11,8 @@ import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -31,16 +33,22 @@ public class BeaconEventsUpdater {
     this.beaconEventRealmMapper = beaconEventRealmMapper;
   }
 
-  public boolean deleteAllBeaconsInListWithTimeStampt(Realm realm,
-      List<OrchextraBeacon> beacons, int requestTime) {
+  public void deleteAllBeaconsInListWithTimeStampt(Realm realm, int requestTime) {
 
     long timeStamptForPurge = System.currentTimeMillis() - requestTime;
     RealmResults<BeaconEventRealm> resultsToPurge = obtainPurgeResults(realm, timeStamptForPurge);
-    purgeResults(realm, resultsToPurge);
+    GGGLogImpl.log("Elements to be purged: " + resultsToPurge.size());
 
-    GGGLogImpl.log("Purge elements: " + resultsToPurge.size());
+    if (resultsToPurge.size()>0){
+      purgeResults(realm, resultsToPurge);
 
-    return obtainIfAllNewElementsHaveBeenPurged(realm, beacons);
+      if (resultsToPurge.isEmpty()){
+        GGGLogImpl.log("purge success");
+      }else{
+        GGGLogImpl.log("purge fail");
+      }
+    }
+
   }
 
   public OrchextraBeacon storeBeaconEvent(Realm realm, OrchextraBeacon beacon) {
@@ -48,7 +56,7 @@ public class BeaconEventsUpdater {
     storeElement(realm, beaconEventRealm);
 
     GGGLogImpl.log("Stored beacon event: " + beaconEventRealm.getUuid() +"_"+
-        beaconEventRealm.getMayor() +"_"+ beaconEventRealm.getMinor());
+        beaconEventRealm.getMayor() +"_"+ beaconEventRealm.getMinor() +":"+beaconEventRealm.getBeaconDistance());
 
     return beaconEventRealmMapper.externalClassToModel(beaconEventRealm);
   }
@@ -88,17 +96,20 @@ public class BeaconEventsUpdater {
         .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode()).findAll();
 
     if (results.isEmpty()){
-      GGGLogImpl.log("Required region does not Exist", LogLevel.ERROR);
+      GGGLogImpl.log("EVENT: Required region does not Exist", LogLevel.ERROR);
       throw new NoSuchElementException("Required region does not Exist");
     }else if(results.size()>1){
-      GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+      GGGLogImpl.log("EVENT: More than one region Event with same Code stored", LogLevel.ERROR);
     }else{
-      GGGLogImpl.log("Retrieved Region with id " + orchextraRegion.getCode() + " will be associated to action " + orchextraRegion.getActionRelated());
+      GGGLogImpl.log("EVENT: Retrieved Region with id " + orchextraRegion.getCode() + " will be associated to action " + orchextraRegion.getActionRelatedId());
     }
 
+    realm.beginTransaction();
     BeaconRegionEventRealm beaconRegionEventRealm = results.first();
-    beaconRegionEventRealm.setActionRelated(orchextraRegion.getActionRelated());
-    storeElement(realm, beaconRegionEventRealm);
+    beaconRegionEventRealm.setActionRelated(orchextraRegion.getActionRelatedId());
+    beaconRegionEventRealm.setActionRelatedCancelable((orchextraRegion.relatedActionIsCancelable()));
+    realm.copyToRealmOrUpdate(beaconRegionEventRealm);
+    realm.commitTransaction();
 
     return regionEventRealmMapper.externalClassToModel(beaconRegionEventRealm);
   }
@@ -108,8 +119,35 @@ public class BeaconEventsUpdater {
         timeStamptForDelete).findAll();
   }
 
-  private boolean obtainIfAllNewElementsHaveBeenPurged(Realm realm, List<OrchextraBeacon> beacons) {
+  public List<String> obtainStoredEventBeaconCodes(Realm realm, List<OrchextraBeacon> beacons) {
 
+    RealmResults<BeaconEventRealm> results = queryStoredBeaconEvents(realm, beacons);
+
+    if (results.isEmpty()){
+
+      GGGLogImpl.log("All beacons in ranging can send event,"
+          + " because they are out of request wait time");
+
+      return Collections.emptyList();
+
+    }else{
+      List<String> codes = new ArrayList<>();
+
+      for(BeaconEventRealm beaconEventRealm: results){
+        codes.add(beaconEventRealm.getCode());
+
+        GGGLogImpl.log("B.UUID:" + beaconEventRealm.getUuid() + "_" + beaconEventRealm.getMayor()
+            + "_" + beaconEventRealm.getMinor() + ":" + beaconEventRealm.getBeaconDistance() +
+            "-->still under RWT");
+
+      }
+
+      return codes;
+    }
+  }
+
+  private RealmResults<BeaconEventRealm> queryStoredBeaconEvents(Realm realm,
+      List<OrchextraBeacon> beacons) {
     RealmQuery<BeaconEventRealm> query = realm.where(BeaconEventRealm.class);
 
     for(int i = 0; i<beacons.size(); i++) {
@@ -122,19 +160,7 @@ public class BeaconEventsUpdater {
           .equalTo(BeaconEventRealm.DISTANCE_FIELD_NAME, beacons.get(i).getBeaconDistance().getStringValue());
     }
 
-    RealmResults<BeaconEventRealm> results = query.findAll();
-
-    boolean result = results.isEmpty();
-
-    if (result){
-      GGGLogImpl.log("All beacons can send event");
-    }else{
-      for(BeaconEventRealm beaconEventRealm: results){
-        GGGLogImpl.log("Beacon " + beaconEventRealm.getUuid() +"_"+ beaconEventRealm.getMayor() +"_"+ beaconEventRealm.getMinor() + "is still under time request time");
-      }
-    }
-
-    return result;
+    return query.findAll();
   }
 
   private void storeElement(Realm realm, RealmObject element) {

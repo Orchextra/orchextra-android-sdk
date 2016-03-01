@@ -11,6 +11,7 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -67,18 +68,25 @@ public class TriggerActionsFacadeService implements DomaninService {
 
   private void scheduleActions(InteractorResponse actionsResponse) {
     List<BasicAction> actions = (List<BasicAction>)actionsResponse.getResult();
-    for (BasicAction action:actions){
-      if (action.isScheduled()){
-        scheduleActionService.schedulePendingAction(action);
-        eventAccessor.updateEventWithAction(action);
+
+    for (Iterator<BasicAction> iter = actions.iterator(); iter.hasNext(); ) {
+      BasicAction basicAction = iter.next();
+
+      if (basicAction.isScheduled()){
+        scheduleActionService.schedulePendingAction(basicAction);
+        eventAccessor.updateEventWithAction(basicAction);
+        actions.remove(basicAction);
       }
+
     }
   }
 
     public void deleteScheduledActionIfExists(ScheduledActionEvent event) {
       if (event.hasActionRelated()){
-        scheduleActionService.cancelPendingActionWithId(event.getActionRelated(), false);
+        scheduleActionService.cancelPendingActionWithId(event.getActionRelatedId(),
+            event.relatedActionIsCancelable());
       }
     }
+
 
 }

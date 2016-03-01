@@ -10,6 +10,7 @@ import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
+import com.google.gson.Gson;
 import javax.inject.Inject;
 
 /**
@@ -20,6 +21,8 @@ public class OrchextraGcmTaskService extends GcmTaskService {
 
   @Inject ActionRecovery actionRecovery;
 
+  @Inject Gson gson;
+
   @Override
   public void onCreate() {
     super.onCreate();
@@ -27,14 +30,18 @@ public class OrchextraGcmTaskService extends GcmTaskService {
   }
 
   @Override public int onRunTask(TaskParams taskParams) {
+
+    GGGLogImpl.log("Executing Scheduled action " + taskParams.getTag());
+
     try{
       Bundle extras = taskParams.getExtras();
-      AndroidBasicAction androidBasicAction = (AndroidBasicAction) extras.get(ActionsSchedulerGcmImpl.BUNDLE_TASK_PARAM_NAME);
+      String stringAndroidBasicAction = extras.getString(ActionsSchedulerGcmImpl.BUNDLE_TASK_PARAM_NAME);
+      AndroidBasicAction androidBasicAction = gson.fromJson(stringAndroidBasicAction, AndroidBasicAction.class);
       actionRecovery.recoverAction(androidBasicAction);
-      GGGLogImpl.log("Service method :: onCreate");
+      GGGLogImpl.log("Scheduled action Executed and deleted " + taskParams.getTag());
       return GcmNetworkManager.RESULT_SUCCESS;
     }catch (Exception e){
-      GGGLogImpl.log("Service method :: onCreate", LogLevel.ERROR);
+      GGGLogImpl.log("Error retrieving Scheduled action", LogLevel.ERROR);
       return GcmNetworkManager.RESULT_FAILURE;
     }
   }

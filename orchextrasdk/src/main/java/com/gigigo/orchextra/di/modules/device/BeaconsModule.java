@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
@@ -29,6 +30,8 @@ import javax.inject.Singleton;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.logging.LogManager;
+import org.altbeacon.beacon.logging.Loggers;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
 /**
@@ -39,26 +42,23 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 public class BeaconsModule {
 
   @Provides @Singleton BeaconManager provideBeaconManager(ContextProvider contextProvider){
-    BeaconManager beaconManager = BeaconManager.getInstanceForApplication(contextProvider.getApplicationContext());
+    BeaconManager beaconManager = BeaconManager.getInstanceForApplication(
+        contextProvider.getApplicationContext());
 
-    BeaconManager.setDebug(false);
-
-    beaconManager.getBeaconParsers().add(new BeaconParser().
-        setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
-
-          //try{
-               //set the duration of the scan to be 1.1 seconds
-              //beaconManager.setBackgroundScanPeriod(1500l);
-              beaconManager.setBackgroundBetweenScanPeriod(23000l);//3600000l
-              //beaconManager.updateScanPeriods();
-              //beaconManager.startMonitoringBeaconsInRegion(region);
-              //beaconManager.setAndroidLScanningDisabled(true);
-
-          //}  catch (RemoteException e) {
-          //      GGGLogImpl.log("Cannot talk to service", LogLevel.ERROR);
-          //}
-
+    switchAltBeaconLogOnOff();
+    BeaconParser bp = new BeaconParser().setBeaconLayout(BuildConfig.IBEACON_LAYOUT_PARSING);
+    beaconManager.getBeaconParsers().add(bp);
     return beaconManager;
+  }
+
+  private void switchAltBeaconLogOnOff() {
+    if (BuildConfig.DEBUG){
+      LogManager.setVerboseLoggingEnabled(false);
+      LogManager.setLogger(Loggers.empty());
+    }else{
+      LogManager.setVerboseLoggingEnabled(true);
+      LogManager.setLogger(Loggers.verboseLogger());
+    }
   }
 
   @Provides @Singleton BackgroundPowerSaver BackgroundPowerSaver(ContextProvider contextProvider){

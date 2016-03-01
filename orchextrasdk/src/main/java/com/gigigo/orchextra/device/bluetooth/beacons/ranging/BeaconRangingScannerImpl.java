@@ -15,6 +15,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -30,13 +31,16 @@ import org.altbeacon.beacon.Region;
  */
 public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingScanner{
 
-  private BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType =
+  private static BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType =
       BackgroundBeaconsRangingTimeType.getType(BuildConfig.BACKGROUND_BEACONS_RANGING_TIME);
 
   private final BeaconManager beaconManager;
   private final BeaconsController beaconsController;
   private final BeaconRegionAndroidMapper beaconRegionMapper;
   private final BeaconAndroidMapper beaconAndroidMapper;
+
+  private HashMap<String, Thread> regionThreads = new HashMap<>();
+
   private boolean ranging = false;
 
   //avoid possible duplicates in region using set collection
@@ -66,12 +70,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
     if (collection.size() > 0) {
       for (Beacon beacon : collection) {
-        GGGLogImpl.log("Beacon: "
-                + beacon.getId1()
-                + " major id:"
-                + beacon.getId2()
-                + "  minor id: "
-                + beacon.getId3());
+        GGGLogImpl.log("Beacon: " + beacon.getId1() + " major id:" + beacon.getId2()
+            + "  minor id: " + beacon.getId3());
       }
     }
   }
@@ -148,18 +148,36 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   }
 
   private void initRanging(BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType) {
+
+    manageGeneralBackgroundScanTimes(backgroundBeaconsRangingTimeType);
+
     for (Region region:regions){
 
       try {
+        manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
         beaconManager.startRangingBeaconsInRegion(region);
         ranging = true;
-        if (backgroundBeaconsRangingTimeType != BackgroundBeaconsRangingTimeType.INFINITE){
-          scheduleEndOfRanging(region, backgroundBeaconsRangingTimeType.getIntValue());
-        }
       } catch (RemoteException e) {
         e.printStackTrace();
       }
 
+    }
+  }
+
+  private void manageGeneralBackgroundScanTimes(BackgroundBeaconsRangingTimeType time) {
+      if (time == BackgroundBeaconsRangingTimeType.MAX){
+        updateBackgroudScanTimes(BuildConfig.BACKGROUND_BEACONS_SCAN_TIME,
+            BuildConfig.BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME);
+      }else{
+        updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+            BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+      }
+  }
+
+  private void manageRegionBackgroundScanTime(Region region,
+      BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType) {
+    if (backgroundBeaconsRangingTimeType != BackgroundBeaconsRangingTimeType.INFINITE){
+      scheduleEndOfRanging(region, backgroundBeaconsRangingTimeType.getIntValue());
     }
   }
 
@@ -170,12 +188,13 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         try {
           Thread.sleep(duration);
           stopRangingRegion(region);
+          regionThreads.remove(region.getUniqueId());
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
       }
     });
-
+    regionThreads.put(region.getUniqueId(), t);
     t.start();
   }
 
@@ -202,12 +221,15 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     Iterator<Region> iterator = regions.iterator();
     while (iterator.hasNext()){
       try {
-        beaconManager.stopRangingBeaconsInRegion(iterator.next());
+        Region region = iterator.next();
+        beaconManager.stopRangingBeaconsInRegion(region);
+        removeScheduledEndOfRanging(region);
         iterator.remove();
       } catch (RemoteException e) {
         e.printStackTrace();
       }
     }
+    updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD, BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
     ranging = false;
     GGGLogImpl.log("Ranging stopped");
   }
@@ -220,13 +242,47 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
     try {
       beaconManager.stopRangingBeaconsInRegion(region);
-      regions.remove(region);
+      removeRangingRegion(region);
+
       GGGLogImpl.log("Ranging stopped in region: " + region.getUniqueId());
     } catch (RemoteException e) {
       e.printStackTrace();
     }
 
     checkAvailableRegions();
+  }
+
+  private void removeRangingRegion(Region region) {
+    removeScheduledEndOfRanging(region);
+    regions.remove(region);
+    if (regions.isEmpty()) {
+      updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+          BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+    }
+  }
+
+  private void removeScheduledEndOfRanging(Region region) {
+    if (regionThreads.containsKey(region.getUniqueId())){
+      Thread t = regionThreads.remove(region.getUniqueId());
+
+      if (t!=null && t.isAlive()){
+        t.interrupt();
+      }
+    }
+  }
+
+  private void updateBackgroudScanTimes(long scanPeriod, long beetweenScanPeriod) {
+    beaconManager.setBackgroundScanPeriod(scanPeriod);
+    beaconManager.setBackgroundBetweenScanPeriod(beetweenScanPeriod);
+    try {
+      beaconManager.updateScanPeriods();
+      GGGLogImpl.log("Update cycled Scan times");
+    } catch (RemoteException e) {
+      e.printStackTrace();
+      GGGLogImpl.log("Unable to update cycled Scan times", LogLevel.ERROR);
+    }
+
+
   }
 
   private void checkAvailableRegions() {

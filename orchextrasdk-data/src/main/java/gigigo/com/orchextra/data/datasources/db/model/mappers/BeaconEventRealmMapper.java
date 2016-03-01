@@ -9,7 +9,7 @@ import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class BeaconEventRealmMapper implements Mapper<OrchextraBeacon, BeaconEventRealm> {
+public class BeaconEventRealmMapper implements Mapper<OrchextraBeacon, BeaconEventRealm>{
 
   @Override public OrchextraBeacon externalClassToModel(BeaconEventRealm data) {
     OrchextraBeacon orchextraBeacon = new OrchextraBeacon(
@@ -30,6 +30,7 @@ public class BeaconEventRealmMapper implements Mapper<OrchextraBeacon, BeaconEve
     beaconEventRealm.setUuid(orchextraBeacon.getUuid());
     beaconEventRealm.setMayor(orchextraBeacon.getMayor());
     beaconEventRealm.setMinor(orchextraBeacon.getMinor());
+    beaconEventRealm.setKeyForRealm(orchextraBeacon.getCode() + orchextraBeacon.getBeaconDistance().getStringValue());
     beaconEventRealm.setBeaconDistance(orchextraBeacon.getBeaconDistance().getStringValue());
 
     return beaconEventRealm;

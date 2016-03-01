@@ -13,6 +13,7 @@ import com.gigigo.orchextra.device.actions.WebViewActionExecutor;
 import com.gigigo.orchextra.device.actions.scheduler.ActionsSchedulerGcmImpl;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidNotificationMapper;
+import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsScheduler;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
@@ -23,10 +24,12 @@ import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
 
+import com.google.gson.Gson;
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -77,9 +80,13 @@ public class ActionsModule {
   }
 
   @Singleton @Provides ActionsScheduler provideActionsScheduler(ContextProvider contextProvider,
-      FeatureListener featureListener, AndroidBasicActionMapper androidBasicActionMapper){
+      FeatureListener featureListener, AndroidBasicActionMapper androidBasicActionMapper, Gson gson){
     return new ActionsSchedulerGcmImpl(contextProvider.getApplicationContext(),
-        featureListener, androidBasicActionMapper);
+        featureListener, androidBasicActionMapper, gson);
+  }
+
+  @Singleton @Provides Gson gson(){
+    return new Gson();
   }
 
   @Singleton @Provides ActionsSchedulerPersistor provideActionsSchedulerPersistorNull(){
@@ -101,7 +108,7 @@ public class ActionsModule {
 
   @Provides
   @Singleton ActionRecovery providesActionRecovery(AndroidBasicActionMapper androidBasicActionMapper,
-      ActionDispatcher actionDispatcher){
-    return new AndroidActionRecovery(actionDispatcher, androidBasicActionMapper);
+      ActionDispatcher actionDispatcher, @MainThread ThreadSpec mainThreadSpec){
+    return new AndroidActionRecovery(actionDispatcher, androidBasicActionMapper, mainThreadSpec);
   }
 }

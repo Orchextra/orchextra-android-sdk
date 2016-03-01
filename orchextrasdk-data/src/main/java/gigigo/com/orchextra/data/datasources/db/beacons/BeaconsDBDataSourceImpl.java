@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
@@ -93,26 +94,38 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
   }
 
   /**
-   * @param beacons
    * @param requestTime
-   * @return true if empty false if there are still beacons stored after delete operation
    */
-  @Override public boolean deleteAllBeaconsInListWithTimeStampt(List<OrchextraBeacon> beacons, int requestTime) {
+  @Override public void deleteAllBeaconsInListWithTimeStampt(int requestTime) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
-    boolean allBeaconsInListWithTimeStampt = beaconEventsUpdater.deleteAllBeaconsInListWithTimeStampt(realm, beacons, requestTime);
+    beaconEventsUpdater.deleteAllBeaconsInListWithTimeStampt(realm, requestTime);
     if (realm != null) {
       realm.close();
     }
-    return allBeaconsInListWithTimeStampt;
   }
 
-  @Override public boolean isBeaconEventStored(OrchextraBeacon beacon) {
+  @Override public BusinessObject<List<OrchextraBeacon>> getNotStoredBeaconEvents(List<OrchextraBeacon> list) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
-    boolean beaconEventStored = beaconEventsReader.isBeaconEventStored(realm, beacon);
-    if (realm != null) {
-      realm.close();
+
+    try {
+      List<String> codes = beaconEventsUpdater.obtainStoredEventBeaconCodes(realm, list);
+      List<OrchextraBeacon> beacons = OrchextraBeacon.removeFromListElementsWithCodes(list, codes);
+
+      if (!beacons.isEmpty()){
+        GGGLogImpl.log("This ranging event has not discovered any new beacon event to be sent");
+      }else{
+        GGGLogImpl.log("This ranging event has " + beacons.size() + " events to be sent" );
+      }
+
+      return new BusinessObject<>(beacons, BusinessError.createOKInstance());
+
+    }catch (Exception e){
+      return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
     }
-    return beaconEventStored;
   }
 
   @Override public BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion) {
