@@ -9,6 +9,8 @@ import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConf
 import java.util.Map;
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.FieldMap;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.QueryMap;
@@ -28,6 +30,7 @@ public interface OrchextraApiService {
   @POST("configuration")
   Call<ApiConfigResponse> sendSdkConfig(@Body OrchextraApiConfigRequest configRequest);
 
-  @GET("action")
-  Call<ApiActionResponse> obtainAction(@QueryMap Map<String,String> parameters);
+  @FormUrlEncoded
+  @POST("action")
+  Call<ApiActionResponse> obtainAction(@FieldMap Map<String,String> parameters);
 }
