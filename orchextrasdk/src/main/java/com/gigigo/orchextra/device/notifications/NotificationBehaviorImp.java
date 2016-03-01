@@ -31,7 +31,8 @@ public class NotificationBehaviorImp implements NotificationBehavior {
 
     @Override
     public void dispatchNotificationAction(BasicAction action, Notification notification) {
-        if (!contextProvider.getCurrentActivity().isFinishing() &&
+        if (contextProvider.getCurrentActivity() != null &&
+                !contextProvider.getCurrentActivity().isFinishing() &&
                 appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND) {
             foregroundNotificationBuilder.setActionDispatcherListener(actionDispatcherListener);
             foregroundNotificationBuilder.buildNotification(action, notification);
