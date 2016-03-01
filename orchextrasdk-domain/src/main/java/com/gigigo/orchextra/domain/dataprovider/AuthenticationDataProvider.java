@@ -16,11 +16,12 @@ public interface AuthenticationDataProvider {
 
   BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId);
 
-  BusinessObject<Crm> retrieveCrm();
+  void clearAuthenticatedUser();
 
   BusinessObject<ClientAuthData> getCredentials();
 
-  BusinessObject<String> getCrmID();
+  BusinessObject<Crm> retrieveCrm();
 
-  void storeCrmId(String crmId);
+  boolean storeCrmId(Crm crm);
+
 }

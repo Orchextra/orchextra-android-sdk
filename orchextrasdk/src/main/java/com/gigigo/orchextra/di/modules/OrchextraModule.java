@@ -21,6 +21,8 @@ import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListener
 import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraContextProvider;
+import com.gigigo.orchextra.sdk.model.OrcGenderConverter;
+import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
 
 import javax.inject.Singleton;
 
@@ -36,7 +38,7 @@ public class OrchextraModule {
 
   private final Context context;
   private final OrchextraCompletionCallback orchextraCompletionCallback;
-  private CustomSchemeReceiver customSchemeReceiver;
+
   private CustomSchemeReceiverContainer customSchemeReceiverContainer;
 
   public OrchextraModule(Context context, OrchextraCompletionCallback orchextraCompletionCallback) {
@@ -111,6 +113,14 @@ public class OrchextraModule {
 
   @Singleton @Provides OrchextraModule provideOrchextraModule(){
     return this;
+  }
+
+  @Singleton @Provides OrcGenderConverter provideOrcGenderConverter() {
+    return new OrcGenderConverter();
+  }
+
+  @Singleton @Provides OrcUserToCrmConverter provideOrcUserToCrmConverter(OrcGenderConverter orcGenderConverter) {
+    return new OrcUserToCrmConverter(orcGenderConverter);
   }
 
   public void setCustomSchemeReceiver(CustomSchemeReceiver customSchemeReceiver) {

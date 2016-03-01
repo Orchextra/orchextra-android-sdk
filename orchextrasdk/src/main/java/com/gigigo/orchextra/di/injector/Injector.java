@@ -10,8 +10,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
-import com.gigigo.orchextra.delegates.AuthenticationDelegateImpl;
-import com.gigigo.orchextra.di.components.DelegateComponent;
 import com.gigigo.orchextra.di.components.ServiceComponent;
 import com.gigigo.orchextra.di.components.TaskServiceComponent;
 import java.util.List;

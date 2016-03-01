@@ -56,4 +56,29 @@ public class Crm {
     this.keywords = keywords;
   }
 
+  public boolean isEquals(String crmId) {
+    if (this.crmId == null) {
+      return crmId == null;
+    } else {
+      return this.crmId.equals(crmId);
+    }
+  }
+
+  public boolean isEquals(Crm crm) {
+    boolean listIsEquals = true;
+
+    if (keywords.size() != crm.keywords.size()) {
+      listIsEquals = false;
+    } else {
+      for (int i = 0; i < keywords.size(); i++) {
+        if (!keywords.get(i).equals(crm.getKeywords().get(i))) {
+          listIsEquals = false;
+        }
+      }
+    }
+
+    return gender.equals(crm.gender) &&
+            birthDate.equals(crm.birthDate) &&
+            listIsEquals;
+  }
 }

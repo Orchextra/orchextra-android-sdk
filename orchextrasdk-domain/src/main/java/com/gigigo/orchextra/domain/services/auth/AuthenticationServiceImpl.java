@@ -1,17 +1,19 @@
 package com.gigigo.orchextra.domain.services.auth;
 
+import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
-import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
-import com.gigigo.orchextra.domain.services.auth.errors.SdkAuthError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
+import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
+import com.gigigo.orchextra.domain.services.auth.errors.SdkAuthError;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -33,13 +35,32 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   @Override
   public InteractorResponse authenticate(){
-    BusinessObject<String> crmId = authDataProvider.getCrmID();
-    return authenticate(crmId.getData());
+    BusinessObject<Crm> boCrm = authDataProvider.retrieveCrm();
+
+    String crmId = null;
+    if (boCrm.isSuccess()) {
+      crmId = boCrm.getData().getCrmId();
+    }
+    return authenticate(crmId);
   }
 
   @Override
   public InteractorResponse authenticateUserWithCrmId(String crmId){
     return authenticate(crmId);
+  }
+
+  @Override
+  public BusinessObject<Crm> saveUser(Crm crm) {
+    BusinessObject<Crm> boCrm = authDataProvider.retrieveCrm();
+
+    if (boCrm.isSuccess() && !boCrm.getData().isEquals(crm.getCrmId())) {
+      authDataProvider.storeCrmId(crm);
+      authDataProvider.clearAuthenticatedUser();
+      return new BusinessObject<>(null, BusinessError.createKoInstance("Crm has changed"));
+    }
+
+    authDataProvider.storeCrmId(crm);
+    return new BusinessObject<>(crm, BusinessError.createOKInstance());
   }
 
   private InteractorResponse authenticate(String crmId) {

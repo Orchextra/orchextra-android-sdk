@@ -54,22 +54,20 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
     return sessionToken;
   }
 
-  private void saveCrmId(String crmId) {
-    if (crmId != null) {
-      Crm crm = sessionDBDataSource.getCrm().getData();
-
-      if (crm == null) {
-        crm = new Crm();
-      }
-
-      crm.setCrmId(crmId);
-      sessionDBDataSource.saveUser(crm);
-    }
+  @Override
+  public void clearAuthenticatedUser() {
+    sessionDBDataSource.clearAuthenticatedUser();
   }
 
-  @Override
-  public BusinessObject<Crm> retrieveCrm() {
-    return sessionDBDataSource.getCrm();
+  private void saveCrmId(String crmId) {
+    Crm crm = sessionDBDataSource.getCrm().getData();
+
+    if (crm == null) {
+      crm = new Crm();
+    }
+
+    crm.setCrmId(crmId);
+    sessionDBDataSource.saveUser(crm);
   }
 
   @Override
@@ -77,18 +75,12 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
     return sessionDBDataSource.getSessionToken();
   }
 
-  @Override public BusinessObject<String> getCrmID() {
-
-    BusinessObject<Crm> bo = sessionDBDataSource.getCrm();
-
-    if (bo.isSuccess()){
-      return new BusinessObject<>(bo.getData().getCrmId(), bo.getBusinessError());
-    }
-
-    return new BusinessObject<>(null, bo.getBusinessError());
+  @Override
+  public BusinessObject<Crm> retrieveCrm() {
+    return sessionDBDataSource.getCrm();
   }
 
-  @Override public void storeCrmId(String crmId) {
-    sessionDBDataSource.saveUserId(crmId);
+  @Override public boolean storeCrmId(Crm crm) {
+    return sessionDBDataSource.storeCrm(crm);
   }
 }

@@ -108,7 +108,7 @@ public class SessionUpdater {
     realm.copyToRealmOrUpdate(crmRealm);
   }
 
-  public void updateCrmID(Realm realm, String crmId) {
+  public void updateCrm(Realm realm, String crmId) {
 
     CrmRealm realmItem = getRealmItem(realm, CrmRealm.class);
 

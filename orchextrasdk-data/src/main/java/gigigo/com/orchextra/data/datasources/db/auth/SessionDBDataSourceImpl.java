@@ -13,6 +13,7 @@ import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
+import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
 
@@ -161,7 +162,7 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
-      Crm crm = sessionReader.readCrmId(realm);
+      Crm crm = sessionReader.readCrm(realm);
       return new BusinessObject(crm, BusinessError.createOKInstance());
     }catch (NotFountRealmObjectException | RealmException | NullPointerException re ){
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
@@ -172,12 +173,12 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     }
   }
 
-  @Override public boolean saveUserId(String crmId) {
+  @Override public boolean storeCrm(Crm crm) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
-      sessionUpdater.updateCrmID(realm, crmId);
+      sessionUpdater.updateCrm(realm, crm);
     }catch (RealmException re){
       return false;
     }finally {
@@ -187,6 +188,22 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
       }
     }
     return true;
+  }
+
+  @Override
+  public void clearAuthenticatedUser() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    try {
+      realm.beginTransaction();
+      realm.clear(ClientAuthRealm.class);
+    } catch (RealmException re) {
+
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+    }
   }
 
 }

@@ -22,5 +22,7 @@ public interface SessionDBDataSource {
   BusinessObject<SdkAuthData> getDeviceToken();
   BusinessObject<Crm> getCrm();
 
-  boolean saveUserId(String crmId);
+  boolean storeCrm(Crm crm);
+
+  void clearAuthenticatedUser();
 }

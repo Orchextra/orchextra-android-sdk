@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.di.modules.control;
 
-import com.gigigo.orchextra.control.controllers.authentication.AuthenticationController;
+import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
@@ -15,8 +15,8 @@ import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
-
 import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
+
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -49,12 +49,13 @@ public class ControlModule {
     return new ConfigController(backThreadSpec, interactorInvoker, sendConfigInteractorProvider, configObservable);
   }
 
-  @Provides @Singleton AuthenticationController provideAuthenticationController(
+  @Provides @Singleton
+  SaveUserController provideAuthenticationController(
       InteractorInvoker interactorInvoker,
       @SaveUserInteractorExecution Provider<InteractorExecution> interactorExecutionProvider,
-      @MainThread ThreadSpec backThreadSpec){
+      @MainThread ThreadSpec backThreadSpec, ConfigObservable configObservable){
 
-    return new AuthenticationController(interactorInvoker, interactorExecutionProvider, backThreadSpec);
+    return new SaveUserController(interactorInvoker, interactorExecutionProvider, backThreadSpec, configObservable);
   }
 
   @Singleton @Provides @MainThread ThreadSpec provideMainThread(){

@@ -1,19 +1,19 @@
 package com.gigigo.orchextra.control.controllers.authentication;
 
 import com.gigigo.orchextra.control.controllers.base.Delegate;
-import me.panavtec.threaddecoratedview.views.qualifiers.NotDecorated;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+
 import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 4/12/15.
  */
-@ThreadDecoratedView public interface AuthenticationDelegate extends Delegate {
+@ThreadDecoratedView public interface SaveUserDelegate extends Delegate {
 
-  void authenticationSuccessful();
+  void saveUserSuccessful();
 
-  void authenticationError();
+  void saveUserError();
 
-  void authenticationException();
-
+  void saveUser(Crm crm);
 }

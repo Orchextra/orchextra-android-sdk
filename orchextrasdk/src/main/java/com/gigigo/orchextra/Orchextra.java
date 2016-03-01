@@ -3,14 +3,19 @@ package com.gigigo.orchextra;
 import android.app.Application;
 import android.content.Context;
 
-import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
-import com.gigigo.orchextra.domain.model.entities.authentication.Session;
-import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
+import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
+import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraCompletionCallback;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
+import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
+import com.gigigo.orchextra.sdk.model.ORCUser;
+import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
+
 import javax.inject.Inject;
 
 /**
@@ -28,6 +33,12 @@ public class Orchextra {
   @Inject
   Session session;
 
+  @Inject
+  OrcUserToCrmConverter orcUserToCrmConverter;
+
+  @Inject
+  SaveUserController saveUserController;
+
   private void initDependencyInjection(Context applicationContext, OrchextraCompletionCallback orchextraCompletionCallback) {
     OrchextraComponent orchextraComponent = DaggerOrchextraComponent.builder()
         .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback))
@@ -40,7 +51,6 @@ public class Orchextra {
       String apiSecret, OrchextraCompletionCallback orchextraCompletionCallback) {
     Orchextra.instance = new Orchextra();
     Orchextra.instance.init(application, orchextraCompletionCallback, apiKey, apiSecret);
-    //Orchextra.instance.start(apiKey, apiSecret);
   }
 
   private void init(Application application, OrchextraCompletionCallback orchextraCompletionCallback,
@@ -64,13 +74,13 @@ public class Orchextra {
     orchextraModule.setCustomSchemeReceiver(customSchemeReceiver);
   }
 
-  //private void start(String apiKey, String apiSecret) {
-  //  saveUser(apiKey, apiSecret);
-  //}
-  //
-  //private void saveUser(String apiKey, String apiSecret) {
-  //  AuthenticationDelegateImpl.saveUser(apiKey, apiSecret);
-  //}
+  public static synchronized void setUser(ORCUser user) {
+    OrcUserToCrmConverter orcUserToCrmConverter = Orchextra.instance.orcUserToCrmConverter;
+    SaveUserController saveUserController = Orchextra.instance.saveUserController;
+
+    Crm crm = orcUserToCrmConverter.convertOrcUserToCrm(user);
+    saveUserController.saveUser(crm);
+  }
 
   public static InjectorImpl getInjector() {
     return Orchextra.instance.injector;

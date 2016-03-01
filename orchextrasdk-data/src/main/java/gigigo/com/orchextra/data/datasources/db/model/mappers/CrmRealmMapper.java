@@ -3,10 +3,9 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
-import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
-import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.GenderType;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+
 import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
 
 /**
@@ -25,10 +24,19 @@ public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
     CrmRealm crmRealm = new CrmRealm();
 
     if (crm != null) {
-      crmRealm.setKeywords(keyWordRealmMapper.stringKeyWordsToRealmList(crm.getKeywords()));
-      crmRealm.setBirthDate(
-              DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT));
-      crmRealm.setCrmId(crm.getCrmId());
+      if (crm.getKeywords() != null) {
+        crmRealm.setKeywords(keyWordRealmMapper.stringKeyWordsToRealmList(crm.getKeywords()));
+      }
+
+      if (crm.getBirthDate() != null) {
+        crmRealm.setBirthDate(
+                DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT));
+      }
+
+      if (crm.getCrmId() != null) {
+        crmRealm.setCrmId(crm.getCrmId());
+      }
+
       if (crm.getGender() != null) {
         crmRealm.setGender(crm.getGender().getStringValue());
       }

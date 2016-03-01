@@ -55,7 +55,7 @@ public class SessionReader {
       }
   }
 
-    public Crm readCrmId(Realm realm) {
+    public Crm readCrm(Realm realm) {
       RealmResults<CrmRealm> crmRealm = realm.where(CrmRealm.class).findAll();
       if (crmRealm.size() > 0) {
           GGGLogImpl.log("CRM_ID found");
