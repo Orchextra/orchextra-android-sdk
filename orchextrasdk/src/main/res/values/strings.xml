@@ -7,5 +7,6 @@
   <string name="ox_permission_rationale_message_location">App needs the device location</string>
   <string name="ox_accept_text">Aceptar</string>
   <string name="ox_cancel_text">Cancelar</string>
+  <string name="google_app_id">12132323423</string> <!--//TODO FAKE, Change this-->
 
 </resources>
