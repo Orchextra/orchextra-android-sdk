@@ -14,16 +14,12 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.LifeCycleAccessor;
 import java.util.Iterator;
 import java.util.Stack;
 
-/*
-  * TODO: Dev note: would be nice refactor this class by splitting state and behavior
- */
-
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 18/1/16.
  */
-public class OrchextraActivityLifecycle implements Application.ActivityLifecycleCallbacks,
-    LifeCycleAccessor {
+public class OrchextraActivityLifecycle
+    implements Application.ActivityLifecycleCallbacks, LifeCycleAccessor {
 
   private final NotificationDispatcher notificationDispatcher;
   private final AppStatusEventsListener appStatusEventsListener;
@@ -31,54 +27,31 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
 
   public OrchextraActivityLifecycle(AppStatusEventsListener listener,
-                        NotificationDispatcher notificationDispatcher) {
+      NotificationDispatcher notificationDispatcher) {
     this.appStatusEventsListener = listener;
     this.notificationDispatcher = notificationDispatcher;
   }
 
-  private void prinStatusOfStack(String s) {
-    GGGLogImpl.log("STACK Status :: " + s);
-    GGGLogImpl.log("STACK Status :: Elements in Stack :" + activityStack.size());
-    for (int i = 0; i<activityStack.size(); i++){
-      GGGLogImpl.log("STACK Status :: Activity " + i +
-          " Stopped: " + activityStack.get(i).isStopped() +
-          " Paused: " + activityStack.get(i).isPaused() +
-          " Has Context: " + (activityStack.get(i).getActivity()!=null) +
-          " Activity Context: " + activityStack.get(i).getActivity());
-    }
-
-    GGGLogImpl.log("STACK Status :: Lifecycle, Is app in Background: " + isInBackground());
-
-    GGGLogImpl.log("STACK Status :: isActivityContextAvailable: " + isActivityContextAvailable());
-
-    GGGLogImpl.log("STACK Status :: getCurrentActivity: " + getCurrentActivity());
-
-    GGGLogImpl.log("------------- STACK Status ---------------");
+  @Override public boolean isInBackground() {
+    return activityStack.isEmpty();
   }
 
-  //region Activity lifecycle Management
-
-  @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {}
+  @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+  }
 
   @Override public void onActivityStarted(Activity activity) {
 
     boolean wasInBackground = activityStack.empty();
+    if (wasInBackground) {
+      appStatusEventsListener.onBackgroundEnd();
+    }
 
-    //try {
-      if (wasInBackground){
-        appStatusEventsListener.onBackgroundEnd();
-      }
-
-      this.activityStack.push(new ActivityLifecyleWrapper(activity, true, false));
-      notificationDispatcher.manageBackgroundNotification(activity);
-
-      if (wasInBackground) {
-        startForegroundMode();
-      }
-  }
-
-  private void startForegroundMode() {
-    appStatusEventsListener.onForegroundStart();
+    this.activityStack.push(new ActivityLifecyleWrapper(activity, true, false));
+    notificationDispatcher.manageBackgroundNotification(activity);
+    
+    if (wasInBackground) {
+      startForegroundMode();
+    }
   }
 
   @Override public void onActivityResumed(Activity activity) {
@@ -113,26 +86,14 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
     }
   }
 
-  private void removeActivityFromStack(Activity activity) {
-    Iterator<ActivityLifecyleWrapper> iter = activityStack.iterator();
-      while (iter.hasNext()) {
-        ActivityLifecyleWrapper activityLifecyleWrapper = iter.next();
-        if (activityLifecyleWrapper.getActivity().equals(activity)) {
-          activityStack.remove(activityLifecyleWrapper);
-        }
-      }
+  @Override public void onActivityDestroyed(Activity activity) {
   }
-
-  private void setBackgroundModeIfNeeded() {
-    //Note that when last paused activity is null means app is in background
-    if (activityStack.empty()) {
-      appStatusEventsListener.onBackgroundStart();
-    }
-  }
-
-  @Override public void onActivityDestroyed(Activity activity) {}
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+  }
+
+  public boolean isActivityContextAvailable() {
+    return (getCurrentActivity() != null);
   }
 
   public AppStatusEventsListener getAppStatusEventsListener() {
@@ -141,14 +102,14 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
 
   public Activity getCurrentActivity() {
 
-    for (ActivityLifecyleWrapper activityLifecyleWrapper: activityStack){
-      if (!activityLifecyleWrapper.isPaused()){
+    for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
+      if (!activityLifecyleWrapper.isPaused()) {
         return activityLifecyleWrapper.getActivity();
       }
     }
 
-    for (ActivityLifecyleWrapper activityLifecyleWrapper: activityStack){
-      if (!activityLifecyleWrapper.isStopped()){
+    for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
+      if (!activityLifecyleWrapper.isStopped()) {
         return activityLifecyleWrapper.getActivity();
       }
     }
@@ -156,15 +117,43 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
     return null;
   }
 
-  public boolean isActivityContextAvailable() {
-    return (getCurrentActivity() != null);
+  private void removeActivityFromStack(Activity activity) {
+    Iterator<ActivityLifecyleWrapper> iter = activityStack.iterator();
+    while (iter.hasNext()) {
+      ActivityLifecyleWrapper activityLifecyleWrapper = iter.next();
+      if (activityLifecyleWrapper.getActivity().equals(activity)) {
+        activityStack.remove(activityLifecyleWrapper);
+      }
+    }
   }
 
-  @Override public boolean isInBackground() {
-    return activityStack.isEmpty();
+  private void setBackgroundModeIfNeeded() {
+    if (activityStack.empty()) {
+      appStatusEventsListener.onBackgroundStart();
+    }
   }
 
-  //endregion
+  private void startForegroundMode() {
+    appStatusEventsListener.onForegroundStart();
+  }
 
-  //endregion
+  private void prinStatusOfStack(String s) {
+    GGGLogImpl.log("STACK Status :: " + s);
+    GGGLogImpl.log("STACK Status :: Elements in Stack :" + activityStack.size());
+    for (int i = 0; i < activityStack.size(); i++) {
+      GGGLogImpl.log("STACK Status :: Activity " + i +
+          " Stopped: " + activityStack.get(i).isStopped() +
+          " Paused: " + activityStack.get(i).isPaused() +
+          " Has Context: " + (activityStack.get(i).getActivity() != null) +
+          " Activity Context: " + activityStack.get(i).getActivity());
+    }
+
+    GGGLogImpl.log("STACK Status :: Lifecycle, Is app in Background: " + isInBackground());
+
+    GGGLogImpl.log("STACK Status :: isActivityContextAvailable: " + isActivityContextAvailable());
+
+    GGGLogImpl.log("STACK Status :: getCurrentActivity: " + getCurrentActivity());
+
+    GGGLogImpl.log("------------- STACK Status ---------------");
+  }
 }
