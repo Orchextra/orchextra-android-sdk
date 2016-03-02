@@ -7,7 +7,7 @@ import com.gigigo.orchextra.domain.model.StringValueEnum;
  * Date 2/2/16.
  */
 public enum FeatureType implements StringValueEnum {
-  BEACONS ("BEACONS"),
+  BEACONS("BEACONS"),
   GOOGLE_PLAY_SERVICES("GOOGLE PLAY SERVICES");
 
   private final String type;

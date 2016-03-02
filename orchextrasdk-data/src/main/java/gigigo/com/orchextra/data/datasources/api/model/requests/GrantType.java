@@ -5,16 +5,16 @@ package gigigo.com.orchextra.data.datasources.api.model.requests;
  * Date 14/12/15.
  */
 public enum GrantType {
-    AUTH_SDK("auth_sdk"),
-    AUTH_USER("auth_user");
+  AUTH_SDK("auth_sdk"),
+  AUTH_USER("auth_user");
 
-    private final String text;
+  private final String text;
 
-    GrantType(final String text) {
-      this.text = text;
-    }
+  GrantType(final String text) {
+    this.text = text;
+  }
 
-    public String getStringValue() {
-      return text;
-    }
+  public String getStringValue() {
+    return text;
+  }
 }

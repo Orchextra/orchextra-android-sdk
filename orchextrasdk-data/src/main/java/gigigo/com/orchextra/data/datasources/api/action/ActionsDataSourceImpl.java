@@ -1,13 +1,13 @@
 package gigigo.com.orchextra.data.datasources.api.action;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
-import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.actions.datasource.ActionsDataSource;
-import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import java.util.Map;
@@ -41,10 +41,10 @@ public class ActionsDataSourceImpl implements ActionsDataSource {
 
     Map<String, String> queryParams = actionQueryParamsMapper.modelToExternalClass(actionCriteria);
 
-    ApiGenericResponse apiGenericResponse = serviceExecutor.executeNetworkServiceConnection(
-        ApiActionResponse.class, orchextraApiService.obtainAction(queryParams));
+    ApiGenericResponse apiGenericResponse =
+        serviceExecutor.executeNetworkServiceConnection(ApiActionResponse.class,
+            orchextraApiService.obtainAction(queryParams));
 
     return actionResponseMapper.mapApiGenericResponseToBusiness(apiGenericResponse);
   }
-
 }

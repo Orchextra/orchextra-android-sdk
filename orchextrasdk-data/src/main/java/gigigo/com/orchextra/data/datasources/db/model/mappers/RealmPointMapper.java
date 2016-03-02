@@ -23,5 +23,4 @@ public class RealmPointMapper implements Mapper<OrchextraPoint, RealmPoint> {
     point.setLng(realmPoint.getLng());
     return point;
   }
-
 }

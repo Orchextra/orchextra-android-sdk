@@ -15,7 +15,7 @@ import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
  * Created by Sergio Martinez Rodriguez
  * Date 18/12/15.
  */
-public abstract class BasicAction{
+public abstract class BasicAction {
 
   private String id;
   private String trackId;
@@ -26,25 +26,25 @@ public abstract class BasicAction{
 
   private String eventCode;
 
-  public BasicAction(String id, String trackId, String url, Notification notification, Schedule schedule) {
+  public BasicAction(String id, String trackId, String url, Notification notification,
+      Schedule schedule) {
 
     this.id = id;
     this.trackId = trackId;
 
     this.urlFunctionality = new URLFunctionalityImpl(url);
 
-    if (notification==null){
+    if (notification == null) {
       this.notifFunctionality = new EmptyNotifFunctionalityImpl();
-    }else{
+    } else {
       this.notifFunctionality = new NotifFunctionalityImpl(notification);
     }
 
-    if (schedule==null){
+    if (schedule == null) {
       this.scheduleFunctionality = new EmptyScheduleFunctionalityImpl();
-    }else{
+    } else {
       this.scheduleFunctionality = new ScheduleFunctionalityImpl(schedule);
     }
-
   }
 
   public ActionType getActionType() {
@@ -60,10 +60,10 @@ public abstract class BasicAction{
   }
 
   public void performAction(ActionDispatcher actionDispatcher) {
-    if (notifFunctionality.isSupported()){
+    if (notifFunctionality.isSupported()) {
       notifFunctionality.getNotification().setShown(true);
       performNotifAction(actionDispatcher);
-    }else{
+    } else {
       performSimpleAction(actionDispatcher);
     }
   }
@@ -73,9 +73,9 @@ public abstract class BasicAction{
   }
 
   public ScheduledActionImpl getScheduledAction() {
-    if (scheduleFunctionality.isSupported()){
+    if (scheduleFunctionality.isSupported()) {
       return new ScheduledActionImpl(this);
-    }else{
+    } else {
       throw new UnsupportedOperationException();
     }
   }
@@ -89,6 +89,7 @@ public abstract class BasicAction{
   }
 
   protected abstract void performSimpleAction(ActionDispatcher actionDispatcher);
+
   protected abstract void performNotifAction(ActionDispatcher actionDispatcher);
 
   public String getEventCode() {
@@ -100,8 +101,7 @@ public abstract class BasicAction{
   }
 
   public static ScheduledAction generateCancelActionHolder(String id, boolean cancelable) {
-    BasicAction action = new BasicAction.ActionBuilder()
-        .actionId(id)
+    BasicAction action = new BasicAction.ActionBuilder().actionId(id)
         .cancelable(cancelable)
         .actionType(ActionType.NOT_DEFINED)
         .build();
@@ -117,11 +117,12 @@ public abstract class BasicAction{
     private Notification notification;
     private Schedule schedule;
 
-    public ActionBuilder(){}
+    public ActionBuilder() {
+    }
 
     public ActionBuilder(String id, String tid, ActionType actionType, String url,
         Notification notification, Schedule schedule) {
-      this(id, tid, actionType,url,notification);
+      this(id, tid, actionType, url, notification);
       this.schedule = schedule;
     }
 
@@ -151,7 +152,7 @@ public abstract class BasicAction{
     }
 
     public BasicAction build() {
-      switch (actionType){
+      switch (actionType) {
         case BROWSER:
           return new BrowserAction(id, trackId, url, notification, schedule);
         case WEBVIEW:
@@ -169,6 +170,5 @@ public abstract class BasicAction{
           return new EmptyAction(id, trackId, url, notification, schedule);
       }
     }
-
   }
 }

@@ -7,5 +7,4 @@ package com.gigigo.orchextra.domain.abstractions.beacons;
 public interface BluetoothStatusListener {
 
   void onBluetoothStatus(BluetoothStatus bluetoothStatus);
-
 }

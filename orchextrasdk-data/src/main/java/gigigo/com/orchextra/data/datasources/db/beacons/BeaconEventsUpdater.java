@@ -25,8 +25,7 @@ public class BeaconEventsUpdater {
   private final Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper;
   private final Mapper<OrchextraBeacon, BeaconEventRealm> beaconEventRealmMapper;
 
-  public BeaconEventsUpdater(
-      Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper,
+  public BeaconEventsUpdater(Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper,
       Mapper<OrchextraBeacon, BeaconEventRealm> beaconEventRealmMapper) {
 
     this.regionEventRealmMapper = regionEventRealmMapper;
@@ -39,31 +38,37 @@ public class BeaconEventsUpdater {
     RealmResults<BeaconEventRealm> resultsToPurge = obtainPurgeResults(realm, timeStamptForPurge);
     GGGLogImpl.log("Elements to be purged: " + resultsToPurge.size());
 
-    if (resultsToPurge.size()>0){
+    if (resultsToPurge.size() > 0) {
       purgeResults(realm, resultsToPurge);
 
-      if (resultsToPurge.isEmpty()){
+      if (resultsToPurge.isEmpty()) {
         GGGLogImpl.log("purge success");
-      }else{
+      } else {
         GGGLogImpl.log("purge fail");
       }
     }
-
   }
 
   public OrchextraBeacon storeBeaconEvent(Realm realm, OrchextraBeacon beacon) {
     BeaconEventRealm beaconEventRealm = beaconEventRealmMapper.modelToExternalClass(beacon);
     storeElement(realm, beaconEventRealm);
 
-    GGGLogImpl.log("Stored beacon event: " + beaconEventRealm.getUuid() +"_"+
-        beaconEventRealm.getMayor() +"_"+ beaconEventRealm.getMinor() +":"+beaconEventRealm.getBeaconDistance());
+    GGGLogImpl.log("Stored beacon event: "
+        + beaconEventRealm.getUuid()
+        + "_"
+        +
+        beaconEventRealm.getMayor()
+        + "_"
+        + beaconEventRealm.getMinor()
+        + ":"
+        + beaconEventRealm.getBeaconDistance());
 
     return beaconEventRealmMapper.externalClassToModel(beaconEventRealm);
   }
 
   public OrchextraRegion storeRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
-    BeaconRegionEventRealm beaconRegionEventRealm = regionEventRealmMapper.modelToExternalClass(
-        orchextraRegion);
+    BeaconRegionEventRealm beaconRegionEventRealm =
+        regionEventRealmMapper.modelToExternalClass(orchextraRegion);
     storeElement(realm, beaconRegionEventRealm);
     GGGLogImpl.log("Stored region event with code " + orchextraRegion.getCode());
     return regionEventRealmMapper.externalClassToModel(beaconRegionEventRealm);
@@ -72,16 +77,19 @@ public class BeaconEventsUpdater {
   public OrchextraRegion deleteRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
 
     RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
-        .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode()).findAll();
+        .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
+        .findAll();
 
-    if (results.size()>1){
-        GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
-    }else if (results.size()==0){
-        GGGLogImpl.log("Region candidate to be deleted: " +  orchextraRegion.getCode() + "Was not previously registered");
+    if (results.size() > 1) {
+      GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+    } else if (results.size() == 0) {
+      GGGLogImpl.log("Region candidate to be deleted: "
+          + orchextraRegion.getCode()
+          + "Was not previously registered");
     }
 
-    OrchextraRegion orchextraRegionDeleted = regionEventRealmMapper.externalClassToModel(
-        results.first());
+    OrchextraRegion orchextraRegionDeleted =
+        regionEventRealmMapper.externalClassToModel(results.first());
 
     purgeResults(realm, results);
 
@@ -93,21 +101,26 @@ public class BeaconEventsUpdater {
   public OrchextraRegion addActionToRegion(Realm realm, OrchextraRegion orchextraRegion) {
 
     RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
-        .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode()).findAll();
+        .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
+        .findAll();
 
-    if (results.isEmpty()){
+    if (results.isEmpty()) {
       GGGLogImpl.log("EVENT: Required region does not Exist", LogLevel.ERROR);
       throw new NoSuchElementException("Required region does not Exist");
-    }else if(results.size()>1){
+    } else if (results.size() > 1) {
       GGGLogImpl.log("EVENT: More than one region Event with same Code stored", LogLevel.ERROR);
-    }else{
-      GGGLogImpl.log("EVENT: Retrieved Region with id " + orchextraRegion.getCode() + " will be associated to action " + orchextraRegion.getActionRelatedId());
+    } else {
+      GGGLogImpl.log("EVENT: Retrieved Region with id "
+          + orchextraRegion.getCode()
+          + " will be associated to action "
+          + orchextraRegion.getActionRelatedId());
     }
 
     realm.beginTransaction();
     BeaconRegionEventRealm beaconRegionEventRealm = results.first();
     beaconRegionEventRealm.setActionRelated(orchextraRegion.getActionRelatedId());
-    beaconRegionEventRealm.setActionRelatedCancelable((orchextraRegion.relatedActionIsCancelable()));
+    beaconRegionEventRealm.setActionRelatedCancelable(
+        (orchextraRegion.relatedActionIsCancelable()));
     realm.copyToRealmOrUpdate(beaconRegionEventRealm);
     realm.commitTransaction();
 
@@ -115,31 +128,37 @@ public class BeaconEventsUpdater {
   }
 
   private RealmResults<BeaconEventRealm> obtainPurgeResults(Realm realm, long timeStamptForDelete) {
-    return realm.where(BeaconEventRealm.class).lessThan(BeaconEventRealm.TIMESTAMPT_FIELD_NAME,
-        timeStamptForDelete).findAll();
+    return realm.where(BeaconEventRealm.class)
+        .lessThan(BeaconEventRealm.TIMESTAMPT_FIELD_NAME, timeStamptForDelete)
+        .findAll();
   }
 
   public List<String> obtainStoredEventBeaconCodes(Realm realm, List<OrchextraBeacon> beacons) {
 
     RealmResults<BeaconEventRealm> results = queryStoredBeaconEvents(realm, beacons);
 
-    if (results.isEmpty()){
+    if (results.isEmpty()) {
 
-      GGGLogImpl.log("All beacons in ranging can send event,"
-          + " because they are out of request wait time");
+      GGGLogImpl.log(
+          "All beacons in ranging can send event," + " because they are out of request wait time");
 
       return Collections.emptyList();
-
-    }else{
+    } else {
       List<String> codes = new ArrayList<>();
 
-      for(BeaconEventRealm beaconEventRealm: results){
+      for (BeaconEventRealm beaconEventRealm : results) {
         codes.add(beaconEventRealm.getCode());
 
-        GGGLogImpl.log("B.UUID:" + beaconEventRealm.getUuid() + "_" + beaconEventRealm.getMayor()
-            + "_" + beaconEventRealm.getMinor() + ":" + beaconEventRealm.getBeaconDistance() +
+        GGGLogImpl.log("B.UUID:"
+            + beaconEventRealm.getUuid()
+            + "_"
+            + beaconEventRealm.getMayor()
+            + "_"
+            + beaconEventRealm.getMinor()
+            + ":"
+            + beaconEventRealm.getBeaconDistance()
+            +
             "-->still under RWT");
-
       }
 
       return codes;
@@ -150,14 +169,15 @@ public class BeaconEventsUpdater {
       List<OrchextraBeacon> beacons) {
     RealmQuery<BeaconEventRealm> query = realm.where(BeaconEventRealm.class);
 
-    for(int i = 0; i<beacons.size(); i++) {
+    for (int i = 0; i < beacons.size(); i++) {
 
-      if (i>0){
+      if (i > 0) {
         query = query.or();
       }
 
       query = query.equalTo(BeaconEventRealm.CODE_FIELD_NAME, beacons.get(i).getCode())
-          .equalTo(BeaconEventRealm.DISTANCE_FIELD_NAME, beacons.get(i).getBeaconDistance().getStringValue());
+          .equalTo(BeaconEventRealm.DISTANCE_FIELD_NAME,
+              beacons.get(i).getBeaconDistance().getStringValue());
     }
 
     return query.findAll();

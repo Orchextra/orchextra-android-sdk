@@ -26,7 +26,7 @@ public class ActionsSchedulerControllerImpl implements ActionsSchedulerControlle
   @Override public void cancelPendingActionWithId(String id, boolean forceCancel) {
     ScheduledAction action = actionsSchedulerPersistor.getScheduledActionWithId(id);
 
-    if (action == null){
+    if (action == null) {
       action = BasicAction.generateCancelActionHolder(id, forceCancel);
     }
 
@@ -40,16 +40,17 @@ public class ActionsSchedulerControllerImpl implements ActionsSchedulerControlle
 
   @Override public void scheduleAllPendingActions() {
     List<ScheduledAction> scheduledActions = actionsSchedulerPersistor.obtainAllPendingActions();
-    for (ScheduledAction scheduledAction: scheduledActions){
+    for (ScheduledAction scheduledAction : scheduledActions) {
       actionsScheduler.scheduleAction(scheduledAction);
     }
   }
 
   @Override public void cancelAllPendingActions(boolean forceCancel) {
     List<ScheduledAction> scheduledActions = actionsSchedulerPersistor.obtainAllPendingActions();
-    for (ScheduledAction scheduledAction: scheduledActions){
-      if (scheduledAction.isCancelable() || forceCancel)
+    for (ScheduledAction scheduledAction : scheduledActions) {
+      if (scheduledAction.isCancelable() || forceCancel) {
         cancelAction(forceCancel, scheduledAction);
+      }
     }
   }
 
@@ -63,7 +64,7 @@ public class ActionsSchedulerControllerImpl implements ActionsSchedulerControlle
   }
 
   private void cancelAction(boolean forceCancel, ScheduledAction action) {
-    if (action.isCancelable() || forceCancel){
+    if (action.isCancelable() || forceCancel) {
       cancelScheduledAction(action);
       removeScheduledAction(action);
     }
@@ -76,5 +77,4 @@ public class ActionsSchedulerControllerImpl implements ActionsSchedulerControlle
   private void removeAction(ScheduledAction action) {
     actionsSchedulerPersistor.removeAction(action);
   }
-
 }

@@ -30,9 +30,9 @@ public class ScheduledActionImpl implements ScheduledAction {
     String id = basicAction.getId();
 
     //TODO delete when action getId be ready
-    if (id != null && id != ""){
+    if (id != null && id != "") {
       return id;
-    }else{
+    } else {
       return calculateFakeActionHash();
     }
   }
@@ -40,26 +40,22 @@ public class ScheduledActionImpl implements ScheduledAction {
   private String calculateFakeActionHash() {
 
     try {
-      return Hashing.generateMd5(
-          basicAction.getActionType().getStringValue() +
-              basicAction.getUrl() +
-              basicAction.getEventCode() +
-              ((basicAction.notifFunctionality.isSupported())?
-                  (basicAction.getNotifFunctionality().getBody() +
-                      basicAction.getNotifFunctionality().getTitle()) :
-                  "" )
-      );
+      return Hashing.generateMd5(basicAction.getActionType().getStringValue()
+          + basicAction.getUrl()
+          + basicAction.getEventCode()
+          + ((basicAction.notifFunctionality.isSupported())
+          ? (basicAction.getNotifFunctionality().getBody()
+          + basicAction.getNotifFunctionality().getTitle()) : ""));
     } catch (Exception e) {
       return basicAction.getEventCode();
     }
-
   }
 
-  @Override public String getEventId(){
+  @Override public String getEventId() {
     return scheduleFunctionality.getSchedule().getEventId();
   }
 
-  @Override public void setEventId(String id){
+  @Override public void setEventId(String id) {
     scheduleFunctionality.getSchedule().setEventId(id);
   }
 

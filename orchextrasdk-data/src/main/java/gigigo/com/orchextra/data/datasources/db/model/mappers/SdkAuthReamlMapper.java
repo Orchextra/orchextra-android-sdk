@@ -14,8 +14,8 @@ public class SdkAuthReamlMapper implements Mapper<SdkAuthData, SdkAuthRealm> {
 
   @Override public SdkAuthRealm modelToExternalClass(SdkAuthData sdkAuthData) {
     SdkAuthRealm sdkAuthRealm = new SdkAuthRealm();
-    sdkAuthRealm.setExpiresAt(DateUtils.dateToStringWithFormat(
-        sdkAuthData.getExpiresAt(), DateFormatConstants.DATE_FORMAT));
+    sdkAuthRealm.setExpiresAt(DateUtils.dateToStringWithFormat(sdkAuthData.getExpiresAt(),
+        DateFormatConstants.DATE_FORMAT));
     sdkAuthRealm.setExpiresIn(sdkAuthData.getExpiresIn());
     sdkAuthRealm.setProjectId(sdkAuthData.getProjectId());
     sdkAuthRealm.setValue(sdkAuthData.getValue());
@@ -24,13 +24,9 @@ public class SdkAuthReamlMapper implements Mapper<SdkAuthData, SdkAuthRealm> {
 
   @Override public SdkAuthData externalClassToModel(SdkAuthRealm sdkAuthRealm) {
 
-    SdkAuthData sdkAuthdata = new SdkAuthData(
-        sdkAuthRealm.getValue(),
-        sdkAuthRealm.getExpiresIn(),
+    SdkAuthData sdkAuthdata = new SdkAuthData(sdkAuthRealm.getValue(), sdkAuthRealm.getExpiresIn(),
         DateUtils.stringToDateWithFormat(sdkAuthRealm.getExpiresAt(),
-            DateFormatConstants.DATE_FORMAT),
-        sdkAuthRealm.getProjectId()
-    );
+            DateFormatConstants.DATE_FORMAT), sdkAuthRealm.getProjectId());
 
     return sdkAuthdata;
   }

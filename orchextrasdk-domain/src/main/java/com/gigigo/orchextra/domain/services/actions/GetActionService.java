@@ -21,7 +21,8 @@ public class GetActionService implements DomaninService {
   private final ActionsDataProvider actionsDataProvider;
   private final ServiceErrorChecker serviceErrorChecker;
 
-  public GetActionService(ActionsDataProvider actionsDataProvider, ServiceErrorChecker serviceErrorChecker) {
+  public GetActionService(ActionsDataProvider actionsDataProvider,
+      ServiceErrorChecker serviceErrorChecker) {
 
     this.actionsDataProvider = actionsDataProvider;
     this.serviceErrorChecker = serviceErrorChecker;
@@ -32,19 +33,19 @@ public class GetActionService implements DomaninService {
 
     BusinessObject<BasicAction> bo = null;
 
-    for (Trigger actionCriteria:triggers) {
+    for (Trigger actionCriteria : triggers) {
       bo = actionsDataProvider.obtainAction(actionCriteria);
 
-      if (bo.isSuccess()){
-        BasicAction basicAction = (bo.getData()!=null)? bo.getData() : new EmptyAction();
+      if (bo.isSuccess()) {
+        BasicAction basicAction = (bo.getData() != null) ? bo.getData() : new EmptyAction();
         basicAction.setEventCode(actionCriteria.getCode());
         actions.add(basicAction);
-      }else{
+      } else {
         break;
       }
     }
 
-    if (bo != null && !bo.isSuccess()){
+    if (bo != null && !bo.isSuccess()) {
       boolean retry = manageError(bo.getBusinessError());
       if (retry) {
         return getActions(triggers);

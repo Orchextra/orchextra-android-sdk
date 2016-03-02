@@ -28,8 +28,8 @@ public class ActionsApiExternalClassToModelMapper
 
   @Override public BasicAction externalClassToModel(ApiActionData apiActionData) {
 
-    if (apiActionData == null){
-      return  new EmptyAction();
+    if (apiActionData == null) {
+      return new EmptyAction();
     }
 
     ActionType actionType = ActionType.getActionTypeValue(apiActionData.getType());
@@ -38,14 +38,13 @@ public class ActionsApiExternalClassToModelMapper
     String id = apiActionData.getId();
     String tid = apiActionData.getTrackId();
 
-    Notification notification = (Notification) MapperUtils.checkNullDataResponse(actionNotificationResponseMapper,
-        apiActionData.getNotification());
+    Notification notification =
+        (Notification) MapperUtils.checkNullDataResponse(actionNotificationResponseMapper,
+            apiActionData.getNotification());
 
     Schedule schedule = (Schedule) MapperUtils.checkNullDataResponse(actionScheduleResponseMapper,
         apiActionData.getSchedule());
 
     return new BasicAction.ActionBuilder(id, tid, actionType, url, notification, schedule).build();
-
   }
-
 }

@@ -18,8 +18,7 @@ public class ActionsDataProviderImpl implements ActionsDataProvider {
     this.actionsDataSource = actionsDataSource;
   }
 
-  public BusinessObject<BasicAction> obtainAction(Trigger actionCriteria){
+  public BusinessObject<BasicAction> obtainAction(Trigger actionCriteria) {
     return actionsDataSource.obtainAction(actionCriteria);
   }
-
 }

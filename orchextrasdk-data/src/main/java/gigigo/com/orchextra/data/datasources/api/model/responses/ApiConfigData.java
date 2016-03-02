@@ -10,20 +10,15 @@ import java.util.List;
  */
 public class ApiConfigData {
 
-  @Expose @SerializedName("geoMarketing")
-  private List<ApiGeofence> geoMarketing;
+  @Expose @SerializedName("geoMarketing") private List<ApiGeofence> geoMarketing;
 
-  @Expose @SerializedName("proximity")
-  private List<ApiBeaconRegion> proximity;
+  @Expose @SerializedName("proximity") private List<ApiBeaconRegion> proximity;
 
-  @Expose @SerializedName("theme")
-  private ApiTheme theme;
+  @Expose @SerializedName("theme") private ApiTheme theme;
 
-  @Expose @SerializedName("vuforia")
-  private ApiVuforia vuforia;
+  @Expose @SerializedName("vuforia") private ApiVuforia vuforia;
 
-  @Expose @SerializedName("requestWaitTime")
-  private int requestWaitTime;
+  @Expose @SerializedName("requestWaitTime") private int requestWaitTime;
 
   public List<ApiGeofence> getGeoMarketing() {
     return geoMarketing;
@@ -64,5 +59,4 @@ public class ApiConfigData {
   public void setRequestWaitTime(int requestWaitTime) {
     this.requestWaitTime = requestWaitTime;
   }
-
 }

@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by Sergio Martinez Rodriguez
  * Date 21/12/15.
  */
-public class RealmPoint extends RealmObject{
+public class RealmPoint extends RealmObject {
 
   private double lat;
 

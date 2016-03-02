@@ -14,52 +14,51 @@ import java.util.List;
 
 public class TriggerService implements DomaninService {
 
-    private final AppRunningMode appRunningMode;
+  private final AppRunningMode appRunningMode;
 
-    public TriggerService(AppRunningMode appRunningMode) {
-        this.appRunningMode = appRunningMode;
+  public TriggerService(AppRunningMode appRunningMode) {
+    this.appRunningMode = appRunningMode;
+  }
+
+  public InteractorResponse getTrigger(OrchextraRegion orchextraRegion) {
+
+    List<Trigger> triggers = Arrays.asList(
+        Trigger.createBeaconRegionTrigger(appRunningMode.getRunningModeType(), orchextraRegion));
+
+    return new InteractorResponse(triggers);
+  }
+
+  public InteractorResponse getTrigger(List<OrchextraBeacon> orchextraBeacons) {
+    return createTriggersForBeacons(orchextraBeacons);
+  }
+
+  private InteractorResponse createTriggersForBeacons(List<OrchextraBeacon> orchextraBeacons) {
+
+    List<Trigger> triggers = new ArrayList<>();
+
+    for (OrchextraBeacon orchextraBeacon : orchextraBeacons) {
+      Trigger trigger =
+          Trigger.createBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
+      triggers.add(trigger);
     }
 
-    public InteractorResponse getTrigger(OrchextraRegion orchextraRegion){
+    return new InteractorResponse(triggers);
+  }
 
-        List<Trigger> triggers = Arrays.asList(Trigger.createBeaconRegionTrigger(
-                appRunningMode.getRunningModeType(), orchextraRegion));
+  public InteractorResponse getTrigger(List<OrchextraGeofence> geofences,
+      GeoPointEventType geofenceTransition) {
+    List<Trigger> triggers = new ArrayList<>();
 
-        return new InteractorResponse(triggers);
+    for (OrchextraGeofence orchextraGeofence : geofences) {
 
+      Trigger trigger =
+          Trigger.createGeofenceTrigger(orchextraGeofence.getCode(), orchextraGeofence.getPoint(),
+              appRunningMode.getRunningModeType(), orchextraGeofence.getDistanceToDeviceInKm(),
+              geofenceTransition);
+
+      triggers.add(trigger);
     }
 
-    public InteractorResponse getTrigger(List<OrchextraBeacon> orchextraBeacons){
-            return createTriggersForBeacons(orchextraBeacons);
-    }
-
-    private InteractorResponse createTriggersForBeacons(List<OrchextraBeacon> orchextraBeacons) {
-
-        List<Trigger> triggers = new ArrayList<>();
-
-        for (OrchextraBeacon orchextraBeacon: orchextraBeacons){
-            Trigger trigger = Trigger.createBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
-            triggers.add(trigger);
-        }
-
-        return new InteractorResponse(triggers);
-    }
-
-    public InteractorResponse getTrigger(List<OrchextraGeofence> geofences, GeoPointEventType geofenceTransition) {
-        List<Trigger> triggers = new ArrayList<>();
-
-        for (OrchextraGeofence orchextraGeofence: geofences){
-
-            Trigger trigger = Trigger.createGeofenceTrigger(
-                orchextraGeofence.getCode(),
-                orchextraGeofence.getPoint(),
-                appRunningMode.getRunningModeType(),
-                orchextraGeofence.getDistanceToDeviceInKm(),
-                geofenceTransition);
-
-            triggers.add(trigger);
-        }
-
-        return new InteractorResponse(triggers);
-    }
+    return new InteractorResponse(triggers);
+  }
 }

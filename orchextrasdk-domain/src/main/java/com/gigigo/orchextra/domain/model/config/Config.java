@@ -62,8 +62,7 @@ public class Config {
     return notificationPush;
   }
 
-  public void setNotificationPush(
-      NotificationPush notificationPush) {
+  public void setNotificationPush(NotificationPush notificationPush) {
     this.notificationPush = notificationPush;
   }
 

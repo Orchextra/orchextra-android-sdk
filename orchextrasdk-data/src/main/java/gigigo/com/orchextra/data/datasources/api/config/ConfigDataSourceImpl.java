@@ -1,15 +1,15 @@
 package gigigo.com.orchextra.data.datasources.api.config;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
-import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
-import com.gigigo.orchextra.domain.model.config.Config;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
+import com.gigigo.orchextra.domain.model.config.Config;
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import javax.inject.Provider;
 
@@ -40,13 +40,13 @@ public class ConfigDataSourceImpl implements ConfigDataSource {
   @Override public BusinessObject<ConfigInfoResult> sendConfigInfo(Config config) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
-    OrchextraApiConfigRequest request = configModelToExternalClassMapper.modelToExternalClass(
-        config);
+    OrchextraApiConfigRequest request =
+        configModelToExternalClassMapper.modelToExternalClass(config);
 
-    ApiGenericResponse apiGenericResponse = serviceExecutor.executeNetworkServiceConnection(
-        ApiConfigData.class, orchextraApiService.sendSdkConfig(request));
+    ApiGenericResponse apiGenericResponse =
+        serviceExecutor.executeNetworkServiceConnection(ApiConfigData.class,
+            orchextraApiService.sendSdkConfig(request));
 
     return configResponseMapper.mapApiGenericResponseToBusiness(apiGenericResponse);
   }
-
 }

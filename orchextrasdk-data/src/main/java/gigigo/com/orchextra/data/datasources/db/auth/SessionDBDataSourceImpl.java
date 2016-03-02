@@ -1,16 +1,14 @@
 package gigigo.com.orchextra.data.datasources.db.auth;
 
 import android.content.Context;
-
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
-import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
-import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
-
+import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
@@ -43,9 +41,9 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       realm.beginTransaction();
       sessionUpdater.updateSdkAuthCredentials(realm, sdkAuthCredentials);
-    }catch (RealmException re){
+    } catch (RealmException re) {
       return false;
-    }finally {
+    } finally {
       if (realm != null) {
         realm.commitTransaction();
         realm.close();
@@ -61,9 +59,9 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       realm.beginTransaction();
       sessionUpdater.updateSdkAuthResponse(realm, sdkAuthData);
-    }catch (RealmException re){
+    } catch (RealmException re) {
       return false;
-    }finally {
+    } finally {
       if (realm != null) {
         realm.commitTransaction();
         realm.close();
@@ -79,9 +77,9 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       realm.beginTransaction();
       sessionUpdater.updateClientAuthCredentials(realm, clientAuthCredentials);
-    }catch (RealmException re){
+    } catch (RealmException re) {
       return false;
-    }finally {
+    } finally {
       if (realm != null) {
         realm.commitTransaction();
         realm.close();
@@ -97,9 +95,9 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       realm.beginTransaction();
       sessionUpdater.updateClientAuthResponse(realm, clientAuthData);
-    }catch (RealmException re){
+    } catch (RealmException re) {
       return false;
-    }finally {
+    } finally {
       if (realm != null) {
         realm.commitTransaction();
         realm.close();
@@ -115,9 +113,9 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       realm.beginTransaction();
       sessionUpdater.updateCrm(realm, crm);
-    }catch (RealmException re){
+    } catch (RealmException re) {
       return false;
-    }finally {
+    } finally {
       if (realm != null) {
         realm.commitTransaction();
         realm.close();
@@ -133,9 +131,9 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       ClientAuthData clientAuthData = sessionReader.readClientAuthData(realm);
       return new BusinessObject(clientAuthData, BusinessError.createOKInstance());
-    }catch (NotFountRealmObjectException | RealmException | NullPointerException re ){
+    } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-    }finally {
+    } finally {
       if (realm != null) {
         realm.close();
       }
@@ -148,25 +146,24 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       SdkAuthData sdkAuthData = sessionReader.readSdkAuthData(realm);
       return new BusinessObject(sdkAuthData, BusinessError.createOKInstance());
-    }catch (NotFountRealmObjectException | RealmException | NullPointerException re ){
+    } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-    }finally {
+    } finally {
       if (realm != null) {
         realm.close();
       }
     }
   }
 
-  @Override
-  public BusinessObject<Crm> getCrm() {
+  @Override public BusinessObject<Crm> getCrm() {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       Crm crm = sessionReader.readCrm(realm);
       return new BusinessObject(crm, BusinessError.createOKInstance());
-    }catch (NotFountRealmObjectException | RealmException | NullPointerException re ){
+    } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-    }finally {
+    } finally {
       if (realm != null) {
         realm.close();
       }
@@ -179,9 +176,9 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       realm.beginTransaction();
       sessionUpdater.updateCrm(realm, crm);
-    }catch (RealmException re){
+    } catch (RealmException re) {
       return false;
-    }finally {
+    } finally {
       if (realm != null) {
         realm.commitTransaction();
         realm.close();
@@ -190,8 +187,7 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     return true;
   }
 
-  @Override
-  public void clearAuthenticatedUser() {
+  @Override public void clearAuthenticatedUser() {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
     try {
       realm.beginTransaction();
@@ -205,5 +201,4 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
       }
     }
   }
-
 }

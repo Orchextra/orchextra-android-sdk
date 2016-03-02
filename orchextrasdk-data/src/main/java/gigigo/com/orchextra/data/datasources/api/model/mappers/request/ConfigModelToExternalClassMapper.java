@@ -18,7 +18,8 @@ public class ConfigModelToExternalClassMapper
   private final GeoLocationModelToExternalClassMapper geoLocationRequestMapper;
   private final PushNotificationModelToExternalClassMapper pushNotificationRequestMapper;
 
-  public ConfigModelToExternalClassMapper(PushNotificationModelToExternalClassMapper pushNotificationRequestMapper,
+  public ConfigModelToExternalClassMapper(
+      PushNotificationModelToExternalClassMapper pushNotificationRequestMapper,
       GeoLocationModelToExternalClassMapper geoLocationRequestMapper,
       DeviceModelToExternalClassMapper deviceRequestMapper,
       CrmModelToExternalClassMapper crmRequestMapper,
@@ -37,8 +38,8 @@ public class ConfigModelToExternalClassMapper
     configRequest.setApp(MapperUtils.checkNullDataRequest(appRequestMapper, config.getApp()));
     configRequest.setCrm(MapperUtils.checkNullDataRequest(crmRequestMapper, config.getCrm()));
 
-    configRequest.setDevice(MapperUtils.checkNullDataRequest(
-        deviceRequestMapper, config.getDevice()));
+    configRequest.setDevice(
+        MapperUtils.checkNullDataRequest(deviceRequestMapper, config.getDevice()));
 
     configRequest.setGeoLocation(
         MapperUtils.checkNullDataRequest(geoLocationRequestMapper, config.getGeoLocation()));
@@ -49,5 +50,4 @@ public class ConfigModelToExternalClassMapper
 
     return configRequest;
   }
-
 }

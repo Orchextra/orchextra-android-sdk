@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.domain.initalization.features;
 
-import com.gigigo.orchextra.domain.abstractions.initialization.*;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType;
 import java.util.ArrayList;
@@ -22,21 +22,20 @@ public class FeatureList implements FeatureListener,
 
   @Override public void onFeatureStatusChanged(Feature feature) {
 
-    if (features.contains(feature)){
+    if (features.contains(feature)) {
       int index = features.indexOf(feature);
       features.get(index).setStatus(feature.getStatus());
-    }else{
+    } else {
       features.add(feature);
       checkAllFeaturesAdded();
     }
-
   }
 
   private void checkAllFeaturesAdded() {
-    if (areAllFeaturesReady() && orchextraCompletionCallback != null){
-      if (areSuccess()){
+    if (areAllFeaturesReady() && orchextraCompletionCallback != null) {
+      if (areSuccess()) {
         orchextraCompletionCallback.onSuccess();
-      }else{
+      } else {
         orchextraCompletionCallback.onError(formatErrorsAsString());
       }
     }
@@ -47,8 +46,8 @@ public class FeatureList implements FeatureListener,
   }
 
   private boolean areSuccess() {
-    for(Feature feature:features){
-      if (!feature.isSuccess()){
+    for (Feature feature : features) {
+      if (!feature.isSuccess()) {
         return false;
       }
     }
@@ -65,7 +64,7 @@ public class FeatureList implements FeatureListener,
 
   @Override public String toString() {
     StringBuilder sb = new StringBuilder();
-    for (Feature feature:features){
+    for (Feature feature : features) {
       sb.append(feature.toString() + "\n");
     }
     return sb.toString();

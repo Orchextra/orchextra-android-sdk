@@ -9,5 +9,4 @@ public interface ForegroundTasksManager {
   void startForegroundTasks();
 
   void finalizeForegroundTasks();
-
 }

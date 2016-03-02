@@ -15,7 +15,8 @@ public class Crm {
   private Date birthDate;
   private List<String> keywords;
 
-  public Crm() {}
+  public Crm() {
+  }
 
   public Crm(String crmId, GenderType gender, Date birthDate, List<String> keywords) {
     this.crmId = crmId;
@@ -77,8 +78,8 @@ public class Crm {
       }
     }
 
-    return gender.equals(crm.gender) &&
-            birthDate.equals(crm.birthDate) &&
-            listIsEquals;
+    return gender.equals(crm.gender)
+        && birthDate.equals(crm.birthDate)
+        && listIsEquals;
   }
 }

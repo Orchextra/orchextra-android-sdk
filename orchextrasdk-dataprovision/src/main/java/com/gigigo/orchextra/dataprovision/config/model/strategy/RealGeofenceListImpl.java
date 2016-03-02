@@ -7,7 +7,7 @@ import java.util.List;
  * Created by Sergio Martinez Rodriguez
  * Date 17/12/15.
  */
-public class RealGeofenceListImpl implements GeofenceList{
+public class RealGeofenceListImpl implements GeofenceList {
 
   private List<OrchextraGeofence> geofences;
 
@@ -20,6 +20,6 @@ public class RealGeofenceListImpl implements GeofenceList{
   }
 
   @Override public boolean isSupported() {
-    return (geofences==null)? false : true;
+    return (geofences == null) ? false : true;
   }
 }

@@ -33,9 +33,10 @@ public class OrchextraPoint {
     double dLat = deg2rad(point.getLat() - this.lat);  // deg2rad below
     double dLon = deg2rad(point.getLng() - this.lng);
 
-    double haversine = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(deg2rad(point.getLat())) * Math.cos(deg2rad(this.lat)) *
-                    Math.sin(dLon/2) * Math.sin(dLon/2);
+    double haversine = Math.sin(dLat / 2)
+        * Math.sin(dLat / 2)
+        + Math.cos(deg2rad(point.getLat()))
+        * Math.cos(deg2rad(this.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
     double c = 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
     double distance = earthRadius * c; // Distance in km
@@ -43,6 +44,6 @@ public class OrchextraPoint {
   }
 
   private double deg2rad(double deg) {
-    return deg * (Math.PI/180);
+    return deg * (Math.PI / 180);
   }
 }

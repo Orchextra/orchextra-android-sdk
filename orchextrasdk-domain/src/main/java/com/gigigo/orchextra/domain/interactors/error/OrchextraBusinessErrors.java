@@ -19,7 +19,7 @@ public enum OrchextraBusinessErrors {
     return codeError;
   }
 
-  public static OrchextraBusinessErrors getEnumTypeFromInt(int errorCode){
+  public static OrchextraBusinessErrors getEnumTypeFromInt(int errorCode) {
     for (OrchextraBusinessErrors error : OrchextraBusinessErrors.values()) {
       if (error.getValue() == errorCode) {
         return error;

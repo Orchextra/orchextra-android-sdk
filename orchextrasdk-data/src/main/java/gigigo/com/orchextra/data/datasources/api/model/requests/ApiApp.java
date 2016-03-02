@@ -9,14 +9,11 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiApp {
 
-  @Expose @SerializedName("appVersion")
-  private String appVersion;
+  @Expose @SerializedName("appVersion") private String appVersion;
 
-  @Expose  @SerializedName("buildVersion")
-  private String buildVersion;
+  @Expose @SerializedName("buildVersion") private String buildVersion;
 
-  @Expose @SerializedName("bundleId")
-  private String bundleId;
+  @Expose @SerializedName("bundleId") private String bundleId;
 
   public String getAppVersion() {
     return appVersion;

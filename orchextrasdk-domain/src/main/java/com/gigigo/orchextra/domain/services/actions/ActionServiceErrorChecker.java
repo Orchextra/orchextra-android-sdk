@@ -23,5 +23,4 @@ public class ActionServiceErrorChecker extends ServiceErrorChecker {
   @Override protected InteractorResponse checkConcreteBusinessErrors(BusinessError businessError) {
     return new InteractorResponse(new GenericError(businessError));
   }
-
 }

@@ -12,8 +12,7 @@ public class BeaconRegionRealm extends RealmObject {
 
   public static final String CODE_FIELD_NAME = "code";
 
-  @PrimaryKey
-  @Required private String code;
+  @PrimaryKey @Required private String code;
 
   private String uuid;
   private int minor;
@@ -34,7 +33,8 @@ public class BeaconRegionRealm extends RealmObject {
     this.active = beaconRegionRealm.isActive();
   }
 
-  public BeaconRegionRealm() {}
+  public BeaconRegionRealm() {
+  }
 
   public String getCode() {
     return code;

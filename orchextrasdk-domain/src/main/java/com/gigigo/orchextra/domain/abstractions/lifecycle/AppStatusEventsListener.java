@@ -19,5 +19,4 @@ public interface AppStatusEventsListener {
   void onServiceRecreated();
 
   void setForegroundTasksManager(ForegroundTasksManager foregroundTasksManager);
-
 }

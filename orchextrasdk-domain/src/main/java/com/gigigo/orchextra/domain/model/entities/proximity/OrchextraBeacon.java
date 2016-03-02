@@ -25,9 +25,10 @@ public class OrchextraBeacon {
     this.minor = minor;
     this.beaconDistance = beaconDistance;
     try {
-      this.code = Hashing.generateMd5((uuid + BEACON_CODE_CONCAT_CHAR + String.valueOf(mayor)
-          + BEACON_CODE_CONCAT_CHAR + String.valueOf(minor)).toUpperCase());
-    }catch (Exception e){
+      this.code = Hashing.generateMd5(
+          (uuid + BEACON_CODE_CONCAT_CHAR + String.valueOf(mayor) + BEACON_CODE_CONCAT_CHAR + String
+              .valueOf(minor)).toUpperCase());
+    } catch (Exception e) {
       this.code = e.getLocalizedMessage();
     }
   }
@@ -59,9 +60,9 @@ public class OrchextraBeacon {
   public static List<OrchextraBeacon> removeFromListElementsWithCodes(List<OrchextraBeacon> beacons,
       List<String> codes) {
 
-    for(Iterator<OrchextraBeacon> iterator = beacons.iterator(); iterator.hasNext();){
+    for (Iterator<OrchextraBeacon> iterator = beacons.iterator(); iterator.hasNext();) {
       OrchextraBeacon orchextraBeacon = iterator.next();
-      if (codes.contains(orchextraBeacon.getCode())){
+      if (codes.contains(orchextraBeacon.getCode())) {
         beacons.remove(orchextraBeacon);
       }
     }

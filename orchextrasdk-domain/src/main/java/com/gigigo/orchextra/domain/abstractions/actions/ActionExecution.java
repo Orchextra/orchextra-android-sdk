@@ -7,9 +7,11 @@ import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
 public interface ActionExecution {
 
-    void execute(BrowserAction action);
-    void execute(WebViewAction action);
-    void execute(ScanAction action);
-    void execute(VuforiaScanAction action);
+  void execute(BrowserAction action);
 
+  void execute(WebViewAction action);
+
+  void execute(ScanAction action);
+
+  void execute(VuforiaScanAction action);
 }

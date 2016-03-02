@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Sergio Martinez Rodriguez
  * Date 15/12/15.
  */
-public class ConfigInfoResult{
+public class ConfigInfoResult {
 
   private RegionList regions;
   private GeofenceList geofences;
@@ -34,19 +34,19 @@ public class ConfigInfoResult{
     return theme.getTheme();
   }
 
-  public boolean supportsTheme(){
+  public boolean supportsTheme() {
     return theme.isSupported();
   }
 
-  public boolean supportsVuforia(){
+  public boolean supportsVuforia() {
     return vuforia.isSupported();
   }
 
-  public boolean supportsBeacons(){
+  public boolean supportsBeacons() {
     return regions.isSupported();
   }
 
-  public boolean supportsGeofences(){
+  public boolean supportsGeofences() {
     return geofences.isSupported();
   }
 
@@ -82,8 +82,9 @@ public class ConfigInfoResult{
     private int requestWaitTime;
     private com.gigigo.orchextra.domain.model.entities.Vuforia vuforia;
 
-    public Builder(int requestWaitTime, List<OrchextraGeofence> geoMarketing, List<OrchextraRegion> proximity,
-                   Theme theme, com.gigigo.orchextra.domain.model.entities.Vuforia vuforia) {
+    public Builder(int requestWaitTime, List<OrchextraGeofence> geoMarketing,
+        List<OrchextraRegion> proximity, Theme theme,
+        com.gigigo.orchextra.domain.model.entities.Vuforia vuforia) {
 
       this.geoMarketing = geoMarketing;
       this.proximity = proximity;
@@ -99,7 +100,9 @@ public class ConfigInfoResult{
       configInfoResult.setRequestWaitTime(requestWaitTime);
       configInfoResult.setRegions(new RealRegionListImpl(proximity));
       configInfoResult.setGeofences(new RealGeofenceListImpl(geoMarketing));
-      configInfoResult.setTheme(new com.gigigo.orchextra.dataprovision.config.model.strategy.RealSupportsThemeImpl(theme));
+      configInfoResult.setTheme(
+          new com.gigigo.orchextra.dataprovision.config.model.strategy.RealSupportsThemeImpl(
+              theme));
       configInfoResult.setVuforia(new VuforiaReadyImpl(vuforia));
 
       return configInfoResult;

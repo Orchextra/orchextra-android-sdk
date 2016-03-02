@@ -6,7 +6,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdat
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Theme;
-
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import io.realm.Realm;
 
@@ -21,12 +20,9 @@ public class ConfigInfoResultUpdater {
   private final ConfigVuforiaUpdater vuforiaUpdater;
   private final ConfigThemeUpdater themeUpdater;
 
-  public ConfigInfoResultUpdater(
-          ConfigBeaconUpdater beaconUpdater,
-          ConfigGeofenceUpdater geofenceUpdater,
-          ConfigVuforiaUpdater vuforiaUpdater,
-          ConfigThemeUpdater themeUpdater
-      ) {
+  public ConfigInfoResultUpdater(ConfigBeaconUpdater beaconUpdater,
+      ConfigGeofenceUpdater geofenceUpdater, ConfigVuforiaUpdater vuforiaUpdater,
+      ConfigThemeUpdater themeUpdater) {
     this.beaconUpdater = beaconUpdater;
     this.geofenceUpdater = geofenceUpdater;
     this.vuforiaUpdater = vuforiaUpdater;
@@ -39,15 +35,17 @@ public class ConfigInfoResultUpdater {
     configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
     realm.copyToRealm(configInfoResultRealm);
 
-    OrchextraBeaconUpdates orchextraBeaconUpdates = beaconUpdater.saveRegions(realm, config.getRegions());
+    OrchextraBeaconUpdates orchextraBeaconUpdates =
+        beaconUpdater.saveRegions(realm, config.getRegions());
 
-    OrchextraGeofenceUpdates orchextraGeofenceChanges = geofenceUpdater.saveGeofences(realm, config.getGeofences());
+    OrchextraGeofenceUpdates orchextraGeofenceChanges =
+        geofenceUpdater.saveGeofences(realm, config.getGeofences());
 
     Vuforia vuforiaChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
 
     Theme themeChanges = themeUpdater.saveTheme(realm, config.getTheme());
 
-    return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaChanges, themeChanges);
+    return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaChanges,
+        themeChanges);
   }
-
 }

@@ -16,21 +16,17 @@ public class ScheduleActionService implements DomaninService {
     this.actionsSchedulerController = actionsSchedulerController;
   }
 
+  public boolean schedulePendingAction(BasicAction action) {
 
-  public boolean schedulePendingAction(BasicAction action){
-
-    if (action.isScheduled()){
+    if (action.isScheduled()) {
       actionsSchedulerController.addAction(action.getScheduledAction());
       return true;
-    }else{
+    } else {
       return false;
     }
-
-
   }
 
   public void cancelPendingActionWithId(String actionId, boolean forceCancel) {
     actionsSchedulerController.cancelPendingActionWithId(actionId, forceCancel);
   }
-
 }

@@ -9,11 +9,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiNotification {
 
-  @Expose @SerializedName("title")
-  private String title;
+  @Expose @SerializedName("title") private String title;
 
-  @Expose @SerializedName("body")
-  private String body;
+  @Expose @SerializedName("body") private String body;
 
   public String getTitle() {
     return title;

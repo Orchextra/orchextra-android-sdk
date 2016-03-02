@@ -9,8 +9,7 @@ import io.realm.annotations.PrimaryKey;
  */
 public class ClientAuthCredentialsRealm extends RealmObject {
 
-  @PrimaryKey
-  private int id;
+  @PrimaryKey private int id;
 
   private String clientToken;
   private String instanceId;
@@ -20,7 +19,6 @@ public class ClientAuthCredentialsRealm extends RealmObject {
   private String serialNumber;
   private String wifiMacAddress;
   private String bluetoothMacAddress;
-
 
   public String getClientToken() {
     return clientToken;

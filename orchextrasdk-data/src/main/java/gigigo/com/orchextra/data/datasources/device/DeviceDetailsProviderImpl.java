@@ -1,10 +1,8 @@
 package gigigo.com.orchextra.data.datasources.device;
 
 import android.content.Context;
-
 import com.gigigo.ggglib.device.DeviceInfoProvider;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
-
 
 /**
  * Created by Sergio Martinez Rodriguez

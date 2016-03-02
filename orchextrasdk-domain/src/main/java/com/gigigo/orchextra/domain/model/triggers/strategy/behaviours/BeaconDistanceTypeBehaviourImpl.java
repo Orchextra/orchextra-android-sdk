@@ -19,6 +19,6 @@ public class BeaconDistanceTypeBehaviourImpl implements BeaconDistanceTypeBehavi
   }
 
   @Override public boolean isSupported() {
-    return (beaconDistanceType==null)? false : true;
+    return (beaconDistanceType == null) ? false : true;
   }
 }

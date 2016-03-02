@@ -10,17 +10,13 @@ import java.util.List;
  */
 public class ApiCrm {
 
-  @Expose @SerializedName("crmId")
-  private String crmId;
+  @Expose @SerializedName("crmId") private String crmId;
 
-  @Expose @SerializedName("gender")
-  private String gender;
+  @Expose @SerializedName("gender") private String gender;
 
-  @Expose @SerializedName("birthDate")
-  private String birthDate;
+  @Expose @SerializedName("birthDate") private String birthDate;
 
-  @Expose @SerializedName("keywords")
-  private List<String> keywords;
+  @Expose @SerializedName("keywords") private List<String> keywords;
 
   public String getGender() {
     return gender;

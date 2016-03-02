@@ -11,5 +11,4 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 public interface ActionsDataSource {
 
   BusinessObject<BasicAction> obtainAction(Trigger actionCriteria);
-
 }

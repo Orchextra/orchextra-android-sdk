@@ -9,23 +9,17 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiActionData {
 
-  @Expose @SerializedName("trackId")
-  private String trackId;
+  @Expose @SerializedName("trackId") private String trackId;
 
-  @Expose @SerializedName("id")
-  private String id;
+  @Expose @SerializedName("id") private String id;
 
-  @Expose @SerializedName("type")
-  private String type;
+  @Expose @SerializedName("type") private String type;
 
-  @Expose @SerializedName("url")
-  private String url;
+  @Expose @SerializedName("url") private String url;
 
-  @Expose @SerializedName("notification")
-  private ApiNotification notification;
+  @Expose @SerializedName("notification") private ApiNotification notification;
 
-  @Expose @SerializedName("schedule")
-  private ApiSchedule schedule;
+  @Expose @SerializedName("schedule") private ApiSchedule schedule;
 
   public String getType() {
     return type;

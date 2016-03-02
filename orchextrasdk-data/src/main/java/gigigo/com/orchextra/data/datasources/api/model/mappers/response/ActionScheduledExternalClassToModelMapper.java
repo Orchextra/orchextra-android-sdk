@@ -15,10 +15,9 @@ public class ActionScheduledExternalClassToModelMapper
 
   @Override public Schedule externalClassToModel(ApiSchedule apiSchedule) {
 
-    Schedule schedule = new Schedule(apiSchedule.isCancelable(),
-        apiSchedule.getSeconds()*ONE_SECOND);
+    Schedule schedule =
+        new Schedule(apiSchedule.isCancelable(), apiSchedule.getSeconds() * ONE_SECOND);
 
     return schedule;
   }
-
 }

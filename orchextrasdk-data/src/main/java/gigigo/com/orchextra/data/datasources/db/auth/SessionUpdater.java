@@ -1,12 +1,11 @@
 package gigigo.com.orchextra.data.datasources.db.auth;
 
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
-import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
-import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
-
+import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
@@ -25,8 +24,10 @@ public class SessionUpdater {
   private final ModelToExternalClassMapper<SdkAuthData, SdkAuthRealm> sdkAuthRealmMapper;
   private final ModelToExternalClassMapper<ClientAuthData, ClientAuthRealm> clientAuthRealmMapper;
   private final ModelToExternalClassMapper<Crm, CrmRealm> crmRealmMapper;
-  private final ModelToExternalClassMapper<SdkAuthCredentials, SdkAuthCredentialsRealm> sdkCredentialsRealmMapper;
-  private final ModelToExternalClassMapper<ClientAuthCredentials, ClientAuthCredentialsRealm> clientCredentialsRealmMapper;
+  private final ModelToExternalClassMapper<SdkAuthCredentials, SdkAuthCredentialsRealm>
+      sdkCredentialsRealmMapper;
+  private final ModelToExternalClassMapper<ClientAuthCredentials, ClientAuthCredentialsRealm>
+      clientCredentialsRealmMapper;
 
   public SessionUpdater(ModelToExternalClassMapper<SdkAuthData, SdkAuthRealm> sdkAuthRealmMapper,
       ModelToExternalClassMapper<ClientAuthData, ClientAuthRealm> clientAuthRealmMapper,
@@ -44,10 +45,11 @@ public class SessionUpdater {
   public void updateSdkAuthCredentials(Realm realm, SdkAuthCredentials sdkAuthCredentials) {
     SdkAuthCredentialsRealm realmItem = getRealmItem(realm, SdkAuthCredentialsRealm.class);
 
-    SdkAuthCredentialsRealm sdkAuthCredentialsRealm = sdkCredentialsRealmMapper.modelToExternalClass(
-        sdkAuthCredentials);
+    SdkAuthCredentialsRealm sdkAuthCredentialsRealm =
+        sdkCredentialsRealmMapper.modelToExternalClass(sdkAuthCredentials);
     if (realmItem == null) {
-      sdkAuthCredentialsRealm.setId(RealmDefaultInstance.getNextKey(realm, SdkAuthCredentialsRealm.class));
+      sdkAuthCredentialsRealm.setId(
+          RealmDefaultInstance.getNextKey(realm, SdkAuthCredentialsRealm.class));
     } else {
       sdkAuthCredentialsRealm.setId(realmItem.getId());
     }
@@ -71,10 +73,11 @@ public class SessionUpdater {
   public void updateClientAuthCredentials(Realm realm, ClientAuthCredentials clientAuthCred) {
     ClientAuthCredentialsRealm realmItem = getRealmItem(realm, ClientAuthCredentialsRealm.class);
 
-    ClientAuthCredentialsRealm clientAuthCredentialsRealm = clientCredentialsRealmMapper.modelToExternalClass(
-        clientAuthCred);
+    ClientAuthCredentialsRealm clientAuthCredentialsRealm =
+        clientCredentialsRealmMapper.modelToExternalClass(clientAuthCred);
     if (realmItem == null) {
-      clientAuthCredentialsRealm.setId(RealmDefaultInstance.getNextKey(realm, ClientAuthCredentialsRealm.class));
+      clientAuthCredentialsRealm.setId(
+          RealmDefaultInstance.getNextKey(realm, ClientAuthCredentialsRealm.class));
     } else {
       clientAuthCredentialsRealm.setId(realmItem.getId());
     }

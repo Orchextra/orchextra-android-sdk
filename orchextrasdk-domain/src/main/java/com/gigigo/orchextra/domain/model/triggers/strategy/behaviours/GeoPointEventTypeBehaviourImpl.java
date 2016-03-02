@@ -10,8 +10,7 @@ public class GeoPointEventTypeBehaviourImpl implements GeoPointEventTypeBehaviou
 
   private GeoPointEventType geoPointEventType;
 
-  public GeoPointEventTypeBehaviourImpl(
-      GeoPointEventType geoPointEventType) {
+  public GeoPointEventTypeBehaviourImpl(GeoPointEventType geoPointEventType) {
     this.geoPointEventType = geoPointEventType;
   }
 
@@ -20,6 +19,6 @@ public class GeoPointEventTypeBehaviourImpl implements GeoPointEventTypeBehaviou
   }
 
   @Override public boolean isSupported() {
-    return (geoPointEventType==null)? false : true;
+    return (geoPointEventType == null) ? false : true;
   }
 }

@@ -20,8 +20,8 @@ public enum GenderType {
   }
 
   public static GenderType getTypeFromString(String gender) {
-    for(GenderType genderType:GenderType.values()){
-      if (genderType.getStringValue().equals(gender)){
+    for (GenderType genderType : GenderType.values()) {
+      if (genderType.getStringValue().equals(gender)) {
         return genderType;
       }
     }

@@ -9,32 +9,23 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiDevice {
 
-  @Expose @SerializedName("handset")
-  private String handset;
+  @Expose @SerializedName("handset") private String handset;
 
-  @Expose @SerializedName("language")
-  private String language;
+  @Expose @SerializedName("language") private String language;
 
-  @Expose @SerializedName("osVersion")
-  private String osVersion;
+  @Expose @SerializedName("osVersion") private String osVersion;
 
-  @Expose @SerializedName("timeZone")
-  private String timeZone;
+  @Expose @SerializedName("timeZone") private String timeZone;
 
-  @Expose @SerializedName("instanceId")
-  private String instanceId;
+  @Expose @SerializedName("instanceId") private String instanceId;
 
-  @Expose @SerializedName("secureId")
-  private String secureId;
+  @Expose @SerializedName("secureId") private String secureId;
 
-  @Expose @SerializedName("serialNumber")
-  private String serialNumber;
+  @Expose @SerializedName("serialNumber") private String serialNumber;
 
-  @Expose @SerializedName("bluetoothMacAddress")
-  private String bluetoothMacAddress;
+  @Expose @SerializedName("bluetoothMacAddress") private String bluetoothMacAddress;
 
-  @Expose @SerializedName("wifiMacAddress")
-  private String wifiMacAddress;
+  @Expose @SerializedName("wifiMacAddress") private String wifiMacAddress;
 
   public String getHandset() {
     return handset;

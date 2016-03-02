@@ -21,10 +21,11 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   private final ActionExecution actionExecution;
   private final NotificationBehavior notificationBehavior;
-  private  final CustomSchemeReceiverContainer customSchemeReceiverContainer;
+  private final CustomSchemeReceiverContainer customSchemeReceiverContainer;
 
   public ActionDispatcherImpl(ActionExecution actionExecution,
-                              NotificationBehavior notificationBehavior, CustomSchemeReceiverContainer customSchemeReceiverContainer) {
+      NotificationBehavior notificationBehavior,
+      CustomSchemeReceiverContainer customSchemeReceiverContainer) {
 
     this.actionExecution = actionExecution;
     this.notificationBehavior = notificationBehavior;
@@ -75,7 +76,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
 
   @Override public void dispatchAction(NotificationAction action) {
     Notification notification = action.getNotifFunctionality();
-    if (notification.shouldBeShown()){
+    if (notification.shouldBeShown()) {
       notificationBehavior.dispatchNotificationAction(action, notification);
     }
   }
@@ -91,15 +92,13 @@ public class ActionDispatcherImpl implements ActionDispatcher {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
-    private ActionDispatcherListener actionDispatcherListener = new ActionDispatcherListener() {
-        @Override
-        public void onActionAccepted(BasicAction action, boolean isForeground) {
-          action.performAction(ActionDispatcherImpl.this);
-        }
+  private ActionDispatcherListener actionDispatcherListener = new ActionDispatcherListener() {
+    @Override public void onActionAccepted(BasicAction action, boolean isForeground) {
+      action.performAction(ActionDispatcherImpl.this);
+    }
 
-        @Override
-        public void onActionDismissed(BasicAction action, boolean isForeground) {
+    @Override public void onActionDismissed(BasicAction action, boolean isForeground) {
 
-        }
-    };
+    }
+  };
 }

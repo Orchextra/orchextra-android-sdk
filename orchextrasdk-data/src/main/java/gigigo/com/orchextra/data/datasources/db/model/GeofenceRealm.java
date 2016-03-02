@@ -10,8 +10,7 @@ import io.realm.annotations.PrimaryKey;
  */
 public class GeofenceRealm extends RealmObject {
 
-  @PrimaryKey
-  private String code;
+  @PrimaryKey private String code;
   private RealmPoint point;
   private int radius;
   private boolean notifyOnExit;

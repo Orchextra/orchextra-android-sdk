@@ -33,8 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     this.session = session;
   }
 
-  @Override
-  public InteractorResponse authenticate(){
+  @Override public InteractorResponse authenticate() {
     BusinessObject<Crm> boCrm = authDataProvider.retrieveCrm();
 
     String crmId = null;
@@ -44,13 +43,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return authenticate(crmId);
   }
 
-  @Override
-  public InteractorResponse authenticateUserWithCrmId(String crmId){
+  @Override public InteractorResponse authenticateUserWithCrmId(String crmId) {
     return authenticate(crmId);
   }
 
-  @Override
-  public BusinessObject<Crm> saveUser(Crm crm) {
+  @Override public BusinessObject<Crm> saveUser(Crm crm) {
     BusinessObject<Crm> boCrm = authDataProvider.retrieveCrm();
 
     if (boCrm.isSuccess() && !boCrm.getData().isEquals(crm.getCrmId())) {
@@ -67,8 +64,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     InteractorResponse<SdkAuthData> interactorResponse = authenticateSDK();
 
-    if (!interactorResponse.hasError()){
-      Credentials credentials = new ClientAuthCredentials(interactorResponse.getResult(), deviceDetailsProvider, crmId);
+    if (!interactorResponse.hasError()) {
+      Credentials credentials =
+          new ClientAuthCredentials(interactorResponse.getResult(), deviceDetailsProvider, crmId);
       interactorResponse = authenticateClient(credentials, crmId);
     }
     return interactorResponse;
@@ -79,7 +77,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     Credentials credentials = new SdkAuthCredentials(session.getApiKey(), session.getApiSecret());
     BusinessObject<SdkAuthData> sdk = authDataProvider.authenticateSdk(credentials);
 
-    if (!sdk.isSuccess()){
+    if (!sdk.isSuccess()) {
       return new InteractorResponse<>(new SdkAuthError(sdk.getBusinessError()));
     }
     return new InteractorResponse<>(sdk.getData());
@@ -89,7 +87,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     BusinessObject<ClientAuthData> user = authDataProvider.authenticateUser(credentials, crmId);
 
-    if (!user.isSuccess()){
+    if (!user.isSuccess()) {
       return new InteractorResponse<>(new AuthenticationError(user.getBusinessError()));
     }
 

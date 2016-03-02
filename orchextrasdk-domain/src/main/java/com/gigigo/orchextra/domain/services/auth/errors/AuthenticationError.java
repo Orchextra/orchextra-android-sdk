@@ -12,7 +12,7 @@ public class AuthenticationError implements InteractorError {
   private final BusinessError businessError;
 
   public AuthenticationError(BusinessError businessError) {
-  this.businessError = businessError;
+    this.businessError = businessError;
   }
 
   @Override public BusinessError getError() {

@@ -22,8 +22,8 @@ public enum BeaconDistanceType implements StringValueEnum {
   }
 
   public static BeaconDistanceType getValueFromString(String beaconDistance) {
-    for(BeaconDistanceType beaconDistanceType:BeaconDistanceType.values()){
-      if (beaconDistanceType.getStringValue().equals(beaconDistance)){
+    for (BeaconDistanceType beaconDistanceType : BeaconDistanceType.values()) {
+      if (beaconDistanceType.getStringValue().equals(beaconDistance)) {
         return beaconDistanceType;
       }
     }

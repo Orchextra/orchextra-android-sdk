@@ -1,8 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
-import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiPoint;
 
@@ -26,12 +24,11 @@ public class PointMapper implements Mapper<OrchextraPoint, ApiPoint> {
 
     Double lat, lon;
 
-    try{
+    try {
 
       lat = Double.valueOf(apiPoint.getLat());
-      lon =  Double.valueOf(apiPoint.getLng());
-
-    }catch (NumberFormatException nfe){
+      lon = Double.valueOf(apiPoint.getLng());
+    } catch (NumberFormatException nfe) {
       lat = lon = 0.0;
     }
 

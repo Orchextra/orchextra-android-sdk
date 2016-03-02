@@ -2,7 +2,6 @@ package com.gigigo.orchextra.domain.services.proximity;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
-import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.DomaninService;
@@ -13,7 +12,7 @@ import java.util.List;
  * Created by Sergio Martinez Rodriguez
  * Date 10/2/16.
  */
-public class ObtainRegionsService implements DomaninService{
+public class ObtainRegionsService implements DomaninService {
 
   private final ProximityLocalDataProvider proximityLocalDataProvider;
 
@@ -25,9 +24,9 @@ public class ObtainRegionsService implements DomaninService{
 
     BusinessObject<List<OrchextraRegion>> bo = proximityLocalDataProvider.getBeaconRegionsForScan();
 
-    if (bo.isSuccess()){
+    if (bo.isSuccess()) {
       return new InteractorResponse<>(bo.getData());
-    }else{
+    } else {
       return new InteractorResponse<>(Collections.<OrchextraRegion>emptyList());
     }
   }

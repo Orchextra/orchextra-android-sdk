@@ -9,20 +9,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiVuforia {
 
-  @Expose @SerializedName("licenseKey")
-  private String licenseKey;
+  @Expose @SerializedName("licenseKey") private String licenseKey;
 
-  @Expose @SerializedName("clientAccessKey")
-  private String clientAccessKey;
+  @Expose @SerializedName("clientAccessKey") private String clientAccessKey;
 
-  @Expose @SerializedName("clientSecretKey")
-  private String clientSecretKey;
+  @Expose @SerializedName("clientSecretKey") private String clientSecretKey;
 
-  @Expose @SerializedName("serverAccessKey")
-  private String serverAccessKey;
+  @Expose @SerializedName("serverAccessKey") private String serverAccessKey;
 
-  @Expose @SerializedName("serverSecretKey")
-  private String serverSecretKey;
+  @Expose @SerializedName("serverSecretKey") private String serverSecretKey;
 
   public String getLicenseKey() {
     return licenseKey;

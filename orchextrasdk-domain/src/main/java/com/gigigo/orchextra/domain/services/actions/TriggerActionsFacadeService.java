@@ -10,7 +10,6 @@ import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,15 +24,16 @@ public class TriggerActionsFacadeService implements DomaninService {
   private final ScheduleActionService scheduleActionService;
   private EventAccessor eventAccessor;
 
-  public TriggerActionsFacadeService(TriggerService triggerService, GetActionService getActionService,
-      ScheduleActionService scheduleActionService) {
+  public TriggerActionsFacadeService(TriggerService triggerService,
+      GetActionService getActionService, ScheduleActionService scheduleActionService) {
 
     this.triggerService = triggerService;
     this.getActionService = getActionService;
     this.scheduleActionService = scheduleActionService;
   }
 
-  public InteractorResponse<List<BasicAction>> triggerActions(List<OrchextraBeacon> orchextraBeacons) {
+  public InteractorResponse<List<BasicAction>> triggerActions(
+      List<OrchextraBeacon> orchextraBeacons) {
     return triggerActions(triggerService.getTrigger(orchextraBeacons));
   }
 
@@ -54,12 +54,11 @@ public class TriggerActionsFacadeService implements DomaninService {
 
     InteractorResponse actions = getActionService.getActions((List<Trigger>) response.getResult());
 
-    if (!actions.hasError()){
+    if (!actions.hasError()) {
       scheduleActions(actions);
     }
 
     return actions;
-
   }
 
   public void setEventAccessor(EventAccessor eventAccessor) {
@@ -67,26 +66,23 @@ public class TriggerActionsFacadeService implements DomaninService {
   }
 
   private void scheduleActions(InteractorResponse actionsResponse) {
-    List<BasicAction> actions = (List<BasicAction>)actionsResponse.getResult();
+    List<BasicAction> actions = (List<BasicAction>) actionsResponse.getResult();
 
-    for (Iterator<BasicAction> iter = actions.iterator(); iter.hasNext(); ) {
+    for (Iterator<BasicAction> iter = actions.iterator(); iter.hasNext();) {
       BasicAction basicAction = iter.next();
 
-      if (basicAction.isScheduled()){
+      if (basicAction.isScheduled()) {
         scheduleActionService.schedulePendingAction(basicAction);
         eventAccessor.updateEventWithAction(basicAction);
         actions.remove(basicAction);
       }
-
     }
   }
 
-    public void deleteScheduledActionIfExists(ScheduledActionEvent event) {
-      if (event.hasActionRelated()){
-        scheduleActionService.cancelPendingActionWithId(event.getActionRelatedId(),
-            event.relatedActionIsCancelable());
-      }
+  public void deleteScheduledActionIfExists(ScheduledActionEvent event) {
+    if (event.hasActionRelated()) {
+      scheduleActionService.cancelPendingActionWithId(event.getActionRelatedId(),
+          event.relatedActionIsCancelable());
     }
-
-
+  }
 }

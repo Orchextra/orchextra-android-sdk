@@ -12,15 +12,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiSdkAuthCredentials implements ApiCredentials {
 
-  @Expose @SerializedName("apiKey")
-  private final String apiKey;
+  @Expose @SerializedName("apiKey") private final String apiKey;
 
-  @Expose @SerializedName("apiSecret")
-  private final String apiSecret;
-
+  @Expose @SerializedName("apiSecret") private final String apiSecret;
 
   public ApiSdkAuthCredentials(Credentials credentials) {
-    SdkAuthCredentials sdkCredentials = ConsistencyUtils.checkInstance(credentials, SdkAuthCredentials.class);
+    SdkAuthCredentials sdkCredentials =
+        ConsistencyUtils.checkInstance(credentials, SdkAuthCredentials.class);
     this.apiKey = sdkCredentials.getApiKey();
     this.apiSecret = sdkCredentials.getApiSecret();
   }

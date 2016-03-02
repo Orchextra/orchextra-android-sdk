@@ -10,23 +10,17 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiPoint;
  */
 public class ApiGeoLocation {
 
-  @Expose @SerializedName("country")
-  private String country;
+  @Expose @SerializedName("country") private String country;
 
-  @Expose @SerializedName("countryCode")
-  private String countryCode;
+  @Expose @SerializedName("countryCode") private String countryCode;
 
-  @Expose @SerializedName("locality")
-  private String locality;
+  @Expose @SerializedName("locality") private String locality;
 
-  @Expose @SerializedName("zip")
-  private String zip;
+  @Expose @SerializedName("zip") private String zip;
 
-  @Expose @SerializedName("street")
-  private String street;
+  @Expose @SerializedName("street") private String street;
 
-  @Expose @SerializedName("point")
-  private ApiPoint point;
+  @Expose @SerializedName("point") private ApiPoint point;
 
   public String getCountry() {
     return country;

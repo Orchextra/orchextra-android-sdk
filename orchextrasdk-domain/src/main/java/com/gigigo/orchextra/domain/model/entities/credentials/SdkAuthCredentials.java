@@ -21,5 +21,4 @@ public class SdkAuthCredentials implements Credentials {
   public String getApiSecret() {
     return apiSecret;
   }
-
 }

@@ -8,10 +8,9 @@ import gigigo.com.orchextra.data.datasources.db.model.ClientAuthCredentialsRealm
  * Created by Sergio Martinez Rodriguez
  * Date 22/12/15.
  */
-public class ClientAuthCredentialsRealmMapper implements
-    Mapper<ClientAuthCredentials, ClientAuthCredentialsRealm> {
-  @Override
-  public ClientAuthCredentialsRealm modelToExternalClass(
+public class ClientAuthCredentialsRealmMapper
+    implements Mapper<ClientAuthCredentials, ClientAuthCredentialsRealm> {
+  @Override public ClientAuthCredentialsRealm modelToExternalClass(
       ClientAuthCredentials clientAuthCredentials) {
     ClientAuthCredentialsRealm clientAuthCredentialsRealm = new ClientAuthCredentialsRealm();
 
@@ -27,13 +26,14 @@ public class ClientAuthCredentialsRealmMapper implements
     return clientAuthCredentialsRealm;
   }
 
-  @Override
-  public ClientAuthCredentials externalClassToModel(
+  @Override public ClientAuthCredentials externalClassToModel(
       ClientAuthCredentialsRealm clientAuthCredentialsRealm) {
-    ClientAuthCredentials clientAuthCredentials = new ClientAuthCredentials(
-        clientAuthCredentialsRealm.getClientToken(), clientAuthCredentialsRealm.getInstanceId());
+    ClientAuthCredentials clientAuthCredentials =
+        new ClientAuthCredentials(clientAuthCredentialsRealm.getClientToken(),
+            clientAuthCredentialsRealm.getInstanceId());
 
-    clientAuthCredentials.setBluetoothMacAddress(clientAuthCredentialsRealm.getBluetoothMacAddress());
+    clientAuthCredentials.setBluetoothMacAddress(
+        clientAuthCredentialsRealm.getBluetoothMacAddress());
     clientAuthCredentials.setCrmId(clientAuthCredentialsRealm.getCrmId());
     clientAuthCredentials.setSecureId(clientAuthCredentialsRealm.getSecureId());
     clientAuthCredentials.setSerialNumber(clientAuthCredentialsRealm.getSerialNumber());

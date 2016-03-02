@@ -23,5 +23,4 @@ public class ConfigServiceErrorChecker extends ServiceErrorChecker {
   @Override protected InteractorResponse checkConcreteBusinessErrors(BusinessError businessError) {
     return new InteractorResponse(new GenericError(businessError));
   }
-
 }

@@ -7,10 +7,6 @@ import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
@@ -19,6 +15,8 @@ import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -31,7 +29,8 @@ public class ConfigInfoResultReader {
   private final ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper;
   private final ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper;
 
-  public ConfigInfoResultReader(ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper,
+  public ConfigInfoResultReader(
+      ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper,
       ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper,
       ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper,
       ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper) {
@@ -51,22 +50,28 @@ public class ConfigInfoResultReader {
     List<OrchextraGeofence> geofences = geofencesToModel(readGeofenceObjects(realm));
     List<OrchextraRegion> regions = regionsToModel(readRegionsObjects(realm));
 
-    ConfigInfoResult configInfoResult = new ConfigInfoResult.Builder(config.getRequestWaitTime(),
-        geofences, regions, theme, vuforia).build();
+    ConfigInfoResult configInfoResult =
+        new ConfigInfoResult.Builder(config.getRequestWaitTime(), geofences, regions, theme,
+            vuforia).build();
 
     GGGLogImpl.log("Retrieved configInfoResult with properties"
-        + " \n Theme :" + theme.toString()
-        + " Vuforia :" + vuforia.toString()
-        + " Geofences :" + geofences.size()
-        + " Regions :" + regions.size()
-        + " Request Time :" + config.getRequestWaitTime());
+        + " \n Theme :"
+        + theme.toString()
+        + " Vuforia :"
+        + vuforia.toString()
+        + " Geofences :"
+        + geofences.size()
+        + " Regions :"
+        + regions.size()
+        + " Request Time :"
+        + config.getRequestWaitTime());
 
     return configInfoResult;
   }
 
   private List<OrchextraRegion> regionsToModel(List<BeaconRegionRealm> beaconRegionRealms) {
     List<OrchextraRegion> regions = new ArrayList<>();
-    for (BeaconRegionRealm beaconRegionRealm : beaconRegionRealms){
+    for (BeaconRegionRealm beaconRegionRealm : beaconRegionRealms) {
       regions.add(regionRealmMapper.externalClassToModel(beaconRegionRealm));
     }
     return regions;
@@ -74,13 +79,13 @@ public class ConfigInfoResultReader {
 
   private List<OrchextraGeofence> geofencesToModel(List<GeofenceRealm> geofencesRealm) {
     List<OrchextraGeofence> geofences = new ArrayList<>();
-    for (GeofenceRealm geofenceRealm : geofencesRealm){
+    for (GeofenceRealm geofenceRealm : geofencesRealm) {
       geofences.add(geofencesRealmMapper.externalClassToModel(geofenceRealm));
     }
     return geofences;
   }
 
-  private ConfigInfoResultRealm readConfigObject(Realm realm){
+  private ConfigInfoResultRealm readConfigObject(Realm realm) {
     ConfigInfoResultRealm configInfo = realm.where(ConfigInfoResultRealm.class).findFirst();
     if (configInfo == null) {
       configInfo = new ConfigInfoResultRealm();
@@ -104,15 +109,16 @@ public class ConfigInfoResultReader {
     return realm.where(BeaconRegionRealm.class).findAll();
   }
 
-  public OrchextraGeofence getGeofenceById(Realm realm, String geofenceId){
+  public OrchextraGeofence getGeofenceById(Realm realm, String geofenceId) {
 
-    RealmResults<GeofenceRealm> geofenceRealm = realm.where(GeofenceRealm.class).equalTo("code", geofenceId).findAll();
+    RealmResults<GeofenceRealm> geofenceRealm =
+        realm.where(GeofenceRealm.class).equalTo("code", geofenceId).findAll();
 
     if (geofenceRealm.size() == 0) {
-      GGGLogImpl.log("Not found geofence with id: " + geofenceId );
+      GGGLogImpl.log("Not found geofence with id: " + geofenceId);
       throw new NotFountRealmObjectException();
     } else {
-      GGGLogImpl.log("Found geofence with id: " + geofenceId );
+      GGGLogImpl.log("Found geofence with id: " + geofenceId);
       return geofencesRealmMapper.externalClassToModel(geofenceRealm.first());
     }
   }
@@ -121,17 +127,16 @@ public class ConfigInfoResultReader {
     RealmResults<BeaconRegionRealm> regionRealms = realm.where(BeaconRegionRealm.class).findAll();
     List<OrchextraRegion> regions = new ArrayList<>();
 
-    for (BeaconRegionRealm beaconRegionRealm : regionRealms){
+    for (BeaconRegionRealm beaconRegionRealm : regionRealms) {
       regions.add(regionRealmMapper.externalClassToModel(beaconRegionRealm));
     }
 
-    if (regions.size()>0){
+    if (regions.size() > 0) {
       GGGLogImpl.log("Retrieved " + regions.size() + " beacon regions");
-    }else{
+    } else {
       GGGLogImpl.log("Not Retrieved any region");
     }
 
     return regions;
   }
-
 }

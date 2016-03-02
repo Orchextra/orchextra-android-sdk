@@ -9,5 +9,4 @@ public interface BluetoothAvailability {
   boolean isBlteSupported();
 
   boolean isBlteEnabled();
-
 }

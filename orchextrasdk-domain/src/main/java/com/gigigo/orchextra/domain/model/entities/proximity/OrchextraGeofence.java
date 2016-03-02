@@ -52,8 +52,7 @@ public class OrchextraGeofence extends ProximityPoint implements ScheduledAction
     return actionRelated.getActionId();
   }
 
-  @Override
-  public boolean hasActionRelated() {
+  @Override public boolean hasActionRelated() {
     return actionRelated != null;
   }
 
@@ -62,11 +61,10 @@ public class OrchextraGeofence extends ProximityPoint implements ScheduledAction
   }
 
   @Override public boolean relatedActionIsCancelable() {
-    if (actionRelated == null){
+    if (actionRelated == null) {
       return false;
-    }else{
+    } else {
       return actionRelated.isCancelable();
     }
   }
-
 }

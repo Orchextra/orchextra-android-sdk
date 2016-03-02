@@ -10,5 +10,6 @@ import java.util.List;
 public interface FeatureStatus {
 
   List<Feature> getFeatures();
+
   boolean areAllFeaturesReady();
 }

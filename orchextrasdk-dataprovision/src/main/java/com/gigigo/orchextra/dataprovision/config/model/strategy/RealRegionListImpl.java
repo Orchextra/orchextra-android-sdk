@@ -24,6 +24,6 @@ public class RealRegionListImpl implements RegionList {
   }
 
   @Override public boolean isSupported() {
-    return (currentRegions ==null)? false : true;
+    return (currentRegions == null) ? false : true;
   }
 }

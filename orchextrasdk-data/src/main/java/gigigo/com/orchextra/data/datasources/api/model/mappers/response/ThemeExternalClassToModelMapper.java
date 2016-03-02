@@ -19,5 +19,4 @@ public class ThemeExternalClassToModelMapper
 
     return theme;
   }
-
 }

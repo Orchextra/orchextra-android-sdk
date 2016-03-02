@@ -10,11 +10,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public abstract class OrchextraApiAuthRequest {
 
-  @Expose @SerializedName("grantType")
-  private final String grantType;
+  @Expose @SerializedName("grantType") private final String grantType;
 
-  @Expose @SerializedName("credentials")
-  private final ApiCredentials credentials;
+  @Expose @SerializedName("credentials") private final ApiCredentials credentials;
 
   public OrchextraApiAuthRequest(GrantType grantType, Credentials credentials) {
     this.grantType = grantType.getStringValue();
@@ -22,5 +20,4 @@ public abstract class OrchextraApiAuthRequest {
   }
 
   abstract ApiCredentials obtainApiCredentialsFromCredentials(Credentials credentials);
-
 }

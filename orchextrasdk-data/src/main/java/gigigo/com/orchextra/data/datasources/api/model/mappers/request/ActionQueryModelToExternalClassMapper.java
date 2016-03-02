@@ -27,13 +27,14 @@ public class ActionQueryModelToExternalClassMapper
     query.put(TYPE_QUERY_PARAM, trigger.getTriggerType().getStringValue());
     query.put(VALUE_QUERY_PARAM, trigger.getCode());
 
-    if (trigger.geoPointIsSupported()){
+    if (trigger.geoPointIsSupported()) {
       query.put(LAT_QUERY_PARAM, String.valueOf(trigger.getPoint().getLat()));
       query.put(LNG_QUERY_PARAM, String.valueOf(trigger.getPoint().getLng()));
     }
 
-    if (trigger.beaconDistanceTypeIsSupported()){
-      query.put(DISTANCE_QUERY_PARAM, String.valueOf(trigger.getBeaconDistanceType().getStringValue()));
+    if (trigger.beaconDistanceTypeIsSupported()) {
+      query.put(DISTANCE_QUERY_PARAM,
+          String.valueOf(trigger.getBeaconDistanceType().getStringValue()));
     }
 
     if (trigger.getGeoPointEventType() != null) {
@@ -42,7 +43,7 @@ public class ActionQueryModelToExternalClassMapper
 
     query.put(PHONE_STATUS_QUERY_PARAM, trigger.getAppRunningModeType().getStringValue());
 
-    if (trigger.getGeoDistance()>0){
+    if (trigger.getGeoDistance() > 0) {
       query.put(DISTANCE_QUERY_PARAM, String.valueOf(trigger.getGeoDistance()));
     }
 

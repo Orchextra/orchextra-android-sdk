@@ -9,8 +9,7 @@ import io.realm.annotations.PrimaryKey;
  */
 public class SdkAuthCredentialsRealm extends RealmObject {
 
-  @PrimaryKey
-  private int id;
+  @PrimaryKey private int id;
   private String apiKey;
   private String apiSecret;
 

@@ -13,12 +13,11 @@ public class BeaconExternalClassToModelMapper
 
   @Override public OrchextraRegion externalClassToModel(ApiBeaconRegion apiBeaconRegion) {
 
-    OrchextraRegion region = new OrchextraRegion(
-        apiBeaconRegion.getCode(),
-        apiBeaconRegion.getUuid(),
-        (apiBeaconRegion.getMajor() != null)? apiBeaconRegion.getMajor() : -1,
-        (apiBeaconRegion.getMinor() != null)? apiBeaconRegion.getMinor() : -1,
-        apiBeaconRegion.getActive());
+    OrchextraRegion region =
+        new OrchextraRegion(apiBeaconRegion.getCode(), apiBeaconRegion.getUuid(),
+            (apiBeaconRegion.getMajor() != null) ? apiBeaconRegion.getMajor() : -1,
+            (apiBeaconRegion.getMinor() != null) ? apiBeaconRegion.getMinor() : -1,
+            apiBeaconRegion.getActive());
 
     //Set supper fields
     region.setNotifyOnEntry(apiBeaconRegion.getNotifyOnEntry());
@@ -27,5 +26,4 @@ public class BeaconExternalClassToModelMapper
 
     return region;
   }
-
 }

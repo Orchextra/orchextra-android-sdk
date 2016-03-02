@@ -2,11 +2,11 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.ggglib.mappers.MapperUtils;
+import com.gigigo.ggglib.network.mappers.DateFormatConstants;
+import com.gigigo.orchextra.domain.model.ProximityPointType;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
-import com.gigigo.orchextra.domain.model.ProximityPointType;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 
@@ -18,7 +18,6 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
 
   private final Mapper<OrchextraPoint, RealmPoint> realmPointMapper;
   private final KeyWordRealmMapper keyWordRealmMapper;
-
 
   public GeofenceRealmMapper(Mapper realmPointMapper, KeyWordRealmMapper keyWordRealmMapper) {
     this.realmPointMapper = realmPointMapper;
@@ -48,7 +47,6 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
     geofenceRealm.setUpdatedAt(
         DateUtils.dateToStringWithFormat(geofence.getUpdatedAt(), DateFormatConstants.DATE_FORMAT));
 
-
     return geofenceRealm;
   }
 
@@ -56,7 +54,8 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
     OrchextraGeofence geofence = new OrchextraGeofence();
 
     geofence.setRadius(geofenceRealm.getRadius());
-    geofence.setPoint(MapperUtils.checkNullDataResponse(realmPointMapper, geofenceRealm.getPoint()));
+    geofence.setPoint(
+        MapperUtils.checkNullDataResponse(realmPointMapper, geofenceRealm.getPoint()));
 
     geofence.setCode(geofenceRealm.getCode());
     geofence.setId(geofenceRealm.getId());
@@ -67,10 +66,10 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
     geofence.setTags(keyWordRealmMapper.realmKeyWordsToStringList(geofenceRealm.getTags()));
     geofence.setType(ProximityPointType.getProximityPointTypeValue(geofenceRealm.getType()));
 
-    geofence.setCreatedAt(
-        DateUtils.stringToDateWithFormat(geofenceRealm.getCreatedAt(), DateFormatConstants.DATE_FORMAT));
-    geofence.setUpdatedAt(
-        DateUtils.stringToDateWithFormat(geofenceRealm.getUpdatedAt(), DateFormatConstants.DATE_FORMAT));
+    geofence.setCreatedAt(DateUtils.stringToDateWithFormat(geofenceRealm.getCreatedAt(),
+        DateFormatConstants.DATE_FORMAT));
+    geofence.setUpdatedAt(DateUtils.stringToDateWithFormat(geofenceRealm.getUpdatedAt(),
+        DateFormatConstants.DATE_FORMAT));
 
     return geofence;
   }

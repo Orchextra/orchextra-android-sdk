@@ -8,8 +8,8 @@ import gigigo.com.orchextra.data.datasources.db.model.SdkAuthCredentialsRealm;
  * Created by Sergio Martinez Rodriguez
  * Date 22/12/15.
  */
-public class SdkAuthCredentialsRealmMapper implements
-    Mapper<SdkAuthCredentials, SdkAuthCredentialsRealm> {
+public class SdkAuthCredentialsRealmMapper
+    implements Mapper<SdkAuthCredentials, SdkAuthCredentialsRealm> {
 
   @Override public SdkAuthCredentialsRealm modelToExternalClass(SdkAuthCredentials credentials) {
     SdkAuthCredentialsRealm sdkAuthCredentialsRealm = new SdkAuthCredentialsRealm();
@@ -18,8 +18,8 @@ public class SdkAuthCredentialsRealmMapper implements
     return sdkAuthCredentialsRealm;
   }
 
-  @Override public SdkAuthCredentials externalClassToModel(
-      SdkAuthCredentialsRealm sdkAuthCredentialsRealm) {
+  @Override
+  public SdkAuthCredentials externalClassToModel(SdkAuthCredentialsRealm sdkAuthCredentialsRealm) {
 
     String apiKey = sdkAuthCredentialsRealm.getApiKey();
     String apiSecret = sdkAuthCredentialsRealm.getApiSecret();

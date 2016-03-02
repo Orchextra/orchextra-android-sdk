@@ -7,13 +7,11 @@ import com.google.gson.annotations.SerializedName;
  * Created by Sergio Martinez Rodriguez
  * Date 15/12/15.
  */
-public class ApiGeofence extends ApiProximityPoint{
+public class ApiGeofence extends ApiProximityPoint {
 
-  @Expose @SerializedName("point")
-  private ApiPoint point;
+  @Expose @SerializedName("point") private ApiPoint point;
 
-  @Expose @SerializedName("radius")
-  private int radius;
+  @Expose @SerializedName("radius") private int radius;
 
   public ApiPoint getPoint() {
     return point;
@@ -30,5 +28,4 @@ public class ApiGeofence extends ApiProximityPoint{
   public void setRadius(int radius) {
     this.radius = radius;
   }
-
 }

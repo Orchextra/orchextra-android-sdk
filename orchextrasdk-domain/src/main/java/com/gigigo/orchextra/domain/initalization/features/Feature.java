@@ -7,13 +7,14 @@ import com.gigigo.orchextra.domain.model.StringValueEnum;
  * Created by Sergio Martinez Rodriguez
  * Date 2/2/16.
  */
-public abstract class Feature{
+public abstract class Feature {
 
   private FeatureType featureType;
   private StringValueEnum status;
 
   public Feature(
-      com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType featureType, StringValueEnum status) {
+      com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType featureType,
+      StringValueEnum status) {
     this.featureType = featureType;
     this.status = status;
   }
@@ -27,8 +28,12 @@ public abstract class Feature{
   }
 
   @Override public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
 
     Feature feature = (Feature) o;
 
@@ -42,7 +47,8 @@ public abstract class Feature{
   public abstract boolean isSuccess();
 
   @Override public String toString() {
-    return "Feature --> " + featureType.getStringValue() +
-        " :: " + status.getStringValue() ;
+    return "Feature --> "
+        + featureType.getStringValue()
+        + " :: " + status.getStringValue();
   }
 }

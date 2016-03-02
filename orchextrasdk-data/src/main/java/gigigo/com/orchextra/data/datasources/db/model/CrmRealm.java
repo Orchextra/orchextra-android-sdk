@@ -10,13 +10,11 @@ import io.realm.annotations.PrimaryKey;
  */
 public class CrmRealm extends RealmObject {
 
-  @PrimaryKey
-  private int id;
+  @PrimaryKey private int id;
   private String crmId;
   private String gender;
   private String birthDate;
   private RealmList<KeyWordRealm> keywords;
-
 
   public String getCrmId() {
     return crmId;

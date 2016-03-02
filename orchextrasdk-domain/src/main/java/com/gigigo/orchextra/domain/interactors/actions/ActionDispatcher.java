@@ -16,18 +16,30 @@ import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 public interface ActionDispatcher {
 
   void dispatchAction(BrowserAction action);
-  void dispatchAction(BrowserAction action, Notification notification);
-  void dispatchAction(WebViewAction action);
-  void dispatchAction(WebViewAction action, Notification notification);
-  void dispatchAction(CustomAction action);
-  void dispatchAction(CustomAction action, Notification notification);
-  void dispatchAction(ScanAction action);
-  void dispatchAction(ScanAction action, Notification notification);
-  void dispatchAction(VuforiaScanAction action);
-  void dispatchAction(VuforiaScanAction action, Notification notification);
-  void dispatchAction(NotificationAction action);
-  void dispatchAction(NotificationAction action, Notification notification);
-  void dispatchAction(EmptyAction action);
-  void dispatchAction(EmptyAction action, Notification notification);
 
+  void dispatchAction(BrowserAction action, Notification notification);
+
+  void dispatchAction(WebViewAction action);
+
+  void dispatchAction(WebViewAction action, Notification notification);
+
+  void dispatchAction(CustomAction action);
+
+  void dispatchAction(CustomAction action, Notification notification);
+
+  void dispatchAction(ScanAction action);
+
+  void dispatchAction(ScanAction action, Notification notification);
+
+  void dispatchAction(VuforiaScanAction action);
+
+  void dispatchAction(VuforiaScanAction action, Notification notification);
+
+  void dispatchAction(NotificationAction action);
+
+  void dispatchAction(NotificationAction action, Notification notification);
+
+  void dispatchAction(EmptyAction action);
+
+  void dispatchAction(EmptyAction action, Notification notification);
 }

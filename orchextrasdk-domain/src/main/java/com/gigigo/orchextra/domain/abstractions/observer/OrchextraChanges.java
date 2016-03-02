@@ -6,6 +6,8 @@ package com.gigigo.orchextra.domain.abstractions.observer;
  */
 public interface OrchextraChanges {
   void registerObserver(Observer o);
+
   void removeObserver(Observer o);
+
   void notifyObservers(Object data);
 }

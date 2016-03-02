@@ -22,13 +22,13 @@ public class ConfigObservable implements OrchextraChanges {
 
   @Override public void removeObserver(Observer o) {
     int index = observers.indexOf(o);
-    if (index>=0){
+    if (index >= 0) {
       observers.remove(index);
     }
   }
 
   @Override public void notifyObservers(Object configData) {
-    for (Observer observer:observers){
+    for (Observer observer : observers) {
       observer.update(this, configData);
     }
   }

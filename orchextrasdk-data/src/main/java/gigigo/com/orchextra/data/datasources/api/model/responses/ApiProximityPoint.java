@@ -10,32 +10,23 @@ import java.util.List;
  */
 public abstract class ApiProximityPoint {
 
-  @Expose @SerializedName("code")
-  private String code;
+  @Expose @SerializedName("code") private String code;
 
-  @Expose @SerializedName("name")
-  private String name;
+  @Expose @SerializedName("name") private String name;
 
-  @Expose @SerializedName("tags")
-  private List<String> tags;
+  @Expose @SerializedName("tags") private List<String> tags;
 
-  @Expose @SerializedName("type")
-  private String type;
+  @Expose @SerializedName("type") private String type;
 
-  @Expose @SerializedName("createdAt")
-  private String createdAt;
+  @Expose @SerializedName("createdAt") private String createdAt;
 
-  @Expose @SerializedName("updatedAt")
-  private String updatedAt;
+  @Expose @SerializedName("updatedAt") private String updatedAt;
 
-  @Expose @SerializedName("notifyOnExit")
-  private boolean notifyOnExit;
+  @Expose @SerializedName("notifyOnExit") private boolean notifyOnExit;
 
-  @Expose @SerializedName("notifyOnEntry")
-  private boolean notifyOnEntry;
+  @Expose @SerializedName("notifyOnEntry") private boolean notifyOnEntry;
 
-  @Expose @SerializedName("stayTime")
-  private int stayTime;
+  @Expose @SerializedName("stayTime") private int stayTime;
 
   public String getCode() {
     return code;

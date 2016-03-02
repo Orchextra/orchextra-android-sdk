@@ -6,7 +6,6 @@ import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.services.DomaninService;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,12 +34,13 @@ public class BeaconCheckerService implements DomaninService {
 
   private InteractorResponse obtainTriggerableBeacons(List<OrchextraBeacon> orchextraBeacons) {
 
-    BusinessObject<List<OrchextraBeacon>> bo = proximityLocalDataProvider.getNotStoredBeaconEvents(orchextraBeacons);
+    BusinessObject<List<OrchextraBeacon>> bo =
+        proximityLocalDataProvider.getNotStoredBeaconEvents(orchextraBeacons);
 
     List<OrchextraBeacon> triggerableBeacons = bo.getData();
 
-    for (OrchextraBeacon beacon:triggerableBeacons){
-        proximityLocalDataProvider.storeBeaconEvent(beacon);
+    for (OrchextraBeacon beacon : triggerableBeacons) {
+      proximityLocalDataProvider.storeBeaconEvent(beacon);
     }
 
     return new InteractorResponse<>(triggerableBeacons);

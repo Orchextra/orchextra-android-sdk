@@ -8,5 +8,6 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
  */
 public interface ErrorLogger {
   void log(BusinessError businessError);
+
   void log(String message);
 }

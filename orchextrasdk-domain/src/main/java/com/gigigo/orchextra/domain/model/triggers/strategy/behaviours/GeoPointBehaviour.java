@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.domain.model.triggers.strategy.behaviours;
 
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.model.triggers.strategy.SupportedBehaviour;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 /**
  * Created by Sergio Martinez Rodriguez

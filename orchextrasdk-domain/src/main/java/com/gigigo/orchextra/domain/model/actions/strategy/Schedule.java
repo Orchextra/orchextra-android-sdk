@@ -30,5 +30,4 @@ public class Schedule {
   public void setEventId(String eventId) {
     this.eventId = eventId;
   }
-
 }

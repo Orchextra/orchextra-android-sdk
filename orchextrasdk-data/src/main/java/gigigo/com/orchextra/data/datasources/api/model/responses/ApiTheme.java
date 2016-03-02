@@ -9,11 +9,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiTheme {
 
-  @Expose @SerializedName("primaryColor")
-  private String primaryColor;
+  @Expose @SerializedName("primaryColor") private String primaryColor;
 
-  @Expose @SerializedName("secondaryColor")
-  private String secondaryColor;
+  @Expose @SerializedName("secondaryColor") private String secondaryColor;
 
   public String getPrimaryColor() {
     return primaryColor;

@@ -7,19 +7,15 @@ import com.google.gson.annotations.SerializedName;
  * Created by Sergio Martinez Rodriguez
  * Date 15/12/15.
  */
-public class ApiBeaconRegion extends ApiProximityPoint{
+public class ApiBeaconRegion extends ApiProximityPoint {
 
-  @Expose @SerializedName("minor")
-  private Integer minor;
+  @Expose @SerializedName("minor") private Integer minor;
 
-  @Expose @SerializedName("major")
-  private Integer major;
+  @Expose @SerializedName("major") private Integer major;
 
-  @Expose @SerializedName("uuid")
-  private String uuid;
+  @Expose @SerializedName("uuid") private String uuid;
 
-  @Expose @SerializedName("active")
-  private boolean active;
+  @Expose @SerializedName("active") private boolean active;
 
   public Integer getMinor() {
     return minor;

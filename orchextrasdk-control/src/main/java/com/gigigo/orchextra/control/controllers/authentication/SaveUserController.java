@@ -17,15 +17,15 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
  * Created by Sergio Martinez Rodriguez
  * Date 4/12/15.
  */
-public class SaveUserController extends Controller<SaveUserDelegate>{
+public class SaveUserController extends Controller<SaveUserDelegate> {
 
   private final InteractorInvoker interactorInvoker;
   private final Provider<InteractorExecution> interactorExecutionProvider;
   private final ConfigObservable configObservable;
 
   public SaveUserController(InteractorInvoker interactorInvoker,
-                            Provider<InteractorExecution> interactorExecutionProvider,
-                            ThreadSpec mainThreadSpec, ConfigObservable configObservable) {
+      Provider<InteractorExecution> interactorExecutionProvider, ThreadSpec mainThreadSpec,
+      ConfigObservable configObservable) {
     super(mainThreadSpec);
     this.interactorInvoker = interactorInvoker;
     this.interactorExecutionProvider = interactorExecutionProvider;
@@ -37,7 +37,8 @@ public class SaveUserController extends Controller<SaveUserDelegate>{
 
   public void saveUser(Crm crm) {
     InteractorExecution interactorExecution = interactorExecutionProvider.get();
-    SaveUserInteractor saveUserInteractor = (SaveUserInteractor) interactorExecution.getInteractor();
+    SaveUserInteractor saveUserInteractor =
+        (SaveUserInteractor) interactorExecution.getInteractor();
     saveUserInteractor.setCrm(crm);
 
     interactorExecution.result(new InteractorResult<OrchextraUpdates>() {
@@ -48,7 +49,7 @@ public class SaveUserController extends Controller<SaveUserDelegate>{
   }
 
   private void notifyChanges(OrchextraUpdates result) {
-    if (result.hasChanges()){
+    if (result.hasChanges()) {
       configObservable.notifyObservers(result);
     }
   }

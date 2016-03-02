@@ -11,5 +11,4 @@ import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult
 public interface ConfigDataSource {
 
   BusinessObject<ConfigInfoResult> sendConfigInfo(Config config);
-
 }

@@ -17,6 +17,6 @@ public class GeoDistanceBehaviourImpl implements GeoDistanceBehaviour {
   }
 
   @Override public boolean isSupported() {
-    return (distance==0.0)? false : true;
+    return (distance == 0.0) ? false : true;
   }
 }

@@ -4,7 +4,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
 public interface AppRunningMode {
 
-    AppRunningModeType getRunningModeType();
+  AppRunningModeType getRunningModeType();
 
-    void setOrchextraActivityLifecycle(LifeCycleAccessor lifeCycleAccessor);
+  void setOrchextraActivityLifecycle(LifeCycleAccessor lifeCycleAccessor);
 }

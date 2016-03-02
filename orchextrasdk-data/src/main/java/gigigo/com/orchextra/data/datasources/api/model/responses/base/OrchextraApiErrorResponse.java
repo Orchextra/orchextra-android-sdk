@@ -8,10 +8,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class OrchextraApiErrorResponse {
 
-  @SerializedName("code")
-  private int code;
-  @SerializedName("message")
-  private String message;
+  @SerializedName("code") private int code;
+  @SerializedName("message") private String message;
 
   public OrchextraApiErrorResponse(int code, String message) {
     this.code = code;

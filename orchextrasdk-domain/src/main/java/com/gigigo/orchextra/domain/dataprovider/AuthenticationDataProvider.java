@@ -23,5 +23,4 @@ public interface AuthenticationDataProvider {
   BusinessObject<Crm> retrieveCrm();
 
   boolean storeCrmId(Crm crm);
-
 }

@@ -26,5 +26,4 @@ public class DeviceModelToExternalClassMapper
 
     return apiDevice;
   }
-
 }

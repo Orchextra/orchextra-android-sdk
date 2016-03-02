@@ -22,7 +22,7 @@ public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRe
     regionRealm.setActionRelatedCancelable(region.relatedActionIsCancelable());
     regionRealm.setActionRelated(region.getActionRelatedId());
 
-    if (region.getRegionEvent()!=null){
+    if (region.getRegionEvent() != null) {
       regionRealm.setEventType(region.getRegionEvent().getStringValue());
     }
 
@@ -31,22 +31,18 @@ public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRe
 
   @Override public OrchextraRegion externalClassToModel(BeaconRegionRealm regionRealm) {
 
-    OrchextraRegion region = new OrchextraRegion(
-        regionRealm.getCode(),
-        regionRealm.getUuid(),
-        regionRealm.getMajor(),
-        regionRealm.getMinor(),
-        regionRealm.isActive());
+    OrchextraRegion region =
+        new OrchextraRegion(regionRealm.getCode(), regionRealm.getUuid(), regionRealm.getMajor(),
+            regionRealm.getMinor(), regionRealm.isActive());
 
-    region.setActionRelated(new ActionRelated(regionRealm.getActionRelated(),
-        regionRealm.isActionRelatedCancelable()));
+    region.setActionRelated(
+        new ActionRelated(regionRealm.getActionRelated(), regionRealm.isActionRelatedCancelable()));
 
-    if (regionRealm.getEventType() == null){
+    if (regionRealm.getEventType() == null) {
       region.setRegionEvent(RegionEventType.EXIT);
-    }else{
+    } else {
       region.setRegionEvent(RegionEventType.getTypeFromString(regionRealm.getEventType()));
     }
-
 
     return region;
   }

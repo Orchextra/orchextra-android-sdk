@@ -11,7 +11,8 @@ import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
  */
 public class ScanAction extends BasicAction {
 
-  public ScanAction(String id, String trackId, String url, Notification notification, Schedule schedule) {
+  public ScanAction(String id, String trackId, String url, Notification notification,
+      Schedule schedule) {
     super(id, trackId, url, notification, schedule);
     this.actionType = com.gigigo.orchextra.domain.model.actions.ActionType.SCAN;
   }
@@ -23,5 +24,4 @@ public class ScanAction extends BasicAction {
   @Override protected void performNotifAction(ActionDispatcher actionDispatcher) {
     actionDispatcher.dispatchAction(this, notifFunctionality.getNotification());
   }
-
 }

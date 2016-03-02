@@ -27,5 +27,4 @@ public class ScheduleFunctionalityImpl implements ScheduleFunctionality {
   @Override public boolean isSupported() {
     return true;
   }
-
 }

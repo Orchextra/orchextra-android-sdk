@@ -8,15 +8,12 @@ import com.google.gson.annotations.SerializedName;
  * Created by Sergio Martinez Rodriguez
  * Date 30/11/15.
  */
-public class BaseOrchextraApiResponse<JSONData> implements
-    ApiGenericResponse<JSONData, OrchextraApiErrorResponse> {
+public class BaseOrchextraApiResponse<JSONData>
+    implements ApiGenericResponse<JSONData, OrchextraApiErrorResponse> {
 
-  @SerializedName("status")
-  private boolean status;
-  @SerializedName("data")
-  private JSONData data;
-  @SerializedName("error")
-  private OrchextraApiErrorResponse error;
+  @SerializedName("status") private boolean status;
+  @SerializedName("data") private JSONData data;
+  @SerializedName("error") private OrchextraApiErrorResponse error;
 
   private HttpResponse httpResponse;
 

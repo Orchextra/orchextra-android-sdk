@@ -3,15 +3,14 @@ package gigigo.com.orchextra.data.datasources.api.service;
 import com.gigigo.ggglib.network.defaultelements.RetryOnErrorPolicy;
 import com.gigigo.ggglib.network.responses.HttpResponse;
 import com.gigigo.orchextra.domain.interactors.error.OrchextraBusinessErrors;
-
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
 
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 30/11/15.
  */
-public class DefaultRetryOnErrorPolicyImpl implements
-    RetryOnErrorPolicy<OrchextraApiErrorResponse> {
+public class DefaultRetryOnErrorPolicyImpl
+    implements RetryOnErrorPolicy<OrchextraApiErrorResponse> {
 
   /**
    * The aim of this method is implement the desired policy and implement a switch case strategy
@@ -21,7 +20,6 @@ public class DefaultRetryOnErrorPolicyImpl implements
    * @param tries time the request has been already retried
    * @param error error description
    * @param httpResponse full http response of error
-   * @return
    */
   @Override public boolean shouldRetryWithErrorAndTries(int tries, OrchextraApiErrorResponse error,
       HttpResponse httpResponse) {
@@ -34,20 +32,20 @@ public class DefaultRetryOnErrorPolicyImpl implements
 
   private boolean retryPolicy(int tries, int errorCode) {
     if (errorCode == OrchextraBusinessErrors.NO_AUTH_EXPIRED.getValue()
-            || errorCode == OrchextraBusinessErrors.NO_AUTH_CREDENTIALS.getValue()
-//            || errorCode == OrchextraBusinessErrors.INTERNAL_SERVER_ERROR.getValue()
-            ) {
+        || errorCode == OrchextraBusinessErrors.NO_AUTH_CREDENTIALS.getValue()
+      //            || errorCode == OrchextraBusinessErrors.INTERNAL_SERVER_ERROR.getValue()
+        ) {
 
       return false;
     } else {
-        return defaultRetryPolicy(tries);
+      return defaultRetryPolicy(tries);
     }
   }
 
   private boolean defaultRetryPolicy(int tries) {
-    if (tries<3){
+    if (tries < 3) {
       return true;
-    }else {
+    } else {
       return false;
     }
   }

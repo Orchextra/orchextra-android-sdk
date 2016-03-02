@@ -14,7 +14,7 @@ public class BackgroundTasksManagerImpl implements BackgroundTasksManager {
   private final GeofenceRegister geofenceRegister;
 
   public BackgroundTasksManagerImpl(BeaconScanner beaconScanner,
-                                    GeofenceRegister geofenceRegister) {
+      GeofenceRegister geofenceRegister) {
     this.beaconScanner = beaconScanner;
     this.geofenceRegister = geofenceRegister;
   }
@@ -27,5 +27,4 @@ public class BackgroundTasksManagerImpl implements BackgroundTasksManager {
   @Override public void finalizeBackgroundTasks() {
     //beaconScanner.stopMonitoring();
   }
-
 }

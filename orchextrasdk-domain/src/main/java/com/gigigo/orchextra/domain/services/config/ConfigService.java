@@ -15,7 +15,6 @@ import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
-
 import java.util.concurrent.Future;
 
 /**
@@ -34,9 +33,9 @@ public class ConfigService implements DomaninService {
   private final GeolocationManager geolocationManager;
 
   public ConfigService(ConfigDataProvider configDataProvider,
-                       AuthenticationDataProvider authenticationDataProvider,
-                       ServiceErrorChecker serviceErrorChecker, App app, Device device,
-                       FutureGeolocation futureGeolocation, GeolocationManager geolocationManager) {
+      AuthenticationDataProvider authenticationDataProvider,
+      ServiceErrorChecker serviceErrorChecker, App app, Device device,
+      FutureGeolocation futureGeolocation, GeolocationManager geolocationManager) {
 
     this.configDataProvider = configDataProvider;
     this.authenticationDataProvider = authenticationDataProvider;
@@ -57,9 +56,9 @@ public class ConfigService implements DomaninService {
 
     BusinessObject<OrchextraUpdates> boOrchextraUpdates = configDataProvider.sendConfigInfo(config);
 
-    if (boOrchextraUpdates.isSuccess()){
+    if (boOrchextraUpdates.isSuccess()) {
       return new InteractorResponse<>(boOrchextraUpdates.getData());
-    }else{
+    } else {
       return processError(boOrchextraUpdates.getBusinessError());
     }
   }
@@ -75,10 +74,11 @@ public class ConfigService implements DomaninService {
 
   public InteractorResponse<OrchextraUpdates> processError(BusinessError businessError) {
     InteractorResponse interactorResponse = serviceErrorChecker.checkErrors(businessError);
-    if (interactorResponse.hasError()){
+    if (interactorResponse.hasError()) {
       return interactorResponse;
+    } else {
+      return refreshConfig();
     }
-    else return refreshConfig();
   }
 
   private Config generateConfig(GeoLocation geoLocation, Crm crm) {
@@ -89,10 +89,10 @@ public class ConfigService implements DomaninService {
     config.setCrm(crm);
 
     //TODO Get notification info from app client
-//    NotificationPush notificationPush = new NotificationPush();
-//    notificationPush.setToken("qweqweq");
-//    notificationPush.setSenderId("dadadasdad");
-//    config.setNotificationPush(notificationPush);
+    //    NotificationPush notificationPush = new NotificationPush();
+    //    notificationPush.setToken("qweqweq");
+    //    notificationPush.setSenderId("dadadasdad");
+    //    config.setNotificationPush(notificationPush);
 
     return config;
   }
@@ -103,8 +103,8 @@ public class ConfigService implements DomaninService {
   }
 
   private void taskAsync(FutureGeolocation future) {
-      geolocationManager.setRetrieveGeolocationListener(future);
-      geolocationManager.retrieveGeolocation();
+    geolocationManager.setRetrieveGeolocationListener(future);
+    geolocationManager.retrieveGeolocation();
   }
 
   private GeoLocation getGeolocation() {
@@ -114,5 +114,4 @@ public class ConfigService implements DomaninService {
       return GeoLocation.createNullGeoLocationInstance();
     }
   }
-
 }

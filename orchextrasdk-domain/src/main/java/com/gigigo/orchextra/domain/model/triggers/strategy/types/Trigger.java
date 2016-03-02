@@ -2,16 +2,16 @@ package com.gigigo.orchextra.domain.model.triggers.strategy.types;
 
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
-import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
-import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
+import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
+import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviour;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviour;
+import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointBehaviour;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviour;
-import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviour;
-import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointBehaviour;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -35,83 +35,85 @@ public abstract class Trigger {
   protected BeaconDistanceTypeBehaviour beaconDistanceTypeBehaviour;
   protected GeoDistanceBehaviour geoDistanceBehaviour;
 
-  Trigger(TriggerType triggerType, String code, OrchextraPoint point, AppRunningModeType appRunningModeType) {
+  Trigger(TriggerType triggerType, String code, OrchextraPoint point,
+      AppRunningModeType appRunningModeType) {
     this.triggerType = triggerType;
     this.code = code;
     this.appRunningModeType = appRunningModeType;
     this.geoPointBehaviour = new GeoPointBehaviourImpl(point);
   }
 
-  public Trigger(){
-      this.triggerType = null;
-      this.code = null;
-      this.appRunningModeType = null;
-      this.geoPointBehaviour = null;
+  public Trigger() {
+    this.triggerType = null;
+    this.code = null;
+    this.appRunningModeType = null;
+    this.geoPointBehaviour = null;
   }
 
   abstract void setConcreteBehaviour();
 
   public static GeofenceTrigger createGeofenceTrigger(String code, OrchextraPoint point,
-      AppRunningModeType appRunningModeType, double distance, GeoPointEventType geoPointEventType){
+      AppRunningModeType appRunningModeType, double distance, GeoPointEventType geoPointEventType) {
 
-    GeofenceTrigger geofenceTrigger = new GeofenceTrigger(code, point, appRunningModeType, distance, geoPointEventType);
+    GeofenceTrigger geofenceTrigger =
+        new GeofenceTrigger(code, point, appRunningModeType, distance, geoPointEventType);
     geofenceTrigger.setConcreteBehaviour();
     return geofenceTrigger;
   }
 
-  @Deprecated
-  public static BeaconTrigger createBeaconTrigger(String id, OrchextraPoint point,
+  @Deprecated public static BeaconTrigger createBeaconTrigger(String id, OrchextraPoint point,
       AppRunningModeType appRunningModeType, BeaconDistanceType beaconDistType,
-      GeoPointEventType geoPointEventType){
+      GeoPointEventType geoPointEventType) {
 
-    BeaconTrigger beaconTrigger = new BeaconTrigger(id, point, appRunningModeType, beaconDistType, geoPointEventType);
+    BeaconTrigger beaconTrigger =
+        new BeaconTrigger(id, point, appRunningModeType, beaconDistType, geoPointEventType);
     beaconTrigger.setConcreteBehaviour();
     return beaconTrigger;
   }
 
-  public static Trigger createQrScanTrigger(String id, OrchextraPoint point){
-    return createScanTrigger(id,TriggerType.QR, point);
+  public static Trigger createQrScanTrigger(String id, OrchextraPoint point) {
+    return createScanTrigger(id, TriggerType.QR, point);
   }
 
-  public static Trigger createBarcodeScanTrigger(String id, OrchextraPoint point){
-    return createScanTrigger(id,TriggerType.BARCODE, point);
+  public static Trigger createBarcodeScanTrigger(String id, OrchextraPoint point) {
+    return createScanTrigger(id, TriggerType.BARCODE, point);
   }
 
-  public static Trigger createVuforiaScanTrigger(String id, OrchextraPoint point){
-    return createScanTrigger(id,TriggerType.VUFORIA, point);
+  public static Trigger createVuforiaScanTrigger(String id, OrchextraPoint point) {
+    return createScanTrigger(id, TriggerType.VUFORIA, point);
   }
 
-  private static Trigger createScanTrigger(String id, TriggerType scanType, OrchextraPoint point){
+  private static Trigger createScanTrigger(String id, TriggerType scanType, OrchextraPoint point) {
     try {
       ScanTrigger scanTrigger = new ScanTrigger(scanType, id, point, AppRunningModeType.FOREGROUND);
       scanTrigger.setConcreteBehaviour();
       return scanTrigger;
-    }catch (Exception e){
+    } catch (Exception e) {
       return Trigger.createEmptyTrigger();
     }
-
   }
 
   public static Trigger createBeaconRegionTrigger(AppRunningModeType appRunningMode,
       OrchextraRegion orchextraRegion) {
 
     try {
-      BeaconRegionTrigger beaconRegionTrigger = new BeaconRegionTrigger(orchextraRegion, appRunningMode);
+      BeaconRegionTrigger beaconRegionTrigger =
+          new BeaconRegionTrigger(orchextraRegion, appRunningMode);
       beaconRegionTrigger.setConcreteBehaviour();
       return beaconRegionTrigger;
-    }catch (Exception e){
+    } catch (Exception e) {
       return Trigger.createEmptyTrigger();
     }
-
   }
 
-  public static Trigger createBeaconTrigger(AppRunningModeType appRunningMode, OrchextraBeacon orchextraBeacon) {
+  public static Trigger createBeaconTrigger(AppRunningModeType appRunningMode,
+      OrchextraBeacon orchextraBeacon) {
     try {
       BeaconTrigger beaconTrigger = new BeaconTrigger(orchextraBeacon, appRunningMode);
       beaconTrigger.setConcreteBehaviour();
       return beaconTrigger;
-    }catch (Exception e){
-    return Trigger.createEmptyTrigger();
+    } catch (Exception e) {
+      return Trigger.createEmptyTrigger();
     }
   }
 
@@ -147,7 +149,7 @@ public abstract class Trigger {
     return geoDistanceBehaviour.getGeoDistance();
   }
 
-  public boolean geoPointIsSupported(){
+  public boolean geoPointIsSupported() {
     return geoPointBehaviour.isSupported();
   }
 
@@ -159,8 +161,6 @@ public abstract class Trigger {
         this.geoDistanceBehaviour = null;
       }
     };
-    return trigger ;
+    return trigger;
   }
-
-
 }

@@ -48,11 +48,11 @@ public class OrchextraRegion extends ProximityPoint implements ScheduledActionEv
     return active;
   }
 
-  public boolean isEnter(){
+  public boolean isEnter() {
     return regionEvent == RegionEventType.ENTER;
   }
 
-  public boolean isExit(){
+  public boolean isExit() {
     return regionEvent == RegionEventType.EXIT;
   }
 
@@ -65,37 +65,34 @@ public class OrchextraRegion extends ProximityPoint implements ScheduledActionEv
   }
 
   public void setRegionEvent(BeaconEventType eventType) {
-    if (eventType == BeaconEventType.REGION_ENTER){
+    if (eventType == BeaconEventType.REGION_ENTER) {
       regionEvent = RegionEventType.ENTER;
-    }else{
+    } else {
       regionEvent = RegionEventType.EXIT;
     }
   }
 
-  @Override
-  public void setActionRelated(ActionRelated actionRelated) {
+  @Override public void setActionRelated(ActionRelated actionRelated) {
     this.actionRelated = actionRelated;
   }
 
   @Override public String getActionRelatedId() {
-    if (actionRelated == null){
+    if (actionRelated == null) {
       return "";
-    }else{
+    } else {
       return actionRelated.getActionId();
     }
   }
 
-  @Override
-  public boolean hasActionRelated() {
-    return (actionRelated!=null);
+  @Override public boolean hasActionRelated() {
+    return (actionRelated != null);
   }
 
   @Override public boolean relatedActionIsCancelable() {
-    if (actionRelated == null){
+    if (actionRelated == null) {
       return false;
-    }else{
+    } else {
       return actionRelated.isCancelable();
     }
   }
-
 }

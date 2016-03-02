@@ -13,5 +13,4 @@ public interface ActionsScheduler {
   void cancelAction(ScheduledAction action);
 
   boolean hasPersistence();
-
 }

@@ -2,7 +2,6 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
-
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthData;
 
 /**
@@ -12,15 +11,12 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthData;
 public class SdkApiExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiSdkAuthData, SdkAuthData> {
 
-    @Override
-    public SdkAuthData externalClassToModel(ApiSdkAuthData apiSdkAuthData) {
+  @Override public SdkAuthData externalClassToModel(ApiSdkAuthData apiSdkAuthData) {
 
-        SdkAuthData sdkAuthData = new SdkAuthData(
-            apiSdkAuthData.getValue(),
-            apiSdkAuthData.getExpiresIn(),
-            apiSdkAuthData.getProjectId()
-        );
+    SdkAuthData sdkAuthData =
+        new SdkAuthData(apiSdkAuthData.getValue(), apiSdkAuthData.getExpiresIn(),
+            apiSdkAuthData.getProjectId());
 
-        return sdkAuthData;
-    }
+    return sdkAuthData;
+  }
 }

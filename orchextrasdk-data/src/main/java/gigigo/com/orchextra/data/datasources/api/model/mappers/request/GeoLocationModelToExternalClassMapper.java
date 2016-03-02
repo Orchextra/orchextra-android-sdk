@@ -28,10 +28,9 @@ public class GeoLocationModelToExternalClassMapper
     apiGeoLocation.setStreet(geoLocation.getStreet());
     apiGeoLocation.setZip(geoLocation.getZip());
 
-    apiGeoLocation.setPoint(MapperUtils.checkNullDataRequest(
-        pointRequestMapper, geoLocation.getPoint()));
+    apiGeoLocation.setPoint(
+        MapperUtils.checkNullDataRequest(pointRequestMapper, geoLocation.getPoint()));
 
     return apiGeoLocation;
   }
-
 }

@@ -2,7 +2,6 @@ package com.gigigo.orchextra.dataprovision.proximity.datasource;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 
 public interface GeofenceDBDataSource {
 

@@ -28,9 +28,8 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
   private final Session session;
 
   public ConfigDataProviderImpl(ConfigDataSource configDataSource,
-                                ConfigDBDataSource configDBDataSource,
-                                SessionDBDataSource sessionDBDataSource,
-                                Session session) {
+      ConfigDBDataSource configDBDataSource, SessionDBDataSource sessionDBDataSource,
+      Session session) {
 
     this.configDataSource = configDataSource;
     this.configDBDataSource = configDBDataSource;
@@ -42,27 +41,29 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
 
     boolean isAuthenticated = checkAuthenticationToken();
     if (!isAuthenticated) {
-      return new BusinessObject<>(null, new BusinessError(OrchextraBusinessErrors.NO_AUTH_EXPIRED.getValue(), null, BusinessContentType.BUSINESS_ERROR_CONTENT));
+      return new BusinessObject<>(null,
+          new BusinessError(OrchextraBusinessErrors.NO_AUTH_EXPIRED.getValue(), null,
+              BusinessContentType.BUSINESS_ERROR_CONTENT));
     }
 
     BusinessObject<ConfigInfoResult> configResponse = configDataSource.sendConfigInfo(config);
 
-    if (configResponse.isSuccess()){
-      OrchextraUpdates orchextraUpdates = configDBDataSource.saveConfigData(configResponse.getData());
+    if (configResponse.isSuccess()) {
+      OrchextraUpdates orchextraUpdates =
+          configDBDataSource.saveConfigData(configResponse.getData());
       return new BusinessObject(orchextraUpdates, BusinessError.createOKInstance());
     } else {
-     return new BusinessObject<>(null,configResponse.getBusinessError());
+      return new BusinessObject<>(null, configResponse.getBusinessError());
     }
   }
 
   @Override public int obtainRequestTime() {
     BusinessObject<ConfigInfoResult> bo = configDBDataSource.obtainConfigData();
-    if (bo.isSuccess()){
+    if (bo.isSuccess()) {
       return bo.getData().getRequestWaitTime();
-    }else{
+    } else {
       return DEFAULT_REQUEST_TIME;
     }
-
   }
 
   private boolean checkAuthenticationToken() {

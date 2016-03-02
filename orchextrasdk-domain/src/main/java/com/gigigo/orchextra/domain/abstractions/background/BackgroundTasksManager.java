@@ -9,5 +9,4 @@ public interface BackgroundTasksManager {
   void startBackgroundTasks();
 
   void finalizeBackgroundTasks();
-
 }

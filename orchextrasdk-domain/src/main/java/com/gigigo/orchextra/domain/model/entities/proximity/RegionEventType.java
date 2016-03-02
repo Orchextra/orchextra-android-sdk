@@ -7,7 +7,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
  * Created by Sergio Martinez Rodriguez
  * Date 10/2/16.
  */
-public enum RegionEventType  implements StringValueEnum {
+public enum RegionEventType implements StringValueEnum {
   ENTER(GeoPointEventType.ENTER.getStringValue()),
   EXIT(GeoPointEventType.EXIT.getStringValue());
 
@@ -23,8 +23,8 @@ public enum RegionEventType  implements StringValueEnum {
 
   public static RegionEventType getTypeFromString(String eventType) {
 
-    for (RegionEventType regionEventType : RegionEventType.values()){
-      if (regionEventType.getStringValue().equals(eventType)){
+    for (RegionEventType regionEventType : RegionEventType.values()) {
+      if (regionEventType.getStringValue().equals(eventType)) {
         return regionEventType;
       }
     }

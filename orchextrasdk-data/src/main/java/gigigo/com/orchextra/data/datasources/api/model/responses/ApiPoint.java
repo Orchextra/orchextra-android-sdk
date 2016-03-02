@@ -9,11 +9,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiPoint {
 
-  @Expose @SerializedName("lat")
-  private String lat;
+  @Expose @SerializedName("lat") private String lat;
 
-  @Expose @SerializedName("lng")
-  private String lng;
+  @Expose @SerializedName("lng") private String lng;
 
   public String getLat() {
     return lat;

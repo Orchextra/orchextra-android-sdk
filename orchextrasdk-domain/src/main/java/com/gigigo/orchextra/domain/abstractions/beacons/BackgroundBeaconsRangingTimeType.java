@@ -20,9 +20,9 @@ public enum BackgroundBeaconsRangingTimeType {
     return backgroundTimeMilis;
   }
 
-  public static BackgroundBeaconsRangingTimeType getType(int value){
-    for(BackgroundBeaconsRangingTimeType type: BackgroundBeaconsRangingTimeType.values()){
-      if (type.getIntValue() == value){
+  public static BackgroundBeaconsRangingTimeType getType(int value) {
+    for (BackgroundBeaconsRangingTimeType type : BackgroundBeaconsRangingTimeType.values()) {
+      if (type.getIntValue() == value) {
         return type;
       }
     }

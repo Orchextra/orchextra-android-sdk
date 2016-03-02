@@ -19,9 +19,10 @@ public class EventUpdaterService implements DomaninService {
     this.proximityLocalDataProvider = proximityLocalDataProvider;
   }
 
-  public InteractorResponse associateActionToRegionEvent(OrchextraRegion orchextraRegion)  {
+  public InteractorResponse associateActionToRegionEvent(OrchextraRegion orchextraRegion) {
 
-    BusinessObject<OrchextraRegion> bo = proximityLocalDataProvider.updateRegionWithActionId(orchextraRegion);
+    BusinessObject<OrchextraRegion> bo =
+        proximityLocalDataProvider.updateRegionWithActionId(orchextraRegion);
 
     if (bo.isSuccess()) {
       return new InteractorResponse(bo.getData());
@@ -31,7 +32,8 @@ public class EventUpdaterService implements DomaninService {
   }
 
   public InteractorResponse associateActionToGeofenceEvent(OrchextraGeofence geofence) {
-    BusinessObject<OrchextraGeofence> bo = proximityLocalDataProvider.updateGeofenceWithActionId(geofence);
+    BusinessObject<OrchextraGeofence> bo =
+        proximityLocalDataProvider.updateGeofenceWithActionId(geofence);
 
     if (bo.isSuccess()) {
       return new InteractorResponse(bo.getData());

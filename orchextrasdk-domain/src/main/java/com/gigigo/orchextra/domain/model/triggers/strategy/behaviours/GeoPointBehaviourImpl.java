@@ -19,6 +19,6 @@ public class GeoPointBehaviourImpl implements GeoPointBehaviour {
   }
 
   @Override public boolean isSupported() {
-    return (point==null)? false : true;
+    return (point == null) ? false : true;
   }
 }

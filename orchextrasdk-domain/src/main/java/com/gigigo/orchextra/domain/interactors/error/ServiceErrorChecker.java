@@ -17,23 +17,23 @@ public abstract class ServiceErrorChecker {
     this.authenticationService = authenticationService;
   }
 
-  public InteractorResponse checkErrors(BusinessError businessError){
+  public InteractorResponse checkErrors(BusinessError businessError) {
 
-    if (businessError.getBusinessContentType() == BusinessContentType.BUSINESS_ERROR_CONTENT){
+    if (businessError.getBusinessContentType() == BusinessContentType.BUSINESS_ERROR_CONTENT) {
       //BusinessError management
       InteractorResponse response = checkBusinessErrors(businessError);
 
-      if (!response.hasError()){
+      if (!response.hasError()) {
         return response;
       }
 
       return checkConcreteBusinessErrors(businessError);
-    }else{
+    } else {
 
       //Exception management BusinessContentType.EXCEPTION_CONTENT
       InteractorResponse response = checkExceptions(businessError);
 
-      if (!response.hasError()){
+      if (!response.hasError()) {
         return response;
       }
 
@@ -41,13 +41,13 @@ public abstract class ServiceErrorChecker {
     }
   }
 
-
   private InteractorResponse checkExceptions(BusinessError businessError) {
     return new InteractorResponse(new GenericError(businessError));
   }
 
   private InteractorResponse checkBusinessErrors(BusinessError businessError) {
-    OrchextraBusinessErrors error = OrchextraBusinessErrors.getEnumTypeFromInt(businessError.getCode());
+    OrchextraBusinessErrors error =
+        OrchextraBusinessErrors.getEnumTypeFromInt(businessError.getCode());
 
     try {
 
@@ -59,11 +59,12 @@ public abstract class ServiceErrorChecker {
         default:
           return new InteractorResponse(new GenericError(businessError));
       }
-    }catch (Exception e){
+    } catch (Exception e) {
       return new InteractorResponse(new GenericError(businessError));
     }
   }
 
   protected abstract InteractorResponse checkConcreteException(BusinessError businessError);
+
   protected abstract InteractorResponse checkConcreteBusinessErrors(BusinessError businessError);
 }

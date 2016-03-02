@@ -17,5 +17,4 @@ public class ActionNotificationExternalClassToModelMapper
     notification.setBody(apiNotification.getBody());
     return notification;
   }
-
 }

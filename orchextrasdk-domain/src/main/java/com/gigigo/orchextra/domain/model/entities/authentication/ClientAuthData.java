@@ -33,7 +33,7 @@ public class ClientAuthData {
   }
 
   private Date calculateExpireTime(int expiresIn) {
-    return new Date(Calendar.getInstance().getTimeInMillis()+expiresIn);
+    return new Date(Calendar.getInstance().getTimeInMillis() + expiresIn);
   }
 
   public String getProjectId() {

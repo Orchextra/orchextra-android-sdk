@@ -2,18 +2,16 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -29,7 +27,8 @@ public class ConfigApiExternalClassToModelMapper
   private final ThemeExternalClassToModelMapper themeResponseMapper;
   private final VuforiaExternalClassToModelMapper vuforiaResponseMapper;
 
-  public ConfigApiExternalClassToModelMapper(VuforiaExternalClassToModelMapper vuforiaResponseMapper,
+  public ConfigApiExternalClassToModelMapper(
+      VuforiaExternalClassToModelMapper vuforiaResponseMapper,
       ThemeExternalClassToModelMapper themeResponseMapper,
       BeaconExternalClassToModelMapper beaconResponseMapper,
       GeofenceExternalClassToModelMapper geofenceResponseMapper) {
@@ -44,20 +43,19 @@ public class ConfigApiExternalClassToModelMapper
     List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
     List<OrchextraGeofence> geofences = mapGeofences(apiConfigData.getGeoMarketing());
     Theme theme = MapperUtils.checkNullDataResponse(themeResponseMapper, apiConfigData.getTheme());
-    Vuforia vuforia = MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
+    Vuforia vuforia =
+        MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
-    return new ConfigInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND, geofences,beacons, theme,
-         vuforia).build();
-
+    return new ConfigInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND, geofences,
+        beacons, theme, vuforia).build();
   }
 
   private List<OrchextraGeofence> mapGeofences(List<ApiGeofence> apiGeofences) {
-    List<OrchextraGeofence> geofences =  new ArrayList<>();
+    List<OrchextraGeofence> geofences = new ArrayList<>();
 
-    if (apiGeofences == null)
-      return geofences;
+    if (apiGeofences == null) return geofences;
 
-    for (ApiGeofence apiGeofence : apiGeofences){
+    for (ApiGeofence apiGeofence : apiGeofences) {
       geofences.add(MapperUtils.checkNullDataResponse(geofenceResponseMapper, apiGeofence));
     }
 
@@ -67,10 +65,9 @@ public class ConfigApiExternalClassToModelMapper
   private List<OrchextraRegion> mapBeacons(List<ApiBeaconRegion> apiBeaconRegions) {
     List<OrchextraRegion> beacons = new ArrayList<>();
 
-    if (beacons == null)
-      return beacons;
+    if (beacons == null) return beacons;
 
-    for (ApiBeaconRegion apiBeaconRegion : apiBeaconRegions){
+    for (ApiBeaconRegion apiBeaconRegion : apiBeaconRegions) {
       beacons.add(MapperUtils.checkNullDataResponse(beaconResponseMapper, apiBeaconRegion));
     }
 

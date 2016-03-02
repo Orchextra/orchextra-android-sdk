@@ -6,8 +6,12 @@ package com.gigigo.orchextra.domain.abstractions.device;
  */
 public interface DeviceDetailsProvider {
   String getAndroidInstanceId();
+
   String getAndroidSecureId();
+
   String getAndroidSerialNumber();
+
   String getWifiMac();
+
   String getBluetoothMac();
 }

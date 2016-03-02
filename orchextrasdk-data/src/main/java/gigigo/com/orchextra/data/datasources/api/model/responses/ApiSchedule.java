@@ -9,11 +9,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiSchedule {
 
-  @Expose @SerializedName("seconds")
-  private int seconds;
+  @Expose @SerializedName("seconds") private int seconds;
 
-  @Expose @SerializedName("cancelable")
-  private boolean cancelable;
+  @Expose @SerializedName("cancelable") private boolean cancelable;
 
   public int getSeconds() {
     return seconds;

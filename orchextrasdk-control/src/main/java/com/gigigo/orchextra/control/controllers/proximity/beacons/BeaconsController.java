@@ -1,7 +1,6 @@
 package com.gigigo.orchextra.control.controllers.proximity.beacons;
 
 import com.gigigo.orchextra.control.InteractorResult;
-import com.gigigo.orchextra.control.controllers.base.Controller;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.beacons.RegionsProviderListener;
@@ -22,7 +21,7 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
  * Created by Sergio Martinez Rodriguez
  * Date 3/2/16.
  */
-public class BeaconsController{
+public class BeaconsController {
 
   private final InteractorInvoker interactorInvoker;
   private final ActionDispatcher actionDispatcher;
@@ -57,7 +56,8 @@ public class BeaconsController{
 
   public void onBeaconsDetectedInRegion(List<OrchextraBeacon> beacons, OrchextraRegion region) {
     InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
-    BeaconEventsInteractor beaconEventsInteractor = (BeaconEventsInteractor) execution.getInteractor();
+    BeaconEventsInteractor beaconEventsInteractor =
+        (BeaconEventsInteractor) execution.getInteractor();
 
     beaconEventsInteractor.setEventType(BeaconEventType.BEACONS_DETECTED);
     dispatchBeaconEvent(beacons, execution, beaconEventsInteractor);
@@ -65,7 +65,8 @@ public class BeaconsController{
 
   public void onRegionEnter(OrchextraRegion region) {
     InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
-    BeaconEventsInteractor beaconEventsInteractor = (BeaconEventsInteractor) execution.getInteractor();
+    BeaconEventsInteractor beaconEventsInteractor =
+        (BeaconEventsInteractor) execution.getInteractor();
 
     beaconEventsInteractor.setEventType(BeaconEventType.REGION_ENTER);
     dispatchBeaconEvent(region, execution, beaconEventsInteractor);
@@ -73,13 +74,15 @@ public class BeaconsController{
 
   public void onRegionExit(OrchextraRegion region) {
     InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
-    BeaconEventsInteractor beaconEventsInteractor = (BeaconEventsInteractor) execution.getInteractor();
+    BeaconEventsInteractor beaconEventsInteractor =
+        (BeaconEventsInteractor) execution.getInteractor();
 
     beaconEventsInteractor.setEventType(BeaconEventType.REGION_EXIT);
     dispatchBeaconEvent(region, execution, beaconEventsInteractor);
   }
 
-  private void dispatchBeaconEvent(Object data, InteractorExecution interactorExecution, BeaconEventsInteractor beaconEventsInteractor) {
+  private void dispatchBeaconEvent(Object data, InteractorExecution interactorExecution,
+      BeaconEventsInteractor beaconEventsInteractor) {
     beaconEventsInteractor.setData(data);
     executeBeaconInteractor(interactorExecution, new InteractorResult<List<BasicAction>>() {
       @Override public void onResult(List<BasicAction> actions) {
@@ -94,17 +97,20 @@ public class BeaconsController{
     });
   }
 
-  private void executeBeaconInteractor(InteractorExecution interactorExecution, InteractorResult interactorResult) {
+  private void executeBeaconInteractor(InteractorExecution interactorExecution,
+      InteractorResult interactorResult) {
     interactorExecution.result(interactorResult)
         .error(BeaconsInteractorError.class, new InteractorResult<BeaconsInteractorError>() {
           @Override public void onResult(BeaconsInteractorError result) {
-              manageBeaconInteractorError(result);
+            manageBeaconInteractorError(result);
           }
-        }).error(InteractorError.class, new InteractorResult<InteractorError>() {
-      @Override public void onResult(InteractorError result) {
-              manageInteractorError(result);
-      }
-    }).execute(interactorInvoker);
+        })
+        .error(InteractorError.class, new InteractorResult<InteractorError>() {
+          @Override public void onResult(InteractorError result) {
+            manageInteractorError(result);
+          }
+        })
+        .execute(interactorInvoker);
   }
 
   private void manageInteractorError(InteractorError result) {
@@ -113,7 +119,7 @@ public class BeaconsController{
 
   private void manageBeaconInteractorError(BeaconsInteractorError result) {
 
-    switch (result.getBeaconBusinessErrorType()){
+    switch (result.getBeaconBusinessErrorType()) {
       case NO_SUCH_REGION_IN_ENTER:
         errorLogger.log(result.getError());
         break;
@@ -125,5 +131,4 @@ public class BeaconsController{
         break;
     }
   }
-
 }

@@ -5,13 +5,13 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 
 public class DeleteGeofenceEventError implements InteractorError {
 
-    private final BusinessError error;
+  private final BusinessError error;
 
-    public DeleteGeofenceEventError(BusinessError businessError) {
-        this.error = businessError;
-    }
+  public DeleteGeofenceEventError(BusinessError businessError) {
+    this.error = businessError;
+  }
 
-    public BusinessError getError() {
-        return error;
-    }
+  public BusinessError getError() {
+    return error;
+  }
 }

@@ -1,6 +1,5 @@
 package com.gigigo.orchextra.domain.model.vo;
 
-
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 16/12/15.
@@ -62,7 +61,7 @@ public class GeoLocation {
     this.point = point;
   }
 
-  public static GeoLocation createNullGeoLocationInstance(){
+  public static GeoLocation createNullGeoLocationInstance() {
     GeoLocation geoLocation = new GeoLocation();
     geoLocation.country = "";
     geoLocation.countryCode = "";

@@ -12,7 +12,7 @@ import java.util.concurrent.TimeoutException;
  * Created by Sergio Martinez Rodriguez
  * Date 16/2/16.
  */
-public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocationListener{
+public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocationListener {
 
   private volatile GeoLocation geoLocation = null;
   private volatile boolean cancelled = false;
@@ -22,8 +22,7 @@ public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocati
     countDownLatch = new CountDownLatch(1);
   }
 
-  @Override
-  public boolean cancel(final boolean mayInterruptIfRunning) {
+  @Override public boolean cancel(final boolean mayInterruptIfRunning) {
     if (isDone()) {
       return false;
     } else {
@@ -33,26 +32,22 @@ public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocati
     }
   }
 
-  @Override
-  public GeoLocation get() throws InterruptedException, ExecutionException {
+  @Override public GeoLocation get() throws InterruptedException, ExecutionException {
     countDownLatch.await();
     return geoLocation;
   }
 
-  @Override
-  public GeoLocation get(final long timeout, final TimeUnit unit)
+  @Override public GeoLocation get(final long timeout, final TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     countDownLatch.await(timeout, unit);
     return geoLocation;
   }
 
-  @Override
-  public boolean isCancelled() {
+  @Override public boolean isCancelled() {
     return cancelled;
   }
 
-  @Override
-  public boolean isDone() {
+  @Override public boolean isDone() {
     return countDownLatch.getCount() == 0;
   }
 

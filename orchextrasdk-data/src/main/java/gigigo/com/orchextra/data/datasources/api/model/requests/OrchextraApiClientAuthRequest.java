@@ -6,7 +6,7 @@ import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
  * Created by Sergio Martinez Rodriguez
  * Date 14/12/15.
  */
-public class OrchextraApiClientAuthRequest extends OrchextraApiAuthRequest{
+public class OrchextraApiClientAuthRequest extends OrchextraApiAuthRequest {
 
   public OrchextraApiClientAuthRequest(GrantType grantType, Credentials credentials) {
     super(grantType, credentials);
@@ -15,5 +15,4 @@ public class OrchextraApiClientAuthRequest extends OrchextraApiAuthRequest{
   @Override ApiCredentials obtainApiCredentialsFromCredentials(Credentials credentials) {
     return new ApiClientAuthCredentials(credentials);
   }
-
 }

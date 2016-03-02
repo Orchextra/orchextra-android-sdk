@@ -12,49 +12,48 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 public class ConfigController extends Controller<ConfigDelegate> {
 
-    private final InteractorInvoker interactorInvoker;
-    private final Provider<InteractorExecution> sendConfigInteractorExecution;
-    private final ConfigObservable configObservable;
+  private final InteractorInvoker interactorInvoker;
+  private final Provider<InteractorExecution> sendConfigInteractorExecution;
+  private final ConfigObservable configObservable;
 
-    public ConfigController(ThreadSpec mainThreadSpec, InteractorInvoker interactorInvoker,
-                            Provider<InteractorExecution> sendConfigInteractorExecution,
-                            ConfigObservable configObservable) {
+  public ConfigController(ThreadSpec mainThreadSpec, InteractorInvoker interactorInvoker,
+      Provider<InteractorExecution> sendConfigInteractorExecution,
+      ConfigObservable configObservable) {
 
-        super(mainThreadSpec);
+    super(mainThreadSpec);
 
-        this.interactorInvoker = interactorInvoker;
+    this.interactorInvoker = interactorInvoker;
 
-        this.sendConfigInteractorExecution = sendConfigInteractorExecution;
-        this.configObservable = configObservable;
-    }
+    this.sendConfigInteractorExecution = sendConfigInteractorExecution;
+    this.configObservable = configObservable;
+  }
 
-    @Override
-    public void onDelegateAttached() {
+  @Override public void onDelegateAttached() {
 
-    }
+  }
 
-    public void sendConfiguration() {
-        sendConfigInteractorExecution.get().result(new InteractorResult<OrchextraUpdates>() {
-            @Override public void onResult(OrchextraUpdates result) {
-                if (result != null) {
-                    notifyChanges(result);
-                }
-                getDelegate().configSuccessful();
-            }
-        }).error(InteractorError.class, new InteractorResult<InteractorError>() {
-            @Override public void onResult(InteractorError result) {
-                    manageInteractorError(result);
-            }
-        }).execute(interactorInvoker);
-    }
-
-    private void manageInteractorError(InteractorError result) {
-        getDelegate().configError(result.getError());
-    }
-
-    private void notifyChanges(OrchextraUpdates result) {
-        if (result.hasChanges()){
-            configObservable.notifyObservers(result);
+  public void sendConfiguration() {
+    sendConfigInteractorExecution.get().result(new InteractorResult<OrchextraUpdates>() {
+      @Override public void onResult(OrchextraUpdates result) {
+        if (result != null) {
+          notifyChanges(result);
         }
+        getDelegate().configSuccessful();
+      }
+    }).error(InteractorError.class, new InteractorResult<InteractorError>() {
+      @Override public void onResult(InteractorError result) {
+        manageInteractorError(result);
+      }
+    }).execute(interactorInvoker);
+  }
+
+  private void manageInteractorError(InteractorError result) {
+    getDelegate().configError(result.getError());
+  }
+
+  private void notifyChanges(OrchextraUpdates result) {
+    if (result.hasChanges()) {
+      configObservable.notifyObservers(result);
     }
+  }
 }

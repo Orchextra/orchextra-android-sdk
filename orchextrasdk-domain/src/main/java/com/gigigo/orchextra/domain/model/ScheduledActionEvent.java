@@ -8,7 +8,10 @@ import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
  */
 public interface ScheduledActionEvent {
   String getActionRelatedId();
+
   boolean hasActionRelated();
+
   void setActionRelated(ActionRelated actionRelated);
+
   boolean relatedActionIsCancelable();
 }

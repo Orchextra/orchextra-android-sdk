@@ -6,22 +6,22 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
 public class AppRunningModeImp implements AppRunningMode {
 
-    private LifeCycleAccessor lifeCycleAccessor;
+  private LifeCycleAccessor lifeCycleAccessor;
 
-    @Override public void setOrchextraActivityLifecycle(LifeCycleAccessor lifeCycleAccessor) {
-        this.lifeCycleAccessor = lifeCycleAccessor;
+  @Override public void setOrchextraActivityLifecycle(LifeCycleAccessor lifeCycleAccessor) {
+    this.lifeCycleAccessor = lifeCycleAccessor;
+  }
+
+  //region running Mode interface
+
+  @Override public AppRunningModeType getRunningModeType() {
+
+    if (lifeCycleAccessor.isInBackground()) {
+      return AppRunningModeType.BACKGROUND;
+    } else {
+      return AppRunningModeType.FOREGROUND;
     }
+  }
 
-    //region running Mode interface
-
-    @Override public AppRunningModeType getRunningModeType() {
-
-        if (lifeCycleAccessor.isInBackground()){
-            return AppRunningModeType.BACKGROUND;
-        }else{
-            return AppRunningModeType.FOREGROUND;
-        }
-    }
-
-    //endregion
+  //endregion
 }

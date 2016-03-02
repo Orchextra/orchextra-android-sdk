@@ -13,7 +13,7 @@ public class URLFunctionalityImpl implements URLFunctionality {
   }
 
   @Override public boolean isSupported() {
-    return (url==(null))? false : true;
+    return (url == (null)) ? false : true;
   }
 
   @Override public String getUrl() {

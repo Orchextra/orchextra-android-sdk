@@ -7,7 +7,7 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorError;
  * Created by Sergio Martinez Rodriguez
  * Date 9/12/15.
  */
-public class SdkAuthError implements InteractorError{
+public class SdkAuthError implements InteractorError {
 
   private BusinessError error;
 
@@ -18,5 +18,4 @@ public class SdkAuthError implements InteractorError{
   public BusinessError getError() {
     return error;
   }
-
 }

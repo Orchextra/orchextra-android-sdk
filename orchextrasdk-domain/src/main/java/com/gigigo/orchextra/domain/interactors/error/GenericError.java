@@ -7,7 +7,7 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorError;
  * Created by Sergio Martinez Rodriguez
  * Date 9/12/15.
  */
-public class GenericError implements InteractorError{
+public class GenericError implements InteractorError {
 
   private BusinessError error;
 

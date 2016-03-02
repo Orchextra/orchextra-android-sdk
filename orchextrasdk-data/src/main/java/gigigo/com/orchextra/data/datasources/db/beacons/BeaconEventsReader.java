@@ -24,17 +24,17 @@ public class BeaconEventsReader {
 
   public OrchextraRegion obtainRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
 
-      RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
-          .equalTo(BeaconRegionRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
-          .findAll();
+    RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
+        .equalTo(BeaconRegionRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
+        .findAll();
 
-      if (results.size()>1) {
-        GGGLogImpl.log("EVENT: More than one region Event with same Code stored", LogLevel.ERROR);
-      }else if (results.size()==1){
-        GGGLogImpl.log("EVENT: Recovered orchextra region " + orchextraRegion.getCode());
-      }else{
-        GGGLogImpl.log("EVENT: Region Event not stored " + orchextraRegion.getCode());
-      }
+    if (results.size() > 1) {
+      GGGLogImpl.log("EVENT: More than one region Event with same Code stored", LogLevel.ERROR);
+    } else if (results.size() == 1) {
+      GGGLogImpl.log("EVENT: Recovered orchextra region " + orchextraRegion.getCode());
+    } else {
+      GGGLogImpl.log("EVENT: Region Event not stored " + orchextraRegion.getCode());
+    }
 
     return regionEventRealmMapper.externalClassToModel(results.first());
   }

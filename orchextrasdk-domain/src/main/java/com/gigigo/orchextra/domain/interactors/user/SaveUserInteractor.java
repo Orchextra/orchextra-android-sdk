@@ -21,7 +21,7 @@ public class SaveUserInteractor implements Interactor<InteractorResponse<Orchext
   private Crm crm;
 
   public SaveUserInteractor(AuthenticationService authenticationService,
-                            ConfigService configService) {
+      ConfigService configService) {
 
     this.authenticationService = authenticationService;
     this.configService = configService;
@@ -36,11 +36,11 @@ public class SaveUserInteractor implements Interactor<InteractorResponse<Orchext
 
     BusinessObject<Crm> crmBusinessObject = authenticationService.saveUser(crm);
 
-    if (crmBusinessObject.isSuccess())
-    {
+    if (crmBusinessObject.isSuccess()) {
       boOrchextraUpdates = configService.refreshConfig();
-    } else{
-      return new InteractorResponse<OrchextraUpdates>(new AuthenticationError(crmBusinessObject.getBusinessError()));
+    } else {
+      return new InteractorResponse<OrchextraUpdates>(
+          new AuthenticationError(crmBusinessObject.getBusinessError()));
     }
 
     return boOrchextraUpdates;

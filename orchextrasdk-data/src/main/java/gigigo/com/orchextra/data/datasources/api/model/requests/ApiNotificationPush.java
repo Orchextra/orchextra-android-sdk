@@ -9,11 +9,9 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiNotificationPush {
 
-  @Expose @SerializedName("token")
-  private String token;
+  @Expose @SerializedName("token") private String token;
 
-  @Expose @SerializedName("senderId")
-  private String senderId;
+  @Expose @SerializedName("senderId") private String senderId;
 
   public String getToken() {
     return token;

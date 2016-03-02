@@ -9,14 +9,11 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiSdkAuthData {
 
-  @Expose @SerializedName("value")
-  private String value;
+  @Expose @SerializedName("value") private String value;
 
-  @Expose @SerializedName("expiresIn")
-  private int expiresIn;
+  @Expose @SerializedName("expiresIn") private int expiresIn;
 
-  @Expose @SerializedName("projectId")
-  private String projectId;
+  @Expose @SerializedName("projectId") private String projectId;
 
   public String getValue() {
     return value;

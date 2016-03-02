@@ -7,13 +7,16 @@ package com.gigigo.orchextra.domain.abstractions.beacons;
 public interface BeaconScanner {
 
   void startMonitoring();
+
   void stopMonitoring();
 
   void startRangingScanner();
+
   void initAvailableRegionsRangingScanner();
+
   void stopRangingScanner();
 
   boolean isRanging();
-  boolean isMonitoring();
 
+  boolean isMonitoring();
 }

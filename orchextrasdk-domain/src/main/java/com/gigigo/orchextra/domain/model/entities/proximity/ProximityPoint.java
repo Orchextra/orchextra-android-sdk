@@ -13,7 +13,7 @@ public class ProximityPoint {
   private String id;
   private String code;
   private String name;
-  private List<String> tags ;
+  private List<String> tags;
   private ProximityPointType type;
   private Date createdAt;
   private Date updatedAt;

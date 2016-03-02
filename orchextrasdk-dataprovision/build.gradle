@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply from: rootProject.file('gradle/checkstyle.gradle')
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

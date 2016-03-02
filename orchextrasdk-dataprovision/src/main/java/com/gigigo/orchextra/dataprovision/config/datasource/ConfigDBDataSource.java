@@ -14,7 +14,9 @@ import java.util.List;
  */
 public interface ConfigDBDataSource {
   OrchextraUpdates saveConfigData(ConfigInfoResult config);
+
   BusinessObject<ConfigInfoResult> obtainConfigData();
+
   BusinessObject<OrchextraGeofence> obtainGeofenceById(String uuid);
 
   BusinessObject<List<OrchextraRegion>> obtainRegionsForScan();

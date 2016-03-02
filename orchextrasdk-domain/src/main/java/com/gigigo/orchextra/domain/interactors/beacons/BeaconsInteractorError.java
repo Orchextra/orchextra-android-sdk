@@ -24,6 +24,7 @@ public class BeaconsInteractorError implements InteractorError {
   }
 
   @Override public BusinessError getError() {
-    return BusinessError.createKoInstance("Beacon exception produced : " + beaconBusinessErrorType.getStringValue());
+    return BusinessError.createKoInstance(
+        "Beacon exception produced : " + beaconBusinessErrorType.getStringValue());
   }
 }

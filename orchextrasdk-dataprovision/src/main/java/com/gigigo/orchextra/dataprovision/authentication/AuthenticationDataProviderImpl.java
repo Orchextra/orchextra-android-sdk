@@ -27,10 +27,10 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   @Override public BusinessObject<SdkAuthData> authenticateSdk(Credentials credentials) {
     BusinessObject<SdkAuthData> deviceToken = sessionDBDataSource.getDeviceToken();
 
-    if (!deviceToken.isSuccess() || deviceToken.getData().isExpired()){
+    if (!deviceToken.isSuccess() || deviceToken.getData().isExpired()) {
       deviceToken = authenticationDataSource.authenticateSdk(credentials);
 
-      if (deviceToken.isSuccess()){
+      if (deviceToken.isSuccess()) {
         sessionDBDataSource.saveSdkAuthResponse(deviceToken.getData());
       }
     }
@@ -38,10 +38,12 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
     return deviceToken;
   }
 
-  @Override public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId) {
+  @Override
+  public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId) {
     BusinessObject<ClientAuthData> sessionToken = sessionDBDataSource.getSessionToken();
 
-    if (!sessionToken.isSuccess() || sessionToken.getData() == null || sessionToken.getData().isExpired()) {
+    if (!sessionToken.isSuccess() || sessionToken.getData() == null || sessionToken.getData()
+        .isExpired()) {
 
       sessionToken = authenticationDataSource.authenticateUser(credentials);
 
@@ -54,8 +56,7 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
     return sessionToken;
   }
 
-  @Override
-  public void clearAuthenticatedUser() {
+  @Override public void clearAuthenticatedUser() {
     sessionDBDataSource.clearAuthenticatedUser();
   }
 
@@ -70,13 +71,11 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
     sessionDBDataSource.saveUser(crm);
   }
 
-  @Override
-  public BusinessObject<ClientAuthData> getCredentials() {
+  @Override public BusinessObject<ClientAuthData> getCredentials() {
     return sessionDBDataSource.getSessionToken();
   }
 
-  @Override
-  public BusinessObject<Crm> retrieveCrm() {
+  @Override public BusinessObject<Crm> retrieveCrm() {
     return sessionDBDataSource.getCrm();
   }
 

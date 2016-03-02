@@ -9,20 +9,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class OrchextraApiConfigRequest {
 
-  @Expose @SerializedName("app")
-  private ApiApp app;
+  @Expose @SerializedName("app") private ApiApp app;
 
-  @Expose @SerializedName("device")
-  private ApiDevice device;
+  @Expose @SerializedName("device") private ApiDevice device;
 
-  @Expose @SerializedName("geoLocation")
-  private ApiGeoLocation geoLocation;
+  @Expose @SerializedName("geoLocation") private ApiGeoLocation geoLocation;
 
-  @Expose @SerializedName("notificationPush")
-  private ApiNotificationPush notificationPush;
+  @Expose @SerializedName("notificationPush") private ApiNotificationPush notificationPush;
 
-  @Expose @SerializedName("crm")
-  private ApiCrm crm;
+  @Expose @SerializedName("crm") private ApiCrm crm;
 
   public ApiApp getApp() {
     return app;

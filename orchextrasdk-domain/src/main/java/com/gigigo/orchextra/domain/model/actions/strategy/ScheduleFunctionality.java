@@ -10,5 +10,4 @@ public interface ScheduleFunctionality extends FunctionalitySupport {
   boolean isCancelable();
 
   long getScheduleTime();
-
 }

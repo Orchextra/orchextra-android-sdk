@@ -20,14 +20,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,8 +32,7 @@ import static org.mockito.Mockito.when;
  * Created by Sergio Martinez Rodriguez
  * Date 18/2/16.
  */
-@RunWith(MockitoJUnitRunner.class)
-public class AuthenticationServiceImplTest {
+@RunWith(MockitoJUnitRunner.class) public class AuthenticationServiceImplTest {
 
   @Mock AuthenticationDataProvider authDataProvider;
   @Mock DeviceDetailsProvider deviceDetailsProvider;
@@ -53,8 +48,9 @@ public class AuthenticationServiceImplTest {
 
   AuthenticationServiceImpl authenticationService;
 
-  @Before public void setUp(){
-    authenticationService = new AuthenticationServiceImpl(authDataProvider, deviceDetailsProvider, session);
+  @Before public void setUp() {
+    authenticationService =
+        new AuthenticationServiceImpl(authDataProvider, deviceDetailsProvider, session);
     mockshareArrangements();
   }
 
@@ -68,8 +64,6 @@ public class AuthenticationServiceImplTest {
   }
 
   @Test public void shouldAuthenticateSuccess() throws Exception {
-
-
 
     arrangeGetCrmID();
     when(crmBusinessObject.isSuccess()).thenReturn(true);
@@ -85,7 +79,7 @@ public class AuthenticationServiceImplTest {
 
     assertThat(interactorResponse, notNullValue());
     assertThat(interactorResponse.getResult(), notNullValue());
-    ClientAuthData clientAuthData = (ClientAuthData)interactorResponse.getResult();
+    ClientAuthData clientAuthData = (ClientAuthData) interactorResponse.getResult();
     assertThat(clientAuthData, instanceOf(ClientAuthData.class));
   }
 
@@ -105,9 +99,8 @@ public class AuthenticationServiceImplTest {
 
     assertThat(interactorResponse, notNullValue());
     assertThat(interactorResponse.getResult(), notNullValue());
-    ClientAuthData clientAuthData = (ClientAuthData)interactorResponse.getResult();
+    ClientAuthData clientAuthData = (ClientAuthData) interactorResponse.getResult();
     assertThat(clientAuthData, instanceOf(ClientAuthData.class));
-
   }
 
   private void arrangeAuthSuccess() {
@@ -144,7 +137,6 @@ public class AuthenticationServiceImplTest {
     when(sdk.getBusinessError()).thenReturn(businessError);
     when(crmBusinessObject.getData()).thenReturn(crm);
 
-
     InteractorResponse interactorResponse = authenticationService.authenticate();
 
     verify(authDataProvider).retrieveCrm();
@@ -155,7 +147,6 @@ public class AuthenticationServiceImplTest {
     assertThat(interactorResponse.getError(), instanceOf(SdkAuthError.class));
     BusinessError businessError = interactorResponse.getError().getError();
     assertThat(businessError, notNullValue());
-
   }
 
   @Test public void shouldNotAuthenticateWhenClientAuthResponseIsKO() throws Exception {
@@ -165,7 +156,8 @@ public class AuthenticationServiceImplTest {
     arrangeSuccessSdkAuth();
     arrangeDeviceDetailsProvider();
 
-    when(authDataProvider.authenticateUser(any(Credentials.class), isNull(String.class))).thenReturn(
+    when(
+        authDataProvider.authenticateUser(any(Credentials.class), isNull(String.class))).thenReturn(
         clietAuth);
 
     when(clietAuth.isSuccess()).thenReturn(false);
@@ -180,7 +172,5 @@ public class AuthenticationServiceImplTest {
     assertThat(interactorResponse.getError(), instanceOf(AuthenticationError.class));
     BusinessError businessError = interactorResponse.getError().getError();
     assertThat(businessError, notNullValue());
-
   }
-
 }

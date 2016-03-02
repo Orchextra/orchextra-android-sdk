@@ -14,12 +14,19 @@ import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 public interface SessionDBDataSource {
 
   boolean saveSdkAuthCredentials(SdkAuthCredentials sdkAuthCredentials);
+
   boolean saveSdkAuthResponse(SdkAuthData sdkAuthData);
+
   boolean saveClientAuthCredentials(ClientAuthCredentials clientAuthCredentials);
+
   boolean saveClientAuthResponse(ClientAuthData clientAuthData);
+
   boolean saveUser(Crm crm);
+
   BusinessObject<ClientAuthData> getSessionToken();
+
   BusinessObject<SdkAuthData> getDeviceToken();
+
   BusinessObject<Crm> getCrm();
 
   boolean storeCrm(Crm crm);
