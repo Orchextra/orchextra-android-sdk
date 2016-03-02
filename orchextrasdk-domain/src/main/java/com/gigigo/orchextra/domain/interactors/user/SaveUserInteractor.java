@@ -1,10 +1,12 @@
 package com.gigigo.orchextra.domain.interactors.user;
 
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
+import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 
 /**
@@ -30,9 +32,16 @@ public class SaveUserInteractor implements Interactor<InteractorResponse<Orchext
   }
 
   @Override public InteractorResponse<OrchextraUpdates> call() {
-    authenticationService.saveUser(crm);
+    InteractorResponse<OrchextraUpdates> boOrchextraUpdates;
 
-    InteractorResponse<OrchextraUpdates> boOrchextraUpdates = configService.refreshConfig();
+    BusinessObject<Crm> crmBusinessObject = authenticationService.saveUser(crm);
+
+    if (crmBusinessObject.isSuccess())
+    {
+      boOrchextraUpdates = configService.refreshConfig();
+    } else{
+      return new InteractorResponse<OrchextraUpdates>(new AuthenticationError(crmBusinessObject.getBusinessError()));
+    }
 
     return boOrchextraUpdates;
   }

@@ -7,6 +7,7 @@ import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
@@ -19,11 +20,15 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +42,8 @@ public class AuthenticationServiceImplTest {
   @Mock AuthenticationDataProvider authDataProvider;
   @Mock DeviceDetailsProvider deviceDetailsProvider;
   @Mock Session session;
-  @Mock BusinessObject<String> crmId;
+  @Mock BusinessObject<Crm> crmBusinessObject;
+  @Mock Crm crm;
   @Mock BusinessObject<SdkAuthData> sdk;
   @Mock SdkAuthData sdkAuthData;
   @Mock InteractorError interactorError;
@@ -63,29 +69,34 @@ public class AuthenticationServiceImplTest {
 
   @Test public void shouldAuthenticateSuccess() throws Exception {
 
+
+
     arrangeGetCrmID();
+    when(crmBusinessObject.isSuccess()).thenReturn(true);
+    when(crmBusinessObject.getData()).thenReturn(crm);
+    when(crm.getCrmId()).thenReturn("ID");
+
+    mockshareArrangements();
     arrangeAuthSuccess();
 
     InteractorResponse interactorResponse = authenticationService.authenticate();
 
-    verify(authDataProvider).getCrmID();
-    verify(crmId).getData();
     verify(session).setTokenString(anyString());
 
     assertThat(interactorResponse, notNullValue());
     assertThat(interactorResponse.getResult(), notNullValue());
     ClientAuthData clientAuthData = (ClientAuthData)interactorResponse.getResult();
     assertThat(clientAuthData, instanceOf(ClientAuthData.class));
-
   }
 
   private void arrangeGetCrmID() {
-    when(authDataProvider.getCrmID()).thenReturn(crmId);
-    when(crmId.getData()).thenReturn("CRM_DATA_STRING");
+    when(authDataProvider.retrieveCrm()).thenReturn(crmBusinessObject);
+    when(crmBusinessObject.getData()).thenReturn(crm);
   }
 
   @Test public void shouldAuthenticateWithCrmIDSuccess() throws Exception {
 
+    mockshareArrangements();
     arrangeAuthSuccess();
 
     InteractorResponse interactorResponse = authenticationService.authenticateUserWithCrmId("ID");
@@ -131,11 +142,13 @@ public class AuthenticationServiceImplTest {
 
     when(sdk.isSuccess()).thenReturn(false);
     when(sdk.getBusinessError()).thenReturn(businessError);
+    when(crmBusinessObject.getData()).thenReturn(crm);
+
 
     InteractorResponse interactorResponse = authenticationService.authenticate();
 
-    verify(authDataProvider).getCrmID();
-    verify(crmId).getData();
+    verify(authDataProvider).retrieveCrm();
+    verify(crmBusinessObject).isSuccess();
 
     assertThat(interactorResponse, notNullValue());
     assertThat(interactorResponse.getError(), notNullValue());
@@ -152,13 +165,15 @@ public class AuthenticationServiceImplTest {
     arrangeSuccessSdkAuth();
     arrangeDeviceDetailsProvider();
 
+    when(authDataProvider.authenticateUser(any(Credentials.class), isNull(String.class))).thenReturn(
+        clietAuth);
+
     when(clietAuth.isSuccess()).thenReturn(false);
     when(clietAuth.getBusinessError()).thenReturn(businessError);
 
     InteractorResponse interactorResponse = authenticationService.authenticate();
 
-    verify(authDataProvider).getCrmID();
-    verify(crmId).getData();
+    verify(authDataProvider).retrieveCrm();
 
     assertThat(interactorResponse, notNullValue());
     assertThat(interactorResponse.getError(), notNullValue());

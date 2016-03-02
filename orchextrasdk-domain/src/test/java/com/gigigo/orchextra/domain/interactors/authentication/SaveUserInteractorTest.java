@@ -1,7 +1,9 @@
 package com.gigigo.orchextra.domain.interactors.authentication;
 
+import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
+import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 
@@ -26,39 +28,42 @@ public class SaveUserInteractorTest {
     @Mock
     ConfigService configService;
 
-    @Mock
-    InteractorResponse interactorResponse;
+    @Mock BusinessObject<Crm> saveUserResponse;
 
     private SaveUserInteractor interactor;
+
+    Crm crm;
 
     @Before
     public void setUp() throws Exception {
         interactor = new SaveUserInteractor(authenticationService, configService);
-        interactor.setCrm("1111");
+        crm = new Crm();
+        crm.setCrmId("1111");
+        interactor.setCrm(crm);
     }
 
     @Test
     public void shouldReturnClientAuthData() throws Exception {
-        when(authenticationService.authenticateUserWithCrmId(anyString())).thenReturn(interactorResponse);
-        when(interactorResponse.hasError()).thenReturn(false);
+        when(authenticationService.saveUser(crm)).thenReturn(saveUserResponse);
+        when(saveUserResponse.isSuccess()).thenReturn(true);
         when(configService.refreshConfig()).thenReturn(any(InteractorResponse.class));
 
         interactor.call();
 
-        verify(authenticationService).authenticateUserWithCrmId(anyString());
-        verify(interactorResponse).hasError();
+        verify(authenticationService).saveUser(crm);
+        verify(saveUserResponse).isSuccess();
         verify(configService).refreshConfig();
     }
 
     @Test
     public void shouldDontRefreshConfigWhenAutheticationFails() throws Exception {
-        when(authenticationService.authenticateUserWithCrmId(anyString())).thenReturn(interactorResponse);
-        when(interactorResponse.hasError()).thenReturn(true);
+        when(authenticationService.saveUser(crm)).thenReturn(saveUserResponse);
+        when(saveUserResponse.isSuccess()).thenReturn(false);
 
         interactor.call();
 
-        verify(authenticationService).authenticateUserWithCrmId(anyString());
-        verify(interactorResponse).hasError();
+        verify(authenticationService).saveUser(crm);
+        verify(saveUserResponse).isSuccess();
         verify(configService, never()).refreshConfig();
     }
 }

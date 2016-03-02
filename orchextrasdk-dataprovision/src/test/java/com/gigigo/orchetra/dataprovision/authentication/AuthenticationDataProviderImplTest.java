@@ -69,6 +69,8 @@ public class AuthenticationDataProviderImplTest {
     @Test
     public void shouldAuthenticateUserAndSaveWhenCriteriaAreCorrect() throws Exception {
         when(sessionDBDataSource.getSessionToken()).thenReturn(sessionToken);
+        when(sessionDBDataSource.getCrm()).thenReturn(businessObjectCrm);
+        when(businessObjectCrm.getData()).thenReturn(crm);
 
         when(sessionToken.isSuccess()).thenReturn(false);
 

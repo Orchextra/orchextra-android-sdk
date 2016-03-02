@@ -7,6 +7,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 import com.gigigo.orchextra.domain.model.actions.strategy.ScheduledActionImpl;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
@@ -23,6 +24,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -120,7 +122,7 @@ public class GeofenceInteractorTest {
         Schedule schedule = new Schedule(true, 1000);
         schedule.setEventId("456");
 
-        BasicAction basicAction = new BrowserAction("http://www.google.es", new Notification(), schedule);
+        BasicAction basicAction = new BrowserAction("0", "0", "http://www.google.es", new Notification(), schedule);
         basicAction.setEventCode("AAA");
 
         when(geofenceCheckerService.obtainCheckedGeofence(basicAction.getEventCode())).thenReturn(boOrchextraGeofence);
@@ -132,7 +134,7 @@ public class GeofenceInteractorTest {
         interactor.updateEventWithAction(basicAction);
 
         verify(geofenceCheckerService).obtainCheckedGeofence("AAA");
-        verify(orchextraGeofence).setActionRelated(basicAction.getScheduledAction().getEventId());
+        verify(orchextraGeofence).setActionRelated(any(ActionRelated.class));
         verify(eventUpdaterService).associateActionToGeofenceEvent(orchextraGeofence);
     }
 }
