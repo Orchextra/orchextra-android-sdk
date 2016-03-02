@@ -45,9 +45,9 @@ public class GeofenceController {
                     executeActions(actions);
                   }
                 })
-                .error(RetrieveGeofenceItemError.class, new InteractorResult<InteractorError>() {
+                .error(RetrieveGeofenceItemError.class, new InteractorResult<RetrieveGeofenceItemError>() {
                     @Override
-                    public void onResult(InteractorError result) {
+                    public void onResult(RetrieveGeofenceItemError result) {
                         errorLogger.log(result.getError());
                     }
                 })

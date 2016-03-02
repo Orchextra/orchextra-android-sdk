@@ -96,16 +96,15 @@ public class BeaconsController{
 
   private void executeBeaconInteractor(InteractorExecution interactorExecution, InteractorResult interactorResult) {
     interactorExecution.result(interactorResult)
-        .error(InteractorError.class, new InteractorResult<InteractorError>() {
-          @Override public void onResult(InteractorError result) {
-            if (result instanceof BeaconsInteractorError) {
-              BeaconsInteractorError beaconsInteractorError = (BeaconsInteractorError) result;
-              manageBeaconInteractorError(beaconsInteractorError);
-            } else {
-              manageInteractorError(result);
-            }
+        .error(BeaconsInteractorError.class, new InteractorResult<BeaconsInteractorError>() {
+          @Override public void onResult(BeaconsInteractorError result) {
+              manageBeaconInteractorError(result);
           }
-        }).execute(interactorInvoker);
+        }).error(InteractorError.class, new InteractorResult<InteractorError>() {
+      @Override public void onResult(InteractorError result) {
+              manageInteractorError(result);
+      }
+    }).execute(interactorInvoker);
   }
 
   private void manageInteractorError(InteractorError result) {

@@ -190,7 +190,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
           stopRangingRegion(region);
           regionThreads.remove(region.getUniqueId());
         } catch (InterruptedException e) {
-          e.printStackTrace();
+          GGGLogImpl.log("This interruption coulbe be provoked see log below", LogLevel.WARN);
         }
       }
     });
@@ -266,6 +266,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       Thread t = regionThreads.remove(region.getUniqueId());
 
       if (t!=null && t.isAlive()){
+        GGGLogImpl.log("Thread " +t.toString() +"Will be Interrupted", LogLevel.WARN);
         t.interrupt();
       }
     }
