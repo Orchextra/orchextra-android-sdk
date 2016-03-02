@@ -272,10 +272,13 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   }
 
   private void updateBackgroudScanTimes(long scanPeriod, long beetweenScanPeriod) {
-    beaconManager.setBackgroundScanPeriod(scanPeriod);
-    beaconManager.setBackgroundBetweenScanPeriod(beetweenScanPeriod);
+
     try {
-      beaconManager.updateScanPeriods();
+      if (beaconManager.isAnyConsumerBound()){
+        beaconManager.setBackgroundScanPeriod(scanPeriod);
+        beaconManager.setBackgroundBetweenScanPeriod(beetweenScanPeriod);
+        beaconManager.updateScanPeriods();
+      }
       GGGLogImpl.log("Update cycled Scan times");
     } catch (RemoteException e) {
       e.printStackTrace();
