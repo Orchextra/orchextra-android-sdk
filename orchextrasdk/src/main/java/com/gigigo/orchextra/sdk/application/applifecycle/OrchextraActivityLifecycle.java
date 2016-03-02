@@ -39,30 +39,46 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
     this.notificationDispatcher = notificationDispatcher;
   }
 
+  private void prinStatusOfStack(String s) {
+    GGGLogImpl.log("STACK Status :: " + s);
+    GGGLogImpl.log("STACK Status :: Elements in Stack :" + activityStack.size());
+    for (int i = 0; i<activityStack.size(); i++){
+      GGGLogImpl.log("STACK Status :: Activity " + i +
+          " Stopped: " + activityStack.get(i).isStopped() +
+          " Paused: " + activityStack.get(i).isPaused() +
+          " Has Context: " + (activityStack.get(i).getActivity()!=null) +
+          " Activity Context: " + activityStack.get(i).getActivity());
+    }
+
+    GGGLogImpl.log("STACK Status :: Lifecycle, Is app in Background: " + isInBackground());
+
+    GGGLogImpl.log("STACK Status :: isActivityContextAvailable: " + isActivityContextAvailable());
+
+    GGGLogImpl.log("STACK Status :: Last paused Activity: " + lastPausedActivity());
+
+    GGGLogImpl.log("STACK Status :: getCurrentActivity: " + getCurrentActivity());
+
+    GGGLogImpl.log("STACK Status :: AppWill go To background: " + appWillGoToBackground());
+
+    GGGLogImpl.log("------------- STACK Status ---------------");
+  }
+
   //region Activity lifecycle Management
 
   @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-    ActivityLifecyleWrapper previousStackActivity = null;
-
-    if (!activityStack.empty()){
-      previousStackActivity = this.activityStack.peek();
-    }
-
+    prinStatusOfStack("Before onActivityCreated");
     this.activityStack.push(new ActivityLifecyleWrapper(activity, true, true));
 
-    if (previousStackActivity!=null){
-      previousStackActivity.cleanActivityReference();
-    }
-
     notificationDispatcher.manageBackgroundNotification(activity);
+    prinStatusOfStack("After onActivityCreated");
   }
 
   @Override public void onActivityStarted(Activity activity) {
+    prinStatusOfStack("Before onActivityStarted");
     try {
       boolean wasInBackground = endBackgroundModeIfNeeded();
       setCurrentStackActivityAsNotStopped();
       if (wasInBackground) {
-        restoreActivityContext(activity);
         startForegroundMode();
       }
       cleanZombieWrappersAtStack();
@@ -70,6 +86,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
       GGGLogImpl.log("OrchextraSDK init MUST be called in App onCreate, are you sure you did it? \n "
           + "Activity stack monitoring Exception was thrown. Trace: " +e.getMessage(), LogLevel.ERROR);
     }
+    prinStatusOfStack("After onActivityStarted");
   }
 
   private void startForegroundMode() {
@@ -91,43 +108,41 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   }
 
   @Override public void onActivityResumed(Activity activity) {
+    prinStatusOfStack("Before onActivityResumed");
     try {
       ConsistencyUtils.checkNotEmpty(activityStack);
-      ActivityLifecyleWrapper activityLifecyleWrapper = activityStack.peek();
-      activityLifecyleWrapper.setIsPaused(false);
-      restoreActivityContext(activity);
+      activityStack.peek().setIsPaused(false);
     } catch (Exception e) {
       GGGLogImpl.log("Exception :" + e.getMessage(), LogLevel.ERROR);
     }
-  }
-
-  private void restoreActivityContext(Activity activity) {
-    ActivityLifecyleWrapper activityLifecyleWrapper = activityStack.peek();
-    activityLifecyleWrapper.restoreActivityReference(activity);
+    prinStatusOfStack("After onActivityResumed");
   }
 
   @Override public void onActivityPaused(Activity activity) {
+    prinStatusOfStack("Before onActivityPaused");
     try {
       ConsistencyUtils.checkNotEmpty(activityStack);
       activityStack.peek().setIsPaused(true);
     } catch (Exception e) {
       GGGLogImpl.log("Exception :" + e.getMessage(), LogLevel.ERROR);
     }
+    prinStatusOfStack("After onActivityPaused");
   }
 
   @Override public void onActivityStopped(Activity activity) {
+    prinStatusOfStack("Before onActivityStopped");
     try {
       ConsistencyUtils.checkNotEmpty(activityStack);
 
       if (appWillGoToBackground()) {
         appStatusEventsListener.onForegroundEnd();
-        activityStack.peek().cleanActivityReference();
       }
       setCurrentStackActivityAsStopped();
       setBackgroundModeIfNeeded();
     } catch (Exception e) {
       GGGLogImpl.log("Exception :" + e.getMessage(), LogLevel.ERROR);
     }
+    prinStatusOfStack("After onActivityStopped");
   }
 
   private void setCurrentStackActivityAsStopped() {
@@ -142,12 +157,14 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
   }
 
   @Override public void onActivityDestroyed(Activity activity) {
+    prinStatusOfStack("Before onActivityDestroyed");
     try {
       ConsistencyUtils.checkNotEmpty(activityStack);
       this.activityStack.pop();
     } catch (Exception e) {
       GGGLogImpl.log("Exception :" + e.getMessage(), LogLevel.ERROR);
     }
+    prinStatusOfStack("After onActivityDestroyed");
   }
 
   @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
@@ -172,7 +189,7 @@ public class OrchextraActivityLifecycle implements Application.ActivityLifecycle
     return (i == 1);
   }
 
-  public Activity lastPausedActivity() {
+  private Activity lastPausedActivity() {
 
     for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
       if (!activityLifecyleWrapper.isStopped()) {
