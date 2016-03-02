@@ -25,6 +25,7 @@ public class NotificationDispatcherImpl implements NotificationDispatcher {
         AndroidBasicAction androidBasicAction = intent.getParcelableExtra(AndroidNotificationBuilder.EXTRA_NOTIFICATION_ACTION);
         if (androidBasicAction != null) {
           actionRecovery.recoverAction(androidBasicAction);
+          intent.removeExtra(AndroidNotificationBuilder.EXTRA_NOTIFICATION_ACTION);
         }
       }
     }
