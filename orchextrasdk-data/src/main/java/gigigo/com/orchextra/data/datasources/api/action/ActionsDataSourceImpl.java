@@ -26,15 +26,15 @@ import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.actions.datasource.ActionsDataSource;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
-import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
+
 import java.util.Map;
+
 import javax.inject.Provider;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
+import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
+
+
 public class ActionsDataSourceImpl implements ActionsDataSource {
 
   private final OrchextraApiService orchextraApiService;

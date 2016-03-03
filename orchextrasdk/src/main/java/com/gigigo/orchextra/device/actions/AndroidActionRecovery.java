@@ -24,10 +24,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 5/2/16.
- */
+
 public class AndroidActionRecovery implements ActionRecovery {
 
   private final ActionDispatcher actionDispatcher;

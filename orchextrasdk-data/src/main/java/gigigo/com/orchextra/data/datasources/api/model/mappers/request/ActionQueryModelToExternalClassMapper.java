@@ -23,10 +23,7 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public class ActionQueryModelToExternalClassMapper
     implements ModelToExternalClassMapper<Trigger, Map<String, String>> {
 

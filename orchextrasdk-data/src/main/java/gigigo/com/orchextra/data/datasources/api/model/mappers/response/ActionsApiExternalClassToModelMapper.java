@@ -27,10 +27,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionData;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 11/12/15.
- */
+
 public class ActionsApiExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiActionData, BasicAction> {
 

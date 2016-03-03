@@ -22,10 +22,7 @@ import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import java.util.ArrayList;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 2/2/16.
- */
+
 public class ConfigObservable implements OrchextraChanges {
 
   private ArrayList<Observer> observers;

@@ -35,10 +35,7 @@ import java.util.List;
 import javax.inject.Provider;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/2/16.
- */
+
 public class BeaconsController {
 
   private final InteractorInvoker interactorInvoker;

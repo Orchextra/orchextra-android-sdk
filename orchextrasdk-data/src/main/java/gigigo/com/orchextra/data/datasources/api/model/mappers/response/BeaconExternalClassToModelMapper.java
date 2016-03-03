@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class BeaconExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiBeaconRegion, OrchextraRegion> {
 

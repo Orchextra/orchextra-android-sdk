@@ -24,10 +24,7 @@ import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.requests.ApiGeoLocation;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class GeoLocationModelToExternalClassMapper
     implements ModelToExternalClassMapper<GeoLocation, ApiGeoLocation> {
 

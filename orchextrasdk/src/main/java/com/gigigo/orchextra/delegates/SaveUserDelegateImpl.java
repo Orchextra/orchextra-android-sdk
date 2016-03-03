@@ -24,10 +24,7 @@ import com.gigigo.orchextra.control.controllers.authentication.SaveUserControlle
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserDelegate;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/12/15.
- */
+
 public class SaveUserDelegateImpl implements SaveUserDelegate {
 
   private final SaveUserController saveUserController;

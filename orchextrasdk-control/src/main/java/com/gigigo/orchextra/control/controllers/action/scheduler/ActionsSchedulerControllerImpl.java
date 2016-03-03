@@ -25,10 +25,7 @@ import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/2/16.
- */
+
 public class ActionsSchedulerControllerImpl implements ActionsSchedulerController {
 
   private final ActionsScheduler actionsScheduler;

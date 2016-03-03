@@ -24,10 +24,7 @@ import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper<Crm, ApiCrm> {
 
   @Override public ApiCrm modelToExternalClass(Crm crm) {

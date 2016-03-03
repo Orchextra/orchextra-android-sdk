@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSchedule;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 25/2/16.
- */
+
 public class ActionScheduledExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiSchedule, Schedule> {
 

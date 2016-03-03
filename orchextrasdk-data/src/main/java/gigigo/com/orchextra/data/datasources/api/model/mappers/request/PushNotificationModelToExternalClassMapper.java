@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 import gigigo.com.orchextra.data.datasources.api.model.requests.ApiNotificationPush;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class PushNotificationModelToExternalClassMapper
     implements ModelToExternalClassMapper<NotificationPush, ApiNotificationPush> {
 

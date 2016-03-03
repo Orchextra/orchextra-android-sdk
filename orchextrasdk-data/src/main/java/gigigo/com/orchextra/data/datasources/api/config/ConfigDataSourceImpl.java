@@ -31,10 +31,7 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import javax.inject.Provider;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public class ConfigDataSourceImpl implements ConfigDataSource {
 
   private final OrchextraApiService orchextraApiService;

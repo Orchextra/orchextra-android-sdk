@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiPoint;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class PointMapper implements Mapper<OrchextraPoint, ApiPoint> {
 
   @Override public ApiPoint modelToExternalClass(OrchextraPoint point) {
