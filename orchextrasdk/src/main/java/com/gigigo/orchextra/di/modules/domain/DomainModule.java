@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
@@ -54,35 +54,35 @@ public class DomainModule {
 
   @RegionsProviderInteractorExecution @Provides InteractorExecution provideRegionsProviderInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = Orchextra.getInjector().injectRegionsProviderInteractorExecution(interactorExecution);
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectRegionsProviderInteractorExecution(interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideRegionsProviderInteractor());
     return interactorExecution;
   }
 
   @BeaconEventsInteractorExecution @Provides InteractorExecution provideBeaconEventsInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = Orchextra.getInjector().injectBeaconEventsInteractorExecution(interactorExecution);
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectBeaconEventsInteractorExecution(interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideBeaconEventsInteractor());
     return interactorExecution;
   }
 
   @ConfigInteractorExecution @Provides InteractorExecution provideConfigInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = Orchextra.getInjector().injectConfigInteractorInteractorExecution(interactorExecution);
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectConfigInteractorInteractorExecution(interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideSendConfigInteractor());
     return interactorExecution;
   }
 
   @GeofenceInteractorExecution @Provides InteractorExecution provideGeofenceInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = Orchextra.getInjector().injectGeofenceInteractorExecution(interactorExecution);
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceInteractorExecution(interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideGeofenceInteractor());
     return interactorExecution;
   }
 
   @SaveUserInteractorExecution @Provides InteractorExecution provideSaveUserInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = Orchextra.getInjector().injectSaveUserInteractorExecution(interactorExecution);
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());
     return interactorExecution;
   }

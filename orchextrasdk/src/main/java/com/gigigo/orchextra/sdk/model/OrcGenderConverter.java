@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.sdk.model;
 
+import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.domain.model.GenderType;
 
 public class OrcGenderConverter {

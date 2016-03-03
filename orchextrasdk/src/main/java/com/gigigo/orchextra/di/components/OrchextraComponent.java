@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.di.components;
 
-import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 
 import com.gigigo.orchextra.di.modules.OrchextraModuleProvider;
@@ -15,6 +15,6 @@ import dagger.Component;
  */
 @Singleton @Component(modules = {OrchextraModule.class})
 public interface OrchextraComponent extends OrchextraModuleProvider {
-    void injectOrchextra(Orchextra orchextra);
+    void injectOrchextra(OrchextraManager orchextra);
     InteractorExecutionComponent plus(InteractorsModule interactorsModule);
 }

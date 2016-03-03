@@ -4,7 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
@@ -33,7 +33,7 @@ public class OrchextraBackgroundService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Orchextra.getInjector().injectServiceComponent(this);
+		OrchextraManager.getInjector().injectServiceComponent(this);
 		GGGLogImpl.log("Service method :: onCreate");
 	}
 

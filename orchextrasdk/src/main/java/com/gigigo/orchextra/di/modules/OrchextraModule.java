@@ -7,9 +7,9 @@ import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
-import com.gigigo.orchextra.domain.abstractions.actions.CustomSchemeReceiver;
+import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraCompletionCallback;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureStatus;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
@@ -37,11 +37,11 @@ import dagger.Provides;
 public class OrchextraModule {
 
   private final Context context;
-  private final OrchextraCompletionCallback orchextraCompletionCallback;
+  private final OrchextraManagerCompletionCallback orchextraCompletionCallback;
 
   private CustomSchemeReceiverContainer customSchemeReceiverContainer;
 
-  public OrchextraModule(Context context, OrchextraCompletionCallback orchextraCompletionCallback) {
+  public OrchextraModule(Context context, OrchextraManagerCompletionCallback orchextraCompletionCallback) {
     this.context = context;
     this.orchextraCompletionCallback = orchextraCompletionCallback;
   }
@@ -123,7 +123,7 @@ public class OrchextraModule {
     return new OrcUserToCrmConverter(orcGenderConverter);
   }
 
-  public void setCustomSchemeReceiver(CustomSchemeReceiver customSchemeReceiver) {
+  public void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver) {
     customSchemeReceiverContainer.setCustomSchemeReceiver(customSchemeReceiver);
   }
 }
