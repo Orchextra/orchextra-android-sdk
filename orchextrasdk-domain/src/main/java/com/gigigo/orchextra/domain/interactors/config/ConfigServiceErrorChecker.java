@@ -24,10 +24,7 @@ import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/2/16.
- */
+
 public class ConfigServiceErrorChecker extends ServiceErrorChecker {
 
   public ConfigServiceErrorChecker(AuthenticationService authenticationService) {

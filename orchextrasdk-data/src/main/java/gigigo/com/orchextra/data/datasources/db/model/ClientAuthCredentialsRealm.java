@@ -21,10 +21,7 @@ package gigigo.com.orchextra.data.datasources.db.model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class ClientAuthCredentialsRealm extends RealmObject {
 
   @PrimaryKey private int id;

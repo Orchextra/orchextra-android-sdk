@@ -24,10 +24,7 @@ import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/2/16.
- */
+
 public interface DeviceModuleProvider extends
     BluetoothModuleProvider,
     ActionsModuleProvider,

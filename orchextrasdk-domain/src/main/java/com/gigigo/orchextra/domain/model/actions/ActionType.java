@@ -18,10 +18,7 @@
 
 package com.gigigo.orchextra.domain.model.actions;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 18/12/15.
- */
+
 public enum ActionType {
   BROWSER("browser"),
   WEBVIEW("webview"),

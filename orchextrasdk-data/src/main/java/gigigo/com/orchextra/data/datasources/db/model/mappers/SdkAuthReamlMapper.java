@@ -24,10 +24,7 @@ import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthRealm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class SdkAuthReamlMapper implements Mapper<SdkAuthData, SdkAuthRealm> {
 
   @Override public SdkAuthRealm modelToExternalClass(SdkAuthData sdkAuthData) {

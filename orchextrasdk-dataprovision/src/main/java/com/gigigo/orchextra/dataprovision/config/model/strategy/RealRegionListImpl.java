@@ -21,10 +21,7 @@ package com.gigigo.orchextra.dataprovision.config.model.strategy;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class RealRegionListImpl implements RegionList {
 
   private List<OrchextraRegion> currentRegions;

@@ -20,10 +20,7 @@ package com.gigigo.orchextra.domain.model.actions.strategy;
 
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 4/2/16.
- */
+
 public class ScheduledActionImpl implements ScheduledAction {
 
   private final BasicAction basicAction;

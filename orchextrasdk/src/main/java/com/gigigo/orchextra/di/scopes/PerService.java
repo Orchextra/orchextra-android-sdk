@@ -23,10 +23,7 @@ import javax.inject.Scope;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/7/15.
- */
+
 @Scope
 @Retention(RUNTIME)
 public @interface PerService {}

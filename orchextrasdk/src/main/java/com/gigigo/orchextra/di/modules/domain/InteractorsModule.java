@@ -37,10 +37,7 @@ import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/12/15.
- */
+
 @Module(includes = {DomainServicesModule.class})
 public class InteractorsModule {
 

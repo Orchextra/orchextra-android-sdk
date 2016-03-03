@@ -33,10 +33,7 @@ import gigigo.com.orchextra.data.datasources.db.model.SdkAuthRealm;
 import io.realm.Realm;
 import io.realm.RealmObject;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class SessionUpdater {
 
   private final ModelToExternalClassMapper<SdkAuthData, SdkAuthRealm> sdkAuthRealmMapper;

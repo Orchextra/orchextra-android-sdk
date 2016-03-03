@@ -27,10 +27,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class GeofenceExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiGeofence, OrchextraGeofence> {
 

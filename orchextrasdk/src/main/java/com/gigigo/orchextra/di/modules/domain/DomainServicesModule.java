@@ -49,10 +49,7 @@ import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/2/16.
- */
+
 @Module(includes = DomainServiceErrorCheckerModule.class)
 public class DomainServicesModule {
 

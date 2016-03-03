@@ -25,10 +25,7 @@ import io.realm.RealmList;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class KeyWordRealmMapper implements Mapper<String, KeyWordRealm> {
 
   @Override public KeyWordRealm modelToExternalClass(String s) {

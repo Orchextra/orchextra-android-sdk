@@ -20,10 +20,7 @@ package gigigo.com.orchextra.data.datasources.api.model.responses.base;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 30/11/15.
- */
+
 public class OrchextraApiErrorResponse {
 
   @SerializedName("code") private int code;

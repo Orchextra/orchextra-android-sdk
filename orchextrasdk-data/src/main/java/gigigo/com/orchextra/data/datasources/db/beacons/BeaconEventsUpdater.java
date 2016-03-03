@@ -34,10 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class BeaconEventsUpdater {
 
   private final Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper;

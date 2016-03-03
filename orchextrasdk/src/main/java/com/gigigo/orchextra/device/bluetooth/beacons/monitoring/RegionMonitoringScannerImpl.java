@@ -36,10 +36,7 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.Region;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 25/1/16.
- */
+
 public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     BeaconConsumer, MonitorNotifier {
 

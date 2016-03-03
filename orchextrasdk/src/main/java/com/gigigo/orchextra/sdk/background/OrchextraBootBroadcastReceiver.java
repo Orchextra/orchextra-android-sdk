@@ -22,10 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 29/1/16.
- */
+
 public class OrchextraBootBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

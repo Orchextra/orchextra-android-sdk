@@ -18,10 +18,7 @@
 
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 29/2/16.
- */
+
 public class ActionRelated {
 
   final String actionId;

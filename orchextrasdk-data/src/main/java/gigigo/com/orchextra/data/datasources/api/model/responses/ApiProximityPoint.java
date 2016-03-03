@@ -22,10 +22,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 16/12/15.
- */
+
 public abstract class ApiProximityPoint {
 
   @Expose @SerializedName("code") private String code;

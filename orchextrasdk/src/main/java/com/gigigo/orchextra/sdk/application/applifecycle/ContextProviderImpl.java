@@ -23,10 +23,7 @@ import android.content.Context;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 29/1/16.
- */
+
 public class ContextProviderImpl implements OrchextraContextProvider {
 
   private final Context context;

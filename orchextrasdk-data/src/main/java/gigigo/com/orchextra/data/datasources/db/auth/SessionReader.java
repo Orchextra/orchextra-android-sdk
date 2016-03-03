@@ -31,10 +31,7 @@ import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmRealmMapper;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class SessionReader {
 
   private final ExternalClassToModelMapper<SdkAuthRealm, SdkAuthData> sdkAuthRealmMapper;

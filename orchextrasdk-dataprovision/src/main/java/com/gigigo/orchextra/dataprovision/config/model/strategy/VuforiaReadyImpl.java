@@ -18,10 +18,7 @@
 
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class VuforiaReadyImpl implements VuforiaReady {
 
   private com.gigigo.orchextra.domain.model.entities.Vuforia vuforia;

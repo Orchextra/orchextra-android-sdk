@@ -37,10 +37,7 @@ import com.gigigo.orchextra.di.components.ServiceComponent;
 import com.gigigo.orchextra.di.components.TaskServiceComponent;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/12/15.
- */
+
 public class InjectorImpl implements Injector {
 
   private OrchextraComponent orchextraComponent;

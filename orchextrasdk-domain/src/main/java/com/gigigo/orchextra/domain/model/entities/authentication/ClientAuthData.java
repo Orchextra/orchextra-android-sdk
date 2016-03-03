@@ -21,10 +21,7 @@ package com.gigigo.orchextra.domain.model.entities.authentication;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/12/15.
- */
+
 public class ClientAuthData {
 
   private final String projectId;

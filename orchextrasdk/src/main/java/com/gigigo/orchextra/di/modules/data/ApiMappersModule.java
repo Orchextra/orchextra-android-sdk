@@ -64,10 +64,7 @@ import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiEx
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ThemeExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.VuforiaExternalClassToModelMapper;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 11/12/15.
- */
+
 @Module
 public class ApiMappersModule {
 

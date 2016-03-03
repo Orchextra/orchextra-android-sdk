@@ -51,10 +51,7 @@ import com.gigigo.orchextra.BuildConfig;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 24/11/15.
- */
+
 @Module
 public class ApiModule {
 

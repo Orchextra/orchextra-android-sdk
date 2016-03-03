@@ -52,10 +52,7 @@ import org.altbeacon.beacon.logging.LogManager;
 import org.altbeacon.beacon.logging.Loggers;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 26/1/16.
- */
+
 @Module
 public class BeaconsModule {
 

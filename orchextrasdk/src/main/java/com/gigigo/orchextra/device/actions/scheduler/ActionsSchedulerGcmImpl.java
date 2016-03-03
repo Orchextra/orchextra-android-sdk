@@ -36,10 +36,7 @@ import com.google.android.gms.gcm.Task;
 import com.google.gson.Gson;
 import java.util.Date;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/2/16.
- */
+
 public class ActionsSchedulerGcmImpl implements ActionsScheduler {
 
   private static final long DEFAULT_DELAY_MAX = 3;

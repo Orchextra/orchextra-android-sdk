@@ -54,10 +54,7 @@ import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthReamlMapper
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ThemeRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.VuforiaRealmMapper;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 @Module
 public class DBMapperModule {
 

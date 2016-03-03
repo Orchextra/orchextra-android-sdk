@@ -21,10 +21,7 @@ package gigigo.com.orchextra.data.datasources.db.model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 10/2/16.
- */
+
 public class BeaconEventRealm extends RealmObject {
 
   public static final String TIMESTAMPT_FIELD_NAME = "timeStampt";

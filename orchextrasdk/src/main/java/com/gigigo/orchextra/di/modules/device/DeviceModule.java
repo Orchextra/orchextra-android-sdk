@@ -40,10 +40,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/2/16.
- */
+
 @Module(includes = {BluetoothModule.class, ActionsModule.class, NotificationsModule.class, GeolocationModule.class})
 public class DeviceModule {
 

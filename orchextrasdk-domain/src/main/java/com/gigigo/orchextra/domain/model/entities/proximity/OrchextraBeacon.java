@@ -23,10 +23,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/2/16.
- */
+
 public class OrchextraBeacon {
 
   private static final String BEACON_CODE_CONCAT_CHAR = "_";

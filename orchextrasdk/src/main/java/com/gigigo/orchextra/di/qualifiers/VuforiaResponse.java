@@ -23,9 +23,6 @@ import javax.inject.Qualifier;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/7/15.
- */
+
 @Qualifier @Retention(RUNTIME)
 public @interface VuforiaResponse {}

@@ -31,10 +31,7 @@ import dagger.Provides;
 import javax.inject.Singleton;
 import org.altbeacon.beacon.BeaconManager;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/2/16.
- */
+
 @Module(includes = BeaconsModule.class)
 public class BluetoothModule {
 

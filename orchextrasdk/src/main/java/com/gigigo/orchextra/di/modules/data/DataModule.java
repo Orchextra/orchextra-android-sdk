@@ -61,10 +61,7 @@ import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsReader;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsUpdater;
 import gigigo.com.orchextra.data.datasources.device.DeviceDetailsProviderImpl;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 24/11/15.
- */
+
 @Module(includes = {ApiModule.class, ApiMappersModule.class, DBModule.class})
 public class DataModule {
 

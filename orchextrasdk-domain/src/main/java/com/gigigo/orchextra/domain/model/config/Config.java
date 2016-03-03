@@ -24,10 +24,7 @@ import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public class Config {
 
   private App app;

@@ -18,10 +18,7 @@
 
 package gigigo.com.orchextra.data.datasources.api.model.requests;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 14/12/15.
- */
+
 public enum GrantType {
   AUTH_SDK("auth_sdk"),
   AUTH_USER("auth_user");

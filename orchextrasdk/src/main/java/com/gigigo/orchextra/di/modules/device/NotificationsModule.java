@@ -36,10 +36,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/2/16.
- */
+
 @Module
 public class NotificationsModule {
 

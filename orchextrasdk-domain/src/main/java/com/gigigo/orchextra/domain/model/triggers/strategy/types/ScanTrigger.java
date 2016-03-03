@@ -25,10 +25,7 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanc
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public class ScanTrigger extends Trigger {
 
   public ScanTrigger(TriggerType triggerType, String id, OrchextraPoint point,

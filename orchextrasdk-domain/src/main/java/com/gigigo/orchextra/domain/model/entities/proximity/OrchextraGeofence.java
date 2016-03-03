@@ -21,10 +21,7 @@ package com.gigigo.orchextra.domain.model.entities.proximity;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 16/12/15.
- */
+
 public class OrchextraGeofence extends ProximityPoint implements ScheduledActionEvent {
 
   private OrchextraPoint point;

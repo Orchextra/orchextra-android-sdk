@@ -33,10 +33,7 @@ import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class SessionDBDataSourceImpl implements SessionDBDataSource {
 
   private final Context context;

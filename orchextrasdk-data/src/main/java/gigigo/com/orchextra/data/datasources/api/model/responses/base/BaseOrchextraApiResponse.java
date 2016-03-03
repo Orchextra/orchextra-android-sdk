@@ -22,10 +22,7 @@ import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.ggglib.network.responses.HttpResponse;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 30/11/15.
- */
+
 public class BaseOrchextraApiResponse<JSONData>
     implements ApiGenericResponse<JSONData, OrchextraApiErrorResponse> {
 

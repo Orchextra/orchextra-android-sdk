@@ -21,10 +21,7 @@ package com.gigigo.orchextra.sdk.features;
 import com.gigigo.orchextra.domain.model.StringValueEnum;
 import com.google.android.gms.common.ConnectionResult;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 2/2/16.
- */
+
 public enum GooglePlayServicesStatus implements StringValueEnum {
   SUCCESS("Google play services initialization Successful"),
   SERVICE_MISSING("Google play services missing"), //1

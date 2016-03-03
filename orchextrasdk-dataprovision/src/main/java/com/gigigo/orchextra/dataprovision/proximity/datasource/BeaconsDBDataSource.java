@@ -23,10 +23,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public interface BeaconsDBDataSource {
 
   BusinessObject<OrchextraRegion> obtainRegionEvent(OrchextraRegion orchextraRegion);

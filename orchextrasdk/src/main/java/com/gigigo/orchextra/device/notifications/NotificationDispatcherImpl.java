@@ -23,10 +23,7 @@ import android.content.Intent;
 import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/2/16.
- */
+
 public class NotificationDispatcherImpl implements NotificationDispatcher {
 
   private final ActionRecovery actionRecovery;

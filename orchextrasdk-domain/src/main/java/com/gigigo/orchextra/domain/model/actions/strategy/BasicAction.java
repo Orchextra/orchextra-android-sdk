@@ -29,10 +29,7 @@ import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 18/12/15.
- */
+
 public abstract class BasicAction {
 
   private String id;

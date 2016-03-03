@@ -24,10 +24,7 @@ import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 14/12/15.
- */
+
 public class ApiSdkAuthCredentials implements ApiCredentials {
 
   @Expose @SerializedName("apiKey") private final String apiKey;

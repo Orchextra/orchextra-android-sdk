@@ -31,10 +31,7 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointBe
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviour;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public abstract class Trigger {
 
   //Mandatory

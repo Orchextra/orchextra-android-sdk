@@ -28,10 +28,7 @@ import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRealm> {
 
   private final Mapper<OrchextraPoint, RealmPoint> realmPointMapper;

@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiVuforia;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class VuforiaExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiVuforia, Vuforia> {
 

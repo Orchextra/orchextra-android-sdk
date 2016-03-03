@@ -22,10 +22,7 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerControll
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.services.DomaninService;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 12/2/16.
- */
+
 public class ScheduleActionService implements DomaninService {
 
   private final ActionsSchedulerController actionsSchedulerController;

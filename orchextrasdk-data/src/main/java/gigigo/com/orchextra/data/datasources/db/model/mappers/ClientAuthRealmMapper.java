@@ -24,10 +24,7 @@ import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class ClientAuthRealmMapper implements Mapper<ClientAuthData, ClientAuthRealm> {
 
   @Override public ClientAuthRealm modelToExternalClass(ClientAuthData clientAuthData) {

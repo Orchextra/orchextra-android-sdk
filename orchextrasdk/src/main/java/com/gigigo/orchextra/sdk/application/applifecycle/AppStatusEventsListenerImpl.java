@@ -25,10 +25,7 @@ import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 25/1/16.
- */
+
 public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
   private final Context context;

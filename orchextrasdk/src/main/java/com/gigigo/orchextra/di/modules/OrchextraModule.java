@@ -47,10 +47,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 24/11/15.
- */
+
 @Module(includes = { ControlModule.class, DeviceModule.class, DelegateModule.class })
 public class OrchextraModule {
 

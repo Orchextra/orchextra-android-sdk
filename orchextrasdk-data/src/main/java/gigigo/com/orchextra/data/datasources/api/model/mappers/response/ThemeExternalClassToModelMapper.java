@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiTheme;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 17/12/15.
- */
+
 public class ThemeExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiTheme, Theme> {
 

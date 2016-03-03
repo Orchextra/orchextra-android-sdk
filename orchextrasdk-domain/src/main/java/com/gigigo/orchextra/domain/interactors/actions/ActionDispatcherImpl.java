@@ -31,10 +31,7 @@ import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 19/12/15.
- */
+
 public class ActionDispatcherImpl implements ActionDispatcher {
 
   private final ActionExecution actionExecution;

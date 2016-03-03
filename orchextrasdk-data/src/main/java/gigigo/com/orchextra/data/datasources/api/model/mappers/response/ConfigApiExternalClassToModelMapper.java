@@ -25,16 +25,15 @@ import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 11/12/15.
- */
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
+
+
 public class ConfigApiExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiConfigData, ConfigInfoResult> {
 

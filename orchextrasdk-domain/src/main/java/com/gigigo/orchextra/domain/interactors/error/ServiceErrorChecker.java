@@ -23,10 +23,7 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/2/16.
- */
+
 public abstract class ServiceErrorChecker {
 
   private final AuthenticationService authenticationService;

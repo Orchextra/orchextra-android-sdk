@@ -32,10 +32,7 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.LifeCycleAccessor;
 import java.util.Iterator;
 import java.util.Stack;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 18/1/16.
- */
+
 public class OrchextraActivityLifecycle
     implements Application.ActivityLifecycleCallbacks, LifeCycleAccessor {
 

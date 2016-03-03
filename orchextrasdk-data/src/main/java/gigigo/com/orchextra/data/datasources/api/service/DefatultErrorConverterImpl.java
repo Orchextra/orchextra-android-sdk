@@ -24,10 +24,7 @@ import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 import retrofit.Retrofit;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 1/12/15.
- */
+
 public class DefatultErrorConverterImpl<ErrorResponse>
     implements ErrorConverter<ErrorResponse, ResponseBody> {
 

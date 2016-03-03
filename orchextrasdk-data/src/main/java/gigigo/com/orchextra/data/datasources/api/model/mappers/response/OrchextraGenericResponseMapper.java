@@ -25,10 +25,7 @@ import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericExceptionResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 11/12/15.
- */
+
 public class OrchextraGenericResponseMapper<Model, Data>
     extends ApiGenericResponseMapper<Model, Data, OrchextraApiErrorResponse> {
 

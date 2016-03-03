@@ -14,10 +14,6 @@ import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.*;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 26/11/15.
- */
 @RunWith(MyRunner.class)
 public class OrchextraInitializationTest {
 

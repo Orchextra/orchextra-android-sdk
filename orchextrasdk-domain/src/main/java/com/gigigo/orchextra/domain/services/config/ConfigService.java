@@ -35,10 +35,7 @@ import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
 import java.util.concurrent.Future;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/2/16.
- */
+
 public class ConfigService implements DomaninService {
 
   private final ConfigDataProvider configDataProvider;

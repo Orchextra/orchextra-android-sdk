@@ -31,10 +31,7 @@ import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 12/2/16.
- */
+
 public class TriggerActionsFacadeService implements DomaninService {
 
   private final TriggerService triggerService;

@@ -32,10 +32,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.sdk.features.BeaconFeature;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 2/2/16.
- */
+
 public class BluetoothStatusInfoImpl implements BluetoothStatusInfo {
 
   private final PermissionChecker permissionChecker;

@@ -22,10 +22,7 @@ import android.content.Context;
 import com.gigigo.ggglib.device.DeviceInfoProvider;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 14/12/15.
- */
+
 public class DeviceDetailsProviderImpl implements DeviceDetailsProvider {
 
   private Context context;

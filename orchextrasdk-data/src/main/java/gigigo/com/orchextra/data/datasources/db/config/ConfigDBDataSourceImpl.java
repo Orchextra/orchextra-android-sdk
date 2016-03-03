@@ -32,10 +32,7 @@ import io.realm.Realm;
 import io.realm.exceptions.RealmException;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
 
   private final Context context;

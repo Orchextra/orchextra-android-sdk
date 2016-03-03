@@ -21,10 +21,7 @@ package gigigo.com.orchextra.data.datasources.api.model.requests;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public class ApiNotificationPush {
 
   @Expose @SerializedName("token") private String token;

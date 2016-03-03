@@ -26,10 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.altbeacon.beacon.Beacon;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 4/2/16.
- */
+
 public class BeaconAndroidMapper implements
     ExternalClassListToModelListMapper<Beacon, OrchextraBeacon>,
     ExternalClassToModelMapper<Beacon, OrchextraBeacon> {

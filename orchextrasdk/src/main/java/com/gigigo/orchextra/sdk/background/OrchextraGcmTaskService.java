@@ -31,10 +31,7 @@ import com.google.android.gms.gcm.TaskParams;
 import com.google.gson.Gson;
 import javax.inject.Inject;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/2/16.
- */
+
 public class OrchextraGcmTaskService extends GcmTaskService {
 
   @Inject ActionRecovery actionRecovery;

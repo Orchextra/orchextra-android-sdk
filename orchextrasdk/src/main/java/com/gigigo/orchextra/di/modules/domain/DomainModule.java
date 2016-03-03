@@ -43,10 +43,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Singleton;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 9/12/15.
- */
+
 @Module(includes = DataProviderModule.class)
 public class DomainModule {
 

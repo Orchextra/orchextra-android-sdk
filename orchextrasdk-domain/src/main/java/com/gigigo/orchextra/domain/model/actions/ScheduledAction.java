@@ -18,10 +18,7 @@
 
 package com.gigigo.orchextra.domain.model.actions;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/2/16.
- */
+
 public interface ScheduledAction {
   boolean isCancelable();
 

@@ -22,10 +22,7 @@ import android.Manifest;
 import com.gigigo.ggglib.permissions.Permission;
 import com.gigigo.orchextra.R;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 16/1/16.
- */
+
 public class CoarseLocationPermission implements Permission {
 
   @Override public String getAndroidPermissionStringType() {

@@ -55,10 +55,7 @@ import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthReamlMapper;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 @Module(includes = DBMapperModule.class)
 public class DBModule {
 

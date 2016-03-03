@@ -27,10 +27,7 @@ import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class BeaconEventsReader {
 
   private final Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper;

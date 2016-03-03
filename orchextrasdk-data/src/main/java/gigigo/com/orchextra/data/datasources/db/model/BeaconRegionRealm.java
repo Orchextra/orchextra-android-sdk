@@ -22,10 +22,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class BeaconRegionRealm extends RealmObject {
 
   public static final String CODE_FIELD_NAME = "code";

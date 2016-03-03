@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthCredentialsRealm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class ClientAuthCredentialsRealmMapper
     implements Mapper<ClientAuthCredentials, ClientAuthCredentialsRealm> {
   @Override public ClientAuthCredentialsRealm modelToExternalClass(

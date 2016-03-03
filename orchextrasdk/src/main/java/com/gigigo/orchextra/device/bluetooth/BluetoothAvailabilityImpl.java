@@ -22,10 +22,7 @@ import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothAvailability;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BleNotAvailableException;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 2/2/16.
- */
+
 public class BluetoothAvailabilityImpl implements BluetoothAvailability {
 
   private final BeaconManager beaconManager;

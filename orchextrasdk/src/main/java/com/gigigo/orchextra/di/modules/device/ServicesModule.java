@@ -29,10 +29,7 @@ import com.gigigo.orchextra.domain.background.BackgroundTasksManagerImpl;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 26/1/16.
- */
+
 @Module
 public class ServicesModule {
 

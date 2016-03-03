@@ -30,10 +30,7 @@ import com.gigigo.orchextra.domain.services.DomaninService;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public class GetActionService implements DomaninService {
 
   private final ActionsDataProvider actionsDataProvider;

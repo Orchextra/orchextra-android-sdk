@@ -24,10 +24,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public class WebViewAction extends BasicAction {
 
   public WebViewAction(String id, String trackId, String url, Notification notification,

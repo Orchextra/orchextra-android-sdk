@@ -30,10 +30,7 @@ import com.gigigo.orchextra.domain.services.DomaninService;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/2/16.
- */
+
 public class GeofenceCheckerService implements DomaninService {
 
   private final ProximityLocalDataProvider proximityLocalDataProvider;

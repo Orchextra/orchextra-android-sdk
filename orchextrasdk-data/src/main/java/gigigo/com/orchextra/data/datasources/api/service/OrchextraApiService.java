@@ -31,10 +31,7 @@ import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 24/11/15.
- */
+
 public interface OrchextraApiService {
 
   @POST("security/token") Call<ApiSdkAuthResponse> sdkAuthentication(

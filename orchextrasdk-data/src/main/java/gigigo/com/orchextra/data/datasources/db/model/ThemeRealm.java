@@ -20,10 +20,7 @@ package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class ThemeRealm extends RealmObject {
 
   private String primaryColor;

@@ -28,10 +28,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 4/2/16.
- */
+
 public class BeaconRegionAndroidMapper implements
     ExternalClassToModelMapper<Region, OrchextraRegion>,
     ModelToExternalClassMapper<OrchextraRegion, Region>,

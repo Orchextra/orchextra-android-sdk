@@ -23,10 +23,7 @@ import com.gigigo.ggglib.network.responses.HttpResponse;
 import com.gigigo.orchextra.domain.interactors.error.OrchextraBusinessErrors;
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 30/11/15.
- */
+
 public class DefaultRetryOnErrorPolicyImpl
     implements RetryOnErrorPolicy<OrchextraApiErrorResponse> {
 

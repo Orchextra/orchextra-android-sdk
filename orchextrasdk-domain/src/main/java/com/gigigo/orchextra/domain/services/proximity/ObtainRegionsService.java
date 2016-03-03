@@ -26,10 +26,7 @@ import com.gigigo.orchextra.domain.services.DomaninService;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 10/2/16.
- */
+
 public class ObtainRegionsService implements DomaninService {
 
   private final ProximityLocalDataProvider proximityLocalDataProvider;

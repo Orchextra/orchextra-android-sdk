@@ -36,10 +36,7 @@ import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
 
 import javax.inject.Inject;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 23/11/15.
- */
+
 public class OrchextraManager {
 
   private static OrchextraManager instance;

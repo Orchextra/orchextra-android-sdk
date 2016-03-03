@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class VuforiaRealmMapper implements Mapper<Vuforia, VuforiaRealm> {
 
   @Override public VuforiaRealm modelToExternalClass(Vuforia vuforia) {

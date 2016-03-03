@@ -22,10 +22,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiPoint;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 15/12/15.
- */
+
 public class ApiGeoLocation {
 
   @Expose @SerializedName("country") private String country;

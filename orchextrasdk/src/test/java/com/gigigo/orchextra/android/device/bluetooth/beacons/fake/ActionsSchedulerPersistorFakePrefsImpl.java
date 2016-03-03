@@ -14,10 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 3/2/16.
- */
+
 public class ActionsSchedulerPersistorFakePrefsImpl implements ActionsSchedulerPersistor {
 
   private final SharedPreferences prefReader;

@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class ConfigInfoResultRealmMapper
     implements Mapper<ConfigInfoResult, ConfigInfoResultRealm> {
 

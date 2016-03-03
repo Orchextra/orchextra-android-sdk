@@ -27,10 +27,7 @@ import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 4/12/15.
- */
+
 public class SaveUserInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
 
   private final AuthenticationService authenticationService;

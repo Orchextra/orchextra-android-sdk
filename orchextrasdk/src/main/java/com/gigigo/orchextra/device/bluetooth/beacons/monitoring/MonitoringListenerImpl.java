@@ -27,10 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.altbeacon.beacon.Region;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 28/1/16.
- */
+
 public class MonitoringListenerImpl implements MonitoringListener {
 
   private final AppRunningMode appRunningMode;

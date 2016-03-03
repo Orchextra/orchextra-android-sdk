@@ -22,10 +22,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class RealmPointMapper implements Mapper<OrchextraPoint, RealmPoint> {
 
   @Override public RealmPoint modelToExternalClass(OrchextraPoint point) {

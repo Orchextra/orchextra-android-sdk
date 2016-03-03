@@ -8,10 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 25/1/16.
- */
+
 public class BeaconRegionsFactory {
 
   private static final String BEACONS_UUID = "e6775403-f0dd-40c4-87db-95e755738ad1";

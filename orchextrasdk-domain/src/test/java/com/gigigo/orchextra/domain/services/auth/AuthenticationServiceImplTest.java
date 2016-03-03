@@ -46,10 +46,7 @@ import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 18/2/16.
- */
+
 @RunWith(MockitoJUnitRunner.class) public class AuthenticationServiceImplTest {
 
   @Mock AuthenticationDataProvider authDataProvider;

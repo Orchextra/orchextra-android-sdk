@@ -27,10 +27,7 @@ import com.gigigo.orchextra.domain.model.vo.Theme;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import io.realm.Realm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 21/12/15.
- */
+
 public class ConfigInfoResultUpdater {
 
   private final ConfigBeaconUpdater beaconUpdater;

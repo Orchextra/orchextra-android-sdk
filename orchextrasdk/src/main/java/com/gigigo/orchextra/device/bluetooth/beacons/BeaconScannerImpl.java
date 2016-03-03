@@ -37,10 +37,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdat
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 25/1/16.
- */
+
 public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStatusListener {
 
   private final RegionMonitoringScanner regionMonitoringScanner;

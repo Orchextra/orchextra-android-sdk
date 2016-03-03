@@ -25,10 +25,7 @@ import com.gigigo.orchextra.domain.model.GenderType;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 22/12/15.
- */
+
 public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
 
   private final KeyWordRealmMapper keyWordRealmMapper;

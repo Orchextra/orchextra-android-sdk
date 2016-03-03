@@ -21,10 +21,7 @@ package com.gigigo.orchextra.sdk.application.applifecycle;
 import android.app.Activity;
 import java.lang.ref.WeakReference;
 
-/**
- * Created by Sergio Martinez Rodriguez
- * Date 18/1/16.
- */
+
 public class ActivityLifecyleWrapper {
   private WeakReference<Activity> activity;
   private boolean isPaused;
