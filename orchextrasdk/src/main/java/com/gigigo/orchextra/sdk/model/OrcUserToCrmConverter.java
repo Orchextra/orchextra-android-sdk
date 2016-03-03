@@ -2,6 +2,7 @@ package com.gigigo.orchextra.sdk.model;
 
 import android.text.TextUtils;
 
+import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.sdk.model;
+package com.gigigo.orchextra;
 
 import java.util.GregorianCalendar;
 import java.util.List;

@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
-import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceIntentServiceHandler;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceEventException;
@@ -33,7 +33,7 @@ public class GeofenceIntentService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Orchextra.getInjector().injectGeofenceIntentServiceComponent(this);
+        OrchextraManager.getInjector().injectGeofenceIntentServiceComponent(this);
     }
 
     @Override

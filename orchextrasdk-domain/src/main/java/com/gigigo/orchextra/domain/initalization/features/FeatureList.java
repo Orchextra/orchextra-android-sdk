@@ -14,9 +14,9 @@ public class FeatureList implements FeatureListener,
     com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureStatus {
 
   private List<Feature> features = new ArrayList<>();
-  private final OrchextraCompletionCallback orchextraCompletionCallback;
+  private final OrchextraManagerCompletionCallback orchextraCompletionCallback;
 
-  public FeatureList(OrchextraCompletionCallback orchextraCompletionCallback) {
+  public FeatureList(OrchextraManagerCompletionCallback orchextraCompletionCallback) {
     this.orchextraCompletionCallback = orchextraCompletionCallback;
   }
 
