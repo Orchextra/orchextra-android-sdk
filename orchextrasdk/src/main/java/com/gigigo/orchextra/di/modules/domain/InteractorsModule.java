@@ -20,6 +20,7 @@ package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.di.scopes.PerExecution;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
+import com.gigigo.orchextra.domain.interactors.status.OrchextraStatusInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
@@ -34,6 +35,8 @@ import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 
+import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
+import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import dagger.Module;
 import dagger.Provides;
 
@@ -71,5 +74,11 @@ public class InteractorsModule {
 
       return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService, eventUpdaterService);
     }
+
+  @Provides @PerExecution OrchextraStatusInteractor provideLoadOrchextraStatusInteractor(LoadOrchextraServiceStatus loadOrchextraServiceStatus,
+      UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
+
+    return new OrchextraStatusInteractor(loadOrchextraServiceStatus, updateOrchextraServiceStatus);
+  }
 
 }

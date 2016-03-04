@@ -28,6 +28,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
 import com.gigigo.orchextra.di.components.DaggerServiceComponent;
@@ -87,6 +88,12 @@ public class InjectorImpl implements Injector {
   @Override public InteractorExecutionComponent injectSaveUserInteractorExecution(InteractorExecution<ClientAuthData> interactorExecution) {
     InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
     interactorExecutionComponent.injectSaveUserInteractorExecution(interactorExecution);
+    return interactorExecutionComponent;
+  }
+
+  @Override public InteractorExecutionComponent injectOrchextraStatusInteractorExecution(InteractorExecution<OrchextraStatus> interactorExecution) {
+    InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
+    interactorExecutionComponent.injectOrchextraStatusInteractorExecution(interactorExecution);
     return interactorExecutionComponent;
   }
 

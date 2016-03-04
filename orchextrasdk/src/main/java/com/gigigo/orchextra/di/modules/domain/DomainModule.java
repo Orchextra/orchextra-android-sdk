@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.BuildConfig;
+import com.gigigo.orchextra.di.qualifiers.OrchextraStatusAccessorExexution;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
@@ -76,26 +77,37 @@ public class DomainModule {
 
   @BeaconEventsInteractorExecution @Provides InteractorExecution provideBeaconEventsInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectBeaconEventsInteractorExecution(interactorExecution);
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectBeaconEventsInteractorExecution(
+        interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideBeaconEventsInteractor());
     return interactorExecution;
   }
 
   @ConfigInteractorExecution @Provides InteractorExecution provideConfigInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectConfigInteractorInteractorExecution(interactorExecution);
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectConfigInteractorInteractorExecution(
+        interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideSendConfigInteractor());
     return interactorExecution;
   }
 
   @GeofenceInteractorExecution @Provides InteractorExecution provideGeofenceInteractorExecution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceInteractorExecution(interactorExecution);
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceInteractorExecution(
+        interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideGeofenceInteractor());
     return interactorExecution;
   }
 
   @SaveUserInteractorExecution @Provides InteractorExecution provideSaveUserInteractorExecution() {
+    InteractorExecution interactorExecution = new InteractorExecution();
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(
+        interactorExecution);
+    interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());
+    return interactorExecution;
+  }
+
+  @OrchextraStatusAccessorExexution @Provides InteractorExecution provideOrchextraStatusAccessorExexution() {
     InteractorExecution interactorExecution = new InteractorExecution();
     InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());

@@ -22,6 +22,7 @@ import com.gigigo.orchextra.dataprovision.actions.ActionsDataProviderImpl;
 import com.gigigo.orchextra.dataprovision.actions.datasource.ActionsDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.AuthenticationDataProviderImpl;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
+import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraStatusDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.ConfigDataProviderImpl;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
@@ -29,9 +30,11 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDat
 import com.gigigo.orchextra.dataprovision.proximity.ProximityLocalDataProviderImp;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
+import com.gigigo.orchextra.dataprovision.status.OrchextraStatusDataProviderImpl;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
+import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
@@ -67,4 +70,9 @@ public class DataProviderModule {
                                                                                 GeofenceDBDataSource geofenceDBDataSource) {
         return new ProximityLocalDataProviderImp(configDBDataSource, beaconsDBDataSource, geofenceDBDataSource);
     }
+
+  @Provides @Singleton OrchextraStatusDataProvider provideOrchextraStatusDataProvider(
+      OrchextraStatusDBDataSource orchextraStatusDBDataSource) {
+    return new OrchextraStatusDataProviderImpl(orchextraStatusDBDataSource);
+  }
 }

@@ -45,6 +45,11 @@ public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer {
     }
 
     @Override
+    public void clearGeofences() {
+        geofenceDeviceRegister.clean();
+    }
+
+    @Override
     public void startGeofenceRegister() {
         if (!isRegistered) {
             configObservable.registerObserver(this);

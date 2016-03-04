@@ -16,16 +16,12 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.domain.abstractions.geofences;
+package com.gigigo.orchextra.di.qualifiers;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import java.lang.annotation.Retention;
+import javax.inject.Qualifier;
 
-public interface GeofenceRegister {
-  void registerGeofences(OrchextraGeofenceUpdates geofenceUpdates);
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-  void clearGeofences();
-
-  void startGeofenceRegister();
-
-  void stopGeofenceRegister();
-}
+@Qualifier @Retention(RUNTIME)
+public @interface OrchextraStatusAccessorExexution {}

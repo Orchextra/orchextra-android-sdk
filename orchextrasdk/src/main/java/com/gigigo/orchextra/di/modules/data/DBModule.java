@@ -18,14 +18,20 @@
 
 package com.gigigo.orchextra.di.modules.data;
 
+import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglib.mappers.Mapper;
+import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
+import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusReader;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusUpdater;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -147,5 +153,17 @@ public class DBModule {
   GeofenceEventsReader provideGeofenceEventsReader(
           Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper) {
       return new GeofenceEventsReader(geofenceEventRealmMapper);
+  }
+
+  @Singleton
+  @Provides OrchextraStatusUpdater provideOrchextraStatusUpdater(
+      ModelToExternalClassMapper<OrchextraStatus, OrchextraStatusRealm> orchextraStatusRealmMapper) {
+    return new OrchextraStatusUpdater(orchextraStatusRealmMapper);
+  }
+
+  @Singleton
+  @Provides OrchextraStatusReader provideOrchextraStatusReader(
+      ExternalClassToModelMapper<OrchextraStatusRealm, OrchextraStatus> orchextraStatusRealmMapper) {
+    return new OrchextraStatusReader(orchextraStatusRealmMapper);
   }
 }

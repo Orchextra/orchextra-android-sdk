@@ -45,6 +45,7 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
   private final BluetoothStatusInfo bluetoothStatusInfo;
   private final AppRunningMode appRunningMode;
   private final ConfigObservable configObservable;
+  private boolean isRegisteredAsObserver = false;
 
   public BeaconScannerImpl(RegionMonitoringScanner regionMonitoringScanner,
       BeaconRangingScanner beaconRangingScanner, BluetoothStatusInfo bluetoothStatusInfo,
@@ -56,7 +57,21 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
     this.appRunningMode = appRunningMode;
     this.configObservable = configObservable;
 
-    this.configObservable.registerObserver(this);
+    registerAsObserver();
+  }
+
+  private void registerAsObserver() {
+    if (!isRegisteredAsObserver){
+      this.configObservable.registerObserver(this);
+      isRegisteredAsObserver = true;
+    }
+  }
+
+  private void unregisterAsObserver() {
+    if (isRegisteredAsObserver){
+      this.configObservable.removeObserver(this);
+      isRegisteredAsObserver = false;
+    }
   }
 
   @Override public void startMonitoring() {
@@ -103,7 +118,7 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
     if (regionMonitoringScanner.isMonitoring()){
       regionMonitoringScanner.stopMonitoring();
     }
-    this.configObservable.removeObserver(this);
+    unregisterAsObserver();
   }
 
   @Override public void stopRangingScanner() {

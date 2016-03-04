@@ -24,6 +24,7 @@ import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.orchextra.dataprovision.actions.datasource.ActionsDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
+import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraStatusDBDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
@@ -37,6 +38,9 @@ import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusDBDataSourceImpl;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusReader;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusUpdater;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -127,6 +131,15 @@ public class DataModule {
                                                    RealmDefaultInstance realmDefaultInstance) {
     return new GeofenceDBDataSourceImp(contextProvider.getApplicationContext(),
             geofenceEventsReader, geofenceEventsUpdater, realmDefaultInstance);
+  }
+
+  @Provides
+  @Singleton OrchextraStatusDBDataSource provideOrchextraStatusDBDataSource(ContextProvider contextProvider,
+      OrchextraStatusUpdater orchextraStatusUpdater,
+      OrchextraStatusReader orchextraStatusReader,
+      RealmDefaultInstance realmDefaultInstance) {
+    return new OrchextraStatusDBDataSourceImpl(contextProvider.getApplicationContext(),
+        orchextraStatusUpdater, orchextraStatusReader, realmDefaultInstance);
   }
 
   @Provides @Singleton DeviceDetailsProvider provideDeviceDetailsProvider(ContextProvider contextProvider){

@@ -26,6 +26,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
 import com.gigigo.orchextra.di.components.ServiceComponent;
@@ -37,7 +38,7 @@ public interface Injector {
   ServiceComponent injectServiceComponent (OrchextraBackgroundService myAppService);
   TaskServiceComponent injectTaskServiceComponent(OrchextraGcmTaskService orchextraGcmTaskService);
   GeofenceIntentServiceComponent injectGeofenceIntentServiceComponent(GeofenceIntentService geofenceIntentService);
-
+  InteractorExecutionComponent injectOrchextraStatusInteractorExecution(InteractorExecution<OrchextraStatus> interactorExecution);
   InteractorExecutionComponent injectRegionsProviderInteractorExecution(InteractorExecution<List<OrchextraRegion>> interactorExecution);
   InteractorExecutionComponent injectSaveUserInteractorExecution(InteractorExecution<ClientAuthData> interactorExecution);
   InteractorExecutionComponent injectConfigInteractorInteractorExecution(InteractorExecution<OrchextraUpdates> interactorExecution);

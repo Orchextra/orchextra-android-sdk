@@ -25,8 +25,11 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
+import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.OrchextraStatusRealmMapper;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -143,5 +146,11 @@ public class DBMapperModule {
     @Provides
     Mapper<OrchextraGeofence, GeofenceEventRealm> provideGeofenceEventRealmMapper(Mapper<OrchextraPoint, RealmPoint> realmPointMapper) {
         return new GeofenceEventRealmMapper(realmPointMapper);
+    }
+
+    @Singleton
+    @Provides
+    Mapper<OrchextraStatus, OrchextraStatusRealm> provideOrchextraStatusRealm() {
+        return new OrchextraStatusRealmMapper();
     }
 }

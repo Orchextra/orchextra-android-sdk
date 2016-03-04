@@ -16,16 +16,15 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.domain.abstractions.geofences;
+package com.gigigo.orchextra.domain.dataprovider;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 
-public interface GeofenceRegister {
-  void registerGeofences(OrchextraGeofenceUpdates geofenceUpdates);
+public interface OrchextraStatusDataProvider {
 
-  void clearGeofences();
+  BusinessObject<OrchextraStatus> loadOrchextraStatus();
 
-  void startGeofenceRegister();
+  BusinessObject<OrchextraStatus> updateOrchextraStatus(OrchextraStatus orchextraStatus);
 
-  void stopGeofenceRegister();
 }

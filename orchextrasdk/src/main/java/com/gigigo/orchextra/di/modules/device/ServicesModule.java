@@ -18,13 +18,14 @@
 
 package com.gigigo.orchextra.di.modules.device;
 
+import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceIntentServiceHandler;
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
 import com.gigigo.orchextra.di.scopes.PerService;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
-import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
-import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
-import com.gigigo.orchextra.domain.background.BackgroundTasksManagerImpl;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
+import com.gigigo.orchextra.sdk.OrchextraTasksManager;
+import com.gigigo.orchextra.sdk.application.BackgroundTasksManagerImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -33,9 +34,13 @@ import dagger.Provides;
 @Module
 public class ServicesModule {
 
-  @PerService @Provides BackgroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner,
-                                                                             GeofenceRegister geofenceRegister){
-    return new BackgroundTasksManagerImpl(beaconScanner, geofenceRegister);
+  @PerService @Provides BackgroundTasksManager provideBackgroundTasksManager(
+      OrchextraTasksManager orchextraTasksManager,
+      PermissionChecker permissionChecker,
+      OrchextraStatusAccessor orchextraStatusAccessor){
+
+    return new BackgroundTasksManagerImpl(orchextraTasksManager, permissionChecker,
+        orchextraStatusAccessor);
   }
 
   @PerService

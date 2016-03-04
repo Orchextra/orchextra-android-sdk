@@ -21,6 +21,7 @@ package com.gigigo.orchextra.di.modules;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.di.modules.control.ControlModuleProvider;
 import com.gigigo.orchextra.di.modules.device.DeviceModuleProvider;
+import com.gigigo.orchextra.sdk.OrchextraTasksManager;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 
 
@@ -28,4 +29,5 @@ public interface OrchextraModuleProvider extends ControlModuleProvider, DeviceMo
   OrchextraActivityLifecycle provideOrchextraActivityLifecycle();
   ContextProvider provideContextProvider();
   OrchextraModule getOrchextraModule();
+  OrchextraTasksManager getOrchextraTasksManager();
 }

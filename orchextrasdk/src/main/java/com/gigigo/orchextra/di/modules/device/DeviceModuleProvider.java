@@ -23,7 +23,7 @@ import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
-
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 
 public interface DeviceModuleProvider extends
     BluetoothModuleProvider,
@@ -36,5 +36,6 @@ public interface DeviceModuleProvider extends
     GoogleApiClientConnector provideGoogleApiClientConnector();
     PermissionChecker providePermissionChecker();
     PermissionLocationImp providePermissionLocationImp();
+    OrchextraStatusAccessor provideOrchextraStatusAccessor();
 
 }

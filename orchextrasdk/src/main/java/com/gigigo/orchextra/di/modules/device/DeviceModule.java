@@ -33,6 +33,9 @@ import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
+import com.gigigo.orchextra.sdk.OrchextraTasksManager;
+import com.gigigo.orchextra.sdk.OrchextraTasksManagerImpl;
 import com.gigigo.orchextra.sdk.application.ForegroundTasksManagerImpl;
 
 import javax.inject.Singleton;
@@ -45,10 +48,17 @@ import dagger.Provides;
 public class DeviceModule {
 
   @Singleton @Provides
-  ForegroundTasksManager provideBackgroundTasksManager(BeaconScanner beaconScanner,
-                                                       ConfigDelegateImp configDelegateImp,
-                                                       GeofenceRegister geofenceRegister){
-    return  new ForegroundTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister);
+  ForegroundTasksManager provideBackgroundTasksManager(OrchextraTasksManager orchextraTasksManager,
+      PermissionChecker permissionChecker, ContextProvider contextProvider,
+      OrchextraStatusAccessor orchextraStatusAccessor){
+    return new ForegroundTasksManagerImpl(orchextraTasksManager, permissionChecker, contextProvider,
+        orchextraStatusAccessor);
+  }
+
+  @Singleton @Provides
+  OrchextraTasksManager provideOrchextraTasksManager(BeaconScanner beaconScanner,
+      ConfigDelegateImp configDelegateImp, GeofenceRegister geofenceRegister){
+    return  new OrchextraTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister);
   }
 
   @Provides PermissionChecker providePermissionChecker(ContextProvider contextProvider) {

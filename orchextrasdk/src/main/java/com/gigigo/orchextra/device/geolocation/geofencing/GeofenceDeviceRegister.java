@@ -143,4 +143,8 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
             ).setResultCallback(this);
         }
     }
+
+    public void clean() {
+        LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), geofencePendingIntentCreator.getGeofencingPendingIntent());
+    }
 }
