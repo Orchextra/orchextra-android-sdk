@@ -26,7 +26,7 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener
 import com.gigigo.orchextra.domain.abstractions.notifications.ForegroundNotificationBuilder;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.ui.dialogs.DialogOneOption;
 import com.gigigo.orchextra.ui.dialogs.DialogTwoOptions;
 
@@ -42,7 +42,7 @@ public class ForegroundNotificationBuilderImp implements ForegroundNotificationB
     }
 
     @Override
-    public void buildNotification(BasicAction action, Notification notification) {
+    public void buildNotification(BasicAction action, OrchextraNotification notification) {
         this.action = action;
 
         if (action.getActionType() == ActionType.NOTIFICATION) {
@@ -52,14 +52,14 @@ public class ForegroundNotificationBuilderImp implements ForegroundNotificationB
         }
     }
 
-    private void buildAcceptDialog(Notification notification) {
+    private void buildAcceptDialog(OrchextraNotification notification) {
         DialogOneOption dialog = new DialogOneOption(contextProvider.getCurrentActivity(), notification.getTitle(), notification.getBody(),
                 contextProvider.getCurrentActivity().getString(R.string.ox_accept_text), positiveButtonListener);
 
         dialog.onCreateDialog().show();
     }
 
-    private void buildTwoOptionsDialog(Notification notification) {
+    private void buildTwoOptionsDialog(OrchextraNotification notification) {
         DialogTwoOptions dialog = new DialogTwoOptions(contextProvider.getCurrentActivity(), notification.getTitle(), notification.getBody(),
                 contextProvider.getCurrentActivity().getString(R.string.ox_accept_text), positiveButtonListener,
                 contextProvider.getCurrentActivity().getString(R.string.ox_cancel_text), negativeButtonListener);

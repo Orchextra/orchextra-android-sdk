@@ -41,7 +41,7 @@ public abstract class BasicAction {
 
   private String eventCode;
 
-  public BasicAction(String id, String trackId, String url, Notification notification,
+  public BasicAction(String id, String trackId, String url, OrchextraNotification notification,
       Schedule schedule) {
 
     this.id = id;
@@ -99,7 +99,7 @@ public abstract class BasicAction {
     return this.urlFunctionality.getUrl();
   }
 
-  public Notification getNotifFunctionality() {
+  public OrchextraNotification getNotifFunctionality() {
     return notifFunctionality.getNotification();
   }
 
@@ -129,20 +129,20 @@ public abstract class BasicAction {
     private String trackId;
     private ActionType actionType;
     private String url;
-    private Notification notification;
+    private OrchextraNotification notification;
     private Schedule schedule;
 
     public ActionBuilder() {
     }
 
     public ActionBuilder(String id, String tid, ActionType actionType, String url,
-        Notification notification, Schedule schedule) {
+        OrchextraNotification notification, Schedule schedule) {
       this(id, tid, actionType, url, notification);
       this.schedule = schedule;
     }
 
     public ActionBuilder(String id, String tid, ActionType actionType, String url,
-        Notification notification) {
+        OrchextraNotification notification) {
 
       this.id = id;
       this.trackId = tid;

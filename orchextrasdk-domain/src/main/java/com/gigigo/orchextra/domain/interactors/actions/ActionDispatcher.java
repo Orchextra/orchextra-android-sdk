@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.domain.interactors.actions;
 
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.model.actions.types.CustomAction;
 import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
@@ -32,29 +32,29 @@ public interface ActionDispatcher {
 
   void dispatchAction(BrowserAction action);
 
-  void dispatchAction(BrowserAction action, Notification notification);
+  void dispatchAction(BrowserAction action, OrchextraNotification notification);
 
   void dispatchAction(WebViewAction action);
 
-  void dispatchAction(WebViewAction action, Notification notification);
+  void dispatchAction(WebViewAction action, OrchextraNotification notification);
 
   void dispatchAction(CustomAction action);
 
-  void dispatchAction(CustomAction action, Notification notification);
+  void dispatchAction(CustomAction action, OrchextraNotification notification);
 
   void dispatchAction(ScanAction action);
 
-  void dispatchAction(ScanAction action, Notification notification);
+  void dispatchAction(ScanAction action, OrchextraNotification notification);
 
   void dispatchAction(VuforiaScanAction action);
 
-  void dispatchAction(VuforiaScanAction action, Notification notification);
+  void dispatchAction(VuforiaScanAction action, OrchextraNotification notification);
 
   void dispatchAction(NotificationAction action);
 
-  void dispatchAction(NotificationAction action, Notification notification);
+  void dispatchAction(NotificationAction action, OrchextraNotification notification);
 
   void dispatchAction(EmptyAction action);
 
-  void dispatchAction(EmptyAction action, Notification notification);
+  void dispatchAction(EmptyAction action, OrchextraNotification notification);
 }

@@ -20,10 +20,10 @@ package com.gigigo.orchextra.domain.abstractions.notifications;
 
 import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
 public interface NotificationBehavior {
-  void dispatchNotificationAction(BasicAction action, Notification notification);
+  void dispatchNotificationAction(BasicAction action, OrchextraNotification notification);
 
   void setActionDispatcherListener(ActionDispatcherListener actionDispatcherListener);
 }

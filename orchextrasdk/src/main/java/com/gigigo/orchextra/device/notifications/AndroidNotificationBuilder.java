@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.device.notifications;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -30,7 +31,7 @@ import android.support.v4.app.NotificationCompat;
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
 public class AndroidNotificationBuilder {
 
@@ -42,16 +43,40 @@ public class AndroidNotificationBuilder {
         this.context = context;
     }
 
-    public void createNotification(Notification notification, PendingIntent pendingIntent) {
+    public void createNotification(OrchextraNotification orchextraNotification, PendingIntent pendingIntent) {
+
+        Notification notification;
+        if (AndroidSdkVersion.hasJellyBean16()) {
+            notification = createBigNotification(orchextraNotification, pendingIntent);
+        } else {
+            notification = createNormalNotification(orchextraNotification, pendingIntent);
+        }
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify((int) (System.currentTimeMillis() % Integer.MAX_VALUE), notification);
+    }
+
+    private Notification createBigNotification(OrchextraNotification orchextraNotification, PendingIntent pendingIntent) {
+        NotificationCompat.Builder builder = getNotificationBuilder(orchextraNotification, pendingIntent);
+        return expandedNotification(builder, orchextraNotification.getBody());
+    }
+
+    private Notification createNormalNotification(OrchextraNotification orchextraNotification, PendingIntent pendingIntent) {
+        NotificationCompat.Builder builder = getNotificationBuilder(orchextraNotification, pendingIntent);
+        return builder.build();
+    }
+
+    private NotificationCompat.Builder getNotificationBuilder(OrchextraNotification orchextraNotification, PendingIntent pendingIntent) {
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setLargeIcon(largeIcon)
                         .setSmallIcon(getSmallIconResourceId())
-                        .setContentTitle(notification.getTitle())
-                        .setContentText(notification.getBody())
-                        .setTicker(notification.getTitle())
+                        .setContentTitle(orchextraNotification.getTitle())
+                        .setContentText(orchextraNotification.getBody())
+                        .setTicker(orchextraNotification.getTitle())
                         .setWhen(System.currentTimeMillis())
                         .setColor(context.getResources().getColor(R.color.orc_notification_background))
                         .setAutoCancel(true);
@@ -60,9 +85,12 @@ public class AndroidNotificationBuilder {
             builder.setContentIntent(pendingIntent);
         }
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        return builder;
+    }
 
-        notificationManager.notify((int)(System.currentTimeMillis()%Integer.MAX_VALUE), builder.build());
+    private android.app.Notification expandedNotification(NotificationCompat.Builder builder, String body) {
+        return new NotificationCompat.BigTextStyle(builder)
+                .bigText(body).build();
     }
 
     public PendingIntent getPendingIntent(AndroidBasicAction androidBasicAction) {

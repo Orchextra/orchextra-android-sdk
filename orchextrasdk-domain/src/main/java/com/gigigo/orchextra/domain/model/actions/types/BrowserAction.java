@@ -21,13 +21,13 @@ package com.gigigo.orchextra.domain.model.actions.types;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 
 
 public class BrowserAction extends BasicAction {
 
-  public BrowserAction(String id, String trackId, String url, Notification notification,
+  public BrowserAction(String id, String trackId, String url, OrchextraNotification notification,
       Schedule schedule) {
     super(id, trackId, url, notification, schedule);
     this.actionType = ActionType.BROWSER;

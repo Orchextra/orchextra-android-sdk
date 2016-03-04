@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
 
-public class Notification {
+public class OrchextraNotification {
 
   private String title;
   private String body;

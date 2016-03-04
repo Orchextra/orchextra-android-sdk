@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class ActionNotificationResponseMapperTest {
 
         ActionNotificationExternalClassToModelMapper
             actionNotificationResponseMapper = new ActionNotificationExternalClassToModelMapper();
-        Notification notification = actionNotificationResponseMapper.externalClassToModel(
+        OrchextraNotification notification = actionNotificationResponseMapper.externalClassToModel(
             apiNotification);
 
         assertEquals(TITULO, notification.getTitle());

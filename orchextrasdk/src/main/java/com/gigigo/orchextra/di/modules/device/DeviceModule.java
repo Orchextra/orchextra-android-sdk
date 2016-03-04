@@ -28,6 +28,7 @@ import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
+import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
@@ -36,6 +37,7 @@ import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraTasksManager;
 import com.gigigo.orchextra.sdk.OrchextraTasksManagerImpl;
+import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.sdk.application.ForegroundTasksManagerImpl;
 
 import javax.inject.Singleton;
@@ -61,6 +63,13 @@ public class DeviceModule {
     return  new OrchextraTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister);
   }
 
+  @Singleton
+  @Provides
+  GoogleApiPermissionChecker provideGoogleApiPermissionChecker(ContextProvider contextProvider,
+                                                               FeatureListener featureListener) {
+    return new GoogleApiPermissionChecker(contextProvider.getApplicationContext(), featureListener);
+  }
+
   @Provides PermissionChecker providePermissionChecker(ContextProvider contextProvider) {
     return new AndroidPermissionCheckerImpl(contextProvider.getApplicationContext(), contextProvider);
   }
@@ -72,9 +81,8 @@ public class DeviceModule {
 
   @Singleton
   @Provides GoogleApiClientConnector provideGoogleApiClientConnector(ContextProvider contextProvider,
-      PermissionChecker permissionChecker,
-      PermissionLocationImp permissionLocationImp) {
-    return new GoogleApiClientConnector(contextProvider, permissionChecker, permissionLocationImp);
+                                                                     GoogleApiPermissionChecker googleApiPermissionChecker) {
+    return new GoogleApiClientConnector(contextProvider, googleApiPermissionChecker);
   }
 
   @Singleton

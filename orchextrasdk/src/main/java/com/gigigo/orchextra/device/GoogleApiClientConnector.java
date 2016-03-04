@@ -21,10 +21,8 @@ package com.gigigo.orchextra.device;
 import android.os.Bundle;
 
 import com.gigigo.ggglib.ContextProvider;
-import com.gigigo.ggglib.permissions.PermissionChecker;
-import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
 import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
+import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -33,21 +31,20 @@ public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallb
         GoogleApiClient.OnConnectionFailedListener {
 
     private final ContextProvider contextProvider;
-    private final PermissionChecker permissionChecker;
-    private final PermissionLocationImp accessFineLocationPermissionImp;
+    private final GoogleApiPermissionChecker googleApiPermissionChecker;
 
     private GoogleApiClient client;
     private OnConnectedListener onConnectedListener;
 
-    public GoogleApiClientConnector(ContextProvider contextProvider, PermissionChecker permissionChecker,
-                                    PermissionLocationImp accessFineLocationPermissionImp) {
+    public GoogleApiClientConnector(ContextProvider contextProvider,
+                                    GoogleApiPermissionChecker googleApiPermissionChecker) {
         this.contextProvider = contextProvider;
-        this.permissionChecker = permissionChecker;
-        this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
+        this.googleApiPermissionChecker = googleApiPermissionChecker;
     }
 
     public void connect() {
-        if (contextProvider.getApplicationContext() != null) {
+        if (contextProvider.getApplicationContext() != null &&
+                googleApiPermissionChecker.checkPlayServicesStatus() == ConnectionResult.SUCCESS) {
             client = new GoogleApiClient.Builder(contextProvider.getApplicationContext())
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -80,15 +77,7 @@ public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallb
                 GGGLogImpl.log("Necesita actualizar google play");
                 break;
             case ConnectionResult.SERVICE_MISSING_PERMISSION:
-                GGGLogImpl.log("Faltan permisos: ACCESS_FINE_LOCATION");
-                boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
-                if (isGranted) {
-                    connect();
-                } else {
-                    if (contextProvider.getCurrentActivity() != null) {
-                        permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
-                    }
-                }
+                GGGLogImpl.log("Falta algun permiso para ejecutar Google Play Services");
                 break;
         }
     }
@@ -109,18 +98,12 @@ public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallb
 
     public interface OnConnectedListener {
         void onConnected(Bundle bundle);
+        void onConnectionFailed(ConnectionResult connectionResult);
     }
 
     public void setOnConnectedListener(OnConnectedListener onConnectedListener) {
         this.onConnectedListener = onConnectedListener;
     }
 
-    private UserPermissionRequestResponseListener userPermissionResponseListener = new UserPermissionRequestResponseListener() {
-        @Override
-        public void onPermissionAllowed(boolean permissionAllowed) {
-            if (permissionAllowed) {
-                connect();
-            }
-        }
-    };
+
 }
