@@ -22,7 +22,7 @@ import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionData;
@@ -53,8 +53,8 @@ public class ActionsApiExternalClassToModelMapper
     String id = apiActionData.getId();
     String tid = apiActionData.getTrackId();
 
-    Notification notification =
-        (Notification) MapperUtils.checkNullDataResponse(actionNotificationResponseMapper,
+    OrchextraNotification notification =
+        (OrchextraNotification) MapperUtils.checkNullDataResponse(actionNotificationResponseMapper,
             apiActionData.getNotification());
 
     Schedule schedule = (Schedule) MapperUtils.checkNullDataResponse(actionScheduleResponseMapper,

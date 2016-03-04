@@ -22,7 +22,7 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.model.actions.types.CustomAction;
 import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
@@ -53,7 +53,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
     actionExecution.execute(action);
   }
 
-  @Override public void dispatchAction(BrowserAction action, Notification notification) {
+  @Override public void dispatchAction(BrowserAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
@@ -61,7 +61,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
     actionExecution.execute(action);
   }
 
-  @Override public void dispatchAction(WebViewAction action, Notification notification) {
+  @Override public void dispatchAction(WebViewAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
@@ -69,7 +69,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
     customSchemeReceiverContainer.getCustomSchemeReceiver().onReceive(action.getUrl());
   }
 
-  @Override public void dispatchAction(CustomAction action, Notification notification) {
+  @Override public void dispatchAction(CustomAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
@@ -77,7 +77,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
     actionExecution.execute(action);
   }
 
-  @Override public void dispatchAction(ScanAction action, Notification notification) {
+  @Override public void dispatchAction(ScanAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
@@ -85,25 +85,25 @@ public class ActionDispatcherImpl implements ActionDispatcher {
     actionExecution.execute(action);
   }
 
-  @Override public void dispatchAction(VuforiaScanAction action, Notification notification) {
+  @Override public void dispatchAction(VuforiaScanAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
   @Override public void dispatchAction(NotificationAction action) {
-    Notification notification = action.getNotifFunctionality();
+    OrchextraNotification notification = action.getNotifFunctionality();
     if (notification.shouldBeShown()) {
       notificationBehavior.dispatchNotificationAction(action, notification);
     }
   }
 
-  @Override public void dispatchAction(NotificationAction action, Notification notification) {
+  @Override public void dispatchAction(NotificationAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
   @Override public void dispatchAction(EmptyAction action) {
   }
 
-  @Override public void dispatchAction(EmptyAction action, Notification notification) {
+  @Override public void dispatchAction(EmptyAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 

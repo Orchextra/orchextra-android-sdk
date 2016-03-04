@@ -21,7 +21,7 @@ package com.gigigo.orchextra.domain.interactors.geofences;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 import com.gigigo.orchextra.domain.model.actions.strategy.ScheduledActionImpl;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
@@ -134,7 +134,7 @@ import static org.mockito.Mockito.when;
     schedule.setEventId("456");
 
     BasicAction basicAction =
-        new BrowserAction("0", "0", "http://www.google.es", new Notification(), schedule);
+        new BrowserAction("0", "0", "http://www.google.es", new OrchextraNotification(), schedule);
     basicAction.setEventCode("AAA");
 
     when(geofenceCheckerService.obtainCheckedGeofence(basicAction.getEventCode())).thenReturn(

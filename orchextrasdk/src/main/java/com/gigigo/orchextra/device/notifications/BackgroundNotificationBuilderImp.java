@@ -24,7 +24,7 @@ import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
 public class BackgroundNotificationBuilderImp implements NotificationBuilder {
 
@@ -38,7 +38,7 @@ public class BackgroundNotificationBuilderImp implements NotificationBuilder {
     }
 
     @Override
-    public void buildNotification(BasicAction action, Notification notification) {
+    public void buildNotification(BasicAction action, OrchextraNotification notification) {
         AndroidBasicAction androidBasicAction = androidBasicActionMapper.modelToExternalClass(
             action);
 

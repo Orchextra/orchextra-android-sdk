@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSchedule;
@@ -34,7 +34,8 @@ public class ActionsApiResponseMapperTest {
 
     @Mock ActionScheduledExternalClassToModelMapper actionScheduledExternalClassToModelMapper;
 
-    @Mock Notification notification;
+    @Mock
+    OrchextraNotification notification;
 
     @Mock Schedule schedule;
 

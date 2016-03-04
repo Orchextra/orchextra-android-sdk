@@ -18,14 +18,18 @@
 
 package com.gigigo.orchextra.device.geolocation.location;
 
+import android.content.Context;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
+import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationServices;
 
 public class RetrieveLastKnownLocation {
@@ -57,19 +61,31 @@ public class RetrieveLastKnownLocation {
     private GoogleApiClientConnector.OnConnectedListener onConnectedListener = new GoogleApiClientConnector.OnConnectedListener() {
         @Override
         public void onConnected(Bundle bundle) {
+            askPermissionAndGetLastKnownLocation();
+        }
+
+        @Override
+        public void onConnectionFailed(ConnectionResult connectionResult) {
             boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
             if (isGranted) {
-                getUserLocation();
-            } else {
-                if (contextProvider.getCurrentActivity() != null) {
-                    permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
-                }
+                getNetworkGpsLocation();
             }
         }
     };
 
+    public void askPermissionAndGetLastKnownLocation() {
+        boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
+        if (isGranted) {
+            getLastKnownLocation();
+        } else {
+            if (contextProvider.getCurrentActivity() != null) {
+                permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
+            }
+        }
+    }
+
     @SuppressWarnings("ResourceType")
-    private void getUserLocation() {
+    private void getLastKnownLocation() {
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClientConnector.getGoogleApiClient());
         if (onLastKnownLocationListener != null) {
             onLastKnownLocationListener.onLastKnownLocation(lastLocation);
@@ -80,9 +96,31 @@ public class RetrieveLastKnownLocation {
             new UserPermissionRequestResponseListener() {
         @Override
         public void onPermissionAllowed(boolean permissionAllowed) {
-            getUserLocation();
+            getLastKnownLocation();
         }
     };
+
+    @SuppressWarnings("ResourceType")
+    private void getNetworkGpsLocation() {
+        Context context = contextProvider.getApplicationContext();
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        String locationProvider;
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            locationProvider = LocationManager.GPS_PROVIDER;
+        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locationProvider = LocationManager.NETWORK_PROVIDER;
+        } else {
+            GGGLogImpl.log("Connection failed: Location not Available");
+            return;
+        }
+
+        Location location = locationManager.getLastKnownLocation(locationProvider);
+
+        if (onLastKnownLocationListener != null) {
+            onLastKnownLocationListener.onLastKnownLocation(location);
+        }
+    }
 
     public interface OnLastKnownLocationListener {
         void onLastKnownLocation(Location location);

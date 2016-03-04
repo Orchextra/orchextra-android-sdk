@@ -20,12 +20,12 @@ package com.gigigo.orchextra.device.notifications.dtos.mapper;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidNotification;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
-public class AndroidNotificationMapper implements Mapper<Notification, AndroidNotification> {
+public class AndroidNotificationMapper implements Mapper<OrchextraNotification, AndroidNotification> {
 
     @Override
-    public AndroidNotification modelToExternalClass(Notification notification) {
+    public AndroidNotification modelToExternalClass(OrchextraNotification notification) {
         AndroidNotification androidNotification = new AndroidNotification();
 
         androidNotification.setTitle(notification.getTitle());
@@ -36,8 +36,8 @@ public class AndroidNotificationMapper implements Mapper<Notification, AndroidNo
     }
 
     @Override
-    public Notification externalClassToModel(AndroidNotification androidNotification) {
-        Notification notification = new Notification();
+    public OrchextraNotification externalClassToModel(AndroidNotification androidNotification) {
+        OrchextraNotification notification = new OrchextraNotification();
 
         notification.setTitle(androidNotification.getTitle());
         notification.setBody(androidNotification.getBody());

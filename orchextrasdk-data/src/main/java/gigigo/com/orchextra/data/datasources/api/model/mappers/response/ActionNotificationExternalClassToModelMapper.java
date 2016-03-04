@@ -19,15 +19,15 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiNotification;
 
 
 public class ActionNotificationExternalClassToModelMapper
-    implements ExternalClassToModelMapper<ApiNotification, Notification> {
+    implements ExternalClassToModelMapper<ApiNotification, OrchextraNotification> {
 
-  @Override public Notification externalClassToModel(ApiNotification apiNotification) {
-    Notification notification = new Notification();
+  @Override public OrchextraNotification externalClassToModel(ApiNotification apiNotification) {
+    OrchextraNotification notification = new OrchextraNotification();
     notification.setTitle(apiNotification.getTitle());
     notification.setBody(apiNotification.getBody());
     return notification;

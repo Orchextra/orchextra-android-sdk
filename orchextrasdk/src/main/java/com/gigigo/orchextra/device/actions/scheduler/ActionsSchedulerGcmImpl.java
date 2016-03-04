@@ -20,20 +20,19 @@ package com.gigigo.orchextra.device.actions.scheduler;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
-import com.gigigo.orchextra.domain.model.actions.strategy.Notification;
-import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
+import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsScheduler;
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
-import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
-import com.gigigo.orchextra.sdk.features.GooglePlayServicesFeature;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.OneoffTask;
 import com.google.android.gms.gcm.Task;
 import com.google.gson.Gson;
+
 import java.util.Date;
 
 
@@ -47,19 +46,15 @@ public class ActionsSchedulerGcmImpl implements ActionsScheduler {
   private final AndroidBasicActionMapper androidBasicActionMapper;
   private final Gson gson;
 
-  public ActionsSchedulerGcmImpl(Context context, FeatureListener featureListener,
-      AndroidBasicActionMapper androidBasicActionMapper, Gson gson) {
-    checkPlayServicesStatus(context, featureListener);
+  public ActionsSchedulerGcmImpl(Context context, Gson gson,
+                                 AndroidBasicActionMapper androidBasicActionMapper,
+                                 GoogleApiPermissionChecker googleApiPermissionChecker) {
+
+    googleApiPermissionChecker.checkPlayServicesStatus();
+
     this.gcmNetworkManager = GcmNetworkManager.getInstance(context);
     this.androidBasicActionMapper = androidBasicActionMapper;
     this.gson = gson;
-  }
-
-  private int checkPlayServicesStatus(Context context, FeatureListener featureListener) {
-    GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-    int status = googleApiAvailability.isGooglePlayServicesAvailable(context);
-    featureListener.onFeatureStatusChanged(new GooglePlayServicesFeature(status));
-    return status;
   }
 
   @Override public void scheduleAction(ScheduledAction action) {

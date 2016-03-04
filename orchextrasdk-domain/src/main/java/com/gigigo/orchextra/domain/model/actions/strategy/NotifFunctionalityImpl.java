@@ -21,13 +21,13 @@ package com.gigigo.orchextra.domain.model.actions.strategy;
 
 public class NotifFunctionalityImpl implements NotifFunctionality {
 
-  private final Notification notification;
+  private final OrchextraNotification notification;
 
-  public NotifFunctionalityImpl(Notification notification) {
+  public NotifFunctionalityImpl(OrchextraNotification notification) {
     this.notification = notification;
   }
 
-  @Override public Notification getNotification() {
+  @Override public OrchextraNotification getNotification() {
     return notification;
   }
 

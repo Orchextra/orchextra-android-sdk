@@ -32,6 +32,7 @@ import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofence
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.GeofencingRequest;
@@ -112,6 +113,11 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
                 @Override
                 public void onConnected(Bundle bundle) {
                     registerGeofencesOnDevice();
+                }
+
+                @Override
+                public void onConnectionFailed(ConnectionResult connectionResult) {
+                    GGGLogImpl.log("No se ha podido conectar GoogleApiClientConnector en las peticion de las geofences");
                 }
             };
 
