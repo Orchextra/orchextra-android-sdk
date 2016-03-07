@@ -29,15 +29,18 @@ import com.gigigo.orchextra.device.actions.ScanActionExecutor;
 import com.gigigo.orchextra.device.actions.VuforiaActionExecutor;
 import com.gigigo.orchextra.device.actions.WebViewActionExecutor;
 import com.gigigo.orchextra.device.actions.scheduler.ActionsSchedulerGcmImpl;
+import com.gigigo.orchextra.device.actions.stats.StatsDispatcherImp;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidNotificationMapper;
 import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
+import com.gigigo.orchextra.di.qualifiers.BackThread;
 import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsScheduler;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerPersistor;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
+import com.gigigo.orchextra.domain.abstractions.stats.StatsDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
@@ -47,6 +50,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import gigigo.com.orchextra.data.datasources.api.stats.StatsDataSourceImp;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 
@@ -84,8 +88,8 @@ public class ActionsModule {
 
   @Provides
   @Singleton ActionDispatcher provideActionDispatcher(ActionExecution actionExecution, NotificationBehavior notificationBehavior,
-      CustomSchemeReceiverContainer customSchemeReceiverContainer) {
-    return new ActionDispatcherImpl(actionExecution, notificationBehavior, customSchemeReceiverContainer);
+      CustomSchemeReceiverContainer customSchemeReceiverContainer, StatsDispatcher statsDispatcher) {
+    return new ActionDispatcherImpl(actionExecution, notificationBehavior, customSchemeReceiverContainer, statsDispatcher);
   }
 
   @Provides
@@ -126,4 +130,10 @@ public class ActionsModule {
       ActionDispatcher actionDispatcher, @MainThread ThreadSpec mainThreadSpec){
     return new AndroidActionRecovery(actionDispatcher, androidBasicActionMapper, mainThreadSpec);
   }
+
+    @Provides
+    @Singleton StatsDispatcher provideStatsDispatcher(StatsDataSourceImp statsDataSourceImp,
+                                                      @BackThread ThreadSpec bacThreadSpec) {
+        return new StatsDispatcherImp(statsDataSourceImp, bacThreadSpec);
+    }
 }

@@ -50,6 +50,7 @@ import gigigo.com.orchextra.data.datasources.api.action.ActionsDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.auth.AuthenticationDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.config.ConfigDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
+import gigigo.com.orchextra.data.datasources.api.stats.StatsDataSourceImp;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
@@ -98,6 +99,12 @@ public class DataModule {
     return new ActionsDataSourceImpl(orchextraApiService, serviceExecutorProvider,
         queryModelToExternalClassMapper, actionsResponseMapper);
   }
+
+  @Provides @Singleton StatsDataSourceImp provideStatsDataSource(OrchextraApiService orchextraApiService,
+                                                                 Provider<ApiServiceExecutor> serviceExecutorProvider) {
+      return new StatsDataSourceImp(orchextraApiService, serviceExecutorProvider);
+  }
+
 
 
   @Provides @Singleton SessionDBDataSource provideSessionDBDataSource(

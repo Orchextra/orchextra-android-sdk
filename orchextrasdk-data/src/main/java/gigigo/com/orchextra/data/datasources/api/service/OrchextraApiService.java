@@ -18,18 +18,20 @@
 
 package gigigo.com.orchextra.data.datasources.api.service;
 
+import java.util.Map;
+
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiAuthRequest;
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthResponse;
-import java.util.Map;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 
 public interface OrchextraApiService {
@@ -45,4 +47,7 @@ public interface OrchextraApiService {
 
   @FormUrlEncoded @POST("action") Call<ApiActionResponse> obtainAction(
       @FieldMap Map<String, String> parameters);
+
+  @POST("action/confirm/{trackId}")
+    Call<Object> sendCompletedAction(@Path("trackId") String trackId);
 }

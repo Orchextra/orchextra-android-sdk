@@ -93,6 +93,7 @@ public class AndroidBasicAction implements Parcelable {
         return (o == null) ? 0 : o.hashCode();
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -100,6 +101,8 @@ public class AndroidBasicAction implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.trackId);
         dest.writeString(this.action);
         dest.writeString(this.url);
         dest.writeParcelable(this.notification, 0);
@@ -109,12 +112,14 @@ public class AndroidBasicAction implements Parcelable {
     }
 
     protected AndroidBasicAction(Parcel in) {
+        this.id = in.readString();
+        this.trackId = in.readString();
         this.action = in.readString();
         this.url = in.readString();
         this.notification = in.readParcelable(AndroidNotification.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<AndroidBasicAction> CREATOR = new Parcelable.Creator<AndroidBasicAction>() {
+    public static final Creator<AndroidBasicAction> CREATOR = new Creator<AndroidBasicAction>() {
         public AndroidBasicAction createFromParcel(Parcel source) {
             return new AndroidBasicAction(source);
         }
