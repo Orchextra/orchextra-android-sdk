@@ -18,8 +18,10 @@
 
 package com.gigigo.orchextra.sdk.application.applifecycle;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
@@ -33,7 +35,7 @@ import java.util.Iterator;
 import java.util.Stack;
 
 
-public class OrchextraActivityLifecycle
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) public class OrchextraActivityLifecycle
     implements Application.ActivityLifecycleCallbacks, LifeCycleAccessor {
 
   private final NotificationDispatcher notificationDispatcher;

@@ -37,7 +37,7 @@ allprojects {
   ext {
     // Android config
     androidBuildToolsVersion = '23.0.1'
-    androidMinSdkVersion = 18
+    androidMinSdkVersion = 10
     androidTargetSdkVersion = 23
     androidCompileSdkVersion = 23
     androidApplicationId = 'com.gigigo.orchextra.sdk'
