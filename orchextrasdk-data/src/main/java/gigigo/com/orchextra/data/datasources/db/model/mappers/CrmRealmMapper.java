@@ -18,6 +18,8 @@
 
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
+import android.text.TextUtils;
+
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.network.mappers.DateFormatConstants;
@@ -63,14 +65,23 @@ public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
     Crm crm = new Crm();
 
     if (crmRealm != null) {
-      crm.setCrmId(crmRealm.getCrmId());
-      crm.setKeywords(keyWordRealmMapper.realmKeyWordsToStringList(crmRealm.getKeywords()));
-      try {
-        crm.setGender(GenderType.getTypeFromString(crmRealm.getGender()));
-      } catch (IllegalArgumentException | NullPointerException e) {
+
+      if (!TextUtils.isEmpty(crmRealm.getCrmId())) {
+        crm.setCrmId(crmRealm.getCrmId());
       }
-      crm.setBirthDate(DateUtils.stringToDateWithFormat(crmRealm.getBirthDate(),
-          DateFormatConstants.DATE_FORMAT));
+
+      if (crmRealm.getKeywords() != null && crmRealm.getKeywords().size() > 0) {
+        crm.setKeywords(keyWordRealmMapper.realmKeyWordsToStringList(crmRealm.getKeywords()));
+      }
+
+      if (!TextUtils.isEmpty(crmRealm.getGender())) {
+        crm.setGender(GenderType.getTypeFromString(crmRealm.getGender()));
+      }
+
+      if (!TextUtils.isEmpty(crmRealm.getBirthDate())) {
+        crm.setBirthDate(DateUtils.stringToDateWithFormat(crmRealm.getBirthDate(),
+                DateFormatConstants.DATE_FORMAT));
+      }
     }
 
     return crm;
