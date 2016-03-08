@@ -54,8 +54,7 @@ public class SaveUserInteractor implements Interactor<InteractorResponse<Orchext
     if (crmBusinessObject.isSuccess()) {
       boOrchextraUpdates = configService.refreshConfig();
     } else {
-      return new InteractorResponse<OrchextraUpdates>(
-          new AuthenticationError(crmBusinessObject.getBusinessError()));
+      return new InteractorResponse<>(new AuthenticationError(crmBusinessObject.getBusinessError()));
     }
 
     return boOrchextraUpdates;

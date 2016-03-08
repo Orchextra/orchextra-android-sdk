@@ -66,12 +66,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     BusinessObject<Crm> boCrm = authDataProvider.retrieveCrm();
 
     if (boCrm.isSuccess() && !boCrm.getData().isEquals(crm.getCrmId())) {
-      authDataProvider.storeCrmId(crm);
       authDataProvider.clearAuthenticatedUser();
-      return new BusinessObject<>(null, BusinessError.createKoInstance("Crm has changed"));
     }
 
     authDataProvider.storeCrmId(crm);
+
     return new BusinessObject<>(crm, BusinessError.createOKInstance());
   }
 
