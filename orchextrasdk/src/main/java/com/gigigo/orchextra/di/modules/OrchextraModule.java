@@ -21,7 +21,6 @@ package com.gigigo.orchextra.di.modules;
 import android.content.Context;
 
 import com.gigigo.ggglib.ContextProvider;
-import com.gigigo.orchextra.control.controllers.OrchextraStatusAccessorAccessorImpl;
 import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
@@ -93,8 +92,9 @@ public class OrchextraModule {
   @Provides
   @Singleton
   AppStatusEventsListener provideAppStatusEventsListener(
-          ForegroundTasksManager foregroundTasksManager) {
-    return new AppStatusEventsListenerImpl(context, foregroundTasksManager);
+          ForegroundTasksManager foregroundTasksManager,
+          OrchextraStatusAccessor orchextraStatusAccessor) {
+    return new AppStatusEventsListenerImpl(context, foregroundTasksManager, orchextraStatusAccessor);
   }
 
   @Provides

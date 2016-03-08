@@ -23,4 +23,6 @@ public interface OrchextraManagerCompletionCallback {
   void onSuccess();
 
   void onError(String s);
+
+  void onInit(String s);
 }

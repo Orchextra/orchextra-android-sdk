@@ -21,14 +21,45 @@ package com.gigigo.orchextra.sdk.background;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
+import com.gigigo.orchextra.sdk.OrchextraManager;
+import javax.inject.Inject;
 
 public class OrchextraBootBroadcastReceiver extends BroadcastReceiver {
+
+  private static final String BOOT_COMPLETED_ACTION = "android.intent.action.BOOT_COMPLETED";
+  private static final String CONNECTION_READY_ACTION = "AAAAAA"; //TODO
+
+  @Inject
+  OrchextraStatusAccessor orchextraStatusAccessor;
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
-      if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-        Intent pushIntent = new Intent(context, OrchextraBackgroundService.class);
-        context.startService(pushIntent);
+
+      initDependencies();
+
+      if (orchextraStatusAccessor.isStarted()){
+        String action = intent.getAction();
+        initTasksForBoot(context, action);
+        initTasksForConnection(context, action);
       }
     }
+
+  private void initDependencies() {
+    OrchextraManager.getInjector().injectBroadcastComponent(this);
+  }
+
+  private void initTasksForBoot(Context context, String action) {
+    if (action.equals(BOOT_COMPLETED_ACTION)) {
+      Intent pushIntent = new Intent(context, OrchextraBackgroundService.class);
+      context.startService(pushIntent);
+    }
+  }
+
+  private void initTasksForConnection(Context context, String action) {
+    if (action.equals(CONNECTION_READY_ACTION)) {
+      //TODO Implement neccessary tasks, maybe refresh config?
+    }
+  }
 }

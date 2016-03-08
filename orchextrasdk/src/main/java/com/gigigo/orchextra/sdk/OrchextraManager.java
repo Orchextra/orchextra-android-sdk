@@ -15,12 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gigigo.orchextra.sdk;
 
+import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 
+import android.os.Build;
+import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
@@ -28,6 +30,7 @@ import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
@@ -51,6 +54,8 @@ public class OrchextraManager {
   @Inject
   OrcUserToCrmConverter orcUserToCrmConverter;
 
+  @Inject OrchextraStatusAccessor orchextraStatusAccessor;
+
   @Inject
   SaveUserController saveUserController;
 
@@ -62,23 +67,40 @@ public class OrchextraManager {
     orchextraComponent.injectOrchextra(OrchextraManager.instance);
   }
 
-  public static synchronized void sdkInitialize(Application application, String apiKey,
-      String apiSecret, OrchextraManagerCompletionCallback orchextraCompletionCallback) {
+  public static void sdkInit(Application application, OrchextraManagerCompletionCallback orchextraCompletionCallback) {
     OrchextraManager.instance = new OrchextraManager();
-    OrchextraManager.instance.init(application, orchextraCompletionCallback, apiKey, apiSecret);
+    OrchextraManager.instance.init(application, orchextraCompletionCallback);
+  }
+  public static synchronized void sdkInitialize(String apiKey, String apiSecret) {
+    OrchextraManager.instance.init(apiKey, apiSecret);
   }
 
-  private void init(Application application, OrchextraManagerCompletionCallback orchextraCompletionCallback,
-      String apiKey, String apiSecret) {
 
-    initDependencyInjection(application.getApplicationContext(), orchextraCompletionCallback);
+  private void init(Application application, OrchextraManagerCompletionCallback orchextraCompletionCallback) {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
+      initDependencyInjection(application.getApplicationContext(), orchextraCompletionCallback);
+      initLifecyle(application);
+      orchextraStatusAccessor.initialize();
+    }else{
+      orchextraCompletionCallback.onInit(application.getString(R.string.ox_not_supported_android_sdd));
+    }
+
+  }
+
+  private void init(String apiKey, String apiSecret) {
+
+
+    //TODO Start Tasks depending on Running mode use OrchextraTaskManager?? REALLY??
 
     session.setAppParams(apiKey, apiSecret);
-
-    initLifecyle(application);
+    orchextraStatusAccessor.started();
+    //Set sdk as Started
 
   }
 
+
+  @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
   private void initLifecyle(Application application) {
     application.registerActivityLifecycleCallbacks(orchextraActivityLifecycle);
   }

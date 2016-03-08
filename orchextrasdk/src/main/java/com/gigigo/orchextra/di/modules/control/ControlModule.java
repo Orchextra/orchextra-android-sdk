@@ -84,8 +84,8 @@ public class ControlModule {
       @OrchextraStatusAccessorExexution Provider<InteractorExecution> interactorExecutionProvider,
       ErrorLogger errorLogger){
 
-    return new OrchextraStatusAccessorAccessorImpl(interactorInvoker,
-        interactorExecutionProvider, errorLogger);
+    return new OrchextraStatusAccessorAccessorImpl(interactorInvoker, interactorExecutionProvider,
+        errorLogger);
   }
 
   @Singleton @Provides @MainThread ThreadSpec provideMainThread(){

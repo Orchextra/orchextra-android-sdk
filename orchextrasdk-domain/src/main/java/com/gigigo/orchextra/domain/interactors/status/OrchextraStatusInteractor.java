@@ -47,12 +47,12 @@ public class OrchextraStatusInteractor
     }
   }
 
-  public void loadData(StatusOperationType statusOperationType, OrchextraStatus orchextraStatus){
-    loadData(statusOperationType);
+  public void updateData(OrchextraStatus orchextraStatus){
+    this.statusOperationType = StatusOperationType.UPDATE_ORCHEXTRA_STATUS;
     this.orchextraStatus = orchextraStatus;
   }
 
-  public void loadData(StatusOperationType loadOrchextraStatus) {
-    this.statusOperationType = loadOrchextraStatus;
+  public void loadData() {
+    this.statusOperationType = StatusOperationType.LOAD_ORCHEXTRA_STATUS;
   }
 }

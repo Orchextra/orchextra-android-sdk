@@ -16,24 +16,21 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.domain.services.proximity;
+package com.gigigo.orchextra.control.controllers;
 
-import com.gigigo.orchextra.domain.abstractions.device.RetrieveGeolocationListener;
-import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+public class FutureResult<T> implements Future<T>, FutureResultNotifier<T> {
 
-public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocationListener {
-
-  private volatile GeoLocation geoLocation = null;
+  private volatile T result = null;
   private volatile boolean cancelled = false;
   private final CountDownLatch countDownLatch;
 
-  public FutureGeolocation() {
+  public FutureResult() {
     countDownLatch = new CountDownLatch(1);
   }
 
@@ -47,15 +44,15 @@ public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocati
     }
   }
 
-  @Override public GeoLocation get() throws InterruptedException, ExecutionException {
+  @Override public T get() throws InterruptedException, ExecutionException {
     countDownLatch.await();
-    return geoLocation;
+    return result;
   }
 
-  @Override public GeoLocation get(final long timeout, final TimeUnit unit)
+  @Override public T get(final long timeout, final TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     countDownLatch.await(timeout, unit);
-    return geoLocation;
+    return result;
   }
 
   @Override public boolean isCancelled() {
@@ -66,12 +63,16 @@ public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocati
     return countDownLatch.getCount() == 0;
   }
 
-  private void onGeolocationResult(final GeoLocation geoLocation) {
-    this.geoLocation = geoLocation;
+  private void onResult(final T result) {
+    this.result = result;
     countDownLatch.countDown();
   }
 
-  @Override public void retrieveGeolocation(GeoLocation geoLocation) {
-    onGeolocationResult(geoLocation);
+  @Override public void onReadyFutureResult(T result) {
+    onResult(result);
+  }
+
+  @Override public void onErrorFutureResult(String s) {
+    onErrorFutureResult(s);
   }
 }

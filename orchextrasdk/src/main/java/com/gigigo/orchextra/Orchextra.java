@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gigigo.orchextra;
 
 import android.app.Application;
@@ -26,12 +25,8 @@ import com.gigigo.orchextra.sdk.OrchextraManager;
 
 public class Orchextra {
 
-    public static synchronized void sdkInitialize(Application application,
-                                                  String apiKey,
-                                                  String apiSecret,
-                                                  final OrchextraCompletionCallback orchextraCompletionCallback) {
-
-        OrchextraManager.sdkInitialize(application, apiKey, apiSecret, new OrchextraManagerCompletionCallback() {
+    public static synchronized void sdkInit(Application application, final OrchextraCompletionCallback orchextraCompletionCallback){
+        OrchextraManager.sdkInit(application, new OrchextraManagerCompletionCallback() {
             @Override
             public void onSuccess() {
                 if (orchextraCompletionCallback != null) {
@@ -45,9 +40,20 @@ public class Orchextra {
                     orchextraCompletionCallback.onError(s);
                 }
             }
+
+            @Override public void onInit(String s) {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onInit(s);
+                }
+            }
         });
+
+
     }
 
+    public static synchronized void sdkStart(String apiKey, String apiSecret) {
+        OrchextraManager.sdkInitialize(apiKey, apiSecret);
+    }
 
     public static synchronized void setCustomSchemeReceiver(final CustomSchemeReceiver customSchemeReceiver) {
         if (customSchemeReceiver != null) {

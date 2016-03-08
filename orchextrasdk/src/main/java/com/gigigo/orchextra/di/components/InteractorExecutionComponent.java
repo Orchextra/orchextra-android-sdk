@@ -39,5 +39,4 @@ public interface InteractorExecutionComponent extends InteractorsModuleProvider 
     void injectBeaconEventsInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
     void injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
     void injectOrchextraStatusInteractorExecution(InteractorExecution<OrchextraStatus> interactorExecution);
-
 }

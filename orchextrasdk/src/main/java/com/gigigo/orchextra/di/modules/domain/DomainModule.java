@@ -109,8 +109,8 @@ public class DomainModule {
 
   @OrchextraStatusAccessorExexution @Provides InteractorExecution provideOrchextraStatusAccessorExexution() {
     InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectOrchextraStatusInteractorExecution(interactorExecution);
+    interactorExecution.setInteractor(interactorExecutionComponent.provideOrchextraStatusInteractor());
     return interactorExecution;
   }
 
