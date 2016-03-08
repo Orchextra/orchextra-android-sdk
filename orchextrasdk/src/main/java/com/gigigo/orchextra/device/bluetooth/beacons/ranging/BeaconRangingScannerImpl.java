@@ -78,9 +78,12 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
    */
   @Override public void didRangeBeaconsInRegion(Collection<Beacon> collection, Region region) {
     List beaconsList = new ArrayList<>(collection);
-    List<OrchextraBeacon> beacons = beaconAndroidMapper.externalClassListToModelList(beaconsList);
-    beaconsController.onBeaconsDetectedInRegion(beacons, beaconRegionMapper.externalClassToModel(
-            region));
+
+    if (regions.contains(region)){
+      List<OrchextraBeacon> beacons = beaconAndroidMapper.externalClassListToModelList(beaconsList);
+      beaconsController.onBeaconsDetectedInRegion(beacons, beaconRegionMapper.externalClassToModel(
+          region));
+    }
 
     if (collection.size() > 0) {
       for (Beacon beacon : collection) {
