@@ -44,7 +44,6 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
       beaconScanner.initAvailableRegionsRangingScanner();
       configDelegateImp.sendConfiguration();
     }
-
   }
 
   @Override public void stopAllTasks() {

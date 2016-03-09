@@ -21,6 +21,7 @@ package com.gigigo.orchextra.sdk;
 import android.app.Application;
 import android.content.Context;
 
+import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
@@ -31,7 +32,6 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerC
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
-import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
 
 import javax.inject.Inject;
@@ -76,7 +76,6 @@ public class OrchextraManager {
     session.setAppParams(apiKey, apiSecret);
 
     initLifecyle(application);
-
   }
 
   private void initLifecyle(Application application) {
