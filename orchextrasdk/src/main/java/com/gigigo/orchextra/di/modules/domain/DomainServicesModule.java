@@ -18,10 +18,8 @@
 
 package com.gigigo.orchextra.di.modules.domain;
 
-import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
-import com.gigigo.orchextra.device.notificationpush.GcmInstanceIdRegisterImp;
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
 import com.gigigo.orchextra.di.scopes.PerExecution;
@@ -29,7 +27,6 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerControll
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
-import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
@@ -52,6 +49,7 @@ import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -110,11 +108,9 @@ public class DomainServicesModule {
   @Provides @PerExecution ConfigService provideConfigService(ConfigDataProvider configDataProvider,
       AuthenticationDataProvider authenticationDataProvider,
       @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
-      AndroidDevice androidDevice, FutureGeolocation futureGeolocation, GeolocationManager geolocationManager,
-                                                             GcmInstanceIdRegister gcmInstanceIdRegister){
+      AndroidDevice androidDevice, FutureGeolocation futureGeolocation, GeolocationManager geolocationManager){
     return new ConfigService(configDataProvider, authenticationDataProvider, errorChecker,
-        androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), futureGeolocation, geolocationManager,
-            gcmInstanceIdRegister);
+        androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), futureGeolocation, geolocationManager);
   }
 
   @Provides @PerExecution ObtainRegionsService provideObtainRegionsService(
@@ -131,21 +127,13 @@ public class DomainServicesModule {
     return new FutureGeolocation();
   }
 
-  @Provides @PerExecution
-    GcmInstanceIdRegister provideGcmInstanceIdRegister(ContextProvider contextProvider) {
-      return new GcmInstanceIdRegisterImp(contextProvider.getApplicationContext());
-  }
-
   @Provides @PerExecution LoadOrchextraServiceStatus provideLoadOrchextraServiceStatus(
       OrchextraStatusDataProvider orchextraStatusDataProvider){
     return new LoadOrchextraServiceStatus(orchextraStatusDataProvider);
   }
 
-
   @Provides @PerExecution UpdateOrchextraServiceStatus provideUpdateOrchextraServiceStatus(
       OrchextraStatusDataProvider orchextraStatusDataProvider){
     return new UpdateOrchextraServiceStatus(orchextraStatusDataProvider);
   }
-
-
 }

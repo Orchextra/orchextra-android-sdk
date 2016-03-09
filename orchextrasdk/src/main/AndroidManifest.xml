@@ -23,14 +23,6 @@
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-  <!-- Notification Push -->
-  <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-  <permission android:name="${applicationId}.permission.C2D_MESSAGE"
-              android:protectionLevel="signature" />
-  <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
-  <!-- Notification Push End -->
-
     <application
       android:allowBackup="true"
       android:label="@string/app_name"
@@ -59,27 +51,6 @@
       </service>
 
       <service android:name=".device.geolocation.geofencing.pendingintent.GeofenceIntentService"/>
-
-      <!-- Notification Push -->
-
-      <receiver
-          android:name="com.google.android.gms.gcm.GcmReceiver"
-          android:exported="true"
-          android:permission="com.google.android.c2dm.permission.SEND" >
-        <intent-filter>
-          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-          <category android:name="com.example.gcm" />
-        </intent-filter>
-      </receiver>
-      <service
-          android:name=".device.notificationpush.OrchextraGcmListenerService"
-          android:exported="false" >
-        <intent-filter>
-          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-        </intent-filter>
-      </service>
-
-        <!-- Notification Push End -->
 
     </application>
 
