@@ -75,10 +75,10 @@ public class InteractorsModule {
       return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService, eventUpdaterService);
     }
 
-  @Provides @PerExecution OrchextraStatusInteractor provideLoadOrchextraStatusInteractor(LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-      UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
+  @Provides @PerExecution OrchextraStatusInteractor provideLoadOrchextraStatusInteractor() {
 
-    return new OrchextraStatusInteractor(loadOrchextraServiceStatus, updateOrchextraServiceStatus);
+    //return new OrchextraStatusInteractor(loadOrchextraServiceStatus, updateOrchextraServiceStatus);
+    return new OrchextraStatusInteractor();
   }
 
 }

@@ -27,24 +27,25 @@ import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 public class OrchextraStatusInteractor
     implements Interactor<InteractorResponse<OrchextraStatus>>{
 
-  private final LoadOrchextraServiceStatus loadOrchextraServiceStatus;
-  private final UpdateOrchextraServiceStatus updateOrchextraServiceStatus;
+  //private final LoadOrchextraServiceStatus loadOrchextraServiceStatus;
+  //private final UpdateOrchextraServiceStatus updateOrchextraServiceStatus;
 
   private StatusOperationType statusOperationType;
   private OrchextraStatus orchextraStatus;
 
-  public OrchextraStatusInteractor(LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-      UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
-    this.loadOrchextraServiceStatus = loadOrchextraServiceStatus;
-    this.updateOrchextraServiceStatus = updateOrchextraServiceStatus;
-  }
+  //public OrchextraStatusInteractor(LoadOrchextraServiceStatus loadOrchextraServiceStatus,
+  //    UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
+  //  this.loadOrchextraServiceStatus = loadOrchextraServiceStatus;
+  //  this.updateOrchextraServiceStatus = updateOrchextraServiceStatus;
+  //}
 
   @Override public InteractorResponse<OrchextraStatus> call() throws Exception {
-    if (statusOperationType == StatusOperationType.LOAD_ORCHEXTRA_STATUS){
-      return loadOrchextraServiceStatus.load();
-    }else{
-      return updateOrchextraServiceStatus.update(orchextraStatus);
-    }
+    //if (statusOperationType == StatusOperationType.LOAD_ORCHEXTRA_STATUS){
+    //  return loadOrchextraServiceStatus.load();
+    //}else{
+    //  return updateOrchextraServiceStatus.update(orchextraStatus);
+    //}
+    return null;
   }
 
   public void updateData(OrchextraStatus orchextraStatus){

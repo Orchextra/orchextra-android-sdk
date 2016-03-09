@@ -126,17 +126,4 @@ public class DomainServicesModule {
     return new FutureGeolocation();
   }
 
-
-  @Provides @PerExecution LoadOrchextraServiceStatus provideLoadOrchextraServiceStatus(
-      OrchextraStatusDataProvider orchextraStatusDataProvider){
-    return new LoadOrchextraServiceStatus(orchextraStatusDataProvider);
-  }
-
-
-  @Provides @PerExecution UpdateOrchextraServiceStatus provideUpdateOrchextraServiceStatus(
-      OrchextraStatusDataProvider orchextraStatusDataProvider){
-    return new UpdateOrchextraServiceStatus(orchextraStatusDataProvider);
-  }
-
-
 }

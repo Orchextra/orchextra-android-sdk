@@ -8,10 +8,13 @@ import com.gigigo.orchextra.domain.abstractions.future.FutureResult;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
+import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.status.OrchextraStatusInteractor;
 import com.gigigo.orchextra.domain.interactors.status.StatusOperationType;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
+import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
+import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import javax.inject.Provider;
 
 /**
@@ -30,17 +33,25 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
 
   private OrchextraStatus orchextraStatus = null;
 
-  private final InteractorInvoker interactorInvoker;
+  //private final InteractorInvoker interactorInvoker;
   private final ErrorLogger errorLogger;
   private final Provider<InteractorExecution> orchextraStatusInteractorExecution;
   private final Session session;
 
+  private final LoadOrchextraServiceStatus loadOrchextraServiceStatus;
+  private final UpdateOrchextraServiceStatus updateOrchextraServiceStatus;
+
   public OrchextraStatusAccessorAccessorImpl(InteractorInvoker interactorInvoker,
-      Provider<InteractorExecution> orchextraStatusInteractorExecution, Session session, ErrorLogger errorLogger) {
-    this.interactorInvoker = interactorInvoker;
+      Provider<InteractorExecution> orchextraStatusInteractorExecution, Session session, ErrorLogger errorLogger,
+      LoadOrchextraServiceStatus loadOrchextraServiceStatus,
+      UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
+    //this.interactorInvoker = interactorInvoker;
     this.orchextraStatusInteractorExecution = orchextraStatusInteractorExecution;
     this.session = session;
     this.errorLogger = errorLogger;
+
+    this.loadOrchextraServiceStatus = loadOrchextraServiceStatus;
+    this.updateOrchextraServiceStatus = updateOrchextraServiceStatus;
   }
 
   @Override public void initialize() {
@@ -143,17 +154,26 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
   }
 
   private void loadOrchextraStatus() {
-    if (this.orchextraStatus==null){
-      FutureResult<OrchextraStatus> futureOrchextraStatus = new FutureResult();
-      startAsyncOperation(StatusOperationType.LOAD_ORCHEXTRA_STATUS, futureOrchextraStatus);
-      this.orchextraStatus = getOrchextraStatus(futureOrchextraStatus);
+    InteractorResponse<OrchextraStatus> response =  loadOrchextraServiceStatus.load();
+    if (!response.hasError()){
+      this.orchextraStatus = response.getResult();
     }
+    //if (this.orchextraStatus==null){
+    //  FutureResult<OrchextraStatus> futureOrchextraStatus = new FutureResult();
+    //  startAsyncOperation(StatusOperationType.LOAD_ORCHEXTRA_STATUS, futureOrchextraStatus);
+    //  this.orchextraStatus = getOrchextraStatus(futureOrchextraStatus);
+    //}
   }
 
   private void updateOrchextraStatus() {
-    FutureResult<OrchextraStatus> futureOrchextraStatus = new FutureResult();
-    startAsyncOperation(StatusOperationType.UPDATE_ORCHEXTRA_STATUS, futureOrchextraStatus);
-    this.orchextraStatus = getOrchextraStatus(futureOrchextraStatus);
+    InteractorResponse<OrchextraStatus> response =  updateOrchextraServiceStatus.update(orchextraStatus);
+    if (!response.hasError()){
+      this.orchextraStatus = response.getResult();
+    }
+
+    //FutureResult<OrchextraStatus> futureOrchextraStatus = new FutureResult();
+    //startAsyncOperation(StatusOperationType.UPDATE_ORCHEXTRA_STATUS, futureOrchextraStatus);
+    //this.orchextraStatus = getOrchextraStatus(futureOrchextraStatus);
   }
 
 
@@ -168,7 +188,9 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
       interactor.updateData(orchextraStatus);
     }
 
-    executeBeaconInteractor(interactorExecution, futureOrchextraStatus);
+    interactor.loadData();
+
+   // executeBeaconInteractor(interactorExecution, futureOrchextraStatus);
   }
 
 
@@ -190,17 +212,17 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
   }
 
   private void executeBeaconInteractor(InteractorExecution interactorExecution, final FutureResult futureOrchextraStatus) {
-    interactorExecution.result(new InteractorResult<OrchextraStatus>() {
-      @Override public void onResult(OrchextraStatus result) {
-        orchextraStatus = result;
-        futureOrchextraStatus.onReadyFutureResult(orchextraStatus);
-      }
-    }).error(InteractorError.class, new InteractorResult<InteractorError>() {
-      @Override public void onResult(InteractorError result) {
-        errorLogger.log(result.getError());
-        futureOrchextraStatus.onErrorFutureResult(result.getError().getMessage());
-      }
-    }).execute(interactorInvoker);
+    //interactorExecution.result(new InteractorResult<OrchextraStatus>() {
+    //  @Override public void onResult(OrchextraStatus result) {
+    //    orchextraStatus = result;
+    //    futureOrchextraStatus.onReadyFutureResult(orchextraStatus);
+    //  }
+    //}).error(InteractorError.class, new InteractorResult<InteractorError>() {
+    //  @Override public void onResult(InteractorError result) {
+    //    errorLogger.log(result.getError());
+    //    futureOrchextraStatus.onErrorFutureResult(result.getError().getMessage());
+    //  }
+    //}).execute(interactorInvoker);
   }
 
 

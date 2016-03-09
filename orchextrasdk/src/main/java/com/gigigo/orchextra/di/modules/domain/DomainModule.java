@@ -63,8 +63,8 @@ public class DomainModule {
 
   @Provides @Singleton ExecutorService provideExecutor(ThreadFactory threadFactory,
       BlockingQueue<Runnable> blockingQueue) {
-    return new PriorizableThreadPoolExecutor(BuildConfig.CONCURRENT_INTERACTORS,
-        BuildConfig.CONCURRENT_INTERACTORS, 0L, TimeUnit.MILLISECONDS, blockingQueue,
+    return new PriorizableThreadPoolExecutor(1,
+        1, 0L, TimeUnit.MILLISECONDS, blockingQueue,
         threadFactory);
   }
 

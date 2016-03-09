@@ -32,13 +32,17 @@ import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.OrchextraStatusAccessorExexution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
+import com.gigigo.orchextra.di.scopes.PerExecution;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
+import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
 
+import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
+import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
@@ -83,10 +87,23 @@ public class ControlModule {
   @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(
       InteractorInvoker interactorInvoker,
       @OrchextraStatusAccessorExexution Provider<InteractorExecution> interactorExecutionProvider,
-      Session session, ErrorLogger errorLogger){
+      Session session, ErrorLogger errorLogger,
+      LoadOrchextraServiceStatus loadOrchextraServiceStatus,
+      UpdateOrchextraServiceStatus updateOrchextraServiceStatus){
 
     return new OrchextraStatusAccessorAccessorImpl(interactorInvoker, interactorExecutionProvider,
-        session, errorLogger);
+        session, errorLogger, loadOrchextraServiceStatus, updateOrchextraServiceStatus);
+  }
+
+  @Provides @Singleton LoadOrchextraServiceStatus provideLoadOrchextraServiceStatus(
+      OrchextraStatusDataProvider orchextraStatusDataProvider){
+    return new LoadOrchextraServiceStatus(orchextraStatusDataProvider);
+  }
+
+
+  @Provides @Singleton UpdateOrchextraServiceStatus provideUpdateOrchextraServiceStatus(
+      OrchextraStatusDataProvider orchextraStatusDataProvider){
+    return new UpdateOrchextraServiceStatus(orchextraStatusDataProvider);
   }
 
   @Singleton @Provides @MainThread ThreadSpec provideMainThread(){
