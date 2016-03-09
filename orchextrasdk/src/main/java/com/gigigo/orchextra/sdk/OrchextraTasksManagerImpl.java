@@ -54,7 +54,7 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
   }
 
   @Override public void stopBackgroundServices() {
-
+//background Services have been already stopped at AppStatusEventsListenerImpl.onBackgroundEnd()
   }
 
   @Override public void stopForegroundTasks() {
