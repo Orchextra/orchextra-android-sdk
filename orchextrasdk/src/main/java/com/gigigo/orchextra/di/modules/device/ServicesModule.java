@@ -36,11 +36,9 @@ public class ServicesModule {
 
   @PerService @Provides BackgroundTasksManager provideBackgroundTasksManager(
       OrchextraTasksManager orchextraTasksManager,
-      PermissionChecker permissionChecker,
-      OrchextraStatusAccessor orchextraStatusAccessor){
+      PermissionChecker permissionChecker){
 
-    return new BackgroundTasksManagerImpl(orchextraTasksManager, permissionChecker,
-        orchextraStatusAccessor);
+    return new BackgroundTasksManagerImpl(orchextraTasksManager, permissionChecker);
   }
 
   @PerService

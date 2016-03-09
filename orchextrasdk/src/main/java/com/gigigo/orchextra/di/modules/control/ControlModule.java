@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.di.modules.control;
 
-import com.gigigo.orchextra.control.controllers.OrchextraStatusAccessorAccessorImpl;
+import com.gigigo.orchextra.control.controllers.status.OrchextraStatusAccessorAccessorImpl;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
@@ -35,6 +35,7 @@ import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
 
@@ -82,10 +83,10 @@ public class ControlModule {
   @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(
       InteractorInvoker interactorInvoker,
       @OrchextraStatusAccessorExexution Provider<InteractorExecution> interactorExecutionProvider,
-      ErrorLogger errorLogger){
+      Session session, ErrorLogger errorLogger){
 
     return new OrchextraStatusAccessorAccessorImpl(interactorInvoker, interactorExecutionProvider,
-        errorLogger);
+        session, errorLogger);
   }
 
   @Singleton @Provides @MainThread ThreadSpec provideMainThread(){

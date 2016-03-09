@@ -33,8 +33,6 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   private final ForegroundTasksManager foregroundTasksManager;
   private final OrchextraStatusAccessor orchextraStatusAccessor;
 
-  //TODO Add Sdk Status accessorm Stop when not started???
-
   public AppStatusEventsListenerImpl(Context context, ForegroundTasksManager foregroundTasksManager,
       OrchextraStatusAccessor orchextraStatusAccessor) {
     this.context = context;
@@ -42,12 +40,8 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
     this.orchextraStatusAccessor = orchextraStatusAccessor;
   }
 
-  public void setForegroundTasksManager(ForegroundTasksManager foregroundTasksManager) {
-    //this.foregroundTasksManager = foregroundTasksManager;
-  }
-
   @Override public void onBackgroundStart() {
-    GGGLogImpl.log("App goes to backgroundmode ");
+    GGGLogImpl.log("App goes to background mode ");
     if (orchextraStatusAccessor.isStarted()){
       startServices();
     }

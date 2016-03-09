@@ -29,26 +29,22 @@ public class BackgroundTasksManagerImpl implements BackgroundTasksManager {
 
   private final OrchextraTasksManager orchextraTasksManager;
   private final PermissionChecker permissionChecker;
-  private final OrchextraStatusAccessor orchextraStatusAccessor;
   private final Permission permission;
 
   public BackgroundTasksManagerImpl(OrchextraTasksManager orchextraTasksManager,
-      PermissionChecker permissionChecker, OrchextraStatusAccessor orchextraStatusAccessor) {
+      PermissionChecker permissionChecker) {
     this.orchextraTasksManager = orchextraTasksManager;
     this.permissionChecker = permissionChecker;
-    this.orchextraStatusAccessor = orchextraStatusAccessor;
     this.permission = new PermissionLocationImp();
   }
 
   @Override public void startBackgroundTasks() {
-    //if (orchextraStatusAccessor.isStarted()){
       if (permissionChecker.isGranted(permission)) {
         orchextraTasksManager.initBackgroundTasks();
       }
-    //}
   }
 
   @Override public void finalizeBackgroundTasks() {
-    orchextraTasksManager.stopForegroundTasks();
+    orchextraTasksManager.stopBackgroundServices();
   }
 }

@@ -26,6 +26,6 @@
   <string name="ox_accept_text">Aceptar</string>
   <string name="ox_cancel_text">Cancelar</string>
   <string name="google_app_id">12132323423</string><!--//TODO FAKE, Change this-->
-  <string name="ox_not_supported_android_sdd">This android sdk version is too old to support Orchextra features.</string>
+  <string name="ox_not_supported_android_sdk">This android sdk version is too old to support Orchextra features.</string>
 
 </resources>

@@ -25,7 +25,13 @@ import com.gigigo.orchextra.sdk.OrchextraManager;
 
 public class Orchextra {
 
-    public static synchronized void sdkInit(Application application, final OrchextraCompletionCallback orchextraCompletionCallback){
+    /**
+     *
+     * @param application
+     * @param orchextraCompletionCallback
+     */
+    public static synchronized void init(Application application,
+        final OrchextraCompletionCallback orchextraCompletionCallback){
         OrchextraManager.sdkInit(application, new OrchextraManagerCompletionCallback() {
             @Override
             public void onSuccess() {
@@ -51,10 +57,24 @@ public class Orchextra {
 
     }
 
-    public static synchronized void sdkStart(String apiKey, String apiSecret) {
-        OrchextraManager.sdkInitialize(apiKey, apiSecret);
+    /**
+     *
+     * @param apiKey
+     * @param apiSecret
+     */
+    public static synchronized void start(String apiKey, String apiSecret) {
+        OrchextraManager.sdkStart(apiKey, apiSecret);
     }
 
+
+    //public static synchronized void sdkStop() {
+    //    OrchextraManager.sdkStop();
+    //}
+
+    /**
+     *
+     * @param customSchemeReceiver
+     */
     public static synchronized void setCustomSchemeReceiver(final CustomSchemeReceiver customSchemeReceiver) {
         if (customSchemeReceiver != null) {
             OrchextraManager.setCustomSchemeReceiver(new CustomOrchextraSchemeReceiver() {
@@ -66,6 +86,10 @@ public class Orchextra {
         }
     }
 
+    /**
+     *
+     * @param orcUser
+     */
     public static synchronized void setUser(ORCUser orcUser) {
         OrchextraManager.setUser(orcUser);
     }

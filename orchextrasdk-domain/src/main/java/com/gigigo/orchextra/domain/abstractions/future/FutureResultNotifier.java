@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.control.controllers;
+package com.gigigo.orchextra.domain.abstractions.future;
 
 /**
  * Created by Sergio Martinez Rodriguez

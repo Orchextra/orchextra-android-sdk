@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.control.controllers;
+package com.gigigo.orchextra.domain.abstractions.future;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;

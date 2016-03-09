@@ -15,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
@@ -34,7 +33,6 @@ import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraTasksManager;
 import com.gigigo.orchextra.sdk.OrchextraTasksManagerImpl;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
@@ -51,10 +49,8 @@ public class DeviceModule {
 
   @Singleton @Provides
   ForegroundTasksManager provideBackgroundTasksManager(OrchextraTasksManager orchextraTasksManager,
-      PermissionChecker permissionChecker, ContextProvider contextProvider,
-      OrchextraStatusAccessor orchextraStatusAccessor){
-    return new ForegroundTasksManagerImpl(orchextraTasksManager, permissionChecker, contextProvider,
-        orchextraStatusAccessor);
+      PermissionChecker permissionChecker, ContextProvider contextProvider){
+    return new ForegroundTasksManagerImpl(orchextraTasksManager, permissionChecker, contextProvider);
   }
 
   @Singleton @Provides
