@@ -26,16 +26,15 @@ import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceContr
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.modules.domain.DomainModule;
+import com.gigigo.orchextra.di.modules.domain.DomainServicesModule;
+import com.gigigo.orchextra.di.modules.domain.FastDomainServicesModule;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.MainThread;
-import com.gigigo.orchextra.di.qualifiers.OrchextraStatusAccessorExexution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
-import com.gigigo.orchextra.di.scopes.PerExecution;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
-import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
@@ -50,7 +49,7 @@ import dagger.Module;
 import dagger.Provides;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
-@Module(includes = DomainModule.class)
+@Module(includes = {DomainModule.class, FastDomainServicesModule.class})
 public class ControlModule {
 
   @Provides @Singleton
@@ -68,11 +67,11 @@ public class ControlModule {
   }
 
   @Provides
-  @Singleton ConfigController provideConfigController(@MainThread ThreadSpec backThreadSpec,
+  @Singleton ConfigController provideConfigController(
       InteractorInvoker interactorInvoker,
       @ConfigInteractorExecution Provider<InteractorExecution> sendConfigInteractorProvider,
       ConfigObservable configObservable) {
-    return new ConfigController(backThreadSpec, interactorInvoker, sendConfigInteractorProvider, configObservable);
+    return new ConfigController(interactorInvoker, sendConfigInteractorProvider, configObservable);
   }
 
   @Provides @Singleton
@@ -85,25 +84,12 @@ public class ControlModule {
   }
 
   @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(
-      InteractorInvoker interactorInvoker,
-      @OrchextraStatusAccessorExexution Provider<InteractorExecution> interactorExecutionProvider,
-      Session session, ErrorLogger errorLogger,
-      LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-      UpdateOrchextraServiceStatus updateOrchextraServiceStatus){
+      Session session, LoadOrchextraServiceStatus loadOrchextraServiceStatus,
+      UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
+      ErrorLogger errorLogger){
 
-    return new OrchextraStatusAccessorAccessorImpl(interactorInvoker, interactorExecutionProvider,
-        session, errorLogger, loadOrchextraServiceStatus, updateOrchextraServiceStatus);
-  }
-
-  @Provides @Singleton LoadOrchextraServiceStatus provideLoadOrchextraServiceStatus(
-      OrchextraStatusDataProvider orchextraStatusDataProvider){
-    return new LoadOrchextraServiceStatus(orchextraStatusDataProvider);
-  }
-
-
-  @Provides @Singleton UpdateOrchextraServiceStatus provideUpdateOrchextraServiceStatus(
-      OrchextraStatusDataProvider orchextraStatusDataProvider){
-    return new UpdateOrchextraServiceStatus(orchextraStatusDataProvider);
+    return new OrchextraStatusAccessorAccessorImpl(session, loadOrchextraServiceStatus,
+        updateOrchextraServiceStatus, errorLogger);
   }
 
   @Singleton @Provides @MainThread ThreadSpec provideMainThread(){

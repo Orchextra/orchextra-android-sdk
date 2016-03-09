@@ -178,14 +178,24 @@ public class OrchextraManager {
     orchextraComponent.injectOrchextra(OrchextraManager.instance);
   }
 
-  private void startSDK() {
+  private void start() {
+    new Thread(getStartRunnable()).start();
+  }
 
+  private Runnable getStartRunnable() {
+    return new Runnable() {
+      @Override public void run() {
+        startSDK();
+      }
+    };
+  }
+
+  private void startSDK() {
     if (appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND){
       appStatusEventsListener.onForegroundStart();
     }else if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND){
       appStatusEventsListener.onBackgroundStart();
     }
-
   }
 
   /**
@@ -201,7 +211,7 @@ public class OrchextraManager {
       StartStatusType status = orchextraStatusAccessor.setStartedStatus(apiKey, apiSecret);
 
       if (status == StartStatusType.SDK_READY_FOR_START){
-        startSDK();
+        start();
       }
 
       if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS){

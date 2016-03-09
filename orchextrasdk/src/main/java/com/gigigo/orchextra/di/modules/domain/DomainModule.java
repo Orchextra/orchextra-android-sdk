@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.di.qualifiers.OrchextraStatusAccessorExexution;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
@@ -63,8 +62,8 @@ public class DomainModule {
 
   @Provides @Singleton ExecutorService provideExecutor(ThreadFactory threadFactory,
       BlockingQueue<Runnable> blockingQueue) {
-    return new PriorizableThreadPoolExecutor(1,
-        1, 0L, TimeUnit.MILLISECONDS, blockingQueue,
+    return new PriorizableThreadPoolExecutor(BuildConfig.CONCURRENT_INTERACTORS,
+        BuildConfig.CONCURRENT_INTERACTORS, 0L, TimeUnit.MILLISECONDS, blockingQueue,
         threadFactory);
   }
 
@@ -104,13 +103,6 @@ public class DomainModule {
     InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(
         interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());
-    return interactorExecution;
-  }
-
-  @OrchextraStatusAccessorExexution @Provides InteractorExecution provideOrchextraStatusAccessorExexution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectOrchextraStatusInteractorExecution(interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideOrchextraStatusInteractor());
     return interactorExecution;
   }
 

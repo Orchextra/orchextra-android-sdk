@@ -1,21 +1,13 @@
 package com.gigigo.orchextra.control.controllers.status;
 
-import com.gigigo.orchextra.control.InteractorResult;
-import com.gigigo.orchextra.control.invoker.InteractorExecution;
-import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
-import com.gigigo.orchextra.domain.abstractions.future.FutureResult;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
-import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.interactors.status.OrchextraStatusInteractor;
-import com.gigigo.orchextra.domain.interactors.status.StatusOperationType;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
-import javax.inject.Provider;
 
 /**
  * Created by Sergio Martinez Rodriguez
@@ -27,31 +19,27 @@ import javax.inject.Provider;
  * the methods below as starters or stoppers of Orchextra operation can lead the developer to big
  * misunderstanding issues, then BE CAREFUL.
  *
- * TODO Dev note: regarding refactor, think about using state patern for managing status
+ * TODO Dev note: regarding refactor, think about using state pattern for managing status
  */
 public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAccessor {
 
   private OrchextraStatus orchextraStatus = null;
 
-  //private final InteractorInvoker interactorInvoker;
   private final ErrorLogger errorLogger;
-  private final Provider<InteractorExecution> orchextraStatusInteractorExecution;
   private final Session session;
 
   private final LoadOrchextraServiceStatus loadOrchextraServiceStatus;
   private final UpdateOrchextraServiceStatus updateOrchextraServiceStatus;
 
-  public OrchextraStatusAccessorAccessorImpl(InteractorInvoker interactorInvoker,
-      Provider<InteractorExecution> orchextraStatusInteractorExecution, Session session, ErrorLogger errorLogger,
+  public OrchextraStatusAccessorAccessorImpl(Session session,
       LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-      UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
-    //this.interactorInvoker = interactorInvoker;
-    this.orchextraStatusInteractorExecution = orchextraStatusInteractorExecution;
-    this.session = session;
-    this.errorLogger = errorLogger;
+      UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
+      ErrorLogger errorLogger) {
 
+    this.session = session;
     this.loadOrchextraServiceStatus = loadOrchextraServiceStatus;
     this.updateOrchextraServiceStatus = updateOrchextraServiceStatus;
+    this.errorLogger = errorLogger;
   }
 
   @Override public void initialize() {
@@ -153,16 +141,24 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
     }
   }
 
+  // region domain services
+
+  /*
+    The following two operations were thought at the beginning to be executed in a separate thread
+    using interactor executor, but we had to wait till the end of them to continue, this fact was not
+    blocking the UI but was creating a dependency between threads that was making compulsory to use
+    more than one threads in the thread poll. Regarding both operations are really fast, they are
+    not always performed, and code is much cleaner, has been taken the decision of perform them
+    on Ui thread. The previous implementation was at splitStartInit branch with a tag named
+    Load_update_OxStatus_futures. Consider recovery of thar implementation and make it some
+    improvement if this operations become much more expensive.
+   */
+
   private void loadOrchextraStatus() {
     InteractorResponse<OrchextraStatus> response =  loadOrchextraServiceStatus.load();
     if (!response.hasError()){
       this.orchextraStatus = response.getResult();
     }
-    //if (this.orchextraStatus==null){
-    //  FutureResult<OrchextraStatus> futureOrchextraStatus = new FutureResult();
-    //  startAsyncOperation(StatusOperationType.LOAD_ORCHEXTRA_STATUS, futureOrchextraStatus);
-    //  this.orchextraStatus = getOrchextraStatus(futureOrchextraStatus);
-    //}
   }
 
   private void updateOrchextraStatus() {
@@ -170,61 +166,8 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
     if (!response.hasError()){
       this.orchextraStatus = response.getResult();
     }
-
-    //FutureResult<OrchextraStatus> futureOrchextraStatus = new FutureResult();
-    //startAsyncOperation(StatusOperationType.UPDATE_ORCHEXTRA_STATUS, futureOrchextraStatus);
-    //this.orchextraStatus = getOrchextraStatus(futureOrchextraStatus);
   }
-
-
-  private void startAsyncOperation(StatusOperationType statusOperationType,
-      FutureResult futureOrchextraStatus) {
-    InteractorExecution interactorExecution = orchextraStatusInteractorExecution.get();
-    OrchextraStatusInteractor interactor = (OrchextraStatusInteractor) interactorExecution.getInteractor();
-
-    if (statusOperationType == StatusOperationType.LOAD_ORCHEXTRA_STATUS){
-      interactor.loadData();
-    }else{
-      interactor.updateData(orchextraStatus);
-    }
-
-    interactor.loadData();
-
-   // executeBeaconInteractor(interactorExecution, futureOrchextraStatus);
-  }
-
-
-  private OrchextraStatus getOrchextraStatus(FutureResult<OrchextraStatus> future) {
-    try {
-      return future.get();
-    } catch (Exception e) {
-      e.printStackTrace();
-
-      if (this.orchextraStatus!=null){
-        return orchextraStatus;
-      }else{
-        OrchextraStatus orchextraStatus = OrchextraStatus.getInstance();
-        orchextraStatus.setInitialized(true);
-        return orchextraStatus;
-      }
-
-    }
-  }
-
-  private void executeBeaconInteractor(InteractorExecution interactorExecution, final FutureResult futureOrchextraStatus) {
-    //interactorExecution.result(new InteractorResult<OrchextraStatus>() {
-    //  @Override public void onResult(OrchextraStatus result) {
-    //    orchextraStatus = result;
-    //    futureOrchextraStatus.onReadyFutureResult(orchextraStatus);
-    //  }
-    //}).error(InteractorError.class, new InteractorResult<InteractorError>() {
-    //  @Override public void onResult(InteractorError result) {
-    //    errorLogger.log(result.getError());
-    //    futureOrchextraStatus.onErrorFutureResult(result.getError().getMessage());
-    //  }
-    //}).execute(interactorInvoker);
-  }
-
+  //endregion
 
   //region TODO
   //TODO move CRM and Session management here

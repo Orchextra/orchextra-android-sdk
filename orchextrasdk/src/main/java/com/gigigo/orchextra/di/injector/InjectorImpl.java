@@ -103,12 +103,6 @@ public class InjectorImpl implements Injector {
     return interactorExecutionComponent;
   }
 
-  @Override public InteractorExecutionComponent injectOrchextraStatusInteractorExecution(InteractorExecution<OrchextraStatus> interactorExecution) {
-    InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
-    interactorExecutionComponent.injectOrchextraStatusInteractorExecution(interactorExecution);
-    return interactorExecutionComponent;
-  }
-
   @Override public InteractorExecutionComponent injectConfigInteractorInteractorExecution(InteractorExecution<OrchextraUpdates> interactorExecution) {
     InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
     interactorExecutionComponent.injectConfigInteractorInteractorExecution(interactorExecution);

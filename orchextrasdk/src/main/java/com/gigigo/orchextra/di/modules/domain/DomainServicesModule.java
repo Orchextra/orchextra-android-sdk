@@ -51,7 +51,7 @@ import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 import dagger.Module;
 import dagger.Provides;
-
+import javax.inject.Singleton;
 
 @Module(includes = DomainServiceErrorCheckerModule.class)
 public class DomainServicesModule {
