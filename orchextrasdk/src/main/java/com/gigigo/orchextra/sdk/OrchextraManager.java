@@ -22,6 +22,8 @@ import android.app.Application;
 import android.content.Context;
 
 import android.os.Build;
+
+import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.R;
@@ -81,7 +83,8 @@ public class OrchextraManager {
    * @param apiSecret credentials
    */
   public static synchronized void sdkStart(String apiKey, String apiSecret) {
-    if (OrchextraManager.instance!=null) {
+    if (OrchextraManager.instance!=null &&
+            AndroidSdkVersion.hasJellyBean18()) {
       OrchextraManager.instance.start(apiKey, apiSecret);
     }
   }
@@ -93,7 +96,8 @@ public class OrchextraManager {
    */
   public static synchronized void setUser(ORCUser user) {
     OrchextraManager orchextraManager = OrchextraManager.instance;
-    if (orchextraManager!=null) {
+    if (orchextraManager!=null &&
+            AndroidSdkVersion.hasJellyBean18()) {
       if (orchextraManager.orchextraStatusAccessor.isStarted()){
         OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
         SaveUserController saveUserController = orchextraManager.saveUserController;
@@ -160,7 +164,7 @@ public class OrchextraManager {
 
     orchextraCompletionCallback = completionCallback;
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
+    if (AndroidSdkVersion.hasJellyBean18()){
       initDependencyInjection(app.getApplicationContext(), completionCallback);
       initLifecyle(app);
       //initialize();
