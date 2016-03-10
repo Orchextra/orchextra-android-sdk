@@ -89,7 +89,7 @@ public class TriggerActionsFacadeService implements DomaninService {
       if (basicAction.isScheduled()) {
         scheduleActionService.schedulePendingAction(basicAction);
         eventAccessor.updateEventWithAction(basicAction);
-        actions.remove(basicAction);
+        iter.remove();
       }
     }
   }

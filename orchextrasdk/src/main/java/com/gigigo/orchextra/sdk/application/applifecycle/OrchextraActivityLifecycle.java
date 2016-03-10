@@ -139,7 +139,8 @@ import java.util.Stack;
     while (iter.hasNext()) {
       ActivityLifecyleWrapper activityLifecyleWrapper = iter.next();
       if (activityLifecyleWrapper.getActivity().equals(activity)) {
-        activityStack.remove(activityLifecyleWrapper);
+        //activityStack.remove(activityLifecyleWrapper);
+        iter.remove();
       }
     }
   }

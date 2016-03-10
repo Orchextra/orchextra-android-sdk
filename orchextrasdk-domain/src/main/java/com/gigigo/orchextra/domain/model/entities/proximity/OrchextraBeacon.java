@@ -20,6 +20,7 @@ package com.gigigo.orchextra.domain.model.entities.proximity;
 
 import com.gigigo.gggjavalib.general.utils.Hashing;
 import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -74,14 +75,14 @@ public class OrchextraBeacon {
 
   public static List<OrchextraBeacon> removeFromListElementsWithCodes(List<OrchextraBeacon> beacons,
       List<String> codes) {
-
-    for (Iterator<OrchextraBeacon> iterator = beacons.iterator(); iterator.hasNext();) {
+    List<OrchextraBeacon> list = Collections.synchronizedList(beacons);
+    for (Iterator<OrchextraBeacon> iterator = list.iterator(); iterator.hasNext();) {
       OrchextraBeacon orchextraBeacon = iterator.next();
       if (codes.contains(orchextraBeacon.getCode())) {
-        beacons.remove(orchextraBeacon);
+        iterator.remove();
       }
     }
 
-    return beacons;
+    return list;
   }
 }
