@@ -18,6 +18,7 @@
 
 apply plugin: 'java'
 apply from: rootProject.file('gradle/checkstyle.gradle')
+apply plugin: 'maven'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -26,4 +27,19 @@ dependencies {
 
     testCompile parent.ext.testDependencies.junit
     testCompile parent.ext.testDependencies.mockito
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
