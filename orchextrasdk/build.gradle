@@ -111,8 +111,8 @@ dependencies {
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')
-  compile project(':ggglib')
-  compile project(':ggglogger')
+  compile parent.ext.dependencies.gggLib
+  compile parent.ext.dependencies.gggLogger
 
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito

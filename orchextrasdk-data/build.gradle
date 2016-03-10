@@ -54,7 +54,7 @@ dependencies {
   compile parent.ext.dependencies.realm
 
   compile project(':orchextrasdk-dataprovision')
-  compile project(':ggglib')
+  compile parent.ext.dependencies.gggLib
 
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito

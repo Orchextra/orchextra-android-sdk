@@ -21,7 +21,7 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(":ggg-java-lib")
+    compile parent.ext.dependencies.gggJavaLib
     compile parent.ext.dependencies.javaxInjectAnnotations
 
     testCompile parent.ext.testDependencies.junit
