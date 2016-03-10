@@ -41,7 +41,15 @@ public class OrchextraGcmTaskService extends GcmTaskService {
   @Override
   public void onCreate() {
     super.onCreate();
-    OrchextraManager.getInjector().injectTaskServiceComponent(this);
+
+    injectTaskServiceComponent();
+
+  }
+
+  private void injectTaskServiceComponent() {
+    if (OrchextraManager.getInjector() != null) {
+      OrchextraManager.getInjector().injectTaskServiceComponent(this);
+    }
   }
 
   @Override public int onRunTask(TaskParams taskParams) {

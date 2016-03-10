@@ -136,7 +136,10 @@ public class OrchextraManager {
    * @return dependency injector
    */
   public static InjectorImpl getInjector() {
-    return OrchextraManager.instance.injector;
+    if (OrchextraManager.instance != null) {
+      return OrchextraManager.instance.injector;
+    }
+    return null;
   }
 
   private void stopOrchextraTasks() {
