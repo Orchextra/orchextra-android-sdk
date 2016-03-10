@@ -67,13 +67,13 @@ public class BeaconsModule {
   }
 
   private void switchAltBeaconLogOnOff() {
-    if (BuildConfig.DEBUG){
+    //if (BuildConfig.DEBUG){
       LogManager.setVerboseLoggingEnabled(false);
       LogManager.setLogger(Loggers.empty());
-    }else{
-      LogManager.setVerboseLoggingEnabled(true);
-      LogManager.setLogger(Loggers.verboseLogger());
-    }
+    //}else{
+    //  LogManager.setVerboseLoggingEnabled(true);
+    //  LogManager.setLogger(Loggers.verboseLogger());
+    //}
   }
 
   @Provides @Singleton BackgroundPowerSaver BackgroundPowerSaver(ContextProvider contextProvider){

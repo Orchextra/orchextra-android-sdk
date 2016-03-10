@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.entities.credentials;
 
-
 public class SdkAuthCredentials implements Credentials {
 
   private final String apiKey;

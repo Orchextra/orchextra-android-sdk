@@ -24,7 +24,6 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 
-
 public class EmptyAction extends BasicAction {
 
   public EmptyAction(String id, String trackId, String url, OrchextraNotification notification,

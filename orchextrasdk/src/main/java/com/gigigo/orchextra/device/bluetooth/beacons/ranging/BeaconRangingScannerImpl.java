@@ -248,7 +248,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     }
     updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD, BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
     ranging = false;
-    GGGLogImpl.log("Ranging stopped");
+    GGGLogImpl.log("Ranging stop");
   }
 
   private void stopRangingRegion(Region region) {
@@ -261,7 +261,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       beaconManager.stopRangingBeaconsInRegion(region);
       removeRangingRegion(region);
 
-      GGGLogImpl.log("Ranging stopped in region: " + region.getUniqueId());
+      GGGLogImpl.log("Ranging stop in region: " + region.getUniqueId());
     } catch (RemoteException e) {
       e.printStackTrace();
     }

@@ -33,9 +33,7 @@ import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
-
 import java.util.concurrent.Future;
-
 
 public class ConfigService implements DomaninService {
 

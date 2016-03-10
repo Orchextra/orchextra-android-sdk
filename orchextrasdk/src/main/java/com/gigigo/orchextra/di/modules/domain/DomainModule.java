@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.di.qualifiers.OrchextraStatusAccessorExexution;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
@@ -103,13 +102,6 @@ public class DomainModule {
     InteractorExecution interactorExecution = new InteractorExecution();
     InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(
         interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());
-    return interactorExecution;
-  }
-
-  @OrchextraStatusAccessorExexution @Provides InteractorExecution provideOrchextraStatusAccessorExexution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());
     return interactorExecution;
   }

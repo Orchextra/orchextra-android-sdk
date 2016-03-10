@@ -18,10 +18,9 @@
 
 package com.gigigo.orchextra.control.controllers.base;
 
-
 public interface Delegate {
 
   void init();
-  void destroy();
 
+  void destroy();
 }

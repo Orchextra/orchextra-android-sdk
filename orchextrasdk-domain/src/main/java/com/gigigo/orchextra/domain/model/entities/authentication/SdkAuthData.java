@@ -21,7 +21,6 @@ package com.gigigo.orchextra.domain.model.entities.authentication;
 import java.util.Calendar;
 import java.util.Date;
 
-
 public class SdkAuthData {
 
   private final String value;

@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.abstractions.initialization.features;
 
 import com.gigigo.orchextra.domain.initalization.features.Feature;
 
-
 public interface FeatureListener {
   void onFeatureStatusChanged(Feature feature);
 }

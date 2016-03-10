@@ -22,7 +22,6 @@ import com.gigigo.orchextra.domain.model.ProximityPointType;
 import java.util.Date;
 import java.util.List;
 
-
 public class ProximityPoint {
 
   private String id;

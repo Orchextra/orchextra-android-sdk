@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.abstractions.device;
 
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 
-
 public interface RetrieveGeolocationListener {
   void retrieveGeolocation(GeoLocation geoLocation);
 }

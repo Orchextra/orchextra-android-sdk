@@ -24,7 +24,6 @@ import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 
-
 public interface AuthenticationDataProvider {
 
   BusinessObject<SdkAuthData> authenticateSdk(Credentials credentials);

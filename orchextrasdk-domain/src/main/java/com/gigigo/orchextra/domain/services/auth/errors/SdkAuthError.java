@@ -21,7 +21,6 @@ package com.gigigo.orchextra.domain.services.auth.errors;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 
-
 public class SdkAuthError implements InteractorError {
 
   private BusinessError error;

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.vo;
 
-
 public class Theme {
 
   private String primaryColor;

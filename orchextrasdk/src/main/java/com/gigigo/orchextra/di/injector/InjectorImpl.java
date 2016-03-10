@@ -21,8 +21,10 @@ package com.gigigo.orchextra.di.injector;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
 import com.gigigo.orchextra.di.components.DaggerGeofenceIntentServiceComponent;
+import com.gigigo.orchextra.di.components.DaggerOrchextraBootBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.GeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
+import com.gigigo.orchextra.di.components.OrchextraBootBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
@@ -30,6 +32,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
+import com.gigigo.orchextra.sdk.background.OrchextraBootBroadcastReceiver;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
 import com.gigigo.orchextra.di.components.DaggerServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerTaskServiceComponent;
@@ -75,6 +78,15 @@ public class InjectorImpl implements Injector {
     return gisc;
   }
 
+  @Override public OrchextraBootBroadcastReceiverComponent injectBroadcastComponent(
+      OrchextraBootBroadcastReceiver orchextraBootBroadcastReceiver) {
+
+    OrchextraBootBroadcastReceiverComponent obbrc = DaggerOrchextraBootBroadcastReceiverComponent.builder().
+        orchextraComponent(orchextraComponent).build();
+    obbrc.injectOrchextraBootBroadcastReceiver(orchextraBootBroadcastReceiver);
+    return obbrc;
+  }
+
   private InteractorExecutionComponent createInteractorExecutionComponent() {
     return orchextraComponent.plus(new InteractorsModule());
   }
@@ -88,12 +100,6 @@ public class InjectorImpl implements Injector {
   @Override public InteractorExecutionComponent injectSaveUserInteractorExecution(InteractorExecution<ClientAuthData> interactorExecution) {
     InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
     interactorExecutionComponent.injectSaveUserInteractorExecution(interactorExecution);
-    return interactorExecutionComponent;
-  }
-
-  @Override public InteractorExecutionComponent injectOrchextraStatusInteractorExecution(InteractorExecution<OrchextraStatus> interactorExecution) {
-    InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
-    interactorExecutionComponent.injectOrchextraStatusInteractorExecution(interactorExecution);
     return interactorExecutionComponent;
   }
 

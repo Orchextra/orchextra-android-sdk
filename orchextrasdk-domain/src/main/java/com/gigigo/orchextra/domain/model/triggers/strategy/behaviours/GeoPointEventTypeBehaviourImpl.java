@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.model.triggers.strategy.behaviours;
 
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 
-
 public class GeoPointEventTypeBehaviourImpl implements GeoPointEventTypeBehaviour {
 
   private GeoPointEventType geoPointEventType;

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.interactors.beacons;
 
-
 public enum BeaconEventType {
   BEACONS_DETECTED,
   REGION_ENTER,

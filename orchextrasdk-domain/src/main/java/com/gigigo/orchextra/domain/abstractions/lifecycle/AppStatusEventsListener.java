@@ -18,9 +18,6 @@
 
 package com.gigigo.orchextra.domain.abstractions.lifecycle;
 
-import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
-
-
 public interface AppStatusEventsListener {
 
   void onBackgroundStart();
@@ -32,6 +29,4 @@ public interface AppStatusEventsListener {
   void onForegroundEnd();
 
   void onServiceRecreated();
-
-  void setForegroundTasksManager(ForegroundTasksManager foregroundTasksManager);
 }

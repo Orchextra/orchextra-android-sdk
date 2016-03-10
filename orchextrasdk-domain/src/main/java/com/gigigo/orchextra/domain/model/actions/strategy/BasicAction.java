@@ -29,7 +29,10 @@ import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
-
+/**
+ * TODO Dev note: regarding refactor, think about using decorator and Abstract factory instead
+ * of using strategy and Builder patterns
+ */
 public abstract class BasicAction {
 
   private String id;

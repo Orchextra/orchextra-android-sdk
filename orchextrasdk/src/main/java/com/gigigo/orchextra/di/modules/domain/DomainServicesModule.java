@@ -30,7 +30,6 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
-import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
@@ -46,13 +45,10 @@ import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
-import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
-import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 
 import dagger.Module;
 import dagger.Provides;
-
 
 @Module(includes = DomainServiceErrorCheckerModule.class)
 public class DomainServicesModule {
@@ -127,13 +123,4 @@ public class DomainServicesModule {
     return new FutureGeolocation();
   }
 
-  @Provides @PerExecution LoadOrchextraServiceStatus provideLoadOrchextraServiceStatus(
-      OrchextraStatusDataProvider orchextraStatusDataProvider){
-    return new LoadOrchextraServiceStatus(orchextraStatusDataProvider);
-  }
-
-  @Provides @PerExecution UpdateOrchextraServiceStatus provideUpdateOrchextraServiceStatus(
-      OrchextraStatusDataProvider orchextraStatusDataProvider){
-    return new UpdateOrchextraServiceStatus(orchextraStatusDataProvider);
-  }
 }

@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.interactors.actions;
 
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 
-
 public class CustomSchemeReceiverNullImpl implements CustomOrchextraSchemeReceiver {
 
   @Override public void onReceive(String scheme) {

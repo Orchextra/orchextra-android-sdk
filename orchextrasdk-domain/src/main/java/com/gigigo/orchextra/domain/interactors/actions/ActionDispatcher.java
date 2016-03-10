@@ -27,7 +27,6 @@ import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
-
 public interface ActionDispatcher {
 
   void dispatchAction(BrowserAction action);

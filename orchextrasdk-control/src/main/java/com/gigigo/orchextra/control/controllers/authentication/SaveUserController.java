@@ -26,11 +26,8 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-
 import javax.inject.Provider;
-
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
-
 
 public class SaveUserController extends Controller<SaveUserDelegate> {
 

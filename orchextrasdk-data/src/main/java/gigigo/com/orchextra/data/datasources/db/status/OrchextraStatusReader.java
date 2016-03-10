@@ -28,7 +28,7 @@ public class OrchextraStatusReader {
       return statusRealmMapper.externalClassToModel(orchextraStatusRealms.first());
     } else {
       GGGLogImpl.log("OrchextraStatus not found");
-      throw new NotFountRealmObjectException();
+      throw new NotFountRealmObjectException("OrchextraStatusRealm object not found");
     }
   }
 }

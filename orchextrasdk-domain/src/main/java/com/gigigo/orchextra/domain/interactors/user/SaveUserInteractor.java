@@ -27,7 +27,6 @@ import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 
-
 public class SaveUserInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
 
   private final AuthenticationService authenticationService;
@@ -54,7 +53,8 @@ public class SaveUserInteractor implements Interactor<InteractorResponse<Orchext
     if (crmBusinessObject.isSuccess()) {
       boOrchextraUpdates = configService.refreshConfig();
     } else {
-      return new InteractorResponse<>(new AuthenticationError(crmBusinessObject.getBusinessError()));
+      return new InteractorResponse<>(
+          new AuthenticationError(crmBusinessObject.getBusinessError()));
     }
 
     return boOrchextraUpdates;

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.abstractions.lifecycle;
 
-
 public interface LifeCycleAccessor {
   boolean isInBackground();
 }

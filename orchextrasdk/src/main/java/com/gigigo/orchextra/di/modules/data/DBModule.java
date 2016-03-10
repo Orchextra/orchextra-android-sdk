@@ -157,13 +157,13 @@ public class DBModule {
 
   @Singleton
   @Provides OrchextraStatusUpdater provideOrchextraStatusUpdater(
-      ModelToExternalClassMapper<OrchextraStatus, OrchextraStatusRealm> orchextraStatusRealmMapper) {
+      Mapper<OrchextraStatus, OrchextraStatusRealm> orchextraStatusRealmMapper) {
     return new OrchextraStatusUpdater(orchextraStatusRealmMapper);
   }
 
   @Singleton
   @Provides OrchextraStatusReader provideOrchextraStatusReader(
-      ExternalClassToModelMapper<OrchextraStatusRealm, OrchextraStatus> orchextraStatusRealmMapper) {
+      Mapper<OrchextraStatus, OrchextraStatusRealm> orchextraStatusRealmMapper) {
     return new OrchextraStatusReader(orchextraStatusRealmMapper);
   }
 }

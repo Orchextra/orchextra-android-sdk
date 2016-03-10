@@ -30,7 +30,6 @@ import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import dagger.Subcomponent;
 import java.util.List;
 
-
 @PerExecution @Subcomponent(modules = InteractorsModule.class)
 public interface InteractorExecutionComponent extends InteractorsModuleProvider {
     void injectSaveUserInteractorExecution(InteractorExecution<ClientAuthData> interactorExecution);
@@ -38,6 +37,4 @@ public interface InteractorExecutionComponent extends InteractorsModuleProvider 
     void injectRegionsProviderInteractorExecution(InteractorExecution<List<OrchextraRegion>> interactorExecution);
     void injectBeaconEventsInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
     void injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
-    void injectOrchextraStatusInteractorExecution(InteractorExecution<OrchextraStatus> interactorExecution);
-
 }

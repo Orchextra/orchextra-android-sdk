@@ -23,7 +23,6 @@ import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 import java.util.Collections;
 import java.util.List;
 
-
 public class ActionsSchedulerPersistorNullImpl implements ActionsSchedulerPersistor {
 
   @Override public ScheduledAction getScheduledActionWithId(String id) {

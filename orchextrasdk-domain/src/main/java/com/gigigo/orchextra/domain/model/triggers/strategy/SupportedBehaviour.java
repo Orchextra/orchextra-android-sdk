@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.triggers.strategy;
 
-
 public interface SupportedBehaviour {
   boolean isSupported();
 }

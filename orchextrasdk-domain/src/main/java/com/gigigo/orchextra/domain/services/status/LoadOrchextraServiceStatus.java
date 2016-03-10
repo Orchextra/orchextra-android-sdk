@@ -38,7 +38,7 @@ public class LoadOrchextraServiceStatus implements DomaninService {
   public InteractorResponse<OrchextraStatus> load() {
     BusinessObject<OrchextraStatus> bo = orchextraStatusDataProvider.loadOrchextraStatus();
 
-    if(!bo.isSuccess()){
+    if (!bo.isSuccess()) {
       return new InteractorResponse(new GenericError(bo.getBusinessError()));
     }
 

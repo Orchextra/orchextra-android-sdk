@@ -24,7 +24,6 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 
-
 public class WebViewAction extends BasicAction {
 
   public WebViewAction(String id, String trackId, String url, OrchextraNotification notification,

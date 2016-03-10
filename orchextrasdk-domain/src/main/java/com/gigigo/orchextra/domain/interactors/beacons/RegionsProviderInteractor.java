@@ -24,7 +24,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import java.util.List;
 
-
 public class RegionsProviderInteractor
     implements Interactor<InteractorResponse<List<OrchextraRegion>>> {
 

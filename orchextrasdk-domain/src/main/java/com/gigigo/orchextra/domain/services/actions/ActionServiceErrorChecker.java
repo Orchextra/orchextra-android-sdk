@@ -24,7 +24,6 @@ import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 
-
 public class ActionServiceErrorChecker extends ServiceErrorChecker {
 
   public ActionServiceErrorChecker(AuthenticationService authenticationService) {

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.actions;
 
-
 public interface ScheduledAction {
   boolean isCancelable();
 

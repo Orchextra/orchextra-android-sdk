@@ -18,6 +18,5 @@
 
 package com.gigigo.orchextra.domain.model.entities.credentials;
 
-
 public interface Credentials {
 }

@@ -15,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.gigigo.orchextra.domain.abstractions.initialization;
-
 
 public interface OrchextraManagerCompletionCallback {
   void onSuccess();
 
   void onError(String s);
+
+  void onInit(String s);
 }

@@ -21,7 +21,6 @@ package com.gigigo.orchextra.domain.model.triggers.strategy.behaviours;
 import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.SupportedBehaviour;
 
-
 public interface BeaconDistanceTypeBehaviour extends SupportedBehaviour {
   BeaconDistanceType getBeaconDistanceType();
 }

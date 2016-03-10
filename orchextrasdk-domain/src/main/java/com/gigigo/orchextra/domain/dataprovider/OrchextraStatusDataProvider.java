@@ -26,5 +26,4 @@ public interface OrchextraStatusDataProvider {
   BusinessObject<OrchextraStatus> loadOrchextraStatus();
 
   BusinessObject<OrchextraStatus> updateOrchextraStatus(OrchextraStatus orchextraStatus);
-
 }

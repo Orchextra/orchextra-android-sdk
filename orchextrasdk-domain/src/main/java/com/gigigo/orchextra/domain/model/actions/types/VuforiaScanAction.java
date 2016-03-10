@@ -23,11 +23,10 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 
-
 public class VuforiaScanAction extends BasicAction {
 
-  public VuforiaScanAction(String id, String trackId, String url, OrchextraNotification notification,
-      Schedule schedule) {
+  public VuforiaScanAction(String id, String trackId, String url,
+      OrchextraNotification notification, Schedule schedule) {
     super(id, trackId, url, notification, schedule);
     this.actionType = com.gigigo.orchextra.domain.model.actions.ActionType.VUFORIA_SCAN;
   }

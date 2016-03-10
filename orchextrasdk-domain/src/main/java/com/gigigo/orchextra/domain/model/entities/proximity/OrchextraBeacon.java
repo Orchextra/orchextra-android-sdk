@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-
 public class OrchextraBeacon {
 
   private static final String BEACON_CODE_CONCAT_CHAR = "_";

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
-
 public class URLFunctionalityImpl implements URLFunctionality {
 
   private final String url;

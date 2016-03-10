@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.entities.authentication;
 
-
 public class Session {
 
   private String apiKey;

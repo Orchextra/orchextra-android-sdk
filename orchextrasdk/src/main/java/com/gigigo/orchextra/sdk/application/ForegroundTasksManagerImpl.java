@@ -31,28 +31,23 @@ public class ForegroundTasksManagerImpl implements ForegroundTasksManager {
 
   private final OrchextraTasksManager orchextraTasksManager;
   private final PermissionChecker permissionChecker;
-  private final OrchextraStatusAccessor orchextraStatusAccessor;
   private final ContextProvider contextProvider;
   private final Permission permission;
 
   public ForegroundTasksManagerImpl(OrchextraTasksManager orchextraTasksManager,
-      PermissionChecker permissionChecker, ContextProvider contextProvider,
-      OrchextraStatusAccessor orchextraStatusAccessor) {
+      PermissionChecker permissionChecker, ContextProvider contextProvider) {
     this.orchextraTasksManager = orchextraTasksManager;
     this.permissionChecker = permissionChecker;
     this.contextProvider = contextProvider;
-    this.orchextraStatusAccessor = orchextraStatusAccessor;
     this.permission = new PermissionLocationImp();
   }
 
   @Override public void startForegroundTasks() {
-    //if (orchextraStatusAccessor.isStarted()){
       if (permissionChecker.isGranted(permission)){
         orchextraTasksManager.initForegroundTasks();
       }else{
         permissionChecker.askForPermission(permission, userPermissionRequestResponseListener, contextProvider.getCurrentActivity());
       }
-    //}
   }
 
   @Override public void finalizeForegroundTasks() {

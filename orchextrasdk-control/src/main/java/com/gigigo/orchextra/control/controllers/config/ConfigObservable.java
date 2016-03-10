@@ -22,7 +22,6 @@ import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import java.util.ArrayList;
 
-
 public class ConfigObservable implements OrchextraChanges {
 
   private ArrayList<Observer> observers;

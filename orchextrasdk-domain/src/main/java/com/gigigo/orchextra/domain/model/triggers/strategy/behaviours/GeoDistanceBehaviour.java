@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.model.triggers.strategy.behaviours;
 
 import com.gigigo.orchextra.domain.model.triggers.strategy.SupportedBehaviour;
 
-
 public interface GeoDistanceBehaviour extends SupportedBehaviour {
   double getGeoDistance();
 }

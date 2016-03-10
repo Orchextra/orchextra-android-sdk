@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
-
 public class ScheduleFunctionalityImpl implements ScheduleFunctionality {
 
   private final Schedule schedule;

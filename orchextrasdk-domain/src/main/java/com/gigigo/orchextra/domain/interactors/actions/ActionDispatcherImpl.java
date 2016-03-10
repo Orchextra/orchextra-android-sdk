@@ -32,7 +32,6 @@ import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
 
-
 public class ActionDispatcherImpl implements ActionDispatcher {
 
   private final ActionExecution actionExecution;
@@ -41,9 +40,9 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   private final StatsDispatcher statsDispatcher;
 
   public ActionDispatcherImpl(ActionExecution actionExecution,
-                              NotificationBehavior notificationBehavior,
-                              CustomSchemeReceiverContainer customSchemeReceiverContainer,
-                              StatsDispatcher statsDispatcher) {
+      NotificationBehavior notificationBehavior,
+      CustomSchemeReceiverContainer customSchemeReceiverContainer,
+      StatsDispatcher statsDispatcher) {
 
     this.actionExecution = actionExecution;
     this.notificationBehavior = notificationBehavior;
@@ -94,7 +93,8 @@ public class ActionDispatcherImpl implements ActionDispatcher {
     statsDispatcher.sendCompletedActionTrackId(action.getTrackId());
   }
 
-  @Override public void dispatchAction(VuforiaScanAction action, OrchextraNotification notification) {
+  @Override
+  public void dispatchAction(VuforiaScanAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
@@ -106,16 +106,17 @@ public class ActionDispatcherImpl implements ActionDispatcher {
     statsDispatcher.sendCompletedActionTrackId(action.getTrackId());
   }
 
-  @Override public void dispatchAction(NotificationAction action, OrchextraNotification notification) {
+  @Override
+  public void dispatchAction(NotificationAction action, OrchextraNotification notification) {
     notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
   @Override public void dispatchAction(EmptyAction action) {
-//    statsDispatcher.sendCompletedActionTrackId(action.getTrackId());
+    //    statsDispatcher.sendCompletedActionTrackId(action.getTrackId());
   }
 
   @Override public void dispatchAction(EmptyAction action, OrchextraNotification notification) {
-//    notificationBehavior.dispatchNotificationAction(action, notification);
+    //    notificationBehavior.dispatchNotificationAction(action, notification);
   }
 
   private ActionDispatcherListener actionDispatcherListener = new ActionDispatcherListener() {

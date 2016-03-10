@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
-
 public class ActionRelated {
 
   final String actionId;

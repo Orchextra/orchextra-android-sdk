@@ -26,7 +26,6 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanc
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
-
 public class GeofenceTrigger extends Trigger {
 
   private final double distance;

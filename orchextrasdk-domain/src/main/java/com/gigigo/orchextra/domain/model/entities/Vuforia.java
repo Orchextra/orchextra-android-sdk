@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.entities;
 
-
 public class Vuforia {
 
   private String licenseKey;

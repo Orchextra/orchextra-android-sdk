@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.model.triggers.params;
 
 import com.gigigo.orchextra.domain.model.StringValueEnum;
 
-
 public enum GeoPointEventType implements StringValueEnum {
   ENTER("enter"),
   EXIT("exit"),

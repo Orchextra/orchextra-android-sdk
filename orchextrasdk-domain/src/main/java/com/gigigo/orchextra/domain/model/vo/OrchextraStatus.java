@@ -59,4 +59,8 @@ public class OrchextraStatus {
   public void setSession(Session session) {
     this.session = session;
   }
+
+  public static OrchextraStatus getInstance() {
+    return new OrchextraStatus();
+  }
 }

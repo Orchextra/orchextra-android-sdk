@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.services.actions;
 
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 
-
 public interface EventAccessor {
   void updateEventWithAction(BasicAction basicAction);
 }

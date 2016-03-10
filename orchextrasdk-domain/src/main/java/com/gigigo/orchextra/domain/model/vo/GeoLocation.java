@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.vo;
 
-
 public class GeoLocation {
 
   private String country;

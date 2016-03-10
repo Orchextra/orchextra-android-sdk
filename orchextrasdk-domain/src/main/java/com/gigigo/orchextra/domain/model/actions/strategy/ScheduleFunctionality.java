@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
-
 public interface ScheduleFunctionality extends FunctionalitySupport {
   Schedule getSchedule();
 

@@ -22,6 +22,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
@@ -34,6 +35,8 @@ public class OrchextraBackgroundService extends Service {
 
 	@Inject OrchextraActivityLifecycle orchextraActivityLifecycle;
 
+	@Inject OrchextraStatusAccessor orchextraStatusAccessor;
+
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
@@ -42,10 +45,17 @@ public class OrchextraBackgroundService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		GGGLogImpl.log("Service method :: onStartCommand");
+		if (orchextraStatusAccessor.isStarted()){
+			startBackgroundTasks();
+			return START_STICKY;
+		}
+		return START_NOT_STICKY;
+	}
+
+	private void startBackgroundTasks() {
 		AppStatusEventsListener appStatusEventsListener = orchextraActivityLifecycle.getAppStatusEventsListener();
 		appStatusEventsListener.onServiceRecreated();
 		backgroundTasksManager.startBackgroundTasks();
-		return START_STICKY;
 	}
 
 	@Override

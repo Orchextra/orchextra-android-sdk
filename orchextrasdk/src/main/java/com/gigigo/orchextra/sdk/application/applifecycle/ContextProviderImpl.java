@@ -51,7 +51,7 @@ public class ContextProviderImpl implements OrchextraContextProvider {
     if (orchextraActivityLifecycle==null){
       return false;
     }
-    //this implementation gives context of paused and stopped activities
+    //this implementation gives context of paused and stop activities
     return orchextraActivityLifecycle.isActivityContextAvailable();
   }
 

@@ -20,4 +20,11 @@ package gigigo.com.orchextra.data.datasources.db;
 
 
 public class NotFountRealmObjectException extends RuntimeException {
+
+  public NotFountRealmObjectException(String s) {
+    super(s);
+  }
+
+  public NotFountRealmObjectException() {}
+
 }

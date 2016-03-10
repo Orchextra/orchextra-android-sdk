@@ -23,7 +23,6 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 
-
 public class SendConfigInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
 
   private final ConfigService configService;

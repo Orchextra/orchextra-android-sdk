@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.abstractions.actions;
 
-
 public interface CustomOrchextraSchemeReceiver {
   void onReceive(String scheme);
 }

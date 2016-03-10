@@ -24,7 +24,6 @@ import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 
-
 public interface InteractorsModuleProvider {
   SaveUserInteractor provideSaveUserInteractor();
   RegionsProviderInteractor provideRegionsProviderInteractor();

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.abstractions.beacons;
 
-
 public enum BackgroundBeaconsRangingTimeType {
   DISABLED(0),
   MIN(10000),

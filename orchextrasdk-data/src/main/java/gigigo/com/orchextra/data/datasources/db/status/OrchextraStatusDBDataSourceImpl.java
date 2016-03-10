@@ -21,8 +21,11 @@ package gigigo.com.orchextra.data.datasources.db.status;
 import android.content.Context;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraStatusDBDataSource;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
+import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
@@ -67,6 +70,10 @@ public class OrchextraStatusDBDataSourceImpl implements OrchextraStatusDBDataSou
     try {
       result = orchextraStatusReader.readStatus(realm);
       //TODO retrieve crm and session
+    }catch (NotFountRealmObjectException exception){
+      GGGLogImpl.log("orchextraStatus info not present, new data will be created: "
+          +  exception.getMessage(), LogLevel.WARN);
+      return new BusinessObject<>(OrchextraStatus.getInstance(),BusinessError.createOKInstance());
     } catch (RealmException re) {
       return new BusinessObject<>(null,BusinessError.createKoInstance(re.getMessage()));
     } finally {

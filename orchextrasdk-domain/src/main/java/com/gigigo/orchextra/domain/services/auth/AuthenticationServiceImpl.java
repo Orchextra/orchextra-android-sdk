@@ -33,7 +33,6 @@ import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials
 import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.auth.errors.SdkAuthError;
 
-
 public class AuthenticationServiceImpl implements AuthenticationService {
 
   private final AuthenticationDataProvider authDataProvider;

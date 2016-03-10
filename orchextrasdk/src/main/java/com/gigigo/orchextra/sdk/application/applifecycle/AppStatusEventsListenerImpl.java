@@ -21,6 +21,7 @@ package com.gigigo.orchextra.sdk.application.applifecycle;
 import android.content.Context;
 import android.content.Intent;
 import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
@@ -30,19 +31,20 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
   private final Context context;
   private final ForegroundTasksManager foregroundTasksManager;
+  private final OrchextraStatusAccessor orchextraStatusAccessor;
 
-  public AppStatusEventsListenerImpl(Context context, ForegroundTasksManager foregroundTasksManager) {
+  public AppStatusEventsListenerImpl(Context context, ForegroundTasksManager foregroundTasksManager,
+      OrchextraStatusAccessor orchextraStatusAccessor) {
     this.context = context;
     this.foregroundTasksManager = foregroundTasksManager;
-  }
-
-  public void setForegroundTasksManager(ForegroundTasksManager foregroundTasksManager) {
-    //this.foregroundTasksManager = foregroundTasksManager;
+    this.orchextraStatusAccessor = orchextraStatusAccessor;
   }
 
   @Override public void onBackgroundStart() {
-    GGGLogImpl.log("App goes to backgroundmode ");
-    startServices();
+    GGGLogImpl.log("App goes to background mode ");
+    if (orchextraStatusAccessor.isStarted()){
+      startServices();
+    }
   }
 
   @Override public void onBackgroundEnd() {
@@ -58,7 +60,9 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   @Override public void onForegroundStart() {
     //Stop Monitoring && startRanging
     GGGLogImpl.log("App Come to Foreground mode");
-    startForegroundTasks();
+    if (orchextraStatusAccessor.isStarted()){
+      startForegroundTasks();
+    }
   }
 
   @Override public void onForegroundEnd() {

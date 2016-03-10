@@ -28,7 +28,6 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanc
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
-
 public class BeaconTrigger extends Trigger {
 
   private final BeaconDistanceType beaconDistanceType;

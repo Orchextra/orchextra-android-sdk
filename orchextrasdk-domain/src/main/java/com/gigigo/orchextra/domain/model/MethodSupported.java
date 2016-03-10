@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model;
 
-
 public interface MethodSupported {
   boolean isSupported();
 }

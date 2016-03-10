@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.abstractions.actions;
 
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 
-
 public interface ActionsSchedulerController {
 
   void cancelPendingActionWithId(String id, boolean forceCancel);

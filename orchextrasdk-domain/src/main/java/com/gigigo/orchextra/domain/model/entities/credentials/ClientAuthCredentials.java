@@ -21,7 +21,6 @@ package com.gigigo.orchextra.domain.model.entities.credentials;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
-
 public class ClientAuthCredentials implements Credentials {
 
   private final String clientToken;

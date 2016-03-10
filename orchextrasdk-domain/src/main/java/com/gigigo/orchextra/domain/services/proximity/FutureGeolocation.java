@@ -26,7 +26,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-
 public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocationListener {
 
   private volatile GeoLocation geoLocation = null;
@@ -66,7 +65,7 @@ public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocati
     return countDownLatch.getCount() == 0;
   }
 
-  public void onGeolocationResult(final GeoLocation geoLocation) {
+  private void onGeolocationResult(final GeoLocation geoLocation) {
     this.geoLocation = geoLocation;
     countDownLatch.countDown();
   }

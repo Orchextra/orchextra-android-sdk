@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
-
 public interface NotifFunctionality extends FunctionalitySupport {
   OrchextraNotification getNotification();
 }

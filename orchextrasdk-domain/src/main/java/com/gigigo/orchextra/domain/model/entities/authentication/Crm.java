@@ -22,7 +22,6 @@ import com.gigigo.orchextra.domain.model.GenderType;
 import java.util.Date;
 import java.util.List;
 
-
 public class Crm {
 
   private String crmId;
@@ -93,8 +92,6 @@ public class Crm {
       }
     }
 
-    return gender.equals(crm.gender)
-        && birthDate.equals(crm.birthDate)
-        && listIsEquals;
+    return gender.equals(crm.gender) && birthDate.equals(crm.birthDate) && listIsEquals;
   }
 }
