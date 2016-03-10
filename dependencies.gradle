@@ -37,7 +37,10 @@ allprojects {
         dexter                     : 'com.karumi:dexter:2.1.2',
         butterKnife                : 'com.jakewharton:butterknife:7.0.1',
         realm                      : 'io.realm:realm-android:0.87.0',
-        altBeacon                  : 'org.altbeacon:android-beacon-library:2+'
+        altBeacon                  : 'org.altbeacon:android-beacon-library:2+',
+        gggJavaLib                 : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggg-java-lib:1.0.1',
+        gggLogger                  : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglogger:1.0.1',
+        gggLib                     : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglib:1.0.1'
 
 
     ]
