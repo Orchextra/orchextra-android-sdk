@@ -47,7 +47,7 @@ public class BeaconEventsUpdater {
     this.beaconEventRealmMapper = beaconEventRealmMapper;
   }
 
-  public void deleteAllBeaconsInListWithTimeStampt(Realm realm, int requestTime) {
+  public synchronized void deleteAllBeaconsInListWithTimeStampt(Realm realm, int requestTime) {
 
     long timeStamptForPurge = System.currentTimeMillis() - requestTime;
     RealmResults<BeaconEventRealm> resultsToPurge = obtainPurgeResults(realm, timeStamptForPurge);
@@ -64,7 +64,7 @@ public class BeaconEventsUpdater {
     }
   }
 
-  public OrchextraBeacon storeBeaconEvent(Realm realm, OrchextraBeacon beacon) {
+  public synchronized OrchextraBeacon storeBeaconEvent(Realm realm, OrchextraBeacon beacon) {
     BeaconEventRealm beaconEventRealm = beaconEventRealmMapper.modelToExternalClass(beacon);
     storeElement(realm, beaconEventRealm);
 
@@ -81,7 +81,7 @@ public class BeaconEventsUpdater {
     return beaconEventRealmMapper.externalClassToModel(beaconEventRealm);
   }
 
-  public OrchextraRegion storeRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
+  public synchronized OrchextraRegion storeRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
     BeaconRegionEventRealm beaconRegionEventRealm =
         regionEventRealmMapper.modelToExternalClass(orchextraRegion);
     storeElement(realm, beaconRegionEventRealm);
@@ -89,7 +89,7 @@ public class BeaconEventsUpdater {
     return regionEventRealmMapper.externalClassToModel(beaconRegionEventRealm);
   }
 
-  public OrchextraRegion deleteRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
+  public synchronized OrchextraRegion deleteRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
 
     RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
         .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
@@ -113,7 +113,7 @@ public class BeaconEventsUpdater {
     return orchextraRegionDeleted;
   }
 
-  public OrchextraRegion addActionToRegion(Realm realm, OrchextraRegion orchextraRegion) {
+  public synchronized OrchextraRegion addActionToRegion(Realm realm, OrchextraRegion orchextraRegion) {
 
     RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
         .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
@@ -142,13 +142,13 @@ public class BeaconEventsUpdater {
     return regionEventRealmMapper.externalClassToModel(beaconRegionEventRealm);
   }
 
-  private RealmResults<BeaconEventRealm> obtainPurgeResults(Realm realm, long timeStamptForDelete) {
+  private synchronized RealmResults<BeaconEventRealm> obtainPurgeResults(Realm realm, long timeStamptForDelete) {
     return realm.where(BeaconEventRealm.class)
         .lessThan(BeaconEventRealm.TIMESTAMPT_FIELD_NAME, timeStamptForDelete)
         .findAll();
   }
 
-  public List<String> obtainStoredEventBeaconCodes(Realm realm, List<OrchextraBeacon> beacons) {
+  public synchronized List<String> obtainStoredEventBeaconCodes(Realm realm, List<OrchextraBeacon> beacons) {
 
     RealmResults<BeaconEventRealm> results = queryStoredBeaconEvents(realm, beacons);
 

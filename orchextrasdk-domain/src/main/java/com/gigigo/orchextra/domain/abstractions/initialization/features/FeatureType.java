@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.abstractions.initialization.features;
 
 import com.gigigo.orchextra.domain.model.StringValueEnum;
 
-
 public enum FeatureType implements StringValueEnum {
   BEACONS("BEACONS"),
   GOOGLE_PLAY_SERVICES("GOOGLE PLAY SERVICES");

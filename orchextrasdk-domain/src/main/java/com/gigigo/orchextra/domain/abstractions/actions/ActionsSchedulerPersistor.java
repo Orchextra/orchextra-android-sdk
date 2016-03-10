@@ -21,7 +21,6 @@ package com.gigigo.orchextra.domain.abstractions.actions;
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 import java.util.List;
 
-
 public interface ActionsSchedulerPersistor {
 
   ScheduledAction getScheduledActionWithId(String id);

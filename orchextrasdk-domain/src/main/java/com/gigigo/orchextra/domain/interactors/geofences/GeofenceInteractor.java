@@ -31,7 +31,6 @@ import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import java.util.List;
 
-
 public class GeofenceInteractor
     implements Interactor<InteractorResponse<List<BasicAction>>>, EventAccessor {
 

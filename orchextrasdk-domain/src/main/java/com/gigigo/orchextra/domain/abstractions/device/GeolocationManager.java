@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.abstractions.device;
 
-
 public interface GeolocationManager {
   void setRetrieveGeolocationListener(RetrieveGeolocationListener retrieveGeolocationListener);
 

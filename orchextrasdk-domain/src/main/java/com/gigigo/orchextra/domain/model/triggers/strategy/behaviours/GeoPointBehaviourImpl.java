@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.model.triggers.strategy.behaviours;
 
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
-
 public class GeoPointBehaviourImpl implements GeoPointBehaviour {
 
   private OrchextraPoint point;

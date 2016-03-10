@@ -22,7 +22,6 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 
-
 public interface AuthenticationService {
 
   InteractorResponse authenticate();

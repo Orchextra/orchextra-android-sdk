@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.actions;
 
-
 public enum ActionType {
   BROWSER("browser"),
   WEBVIEW("webview"),

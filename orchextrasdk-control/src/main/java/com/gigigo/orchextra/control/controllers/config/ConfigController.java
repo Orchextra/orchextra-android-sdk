@@ -23,7 +23,6 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-
 import javax.inject.Provider;
 
 public class ConfigController {
@@ -48,7 +47,6 @@ public class ConfigController {
         if (result != null) {
           notifyChanges(result);
         }
-
       }
     }).error(InteractorError.class, new InteractorResult<InteractorError>() {
       @Override public void onResult(InteractorError result) {

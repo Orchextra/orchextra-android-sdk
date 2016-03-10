@@ -9,5 +9,4 @@ public interface FutureResultNotifier<T> {
   void onReadyFutureResult(T orchextraStatus);
 
   void onErrorFutureResult(String error);
-
 }

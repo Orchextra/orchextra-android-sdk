@@ -24,11 +24,10 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 
-
 public class NotificationAction extends BasicAction {
 
-  public NotificationAction(String id, String trackId, String url, OrchextraNotification notification,
-      Schedule schedule) {
+  public NotificationAction(String id, String trackId, String url,
+      OrchextraNotification notification, Schedule schedule) {
     super(id, trackId, url, notification, schedule);
     this.actionType = ActionType.NOTIFICATION;
   }

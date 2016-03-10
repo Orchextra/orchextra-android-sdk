@@ -24,7 +24,6 @@ import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 
-
 public class Config {
 
   private App app;

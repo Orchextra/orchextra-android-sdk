@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
-
 public class EmptyScheduleFunctionalityImpl implements ScheduleFunctionality {
 
   @Override public com.gigigo.orchextra.domain.model.actions.strategy.Schedule getSchedule() {

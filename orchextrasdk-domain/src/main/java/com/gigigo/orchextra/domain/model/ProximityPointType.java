@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model;
 
-
 public enum ProximityPointType {
   BEACON("beacon"),
   GEOFENCE("geofence");

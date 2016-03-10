@@ -26,7 +26,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import java.util.List;
 
-
 public class BeaconCheckerService implements DomaninService {
 
   private final ProximityLocalDataProvider proximityLocalDataProvider;

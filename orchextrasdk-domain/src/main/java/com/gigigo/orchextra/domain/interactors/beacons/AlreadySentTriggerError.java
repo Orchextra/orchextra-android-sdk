@@ -18,6 +18,5 @@
 
 package com.gigigo.orchextra.domain.interactors.beacons;
 
-
 public class AlreadySentTriggerError {
 }

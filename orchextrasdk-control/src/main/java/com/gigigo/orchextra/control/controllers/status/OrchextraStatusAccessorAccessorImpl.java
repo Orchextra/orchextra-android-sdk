@@ -33,8 +33,7 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
 
   public OrchextraStatusAccessorAccessorImpl(Session session,
       LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-      UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
-      ErrorLogger errorLogger) {
+      UpdateOrchextraServiceStatus updateOrchextraServiceStatus, ErrorLogger errorLogger) {
 
     this.session = session;
     this.loadOrchextraServiceStatus = loadOrchextraServiceStatus;
@@ -48,11 +47,12 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
     updateOrchextraStatus();
   }
 
-  @Override public StartStatusType setStartedStatus(String apiKey, String apiSecret) throws RuntimeException{
+  @Override public StartStatusType setStartedStatus(String apiKey, String apiSecret)
+      throws RuntimeException {
 
     StartStatusType startStatusType = obtainCurrentStartStatus(apiKey, apiSecret);
 
-    switch (startStatusType){
+    switch (startStatusType) {
       case SDK_READY_FOR_START:
         setSDKstatusAsStarted(apiKey, apiSecret);
         return StartStatusType.SDK_READY_FOR_START;
@@ -63,16 +63,22 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
 
       case SDK_WAS_ALREADY_STARTED_WITH_SAME_CREDENTIALS:
         throw new SdkAlreadyStartedException("SDK STATUS EXCEPTION; Status: "
-            + startStatusType.getStringValue() + "." +" This call will be ignored");
+            + startStatusType.getStringValue()
+            + "."
+            + " This call will be ignored");
 
       case SDK_WAS_NOT_INITIALIZED:
         throw new SdkNotInitializedException("SDK STATUS EXCEPTION; Status: "
-            + startStatusType.getStringValue() + "." +" You "
+            + startStatusType.getStringValue()
+            + "."
+            + " You "
             + "must call Orchextra.init() before calling Orchextra.start()");
 
       default:
         throw new SdkInitializationException("SDK STATUS EXCEPTION; Status: "
-            + startStatusType.getStringValue() + "." +" Review your log system");
+            + startStatusType.getStringValue()
+            + "."
+            + " Review your log system");
     }
   }
 
@@ -82,7 +88,7 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
   }
 
   private void setSDKstatusAsStarted(String apiKey, String apiSecret) {
-    session.setAppParams(apiKey,apiSecret);
+    session.setAppParams(apiKey, apiSecret);
     orchextraStatus.setSession(session);
     orchextraStatus.setStarted(true);
     updateOrchextraStatus();
@@ -92,24 +98,23 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
 
     loadOrchextraStatus();
 
-    if (alreadyStarted()){
+    if (alreadyStarted()) {
       return alreadyStartedType(apiKey, apiSecret);
-    }else if (!orchextraStatus.isInitialized()){
+    } else if (!orchextraStatus.isInitialized()) {
       return StartStatusType.SDK_WAS_NOT_INITIALIZED;
-    }else if (orchextraStatus.isInitialized()){
+    } else if (orchextraStatus.isInitialized()) {
       return StartStatusType.SDK_READY_FOR_START;
-    }else{
+    } else {
       return StartStatusType.UNKNOWN_START_STATUS;
     }
-
   }
 
   private StartStatusType alreadyStartedType(String startApiKey, String startApiSecret) {
     String currentApiKey = orchextraStatus.getSession().getApiKey();
     String currentApiSecret = orchextraStatus.getSession().getApiSecret();
-    if (currentApiKey.equals(startApiKey) && currentApiSecret.equals(startApiSecret)){
+    if (currentApiKey.equals(startApiKey) && currentApiSecret.equals(startApiSecret)) {
       return StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_SAME_CREDENTIALS;
-    }else{
+    } else {
       return StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS;
     }
   }
@@ -117,7 +122,7 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
   private boolean alreadyStarted() {
     try {
       return (orchextraStatus.isStarted() && hasCredentials());
-    }catch (NullPointerException e){
+    } catch (NullPointerException e) {
       return false;
     }
   }
@@ -135,7 +140,7 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
 
   @Override public void setStoppedStatus() {
     loadOrchextraStatus();
-    if (orchextraStatus.isStarted()){
+    if (orchextraStatus.isStarted()) {
       orchextraStatus.setStarted(false);
       updateOrchextraStatus();
     }
@@ -155,15 +160,16 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
    */
 
   private void loadOrchextraStatus() {
-    InteractorResponse<OrchextraStatus> response =  loadOrchextraServiceStatus.load();
-    if (!response.hasError()){
+    InteractorResponse<OrchextraStatus> response = loadOrchextraServiceStatus.load();
+    if (!response.hasError()) {
       this.orchextraStatus = response.getResult();
     }
   }
 
   private void updateOrchextraStatus() {
-    InteractorResponse<OrchextraStatus> response =  updateOrchextraServiceStatus.update(orchextraStatus);
-    if (!response.hasError()){
+    InteractorResponse<OrchextraStatus> response =
+        updateOrchextraServiceStatus.update(orchextraStatus);
+    if (!response.hasError()) {
       this.orchextraStatus = response.getResult();
     }
   }
@@ -189,5 +195,4 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
   //  //TODO
   //}
   // endregion
-
 }

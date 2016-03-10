@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.abstractions.background;
 
-
 public interface BackgroundTasksManager {
 
   void startBackgroundTasks();

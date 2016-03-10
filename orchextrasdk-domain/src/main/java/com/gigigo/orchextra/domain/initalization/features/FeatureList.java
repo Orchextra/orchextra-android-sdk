@@ -21,10 +21,8 @@ package com.gigigo.orchextra.domain.initalization.features;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class FeatureList implements FeatureListener,
     com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureStatus {

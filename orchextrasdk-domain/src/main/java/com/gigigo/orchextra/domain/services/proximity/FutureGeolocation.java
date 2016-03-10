@@ -26,7 +26,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-
 public class FutureGeolocation implements Future<GeoLocation>, RetrieveGeolocationListener {
 
   private volatile GeoLocation geoLocation = null;

@@ -17,7 +17,6 @@
  */
 package com.gigigo.orchextra.domain.abstractions.initialization;
 
-
 public interface OrchextraManagerCompletionCallback {
   void onSuccess();
 

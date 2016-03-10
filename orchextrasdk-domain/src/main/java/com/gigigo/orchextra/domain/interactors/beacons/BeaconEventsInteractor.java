@@ -32,7 +32,6 @@ import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import java.util.List;
 
-
 public class BeaconEventsInteractor
     implements Interactor<InteractorResponse<List<BasicAction>>>, EventAccessor {
 

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.vo;
 
-
 public class NotificationPush {
 
   private String token;

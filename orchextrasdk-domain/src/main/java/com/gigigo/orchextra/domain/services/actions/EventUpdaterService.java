@@ -25,7 +25,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.DomaninService;
 
-
 public class EventUpdaterService implements DomaninService {
 
   private final ProximityLocalDataProvider proximityLocalDataProvider;

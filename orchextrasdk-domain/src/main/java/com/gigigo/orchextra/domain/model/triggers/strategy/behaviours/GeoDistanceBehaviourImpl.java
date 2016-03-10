@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.triggers.strategy.behaviours;
 
-
 public class GeoDistanceBehaviourImpl implements GeoDistanceBehaviour {
 
   private double distance = 0.0;

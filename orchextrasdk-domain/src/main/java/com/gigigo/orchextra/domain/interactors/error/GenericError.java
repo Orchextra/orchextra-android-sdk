@@ -21,7 +21,6 @@ package com.gigigo.orchextra.domain.interactors.error;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 
-
 public class GenericError implements InteractorError {
 
   private BusinessError error;

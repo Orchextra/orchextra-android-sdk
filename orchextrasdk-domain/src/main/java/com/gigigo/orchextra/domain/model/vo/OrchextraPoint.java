@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.vo;
 
-
 public class OrchextraPoint {
 
   public static final int EARTH_RADIUS = 6371;
@@ -48,10 +47,9 @@ public class OrchextraPoint {
     double dLat = deg2rad(point.getLat() - this.lat);  // deg2rad below
     double dLon = deg2rad(point.getLng() - this.lng);
 
-    double haversine = Math.sin(dLat / 2)
-        * Math.sin(dLat / 2)
-        + Math.cos(deg2rad(point.getLat()))
-        * Math.cos(deg2rad(this.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    double haversine =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(deg2rad(point.getLat())) * Math.cos(
+            deg2rad(this.lat)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
     double c = 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
     double distance = earthRadius * c; // Distance in km

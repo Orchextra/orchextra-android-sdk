@@ -43,6 +43,7 @@ android {
   testOptions {
     unitTests.returnDefaultValues = true
   }
+
 }
 
 dependencies {
@@ -57,4 +58,10 @@ dependencies {
 
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito
+}
+
+tasks.withType(Test) {
+  testLogging {
+    events "started", "passed", "skipped", "failed"
+  }
 }

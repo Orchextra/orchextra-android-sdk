@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.interactors.actions;
 
-
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 
 public class CustomSchemeReceiverContainer {

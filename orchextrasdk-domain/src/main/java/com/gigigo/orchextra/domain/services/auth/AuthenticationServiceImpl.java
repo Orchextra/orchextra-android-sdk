@@ -33,7 +33,6 @@ import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials
 import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.auth.errors.SdkAuthError;
 
-
 public class AuthenticationServiceImpl implements AuthenticationService {
 
   private final AuthenticationDataProvider authDataProvider;
@@ -66,12 +65,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     BusinessObject<Crm> boCrm = authDataProvider.retrieveCrm();
 
     if (boCrm.isSuccess() && !boCrm.getData().isEquals(crm.getCrmId())) {
-      authDataProvider.storeCrmId(crm);
       authDataProvider.clearAuthenticatedUser();
-      return new BusinessObject<>(null, BusinessError.createKoInstance("Crm has changed"));
     }
 
     authDataProvider.storeCrmId(crm);
+
     return new BusinessObject<>(crm, BusinessError.createOKInstance());
   }
 

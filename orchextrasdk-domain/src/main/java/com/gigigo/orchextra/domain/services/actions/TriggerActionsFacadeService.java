@@ -31,7 +31,6 @@ import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 import java.util.Iterator;
 import java.util.List;
 
-
 public class TriggerActionsFacadeService implements DomaninService {
 
   private final TriggerService triggerService;
@@ -89,7 +88,7 @@ public class TriggerActionsFacadeService implements DomaninService {
       if (basicAction.isScheduled()) {
         scheduleActionService.schedulePendingAction(basicAction);
         eventAccessor.updateEventWithAction(basicAction);
-        actions.remove(basicAction);
+        iter.remove();
       }
     }
   }

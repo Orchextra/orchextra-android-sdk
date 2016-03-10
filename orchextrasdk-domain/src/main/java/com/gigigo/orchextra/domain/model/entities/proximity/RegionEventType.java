@@ -21,7 +21,6 @@ package com.gigigo.orchextra.domain.model.entities.proximity;
 import com.gigigo.orchextra.domain.model.StringValueEnum;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 
-
 public enum RegionEventType implements StringValueEnum {
   ENTER(GeoPointEventType.ENTER.getStringValue()),
   EXIT(GeoPointEventType.EXIT.getStringValue());

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
-
 public class NotifFunctionalityImpl implements NotifFunctionality {
 
   private final OrchextraNotification notification;

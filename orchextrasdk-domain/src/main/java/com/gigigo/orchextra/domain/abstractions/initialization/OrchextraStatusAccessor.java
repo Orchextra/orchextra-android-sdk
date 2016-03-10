@@ -25,6 +25,7 @@ public interface OrchextraStatusAccessor {
 
   /**
    * Checks if sdk status is already started
+   *
    * @return boolean: true if started and false otherwise
    */
   boolean isStarted();

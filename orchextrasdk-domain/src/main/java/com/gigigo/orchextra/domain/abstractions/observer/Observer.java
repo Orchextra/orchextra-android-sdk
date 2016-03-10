@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.abstractions.observer;
 
-
 public interface Observer {
   void update(OrchextraChanges observable, Object data);
 }

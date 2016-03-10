@@ -29,5 +29,4 @@ public interface AppStatusEventsListener {
   void onForegroundEnd();
 
   void onServiceRecreated();
-
 }

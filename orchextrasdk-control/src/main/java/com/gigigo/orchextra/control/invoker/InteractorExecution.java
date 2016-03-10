@@ -28,8 +28,7 @@ import java.util.Map;
 public class InteractorExecution<T> {
   private InteractorResult<T> interactorResult;
   private final Map<Class<? extends InteractorError>, InteractorResult<? extends InteractorError>>
-      errors =
-      new HashMap<>(0);
+      errors = new HashMap<>(0);
   private Interactor<InteractorResponse<T>> interactor;
   private int priority;
 

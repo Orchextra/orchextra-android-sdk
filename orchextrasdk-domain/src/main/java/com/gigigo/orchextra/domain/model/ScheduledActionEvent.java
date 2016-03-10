@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.model;
 
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 
-
 public interface ScheduledActionEvent {
   String getActionRelatedId();
 

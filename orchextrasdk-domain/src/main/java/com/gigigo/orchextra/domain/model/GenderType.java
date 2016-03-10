@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.model;
 
-
 public enum GenderType {
   MALE("m"),
   FEMALE("f"),

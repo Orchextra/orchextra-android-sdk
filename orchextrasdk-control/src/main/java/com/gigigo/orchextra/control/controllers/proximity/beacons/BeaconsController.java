@@ -35,7 +35,6 @@ import java.util.List;
 import javax.inject.Provider;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
-
 public class BeaconsController {
 
   private final InteractorInvoker interactorInvoker;

@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.model.triggers.params;
 
 import com.gigigo.orchextra.domain.model.StringValueEnum;
 
-
 public enum TriggerType implements StringValueEnum {
   REGION("beacon_region"),
   BEACON("beacon"),

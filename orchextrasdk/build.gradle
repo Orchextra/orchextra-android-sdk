@@ -92,8 +92,6 @@ android {
     lintOptions {
       abortOnError false
     }
-
-
 }
 
 dependencies {
@@ -110,7 +108,6 @@ dependencies {
 
   compile parent.ext.dependencies.playServicesLocation
   compile parent.ext.dependencies.playServicesGcm
-
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')

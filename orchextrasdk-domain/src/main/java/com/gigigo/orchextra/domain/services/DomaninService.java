@@ -18,6 +18,5 @@
 
 package com.gigigo.orchextra.domain.services;
 
-
 public interface DomaninService {
 }

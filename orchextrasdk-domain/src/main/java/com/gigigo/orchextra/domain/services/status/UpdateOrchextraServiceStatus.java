@@ -36,9 +36,10 @@ public class UpdateOrchextraServiceStatus implements DomaninService {
   }
 
   public InteractorResponse<OrchextraStatus> update(OrchextraStatus orchextraStatus) {
-    BusinessObject<OrchextraStatus> bo = orchextraStatusDataProvider.updateOrchextraStatus(orchextraStatus);
+    BusinessObject<OrchextraStatus> bo =
+        orchextraStatusDataProvider.updateOrchextraStatus(orchextraStatus);
 
-    if(!bo.isSuccess()){
+    if (!bo.isSuccess()) {
       return new InteractorResponse(new GenericError(bo.getBusinessError()));
     }
 

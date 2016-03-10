@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.domain.abstractions.beacons;
 
-
 public interface BeaconScanner {
 
   void startMonitoring();

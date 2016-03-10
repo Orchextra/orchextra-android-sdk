@@ -35,7 +35,6 @@ import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
 import java.util.concurrent.Future;
 
-
 public class ConfigService implements DomaninService {
 
   private final ConfigDataProvider configDataProvider;
@@ -102,12 +101,6 @@ public class ConfigService implements DomaninService {
     config.setDevice(device);
     config.setGeoLocation(geoLocation);
     config.setCrm(crm);
-
-    //TODO Get notification info from app client
-    //    NotificationPush notificationPush = new NotificationPush();
-    //    notificationPush.setToken("qweqweq");
-    //    notificationPush.setSenderId("dadadasdad");
-    //    config.setNotificationPush(notificationPush);
 
     return config;
   }

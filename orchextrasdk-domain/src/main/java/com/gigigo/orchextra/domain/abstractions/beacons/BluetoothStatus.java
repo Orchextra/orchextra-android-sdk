@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.abstractions.beacons;
 
 import com.gigigo.orchextra.domain.model.StringValueEnum;
 
-
 public enum BluetoothStatus implements StringValueEnum {
   NO_BLTE_SUPPORTED("Bluetooth LE Not Supported"),
   NO_PERMISSIONS("Bluetooth permissions not granted"),

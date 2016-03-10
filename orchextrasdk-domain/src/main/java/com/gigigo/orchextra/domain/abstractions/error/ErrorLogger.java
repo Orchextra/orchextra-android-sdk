@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.abstractions.error;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 
-
 public interface ErrorLogger {
   void log(BusinessError businessError);
 

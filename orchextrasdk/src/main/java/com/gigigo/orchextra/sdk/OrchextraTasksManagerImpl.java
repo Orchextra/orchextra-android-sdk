@@ -48,7 +48,6 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
       beaconScanner.initAvailableRegionsRangingScanner();
       configDelegateImp.sendConfiguration();
     }
-
   }
 
   @Override public void stopAllTasks() {
@@ -59,7 +58,7 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
   }
 
   @Override public void stopBackgroundServices() {
-    //Background services were already stopped at AppStatusEventsListenerImpl.onBackgroundEnd()
+//background Services have been already stopped at AppStatusEventsListenerImpl.onBackgroundEnd()
   }
 
   @Override public void stopForegroundTasks() {
