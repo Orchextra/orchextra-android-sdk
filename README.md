@@ -1,6 +1,7 @@
 # Orchextra SDK for Android
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-2.0.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-2.0.2-blue.svg)
+[![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 
 A library that gives you access to Orchextra platform from your Android app.
 
@@ -20,7 +21,9 @@ Download [Orchextra Android Sample ](https://github.com/Orchextra/orchextra-andr
 Android Jelly Bean (v. 18) or later. But Orchextra can be integrated in Android Gingerbread (v. 10)
 
 ## Add the dependencies
-We have to add the gradle dependencies. In our **build.gradle** file, we add the next maven dependency; 
+We have to add the gradle dependencies. In our **build.gradle** file, we add the following maven dependency. This is required in order to advice gradle that it has to look for Orchextra sdk inside **jitpack.io** maven repository. Gradle file is this one:
+
+<img src="https://github.com/Orchextra/orchextra-android-sdk/blob/master/resources/rootGradleScreenshot.png" width="300">
 
 ```java
 allprojects {
@@ -30,10 +33,15 @@ allprojects {
     }
 }
 ```
-and we add the Orchextra dependency in our app module like this:
+and we add the Orchextra dependency in our **app** module like this:
 ```java
-    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.0.0'
+    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.0.2'
 ```
+
+The previous dependency has to be added into this file:
+
+<img src="https://github.com/Orchextra/orchextra-android-sdk/blob/master/resources/appGradleScreenshot.png" width="300">
+
 and we must sync gradle project.
 
 ## Integrate Orchextra SDK
@@ -55,9 +63,11 @@ Orchextra.init(this, new OrchextraCompletionCallback() {
                     }
                 });
 ```
-Then, in any part of our application we should start the orchextra sdk
+
+Then, in any part of our application we should start the orchextra sdk.
+
 ```java
-Orchextra.start("f7ae1c1bb7a556fdc9b517706d6f7a0c041334d9", "1a9e4aeadc38b3234b0cd119279ddfb1d9bf7f28");
+Orchextra.start(API_KEY, API_SECRET);
 ```
 
 ## Custom Scheme - Delegate
@@ -75,9 +85,9 @@ Orchextra.setCustomSchemeReceiver(new CustomSchemeReceiver() {
 ## Add user to Orchextra
 ORCUser class is a local representation of a user persisted to the Orchextra Database to help to create a good user segmentation. This object is optional and could be set up at any time.
 ```java
-Orchextra.setUser(new ORCUser("1234567890",
-                new GregorianCalendar(1990, 10, 13),
-                ORCUser.Gender.ORCGenderMale,
+Orchextra.setUser(new ORCUser(CRM_ID,
+                new GregorianCalendar(1990, 10, 29), //any Birth date as a calendar instance
+                ORCUser.Gender.ORCGenderMale, //ORCGenderMale or ORCGenderFemale Enum
                 new ArrayList<>(Arrays.asList("keyword1", "keyword2"))));
 ```
 
