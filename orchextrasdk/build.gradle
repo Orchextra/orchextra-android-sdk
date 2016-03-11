@@ -60,13 +60,10 @@ android {
     buildConfigField STRING, "X_APP_SDK", '"ANDROID"'
     buildConfigField STRING, "TOKEN_TYPE_BEARER", '"Bearer"'
     buildConfigField STRING, "IBEACON_LAYOUT_PARSING", '"m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"'
+    buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
   }
 
   buildTypes {
-    demo1 {
-      buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
-      buildConfigField STRING, "API_URL", '"http://sdk-demo-1.s.orchextra.io/"'
-    }
     debug{
       testCoverageEnabled = true
       buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
