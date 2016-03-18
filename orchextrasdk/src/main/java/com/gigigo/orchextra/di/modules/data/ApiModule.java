@@ -29,12 +29,8 @@ import com.gigigo.orchextra.di.modules.data.qualifiers.HeadersInterceptor;
 import com.gigigo.orchextra.di.modules.data.qualifiers.RetrofitLog;
 import com.gigigo.orchextra.di.modules.data.qualifiers.XAppSdk;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.BaseOrchextraApiResponse;
-import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Singleton;
@@ -47,10 +43,11 @@ import gigigo.com.orchextra.data.datasources.api.service.DefaultRetryOnErrorPoli
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 
 import com.gigigo.orchextra.BuildConfig;
-
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class ApiModule {
@@ -91,8 +88,7 @@ public class ApiModule {
     }
 
     @Provides
-    @Singleton
-    Retrofit provideOrchextraRetrofitObject(
+    @Singleton Retrofit provideOrchextraRetrofitObject(
             @Endpoint String enpoint, @ApiVersion String version,
             GsonConverterFactory gsonConverterFactory, OkHttpClient okClient) {
 
@@ -112,8 +108,7 @@ public class ApiModule {
     }
 
     @Provides
-    @Singleton
-    HttpLoggingInterceptor provideLoggingInterceptor() {
+    @Singleton HttpLoggingInterceptor provideLoggingInterceptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return interceptor;
@@ -122,26 +117,24 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    @HeadersInterceptor
-    Interceptor provideHeadersInterceptor(@XAppSdk String xAppSdk, @AcceptLanguage String acceptLanguage, Session session) {
+    @HeadersInterceptor Interceptor provideHeadersInterceptor(@XAppSdk String xAppSdk, @AcceptLanguage String acceptLanguage, Session session) {
         return new Headers(xAppSdk, acceptLanguage, session);
     }
 
     @Provides
     @Singleton
     OkHttpClient provideOkClient(@RetrofitLog boolean retrofitLog,
-                                 @HeadersInterceptor Interceptor headersInterceptor, HttpLoggingInterceptor loggingInterceptor) {
+                                 @HeadersInterceptor Interceptor headersInterceptor,
+                                    HttpLoggingInterceptor loggingInterceptor) {
 
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+        okHttpClientBuilder.addInterceptor(headersInterceptor);
 
-        List<Interceptor> interceptors = okHttpClient.interceptors();
-        interceptors.add(headersInterceptor);
+        if (retrofitLog){
+            okHttpClientBuilder.addInterceptor(loggingInterceptor);
+        }
 
-//        if (retrofitLog) {
-            interceptors.add(loggingInterceptor);
-//        }
-
-        return okHttpClient;
+        return okHttpClientBuilder.build();
     }
 
     @Provides

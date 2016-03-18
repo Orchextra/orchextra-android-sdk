@@ -20,9 +20,9 @@ allprojects {
   ext {
     dependencies = [
         androidSupportv7    : 'com.android.support:appcompat-v7:23.1.1',
-        retrofit            : 'com.squareup.retrofit:retrofit:2.0.0-beta2',
-        gsonConverter       : 'com.squareup.retrofit:converter-gson:2.0.0-beta2',
-        loggingInterceptor  : 'com.squareup.okhttp:logging-interceptor:2.6.0',
+        retrofit            : 'com.squareup.retrofit2:retrofit:2.0.0',
+        gsonConverter       : 'com.squareup.retrofit2:converter-gson:2.0.0',
+        loggingInterceptor         : 'com.squareup.okhttp3:logging-interceptor:3.2.0',
         daggerCompiler      : 'com.google.dagger:dagger-compiler:2.0',
         dagger              : 'com.google.dagger:dagger:2.0',
         javaXannotations    : 'org.glassfish:javax.annotation:10.0-b28',
@@ -35,12 +35,8 @@ allprojects {
         playServicesGcm            : 'com.google.android.gms:play-services-gcm:8.4.0',
         playServicesLocation       : 'com.google.android.gms:play-services-location:8.4.0',
         dexter                     : 'com.karumi:dexter:2.1.2',
-        butterKnife                : 'com.jakewharton:butterknife:7.0.1',
         realm                      : 'io.realm:realm-android:0.87.0',
-        altBeacon                  : 'org.altbeacon:android-beacon-library:2+',
-        gggJavaLib                 : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggg-java-lib:1.0.1',
-        gggLogger                  : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglogger:1.0.1',
-        gggLib                     : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglib:1.0.1'
+        altBeacon                  : 'org.altbeacon:android-beacon-library:2+'
 
 
     ]

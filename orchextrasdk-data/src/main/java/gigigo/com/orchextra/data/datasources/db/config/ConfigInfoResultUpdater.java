@@ -46,9 +46,7 @@ public class ConfigInfoResultUpdater {
 
   public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigInfoResult config) {
 
-    ConfigInfoResultRealm configInfoResultRealm = new ConfigInfoResultRealm();
-    configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
-    realm.copyToRealm(configInfoResultRealm);
+    saveRequestWaitTime(realm, config);
 
     OrchextraBeaconUpdates orchextraBeaconUpdates =
         beaconUpdater.saveRegions(realm, config.getRegions());
@@ -62,5 +60,12 @@ public class ConfigInfoResultUpdater {
 
     return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaChanges,
         themeChanges);
+  }
+
+  public void saveRequestWaitTime(Realm realm, ConfigInfoResult config) {
+    ConfigInfoResultRealm configInfoResultRealm = new ConfigInfoResultRealm();
+    configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
+    realm.clear(ConfigInfoResultRealm.class);
+    realm.copyToRealm(configInfoResultRealm);
   }
 }
