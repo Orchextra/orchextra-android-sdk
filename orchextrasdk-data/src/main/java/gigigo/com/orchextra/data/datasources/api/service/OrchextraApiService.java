@@ -26,13 +26,12 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionRespon
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiSdkAuthResponse;
-import retrofit.Call;
-import retrofit.http.Body;
-import retrofit.http.FieldMap;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.POST;
-import retrofit.http.Path;
-
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface OrchextraApiService {
 

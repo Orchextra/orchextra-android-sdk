@@ -71,7 +71,9 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   }
 
   @Override public void dispatchAction(CustomAction action) {
-    customSchemeReceiverContainer.getCustomSchemeReceiver().onReceive(action.getUrl());
+    if (customSchemeReceiverContainer.getCustomSchemeReceiver() != null) {
+      customSchemeReceiverContainer.getCustomSchemeReceiver().onReceive(action.getUrl());
+    }
     statsDispatcher.sendCompletedActionTrackId(action.getTrackId());
   }
 
