@@ -39,7 +39,7 @@ allprojects {
         altBeacon                  : 'org.altbeacon:android-beacon-library:2+',
         gggJavaLib                 : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggg-java-lib:1.0.2',
         gggLogger                  : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglogger:1.0.2',
-        gggLib                     : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglib:1.0.2'
+        gggLib                     : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglib:1.0.2',
         altBeacon                  : 'org.altbeacon:android-beacon-library:2+'
 
 
