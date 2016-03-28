@@ -1,6 +1,8 @@
 # Orchextra SDK for Android
+[![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk) 
+[![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-2.0.2-blue.svg)
+![Version](https://img.shields.io/badge/Version-2.0.3-blue.svg)
 [![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 
 A library that gives you access to Orchextra platform from your Android app.
