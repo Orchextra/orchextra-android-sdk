@@ -90,7 +90,7 @@ public class TriggerService implements DomaninService {
       case QRCODE:
         triggers.add(Trigger.createQrScanTrigger(scanner.getContent(), orchextraPoint));
         break;
-      case BARCODE:
+      default:
         triggers.add(Trigger.createBarcodeScanTrigger(scanner.getContent(), orchextraPoint));
         break;
     }
