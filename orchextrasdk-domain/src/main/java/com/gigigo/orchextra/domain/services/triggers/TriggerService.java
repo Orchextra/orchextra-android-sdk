@@ -20,12 +20,15 @@ package com.gigigo.orchextra.domain.services.triggers;
 
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
+import com.gigigo.orchextra.domain.model.entities.ScannerResult;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.services.DomaninService;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -71,10 +74,25 @@ public class TriggerService implements DomaninService {
 
       Trigger trigger =
           Trigger.createGeofenceTrigger(orchextraGeofence.getCode(), orchextraGeofence.getPoint(),
-              appRunningMode.getRunningModeType(), orchextraGeofence.getDistanceToDeviceInKm(),
-              geofenceTransition);
+                  appRunningMode.getRunningModeType(), orchextraGeofence.getDistanceToDeviceInKm(),
+                  geofenceTransition);
 
       triggers.add(trigger);
+    }
+
+    return new InteractorResponse(triggers);
+  }
+
+  public InteractorResponse getTrigger(ScannerResult scanner, OrchextraPoint orchextraPoint) {
+    List<Trigger> triggers = new ArrayList<>();
+
+    switch (scanner.getType()) {
+      case QRCODE:
+        triggers.add(Trigger.createQrScanTrigger(scanner.getContent(), orchextraPoint));
+        break;
+      case BARCODE:
+        triggers.add(Trigger.createBarcodeScanTrigger(scanner.getContent(), orchextraPoint));
+        break;
     }
 
     return new InteractorResponse(triggers);

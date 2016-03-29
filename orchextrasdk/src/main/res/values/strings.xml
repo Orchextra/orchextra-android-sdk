@@ -17,15 +17,24 @@
   -->
 
 <resources>
-  <string name="app_name">OrchextraSDK</string>
+  <string name="ox_app_name">OrchextraSDK</string>
 
   <string name="ox_permission_settings">Settings</string>
   <string name="ox_permission_denied_geolocation">Denied geolocation device</string>
   <string name="ox_permission_rationale_title_location">Location Permissions</string>
   <string name="ox_permission_rationale_message_location">App needs the device location</string>
+
+  <string name="ox_permission_denied_camera">Denied camera pemission</string>
+  <string name="ox_permission_rationale_title_camera">Camera Permission</string>
+  <string name="ox_permission_rationale_message_camera">App needs the camera device access</string>
+
   <string name="ox_accept_text">Aceptar</string>
   <string name="ox_cancel_text">Cancelar</string>
-  <string name="google_app_id">12132323423</string><!--//TODO FAKE, Change this-->
+
   <string name="ox_not_supported_android_sdk">This android sdk version is too old to support Orchextra features.</string>
+
+  <string name="ox_scanner_toolbar_title">Scanner</string>
+  <string name="ox_webview_toolbar_title">Web View</string>
+
 
 </resources>

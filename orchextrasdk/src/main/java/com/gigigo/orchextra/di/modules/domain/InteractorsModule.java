@@ -19,20 +19,23 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.di.scopes.PerExecution;
-import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
-import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
-
+import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
+import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
+import com.gigigo.orchextra.domain.interactors.themes.ObtainThemeInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
 import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
+import com.gigigo.orchextra.domain.services.themes.ThemeService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -72,4 +75,12 @@ public class InteractorsModule {
       return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService, eventUpdaterService);
     }
 
+    @Provides @PerExecution ObtainThemeInteractor provideObtainThemeInteractor(ThemeService themeService){
+        return new ObtainThemeInteractor(themeService);
+    }
+
+    @Provides @PerExecution ScannerInteractor provideScannerInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
+                                                                       ObtainGeoLocationTask obtainGeoLocationTask){
+        return new ScannerInteractor(triggerActionsFacadeService, obtainGeoLocationTask);
+    }
 }

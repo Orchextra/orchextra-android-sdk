@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.control.controllers.authentication;
 
 import com.gigigo.orchextra.control.InteractorResult;
-import com.gigigo.orchextra.control.controllers.base.Controller;
+import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
@@ -29,7 +29,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import javax.inject.Provider;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
-public class SaveUserController extends Controller<SaveUserDelegate> {
+public class SaveUserController extends Presenter<SaveUserDelegate> {
 
   private final InteractorInvoker interactorInvoker;
   private final Provider<InteractorExecution> interactorExecutionProvider;
@@ -44,7 +44,7 @@ public class SaveUserController extends Controller<SaveUserDelegate> {
     this.configObservable = configObservable;
   }
 
-  @Override public void onDelegateAttached() {
+  @Override public void onViewAttached() {
   }
 
   public void saveUser(Crm crm) {

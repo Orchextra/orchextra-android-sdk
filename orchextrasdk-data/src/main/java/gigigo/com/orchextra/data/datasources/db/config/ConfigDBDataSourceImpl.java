@@ -19,6 +19,7 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import android.content.Context;
+
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
@@ -26,11 +27,14 @@ import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+import com.gigigo.orchextra.domain.model.vo.Theme;
+
+import java.util.List;
+
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
-import java.util.List;
 
 
 public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
@@ -91,6 +95,21 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
       realm.close();
     }
     return new BusinessObject<>(regions, BusinessError.createOKInstance());
+  }
+
+  @Override
+  public BusinessObject<Theme> obtainTheme() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    try {
+      Theme theme = configInfoResultReader.getTheme(realm);
+      return new BusinessObject<>(theme, BusinessError.createOKInstance());
+    } catch (NotFountRealmObjectException | RealmException re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
   }
 
   @Override public BusinessObject<OrchextraGeofence> obtainGeofenceById(String geofenceId) {

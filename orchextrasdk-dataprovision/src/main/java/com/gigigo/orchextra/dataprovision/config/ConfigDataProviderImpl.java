@@ -32,6 +32,7 @@ import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+import com.gigigo.orchextra.domain.model.vo.Theme;
 
 
 public class ConfigDataProviderImpl implements ConfigDataProvider {
@@ -79,6 +80,11 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     } else {
       return DEFAULT_REQUEST_TIME;
     }
+  }
+
+  @Override
+  public BusinessObject<Theme> obtainTheme() {
+    return configDBDataSource.obtainTheme();
   }
 
   private boolean checkAuthenticationToken() {

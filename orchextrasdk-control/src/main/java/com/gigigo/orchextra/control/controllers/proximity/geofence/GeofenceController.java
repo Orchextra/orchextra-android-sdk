@@ -40,8 +40,10 @@ public class GeofenceController {
   private final ThreadSpec mainThreadSpec;
 
   public GeofenceController(InteractorInvoker interactorInvoker,
-      Provider<InteractorExecution> interactorExecutionProvider, ActionDispatcher actionDispatcher,
-      ErrorLogger errorLogger, ThreadSpec mainThreadSpec) {
+                            Provider<InteractorExecution> interactorExecutionProvider,
+                            ActionDispatcher actionDispatcher,
+                            ErrorLogger errorLogger,
+                            ThreadSpec mainThreadSpec) {
     this.interactorInvoker = interactorInvoker;
     this.interactorExecutionProvider = interactorExecutionProvider;
     this.actionDispatcher = actionDispatcher;

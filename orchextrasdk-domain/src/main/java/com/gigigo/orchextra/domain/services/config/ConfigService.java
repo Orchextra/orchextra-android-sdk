@@ -20,7 +20,6 @@ package com.gigigo.orchextra.domain.services.config;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
@@ -32,8 +31,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.services.DomaninService;
-import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
-import java.util.concurrent.Future;
 
 public class ConfigService implements DomaninService {
 
@@ -43,28 +40,27 @@ public class ConfigService implements DomaninService {
 
   private final App app;
   private final Device device;
-  private final FutureGeolocation futureGeolocation;
-  private final GeolocationManager geolocationManager;
+  private final ObtainGeoLocationTask obtainGeoLocationTask;
 
   public ConfigService(ConfigDataProvider configDataProvider,
-      AuthenticationDataProvider authenticationDataProvider,
-      ServiceErrorChecker serviceErrorChecker, App app, Device device,
-      FutureGeolocation futureGeolocation, GeolocationManager geolocationManager) {
+                       AuthenticationDataProvider authenticationDataProvider,
+                       ServiceErrorChecker serviceErrorChecker, App app, Device device,
+                       ObtainGeoLocationTask obtainGeoLocationTask) {
 
     this.configDataProvider = configDataProvider;
     this.authenticationDataProvider = authenticationDataProvider;
     this.serviceErrorChecker = serviceErrorChecker;
 
-    this.futureGeolocation = futureGeolocation;
+
     this.device = device;
     this.app = app;
-    this.geolocationManager = geolocationManager;
+    this.obtainGeoLocationTask = obtainGeoLocationTask;
   }
 
   public InteractorResponse<OrchextraUpdates> refreshConfig() {
     Crm crm = getCrm();
 
-    GeoLocation geolocation = getGeolocation();
+    GeoLocation geolocation = obtainGeoLocationTask.getGeolocation();
 
     Config config = generateConfig(geolocation, crm);
 
@@ -103,23 +99,5 @@ public class ConfigService implements DomaninService {
     config.setCrm(crm);
 
     return config;
-  }
-
-  private Future<GeoLocation> getGeolocationAsync() {
-    taskAsync(futureGeolocation);
-    return futureGeolocation;
-  }
-
-  private void taskAsync(FutureGeolocation future) {
-    geolocationManager.setRetrieveGeolocationListener(future);
-    geolocationManager.retrieveGeolocation();
-  }
-
-  private GeoLocation getGeolocation() {
-    try {
-      return getGeolocationAsync().get();
-    } catch (Exception e) {
-      return GeoLocation.createNullGeoLocationInstance();
-    }
   }
 }

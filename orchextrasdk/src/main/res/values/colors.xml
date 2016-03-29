@@ -18,5 +18,11 @@
   -->
 
 <resources>
-    <color name="orc_notification_background">#EE524F</color>
+  <color name="ox_notification_background_color">#EE524F</color>
+  <color name="ox_toolbar_title_color">#FFF</color>
+
+  <color name="color_primary">#3F51B5</color>
+  <color name="color_primary_dark">#303F9F</color>
+  <color name="color_accent">#FF4081</color>
+
 </resources>

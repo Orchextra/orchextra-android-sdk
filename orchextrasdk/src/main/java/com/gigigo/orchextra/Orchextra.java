@@ -93,4 +93,8 @@ public class Orchextra {
     public static synchronized void setUser(ORCUser orcUser) {
         OrchextraManager.setUser(orcUser);
     }
+
+    public static void startScannerActivity() {
+        OrchextraManager.openScannerView();
+    }
 }

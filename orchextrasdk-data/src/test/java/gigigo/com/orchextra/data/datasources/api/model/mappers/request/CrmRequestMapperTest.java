@@ -5,7 +5,6 @@ import com.gigigo.orchextra.domain.model.GenderType;
 
 import org.junit.Test;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -54,7 +53,7 @@ public class CrmRequestMapperTest {
 
     @Test
     public void testModelToDataNDAndNullKeywords() throws Exception {
-        Crm crm = new Crm("1234", GenderType.ND, new Date(0), null);
+        Crm crm = new Crm("1234", GenderType.ND, getCalendar(1970, 0, 01, 01, 00, 00), null);
 
         CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
         ApiCrm apiCrm = mapper.modelToExternalClass(crm);

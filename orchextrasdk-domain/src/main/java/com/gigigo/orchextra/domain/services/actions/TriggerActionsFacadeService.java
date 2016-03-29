@@ -21,11 +21,13 @@ package com.gigigo.orchextra.domain.services.actions;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.entities.ScannerResult;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
+import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.services.DomaninService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 import java.util.Iterator;
@@ -98,5 +100,9 @@ public class TriggerActionsFacadeService implements DomaninService {
       scheduleActionService.cancelPendingActionWithId(event.getActionRelatedId(),
           event.relatedActionIsCancelable());
     }
+  }
+
+  public InteractorResponse triggerActions(ScannerResult scanner, OrchextraPoint orchextraPoint) {
+    return triggerActions(triggerService.getTrigger(scanner, orchextraPoint));
   }
 }
