@@ -92,6 +92,14 @@ Orchextra.setUser(new ORCUser(CRM_ID,
                 ORCUser.Gender.ORCGenderMale, //ORCGenderMale or ORCGenderFemale Enum
                 new ArrayList<>(Arrays.asList("keyword1", "keyword2"))));
 ```
+##  Start Actions
+Orchextra SDK let you invoke a couple of action within your own application to start a new user journey
+
+### Scanner
+You can scan QR and Barcode linked in Orchextra. To launch the scanner you just need to add the following line to the action.
+```java
+Orchextra.startScannerActivity();
+```
 ##Customizing styles
 Orchextra has default icons, colors and texts which can be overwritten. Firstly, you app must extends from **Theme.AppCompat.Light** style and overwrite the **colorPrimary**, **colorPrimaryDark** and **colorAccent** items to be applied to Orchextra styles. For example, the color of the toolbar is the color definied as colorPrimary style. 
 ```xml
