@@ -92,7 +92,43 @@ Orchextra.setUser(new ORCUser(CRM_ID,
                 ORCUser.Gender.ORCGenderMale, //ORCGenderMale or ORCGenderFemale Enum
                 new ArrayList<>(Arrays.asList("keyword1", "keyword2"))));
 ```
-
+##Customizing styles
+Orchextra has default icons, colors and texts which can be overwritten. Firstly, you app must extends from **Theme.AppCompat.Light** style and overwrite the **colorPrimary**, **colorPrimaryDark** and **colorAccent** items to be applied to Orchextra styles. For example, the color of the toolbar is the color definied as colorPrimary style. 
+```xml
+<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorPrimary">@color/color_primary</item>
+    <item name="colorPrimaryDark">@color/color_primary_dark</item>
+    <item name="colorAccent">@color/color_accent</item>
+  </style>
+```
+  if you don't it, the default colorPrimary, colorPrimaryDark and colorAccent are
+ 
+```xml
+ <color name="color_primary">#3F51B5</color>
+ <color name="color_primary_dark">#303F9F</color>
+ <color name="color_accent">#FF4081</color>
+```
+In your string.xml, you can include some customized strings
+```xml
+<!-- Toolbar title in the scanner screen -->
+<string name="ox_scanner_toolbar_title">Scanner</string>
+​
+<!-- Toolbar title in the webview screen -->
+<string name="ox_webview_toolbar_title">Web View</string>
+```
+In the same way, some color you can customize are
+```xml
+<!-- Background color of the icon in the notification area -->
+<color name="ox_notification_background_color">#EE524F</color>
+​
+<!-- Toolbar title and icon color -->
+<color name="ox_toolbar_title_color">#FFF</color>
+```
+Additionally, you should customize the Orchextra Sdk with your drawables.
+ - ox_notification_large_icon: This image is used as large icon in notifications and as image in the dialogs inside the application.
+ - ox_notification_alpha_small_icon: Icon is showed in the notification bar in Android version 21 o higher.
+ - ox_notification_color_small_icon: Icon is showed in the notification bar in Android versions lower than 21.
+ - ox_close: Icon which is locate in the upper left corner of a screen and is used to close the view.
 
 License
 =======
