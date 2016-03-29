@@ -54,9 +54,7 @@ public class ConfigThemeUpdater {
 
     RealmResults<ThemeRealm> savedTheme = realm.where(ThemeRealm.class).findAll();
 
-    if (savedTheme.size() > 0) {
-      hasChangedTheme = !checkThemeAreEquals(themeRealm, savedTheme.first());
-    }
+    hasChangedTheme = !checkThemeAreEquals(themeRealm, savedTheme);
 
     if (hasChangedTheme) {
       realm.clear(ThemeRealm.class);
@@ -65,12 +63,13 @@ public class ConfigThemeUpdater {
     return hasChangedTheme;
   }
 
-  private boolean checkThemeAreEquals(ThemeRealm themeRealm, ThemeRealm oldTheme) {
-    if (oldTheme != null) {
-      return themeRealm.getPrimaryColor().equals(oldTheme.getPrimaryColor())
-          && themeRealm.getSecondaryColor().equals(oldTheme.getSecondaryColor());
-    } else {
+  private boolean checkThemeAreEquals(ThemeRealm themeRealm, RealmResults<ThemeRealm> oldTheme) {
+    if (oldTheme.size() == 0 || themeRealm == null) {
       return false;
+    } else {
+      ThemeRealm first = oldTheme.first();
+      return first.getPrimaryColor().equals(themeRealm.getPrimaryColor())
+              && first.getSecondaryColor().equals(themeRealm.getSecondaryColor());
     }
   }
 }

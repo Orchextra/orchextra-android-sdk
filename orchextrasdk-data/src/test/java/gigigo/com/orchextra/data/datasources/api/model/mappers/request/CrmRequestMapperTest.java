@@ -5,7 +5,6 @@ import com.gigigo.orchextra.domain.model.GenderType;
 
 import org.junit.Test;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;

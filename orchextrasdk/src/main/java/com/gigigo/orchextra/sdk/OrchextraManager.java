@@ -20,12 +20,12 @@ package com.gigigo.orchextra.sdk;
 import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
-
 import android.os.Build;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
@@ -44,8 +44,8 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListene
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
-import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
+import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
 import javax.inject.Inject;
 
@@ -63,6 +63,7 @@ public class OrchextraManager {
   @Inject SaveUserController saveUserController;
   @Inject AppRunningMode appRunningMode;
   @Inject AppStatusEventsListener appStatusEventsListener;
+  @Inject ScannerManager scannerManager;
 
   /**
    * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -117,9 +118,8 @@ public class OrchextraManager {
    * @param customSchemeReceiver custom scheme receiver
    */
   public static synchronized void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver){
-    if (getInjector()!=null){
-      OrchextraComponent orchextraComponent = getInjector().getOrchextraComponent();
-      OrchextraModule orchextraModule = orchextraComponent.getOrchextraModule();
+    OrchextraModule orchextraModule = getOrchextraModule();
+    if (orchextraModule != null){
       orchextraModule.setCustomSchemeReceiver(customSchemeReceiver);
     }
   }
@@ -249,4 +249,21 @@ public class OrchextraManager {
     app.registerActivityLifecycleCallbacks(orchextraActivityLifecycle);
   }
 
+  public static void openScannerView() {
+    OrchextraManager orchextraManager = OrchextraManager.instance;
+    OrchextraModule orchextraModule = getOrchextraModule();
+    if (orchextraModule != null) {
+      ScannerManager scannerManager = orchextraManager.scannerManager;
+      scannerManager.open();
+    }
+  }
+
+  private static OrchextraModule getOrchextraModule() {
+    if (getInjector()!=null) {
+      OrchextraComponent orchextraComponent = getInjector().getOrchextraComponent();
+      return orchextraComponent.getOrchextraModule();
+    } else {
+      return null;
+    }
+  }
 }

@@ -26,9 +26,11 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
-import dagger.Subcomponent;
+import com.gigigo.orchextra.domain.model.vo.Theme;
+
 import java.util.List;
+
+import dagger.Subcomponent;
 
 @PerExecution @Subcomponent(modules = InteractorsModule.class)
 public interface InteractorExecutionComponent extends InteractorsModuleProvider {
@@ -37,4 +39,6 @@ public interface InteractorExecutionComponent extends InteractorsModuleProvider 
     void injectRegionsProviderInteractorExecution(InteractorExecution<List<OrchextraRegion>> interactorExecution);
     void injectBeaconEventsInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
     void injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
+    void injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
+    void injectScannerInteractorExecution(InteractorExecution<BasicAction> interactorExecution);
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Orchextra
+  ~
+  ~ Copyright (C) 2016 Gigigo Mobile Services SL
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+  <!-- Tamaños de espacios -->
+  <dimen name="spacing_2">2dp</dimen>
+  <dimen name="spacing_4">4dp</dimen>
+  <dimen name="spacing_6">6dp</dimen>
+  <dimen name="spacing_8">8dp</dimen>
+  <dimen name="spacing_12">12dp</dimen>
+  <dimen name="spacing_16">16dp</dimen>
+  <dimen name="spacing_24">24dp</dimen>
+  <dimen name="spacing_32">32dp</dimen>
+  <dimen name="spacing_48">48dp</dimen>
+  <dimen name="spacing_64">64dp</dimen>
+  <dimen name="spacing_92">92dp</dimen>
+  <dimen name="spacing_128">128dp</dimen>
+
+  <!-- Tamaños de letra -->
+  <dimen name="text_6">6dp</dimen>
+  <dimen name="text_9">9dp</dimen>
+  <dimen name="text_11">11dp</dimen>
+  <dimen name="text_14">14dp</dimen>
+  <dimen name="text_15">15dp</dimen>
+  <dimen name="text_17">17dp</dimen>
+  <dimen name="text_19">19dp</dimen>
+  <dimen name="text_21">21dp</dimen>
+  <dimen name="text_24">24dp</dimen>
+  <dimen name="text_30">30dp</dimen>
+
+</resources>

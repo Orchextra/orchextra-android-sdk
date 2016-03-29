@@ -68,7 +68,7 @@ public class AndroidNotificationBuilder {
     }
 
     private NotificationCompat.Builder getNotificationBuilder(OrchextraNotification orchextraNotification, PendingIntent pendingIntent) {
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ox_notification_large_icon);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
@@ -78,7 +78,7 @@ public class AndroidNotificationBuilder {
                         .setContentText(orchextraNotification.getBody())
                         .setTicker(orchextraNotification.getTitle())
                         .setWhen(System.currentTimeMillis())
-                        .setColor(context.getResources().getColor(R.color.orc_notification_background))
+                        .setColor(context.getResources().getColor(R.color.ox_notification_background_color))
                         .setAutoCancel(true);
 
         if (pendingIntent != null) {
@@ -105,6 +105,6 @@ public class AndroidNotificationBuilder {
     }
 
     private int getSmallIconResourceId() {
-        return AndroidSdkVersion.hasLollipop21() ? R.drawable.orc_ic_notification_alpha : R.drawable.orc_ic_notification_color;
+        return AndroidSdkVersion.hasLollipop21() ? R.drawable.ox_notification_alpha_small_icon : R.drawable.ox_notification_color_small_icon;
     }
 }

@@ -40,9 +40,9 @@ allprojects {
         gggJavaLib                 : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggg-java-lib:1.0.2',
         gggLogger                  : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglogger:1.0.2',
         gggLib                     : 'com.github.GigigoGreenLabs.gigigo-utils-suite:ggglib:1.0.2',
-        altBeacon                  : 'org.altbeacon:android-beacon-library:2+'
-        ]
-
+        altBeacon                  : 'org.altbeacon:android-beacon-library:2+',
+        barcodescanner             : 'me.dm7.barcodescanner:zbar:1.8.4'
+    ]
 
     testDependencies = [
                         mockito    :   'org.mockito:mockito-core:2.0.31-beta',

@@ -25,6 +25,10 @@ import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
@@ -33,8 +37,6 @@ import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ConfigInfoResultReader {
@@ -153,5 +155,14 @@ public class ConfigInfoResultReader {
     }
 
     return regions;
+  }
+
+  public Theme getTheme(Realm realm) {
+    ThemeRealm themeRealm = realm.where(ThemeRealm.class).findFirst();
+    if (themeRealm != null) {
+      return themeRealmMapper.externalClassToModel(themeRealm);
+    } else {
+      throw new NotFountRealmObjectException();
+    }
   }
 }

@@ -42,7 +42,7 @@ public class GetActionService implements DomaninService {
     this.serviceErrorChecker = serviceErrorChecker;
   }
 
-  public InteractorResponse getActions(List<Trigger> triggers) {
+  private InteractorResponse getActions(List<Trigger> triggers, int numRetries) {
     List<BasicAction> actions = new ArrayList<>();
 
     BusinessObject<BasicAction> bo = null;
@@ -61,12 +61,16 @@ public class GetActionService implements DomaninService {
 
     if (bo != null && !bo.isSuccess()) {
       boolean retry = manageError(bo.getBusinessError());
-      if (retry) {
-        return getActions(triggers);
+      if (retry && numRetries <= 3) {
+        return getActions(triggers, numRetries + 1);
       }
     }
 
     return new InteractorResponse<>(actions);
+  }
+
+  public InteractorResponse getActions(List<Trigger> triggers) {
+    return getActions(triggers, 0);
   }
 
   private boolean manageError(BusinessError businessError) {

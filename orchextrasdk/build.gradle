@@ -107,6 +107,8 @@ dependencies {
   compile parent.ext.dependencies.playServicesLocation
   compile parent.ext.dependencies.playServicesGcm
 
+  compile parent.ext.dependencies.barcodescanner
+
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')
   compile parent.ext.dependencies.gggLib
