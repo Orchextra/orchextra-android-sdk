@@ -25,6 +25,7 @@ import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
+import com.gigigo.orchextra.di.modules.device.UiModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
@@ -42,6 +43,7 @@ import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecy
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraContextProvider;
 import com.gigigo.orchextra.sdk.model.OrcGenderConverter;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
+import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
 import javax.inject.Singleton;
 
@@ -49,7 +51,7 @@ import dagger.Module;
 import dagger.Provides;
 
 
-@Module(includes = { ControlModule.class, DeviceModule.class, DelegateModule.class })
+@Module(includes = { ControlModule.class, DeviceModule.class, DelegateModule.class, UiModule.class})
 public class OrchextraModule {
 
   private final Context context;
@@ -138,6 +140,11 @@ public class OrchextraModule {
 
   @Singleton @Provides OrcUserToCrmConverter provideOrcUserToCrmConverter(OrcGenderConverter orcGenderConverter) {
     return new OrcUserToCrmConverter(orcGenderConverter);
+  }
+
+  @Singleton @Provides
+  ScannerManager provideScannerManager(ContextProvider contextProvider) {
+    return new ScannerManager(contextProvider.getApplicationContext());
   }
 
   public void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver) {

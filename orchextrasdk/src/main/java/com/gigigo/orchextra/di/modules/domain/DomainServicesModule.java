@@ -40,11 +40,13 @@ import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationServiceImpl;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
+import com.gigigo.orchextra.domain.services.themes.ThemeService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 
 import dagger.Module;
@@ -104,9 +106,9 @@ public class DomainServicesModule {
   @Provides @PerExecution ConfigService provideConfigService(ConfigDataProvider configDataProvider,
       AuthenticationDataProvider authenticationDataProvider,
       @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
-      AndroidDevice androidDevice, FutureGeolocation futureGeolocation, GeolocationManager geolocationManager){
+      AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask){
     return new ConfigService(configDataProvider, authenticationDataProvider, errorChecker,
-        androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), futureGeolocation, geolocationManager);
+        androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask);
   }
 
   @Provides @PerExecution ObtainRegionsService provideObtainRegionsService(
@@ -123,4 +125,12 @@ public class DomainServicesModule {
     return new FutureGeolocation();
   }
 
+  @Provides @PerExecution ThemeService provideThemeService(ConfigDataProvider configDataProvider) {
+    return new ThemeService(configDataProvider);
+  }
+
+  @Provides @PerExecution ObtainGeoLocationTask provideObtainGeoLocationTask(FutureGeolocation futureGeolocation,
+                                                 GeolocationManager geolocationManager) {
+    return new ObtainGeoLocationTask(futureGeolocation, geolocationManager);
+  }
 }

@@ -28,6 +28,7 @@ import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
+import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
@@ -73,6 +74,12 @@ public class DeviceModule {
   @Singleton
   @Provides PermissionLocationImp providePermissionLocationImp() {
     return new PermissionLocationImp();
+  }
+
+  @Singleton
+  @Provides
+  PermissionCameraImp providePermissionCameraImp() {
+    return new PermissionCameraImp();
   }
 
   @Singleton

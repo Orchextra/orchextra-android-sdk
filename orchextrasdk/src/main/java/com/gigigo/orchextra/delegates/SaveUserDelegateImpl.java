@@ -34,11 +34,11 @@ public class SaveUserDelegateImpl implements SaveUserDelegate {
   }
 
   @Override public void init() {
-    saveUserController.attachDelegate(this);
+    saveUserController.attachView(this);
   }
 
   @Override public void destroy() {
-    saveUserController.detachDelegate();
+    saveUserController.detachView();
   }
 
   @Override public void saveUserSuccessful() {

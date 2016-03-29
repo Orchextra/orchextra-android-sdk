@@ -16,30 +16,30 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.ui;
+package com.gigigo.orchextra.ui.webview;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
+import com.gigigo.orchextra.ui.OxToolbarActivity;
 
 import javax.inject.Inject;
 
-public class WebViewActivity extends AppCompatActivity {
+public class OxWebViewActivity extends OxToolbarActivity {
 
     private static final String EXTRA_URL = "EXTRA_URL";
 
-    private OrchextraWebView orchextraWebView;
+    private OxWebView orchextraWebView;
 
     @Inject
     ActionExecution actionExecution;
 
     public static void open(Context context, String url) {
-        Intent intent = new Intent(context, WebViewActivity.class);
+        Intent intent = new Intent(context, OxWebViewActivity.class);
         intent.putExtra(EXTRA_URL, url);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -54,8 +54,14 @@ public class WebViewActivity extends AppCompatActivity {
         initWebView();
     }
 
-    private void initViews() {
-        orchextraWebView = (OrchextraWebView) findViewById(R.id.ox_orchextraWebView);
+    public void initViews() {
+        super.initViews();
+        orchextraWebView = (OxWebView) findViewById(R.id.ox_orchextraWebView);
+    }
+
+    @Override
+    protected int getToolbarTitle() {
+        return R.string.ox_webview_toolbar_title;
     }
 
     private void initWebView() {
@@ -68,8 +74,8 @@ public class WebViewActivity extends AppCompatActivity {
         }
     }
 
-    private OrchextraWebView.OnActionListener onActionListener =
-            new OrchextraWebView.OnActionListener() {
+    private OxWebView.OnActionListener onActionListener =
+            new OxWebView.OnActionListener() {
                 @Override
                 public void openScanner() {
                     //TODO Open Scanner

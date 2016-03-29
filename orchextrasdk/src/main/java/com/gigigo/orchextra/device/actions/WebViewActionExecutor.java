@@ -22,7 +22,7 @@ import android.content.Context;
 
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecutor;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.ui.WebViewActivity;
+import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
 public class WebViewActionExecutor implements ActionExecutor {
 
@@ -34,6 +34,6 @@ public class WebViewActionExecutor implements ActionExecutor {
 
     @Override
     public void execute(BasicAction action) {
-        WebViewActivity.open(context, action.getUrl());
+        OxWebViewActivity.open(context, action.getUrl());
     }
 }

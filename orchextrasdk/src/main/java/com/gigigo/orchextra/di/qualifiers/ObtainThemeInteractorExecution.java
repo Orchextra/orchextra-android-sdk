@@ -16,11 +16,13 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.control.controllers.base;
+package com.gigigo.orchextra.di.qualifiers;
 
-public interface Delegate {
+import java.lang.annotation.Retention;
 
-  void init();
+import javax.inject.Qualifier;
 
-  void destroy();
-}
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Qualifier @Retention(RUNTIME)
+public @interface ObtainThemeInteractorExecution {}

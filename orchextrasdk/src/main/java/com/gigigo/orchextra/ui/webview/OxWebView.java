@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.ui;
+package com.gigigo.orchextra.ui.webview;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -31,9 +31,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
+import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.orchextra.R;
 
-public class OrchextraWebView extends LinearLayout {
+public class OxWebView extends LinearLayout {
 
     public static final String OPEN_SCANNER = "OpenScanner";
     public static final String OPEN_IMAGE_RECOGNITION = "OpenImageRecog";
@@ -49,21 +50,21 @@ public class OrchextraWebView extends LinearLayout {
 
     private OnActionListener onActionListener;
 
-    public OrchextraWebView(Context context) {
+    public OxWebView(Context context) {
         super(context);
         this.context = context;
 
         init();
     }
 
-    public OrchextraWebView(Context context, AttributeSet attrs) {
+    public OxWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
 
         init();
     }
 
-    public OrchextraWebView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public OxWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
 
@@ -71,7 +72,7 @@ public class OrchextraWebView extends LinearLayout {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public OrchextraWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public OxWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
 
@@ -85,7 +86,7 @@ public class OrchextraWebView extends LinearLayout {
 
     private void initView() {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.orchextra_webview_layout, this, true);
+        View view = layoutInflater.inflate(R.layout.ox_webview_layout, this, true);
         webView = (WebView) view.findViewById(R.id.ox_webView);
         progress = view.findViewById(R.id.ox_progress);
     }
@@ -95,8 +96,11 @@ public class OrchextraWebView extends LinearLayout {
 
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.getSettings().setAllowFileAccessFromFileURLs(true);
-        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+
+        if (AndroidSdkVersion.hasJellyBean16()) {
+            webView.getSettings().setAllowFileAccessFromFileURLs(true);
+            webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        }
 
         webView.getSettings().setGeolocationDatabasePath(getContext().getFilesDir().getPath());
         webView.setWebChromeClient(new WebChromeClient() {
@@ -135,7 +139,7 @@ public class OrchextraWebView extends LinearLayout {
                     if (onActionListener != null) {
                         onActionListener.openScanner();
                     }
-//                  Orchextra.startScannerActivity();
+//                  Orchextra.openScannerView();
                     callBack = CLOSE_SCANNER;
                 } else if (nativeMessage.equals(OPEN_IMAGE_RECOGNITION)) {
 //                  OrchextraManager.startImageRecognitionActivity();

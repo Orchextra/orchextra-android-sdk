@@ -43,7 +43,7 @@ public class DialogOneOption {
 
     public Dialog onCreateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        AlertDialog dialog = builder.setIcon(R.mipmap.ic_launcher)
+        AlertDialog dialog = builder.setIcon(R.drawable.ox_notification_large_icon)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(okText, positiveListener)
