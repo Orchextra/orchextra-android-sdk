@@ -40,6 +40,7 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   compile parent.ext.dependencies.androidSupportv7
+  compile project(':orchextrasdk')
 
   testCompile parent.ext.testDependencies.junit
 }
