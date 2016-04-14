@@ -26,6 +26,7 @@ import com.gigigo.orchextra.di.modules.data.DataProviderModule;
 import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.GeofenceProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ObtainThemeInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
@@ -100,6 +101,14 @@ public class DomainModule {
     InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceInteractorExecution(
             interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideGeofenceInteractor());
+    return interactorExecution;
+  }
+
+  @GeofenceProviderInteractorExecution @Provides InteractorExecution provideGeofenceProviderInteractorExecution() {
+    InteractorExecution interactorExecution = new InteractorExecution();
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceProviderInteractorExecution(
+        interactorExecution);
+    interactorExecution.setInteractor(interactorExecutionComponent.provideGeofenceProviderInteractor());
     return interactorExecution;
   }
 

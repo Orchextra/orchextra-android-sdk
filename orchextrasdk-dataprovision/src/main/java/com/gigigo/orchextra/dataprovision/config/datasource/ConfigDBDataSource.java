@@ -38,4 +38,6 @@ public interface ConfigDBDataSource {
   BusinessObject<List<OrchextraRegion>> obtainRegionsForScan();
 
   BusinessObject<Theme> obtainTheme();
+
+  BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister();
 }

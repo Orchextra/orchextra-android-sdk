@@ -22,10 +22,12 @@ import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
+import com.gigigo.orchextra.domain.abstractions.geofences.GeofencesProviderListener;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveGeofenceItemError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import java.util.List;
 import javax.inject.Provider;
@@ -35,17 +37,20 @@ public class GeofenceController {
 
   private final InteractorInvoker interactorInvoker;
   private final Provider<InteractorExecution> interactorExecutionProvider;
+  private final Provider<InteractorExecution> geofencesProviderInteractorExecutionProvider;
   private final ActionDispatcher actionDispatcher;
   private final ErrorLogger errorLogger;
   private final ThreadSpec mainThreadSpec;
 
   public GeofenceController(InteractorInvoker interactorInvoker,
                             Provider<InteractorExecution> interactorExecutionProvider,
+                            Provider<InteractorExecution> geofencesProviderInteractorExecutionProvider,
                             ActionDispatcher actionDispatcher,
                             ErrorLogger errorLogger,
                             ThreadSpec mainThreadSpec) {
     this.interactorInvoker = interactorInvoker;
     this.interactorExecutionProvider = interactorExecutionProvider;
+    this.geofencesProviderInteractorExecutionProvider = geofencesProviderInteractorExecutionProvider;
     this.actionDispatcher = actionDispatcher;
     this.errorLogger = errorLogger;
     this.mainThreadSpec = mainThreadSpec;
@@ -79,5 +84,22 @@ public class GeofenceController {
         }
       });
     }
+  }
+
+  public void getAllGeofencesInDb(final GeofencesProviderListener geofencesProviderListener) {
+
+    InteractorExecution interactorExecution = geofencesProviderInteractorExecutionProvider.get();
+
+    interactorExecution.result(new InteractorResult<List<OrchextraGeofence>>() {
+      @Override public void onResult(List<OrchextraGeofence> geofences) {
+        geofencesProviderListener.onGeofencesReady(geofences);
+      }
+    }).error(RetrieveGeofenceItemError.class, new InteractorResult<RetrieveGeofenceItemError>() {
+      @Override public void onResult(RetrieveGeofenceItemError result) {
+        errorLogger.log(result.getError());
+      }
+    }).execute(interactorInvoker);
+
+
   }
 }

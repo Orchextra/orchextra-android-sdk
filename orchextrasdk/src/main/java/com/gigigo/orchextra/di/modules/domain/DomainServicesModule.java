@@ -44,6 +44,7 @@ import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
+import com.gigigo.orchextra.domain.services.proximity.ObtainGeofencesService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import com.gigigo.orchextra.domain.services.themes.ThemeService;
@@ -114,6 +115,11 @@ public class DomainServicesModule {
   @Provides @PerExecution ObtainRegionsService provideObtainRegionsService(
       ProximityLocalDataProvider proximityLocalDataProvider){
     return new ObtainRegionsService(proximityLocalDataProvider);
+  }
+
+  @Provides @PerExecution ObtainGeofencesService provideObtainGeofencesService(
+      ProximityLocalDataProvider proximityLocalDataProvider){
+    return new ObtainGeofencesService(proximityLocalDataProvider);
   }
 
   @Provides @PerExecution GeofenceCheckerService provideGeofenceCheckerService(

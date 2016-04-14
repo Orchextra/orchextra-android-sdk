@@ -28,6 +28,7 @@ import com.gigigo.orchextra.di.components.ServiceComponent;
 import com.gigigo.orchextra.di.components.TaskServiceComponent;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Theme;
@@ -49,6 +50,7 @@ public interface Injector {
   InteractorExecutionComponent injectConfigInteractorInteractorExecution(InteractorExecution<OrchextraUpdates> interactorExecution);
   InteractorExecutionComponent injectBeaconEventsInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
   InteractorExecutionComponent injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
+  InteractorExecutionComponent injectGeofenceProviderInteractorExecution(InteractorExecution<List<OrchextraGeofence>> interactorExecution);
 
   InteractorExecutionComponent injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
 

@@ -21,13 +21,14 @@ package com.gigigo.orchextra.sdk.background;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import javax.inject.Inject;
 
 public class OrchextraBootBroadcastReceiver extends BroadcastReceiver {
 
-  private static final String BOOT_COMPLETED_ACTION = "android.intent.action.BOOT_COMPLETED";
+  public static final String BOOT_COMPLETED_ACTION = "android.intent.action.BOOT_COMPLETED";
   private static final String CONNECTION_READY_ACTION = "AAAAAA"; //TODO
 
   @Inject
@@ -53,6 +54,7 @@ public class OrchextraBootBroadcastReceiver extends BroadcastReceiver {
   private void initTasksForBoot(Context context, String action) {
     if (action.equals(BOOT_COMPLETED_ACTION)) {
       Intent pushIntent = new Intent(context, OrchextraBackgroundService.class);
+      pushIntent.putExtra(action, true);
       context.startService(pushIntent);
     }
   }

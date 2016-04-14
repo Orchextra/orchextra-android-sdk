@@ -30,7 +30,7 @@ public class DefatultErrorConverterImpl<ErrorResponse>
   RetrofitErrorConverter retrofitErrorConverter;
 
   public DefatultErrorConverterImpl(Retrofit retrofit, Class<ErrorResponse> errorResponse) {
-    //this.retrofitErrorConverter = new RetrofitErrorConverter(retrofit, errorResponse);
+    this.retrofitErrorConverter = new RetrofitErrorConverter(retrofit, errorResponse);
   }
 
   @Override public ErrorResponse convert(ResponseBody value) throws IOException {

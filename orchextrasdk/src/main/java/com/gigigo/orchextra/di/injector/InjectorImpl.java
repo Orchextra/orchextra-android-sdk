@@ -33,6 +33,7 @@ import com.gigigo.orchextra.di.components.TaskServiceComponent;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Theme;
@@ -120,6 +121,13 @@ public class InjectorImpl implements Injector {
   @Override public InteractorExecutionComponent injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution) {
     InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
     interactorExecutionComponent.injectGeofenceInteractorExecution(interactorExecution);
+    return interactorExecutionComponent;
+  }
+
+  @Override public InteractorExecutionComponent injectGeofenceProviderInteractorExecution(
+      InteractorExecution<List<OrchextraGeofence>> interactorExecution) {
+    InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
+    interactorExecutionComponent.injectGeofenceProviderInteractorExecution(interactorExecution);
     return interactorExecutionComponent;
   }
 

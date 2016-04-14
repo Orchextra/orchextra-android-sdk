@@ -21,6 +21,7 @@ package com.gigigo.orchextra.di.modules.device;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
+import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeocoder;
 import com.gigigo.orchextra.device.geolocation.geocoder.AndroidGeolocationManager;
@@ -70,8 +71,9 @@ public class GeolocationModule {
   @Singleton
   @Provides
   GeofenceRegister provideAndroidGeofenceManager(GeofenceDeviceRegister geofenceDeviceRegister,
-                                                        ConfigObservable configObservable) {
-    return new AndroidGeofenceRegisterImp(geofenceDeviceRegister, configObservable);
+                                                        ConfigObservable configObservable,
+                                                        GeofenceController geofenceController) {
+    return new AndroidGeofenceRegisterImp(geofenceDeviceRegister, configObservable, geofenceController);
   }
 
   @Singleton

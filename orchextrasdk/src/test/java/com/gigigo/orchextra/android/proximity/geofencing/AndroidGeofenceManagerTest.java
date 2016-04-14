@@ -1,6 +1,7 @@
 package com.gigigo.orchextra.android.proximity.geofencing;
 
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
+import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegisterImp;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceDeviceRegister;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
@@ -28,11 +29,13 @@ public class AndroidGeofenceManagerTest {
     @Mock
     OrchextraGeofenceUpdates orchextraGeofenceUpdates;
 
+    @Mock GeofenceController geofenceController;
+
     private AndroidGeofenceRegisterImp androidGeofenceRegisterImp;
 
     @Before
     public void setUp() throws Exception {
-        androidGeofenceRegisterImp = new AndroidGeofenceRegisterImp(geofenceDeviceRegister, configObservable);
+        androidGeofenceRegisterImp = new AndroidGeofenceRegisterImp(geofenceDeviceRegister, configObservable, geofenceController);
     }
 
     @Test

@@ -24,6 +24,7 @@ import com.gigigo.orchextra.di.modules.domain.InteractorsModuleProvider;
 import com.gigigo.orchextra.di.scopes.PerExecution;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Theme;
@@ -39,6 +40,7 @@ public interface InteractorExecutionComponent extends InteractorsModuleProvider 
     void injectRegionsProviderInteractorExecution(InteractorExecution<List<OrchextraRegion>> interactorExecution);
     void injectBeaconEventsInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
     void injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
+    void injectGeofenceProviderInteractorExecution(InteractorExecution<List<OrchextraGeofence>> interactorExecution);
     void injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
     void injectScannerInteractorExecution(InteractorExecution<BasicAction> interactorExecution);
 }

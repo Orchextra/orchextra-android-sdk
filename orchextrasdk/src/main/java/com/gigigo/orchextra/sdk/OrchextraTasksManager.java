@@ -12,4 +12,6 @@ public interface OrchextraTasksManager {
   void stopBackgroundServices();
 
   void stopForegroundTasks();
+
+  void initBootTasks();
 }

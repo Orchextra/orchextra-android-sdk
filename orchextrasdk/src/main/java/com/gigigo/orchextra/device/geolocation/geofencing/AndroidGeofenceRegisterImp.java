@@ -19,24 +19,32 @@
 package com.gigigo.orchextra.device.geolocation.geofencing;
 
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
+import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
+import com.gigigo.orchextra.domain.abstractions.geofences.GeofencesProviderListener;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+import java.util.Collections;
+import java.util.List;
 
-
-public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer {
+public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer,
+    GeofencesProviderListener {
 
     private final GeofenceDeviceRegister geofenceDeviceRegister;
     private final ConfigObservable configObservable;
+    private final GeofenceController geofenceController;
 
     private boolean isRegistered = false;
 
     public AndroidGeofenceRegisterImp(GeofenceDeviceRegister geofenceDeviceRegister,
-                                      ConfigObservable configObservable) {
+                                      ConfigObservable configObservable,
+                                      GeofenceController geofenceController) {
         this.geofenceDeviceRegister = geofenceDeviceRegister;
         this.configObservable = configObservable;
+        this.geofenceController = geofenceController;
     }
 
     @Override
@@ -65,6 +73,10 @@ public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer {
         }
     }
 
+    @Override public void registerAlDbGeofences() {
+        geofenceController.getAllGeofencesInDb(this);
+    }
+
     @Override
     public void update(OrchextraChanges observable, Object data) {
         OrchextraUpdates orchextraUpdates = (OrchextraUpdates) data;
@@ -74,5 +86,9 @@ public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer {
             OrchextraGeofenceUpdates orchextraGeofenceUpdates = orchextraUpdates.getOrchextraGeofenceUpdates();
             registerGeofences(orchextraGeofenceUpdates);
         }
+    }
+
+    @Override public void onGeofencesReady(List<OrchextraGeofence> geofences) {
+        geofenceDeviceRegister.register(new OrchextraGeofenceUpdates(geofences, Collections.EMPTY_LIST));
     }
 }

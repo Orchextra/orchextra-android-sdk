@@ -45,17 +45,30 @@ public class OrchextraBackgroundService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		GGGLogImpl.log("Service method :: onStartCommand");
+		boolean requestConfig = shouldRequestConfig(intent);
 		if (orchextraStatusAccessor.isStarted()){
-			startBackgroundTasks();
+			startBackgroundTasks(requestConfig);
 			return START_STICKY;
 		}
 		return START_NOT_STICKY;
 	}
 
-	private void startBackgroundTasks() {
+	private boolean shouldRequestConfig(Intent intent) {
+		if (intent!=null){
+			return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.BOOT_COMPLETED_ACTION, false);
+		}else{
+			return false;
+		}
+	}
+
+	private void startBackgroundTasks(boolean requestConfig) {
 		AppStatusEventsListener appStatusEventsListener = orchextraActivityLifecycle.getAppStatusEventsListener();
 		appStatusEventsListener.onServiceRecreated();
 		backgroundTasksManager.startBackgroundTasks();
+
+		if (requestConfig){
+			backgroundTasksManager.requestConfig();
+		}
 	}
 
 	@Override

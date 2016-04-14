@@ -51,4 +51,6 @@ public interface ProximityLocalDataProvider {
 
   BusinessObject<List<OrchextraBeacon>> getNotStoredBeaconEvents(
       List<OrchextraBeacon> orchextraBeacons);
+
+  BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister();
 }

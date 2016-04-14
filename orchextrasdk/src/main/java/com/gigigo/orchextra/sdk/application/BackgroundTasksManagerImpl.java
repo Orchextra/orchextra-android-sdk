@@ -22,7 +22,6 @@ import com.gigigo.ggglib.permissions.Permission;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraTasksManager;
 
 public class BackgroundTasksManagerImpl implements BackgroundTasksManager {
@@ -46,5 +45,9 @@ public class BackgroundTasksManagerImpl implements BackgroundTasksManager {
 
   @Override public void finalizeBackgroundTasks() {
     orchextraTasksManager.stopBackgroundServices();
+  }
+
+  @Override public void requestConfig() {
+    orchextraTasksManager.initBootTasks();
   }
 }

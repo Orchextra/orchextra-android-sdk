@@ -112,6 +112,20 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
     }
   }
 
+  @Override public BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    try {
+      List<OrchextraGeofence> geofences = configInfoResultReader.getAllGeofences(realm);
+      return new BusinessObject<>(geofences, BusinessError.createOKInstance());
+    } catch (NotFountRealmObjectException | RealmException re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+
   @Override public BusinessObject<OrchextraGeofence> obtainGeofenceById(String geofenceId) {
 
     Realm realm = realmDefaultInstance.createRealmInstance(context);

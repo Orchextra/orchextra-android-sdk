@@ -65,4 +65,9 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
     beaconScanner.stopRangingScanner();
   }
 
+  @Override public void initBootTasks() {
+    configDelegateImp.sendConfiguration();
+    geofenceRegister.registerAlDbGeofences();
+  }
+
 }

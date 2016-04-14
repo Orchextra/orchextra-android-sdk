@@ -165,4 +165,21 @@ public class ConfigInfoResultReader {
       throw new NotFountRealmObjectException();
     }
   }
+
+  public List<OrchextraGeofence> getAllGeofences(Realm realm) {
+    RealmResults<GeofenceRealm> geofenceRealms = realm.where(GeofenceRealm.class).findAll();
+    List<OrchextraGeofence> geofences = new ArrayList<>();
+
+    for (GeofenceRealm geofenceRealm : geofenceRealms) {
+      geofences.add(geofencesRealmMapper.externalClassToModel(geofenceRealm));
+    }
+
+    if (geofences.size() > 0) {
+      GGGLogImpl.log("Retrieved " + geofences.size() + " Geofences from DB");
+    } else {
+      GGGLogImpl.log("Not Retrieved any Geofence");
+    }
+
+    return geofences;
+  }
 }

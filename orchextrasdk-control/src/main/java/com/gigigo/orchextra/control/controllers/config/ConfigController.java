@@ -22,6 +22,7 @@ import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
+import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import javax.inject.Provider;
 
@@ -50,6 +51,10 @@ public class ConfigController {
       }
     }).error(InteractorError.class, new InteractorResult<InteractorError>() {
       @Override public void onResult(InteractorError result) {
+        manageInteractorError(result);
+      }
+    }).error(GenericError.class, new InteractorResult<GenericError>() {
+      @Override public void onResult(GenericError result) {
         manageInteractorError(result);
       }
     }).execute(interactorInvoker);

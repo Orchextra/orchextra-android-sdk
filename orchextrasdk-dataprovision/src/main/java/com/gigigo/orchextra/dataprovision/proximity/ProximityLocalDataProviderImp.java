@@ -99,6 +99,10 @@ public class ProximityLocalDataProviderImp implements ProximityLocalDataProvider
     return beaconsDBDataSource.getNotStoredBeaconEvents(beacons);
   }
 
+  @Override public BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister() {
+    return configDBDataSource.obtainGeofencesForRegister();
+  }
+
   @Override
   public BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion) {
     return beaconsDBDataSource.updateRegionWithActionId(orchextraRegion);
