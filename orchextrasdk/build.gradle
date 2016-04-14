@@ -34,9 +34,11 @@ def BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME = '5000'
 
 buildscript {
   repositories {
+    mavenCentral()
     jcenter()
   }
   dependencies {
+    classpath 'com.android.tools.build:gradle:2.0.0'
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
   }
 }
@@ -87,14 +89,23 @@ android {
     targetCompatibility JavaVersion.VERSION_1_7
   }
 
-    lintOptions {
-      abortOnError false
-    }
+  lintOptions {
+    abortOnError false
+  }
+  packagingOptions {
+    exclude 'LICENSE.txt'
+  }
+  // Required due to a conflict due to easy and jmock required for doclava
+  packagingOptions {
+    exclude 'META-INF/INDEX.LIST'
+  }
 }
 
 dependencies {
-  apt parent.ext.dependencies.daggerCompiler
-  compile parent.ext.dependencies.dagger
+
+  apt project(path: ':dagger-compiler', transitive: false)
+  compile project(path: ':dagger', transitive: false)
+
   provided parent.ext.dependencies.javaXannotations
   compile parent.ext.dependencies.retrofit
   compile parent.ext.dependencies.gsonConverter

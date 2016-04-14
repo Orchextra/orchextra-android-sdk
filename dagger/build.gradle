@@ -1,0 +1,31 @@
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+dependencies {
+    compile 'com.google.dagger:dagger:2.2'
+
+}
+
+shadowJar {
+    relocate 'javax.inject.Inject', 'javax.inject.Inject2'
+    relocate 'javax.inject.Named','javax.inject.Named2'
+    relocate 'javax.inject.Provider','javax.inject.Provider2'
+    relocate 'javax.inject.Qualifier','javax.inject.Qualifier2'
+    relocate 'javax.inject.Scope','javax.inject.Scope2'
+    relocate 'javax.inject.Singleton','javax.inject.Singleton2'
+    relocate 'dagger.Lazy','dagger.Lazy2'
+    relocate 'dagger.MembersInjector','dagger.MembersInjector2'
+    relocate 'dagger.Module','dagger.Module2'
+    relocate 'dagger.Provides','dagger.Provides2'
+    relocate 'dagger.Provides$Type','dagger.Provides$Type2'
+    relocate 'dagger.internal','dagger.internal2'
+    relocate 'dagger.producers','dagger.producers2'
+    classifier = ''
+}
