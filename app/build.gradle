@@ -29,6 +29,11 @@ android {
     versionCode parent.ext.androidVersionCode
     versionName parent.ext.androidVersionName
   }
+
+  lintOptions {
+    abortOnError false
+  }
+
   buildTypes {
     release {
       minifyEnabled false
