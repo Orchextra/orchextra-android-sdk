@@ -31,7 +31,7 @@ import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiAuth
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiClientAuthRequest;
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiSdkAuthRequest;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
-import javax.inject.Provider;
+import orchextra.javax.inject.Provider;
 
 
 public class AuthenticationDataSourceImpl implements AuthenticationDataSource {

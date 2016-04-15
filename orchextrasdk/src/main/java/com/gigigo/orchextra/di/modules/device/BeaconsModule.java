@@ -41,10 +41,11 @@ import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanne
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import dagger.Module;
-import dagger.Provides;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
+
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
@@ -104,7 +105,8 @@ public class BeaconsModule {
 
   @Provides @Singleton BeaconsController provideBeaconsController(
       InteractorInvoker interactorInvoker, ActionDispatcher actionDispatcher,
-      @BeaconEventsInteractorExecution Provider<InteractorExecution> beaconsInteractorExecutionProvider,
+      @BeaconEventsInteractorExecution
+      Provider<InteractorExecution> beaconsInteractorExecutionProvider,
       @RegionsProviderInteractorExecution Provider<InteractorExecution> regionsProviderInteractorExecutionProvider,
       ErrorLogger errorLogger, @MainThread ThreadSpec mainThreadSpec){
 

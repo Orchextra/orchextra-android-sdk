@@ -49,8 +49,8 @@ import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import com.gigigo.orchextra.domain.services.themes.ThemeService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerService;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 @Module(includes = DomainServiceErrorCheckerModule.class)
 public class DomainServicesModule {

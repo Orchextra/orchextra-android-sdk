@@ -33,7 +33,7 @@ import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.ui.OxToolbarActivity;
 
-import javax.inject.Inject;
+import orchextra.javax.inject.Inject;
 
 import me.dm7.barcodescanner.zbar.Result;
 

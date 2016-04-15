@@ -32,8 +32,9 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.List;
-import javax.inject.Provider;
+
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import orchextra.javax.inject.Provider;
 
 public class BeaconsController {
 

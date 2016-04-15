@@ -38,10 +38,10 @@ import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
-import javax.inject.Singleton;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 
 @Module(includes = DataModule.class)

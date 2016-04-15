@@ -37,8 +37,8 @@ import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
 import com.gigigo.orchextra.domain.services.themes.ThemeService;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 
 @Module(includes = {DomainServicesModule.class})

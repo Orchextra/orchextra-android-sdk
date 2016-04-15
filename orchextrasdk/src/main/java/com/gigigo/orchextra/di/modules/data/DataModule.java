@@ -41,11 +41,11 @@ import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusReader;
 import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusUpdater;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.action.ActionsDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.auth.AuthenticationDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.config.ConfigDataSourceImpl;

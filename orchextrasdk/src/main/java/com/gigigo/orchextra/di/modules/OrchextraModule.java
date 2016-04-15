@@ -45,11 +45,9 @@ import com.gigigo.orchextra.sdk.model.OrcGenderConverter;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
-
+import orchextra.javax.inject.Singleton;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 @Module(includes = { ControlModule.class, DeviceModule.class, DelegateModule.class, UiModule.class})
 public class OrchextraModule {

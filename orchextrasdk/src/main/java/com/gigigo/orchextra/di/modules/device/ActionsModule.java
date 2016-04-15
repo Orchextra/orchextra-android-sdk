@@ -46,10 +46,10 @@ import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
 import com.google.gson.Gson;
 
-import javax.inject.Singleton;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.stats.StatsDataSourceImp;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 

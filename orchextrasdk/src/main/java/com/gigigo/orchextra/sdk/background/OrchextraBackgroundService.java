@@ -27,7 +27,7 @@ import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
-import javax.inject.Inject;
+import orchextra.javax.inject.Inject;
 
 public class OrchextraBackgroundService extends Service {
 

@@ -23,10 +23,9 @@ import com.gigigo.orchextra.di.modules.OrchextraModule;
 
 import com.gigigo.orchextra.di.modules.OrchextraModuleProvider;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
-import javax.inject.Singleton;
 
 import dagger.Component;
-
+import orchextra.javax.inject.Singleton;
 
 @Singleton @Component(modules = {OrchextraModule.class})
 public interface OrchextraComponent extends OrchextraModuleProvider {

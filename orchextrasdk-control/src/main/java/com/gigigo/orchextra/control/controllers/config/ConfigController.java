@@ -23,7 +23,7 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import javax.inject.Provider;
+import orchextra.javax.inject.Provider;
 
 public class ConfigController {
 

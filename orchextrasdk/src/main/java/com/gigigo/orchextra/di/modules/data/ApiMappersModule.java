@@ -41,10 +41,10 @@ import com.gigigo.orchextra.di.qualifiers.ThemeResponse;
 import com.gigigo.orchextra.di.qualifiers.VuforiaResponse;
 
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionScheduledExternalClassToModelMapper;
-import javax.inject.Singleton;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.ActionQueryModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.AppModelToExternalClassMapper;

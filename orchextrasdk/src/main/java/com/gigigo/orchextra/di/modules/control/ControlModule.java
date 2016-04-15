@@ -42,11 +42,11 @@ import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
 
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 @Module(includes = {DomainModule.class, FastDomainServicesModule.class})

@@ -103,8 +103,15 @@ android {
 
 dependencies {
 
-  apt project(path: ':dagger-compiler', transitive: false)
-  compile project(path: ':dagger', transitive: false)
+  compile ('com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2'){
+    transitive = false
+  }
+  apt ('com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2'){
+    transitive = false
+  }
+
+//  apt project(path: ':dagger-compiler', transitive: false)
+//  compile project(path: ':dagger', transitive: false)
 
   provided parent.ext.dependencies.javaXannotations
   compile parent.ext.dependencies.retrofit

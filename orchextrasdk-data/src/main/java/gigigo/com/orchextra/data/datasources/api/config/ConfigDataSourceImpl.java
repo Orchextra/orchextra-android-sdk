@@ -29,7 +29,7 @@ import com.gigigo.orchextra.domain.model.config.Config;
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
-import javax.inject.Provider;
+import orchextra.javax.inject.Provider;
 
 
 public class ConfigDataSourceImpl implements ConfigDataSource {

@@ -30,10 +30,10 @@ import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.OrchextraStatusRealmMapper;
-import javax.inject.Singleton;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;

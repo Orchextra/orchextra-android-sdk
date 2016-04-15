@@ -33,10 +33,10 @@ import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.BaseOrchextraApiResponse;
 import java.util.Locale;
 
-import javax.inject.Singleton;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.interceptors.Headers;
 import gigigo.com.orchextra.data.datasources.api.service.DefatultErrorConverterImpl;
 import gigigo.com.orchextra.data.datasources.api.service.DefaultRetryOnErrorPolicyImpl;
