@@ -18,58 +18,42 @@
 
 package com.gigigo.orchextra.ui;
 
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gigigo.orchextra.R;
 
 public abstract class OxToolbarActivity extends AppCompatActivity {
 
-    private Toolbar oxToolbar;
+    private ImageView closeToolbarButton;
+    private TextView titleToolbar;
 
     public void initViews() {
-        oxToolbar = (Toolbar) findViewById(R.id.oxToolbar);
-
+        initUi();
         setTheme();
-        colorizeThemeIcons();
+    }
+
+    public void initUi() {
+        closeToolbarButton = (ImageView) findViewById(R.id.closeToolbarButton);
+        titleToolbar = (TextView) findViewById(R.id.titleToolbar);
     }
 
     public void setTheme() {
-        setSupportActionBar(oxToolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getToolbarTitle());
-
-        oxToolbar.setTitleTextColor(getResources().getColor(R.color.ox_toolbar_title_color));
-        oxToolbar.setNavigationIcon(R.drawable.ox_close);
+        titleToolbar.setText(getResources().getString(getToolbarTitle()));
+        titleToolbar.setTextColor(getResources().getColor(R.color.ox_toolbar_title_color));
+        closeToolbarButton.setImageResource(R.drawable.ox_close);
+        closeToolbarButton.setOnClickListener(onCloseToolbarButtonListener);
     }
 
     protected abstract int getToolbarTitle();
 
-    public void colorizeThemeIcons() {
-        for (int i = 0; i < oxToolbar.getChildCount(); i++) {
-            final View v = oxToolbar.getChildAt(i);
-
-            if (v instanceof ImageButton) {
-                final PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(getResources().getColor(R.color.ox_toolbar_title_color), PorterDuff.Mode.MULTIPLY);
-                ((ImageButton) v).getDrawable().setColorFilter(colorFilter);
-            }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
+    private View.OnClickListener onCloseToolbarButtonListener =
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+            }
+        };
 }

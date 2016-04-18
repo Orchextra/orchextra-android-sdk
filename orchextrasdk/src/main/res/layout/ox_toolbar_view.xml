@@ -17,15 +17,34 @@
   ~ limitations under the License.
   -->
 
-<android.support.v7.widget.Toolbar
-    android:id="@+id/oxToolbar"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimary"
     android:elevation="4dp"
     android:minHeight="?attr/actionBarSize"
-    app:itemIconTint="#f00"
-    app:itemTextColor="#ff6200"
-    />
+    android:orientation="horizontal"
+    >
+
+  <ImageView
+      android:id="@+id/closeToolbarButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_margin="@dimen/spacing_8"
+      tools:src="@drawable/ox_close"/>
+
+  <TextView
+      android:id="@+id/titleToolbar"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:textColor="@color/color_accent"
+      android:textSize="@dimen/text_21"
+      android:textStyle="bold"
+      tools:text="@string/ox_app_name"
+      />
+
+</LinearLayout>
