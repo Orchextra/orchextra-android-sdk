@@ -29,7 +29,7 @@ import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
 import com.google.android.gms.gcm.TaskParams;
 import com.google.gson.Gson;
-import javax.inject.Inject;
+import orchextra.javax.inject.Inject;
 
 
 public class OrchextraGcmTaskService extends GcmTaskService {

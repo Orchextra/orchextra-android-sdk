@@ -27,11 +27,11 @@ import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 
-import javax.inject.Provider;
-import javax.inject.Singleton;
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 @Module

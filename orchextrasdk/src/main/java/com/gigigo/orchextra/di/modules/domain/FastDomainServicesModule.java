@@ -3,9 +3,9 @@ package com.gigigo.orchextra.di.modules.domain;
 import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
-import dagger.Module;
-import dagger.Provides;
-import javax.inject.Singleton;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
 /**
  * Created by Sergio Martinez Rodriguez

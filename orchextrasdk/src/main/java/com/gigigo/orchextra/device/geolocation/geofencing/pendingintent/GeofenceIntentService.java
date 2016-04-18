@@ -31,8 +31,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
-
-import javax.inject.Inject;
+import orchextra.javax.inject.Inject;
 
 public class GeofenceIntentService extends IntentService {
 

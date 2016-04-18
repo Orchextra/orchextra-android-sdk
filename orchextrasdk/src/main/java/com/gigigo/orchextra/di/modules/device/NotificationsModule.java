@@ -31,10 +31,10 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.device.notifications.NotificationBehaviorImp;
 
-import javax.inject.Singleton;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 
 @Module

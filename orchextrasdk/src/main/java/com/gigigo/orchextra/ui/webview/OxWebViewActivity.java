@@ -27,7 +27,7 @@ import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.ui.OxToolbarActivity;
 
-import javax.inject.Inject;
+import orchextra.javax.inject.Inject;
 
 public class OxWebViewActivity extends OxToolbarActivity {
 

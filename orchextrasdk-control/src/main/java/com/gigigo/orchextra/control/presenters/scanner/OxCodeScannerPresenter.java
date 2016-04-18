@@ -33,7 +33,7 @@ import com.gigigo.orchextra.domain.model.entities.ScannerResult;
 
 import java.util.List;
 
-import javax.inject.Provider;
+import orchextra.javax.inject.Provider;
 
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 

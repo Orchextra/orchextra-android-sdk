@@ -29,7 +29,7 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 
 import java.util.Map;
 
-import javax.inject.Provider;
+import orchextra.javax.inject.Provider;
 
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;

@@ -46,9 +46,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
-
-import javax.inject.Inject;
-
+import orchextra.javax.inject.Inject;
 
 public class OrchextraManager {
 

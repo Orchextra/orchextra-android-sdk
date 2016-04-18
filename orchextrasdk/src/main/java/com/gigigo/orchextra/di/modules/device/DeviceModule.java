@@ -39,10 +39,10 @@ import com.gigigo.orchextra.sdk.OrchextraTasksManagerImpl;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureListener;
 import com.gigigo.orchextra.sdk.application.ForegroundTasksManagerImpl;
 
-import javax.inject.Singleton;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 
 @Module(includes = {BluetoothModule.class, ActionsModule.class, NotificationsModule.class, GeolocationModule.class})

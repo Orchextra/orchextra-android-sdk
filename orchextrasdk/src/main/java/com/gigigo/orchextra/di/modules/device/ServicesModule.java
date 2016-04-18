@@ -27,8 +27,8 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAc
 import com.gigigo.orchextra.sdk.OrchextraTasksManager;
 import com.gigigo.orchextra.sdk.application.BackgroundTasksManagerImpl;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 
 @Module

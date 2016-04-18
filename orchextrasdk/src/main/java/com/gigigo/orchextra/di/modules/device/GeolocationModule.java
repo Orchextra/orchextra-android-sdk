@@ -34,10 +34,10 @@ import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
 
 import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
-import javax.inject.Singleton;
+import orchextra.javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 
 @Module

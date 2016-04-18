@@ -30,8 +30,8 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import java.util.List;
-import javax.inject.Provider;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import orchextra.javax.inject.Provider;
 
 public class GeofenceController {
 

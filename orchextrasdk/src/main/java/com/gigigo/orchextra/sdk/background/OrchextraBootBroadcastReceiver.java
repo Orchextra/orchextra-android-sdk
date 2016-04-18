@@ -24,7 +24,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraManager;
-import javax.inject.Inject;
+import orchextra.javax.inject.Inject;
 
 public class OrchextraBootBroadcastReceiver extends BroadcastReceiver {
 

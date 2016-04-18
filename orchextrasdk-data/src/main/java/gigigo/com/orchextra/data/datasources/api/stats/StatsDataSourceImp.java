@@ -20,7 +20,7 @@ package gigigo.com.orchextra.data.datasources.api.stats;
 
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 
-import javax.inject.Provider;
+import orchextra.javax.inject.Provider;
 
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;

@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.di.components;
 
-import com.gigigo.orchextra.di.modules.OrchextraModuleProvider;
 import com.gigigo.orchextra.di.modules.device.ServicesModuleProvider;
 import com.gigigo.orchextra.di.modules.device.ServicesModule;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;

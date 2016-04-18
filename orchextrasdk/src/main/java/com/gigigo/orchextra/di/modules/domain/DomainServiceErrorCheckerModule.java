@@ -27,8 +27,8 @@ import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.services.actions.ActionServiceErrorChecker;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 
-import dagger.Module;
-import dagger.Provides;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
 
 
 @Module

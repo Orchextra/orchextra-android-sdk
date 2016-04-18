@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.di.scopes;
 
 import java.lang.annotation.Retention;
-import javax.inject.Scope;
+import orchextra.javax.inject.Scope;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
