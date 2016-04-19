@@ -144,10 +144,13 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
         if (geofenceUpdates.getNewGeofences().size() > 0) {
             GeofencingRequest geofencingRequest = androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
 
-            LocationServices.GeofencingApi.addGeofences(
+            try {
+                LocationServices.GeofencingApi.addGeofences(
                     googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
-                    geofencePendingIntentCreator.getGeofencingPendingIntent()
-            ).setResultCallback(this);
+                    geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);
+            }catch (IllegalStateException illegalStateException){
+                GGGLogImpl.log("IllegalStateException -->" + illegalStateException.getMessage(), LogLevel.ERROR);
+            }
         }
     }
 
