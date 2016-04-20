@@ -50,9 +50,7 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
 
-  compile ('com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.1'){
-    transitive = false
-  }
+  compile 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.1'
 
   compile parent.ext.dependencies.javaxInjectAnnotations
   compile parent.ext.dependencies.realm
