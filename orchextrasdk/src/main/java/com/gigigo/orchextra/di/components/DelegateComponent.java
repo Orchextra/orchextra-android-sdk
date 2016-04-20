@@ -23,7 +23,7 @@ import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModuleProvider;
 import com.gigigo.orchextra.di.scopes.PerDelegate;
 
-import dagger.Component;
+import orchextra.dagger.Component;
 
 
 @PerDelegate @Component(dependencies = OrchextraComponent.class, modules = DelegateModule.class)

@@ -31,7 +31,7 @@ import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import java.util.List;
 
-import dagger.Subcomponent;
+import orchextra.dagger.Subcomponent;
 
 @PerExecution @Subcomponent(modules = InteractorsModule.class)
 public interface InteractorExecutionComponent extends InteractorsModuleProvider {

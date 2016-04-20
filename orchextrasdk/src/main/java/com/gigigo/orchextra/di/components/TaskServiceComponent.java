@@ -22,7 +22,7 @@ import com.gigigo.orchextra.di.modules.device.ServicesModuleProvider;
 import com.gigigo.orchextra.di.modules.device.ServicesModule;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
 import com.gigigo.orchextra.di.scopes.PerService;
-import dagger.Component;
+import orchextra.dagger.Component;
 
 
 @PerService @Component(dependencies = OrchextraComponent.class, modules = ServicesModule.class)

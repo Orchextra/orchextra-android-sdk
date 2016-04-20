@@ -24,7 +24,7 @@ import com.gigigo.orchextra.di.modules.OrchextraModule;
 import com.gigigo.orchextra.di.modules.OrchextraModuleProvider;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
 
-import dagger.Component;
+import orchextra.dagger.Component;
 import orchextra.javax.inject.Singleton;
 
 @Singleton @Component(modules = {OrchextraModule.class})

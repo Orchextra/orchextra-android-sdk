@@ -4,7 +4,7 @@ import com.gigigo.orchextra.di.modules.device.ServicesModule;
 import com.gigigo.orchextra.di.modules.device.ServicesModuleProvider;
 import com.gigigo.orchextra.di.scopes.PerService;
 import com.gigigo.orchextra.sdk.background.OrchextraBootBroadcastReceiver;
-import dagger.Component;
+import orchextra.dagger.Component;
 
 /**
  * Created by Sergio Martinez Rodriguez

@@ -103,11 +103,13 @@ android {
 
 dependencies {
 
-  compile ('com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2'){
+  compile ('com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.1'){
     transitive = false
   }
-  apt ('com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2'){
+  apt ('com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.1'){
     transitive = false
+    exclude group:'com.google.dagger'
+    exclude group:'javax.inject'
   }
 
 //  apt project(path: ':dagger-compiler', transitive: false)
