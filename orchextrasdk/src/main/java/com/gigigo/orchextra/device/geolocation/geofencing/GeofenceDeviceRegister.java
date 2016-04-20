@@ -32,7 +32,9 @@ import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofence
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.sdk.features.GooglePlayServicesStatus;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.GeofencingRequest;
@@ -64,6 +66,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
         this.permissionChecker = permissionChecker;
         this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
         this.androidGeofenceConverter = androidGeofenceConverter;
+
     }
 
     public void register(OrchextraGeofenceUpdates geofenceUpdates) {
@@ -142,16 +145,36 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
         }
 
         if (geofenceUpdates.getNewGeofences().size() > 0) {
-            GeofencingRequest geofencingRequest = androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
+            GeofencingRequest geofencingRequest =
+                androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
 
-            try {
+            if (googleApiClientAvailable()) {
                 LocationServices.GeofencingApi.addGeofences(
                     googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
                     geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);
-            }catch (IllegalStateException illegalStateException){
-                GGGLogImpl.log("IllegalStateException -->" + illegalStateException.getMessage(), LogLevel.ERROR);
             }
         }
+    }
+
+    private boolean googleApiClientAvailable() {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int status = googleApiAvailability.isGooglePlayServicesAvailable(contextProvider.getApplicationContext());
+        GooglePlayServicesStatus gpss = GooglePlayServicesStatus.getGooglePlayServicesStatus(status);
+
+        if (gpss == GooglePlayServicesStatus.SUCCESS){
+            if (googleApiClientConnector.isConnected()){
+                return true;
+            }else{
+                GGGLogImpl.log("GoogleApiClientConnector connection Status: " +
+                    googleApiClientConnector.isConnected(), LogLevel.ERROR);
+
+                return false;
+            }
+        }else {
+            GGGLogImpl.log("Google play services not ready, Status: " + gpss.getStringValue(), LogLevel.ERROR);
+            return false;
+        }
+
     }
 
     public void clean() {
