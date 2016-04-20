@@ -149,9 +149,13 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
                 androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
 
             if (googleApiClientAvailable()) {
-                LocationServices.GeofencingApi.addGeofences(
-                    googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
-                    geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);
+                try {
+                    LocationServices.GeofencingApi.addGeofences(googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
+                        geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);
+                }catch (Exception e){
+                    GGGLogImpl.log("Exception trying to add geofences: " + e.getMessage(),
+                        LogLevel.ERROR);
+                }
             }
         }
     }
