@@ -30,7 +30,9 @@ targetCompatibility = JavaVersion.VERSION_1_7
 dependencies {
     compile project(':orchextrasdk-domain')
 
-    compile 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.1'
+    compile (parent.ext.dependencies.dagger){
+        transitive = false
+    }
 
     compile rootProject.ext.dependencies.threaddecoratedview
     apt rootProject.ext.dependencies.threaddecoratedviewcompiler
