@@ -113,22 +113,24 @@ dependencies {
     exclude group:'javax.inject'
   }
 
-  provided parent.ext.dependencies.javaXannotations
-  compile parent.ext.dependencies.retrofit
-  compile parent.ext.dependencies.gsonConverter
+//  compile parent.ext.dependencies.retrofit
+//  compile parent.ext.dependencies.gsonConverter
   compile parent.ext.dependencies.loggingInterceptor
-  compile parent.ext.dependencies.threaddecoratedview
-  compile parent.ext.dependencies.androidSupportv7
+
+
   compile parent.ext.dependencies.altBeacon
+
   apt parent.ext.dependencies.threaddecoratedviewcompiler
+  compile parent.ext.dependencies.threaddecoratedview
 
   compile parent.ext.dependencies.playServicesLocation
-  compile parent.ext.dependencies.playServicesGcm
+//  compile parent.ext.dependencies.playServicesGcm
 
   compile parent.ext.dependencies.barcodescanner
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')
+
   compile parent.ext.dependencies.gggLib
   compile parent.ext.dependencies.gggLogger
 
@@ -143,11 +145,30 @@ task sourcesJar(type: Jar) {
   classifier = 'sources'
 }
 
+//task javadoc(type: Javadoc) {
+//  failOnError  false
+//  source = android.sourceSets.main.java.sourceFiles
+//  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//  classpath += configurations.compile
+//}
+//
+//// build a jar with javadoc
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//  classifier = 'javadoc'
+//  from javadoc.destinationDir
+//}
+
+
 task javadoc(type: Javadoc) {
   failOnError  false
-  source = android.sourceSets.main.java.sourceFiles
+  source = android.sourceSets.main.java.srcDirs
   classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-  classpath += configurations.compile
+}
+
+afterEvaluate {
+  javadoc.classpath += files(android.libraryVariants.collect { variant ->
+    variant.javaCompile.classpath.files
+  })
 }
 
 // build a jar with javadoc

@@ -19,6 +19,9 @@
 apply plugin: 'com.android.library'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'realm-android'
+
+
 
 android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
@@ -48,14 +51,10 @@ android {
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
 
   compile (parent.ext.dependencies.dagger){
     transitive = false
   }
-
-  compile parent.ext.dependencies.javaxInjectAnnotations
-  compile parent.ext.dependencies.realm
 
   compile project(':orchextrasdk-dataprovision')
   compile parent.ext.dependencies.gggLib
@@ -77,11 +76,30 @@ task sourcesJar(type: Jar) {
   classifier = 'sources'
 }
 
+//task javadoc(type: Javadoc) {
+//  failOnError  false
+//  source = android.sourceSets.main.java.sourceFiles
+//  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//  classpath += configurations.compile
+//}
+//
+//// build a jar with javadoc
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//  classifier = 'javadoc'
+//  from javadoc.destinationDir
+//}
+
+
 task javadoc(type: Javadoc) {
   failOnError  false
-  source = android.sourceSets.main.java.sourceFiles
+  source = android.sourceSets.main.java.srcDirs
   classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-  classpath += configurations.compile
+}
+
+afterEvaluate {
+  javadoc.classpath += files(android.libraryVariants.collect { variant ->
+    variant.javaCompile.classpath.files
+  })
 }
 
 // build a jar with javadoc

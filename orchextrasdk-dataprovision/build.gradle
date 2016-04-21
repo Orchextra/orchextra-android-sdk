@@ -21,7 +21,6 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'maven'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile project(':orchextrasdk-domain')
 
