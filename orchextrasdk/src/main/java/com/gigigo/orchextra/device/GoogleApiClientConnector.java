@@ -19,91 +19,114 @@
 package com.gigigo.orchextra.device;
 
 import android.os.Bundle;
-
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
+import com.gigigo.orchextra.sdk.features.GooglePlayServicesStatus;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-public class GoogleApiClientConnector implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class GoogleApiClientConnector
+    implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private final ContextProvider contextProvider;
-    private final GoogleApiPermissionChecker googleApiPermissionChecker;
+  private final ContextProvider contextProvider;
+  private final GoogleApiPermissionChecker googleApiPermissionChecker;
 
-    private GoogleApiClient client;
-    private OnConnectedListener onConnectedListener;
+  private GoogleApiClient client;
+  private OnConnectedListener onConnectedListener;
 
-    public GoogleApiClientConnector(ContextProvider contextProvider,
-                                    GoogleApiPermissionChecker googleApiPermissionChecker) {
-        this.contextProvider = contextProvider;
-        this.googleApiPermissionChecker = googleApiPermissionChecker;
+  public GoogleApiClientConnector(ContextProvider contextProvider,
+      GoogleApiPermissionChecker googleApiPermissionChecker) {
+    this.contextProvider = contextProvider;
+    this.googleApiPermissionChecker = googleApiPermissionChecker;
+  }
+
+  public void connect() {
+    if (contextProvider.getApplicationContext() != null
+        && googleApiPermissionChecker.checkPlayServicesStatus() == ConnectionResult.SUCCESS) {
+      client = new GoogleApiClient.Builder(
+          contextProvider.getApplicationContext()).addConnectionCallbacks(this)
+          .addOnConnectionFailedListener(this)
+          .addApi(LocationServices.API)
+          .build();
+      client.connect();
     }
+  }
 
-    public void connect() {
-        if (contextProvider.getApplicationContext() != null &&
-                googleApiPermissionChecker.checkPlayServicesStatus() == ConnectionResult.SUCCESS) {
-            client = new GoogleApiClient.Builder(contextProvider.getApplicationContext())
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-            client.connect();
-        }
+  @Override public void onConnected(Bundle bundle) {
+    GGGLogImpl.log("onConnected");
+
+    if (onConnectedListener != null) {
+      onConnectedListener.onConnected(bundle);
     }
+  }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        GGGLogImpl.log("onConnected");
+  @Override public void onConnectionSuspended(int cause) {
+    GGGLogImpl.log(
+        "onConnectionSuspended: Called when the client is temporarily in a disconnected state");
+  }
 
-        if (onConnectedListener != null) {
-            onConnectedListener.onConnected(bundle);
-        }
+  @Override public void onConnectionFailed(ConnectionResult connectionResult) {
+    GGGLogImpl.log("onConnectionFailed");
+
+    switch (connectionResult.getErrorCode()) {
+      case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+        GGGLogImpl.log("Necesita actualizar google play");
+        break;
+      case ConnectionResult.SERVICE_MISSING_PERMISSION:
+        GGGLogImpl.log("Falta algun permiso para ejecutar Google Play Services");
+        break;
     }
+  }
 
-    @Override
-    public void onConnectionSuspended(int cause) {
-        GGGLogImpl.log("onConnectionSuspended: Called when the client is temporarily in a disconnected state");
+  public GoogleApiClient getGoogleApiClient() {
+    return client;
+  }
+
+  public boolean isConnected() {
+    return client.isConnected();
+  }
+
+  public void disconnected() {
+    if (client != null) {
+      client.disconnect();
     }
+  }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        GGGLogImpl.log("onConnectionFailed");
+  public boolean googleApiClientAvailable() {
 
-        switch (connectionResult.getErrorCode()) {
-            case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-                GGGLogImpl.log("Necesita actualizar google play");
-                break;
-            case ConnectionResult.SERVICE_MISSING_PERMISSION:
-                GGGLogImpl.log("Falta algun permiso para ejecutar Google Play Services");
-                break;
-        }
+    GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+
+    int status = googleApiAvailability.isGooglePlayServicesAvailable(contextProvider.getApplicationContext());
+
+    GooglePlayServicesStatus gpss = GooglePlayServicesStatus.getGooglePlayServicesStatus(status);
+
+    if (gpss == GooglePlayServicesStatus.SUCCESS) {
+      if (isConnected()) {
+        return true;
+      } else {
+        GGGLogImpl.log("GoogleApiClientConnector connection Status: " + isConnected(),
+            LogLevel.ERROR);
+
+        return false;
+      }
+    } else {
+      GGGLogImpl.log("Google play services not ready, Status: " + gpss.getStringValue(),
+          LogLevel.ERROR);
+      return false;
     }
+  }
 
-    public GoogleApiClient getGoogleApiClient() {
-        return client;
-    }
+  public interface OnConnectedListener {
+    void onConnected(Bundle bundle);
 
-    public boolean isConnected() {
-        return client.isConnected();
-    }
+    void onConnectionFailed(ConnectionResult connectionResult);
+  }
 
-    public void disconnected() {
-        if (client != null) {
-            client.disconnect();
-        }
-    }
-
-    public interface OnConnectedListener {
-        void onConnected(Bundle bundle);
-        void onConnectionFailed(ConnectionResult connectionResult);
-    }
-
-    public void setOnConnectedListener(OnConnectedListener onConnectedListener) {
-        this.onConnectedListener = onConnectedListener;
-    }
-
-
+  public void setOnConnectedListener(OnConnectedListener onConnectedListener) {
+    this.onConnectedListener = onConnectedListener;
+  }
 }

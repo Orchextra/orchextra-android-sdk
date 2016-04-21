@@ -148,7 +148,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
             GeofencingRequest geofencingRequest =
                 androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
 
-            if (googleApiClientAvailable()) {
+            if (googleApiClientConnector.googleApiClientAvailable()) {
                 try {
                     LocationServices.GeofencingApi.addGeofences(googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
                         geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);
@@ -160,28 +160,8 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
         }
     }
 
-    private boolean googleApiClientAvailable() {
-        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-        int status = googleApiAvailability.isGooglePlayServicesAvailable(contextProvider.getApplicationContext());
-        GooglePlayServicesStatus gpss = GooglePlayServicesStatus.getGooglePlayServicesStatus(status);
-
-        if (gpss == GooglePlayServicesStatus.SUCCESS){
-            if (googleApiClientConnector.isConnected()){
-                return true;
-            }else{
-                GGGLogImpl.log("GoogleApiClientConnector connection Status: " +
-                    googleApiClientConnector.isConnected(), LogLevel.ERROR);
-
-                return false;
-            }
-        }else {
-            GGGLogImpl.log("Google play services not ready, Status: " + gpss.getStringValue(), LogLevel.ERROR);
-            return false;
-        }
-
-    }
-
     public void clean() {
         LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), geofencePendingIntentCreator.getGeofencingPendingIntent());
     }
+
 }
