@@ -48,6 +48,7 @@ allprojects {
     testDependencies = [
                         mockito    :   'org.mockito:mockito-core:2.0.31-beta',
                         junit        : 'junit:junit:4.12',
+//TODO LIB_CRUNCH this dependencies may be delete
                         testRunner : 'com.android.support.test:runner:0.4.1',
                         testRules  : 'com.android.support.test:rules:0.4.1',
                         espresso   : 'com.android.support.test.espresso:espresso-core:2.2.1',
