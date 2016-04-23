@@ -75,7 +75,7 @@ android {
       buildConfigField BOOLEAN, "RETROFIT_LOG", "false"
       buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
 
-      minifyEnabled false
+      minifyEnabled true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
