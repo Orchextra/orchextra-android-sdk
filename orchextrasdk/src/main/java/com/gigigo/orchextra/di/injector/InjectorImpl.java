@@ -20,10 +20,13 @@ package com.gigigo.orchextra.di.injector;
 
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
+import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
+import com.gigigo.orchextra.di.components.DaggerGcmListenerServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerGeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerOrchextraBootBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.DaggerServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerTaskServiceComponent;
+import com.gigigo.orchextra.di.components.GcmListenerServiceComponent;
 import com.gigigo.orchextra.di.components.GeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.components.OrchextraBootBroadcastReceiverComponent;
@@ -142,6 +145,14 @@ public class InjectorImpl implements Injector {
     InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
     interactorExecutionComponent.injectScannerInteractorExecution(interactorExecution);
     return interactorExecutionComponent;
+  }
+
+  @Override
+  public GcmListenerServiceComponent injectGcmListenerServiceComponent(OrchextraGcmListenerService orchextraGcmListenerService) {
+    GcmListenerServiceComponent glsc = DaggerGcmListenerServiceComponent.builder().
+        orchextraComponent(orchextraComponent).build();
+    glsc.injectGcmListenerService(orchextraGcmListenerService);
+    return glsc;
   }
 
   public OrchextraComponent getOrchextraComponent() {

@@ -36,5 +36,8 @@
   <string name="ox_scanner_toolbar_title">Scanner</string>
   <string name="ox_webview_toolbar_title">Web View</string>
 
+  <string name="ox_notification_push_title">Orchextra</string>
+  <string name="ox_notifications_GCM_sender_id">ox_notifications_demo_GCM_sender_id</string>
+  <string name="ox_notifications_demo_GCM_sender_id">ox_notifications_demo_GCM_sender_id</string>
 
 </resources>

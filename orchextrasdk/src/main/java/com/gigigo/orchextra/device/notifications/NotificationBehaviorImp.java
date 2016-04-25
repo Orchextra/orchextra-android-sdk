@@ -24,6 +24,7 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.notifications.ForegroundNotificationBuilder;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilder;
+import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
@@ -49,7 +50,8 @@ public class NotificationBehaviorImp implements NotificationBehavior {
 
     @Override
     public void dispatchNotificationAction(BasicAction action, OrchextraNotification notification) {
-        if (contextProvider.getCurrentActivity() != null &&
+        if (action.getActionType() != ActionType.NOTIFICATION_PUSH &&
+                contextProvider.getCurrentActivity() != null &&
                 !contextProvider.getCurrentActivity().isFinishing() &&
                 appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND) {
             foregroundNotificationBuilder.setActionDispatcherListener(actionDispatcherListener);

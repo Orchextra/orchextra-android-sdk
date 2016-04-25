@@ -20,6 +20,8 @@ package com.gigigo.orchextra.di.injector;
 
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
+import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
+import com.gigigo.orchextra.di.components.GcmListenerServiceComponent;
 import com.gigigo.orchextra.di.components.GeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.components.OrchextraBootBroadcastReceiverComponent;
@@ -51,6 +53,7 @@ public interface Injector {
   InteractorExecutionComponent injectBeaconEventsInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
   InteractorExecutionComponent injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
   InteractorExecutionComponent injectGeofenceProviderInteractorExecution(InteractorExecution<List<OrchextraGeofence>> interactorExecution);
+  GcmListenerServiceComponent injectGcmListenerServiceComponent(OrchextraGcmListenerService orchextraGcmListenerService);
 
   InteractorExecutionComponent injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
 

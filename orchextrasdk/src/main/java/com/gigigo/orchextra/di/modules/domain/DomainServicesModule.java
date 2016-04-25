@@ -18,8 +18,10 @@
 
 package com.gigigo.orchextra.di.modules.domain;
 
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
+import com.gigigo.orchextra.device.notificationpush.GcmInstanceIdRegisterImp;
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
 import com.gigigo.orchextra.di.scopes.PerExecution;
@@ -27,6 +29,7 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerControll
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
@@ -107,9 +110,11 @@ public class DomainServicesModule {
   @Provides @PerExecution ConfigService provideConfigService(ConfigDataProvider configDataProvider,
       AuthenticationDataProvider authenticationDataProvider,
       @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
-      AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask){
+      AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask,
+      GcmInstanceIdRegister gcmInstanceIdRegister){
     return new ConfigService(configDataProvider, authenticationDataProvider, errorChecker,
-        androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask);
+        androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask,
+        gcmInstanceIdRegister);
   }
 
   @Provides @PerExecution ObtainRegionsService provideObtainRegionsService(
@@ -120,6 +125,11 @@ public class DomainServicesModule {
   @Provides @PerExecution ObtainGeofencesService provideObtainGeofencesService(
       ProximityLocalDataProvider proximityLocalDataProvider){
     return new ObtainGeofencesService(proximityLocalDataProvider);
+  }
+
+  @Provides @PerExecution
+  GcmInstanceIdRegister provideGcmInstanceIdRegister(ContextProvider contextProvider) {
+    return new GcmInstanceIdRegisterImp(contextProvider.getApplicationContext());
   }
 
   @Provides @PerExecution GeofenceCheckerService provideGeofenceCheckerService(

@@ -24,7 +24,16 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
   <uses-permission android:name="android.permission.CAMERA"/>
 
-    <application
+  <!-- Notification Push -->
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+  <permission android:name="${applicationId}.permission.C2D_MESSAGE"
+      android:protectionLevel="signature" />
+  <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+  <!-- Notification Push End -->
+
+
+  <application
       android:allowBackup="true"
       android:supportsRtl="true">
 
@@ -57,8 +66,31 @@
       </service>
 
       <service android:name=".device.geolocation.geofencing.pendingintent.GeofenceIntentService"/>
-      <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-           App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+
+    <!-- Notification Push -->
+
+    <receiver
+        android:name="com.google.android.gms.gcm.GcmReceiver"
+        android:exported="true"
+        android:permission="com.google.android.c2dm.permission.SEND" >
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        <category android:name="com.example.gcm" />
+      </intent-filter>
+    </receiver>
+
+    <service
+        android:name=".device.notificationpush.OrchextraGcmListenerService"
+        android:exported="false" >
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+      </intent-filter>
+    </service>
+
+    <!-- Notification Push End -->
+
+    <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+         App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
       <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
 
     </application>

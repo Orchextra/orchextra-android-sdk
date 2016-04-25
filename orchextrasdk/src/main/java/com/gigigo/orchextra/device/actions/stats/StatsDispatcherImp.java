@@ -36,11 +36,13 @@ public class StatsDispatcherImp implements StatsDispatcher{
 
     @Override
     public void sendCompletedActionTrackId(final String trackId) {
-        threadSpec.execute(new Runnable() {
-            @Override
-            public void run() {
-                statsDataSourceImp.sendCompletedAction(trackId);
-            }
-        });
+        if (trackId != null) {
+            threadSpec.execute(new Runnable() {
+                @Override
+                public void run() {
+                    statsDataSourceImp.sendCompletedAction(trackId);
+                }
+            });
+        }
     }
 }

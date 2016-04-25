@@ -25,6 +25,7 @@ import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.model.actions.types.CustomAction;
 import com.gigigo.orchextra.domain.model.actions.types.EmptyAction;
 import com.gigigo.orchextra.domain.model.actions.types.NotificationAction;
+import com.gigigo.orchextra.domain.model.actions.types.NotificationPushAction;
 import com.gigigo.orchextra.domain.model.actions.types.ScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.VuforiaScanAction;
 import com.gigigo.orchextra.domain.model.actions.types.WebViewAction;
@@ -183,6 +184,8 @@ public abstract class BasicAction {
           return new CustomAction(id, trackId, url, notification, schedule);
         case NOTIFICATION:
           return new NotificationAction(id, trackId, url, notification, schedule);
+        case NOTIFICATION_PUSH:
+          return new NotificationPushAction(id, trackId, url, notification, schedule);
         case NOT_DEFINED:
         default:
           return new EmptyAction(id, trackId, url, notification, schedule);

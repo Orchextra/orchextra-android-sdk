@@ -20,6 +20,7 @@ package com.gigigo.orchextra.domain.services.config;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
@@ -30,6 +31,7 @@ import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
+import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 import com.gigigo.orchextra.domain.services.DomaninService;
 
 public class ConfigService implements DomaninService {
@@ -37,6 +39,7 @@ public class ConfigService implements DomaninService {
   private final ConfigDataProvider configDataProvider;
   private final AuthenticationDataProvider authenticationDataProvider;
   private final ServiceErrorChecker serviceErrorChecker;
+  private final GcmInstanceIdRegister gcmInstanceIdRegister;
 
   private final App app;
   private final Device device;
@@ -45,7 +48,8 @@ public class ConfigService implements DomaninService {
   public ConfigService(ConfigDataProvider configDataProvider,
                        AuthenticationDataProvider authenticationDataProvider,
                        ServiceErrorChecker serviceErrorChecker, App app, Device device,
-                       ObtainGeoLocationTask obtainGeoLocationTask) {
+                       ObtainGeoLocationTask obtainGeoLocationTask,
+                       GcmInstanceIdRegister gcmInstanceIdRegister) {
 
     this.configDataProvider = configDataProvider;
     this.authenticationDataProvider = authenticationDataProvider;
@@ -55,6 +59,8 @@ public class ConfigService implements DomaninService {
     this.device = device;
     this.app = app;
     this.obtainGeoLocationTask = obtainGeoLocationTask;
+    this.gcmInstanceIdRegister = gcmInstanceIdRegister;
+
   }
 
   public InteractorResponse<OrchextraUpdates> refreshConfig() {
@@ -62,7 +68,8 @@ public class ConfigService implements DomaninService {
 
     GeoLocation geolocation = obtainGeoLocationTask.getGeolocation();
 
-    Config config = generateConfig(geolocation, crm);
+    NotificationPush notificationPush = gcmInstanceIdRegister.getGcmNotification();
+    Config config = generateConfig(geolocation, crm, notificationPush);
 
     BusinessObject<OrchextraUpdates> boOrchextraUpdates = configDataProvider.sendConfigInfo(config);
 
@@ -91,12 +98,13 @@ public class ConfigService implements DomaninService {
     }
   }
 
-  private Config generateConfig(GeoLocation geoLocation, Crm crm) {
+  private Config generateConfig(GeoLocation geoLocation, Crm crm, NotificationPush notificationPush) {
     Config config = new Config();
     config.setApp(app);
     config.setDevice(device);
     config.setGeoLocation(geoLocation);
     config.setCrm(crm);
+    config.setNotificationPush(notificationPush);
 
     return config;
   }

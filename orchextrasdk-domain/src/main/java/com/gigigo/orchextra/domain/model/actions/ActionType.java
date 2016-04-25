@@ -25,6 +25,7 @@ public enum ActionType {
   SCAN("scan"),
   VUFORIA_SCAN("scan_vuforia"),
   NOTIFICATION("notification"),
+  NOTIFICATION_PUSH("notification_push"),
   NOT_DEFINED("do_nothing");
 
   private final String action;
@@ -54,6 +55,8 @@ public enum ActionType {
         return VUFORIA_SCAN;
       } else if (type.equals(NOTIFICATION.getStringValue())) {
         return NOTIFICATION;
+      } else if (type.equals(NOTIFICATION_PUSH.getStringValue())) {
+        return NOTIFICATION_PUSH;
       } else {
         return NOT_DEFINED;
       }
