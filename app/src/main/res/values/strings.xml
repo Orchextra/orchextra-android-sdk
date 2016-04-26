@@ -18,4 +18,5 @@
 
 <resources>
   <string name="app_name">OrchextraSDK</string>
+  <string name="ox_notifications_GCM_sender_id">566047498340</string>
 </resources>
