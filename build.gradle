@@ -37,6 +37,11 @@ buildscript {
 allprojects {
 
   ext {
+
+    travisBuild = System.getenv("TRAVIS") == "true"
+    // allows for -Dpre-dex=false to be set
+    preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
+
     // Android config
     androidBuildToolsVersion = '23.0.1'
     androidMinSdkVersion = 10
