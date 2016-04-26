@@ -139,6 +139,30 @@ Additionally, you should customize the Orchextra Sdk with your drawables.
  - ox_notification_color_small_icon: Icon is showed in the notification bar in Android versions lower than 21.
  - ox_close: Icon which is locate in the upper left corner of a screen and is used to close the view.
 
+## Push Notifications
+
+### Creating a push project
+
+First of all is important to create and configure your project in [Google Cloud Platform](https://console.cloud.google.com/home/dashboard). When your project is already create you should take care of two important fields: 
+
+* Regarding project information _"Project Number"_ that would be the identifier of sending events you will use inside SDK.
+
+* Regarding API information _"Server API KEY"_, this is something you have to create. _Create credentials -> API key -> Server Key_ this will generate a String taht you will have to include in your parse project.
+
+That's all in Google console. Now you should create a project in _Parse Dashboard_ and Set up notifications for android giving _"Server API KEY"_ you created in previous step to you parse project.
+
+### SDK config for using Push
+
+Enabling push notifications in SDK is quite simple you should Override this two strings at your `strings.xml`
+
+`ox_notifications_GCM_sender_id`: Override this string resource is compulsory if you want have push notifications enabled. Use here your _"Project Number"_ and **Orchextra** and **Parse** will do all stuff for you.
+
+`ox_notification_push_title`: Override this string resource in order to get your custom Push notification title. Default is **Orchextra**.
+
+* Do not forget about image resources, all the explanations given in **Customizing styles** section about notifications applies here for customizing push notification image resources.
+
+Now you can check if Push notifications are working, try to send a push using _Parse Dashboard_. Try to write and send an original message and check if it works!!. 
+
 License
 =======
 
