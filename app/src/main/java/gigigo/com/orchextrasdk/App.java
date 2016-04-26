@@ -12,7 +12,7 @@ public class App extends Application implements OrchextraCompletionCallback {
   @Override public void onCreate() {
     super.onCreate();
     Orchextra.init(this, this);
-    Orchextra.start("937e89efec8f0b2a65b4e4cdc9aa587fc5737042", "7ad0db1df543e7fea9b36c074a11a16447946423");
+    Orchextra.start("key", "secret");
   }
 
   @Override public void onSuccess() {
