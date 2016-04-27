@@ -206,7 +206,7 @@ public class BeaconEventsUpdater {
 
   private void purgeResults(Realm realm, RealmResults resultsToPurge) {
     realm.beginTransaction();
-    resultsToPurge.clear();
+    resultsToPurge.deleteAllFromRealm();
     realm.commitTransaction();
   }
 }

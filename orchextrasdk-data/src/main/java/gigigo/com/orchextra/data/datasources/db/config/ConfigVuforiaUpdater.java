@@ -38,7 +38,7 @@ public class ConfigVuforiaUpdater {
     if (vuforia != null) {
       hasChangedVuforia = checkIfChangedVuforia(realm, vuforia);
     } else {
-      realm.clear(VuforiaRealm.class);
+      realm.delete(VuforiaRealm.class);
     }
 
     if (hasChangedVuforia) {
@@ -59,7 +59,7 @@ public class ConfigVuforiaUpdater {
     }
 
     if (hasChangedVuforia) {
-      realm.clear(VuforiaRealm.class);
+      realm.delete(VuforiaRealm.class);
       realm.copyToRealm(vuforiaRealm);
     }
 

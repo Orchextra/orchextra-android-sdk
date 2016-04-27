@@ -25,6 +25,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -74,7 +75,7 @@ public class GeofenceEventsUpdater {
 
   private void purgeResults(Realm realm, RealmResults resultsToPurge) {
     realm.beginTransaction();
-    resultsToPurge.clear();
+    resultsToPurge.deleteAllFromRealm();
     realm.commitTransaction();
   }
 

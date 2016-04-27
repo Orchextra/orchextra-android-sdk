@@ -38,7 +38,7 @@ public class ConfigThemeUpdater {
     if (theme != null) {
       hasChangedTheme = checkIfChangedTheme(realm, theme);
     } else {
-      realm.clear(ThemeRealm.class);
+      realm.delete(ThemeRealm.class);
     }
     if (hasChangedTheme) {
       return theme;
@@ -57,7 +57,7 @@ public class ConfigThemeUpdater {
     hasChangedTheme = !checkThemeAreEquals(themeRealm, savedTheme);
 
     if (hasChangedTheme) {
-      realm.clear(ThemeRealm.class);
+      realm.delete(ThemeRealm.class);
       realm.copyToRealm(themeRealm);
     }
     return hasChangedTheme;

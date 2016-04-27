@@ -65,7 +65,7 @@ public class ConfigInfoResultUpdater {
   public void saveRequestWaitTime(Realm realm, ConfigInfoResult config) {
     ConfigInfoResultRealm configInfoResultRealm = new ConfigInfoResultRealm();
     configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
-    realm.clear(ConfigInfoResultRealm.class);
+    realm.delete(ConfigInfoResultRealm.class);
     realm.copyToRealm(configInfoResultRealm);
   }
 }
