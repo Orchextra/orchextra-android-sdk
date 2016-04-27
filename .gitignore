@@ -27,4 +27,4 @@ proguard/
 # Windows files
 Thumbs.db
 *.bak
-#proguard-rules.pro
+proguard-rules.pro
