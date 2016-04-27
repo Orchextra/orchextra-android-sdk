@@ -78,41 +78,6 @@ task sourcesJar(type: Jar) {
   classifier = 'sources'
 }
 
-//task javadoc(type: Javadoc) {
-//  failOnError  false
-//  source = android.sourceSets.main.java.sourceFiles
-//  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-//  classpath += configurations.compile
-//}
-//
-//// build a jar with javadoc
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//  classifier = 'javadoc'
-//  from javadoc.destinationDir
-//}
-
-
-task javadoc(type: Javadoc) {
-  failOnError  false
-  source = android.sourceSets.main.java.srcDirs
-  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-  exclude '**/R.java'
-  exclude '**/BuildConfig.java'
-}
-
-afterEvaluate {
-  javadoc.classpath += files(android.libraryVariants.collect { variant ->
-    variant.javaCompile.classpath.files
-  })
-}
-
-// build a jar with javadoc
-task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
-  from javadoc.destinationDir
-}
-
 artifacts {
   archives sourcesJar
-  archives javadocJar
 }
