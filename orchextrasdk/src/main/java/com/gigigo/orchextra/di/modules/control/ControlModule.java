@@ -26,7 +26,6 @@ import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceContr
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.modules.domain.DomainModule;
-import com.gigigo.orchextra.di.modules.domain.DomainServicesModule;
 import com.gigigo.orchextra.di.modules.domain.FastDomainServicesModule;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;

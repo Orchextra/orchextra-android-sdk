@@ -33,7 +33,7 @@ allprojects {
         gggLogger                  : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.3-dev',
         gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.3-dev',
 
-//      TODO this two lib shold be not necessary at all
+//      TODO this two lib should be not necessary at all
         threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',
         threaddecoratedviewcompiler : 'me.panavtec:threaddecoratedview-compiler:1.5.1'
 

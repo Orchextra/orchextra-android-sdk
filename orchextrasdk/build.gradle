@@ -106,11 +106,13 @@ dependencies {
 
   compile (parent.ext.dependencies.dagger){
     transitive = false
+    exclude group:'com.google.dagger', module:'dagger'
+    exclude group:'javax.inject'
   }
 
   apt (parent.ext.dependencies.daggerCompiler){
     transitive = false
-    exclude group:'com.google.dagger'
+    exclude group:'com.google.dagger', module:'dagger'
     exclude group:'javax.inject'
   }
 
