@@ -153,15 +153,21 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     startMonitoringRegions(altRegions);
   }
 
-  private void startMonitoringRegions(List<Region> altRegions) {
-    try {
-      for (Region region:altRegions){
-        beaconManager.startMonitoringBeaconsInRegion(region);
-        GGGLogImpl.log("Start Beacons Monitoring for region " + region.getUniqueId());
-      }
-    } catch (RemoteException e) {
-      e.printStackTrace();
-    }
+  private void startMonitoringRegions(final List<Region> altRegions) {
+
+      new Thread(new Runnable() {
+        @Override public void run() {
+          for (Region region:altRegions){
+            try {
+            beaconManager.startMonitoringBeaconsInRegion(region);
+            GGGLogImpl.log("Start Beacons Monitoring for region " + region.getUniqueId());
+            } catch (RemoteException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+      }).start();
+
     monitoring = true;
   }
 

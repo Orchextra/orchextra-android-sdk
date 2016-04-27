@@ -164,12 +164,13 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     initRanging(backgroundBeaconsRangingTimeType);
   }
 
-  private void initRanging(BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType) {
+  private void initRanging(final BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType) {
 
     manageGeneralBackgroundScanTimes(backgroundBeaconsRangingTimeType);
 
+    new Thread(new Runnable() {
+      @Override public void run() {
     for (Region region:regions){
-
       try {
         manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
         beaconManager.startRangingBeaconsInRegion(region);
@@ -178,7 +179,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         e.printStackTrace();
       }
 
-    }
+    }}
+    }).start();
   }
 
   private void manageGeneralBackgroundScanTimes(BackgroundBeaconsRangingTimeType time) {
