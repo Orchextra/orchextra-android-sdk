@@ -16,6 +16,8 @@ Orchextra SDK is composed of **Orchextra Core**.
 #### Orchextra Core
 - Geofences
 - Beacons
+- Push Notifications
+- Barcode Scanner
 
 ## Installation
 Download [Orchextra Android Sample ](https://github.com/Orchextra/orchextra-android-sample-app) to understand how to use the SDK.
@@ -38,7 +40,7 @@ allprojects {
 ```
 and we add the Orchextra dependency in our **app** module like this:
 ```java
-    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.2.0-dev'
+    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.2.0'
 ```
 
 The previous dependency has to be added into this file:
