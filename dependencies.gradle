@@ -29,9 +29,9 @@ allprojects {
         altBeacon                  : 'org.altbeacon:android-beacon-library:2+',
         barcodescanner             : 'me.dm7.barcodescanner:zbar:1.8.4',
 
-        gggJavaLib                 : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.3-dev',
-        gggLogger                  : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.3-dev',
-        gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.3-dev',
+        gggJavaLib                 : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.3',
+        gggLogger                  : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.3',
+        gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.3',
 
 //      TODO this two lib should be not necessary at all
         threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',

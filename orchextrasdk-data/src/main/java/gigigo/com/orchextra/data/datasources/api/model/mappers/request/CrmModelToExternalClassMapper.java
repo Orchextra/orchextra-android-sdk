@@ -18,9 +18,9 @@
 
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
+import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
-import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrm;
 
@@ -32,7 +32,7 @@ public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper
     ApiCrm apiCrm = new ApiCrm();
 
     apiCrm.setBirthDate(
-        DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT));
+        DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT_NO_TIME));
     apiCrm.setCrmId(crm.getCrmId());
 
     if (crm.getGender() != null) {

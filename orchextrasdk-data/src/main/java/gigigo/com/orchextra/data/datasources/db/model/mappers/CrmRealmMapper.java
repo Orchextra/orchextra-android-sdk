@@ -20,9 +20,9 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import android.text.TextUtils;
 
+import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.orchextra.domain.model.GenderType;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
@@ -46,7 +46,7 @@ public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
 
       if (crm.getBirthDate() != null) {
         crmRealm.setBirthDate(
-            DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT));
+            DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT_TIME));
       }
 
       if (crm.getCrmId() != null) {
@@ -80,7 +80,7 @@ public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
 
       if (!TextUtils.isEmpty(crmRealm.getBirthDate())) {
         crm.setBirthDate(DateUtils.stringToDateWithFormat(crmRealm.getBirthDate(),
-                DateFormatConstants.DATE_FORMAT));
+                DateFormatConstants.DATE_FORMAT_TIME));
       }
     }
 
