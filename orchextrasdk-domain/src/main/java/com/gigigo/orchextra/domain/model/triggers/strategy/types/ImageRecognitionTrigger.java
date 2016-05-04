@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.domain.model.triggers.strategy.types;
 
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
-import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviourImpl;

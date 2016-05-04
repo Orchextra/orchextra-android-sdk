@@ -36,17 +36,16 @@ public class ImageRecognitionLocalDataProviderImp implements ImageRecognitionLoc
   @Override public BusinessObject<Vuforia> obtainVuforiaInfo() {
     BusinessObject<ConfigInfoResult> bo = configDBDataSource.obtainConfigData();
 
-    if (bo.isSuccess()){
-        ConfigInfoResult configInfoResult = bo.getData();
-      if (configInfoResult.supportsVuforia()){
+    if (bo.isSuccess()) {
+      ConfigInfoResult configInfoResult = bo.getData();
+      if (configInfoResult.supportsVuforia()) {
         return new BusinessObject(configInfoResult.getVuforia(), BusinessError.createOKInstance());
-      }else{
-        return new BusinessObject(null, BusinessError.createKoInstance("Image Recognition Module"
-            + " configuration not enabled, review dashboard"));
+      } else {
+        return new BusinessObject(null, BusinessError.createKoInstance(
+            "Image Recognition Module" + " configuration not enabled, review dashboard"));
       }
-    }else{
+    } else {
       return new BusinessObject(null, bo.getBusinessError());
     }
   }
-
 }

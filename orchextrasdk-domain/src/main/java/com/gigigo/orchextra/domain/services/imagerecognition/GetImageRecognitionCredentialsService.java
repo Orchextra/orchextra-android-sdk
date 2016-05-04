@@ -34,9 +34,9 @@ public class GetImageRecognitionCredentialsService {
 
   public InteractorResponse<Vuforia> obtainImageRecognitionCredentials() {
     BusinessObject<Vuforia> bo = imageRecognitionLocalDataProvider.obtainVuforiaInfo();
-    if (bo.isSuccess()){
+    if (bo.isSuccess()) {
       return new InteractorResponse(bo.getData());
-    }else{
+    } else {
       return new InteractorResponse(new GenericError(bo.getBusinessError()));
     }
   }

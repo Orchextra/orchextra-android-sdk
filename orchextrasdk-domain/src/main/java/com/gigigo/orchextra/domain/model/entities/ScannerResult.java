@@ -22,29 +22,29 @@ import com.gigigo.orchextra.domain.interactors.scanner.ScannerType;
 
 public class ScannerResult {
 
-    private String content;
-    private ScannerType type;
+  private String content;
+  private ScannerType type;
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
 
-    public void setType(ScannerType type) {
-        this.type = type;
-    }
+  public void setType(ScannerType type) {
+    this.type = type;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public ScannerType getType() {
-        return type;
-    }
+  public ScannerType getType() {
+    return type;
+  }
 
-    public static ScannerResult createImageRecognitionResult(String patternId){
-        ScannerResult scannerResult = new ScannerResult();
-        scannerResult.setType(ScannerType.IMAGE_RECOGNITION);
-        scannerResult.setContent(patternId);
-        return scannerResult;
-    }
+  public static ScannerResult createImageRecognitionResult(String patternId) {
+    ScannerResult scannerResult = new ScannerResult();
+    scannerResult.setType(ScannerType.IMAGE_RECOGNITION);
+    scannerResult.setContent(patternId);
+    return scannerResult;
+  }
 }

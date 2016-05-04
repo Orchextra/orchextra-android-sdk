@@ -33,13 +33,12 @@ public class VuforiaReadyImpl implements VuforiaReady {
   }
 
   @Override public boolean isSupported() {
-    return
-        (vuforia != null &&
-            vuforia.getLicenseKey() != null &&
-            vuforia.getLicenseKey().length() >0 &&
-            vuforia.getClientAccessKey() != null &&
-            vuforia.getClientAccessKey().length() >0 &&
-            vuforia.getClientSecretKey() != null &&
-            vuforia.getClientSecretKey().length() >0) ? true : false;
+    return (vuforia != null
+        && vuforia.getLicenseKey() != null
+        && vuforia.getLicenseKey().length() > 0
+        && vuforia.getClientAccessKey() != null
+        && vuforia.getClientAccessKey().length() > 0
+        && vuforia.getClientSecretKey() != null
+        && vuforia.getClientSecretKey().length() > 0) ? true : false;
   }
 }
