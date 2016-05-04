@@ -131,6 +131,17 @@ public abstract class Trigger {
     }
   }
 
+  public static Trigger createImageRecognitionTrigger(String content, OrchextraPoint orchextraPoint) {
+    try {
+      ImageRecognitionTrigger imageRecognitionTrigger =
+          new ImageRecognitionTrigger(content, orchextraPoint, AppRunningModeType.FOREGROUND);
+      imageRecognitionTrigger.setConcreteBehaviour();
+      return imageRecognitionTrigger;
+    } catch (Exception e) {
+      return Trigger.createEmptyTrigger();
+    }
+  }
+
   public TriggerType getTriggerType() {
     return triggerType;
   }

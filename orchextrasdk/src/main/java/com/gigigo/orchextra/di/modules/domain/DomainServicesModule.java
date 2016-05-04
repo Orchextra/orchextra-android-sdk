@@ -33,6 +33,7 @@ import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRe
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
+import com.gigigo.orchextra.domain.dataprovider.ImageRecognitionLocalDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
@@ -44,6 +45,7 @@ import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationServiceImpl;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
+import com.gigigo.orchextra.domain.services.imagerecognition.GetImageRecognitionCredentialsService;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
@@ -143,6 +145,14 @@ public class DomainServicesModule {
 
   @Provides @PerExecution ThemeService provideThemeService(ConfigDataProvider configDataProvider) {
     return new ThemeService(configDataProvider);
+  }
+
+  @Provides @PerExecution GetImageRecognitionCredentialsService
+  provideGetImageRecognitionCredentialsService(ImageRecognitionLocalDataProvider
+      imageRecognitionLocalDataProvider) {
+
+    return new GetImageRecognitionCredentialsService(imageRecognitionLocalDataProvider);
+
   }
 
   @Provides @PerExecution ObtainGeoLocationTask provideObtainGeoLocationTask(FutureGeolocation futureGeolocation,

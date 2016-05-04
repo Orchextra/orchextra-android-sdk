@@ -25,16 +25,19 @@ import android.os.Build;
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
+import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionManager;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
+import com.gigigo.orchextra.di.modules.device.ImageRecognitionModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
@@ -62,6 +65,7 @@ public class OrchextraManager {
   @Inject AppRunningMode appRunningMode;
   @Inject AppStatusEventsListener appStatusEventsListener;
   @Inject ScannerManager scannerManager;
+  @Inject ImageRecognitionManager imageRecognitionManager;
 
   /**
    * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -262,6 +266,19 @@ public class OrchextraManager {
       return orchextraComponent.getOrchextraModule();
     } else {
       return null;
+    }
+  }
+
+  public static void setImageRecognition(ImageRecognition imageRecognition) {
+    if (OrchextraManager.instance != null) {
+      OrchextraManager.instance.imageRecognitionManager.setImplementation(imageRecognition);
+    }
+
+  }
+
+  public static void startImageRecognition(){
+    if (OrchextraManager.instance != null) {
+      OrchextraManager.instance.imageRecognitionManager.startImageRecognition();
     }
   }
 }

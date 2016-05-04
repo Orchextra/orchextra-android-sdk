@@ -45,7 +45,7 @@ import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 
 
-@Module(includes = {BluetoothModule.class, ActionsModule.class, NotificationsModule.class, GeolocationModule.class})
+@Module(includes = {BluetoothModule.class, ActionsModule.class, NotificationsModule.class, GeolocationModule.class, ImageRecognitionModule.class})
 public class DeviceModule {
 
   @Singleton @Provides

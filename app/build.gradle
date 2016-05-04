@@ -64,6 +64,7 @@ android {
 dependencies {
 
   compile project(':orchextrasdk')
+  compile parent.ext.dependencies.imageRecognitionImpl
   testCompile parent.ext.testDependencies.junit
 
 }

@@ -20,10 +20,12 @@ package com.gigigo.orchextra.di.injector;
 
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
+import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionReceiver;
 import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
 import com.gigigo.orchextra.di.components.DaggerGcmListenerServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerGeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerOrchextraBootBroadcastReceiverComponent;
+import com.gigigo.orchextra.di.components.DaggerOrchextraIrBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.DaggerServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerTaskServiceComponent;
 import com.gigigo.orchextra.di.components.GcmListenerServiceComponent;
@@ -31,10 +33,12 @@ import com.gigigo.orchextra.di.components.GeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.components.OrchextraBootBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
+import com.gigigo.orchextra.di.components.OrchextraIrBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.ServiceComponent;
 import com.gigigo.orchextra.di.components.TaskServiceComponent;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
@@ -140,6 +144,12 @@ public class InjectorImpl implements Injector {
     return interactorExecutionComponent;
   }
 
+  @Override public InteractorExecutionComponent injectObtainIrCredentialsInteractorExecution(InteractorExecution<Vuforia> interactorExecution) {
+    InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
+    interactorExecutionComponent.injectObtainIrCredentialsInteractorExecution(interactorExecution);
+    return interactorExecutionComponent;
+  }
+
   @Override
   public InteractorExecutionComponent injectScannerInteractorExecution(InteractorExecution<BasicAction> interactorExecution) {
     InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
@@ -162,5 +172,13 @@ public class InjectorImpl implements Injector {
   @Override public OrchextraComponent injectCodeScannerActivity(OxScannerActivity oxCodeScannerActivity) {
     orchextraComponent.injectCodeScannerActivity(oxCodeScannerActivity);
     return orchextraComponent;
+  }
+
+  @Override public OrchextraIrBroadcastReceiverComponent injectImageBroadcastComponent(
+      ImageRecognitionReceiver imageRecognitionReceiver) {
+    OrchextraIrBroadcastReceiverComponent oibrc = DaggerOrchextraIrBroadcastReceiverComponent.builder().
+        orchextraComponent(orchextraComponent).build();
+    oibrc.injectOrchextraIrBroadcastReceiver(imageRecognitionReceiver);
+    return oibrc;
   }
 }

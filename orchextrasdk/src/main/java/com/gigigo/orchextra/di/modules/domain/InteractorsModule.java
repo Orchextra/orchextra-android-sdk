@@ -24,6 +24,7 @@ import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofencesProviderInteractor;
+import com.gigigo.orchextra.domain.interactors.imagerecognition.GetImageRecognitionCredentialsInteractor;
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
 import com.gigigo.orchextra.domain.interactors.themes.ObtainThemeInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
@@ -32,6 +33,7 @@ import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
+import com.gigigo.orchextra.domain.services.imagerecognition.GetImageRecognitionCredentialsService;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainGeofencesService;
@@ -86,7 +88,12 @@ public class InteractorsModule {
         return new ObtainThemeInteractor(themeService);
     }
 
-    @Provides @PerExecution ScannerInteractor provideScannerInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
+
+  @Provides @PerExecution GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor(GetImageRecognitionCredentialsService imageRecognitionCredentialsService){
+    return new GetImageRecognitionCredentialsInteractor(imageRecognitionCredentialsService);
+  }
+
+  @Provides @PerExecution ScannerInteractor provideScannerInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
                                                                        ObtainGeoLocationTask obtainGeoLocationTask){
         return new ScannerInteractor(triggerActionsFacadeService, obtainGeoLocationTask);
     }

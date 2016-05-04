@@ -18,20 +18,28 @@
 
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 
 public class VuforiaReadyImpl implements VuforiaReady {
 
-  private com.gigigo.orchextra.domain.model.entities.Vuforia vuforia;
+  private Vuforia vuforia;
 
-  public VuforiaReadyImpl(com.gigigo.orchextra.domain.model.entities.Vuforia vuforia) {
+  public VuforiaReadyImpl(Vuforia vuforia) {
     this.vuforia = vuforia;
   }
 
-  @Override public com.gigigo.orchextra.domain.model.entities.Vuforia getVuforia() {
+  @Override public Vuforia getVuforia() {
     return vuforia;
   }
 
   @Override public boolean isSupported() {
-    return (vuforia == null) ? false : true;
+    return
+        (vuforia != null &&
+            vuforia.getLicenseKey() != null &&
+            vuforia.getLicenseKey().length() >0 &&
+            vuforia.getClientAccessKey() != null &&
+            vuforia.getClientAccessKey().length() >0 &&
+            vuforia.getClientSecretKey() != null &&
+            vuforia.getClientSecretKey().length() >0) ? true : false;
   }
 }

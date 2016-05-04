@@ -27,6 +27,7 @@ import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceProviderInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.GetIrCredentialsInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ObtainThemeInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
@@ -125,6 +126,14 @@ public class DomainModule {
     InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectObtainThemeInteractorExecution(
             interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideObtainThemeInteractor());
+    return interactorExecution;
+  }
+
+  @GetIrCredentialsInteractorExecution @Provides InteractorExecution provideObtainIrCredentialsInteractorExecution() {
+    InteractorExecution interactorExecution = new InteractorExecution();
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectObtainIrCredentialsInteractorExecution(
+        interactorExecution);
+    interactorExecution.setInteractor(interactorExecutionComponent.provideGetImageRecognitionCredentialsInteractor());
     return interactorExecution;
   }
 

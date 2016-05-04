@@ -16,16 +16,12 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.domain.interactors.scanner;
+package com.gigigo.orchextra.di.qualifiers;
 
-public enum ScannerType {
-    QRCODE("QRCODE"),
-    IMAGE_RECOGNITION("IR"),
-    BARCODE("UPCA");
+import java.lang.annotation.Retention;
+import orchextra.javax.inject.Qualifier;
 
-    private final String type;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-    ScannerType(String type) {
-        this.type = type;
-    }
-}
+@Qualifier @Retention(RUNTIME)
+public @interface GetIrCredentialsInteractorExecution {}

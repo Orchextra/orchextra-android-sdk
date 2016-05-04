@@ -20,15 +20,18 @@ package com.gigigo.orchextra.di.injector;
 
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
+import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionReceiver;
 import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
 import com.gigigo.orchextra.di.components.GcmListenerServiceComponent;
 import com.gigigo.orchextra.di.components.GeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.components.OrchextraBootBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
+import com.gigigo.orchextra.di.components.OrchextraIrBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.ServiceComponent;
 import com.gigigo.orchextra.di.components.TaskServiceComponent;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
@@ -56,8 +59,11 @@ public interface Injector {
   GcmListenerServiceComponent injectGcmListenerServiceComponent(OrchextraGcmListenerService orchextraGcmListenerService);
 
   InteractorExecutionComponent injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
+  InteractorExecutionComponent injectObtainIrCredentialsInteractorExecution(InteractorExecution<Vuforia> interactorExecution);
 
   InteractorExecutionComponent injectScannerInteractorExecution(InteractorExecution<BasicAction> interactorExecution);
 
   OrchextraComponent injectCodeScannerActivity(OxScannerActivity oxCodeScannerActivity);
+
+  OrchextraIrBroadcastReceiverComponent injectImageBroadcastComponent(ImageRecognitionReceiver imageRecognitionReceiver);
 }

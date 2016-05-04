@@ -30,7 +30,8 @@ public interface DeviceModuleProvider extends
     BluetoothModuleProvider,
     ActionsModuleProvider,
     NotificationsModuleProvider,
-    GeolocationModuleProvider{
+    GeolocationModuleProvider,
+    ImageRecognitionModuleProvider{
 
     AndroidApp provideAndroidApp();
     AndroidDevice provideAndroidDevice();

@@ -22,6 +22,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 public class ConfigVuforiaUpdater {
@@ -56,6 +57,9 @@ public class ConfigVuforiaUpdater {
     RealmResults<VuforiaRealm> savedVuforia = realm.where(VuforiaRealm.class).findAll();
     if (savedVuforia.size() > 0) {
       hasChangedVuforia = !checkVuforiaAreEquals(vuforiaRealm, savedVuforia.first());
+    }else if (savedVuforia.isEmpty()){
+      realm.copyToRealm(vuforiaRealm);
+      return true;
     }
 
     if (hasChangedVuforia) {
@@ -70,10 +74,38 @@ public class ConfigVuforiaUpdater {
     if (oldVuforia == null) {
       return false;
     }
-    return vuforiaRealm.getClientAccessKey().equals(oldVuforia.getClientAccessKey()) &&
-        vuforiaRealm.getClientSecretKey().equals(oldVuforia.getClientSecretKey()) &&
-        vuforiaRealm.getLicenseKey().equals(oldVuforia.getLicenseKey()) &&
-        vuforiaRealm.getServerAccessKey().equals(oldVuforia.getServerAccessKey()) &&
-        vuforiaRealm.getServerSecretKey().equals(oldVuforia.getServerSecretKey());
+
+    if (vuforiaRealm.getServerAccessKey() != null && oldVuforia.getServerAccessKey() != null){
+      if (!vuforiaRealm.getServerAccessKey().equals(oldVuforia.getServerAccessKey())){
+        return false;
+      }
+    }
+
+    if (vuforiaRealm.getServerSecretKey() != null && oldVuforia.getServerSecretKey() != null){
+      if (!vuforiaRealm.getServerSecretKey().equals(oldVuforia.getServerSecretKey())){
+        return false;
+      }
+    }
+
+    if (vuforiaRealm.getClientAccessKey() != null && oldVuforia.getClientAccessKey() != null){
+      if (!vuforiaRealm.getClientAccessKey().equals(oldVuforia.getClientAccessKey())){
+        return false;
+      }
+    }
+
+    if (vuforiaRealm.getClientSecretKey() != null && oldVuforia.getClientSecretKey() != null){
+      if (!vuforiaRealm.getClientSecretKey().equals(oldVuforia.getClientSecretKey())){
+        return false;
+      }
+    }
+
+    if (vuforiaRealm.getLicenseKey() != null && oldVuforia.getLicenseKey() != null){
+      if (!vuforiaRealm.getLicenseKey().equals(oldVuforia.getLicenseKey())){
+        return false;
+      }
+    }
+
+    return true;
+
   }
 }

@@ -23,6 +23,7 @@ import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofencesProviderInteractor;
+import com.gigigo.orchextra.domain.interactors.imagerecognition.GetImageRecognitionCredentialsInteractor;
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
 import com.gigigo.orchextra.domain.interactors.themes.ObtainThemeInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
@@ -35,5 +36,6 @@ public interface InteractorsModuleProvider {
   GeofenceInteractor provideGeofenceInteractor();
   GeofencesProviderInteractor provideGeofenceProviderInteractor();
   ObtainThemeInteractor provideObtainThemeInteractor();
+  GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor();
   ScannerInteractor provideScannerInteractor();
 }

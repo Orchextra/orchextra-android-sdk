@@ -19,6 +19,7 @@ package com.gigigo.orchextra;
 
 import android.app.Application;
 
+import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
@@ -66,6 +67,13 @@ public class Orchextra {
         OrchextraManager.sdkStart(apiKey, apiSecret);
     }
 
+    public static synchronized void setImageRecognitionModule(ImageRecognition imageRecognitionModule) {
+        OrchextraManager.setImageRecognition(imageRecognitionModule);
+    }
+
+    public static synchronized void startImageRecognition() {
+        OrchextraManager.startImageRecognition();
+    }
 
     //public static synchronized void sdkStop() {
     //    OrchextraManager.sdkStop();
@@ -97,4 +105,5 @@ public class Orchextra {
     public static void startScannerActivity() {
         OrchextraManager.openScannerView();
     }
+
 }

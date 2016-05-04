@@ -87,6 +87,9 @@ public class TriggerService implements DomaninService {
     List<Trigger> triggers = new ArrayList<>();
 
     switch (scanner.getType()) {
+      case IMAGE_RECOGNITION:
+        triggers.add(Trigger.createImageRecognitionTrigger(scanner.getContent(), orchextraPoint));
+        break;
       case QRCODE:
         triggers.add(Trigger.createQrScanTrigger(scanner.getContent(), orchextraPoint));
         break;

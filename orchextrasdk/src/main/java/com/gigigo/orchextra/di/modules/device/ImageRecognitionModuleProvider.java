@@ -16,16 +16,10 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.domain.interactors.scanner;
+package com.gigigo.orchextra.di.modules.device;
 
-public enum ScannerType {
-    QRCODE("QRCODE"),
-    IMAGE_RECOGNITION("IR"),
-    BARCODE("UPCA");
+import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionManager;
 
-    private final String type;
-
-    ScannerType(String type) {
-        this.type = type;
-    }
+public interface ImageRecognitionModuleProvider {
+  ImageRecognitionManager provideImageRecognitionManager();
 }

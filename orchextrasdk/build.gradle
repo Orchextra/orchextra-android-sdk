@@ -127,6 +127,7 @@ dependencies {
 //  compile parent.ext.dependencies.playServicesGcm
 
   compile parent.ext.dependencies.barcodescanner
+  compile parent.ext.dependencies.imageRecognitionInterface
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')
