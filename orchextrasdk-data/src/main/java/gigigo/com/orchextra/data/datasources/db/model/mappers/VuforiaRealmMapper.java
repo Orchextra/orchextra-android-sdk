@@ -32,8 +32,6 @@ public class VuforiaRealmMapper implements Mapper<Vuforia, VuforiaRealm> {
       vuforiaRealm.setClientAccessKey(vuforia.getClientAccessKey());
       vuforiaRealm.setClientSecretKey(vuforia.getClientSecretKey());
       vuforiaRealm.setLicenseKey(vuforia.getLicenseKey());
-      vuforiaRealm.setServerAccessKey(vuforia.getServerAccessKey());
-      vuforiaRealm.setServerSecretKey(vuforia.getServerSecretKey());
     }
 
     return vuforiaRealm;
@@ -46,8 +44,6 @@ public class VuforiaRealmMapper implements Mapper<Vuforia, VuforiaRealm> {
       vuforia.setClientAccessKey(vuforiaRealm.getClientAccessKey());
       vuforia.setClientSecretKey(vuforiaRealm.getClientSecretKey());
       vuforia.setLicenseKey(vuforiaRealm.getLicenseKey());
-      vuforia.setServerAccessKey(vuforiaRealm.getServerAccessKey());
-      vuforia.setServerSecretKey(vuforiaRealm.getServerSecretKey());
     }
 
     return vuforia;

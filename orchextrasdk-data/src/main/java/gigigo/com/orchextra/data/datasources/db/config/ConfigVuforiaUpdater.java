@@ -55,16 +55,15 @@ public class ConfigVuforiaUpdater {
     VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToExternalClass(vuforia);
 
     RealmResults<VuforiaRealm> savedVuforia = realm.where(VuforiaRealm.class).findAll();
-    if (savedVuforia.size() > 0) {
-      hasChangedVuforia = !checkVuforiaAreEquals(vuforiaRealm, savedVuforia.first());
-    }else if (savedVuforia.isEmpty()){
+    if (savedVuforia.isEmpty()) {
       realm.copyToRealm(vuforiaRealm);
       return true;
+    }else if (savedVuforia.size() > 0){
+      hasChangedVuforia = !checkVuforiaAreEquals(vuforiaRealm, savedVuforia.first());
     }
 
     if (hasChangedVuforia) {
-      realm.delete(VuforiaRealm.class);
-      realm.copyToRealm(vuforiaRealm);
+      realm.copyToRealmOrUpdate(vuforiaRealm);
     }
 
     return hasChangedVuforia;
@@ -75,37 +74,18 @@ public class ConfigVuforiaUpdater {
       return false;
     }
 
-    if (vuforiaRealm.getServerAccessKey() != null && oldVuforia.getServerAccessKey() != null){
-      if (!vuforiaRealm.getServerAccessKey().equals(oldVuforia.getServerAccessKey())){
-        return false;
-      }
-    }
+    String oldAccessKey = (oldVuforia.getClientAccessKey() != null)? oldVuforia.getClientAccessKey() : "";
+    String oldSecretKey = (oldVuforia.getClientSecretKey() != null)? oldVuforia.getClientSecretKey() : "";
+    String oldLicense = (oldVuforia.getLicenseKey() != null)? oldVuforia.getLicenseKey() : "";
 
-    if (vuforiaRealm.getServerSecretKey() != null && oldVuforia.getServerSecretKey() != null){
-      if (!vuforiaRealm.getServerSecretKey().equals(oldVuforia.getServerSecretKey())){
-        return false;
-      }
-    }
+    String accessKey = (vuforiaRealm.getClientAccessKey() != null)? vuforiaRealm.getClientAccessKey() : "";
+    String secretKey = (vuforiaRealm.getClientSecretKey() != null)? vuforiaRealm.getClientSecretKey() : "";
+    String license = (vuforiaRealm.getLicenseKey() != null)? vuforiaRealm.getLicenseKey() : "";
 
-    if (vuforiaRealm.getClientAccessKey() != null && oldVuforia.getClientAccessKey() != null){
-      if (!vuforiaRealm.getClientAccessKey().equals(oldVuforia.getClientAccessKey())){
-        return false;
-      }
-    }
-
-    if (vuforiaRealm.getClientSecretKey() != null && oldVuforia.getClientSecretKey() != null){
-      if (!vuforiaRealm.getClientSecretKey().equals(oldVuforia.getClientSecretKey())){
-        return false;
-      }
-    }
-
-    if (vuforiaRealm.getLicenseKey() != null && oldVuforia.getLicenseKey() != null){
-      if (!vuforiaRealm.getLicenseKey().equals(oldVuforia.getLicenseKey())){
-        return false;
-      }
+    if (!oldAccessKey.equals(accessKey) || !oldSecretKey.equals(secretKey) || !oldLicense.equals(license)){
+      return false;
     }
 
     return true;
-
   }
 }

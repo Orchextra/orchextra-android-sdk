@@ -19,15 +19,15 @@
 package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
-
+import io.realm.annotations.PrimaryKey;
 
 public class VuforiaRealm extends RealmObject {
+
+  @PrimaryKey private int id;
 
   private String licenseKey;
   private String clientAccessKey;
   private String clientSecretKey;
-  private String serverAccessKey;
-  private String serverSecretKey;
 
   public String getLicenseKey() {
     return licenseKey;
@@ -53,19 +53,12 @@ public class VuforiaRealm extends RealmObject {
     this.clientSecretKey = clientSecretKey;
   }
 
-  public String getServerAccessKey() {
-    return serverAccessKey;
+  public void setId(int id) {
+    this.id = id;
   }
 
-  public void setServerAccessKey(String serverAccessKey) {
-    this.serverAccessKey = serverAccessKey;
+  public int getId() {
+    return id;
   }
 
-  public String getServerSecretKey() {
-    return serverSecretKey;
-  }
-
-  public void setServerSecretKey(String serverSecretKey) {
-    this.serverSecretKey = serverSecretKey;
-  }
 }

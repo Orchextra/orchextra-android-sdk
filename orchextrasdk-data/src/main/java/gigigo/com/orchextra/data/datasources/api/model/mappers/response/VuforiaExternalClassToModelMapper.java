@@ -32,8 +32,6 @@ public class VuforiaExternalClassToModelMapper
     vuforia.setClientAccessKey(apiVuforia.getClientAccessKey());
     vuforia.setClientSecretKey(apiVuforia.getClientSecretKey());
     vuforia.setLicenseKey(apiVuforia.getLicenseKey());
-    vuforia.setServerAccessKey(apiVuforia.getServerAccessKey());
-    vuforia.setServerSecretKey(apiVuforia.getServerSecretKey());
 
     return vuforia;
   }

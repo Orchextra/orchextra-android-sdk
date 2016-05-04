@@ -16,8 +16,6 @@ public class VuforiaResponseMapperTest {
         apiVuforia.setClientAccessKey("AccessKey");
         apiVuforia.setClientSecretKey("SecretKey");
         apiVuforia.setLicenseKey("LicenseKey");
-        apiVuforia.setServerAccessKey("ServerAccessKey");
-        apiVuforia.setServerSecretKey("ServerSecretKey");
 
         VuforiaExternalClassToModelMapper mapper = new VuforiaExternalClassToModelMapper();
         Vuforia vuforia = mapper.externalClassToModel(apiVuforia);
@@ -25,8 +23,6 @@ public class VuforiaResponseMapperTest {
         assertEquals("AccessKey", vuforia.getClientAccessKey());
         assertEquals("SecretKey", vuforia.getClientSecretKey());
         assertEquals("LicenseKey", vuforia.getLicenseKey());
-        assertEquals("ServerAccessKey", vuforia.getServerAccessKey());
-        assertEquals("ServerSecretKey", vuforia.getServerSecretKey());
     }
 
 

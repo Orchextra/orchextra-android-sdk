@@ -30,10 +30,6 @@ public class ApiVuforia {
 
   @Expose @SerializedName("clientSecretKey") private String clientSecretKey;
 
-  @Expose @SerializedName("serverAccessKey") private String serverAccessKey;
-
-  @Expose @SerializedName("serverSecretKey") private String serverSecretKey;
-
   public String getLicenseKey() {
     return licenseKey;
   }
@@ -58,19 +54,4 @@ public class ApiVuforia {
     this.clientSecretKey = clientSecretKey;
   }
 
-  public String getServerAccessKey() {
-    return serverAccessKey;
-  }
-
-  public void setServerAccessKey(String serverAccessKey) {
-    this.serverAccessKey = serverAccessKey;
-  }
-
-  public String getServerSecretKey() {
-    return serverSecretKey;
-  }
-
-  public void setServerSecretKey(String serverSecretKey) {
-    this.serverSecretKey = serverSecretKey;
-  }
 }

@@ -34,8 +34,8 @@ allprojects {
         gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.3-dev',
 
         //Image Recognition
-        imageRecognitionInterface  : 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:0.92-dev',
-        imageRecognitionImpl       : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:0.92-dev',
+        imageRecognitionInterface  : 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:0.95-dev',
+        imageRecognitionImpl       : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:0.95-dev',
 
 //      TODO this two lib should be not necessary at all
         threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',
