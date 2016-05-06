@@ -21,6 +21,7 @@ package com.gigigo.orchextra.control.controllers.config;
 import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
@@ -31,15 +32,17 @@ public class ConfigController {
   private final InteractorInvoker interactorInvoker;
   private final Provider<InteractorExecution> sendConfigInteractorExecution;
   private final ConfigObservable configObservable;
+  private final ErrorLogger errorLogger;
 
   public ConfigController(InteractorInvoker interactorInvoker,
       Provider<InteractorExecution> sendConfigInteractorExecution,
-      ConfigObservable configObservable) {
+      ConfigObservable configObservable, ErrorLogger errorLogger) {
 
     this.interactorInvoker = interactorInvoker;
 
     this.sendConfigInteractorExecution = sendConfigInteractorExecution;
     this.configObservable = configObservable;
+    this.errorLogger = errorLogger;
   }
 
   public void sendConfiguration() {
@@ -61,7 +64,7 @@ public class ConfigController {
   }
 
   private void manageInteractorError(InteractorError result) {
-    //TODO LOG ERROR
+    errorLogger.log(result.getError());
   }
 
   private void notifyChanges(OrchextraUpdates result) {

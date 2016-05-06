@@ -71,8 +71,8 @@ public class ControlModule {
   @Singleton ConfigController provideConfigController(
       InteractorInvoker interactorInvoker,
       @ConfigInteractorExecution Provider<InteractorExecution> sendConfigInteractorProvider,
-      ConfigObservable configObservable) {
-    return new ConfigController(interactorInvoker, sendConfigInteractorProvider, configObservable);
+      ConfigObservable configObservable, ErrorLogger errorLogger) {
+    return new ConfigController(interactorInvoker, sendConfigInteractorProvider, configObservable, errorLogger);
   }
 
   @Provides @Singleton
