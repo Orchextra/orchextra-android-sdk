@@ -18,10 +18,10 @@
 
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
+import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
-import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.orchextra.domain.model.ProximityPointType;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
@@ -57,10 +57,10 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
     }
 
     geofenceRealm.setCreatedAt(
-        DateUtils.dateToStringWithFormat(geofence.getCreatedAt(), DateFormatConstants.DATE_FORMAT));
+        DateUtils.dateToStringWithFormat(geofence.getCreatedAt(), DateFormatConstants.DATE_FORMAT_TIME));
 
     geofenceRealm.setUpdatedAt(
-        DateUtils.dateToStringWithFormat(geofence.getUpdatedAt(), DateFormatConstants.DATE_FORMAT));
+        DateUtils.dateToStringWithFormat(geofence.getUpdatedAt(), DateFormatConstants.DATE_FORMAT_TIME));
 
     return geofenceRealm;
   }
@@ -82,9 +82,9 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
     geofence.setType(ProximityPointType.getProximityPointTypeValue(geofenceRealm.getType()));
 
     geofence.setCreatedAt(DateUtils.stringToDateWithFormat(geofenceRealm.getCreatedAt(),
-        DateFormatConstants.DATE_FORMAT));
+        DateFormatConstants.DATE_FORMAT_TIME));
     geofence.setUpdatedAt(DateUtils.stringToDateWithFormat(geofenceRealm.getUpdatedAt(),
-        DateFormatConstants.DATE_FORMAT));
+        DateFormatConstants.DATE_FORMAT_TIME));
 
     return geofence;
   }

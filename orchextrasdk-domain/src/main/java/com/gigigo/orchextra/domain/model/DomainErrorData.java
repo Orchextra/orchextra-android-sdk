@@ -15,19 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gigigo.orchextra.device.imagerecognition;
+package com.gigigo.orchextra.domain.model;
 
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
-import com.gigigo.imagerecognitioninterface.ImageRecognition;
-import com.gigigo.imagerecognitioninterface.ImageRecognitionCredentials;
+public class DomainErrorData {
+  private final String field;
+  private final String errorDescription;
 
-public class ImageRecognitionNullImpl implements ImageRecognition{
+  public DomainErrorData(String field, String errorDescription) {
+    this.field = field;
+    this.errorDescription = errorDescription;
+  }
 
-  @Override public <T> void setContextProvider(T contextProvider) {}
+  public String getField() {
+    return field;
+  }
 
-  @Override
-  public void startImageRecognition(ImageRecognitionCredentials imageRecognitionCredentials) {
-    GGGLogImpl.log("Image Recognition Module not initialized", LogLevel.WARN);
+  public String getErrorDescription() {
+    return errorDescription;
   }
 }

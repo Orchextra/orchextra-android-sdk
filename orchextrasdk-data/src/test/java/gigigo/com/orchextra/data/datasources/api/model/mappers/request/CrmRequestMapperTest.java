@@ -33,7 +33,7 @@ public class CrmRequestMapperTest {
 
         assertEquals("1234", apiCrm.getCrmId());
         assertEquals("m", apiCrm.getGender());
-        assertEquals("2012-10-21T11:22:34Z", apiCrm.getBirthDate());
+        assertEquals("2012-10-21", apiCrm.getBirthDate());
         assertEquals(1, apiCrm.getKeywords().size());
         assertEquals("palabra", apiCrm.getKeywords().get(0));
     }
@@ -47,7 +47,7 @@ public class CrmRequestMapperTest {
 
         assertEquals("1234", apiCrm.getCrmId());
         assertEquals("f", apiCrm.getGender());
-        assertEquals("2012-10-21T11:22:34Z", apiCrm.getBirthDate());
+        assertEquals("2012-10-21", apiCrm.getBirthDate());
         assertEquals(0, apiCrm.getKeywords().size());
     }
 
@@ -60,7 +60,7 @@ public class CrmRequestMapperTest {
 
         assertEquals("1234", apiCrm.getCrmId());
         assertEquals("n", apiCrm.getGender());
-        assertEquals("1970-01-01T01:00:00Z", apiCrm.getBirthDate());
+        assertEquals("1970-01-01", apiCrm.getBirthDate());
         assertNull(apiCrm.getKeywords());
     }
 }

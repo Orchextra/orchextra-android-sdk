@@ -23,8 +23,11 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericExceptionResponse;
+import com.gigigo.orchextra.domain.model.DomainErrorData;
+import gigigo.com.orchextra.data.datasources.api.model.responses.base.ErrorData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.OrchextraApiErrorResponse;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrchextraGenericResponseMapper<Model, Data>
     extends ApiGenericResponseMapper<Model, Data, OrchextraApiErrorResponse> {
@@ -34,15 +37,32 @@ public class OrchextraGenericResponseMapper<Model, Data>
   }
 
   @Override
-  protected BusinessError createBusinessError(OrchextraApiErrorResponse orchextraApiErrorResponse) {
+  protected BusinessError createBusinessError(OrchextraApiErrorResponse orchextraApiErrorResponse, Data result){
 
-    if (orchextraApiErrorResponse != null) {
-      int code = orchextraApiErrorResponse.getCode();
-      String message = orchextraApiErrorResponse.getMessage();
-      return new BusinessError(code, message, BusinessContentType.BUSINESS_ERROR_CONTENT);
+      if (orchextraApiErrorResponse != null) {
+        int code = orchextraApiErrorResponse.getCode();
+        String message = orchextraApiErrorResponse.getMessage();
+        BusinessError<List<DomainErrorData>> be = new BusinessError(code, message, BusinessContentType.BUSINESS_ERROR_CONTENT);
+
+        if (result!=null){
+          List<DomainErrorData> ded = mapErrorData((ErrorData[]) result);
+          be.setExtraErrorInfo(ded);
+        }
+
+        return be;
+      }
+
+      return BusinessError.createKoInstance("Empty error message");
+  }
+
+  private List<DomainErrorData> mapErrorData(ErrorData[] result) {
+    List<DomainErrorData> dedList = new ArrayList<>();
+
+    for(ErrorData ed : result){
+      dedList.add(new DomainErrorData(ed.getField(), ed.getError()));
     }
 
-    return BusinessError.createKoInstance("Empty error message");
+    return dedList;
   }
 
   @Override protected BusinessError onException(ApiGenericExceptionResponse exceptionResponse) {
@@ -52,4 +72,5 @@ public class OrchextraGenericResponseMapper<Model, Data>
         new BusinessError(code, message, BusinessContentType.EXCEPTION_CONTENT);
     return businessError;
   }
+
 }

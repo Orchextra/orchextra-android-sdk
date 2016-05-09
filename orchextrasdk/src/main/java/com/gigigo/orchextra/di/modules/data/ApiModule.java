@@ -31,6 +31,7 @@ import com.gigigo.orchextra.di.modules.data.qualifiers.XAppSdk;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.BaseOrchextraApiResponse;
+import gigigo.com.orchextra.data.datasources.api.model.responses.base.GenericErrorOrchextraApiResponse;
 import java.util.Locale;
 
 import orchextra.javax.inject.Singleton;
@@ -154,7 +155,7 @@ public class ApiModule {
     @Provides
     @Singleton
     ErrorConverter provideErrorConverter(Retrofit retrofit) {
-        return new DefatultErrorConverterImpl(retrofit, BaseOrchextraApiResponse.class);
+        return new DefatultErrorConverterImpl(retrofit, GenericErrorOrchextraApiResponse.class);
     }
 
     @Provides

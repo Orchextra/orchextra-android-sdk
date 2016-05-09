@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
+import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
-import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
 import org.junit.Before;
@@ -38,7 +38,8 @@ public class SdkAuthReamlMapperTest {
         assertEquals(ApiSdkAuthDataBuilder.PROJECT_ID, sdkAuthRealm.getProjectId());
         assertEquals(ApiSdkAuthDataBuilder.EXPIRES_IN, sdkAuthRealm.getExpiresIn());
 
-        String expectedDate = DateUtils.dateToStringWithFormat(new Date(System.currentTimeMillis() + ApiSdkAuthDataBuilder.EXPIRES_IN), DateFormatConstants.DATE_FORMAT);
+        String expectedDate = DateUtils.dateToStringWithFormat(new Date(System.currentTimeMillis() + ApiSdkAuthDataBuilder.EXPIRES_IN),
+            DateFormatConstants.DATE_FORMAT_TIME);
         assertEquals(expectedDate, sdkAuthRealm.getExpiresAt());
     }
 
@@ -50,7 +51,7 @@ public class SdkAuthReamlMapperTest {
         sdkAuthRealm.setValue(ApiSdkAuthDataBuilder.VALUE);
         sdkAuthRealm.setProjectId(ApiSdkAuthDataBuilder.PROJECT_ID);
         sdkAuthRealm.setExpiresIn(ApiSdkAuthDataBuilder.EXPIRES_IN);
-        sdkAuthRealm.setExpiresAt(DateUtils.dateToStringWithFormat(expectedDate, DateFormatConstants.DATE_FORMAT));
+        sdkAuthRealm.setExpiresAt(DateUtils.dateToStringWithFormat(expectedDate, DateFormatConstants.DATE_FORMAT_TIME));
 
         SdkAuthData sdkAuthData = mapper.externalClassToModel(sdkAuthRealm);
 

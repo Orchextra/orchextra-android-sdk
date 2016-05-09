@@ -16,6 +16,8 @@ Orchextra SDK is composed of **Orchextra Core**.
 #### Orchextra Core
 - Geofences
 - Beacons
+- Push Notifications
+- Barcode Scanner
 
 ## Installation
 Download [Orchextra Android Sample ](https://github.com/Orchextra/orchextra-android-sample-app) to understand how to use the SDK.
@@ -38,7 +40,7 @@ allprojects {
 ```
 and we add the Orchextra dependency in our **app** module like this:
 ```java
-    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.2.0-dev'
+    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.2.0'
 ```
 
 The previous dependency has to be added into this file:
@@ -162,6 +164,18 @@ Enabling push notifications in SDK is quite simple you should Override this two 
 * Do not forget about image resources, all the explanations given in **Customizing styles** section about notifications applies here for customizing push notification image resources.
 
 Now you can check if Push notifications are working, try to send a push using _Parse Dashboard_. Try to write and send an original message and check if it works!!. 
+
+# Acknowledgements
+
+We would like to mention every company and particular developers that have been contributing this repo in some way:
+
+* Thank's to [Square](http://square.github.io/), we are using several libs they developed (Retrofit 2, OkHttp, Dagger).
+* Thank's to Google, and Android Dev team, obviously, Android SDK, Support Libs, Google play Services, Dagger 2.
+* Thank's to [Radius Network](http://www.radiusnetworks.com/) , for his amazing beacon lib [altBeacon](http://altbeacon.github.io/android-beacon-library/) for Android.
+* Thank's to sourceForge, because we are using [zbar](http://zbar.sourceforge.net/) as Scanner
+* Thank's to [Christian Panadero Martínez](https://twitter.com/PaNaVTEC) because his [blog](http://panavtec.me/) has many interesting ideas that we took as base for this project.
+* Thank's to [Karumi](http://www.karumi.com/) for his great contributions to developers community in general. We are using [Dexter](https://github.com/Karumi/Dexter) from Karumi as well.
+* Thank's to [Yohan Hartanto](https://twitter.com/yohan) that help us with several isues with internal lib configurations.
 
 License
 =======

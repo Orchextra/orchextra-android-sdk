@@ -18,9 +18,9 @@
 
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
+import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.ggglib.network.mappers.DateFormatConstants;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
 
@@ -30,7 +30,7 @@ public class ClientAuthRealmMapper implements Mapper<ClientAuthData, ClientAuthR
   @Override public ClientAuthRealm modelToExternalClass(ClientAuthData clientAuthData) {
     ClientAuthRealm clientAuthRealm = new ClientAuthRealm();
     clientAuthRealm.setExpiresAt(DateUtils.dateToStringWithFormat(clientAuthData.getExpiresAt(),
-        DateFormatConstants.DATE_FORMAT));
+        DateFormatConstants.DATE_FORMAT_TIME));
     clientAuthRealm.setExpiresIn(clientAuthData.getExpiresIn());
     clientAuthRealm.setProjectId(clientAuthData.getProjectId());
     clientAuthRealm.setUserId(clientAuthData.getUserId());
@@ -44,7 +44,7 @@ public class ClientAuthRealmMapper implements Mapper<ClientAuthData, ClientAuthR
         new ClientAuthData(clientAuthRealm.getProjectId(), clientAuthRealm.getUserId(),
             clientAuthRealm.getValue(), clientAuthRealm.getExpiresIn(),
             DateUtils.stringToDateWithFormat(clientAuthRealm.getExpiresAt(),
-                DateFormatConstants.DATE_FORMAT));
+                DateFormatConstants.DATE_FORMAT_TIME));
 
     return clientAuthData;
   }
