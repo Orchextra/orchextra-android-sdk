@@ -17,6 +17,7 @@
  */
 package com.gigigo.orchextra.device.imagerecognition;
 
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
@@ -28,15 +29,19 @@ public class ImageRecognitionManagerImpl implements ImageRecognitionManager,
     OnImageRecognitionCredentialsReadyListener {
 
   private final ImageRecognitionController imageRecognitionController;
+  private final ContextProvider contextProvider;
   private ImageRecognition imageRecognitionImplementation;
 
-  public ImageRecognitionManagerImpl(ImageRecognitionController imageRecognitionController) {
+  public ImageRecognitionManagerImpl(ImageRecognitionController imageRecognitionController,
+      ContextProvider contextProvider) {
     this.imageRecognitionController = imageRecognitionController;
+    this.contextProvider = contextProvider;
     this.imageRecognitionImplementation = new ImageRecognitionNullImpl();
   }
 
   @Override public void setImplementation(ImageRecognition imageRecognition) {
     this.imageRecognitionImplementation = imageRecognition;
+    this.imageRecognitionImplementation.setContextProvider(contextProvider);
   }
 
   @Override public void startImageRecognition() {

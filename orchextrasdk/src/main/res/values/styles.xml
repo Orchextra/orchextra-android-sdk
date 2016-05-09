@@ -26,5 +26,18 @@
         <item name="colorAccent">@color/color_accent</item>
     </style>
 
+    <!-- Vuforia Module customization -->
+    <style name="irCustomizationScanWaterMark" >
+        <item name="android:background">@drawable/ox_watermark_scanner</item>
+    </style>
+
+    <style name="irCustomizationCloseScann" >
+        <item name="android:background">@drawable/ox_close_button</item>
+    </style>
+
+    <style name="vuforiaCustomizationLoadingMessage" >
+        <item name="android:text">@string/ox_loading_indicator_message</item>
+    </style>
+    <!-- Vuforia Module customization -->
 
 </resources>

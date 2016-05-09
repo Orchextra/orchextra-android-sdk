@@ -17,6 +17,7 @@
  */
 package com.gigigo.orchextra.di.modules.device;
 
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.control.controllers.imagerecognition.ImageRecognitionController;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
@@ -36,8 +37,10 @@ import orchextra.javax.inject.Singleton;
 public class ImageRecognitionModule {
 
   @Singleton
-  @Provides ImageRecognitionManager provideImageRecognitionManager(ImageRecognitionController imageRecognitionController) {
-    return new ImageRecognitionManagerImpl(imageRecognitionController);
+  @Provides ImageRecognitionManager provideImageRecognitionManager(
+      ImageRecognitionController imageRecognitionController,
+      ContextProvider contextProvider) {
+    return new ImageRecognitionManagerImpl(imageRecognitionController, contextProvider);
   }
 
   @Singleton

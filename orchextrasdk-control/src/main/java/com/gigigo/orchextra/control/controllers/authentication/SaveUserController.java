@@ -23,6 +23,9 @@ import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
+import com.gigigo.orchextra.domain.interactors.config.ValidationError;
+import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
@@ -34,14 +37,16 @@ public class SaveUserController extends Presenter<SaveUserDelegate> {
   private final InteractorInvoker interactorInvoker;
   private final Provider<InteractorExecution> interactorExecutionProvider;
   private final ConfigObservable configObservable;
+  private final ErrorLogger errorLogger;
 
   public SaveUserController(InteractorInvoker interactorInvoker,
       Provider<InteractorExecution> interactorExecutionProvider, ThreadSpec mainThreadSpec,
-      ConfigObservable configObservable) {
+      ConfigObservable configObservable, ErrorLogger errorLogger) {
     super(mainThreadSpec);
     this.interactorInvoker = interactorInvoker;
     this.interactorExecutionProvider = interactorExecutionProvider;
     this.configObservable = configObservable;
+    this.errorLogger = errorLogger;
   }
 
   @Override public void onViewAttached() {
@@ -57,7 +62,24 @@ public class SaveUserController extends Presenter<SaveUserDelegate> {
       @Override public void onResult(OrchextraUpdates orchextraUpdates) {
         notifyChanges(orchextraUpdates);
       }
+    }).error(ValidationError.class, new InteractorResult<ValidationError>() {
+      @Override public void onResult(ValidationError result) {
+        manageInteractorError(result);
+      }
+    }).error(GenericError.class, new InteractorResult<GenericError>() {
+      @Override public void onResult(GenericError result) {
+        manageInteractorError(result);
+      }
     }).execute(interactorInvoker);
+  }
+
+  private void manageInteractorError(GenericError result) {
+    errorLogger.log(result.getError());
+  }
+
+  private void manageInteractorError(ValidationError result) {
+    errorLogger.log(result.getError());
+    errorLogger.log(result.getValidationErrorDescriptionString());
   }
 
   private void notifyChanges(OrchextraUpdates result) {

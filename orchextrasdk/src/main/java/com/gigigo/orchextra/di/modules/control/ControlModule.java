@@ -79,9 +79,10 @@ public class ControlModule {
   SaveUserController provideAuthenticationController(
       InteractorInvoker interactorInvoker,
       @SaveUserInteractorExecution Provider<InteractorExecution> interactorExecutionProvider,
-      @MainThread ThreadSpec backThreadSpec, ConfigObservable configObservable){
+      @MainThread ThreadSpec backThreadSpec, ConfigObservable configObservable, ErrorLogger errorLogger){
 
-    return new SaveUserController(interactorInvoker, interactorExecutionProvider, backThreadSpec, configObservable);
+    return new SaveUserController(interactorInvoker, interactorExecutionProvider, backThreadSpec, configObservable,
+        errorLogger);
   }
 
   @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(
