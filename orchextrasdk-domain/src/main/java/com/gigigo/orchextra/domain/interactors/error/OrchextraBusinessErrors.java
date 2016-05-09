@@ -21,7 +21,9 @@ package com.gigigo.orchextra.domain.interactors.error;
 public enum OrchextraBusinessErrors {
   NO_AUTH_EXPIRED(401),
   NO_AUTH_CREDENTIALS(403),
-  INTERNAL_SERVER_ERROR(500);
+  VALIDATION_ERROR(11200),
+  INTERNAL_SERVER_ERROR(500),
+  GENERIC_UNKNOWN_ERROR(-999);
 
   private final int codeError;
 
@@ -39,6 +41,6 @@ public enum OrchextraBusinessErrors {
         return error;
       }
     }
-    return NO_AUTH_EXPIRED;
+    return GENERIC_UNKNOWN_ERROR;
   }
 }

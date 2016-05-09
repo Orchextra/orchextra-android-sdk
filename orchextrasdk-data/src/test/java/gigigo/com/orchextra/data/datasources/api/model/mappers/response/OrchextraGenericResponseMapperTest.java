@@ -28,7 +28,7 @@ public class OrchextraGenericResponseMapperTest {
     public void testCreateBusinessErrorOk() throws Exception {
         OrchextraApiErrorResponse response = new OrchextraApiErrorResponse(404, "Not Found");
 
-        BusinessError businessError = responseMapper.createBusinessError(response);
+        BusinessError businessError = responseMapper.createBusinessError(response, null);
 
         assertNotNull(businessError);
         assertEquals(404, businessError.getCode());

@@ -22,7 +22,7 @@ import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
-import com.gigigo.orchextra.domain.interactors.base.InteractorError;
+import com.gigigo.orchextra.domain.interactors.config.ValidationError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import orchextra.javax.inject.Provider;
@@ -52,8 +52,8 @@ public class ConfigController {
           notifyChanges(result);
         }
       }
-    }).error(InteractorError.class, new InteractorResult<InteractorError>() {
-      @Override public void onResult(InteractorError result) {
+    }).error(ValidationError.class, new InteractorResult<ValidationError>() {
+      @Override public void onResult(ValidationError result) {
         manageInteractorError(result);
       }
     }).error(GenericError.class, new InteractorResult<GenericError>() {
@@ -63,8 +63,13 @@ public class ConfigController {
     }).execute(interactorInvoker);
   }
 
-  private void manageInteractorError(InteractorError result) {
+  private void manageInteractorError(GenericError result) {
     errorLogger.log(result.getError());
+  }
+
+  private void manageInteractorError(ValidationError result) {
+    errorLogger.log(result.getError());
+    errorLogger.log(result.getValidationErrorDescriptionString());
   }
 
   private void notifyChanges(OrchextraUpdates result) {
