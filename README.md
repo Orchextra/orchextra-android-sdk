@@ -165,6 +165,52 @@ Enabling push notifications in SDK is quite simple you should Override this two 
 
 Now you can check if Push notifications are working, try to send a push using _Parse Dashboard_. Try to write and send an original message and check if it works!!. 
 
+## Image recognition integration
+Image recognition is added as an add-on to Orchextra, by default SDK is not containing any Image recognition implementation, the only thing that is including is an interface that allows any of his implementations to communicate with Orchectra SDK.
+
+So, you can add the corresponding implementation as a gradle dependency to your project, at this moment the only available implementation is using Vuforia as image recognition engine. Here you have the gradle dependency:
+
+```groovy
+compile 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0'
+```
+
+Once you have added this depencency you will be able to say Orchextra SDK that has to use this implementation. You can do it this way:
+
+```java
+Orchextra.setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
+```
+
+This allows Orchextra to do all stuff related with image recognition. Don't forget to configure all necessary Vuforia details on Orchextra Dashboard, otherwise image recognition won't work.
+
+To start an image recognition activity you only need to call: 
+
+```java
+Orchextra.startImageRecognition();
+```
+
+That's all!!
+
+### Customizing Image recognition Activity
+
+As you can see image recognition Activity is using Orchextra like ascpect, but don't worry, you can customize all the following details:
+
+#### Image Resources:
+ - `ox_close_button`: close button, "x" by default, it allows to use an Android XML `selector` resource
+
+
+#### Colors:
+- `ir_color_primary `: main color for _Activity_ _ToolBar_. Default is `color_primary`
+- `ir_color_primary_dark `: color for _StatusBar_. Default is `color_primary_dark`
+- `ir_color_accent `: main color for _Activity_ _ToolBar_ text. Default is `color_accent`
+- `vuforia_loading_indicator_color `: color for loading _ProgressBar_. Default is `color_accent`
+- `vuforia_loading_bg_color `: color for loading screen background. Default is `color_primary`
+- `ir_scan_point_color `: color scanner points. Default is `color_primary`
+- `ir_scan_line_color `: color scanner line. Default is `color_accent`
+
+#### Texts:
+ - `ox_loading_indicator_message`: Message that indicates that image recognition module is being loaded
+ - `ox_ir_scan_activity_name`: Name of image recognition _Activity_, appearing in _Toolbar_
+
 # Acknowledgements
 
 We would like to mention every company and particular developers that have been contributing this repo in some way:
