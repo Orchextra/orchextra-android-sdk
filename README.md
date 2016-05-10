@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk) 
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-2.2.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-2.3.0-blue.svg)
 [![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
 
@@ -12,12 +12,16 @@ A library that gives you access to Orchextra platform from your Android app.
 Start by creating a project in [Orchextra dashboard][dashboard], if you haven't done it yet. Go to "Setting" > "SDK Configuration" to get the **api key** and **api secret**, you will need these values to start Orchextra SDK.
 
 ## Overview
-Orchextra SDK is composed of **Orchextra Core**.  
+Orchextra SDK is composed of **Orchextra Core**.
+  
 #### Orchextra Core
 - Geofences
 - Beacons
 - Push Notifications
 - Barcode Scanner
+
+#### Image Recognition Add-on
+- Image Recognition Scanner Module: Vuforia implementation
 
 ## Installation
 Download [Orchextra Android Sample ](https://github.com/Orchextra/orchextra-android-sample-app) to understand how to use the SDK.
@@ -166,7 +170,7 @@ Enabling push notifications in SDK is quite simple you should Override this two 
 Now you can check if Push notifications are working, try to send a push using _Parse Dashboard_. Try to write and send an original message and check if it works!!. 
 
 ## Image recognition integration
-Image recognition is added as an add-on to Orchextra, by default SDK is not containing any Image recognition implementation, the only thing that is including is an interface that allows any of his implementations to communicate with Orchectra SDK.
+Image recognition is added as an add-on to Orchextra, by default SDK is not containing any Image recognition implementation, the only thing that is including is an interface that allows any of his implementations to communicate with Orchextra SDK.
 
 So, you can add the corresponding implementation as a gradle dependency to your project, at this moment the only available implementation is using Vuforia as image recognition engine. Here you have the gradle dependency:
 
@@ -174,13 +178,13 @@ So, you can add the corresponding implementation as a gradle dependency to your 
 compile 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0'
 ```
 
-Once you have added this depencency you will be able to say Orchextra SDK that has to use this implementation. You can do it this way:
+Once you have added this dependency you will be able to inform Orchextra SDK about it has to use this implementation. You can do it this way:
 
 ```java
 Orchextra.setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
 ```
 
-This allows Orchextra to do all stuff related with image recognition. Don't forget to configure all necessary Vuforia details on Orchextra Dashboard, otherwise image recognition won't work.
+This allows Orchextra to do all stuff related with image recognition. Don't forget to configure all necessary Vuforia details on [Orchextra Dashboard](https://dashboard.s.orchextra.io/start/login), otherwise image recognition won't work.
 
 To start an image recognition activity you only need to call: 
 
@@ -192,11 +196,10 @@ That's all!!
 
 ### Customizing Image recognition Activity
 
-As you can see image recognition Activity is using Orchextra like ascpect, but don't worry, you can customize all the following details:
+As you can see image recognition Activity is using Orchextra like ascpect, but don't worry, you can customize almost everything, take care of the following details:
 
 #### Image Resources:
  - `ox_close_button`: close button, "x" by default, it allows to use an Android XML `selector` resource
-
 
 #### Colors:
 - `ir_color_primary `: main color for _Activity_ _ToolBar_. Default is `color_primary`
@@ -226,7 +229,7 @@ We would like to mention every company and particular developers that have been 
 License
 =======
 
-    Copyright 2015 Orchextra
+    Copyright 2016 Orchextra
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
