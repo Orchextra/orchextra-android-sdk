@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     >
 
   <Button
@@ -13,6 +14,14 @@
       android:text="Launch Image Recognition"
       android:id="@+id/button"
       android:layout_gravity="center"
+      />
 
+  <Button
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="20dp"
+      android:text="Launch Scanner"
+      android:id="@+id/button2"
+      android:layout_gravity="center"
       />
 </LinearLayout>
