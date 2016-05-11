@@ -30,17 +30,17 @@ public abstract class OxToolbarActivity extends AppCompatActivity {
     private ImageView closeToolbarButton;
     private TextView titleToolbar;
 
-    public void initViews() {
-        initUi();
-        setTheme();
+    public void initMainViews() {
+        initMainUi();
+        setMainTheme();
     }
 
-    public void initUi() {
+    public void initMainUi() {
         closeToolbarButton = (ImageView) findViewById(R.id.closeToolbarButton);
         titleToolbar = (TextView) findViewById(R.id.titleToolbar);
     }
 
-    public void setTheme() {
+    public void setMainTheme() {
         titleToolbar.setText(getResources().getString(getToolbarTitle()));
         titleToolbar.setTextColor(getResources().getColor(R.color.ox_toolbar_title_color));
         closeToolbarButton.setImageResource(R.drawable.ox_close);

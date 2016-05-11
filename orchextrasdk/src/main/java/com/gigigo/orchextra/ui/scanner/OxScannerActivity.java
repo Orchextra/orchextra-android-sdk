@@ -78,7 +78,7 @@ public class OxScannerActivity extends OxToolbarActivity implements OxCodeScanne
     }
 
     public void initViews() {
-        super.initViews();
+        super.initMainViews();
         scannerView = (OxZBarScannerView) findViewById(R.id.cameraPreview);
     }
 

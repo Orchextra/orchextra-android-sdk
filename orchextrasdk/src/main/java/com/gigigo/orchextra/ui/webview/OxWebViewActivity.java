@@ -50,12 +50,12 @@ public class OxWebViewActivity extends OxToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ox_activity_webview_layout);
 
-        initViews();
+        initMainViews();
         initWebView();
     }
 
-    public void initViews() {
-        super.initViews();
+    public void initMainViews() {
+        super.initMainViews();
         orchextraWebView = (OxWebView) findViewById(R.id.ox_orchextraWebView);
     }
 
