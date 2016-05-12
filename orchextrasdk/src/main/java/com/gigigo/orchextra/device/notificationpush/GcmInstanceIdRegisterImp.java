@@ -22,7 +22,6 @@ import android.content.Context;
 
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
-import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
@@ -54,7 +53,7 @@ public class GcmInstanceIdRegisterImp implements GcmInstanceIdRegister {
       notificationPush.setSenderId(senderId);
 
       return notificationPush;
-    } catch (IOException e) {
+    } catch (Exception e) {
       GGGLogImpl.log("Failed GCM Registration");
       return null;
     }
