@@ -21,11 +21,30 @@ package com.gigigo.orchextra.domain.interactors.scanner;
 public enum ScannerType {
     QRCODE("QRCODE"),
     IMAGE_RECOGNITION("IR"),
-    BARCODE("UPCA");
+    BARCODE_UPCA("UPCA"),
+    BARCODE_EAN8("EAN8"),
+    BARCODE_EAN13("EAN13"),
+    BARCODE_CODE128("CODE128"),
+    BARCODE_PDF417("PDF417"),
+    BARCODE("BARCODE");
 
     private final String type;
 
     ScannerType(String type) {
         this.type = type;
     }
+
+    public String getStringValue() {
+        return type;
+    }
+
+    public static ScannerType getScannerTypeFromString(String scannerTypeString) {
+        for (ScannerType scannerType : ScannerType.values()) {
+            if (scannerType.getStringValue().equals(scannerTypeString)) {
+                return scannerType;
+            }
+        }
+        return BARCODE;
+    }
+
 }

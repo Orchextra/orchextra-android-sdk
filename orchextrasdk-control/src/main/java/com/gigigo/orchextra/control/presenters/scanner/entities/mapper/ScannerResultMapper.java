@@ -31,7 +31,7 @@ public class ScannerResultMapper implements DataToModelMapper<ScannerResult, Sca
         ScannerResult scannerResult = new ScannerResult();
 
         scannerResult.setContent(scannerResultPresenter.getContent());
-        scannerResult.setType(ScannerType.valueOf(scannerResultPresenter.getType()));
+        scannerResult.setType(ScannerType.getScannerTypeFromString(scannerResultPresenter.getType()));
 
         return scannerResult;
     }

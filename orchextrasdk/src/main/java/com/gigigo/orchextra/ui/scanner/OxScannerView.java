@@ -65,7 +65,6 @@ public abstract class OxScannerView extends FrameLayout implements Camera.Previe
         removeAllViews();
         relativeLayout.removeAllViews();
 
-        relativeLayout.setGravity(17);
         relativeLayout.setBackgroundColor(Color.BLACK);
         relativeLayout.addView(preview);
         addView(relativeLayout);
