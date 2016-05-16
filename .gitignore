@@ -28,3 +28,5 @@ proguard/
 Thumbs.db
 *.bak
 proguard-rules.pro
+
+gigigo-utils-suite-modular/
