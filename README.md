@@ -9,7 +9,7 @@
 A library that gives you access to Orchextra platform from your Android app.
 
 ## Getting started
-Start by creating a project in [Orchextra dashboard][dashboard], if you haven't done it yet. Go to "Setting" > "SDK Configuration" to get the **api key** and **api secret**, you will need these values to start Orchextra SDK.
+Start by creating a project in [Orchextra Dashboard](https://dashboard.orchextra.io/start/login), if you haven't done it yet. Go to "Setting" > "SDK Configuration" to get the **api key** and **api secret**, you will need these values to start Orchextra SDK.
 
 ## Overview
 Orchextra SDK is composed of **Orchextra Core**.
@@ -184,7 +184,7 @@ Once you have added this dependency you will be able to inform Orchextra SDK abo
 Orchextra.setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
 ```
 
-This allows Orchextra to do all stuff related with image recognition. Don't forget to configure all necessary Vuforia details on [Orchextra Dashboard](https://dashboard.s.orchextra.io/start/login), otherwise image recognition won't work.
+This allows Orchextra to do all stuff related with image recognition. Don't forget to configure all necessary Vuforia details on [Orchextra Dashboard](https://dashboard.orchextra.io/start/login), otherwise image recognition won't work.
 
 To start an image recognition activity you only need to call: 
 
