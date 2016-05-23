@@ -49,7 +49,7 @@ public class ScannerInteractor implements Interactor<InteractorResponse<List<Bas
 
         OrchextraPoint point = null;
 
-        if (geolocation != null){
+        if (geolocation != null) {
             point = geolocation.getPoint();
         }
 
