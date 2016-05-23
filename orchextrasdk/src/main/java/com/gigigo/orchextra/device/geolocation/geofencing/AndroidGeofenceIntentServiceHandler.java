@@ -28,6 +28,8 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class AndroidGeofenceIntentServiceHandler {
@@ -49,6 +51,10 @@ public class AndroidGeofenceIntentServiceHandler {
 
     public List<String> getTriggeringGeofenceIds(GeofencingEvent geofencingEvent) {
         List<String> triggerGeofenceIds = new ArrayList<>();
+
+        if (geofencingEvent == null){
+            return Collections.emptyList();
+        }
 
         List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
         for (Geofence triggeringGeofence : triggeringGeofences) {

@@ -46,7 +46,13 @@ public class ScannerInteractor implements Interactor<InteractorResponse<List<Bas
     @Override
     public InteractorResponse<List<BasicAction>> call() throws Exception {
         GeoLocation geolocation = obtainGeoLocationTask.getGeolocation();
-        OrchextraPoint point = geolocation.getPoint();
+
+        OrchextraPoint point = null;
+
+        if (geolocation != null){
+            point = geolocation.getPoint();
+        }
+
         return triggerActionsFacadeService.triggerActions(scanner, point);
     }
 
