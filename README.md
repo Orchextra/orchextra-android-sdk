@@ -175,7 +175,7 @@ Image recognition is added as an add-on to Orchextra, by default SDK is not cont
 So, you can add the corresponding implementation as a gradle dependency to your project, at this moment the only available implementation is using Vuforia as image recognition engine. Here you have the gradle dependency:
 
 ```groovy
-compile 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0'
+compile 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.1'
 ```
 
 Once you have added this dependency you will be able to inform Orchextra SDK about it has to use this implementation. You can do it this way:
