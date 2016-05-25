@@ -20,6 +20,7 @@ package gigigo.com.orchextra.data.datasources.api.stats;
 
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionConfirmationResponse;
 import orchextra.javax.inject.Provider;
 
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
@@ -39,7 +40,7 @@ public class StatsDataSourceImp {
     public void sendCompletedAction(String trackId) {
         ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
-        serviceExecutor.executeNetworkServiceConnection(ApiActionResponse.class,
+        serviceExecutor.executeNetworkServiceConnection(ApiActionConfirmationResponse.class,
                 orchextraApiService.sendCompletedAction(trackId));
     }
 }

@@ -18,6 +18,7 @@
 
 package gigigo.com.orchextra.data.datasources.api.service;
 
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionConfirmationResponse;
 import java.util.Map;
 
 import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiAuthRequest;
@@ -48,5 +49,5 @@ public interface OrchextraApiService {
       @FieldMap Map<String, String> parameters);
 
   @POST("action/confirm/{trackId}")
-    Call<Object> sendCompletedAction(@Path("trackId") String trackId);
+    Call<ApiActionConfirmationResponse> sendCompletedAction(@Path("trackId") String trackId);
 }

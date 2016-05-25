@@ -18,18 +18,22 @@
 package gigigo.com.orchextrasdk;
 
 import android.app.Application;
+import android.os.Handler;
+import android.util.Log;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
+import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 public class App extends Application implements OrchextraCompletionCallback {
   @Override public void onCreate() {
     super.onCreate();
-    Orchextra.init(this, this);
-    Orchextra.start("key", "secret");
+    Log.d("APP", "Hello Application, start onCreate");
+    Orchextra.init(App.this, App.this);
+    Log.d("APP", "Hello Application, end onCreate");
   }
 
   @Override public void onSuccess() {
-
+    callStart();
   }
 
   @Override public void onError(String s) {
@@ -37,6 +41,14 @@ public class App extends Application implements OrchextraCompletionCallback {
   }
 
   @Override public void onInit(String s) {
+    callStart();
+  }
 
+  private void callStart() {
+    new Handler().post(new Runnable() {
+      @Override public void run() {
+        Orchextra.start("eeb3720bc39ae0df4ab2947f47da64d4d25aae96", "5be2e5b6b5eefe04c14314d2be80abff50dae548");
+      }
+    });
   }
 }

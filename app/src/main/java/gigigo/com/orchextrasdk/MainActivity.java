@@ -1,7 +1,9 @@
 package gigigo.com.orchextrasdk;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.gigigo.orchextra.ORCUser;
@@ -16,18 +18,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Log.d("APP", "Hello MainActivity, start onCreate");
 
     setContentView(R.layout.activity_main);
+
     Orchextra.setUser(new ORCUser("123456789",
         new GregorianCalendar(1990, 10, 29), //any Birth date as a calendar instance
         ORCUser.Gender.ORCGenderMale, //ORCGenderMale or ORCGenderFemale Enum
         new ArrayList<>(Arrays.asList("keyword1", "keyword2"))));
 
     Orchextra.setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
+
     Button button = (Button) findViewById(R.id.button);
     Button button2 = (Button) findViewById(R.id.button2);
     button.setOnClickListener(this);
     button2.setOnClickListener(this);
+    Log.d("APP", "Hello MainActivity, end onCreate");
   }
 
   @Override public void onClick(View v) {
