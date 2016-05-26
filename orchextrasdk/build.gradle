@@ -93,11 +93,10 @@ android {
   lintOptions {
     abortOnError false
   }
-  packagingOptions {
-    exclude 'LICENSE.txt'
-  }
+
   // Required due to a conflict due to easy and jmock required for doclava
   packagingOptions {
+    exclude 'LICENSE.txt'
     exclude 'META-INF/INDEX.LIST'
   }
 }
@@ -138,7 +137,6 @@ dependencies {
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito
 }
-
 
 // build a jar with source files
 task sourcesJar(type: Jar) {

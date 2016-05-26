@@ -20,6 +20,8 @@ package com.gigigo.orchextra.device.imagerecognition;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import com.gigigo.imagerecognitioninterface.ImageRecognitionConstants;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import orchextra.javax.inject.Inject;
@@ -32,8 +34,11 @@ public class ImageRecognitionReceiver extends BroadcastReceiver {
 
     initDependencies();
 
-    if (intent.getExtras().containsKey(ImageRecognitionConstants.VUFORIA_PATTERN_ID)){
+    if (intent.getExtras().containsKey(context.getPackageName())
+        && intent.getExtras().containsKey(ImageRecognitionConstants.VUFORIA_PATTERN_ID)){
+
       vuforiaPatternRecognized(intent.getStringExtra(ImageRecognitionConstants.VUFORIA_PATTERN_ID));
+
     }
 
   }
