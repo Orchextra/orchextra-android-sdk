@@ -20,6 +20,7 @@ package com.gigigo.orchextra.domain.services.auth;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.domain.Validator;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
@@ -37,13 +38,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   private final AuthenticationDataProvider authDataProvider;
   private final DeviceDetailsProvider deviceDetailsProvider;
+  private final Validator<Crm> crmValidator;
   private final Session session;
 
   public AuthenticationServiceImpl(AuthenticationDataProvider authDataProvider,
-      DeviceDetailsProvider deviceDetailsProvider, Session session) {
+      DeviceDetailsProvider deviceDetailsProvider, Session session, Validator crmValidator) {
 
     this.authDataProvider = authDataProvider;
     this.deviceDetailsProvider = deviceDetailsProvider;
+    this.crmValidator = crmValidator;
     this.session = session;
   }
 
@@ -67,6 +70,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     if (boCrm.isSuccess() && !boCrm.getData().isEquals(crm.getCrmId())) {
       authDataProvider.clearAuthenticatedUser();
     }
+
+    crmValidator.validate(crm);
 
     authDataProvider.storeCrmId(crm);
 

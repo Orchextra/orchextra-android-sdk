@@ -33,6 +33,9 @@ public class ApiCrm {
 
   @Expose @SerializedName("keywords") private List<String> keywords;
 
+  //TODO add @Expose annotation when server tags ready
+  @SerializedName("tags") private List<String> tags;
+
   public String getGender() {
     return gender;
   }
@@ -63,5 +66,13 @@ public class ApiCrm {
 
   public void setCrmId(String crmId) {
     this.crmId = crmId;
+  }
+
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
   }
 }

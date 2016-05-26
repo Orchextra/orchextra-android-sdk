@@ -60,12 +60,13 @@ import static org.mockito.Mockito.when;
   @Mock BusinessError businessError;
   @Mock BusinessObject<ClientAuthData> clietAuth;
   @Mock ClientAuthData clietAuthData;
+  @Mock CrmValidator crmValidator;
 
   AuthenticationServiceImpl authenticationService;
 
   @Before public void setUp() {
     authenticationService =
-        new AuthenticationServiceImpl(authDataProvider, deviceDetailsProvider, session);
+        new AuthenticationServiceImpl(authDataProvider, deviceDetailsProvider, session, crmValidator);
     mockshareArrangements();
   }
 

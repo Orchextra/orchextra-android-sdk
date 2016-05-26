@@ -18,6 +18,9 @@
 
 package com.gigigo.orchextra;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -26,13 +29,37 @@ public class ORCUser {
     private final String crmId;
     private final GregorianCalendar birthdate;
     private final Gender gender;
-    private final List<String> tags;
+    private List<String> keywords;
+    private final List<ORCUserTag> tags;
 
-    public ORCUser(String crmId, GregorianCalendar birthdate, Gender gender, List<String> tags) {
+  /**
+   * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
+   * tracking in dashboard
+   * @param crmId Crm ID, can be the user name of your app
+   * @param birthdate user's birth date.
+   * @param gender user's male, using an enum
+   * @param keywords important words in order to segment specific actions
+   */
+    //TODO enable deprecation strategy when tags will be ready
+    public ORCUser(String crmId, GregorianCalendar birthdate, Gender gender, List<String> keywords) {
+        this(crmId, birthdate, gender);
+        this.keywords = keywords;
+    }
+
+    /**
+     * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
+     * tracking in dashboard
+     * @param crmId Crm ID, can be the user name of your app
+     * @param birthdate user's birth date.
+     * @param gender user's male, using an enum
+     * @param tags important Tags in order to segment specific actions
+     */
+    public ORCUser(String crmId, GregorianCalendar birthdate, Gender gender, ORCUserTag...tags) {
         this.crmId = crmId;
         this.birthdate = birthdate;
         this.gender = gender;
-        this.tags = tags;
+        this.tags = Arrays.asList(tags);
+        this.keywords = Collections.EMPTY_LIST;
     }
 
     public String getCrmId() {
@@ -47,7 +74,11 @@ public class ORCUser {
         return gender;
     }
 
-    public List<String> getTags() {
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public List<ORCUserTag> getTags() {
         return tags;
     }
 

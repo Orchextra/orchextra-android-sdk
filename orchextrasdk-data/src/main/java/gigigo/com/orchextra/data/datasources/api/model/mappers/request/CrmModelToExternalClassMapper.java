@@ -22,8 +22,10 @@ import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
 import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrm;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper<Crm, ApiCrm> {
 
@@ -40,7 +42,17 @@ public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper
     }
 
     apiCrm.setKeywords(crm.getKeywords());
+    apiCrm.setTags(getTags(crm));
 
     return apiCrm;
+  }
+
+  private List<String> getTags(Crm crm) {
+    List<String> tags = new ArrayList<>();
+
+    for (CrmTag crmTag:crm.getTags()){
+      tags.add(crmTag.toString());
+    }
+    return tags;
   }
 }

@@ -24,10 +24,13 @@ import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.notificationpush.GcmInstanceIdRegisterImp;
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
+import com.gigigo.orchextra.di.qualifiers.CrmValidation;
 import com.gigigo.orchextra.di.scopes.PerExecution;
+import com.gigigo.orchextra.domain.Validator;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
+import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
@@ -63,9 +66,11 @@ public class DomainServicesModule {
 
   @Provides @PerExecution AuthenticationService provideAuthService(
       AuthenticationDataProvider authDataProvider,
-      DeviceDetailsProvider deviceDetailsProvider, Session session){
+      DeviceDetailsProvider deviceDetailsProvider, Session session,
+      @CrmValidation  Validator validator){
 
-    return new AuthenticationServiceImpl(authDataProvider, deviceDetailsProvider, session);
+    return new AuthenticationServiceImpl(authDataProvider,
+        deviceDetailsProvider, session, validator);
   }
 
   @Provides @PerExecution BeaconCheckerService provideBeaconCheckerService(

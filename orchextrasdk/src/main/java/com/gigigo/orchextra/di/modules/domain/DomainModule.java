@@ -25,6 +25,7 @@ import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.modules.data.DataProviderModule;
 import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.CrmValidation;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GetIrCredentialsInteractorExecution;
@@ -32,12 +33,15 @@ import com.gigigo.orchextra.di.qualifiers.ObtainThemeInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
+import com.gigigo.orchextra.domain.Validator;
+import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.invoker.InteractorInvokerImp;
 import com.gigigo.orchextra.domain.invoker.InteractorOutputThreadFactory;
 import com.gigigo.orchextra.domain.invoker.InteractorPriorityBlockingQueue;
 import com.gigigo.orchextra.domain.invoker.LogExceptionHandler;
 import com.gigigo.orchextra.domain.invoker.PriorizableThreadPoolExecutor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
+import com.gigigo.orchextra.domain.services.auth.CrmValidator;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import java.util.concurrent.BlockingQueue;
@@ -151,5 +155,9 @@ public class DomainModule {
 
   @Provides @Singleton ThreadFactory provideThreadFactory() {
     return new InteractorOutputThreadFactory();
+  }
+
+  @CrmValidation @Provides @Singleton Validator provideCrmValidator(ErrorLogger errorLogger) {
+    return new CrmValidator(errorLogger);
   }
 }

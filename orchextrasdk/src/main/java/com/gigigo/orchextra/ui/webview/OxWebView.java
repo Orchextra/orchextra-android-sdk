@@ -64,10 +64,10 @@ public class OxWebView extends LinearLayout {
         init();
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public OxWebView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-
         init();
     }
 
@@ -91,6 +91,7 @@ public class OxWebView extends LinearLayout {
         progress = view.findViewById(R.id.ox_progress);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void settingWebView() {
         webView.setClickable(true);
 

@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.domain.model.entities.authentication;
 
 import com.gigigo.orchextra.domain.model.GenderType;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -28,15 +29,21 @@ public class Crm {
   private GenderType gender;
   private Date birthDate;
   private List<String> keywords;
+  private List<CrmTag> tags;
 
   public Crm() {
   }
 
-  public Crm(String crmId, GenderType gender, Date birthDate, List<String> keywords) {
+  public Crm(String crmId, GenderType gender, Date birthDate, List<String> keywords, List<CrmTag> tags) {
     this.crmId = crmId;
     this.gender = gender;
     this.birthDate = birthDate;
     this.keywords = keywords;
+    this.tags = tags;
+  }
+
+  public Crm(String crmId, GenderType gender, Date birthDate, List<String> keywords) {
+    this(crmId, gender, birthDate, keywords, Collections.EMPTY_LIST);
   }
 
   public String getCrmId() {
@@ -71,6 +78,14 @@ public class Crm {
     this.keywords = keywords;
   }
 
+  public List<CrmTag> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<CrmTag> tags) {
+    this.tags = tags;
+  }
+
   public boolean isEquals(String crmId) {
     if (this.crmId == null) {
       return crmId == null;
@@ -79,19 +94,4 @@ public class Crm {
     }
   }
 
-  public boolean isEquals(Crm crm) {
-    boolean listIsEquals = true;
-
-    if (keywords.size() != crm.keywords.size()) {
-      listIsEquals = false;
-    } else {
-      for (int i = 0; i < keywords.size(); i++) {
-        if (!keywords.get(i).equals(crm.getKeywords().get(i))) {
-          listIsEquals = false;
-        }
-      }
-    }
-
-    return gender.equals(crm.gender) && birthDate.equals(crm.birthDate) && listIsEquals;
-  }
 }
