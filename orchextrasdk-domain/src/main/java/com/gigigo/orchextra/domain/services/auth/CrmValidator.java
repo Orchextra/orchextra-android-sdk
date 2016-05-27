@@ -24,6 +24,7 @@ import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CrmValidator implements Validator<Crm> {
@@ -70,7 +71,11 @@ public class CrmValidator implements Validator<Crm> {
     String prefixPattern = "(::|/|^_(?!(s$|b$))|^[^_].{0}$)";
     String namePattern = "(::|/|^_|^.{0,1}$)";
 
-    return (!Pattern.matches(prefixPattern, tag.getPrefix())
-        || !Pattern.matches(namePattern, tag.getName()));
+    Pattern ptPrefix = Pattern.compile(prefixPattern);
+    Pattern ptName = Pattern.compile(namePattern);
+    Matcher matcherPrefix = ptPrefix.matcher(tag.getPrefix());
+    Matcher matcherName = ptName.matcher(tag.getName());
+
+    return matcherPrefix.find() || matcherName.find();
   }
 }

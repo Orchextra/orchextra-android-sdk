@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -50,8 +49,7 @@ import static org.junit.Assert.assertTrue;
     crm = new Crm();
   }
 
-  //TODO review regular expression because tests should be passing
-  @Ignore @Test public void shouldvalidateAllTags() {
+  @Test public void shouldvalidateAllTags() {
     int size = validTagsArrayList().size();
     crm.setTags(validTagsArrayList());
     crm.setKeywords(Collections.<String>emptyList());
@@ -69,6 +67,25 @@ import static org.junit.Assert.assertTrue;
     crmValidator.validate(crm);
 
     assertTrue(crm.getTags().size() < size);
+  }
+
+  @Test public void shoulValidateAllStrangeTags() {
+    int size = allValidStrangeTagsArrayList().size();
+    crm.setTags(allValidStrangeTagsArrayList());
+    crm.setKeywords(Collections.<String>emptyList());
+
+    crmValidator.validate(crm);
+
+    assertTrue(crm.getTags().size() == size);
+  }
+
+  @Test public void shouldnotValidateAnyTag() {
+    crm.setTags(allNotValidTagsArrayList());
+    crm.setKeywords(Collections.<String>emptyList());
+
+    crmValidator.validate(crm);
+
+    assertTrue(crm.getTags().size() == 0);
   }
 
   @Test public void shouldvalidateAllKeywords() {
@@ -118,4 +135,35 @@ import static org.junit.Assert.assertTrue;
     tags.add(new CrmTag("Hello2", "World2"));
     return tags;
   }
+
+  private List<CrmTag> allNotValidTagsArrayList() {
+    List<CrmTag> tags = new ArrayList<>();
+
+    tags.add(new CrmTag("::Hello", "World"));
+    tags.add(new CrmTag("Hello2", "::World2"));
+    tags.add(new CrmTag("Hello2", "W"));
+    tags.add(new CrmTag("W", "Hello"));
+    tags.add(new CrmTag("Hello/", "Hello"));
+    tags.add(new CrmTag("Hello", "Hello/"));
+    tags.add(new CrmTag("Hello", "_Hello"));
+    tags.add(new CrmTag("_Hello", "Hello"));
+    tags.add(new CrmTag("Hello", "_s"));
+    tags.add(new CrmTag("Hello", "_b"));
+
+    return tags;
+  }
+
+  private List<CrmTag> allValidStrangeTagsArrayList() {
+    List<CrmTag> tags = new ArrayList<>();
+
+    tags.add(new CrmTag("Hello.2", "Hello.1"));
+    tags.add(new CrmTag("2Hello", "Hello"));
+    tags.add(new CrmTag("Hello", "2Hello"));
+    tags.add(new CrmTag("_s", "Hello"));
+    tags.add(new CrmTag("_b", "Hello"));
+
+    return tags;
+  }
+
+
 }

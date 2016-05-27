@@ -33,8 +33,7 @@ public class ApiCrm {
 
   @Expose @SerializedName("keywords") private List<String> keywords;
 
-  //TODO add @Expose annotation when server tags ready
-  @SerializedName("tags") private List<String> tags;
+  @Expose @SerializedName("tags") private List<String> tags;
 
   public String getGender() {
     return gender;
