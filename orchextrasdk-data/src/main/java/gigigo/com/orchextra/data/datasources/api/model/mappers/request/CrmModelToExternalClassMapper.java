@@ -37,12 +37,18 @@ public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper
         DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT_NO_TIME));
     apiCrm.setCrmId(crm.getCrmId());
 
+    //TODO change all if null with Checker from utils
     if (crm.getGender() != null) {
       apiCrm.setGender(crm.getGender().getStringValue());
     }
 
-    apiCrm.setKeywords(crm.getKeywords());
-    apiCrm.setTags(getTags(crm));
+    if (crm.getKeywords()!=null) {
+      apiCrm.setKeywords(crm.getKeywords());
+    }
+
+    if (crm.getTags()!=null) {
+      apiCrm.setTags(getTags(crm));
+    }
 
     return apiCrm;
   }
