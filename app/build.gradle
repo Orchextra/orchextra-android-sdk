@@ -52,10 +52,10 @@ android {
 //  }
 
   dexOptions {
-    preDexLibraries true
-    javaMaxHeapSize "6g"
-    incremental true
-    dexInProcess = true
+    preDexLibraries false
+//    javaMaxHeapSize "6g"
+//    incremental true
+//    dexInProcess = true
   }
 
   compileOptions {
