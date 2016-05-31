@@ -39,6 +39,7 @@ allprojects {
   ext {
 
     travisBuild = System.getenv("TRAVIS") == "true"
+    jenkinsBuild = System.getenv("GRADLE_HOME") == "true"
     // allows for -Dpre-dex=false to be set
     preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
 
