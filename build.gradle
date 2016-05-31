@@ -43,7 +43,7 @@ allprojects {
     preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
 
     // Android config
-    androidBuildToolsVersion = '23.0.1'
+    androidBuildToolsVersion = '23.0.2'
     androidMinSdkVersion = 10
     androidTargetSdkVersion = 23
     androidCompileSdkVersion = 23
