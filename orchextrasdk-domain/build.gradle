@@ -19,7 +19,6 @@
 apply plugin: 'java'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'maven'
-apply plugin: 'jacoco'
 
 dependencies {
     compile parent.ext.dependencies.gggJavaLib
