@@ -20,6 +20,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'sonar-runner'
+apply plugin: 'jacoco'
 
 def STRING = "String"
 def BOOLEAN = "boolean"
