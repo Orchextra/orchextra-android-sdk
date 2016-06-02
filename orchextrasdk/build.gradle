@@ -72,6 +72,7 @@ android {
       buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
       buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
     }
+
     release {
       buildConfigField BOOLEAN, "RETROFIT_LOG", "false"
       buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
