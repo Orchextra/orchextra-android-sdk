@@ -42,16 +42,16 @@ public class GetActionService implements DomaninService {
     this.serviceErrorChecker = serviceErrorChecker;
   }
 
-  private InteractorResponse getActions(List<Trigger> triggers, int numRetries) {
+  private InteractorResponse<List<BasicAction>> getActions(List<Trigger> triggers, int numRetries) {
     List<BasicAction> actions = new ArrayList<>();
 
-    BusinessObject<BasicAction> bo = null;
+    BusinessObject<BasicAction> boBasicAction = null;
 
     for (Trigger actionCriteria : triggers) {
-      bo = actionsDataProvider.obtainAction(actionCriteria);
+      boBasicAction = actionsDataProvider.obtainAction(actionCriteria);
 
-      if (bo.isSuccess()) {
-        BasicAction basicAction = (bo.getData() != null) ? bo.getData() : new EmptyAction();
+      if (boBasicAction.isSuccess()) {
+        BasicAction basicAction = (boBasicAction.getData() != null) ? boBasicAction.getData() : new EmptyAction();
         basicAction.setEventCode(actionCriteria.getCode());
         actions.add(basicAction);
       } else {
@@ -59,8 +59,8 @@ public class GetActionService implements DomaninService {
       }
     }
 
-    if (bo != null && !bo.isSuccess()) {
-      boolean retry = manageError(bo.getBusinessError());
+    if (boBasicAction != null && !boBasicAction.isSuccess()) {
+      boolean retry = manageError(boBasicAction.getBusinessError());
       if (retry && numRetries <= 3) {
         return getActions(triggers, numRetries + 1);
       }
@@ -69,7 +69,7 @@ public class GetActionService implements DomaninService {
     return new InteractorResponse<>(actions);
   }
 
-  public InteractorResponse getActions(List<Trigger> triggers) {
+  public InteractorResponse<List<BasicAction>> getActions(List<Trigger> triggers) {
     return getActions(triggers, 0);
   }
 
