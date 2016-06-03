@@ -36,7 +36,7 @@ public enum OrchextraSDKLogLevel {
   }
 
   public String getStringValue() {
-    switch (intValue()){
+    switch (intValue()) {
       case 0:
         return "ALL";
       case 1:

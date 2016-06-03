@@ -49,7 +49,7 @@ public class App extends Application implements OrchextraCompletionCallback {
   private void callStart() {
     new Handler().post(new Runnable() {
       @Override public void run() {
-        Orchextra.start("eeb3720bc39ae0df4ab2947f47da64d4d25aae96", "5be2e5b6b5eefe04c14314d2be80abff50dae548");
+        Orchextra.start("key", "secret");
       }
     });
   }
