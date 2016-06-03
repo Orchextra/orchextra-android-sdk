@@ -24,6 +24,7 @@ import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 
 public interface DeviceModuleProvider extends
@@ -35,6 +36,7 @@ public interface DeviceModuleProvider extends
 
     AndroidApp provideAndroidApp();
     AndroidDevice provideAndroidDevice();
+    OrchextraLogger provideOrchextraLogger();
     GoogleApiClientConnector provideGoogleApiClientConnector();
     PermissionChecker providePermissionChecker();
     PermissionLocationImp providePermissionLocationImp();

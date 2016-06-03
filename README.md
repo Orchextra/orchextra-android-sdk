@@ -59,17 +59,11 @@ We have to created a class which extends from Application (if we didn't do yet) 
 ```java
 Orchextra.init(this, new OrchextraCompletionCallback() {              
                     @Override
-                    public void onSuccess() {
-                        GGGLogImpl.log("onSuccess");
-                    }              
+                    public void onSuccess() { }              
                    @Override
-                    public void onError(String s) {
-                        GGGLogImpl.log("onError: " + s);
-                    }
+                    public void onError(String s) { }
                     @Override
-                    public void onInit(String s) {
-                        GGGLogImpl.log("onInit: " + s);
-                    }
+                    public void onInit(String s) { }
                 });
 ```
 

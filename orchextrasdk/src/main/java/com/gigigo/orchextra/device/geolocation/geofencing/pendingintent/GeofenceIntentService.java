@@ -21,8 +21,8 @@ package com.gigigo.orchextra.device.geolocation.geofencing.pendingintent;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceIntentServiceHandler;
@@ -42,6 +42,9 @@ public class GeofenceIntentService extends IntentService {
 
     @Inject
     GeofenceController controller;
+
+    @Inject
+    OrchextraLogger orchextraLogger;
 
     public GeofenceIntentService() {
         super(TAG);
@@ -66,11 +69,11 @@ public class GeofenceIntentService extends IntentService {
         try {
             GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
 
-            GGGLogImpl.log("Localizado: " + transition.getStringValue());
+            orchextraLogger.log("Localizado: " + transition.getStringValue());
 
             controller.processTriggers(geofenceIds, transition);
         }catch (GeofenceEventException geofenceEventException){
-            GGGLogImpl.log(geofenceEventException.getMessage(), LogLevel.ERROR);
+            orchextraLogger.log(geofenceEventException.getMessage(), OrchextraSDKLogLevel.ERROR);
         }
     }
 

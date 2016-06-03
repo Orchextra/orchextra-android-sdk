@@ -19,8 +19,8 @@
 package com.gigigo.orchextra.sdk.background;
 
 import android.os.Bundle;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.actions.scheduler.ActionsSchedulerGcmImpl;
@@ -31,12 +31,11 @@ import com.google.android.gms.gcm.TaskParams;
 import com.google.gson.Gson;
 import orchextra.javax.inject.Inject;
 
-
 public class OrchextraGcmTaskService extends GcmTaskService {
 
   @Inject ActionRecovery actionRecovery;
-
   @Inject Gson gson;
+  @Inject OrchextraLogger orchextraLogger;
 
   @Override
   public void onCreate() {
@@ -54,17 +53,17 @@ public class OrchextraGcmTaskService extends GcmTaskService {
 
   @Override public int onRunTask(TaskParams taskParams) {
 
-    GGGLogImpl.log("Executing Scheduled action " + taskParams.getTag());
+    orchextraLogger.log("Executing Scheduled action " + taskParams.getTag());
 
     try{
       Bundle extras = taskParams.getExtras();
       String stringAndroidBasicAction = extras.getString(ActionsSchedulerGcmImpl.BUNDLE_TASK_PARAM_NAME);
       AndroidBasicAction androidBasicAction = gson.fromJson(stringAndroidBasicAction, AndroidBasicAction.class);
       actionRecovery.recoverAction(androidBasicAction);
-      GGGLogImpl.log("Scheduled action Executed and deleted " + taskParams.getTag());
+      orchextraLogger.log("Scheduled action Executed and deleted " + taskParams.getTag());
       return GcmNetworkManager.RESULT_SUCCESS;
     }catch (Exception e){
-      GGGLogImpl.log("Error retrieving Scheduled action", LogLevel.ERROR);
+      orchextraLogger.log("Error retrieving Scheduled action", OrchextraSDKLogLevel.ERROR);
       return GcmNetworkManager.RESULT_FAILURE;
     }
   }

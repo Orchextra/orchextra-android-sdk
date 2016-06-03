@@ -21,12 +21,14 @@ package com.gigigo.orchextra.di.modules;
 import android.content.Context;
 
 import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.orchextra.device.OrchextraLoggerImpl;
 import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
 import com.gigigo.orchextra.di.modules.device.UiModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
@@ -67,10 +69,12 @@ public class OrchextraModule {
   OrchextraActivityLifecycle provideOrchextraActivityLifecycle(
           AppRunningMode appRunningMode, OrchextraContextProvider contextProvider,
           AppStatusEventsListener appStatusEventsListener,
-          NotificationDispatcher notificationDispatcher) {
+          NotificationDispatcher notificationDispatcher,
+          OrchextraLogger orchextraLogger) {
 
     OrchextraActivityLifecycle orchextraActivityLifecycle =
-            new OrchextraActivityLifecycle(appStatusEventsListener, notificationDispatcher);
+            new OrchextraActivityLifecycle(appStatusEventsListener, notificationDispatcher,
+                orchextraLogger);
     contextProvider.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
     appRunningMode.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
     return orchextraActivityLifecycle;
@@ -78,8 +82,8 @@ public class OrchextraModule {
 
   @Provides
   @Singleton
-  ContextProvider provideContextProvider() {
-    return new ContextProviderImpl(context.getApplicationContext());
+  ContextProvider provideContextProvider(OrchextraLogger orchextraLogger) {
+    return new ContextProviderImpl(context.getApplicationContext(), orchextraLogger);
   }
 
   @Provides
@@ -93,8 +97,10 @@ public class OrchextraModule {
   @Singleton
   AppStatusEventsListener provideAppStatusEventsListener(
           ForegroundTasksManager foregroundTasksManager,
-          OrchextraStatusAccessor orchextraStatusAccessor) {
-    return new AppStatusEventsListenerImpl(context, foregroundTasksManager, orchextraStatusAccessor);
+          OrchextraStatusAccessor orchextraStatusAccessor,
+          OrchextraLogger orchextraLogger) {
+    return new AppStatusEventsListenerImpl(context, foregroundTasksManager, orchextraStatusAccessor,
+        orchextraLogger);
   }
 
   @Provides
@@ -147,6 +153,10 @@ public class OrchextraModule {
 
   public void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver) {
     customSchemeReceiverContainer.setCustomSchemeReceiver(customSchemeReceiver);
+  }
+
+  @Provides @Singleton OrchextraLogger provideOrchextraLogger() {
+    return new OrchextraLoggerImpl();
   }
 
 }

@@ -22,8 +22,8 @@ import android.content.Context;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 
@@ -38,14 +38,18 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
   private final BeaconEventsUpdater beaconEventsUpdater;
   private final BeaconEventsReader beaconEventsReader;
   private final RealmDefaultInstance realmDefaultInstance;
+  private final  OrchextraLogger orchextraLogger;
 
   public BeaconsDBDataSourceImpl(Context context, BeaconEventsUpdater beaconEventsUpdater,
-                                 BeaconEventsReader beaconEventsReader, RealmDefaultInstance realmDefaultInstance) {
+                                 BeaconEventsReader beaconEventsReader,
+      RealmDefaultInstance realmDefaultInstance,
+      OrchextraLogger orchextraLogger) {
 
     this.context = context;
     this.beaconEventsUpdater = beaconEventsUpdater;
     this.beaconEventsReader = beaconEventsReader;
     this.realmDefaultInstance = realmDefaultInstance;
+    this.orchextraLogger = orchextraLogger;
   }
 
   @Override
@@ -127,9 +131,9 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
       List<OrchextraBeacon> beacons = OrchextraBeacon.removeFromListElementsWithCodes(list, codes);
 
       if (!beacons.isEmpty()) {
-        GGGLogImpl.log("This ranging event has not discovered any new beacon event to be sent");
+        orchextraLogger.log("This ranging event has not discovered any new beacon event to be sent");
       } else {
-        GGGLogImpl.log("This ranging event has " + beacons.size() + " events to be sent");
+        orchextraLogger.log("This ranging event has " + beacons.size() + " events to be sent");
       }
 
       return new BusinessObject<>(beacons, BusinessError.createOKInstance());

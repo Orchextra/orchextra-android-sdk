@@ -25,28 +25,29 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.LifeCycleAccessor;
 
 import java.util.Iterator;
 import java.util.Stack;
 
-
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) public class OrchextraActivityLifecycle
     implements Application.ActivityLifecycleCallbacks, LifeCycleAccessor {
 
   private final NotificationDispatcher notificationDispatcher;
   private final AppStatusEventsListener appStatusEventsListener;
+  private final OrchextraLogger orchextraLogger;
 
   private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
 
   public OrchextraActivityLifecycle(AppStatusEventsListener listener,
-      NotificationDispatcher notificationDispatcher) {
+      NotificationDispatcher notificationDispatcher, OrchextraLogger orchextraLogger) {
     this.appStatusEventsListener = listener;
     this.notificationDispatcher = notificationDispatcher;
+    this.orchextraLogger = orchextraLogger;
   }
 
   @Override public boolean isInBackground() {
@@ -76,7 +77,7 @@ import java.util.Stack;
       ConsistencyUtils.checkNotEmpty(activityStack);
       activityStack.peek().setIsPaused(false);
     } catch (Exception e) {
-      GGGLogImpl.log("Exception :" + e.getMessage(), LogLevel.ERROR);
+      orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
     }
   }
 
@@ -85,7 +86,7 @@ import java.util.Stack;
       ConsistencyUtils.checkNotEmpty(activityStack);
       activityStack.peek().setIsPaused(true);
     } catch (Exception e) {
-      GGGLogImpl.log("Exception :" + e.getMessage(), LogLevel.ERROR);
+      orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
     }
   }
 
@@ -99,7 +100,7 @@ import java.util.Stack;
       removeActivityFromStack(activity);
       setBackgroundModeIfNeeded();
     } catch (Exception e) {
-      GGGLogImpl.log("Exception :" + e.getMessage(), LogLevel.ERROR);
+      orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
     }
   }
 
@@ -156,22 +157,22 @@ import java.util.Stack;
   }
 
   private void prinStatusOfStack(String s) {
-    GGGLogImpl.log("STACK Status :: " + s);
-    GGGLogImpl.log("STACK Status :: Elements in Stack :" + activityStack.size());
+    orchextraLogger.log("STACK Status :: " + s);
+    orchextraLogger.log("STACK Status :: Elements in Stack :" + activityStack.size());
     for (int i = 0; i < activityStack.size(); i++) {
-      GGGLogImpl.log("STACK Status :: Activity " + i +
+      orchextraLogger.log("STACK Status :: Activity " + i +
           " Stopped: " + activityStack.get(i).isStopped() +
           " Paused: " + activityStack.get(i).isPaused() +
           " Has Context: " + (activityStack.get(i).getActivity() != null) +
           " Activity Context: " + activityStack.get(i).getActivity());
     }
 
-    GGGLogImpl.log("STACK Status :: Lifecycle, Is app in Background: " + isInBackground());
+    orchextraLogger.log("STACK Status :: Lifecycle, Is app in Background: " + isInBackground());
 
-    GGGLogImpl.log("STACK Status :: isActivityContextAvailable: " + isActivityContextAvailable());
+    orchextraLogger.log("STACK Status :: isActivityContextAvailable: " + isActivityContextAvailable());
 
-    GGGLogImpl.log("STACK Status :: getCurrentActivity: " + getCurrentActivity());
+    orchextraLogger.log("STACK Status :: getCurrentActivity: " + getCurrentActivity());
 
-    GGGLogImpl.log("------------- STACK Status ---------------");
+    orchextraLogger.log("------------- STACK Status ---------------");
   }
 }

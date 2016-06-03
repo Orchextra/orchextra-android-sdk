@@ -20,6 +20,7 @@ package gigigo.com.orchextra.data.datasources.db.auth;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
@@ -37,22 +38,26 @@ public class SessionReader {
   private final ExternalClassToModelMapper<SdkAuthRealm, SdkAuthData> sdkAuthRealmMapper;
   private final ExternalClassToModelMapper<ClientAuthRealm, ClientAuthData> clientAuthRealmMapper;
   private final CrmRealmMapper crmRealmMapper;
+  private final OrchextraLogger orchextraLogger;
 
   public SessionReader(ExternalClassToModelMapper sdkAuthRealmMapper,
-      ExternalClassToModelMapper clientAuthRealmMapper, CrmRealmMapper crmRealmMapper) {
+      ExternalClassToModelMapper clientAuthRealmMapper, CrmRealmMapper crmRealmMapper,
+      OrchextraLogger orchextraLogger) {
 
     this.sdkAuthRealmMapper = sdkAuthRealmMapper;
     this.clientAuthRealmMapper = clientAuthRealmMapper;
     this.crmRealmMapper = crmRealmMapper;
+    this.orchextraLogger = orchextraLogger;
+
   }
 
   public ClientAuthData readClientAuthData(Realm realm) throws NullPointerException {
     RealmResults<ClientAuthRealm> clientAuthRealm = realm.where(ClientAuthRealm.class).findAll();
     if (clientAuthRealm.size() > 0) {
-      GGGLogImpl.log("Client Session found");
+      orchextraLogger.log("Client Session found");
       return clientAuthRealmMapper.externalClassToModel(clientAuthRealm.first());
     } else {
-      GGGLogImpl.log("Client Session not found");
+      orchextraLogger.log("Client Session not found");
       throw new NotFountRealmObjectException();
     }
   }
@@ -60,10 +65,10 @@ public class SessionReader {
   public SdkAuthData readSdkAuthData(Realm realm) throws NullPointerException {
     RealmResults<SdkAuthRealm> sdkAuthRealm = realm.where(SdkAuthRealm.class).findAll();
     if (sdkAuthRealm.size() > 0) {
-      GGGLogImpl.log("Sdk Session found");
+      orchextraLogger.log("Sdk Session found");
       return sdkAuthRealmMapper.externalClassToModel(sdkAuthRealm.first());
     } else {
-      GGGLogImpl.log("Sdk Session not found");
+      orchextraLogger.log("Sdk Session not found");
       throw new NotFountRealmObjectException();
     }
   }
@@ -71,10 +76,10 @@ public class SessionReader {
   public Crm readCrm(Realm realm) {
     RealmResults<CrmRealm> crmRealm = realm.where(CrmRealm.class).findAll();
     if (crmRealm.size() > 0) {
-      GGGLogImpl.log("CRM_ID found");
+      orchextraLogger.log("CRM_ID found");
       return crmRealmMapper.externalClassToModel(crmRealm.first());
     } else {
-      GGGLogImpl.log("CRM_ID not found");
+      orchextraLogger.log("CRM_ID not found");
       throw new NotFountRealmObjectException();
     }
   }

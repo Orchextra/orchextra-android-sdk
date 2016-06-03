@@ -17,17 +17,23 @@
  */
 package com.gigigo.orchextra.device.imagerecognition;
 
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.imagerecognitioninterface.ImageRecognitionCredentials;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 
 public class ImageRecognitionNullImpl implements ImageRecognition{
+
+  private final OrchextraLogger orchextraLogger;
+
+  public ImageRecognitionNullImpl(OrchextraLogger orchextraLogger) {
+    this.orchextraLogger = orchextraLogger;
+  }
 
   @Override public <T> void setContextProvider(T contextProvider) {}
 
   @Override
   public void startImageRecognition(ImageRecognitionCredentials imageRecognitionCredentials) {
-    GGGLogImpl.log("Image Recognition Module not initialized", LogLevel.WARN);
+    orchextraLogger.log("Image Recognition Module not initialized", OrchextraSDKLogLevel.WARN);
   }
 }

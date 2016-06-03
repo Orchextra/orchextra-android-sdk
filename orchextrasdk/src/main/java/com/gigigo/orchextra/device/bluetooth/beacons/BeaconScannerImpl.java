@@ -18,8 +18,6 @@
 
 package com.gigigo.orchextra.device.bluetooth.beacons;
 
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScanner;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
@@ -29,14 +27,14 @@ import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatus;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusInfo;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusListener;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
-import com.gigigo.orchextra.domain.model.config.Config;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
-
 
 public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStatusListener {
 
@@ -45,17 +43,20 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
   private final BluetoothStatusInfo bluetoothStatusInfo;
   private final AppRunningMode appRunningMode;
   private final ConfigObservable configObservable;
+  private final OrchextraLogger orchextraLogger;
   private boolean isRegisteredAsObserver = false;
 
   public BeaconScannerImpl(RegionMonitoringScanner regionMonitoringScanner,
       BeaconRangingScanner beaconRangingScanner, BluetoothStatusInfo bluetoothStatusInfo,
-      AppRunningMode appRunningMode, ConfigObservable configObservable) {
+      AppRunningMode appRunningMode, ConfigObservable configObservable,
+      OrchextraLogger orchextraLogger) {
 
     this.regionMonitoringScanner = regionMonitoringScanner;
     this.beaconRangingScanner = beaconRangingScanner;
     this.bluetoothStatusInfo = bluetoothStatusInfo;
     this.appRunningMode = appRunningMode;
     this.configObservable = configObservable;
+    this.orchextraLogger = orchextraLogger;
 
     registerAsObserver();
   }
@@ -129,19 +130,19 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
 
   @Override public void onBluetoothStatus(BluetoothStatus bluetoothStatus) {
     switch (bluetoothStatus){
-      case NO_BLTE_SUPPORTED:GGGLogImpl.log("CAUTION BLTE not supported, some features can not work as expected",
-            LogLevel.WARN);
+      case NO_BLTE_SUPPORTED:orchextraLogger.log("CAUTION BLTE not supported, some features can not work as expected",
+          OrchextraSDKLogLevel.WARN);
         // would be great to do something with error? like show a toast...
         break;
       case NO_PERMISSIONS:
-        GGGLogImpl.log(
+        orchextraLogger.log(
             "CAUTION Bluetooth permissions not granted, some features can not work as expected",
-            LogLevel.WARN);
+            OrchextraSDKLogLevel.WARN);
         // would be great to do something with error? like show a toast...
         break;
       case NOT_ENABLED:
-        GGGLogImpl.log("CAUTION Bluetooth is off some features "
-            + "cannot start to work till the user switches it on", LogLevel.WARN);
+        orchextraLogger.log("CAUTION Bluetooth is off some features "
+            + "cannot start to work till the user switches it on", OrchextraSDKLogLevel.WARN);
         //IMPORTANT: DO NOT "break;", SCAN SHOULD START AUTOMATICALLY WHEN BLUETOOTH IS SWITCHED ON
       case READY_FOR_SCAN:
         initMonitoring();

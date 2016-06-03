@@ -26,6 +26,7 @@ import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionManagerImpl;
 import com.gigigo.orchextra.di.qualifiers.GetIrCredentialsInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import orchextra.dagger.Module;
@@ -39,8 +40,9 @@ public class ImageRecognitionModule {
   @Singleton
   @Provides ImageRecognitionManager provideImageRecognitionManager(
       ImageRecognitionController imageRecognitionController,
-      ContextProvider contextProvider) {
-    return new ImageRecognitionManagerImpl(imageRecognitionController, contextProvider);
+      ContextProvider contextProvider, OrchextraLogger orchextraLogger) {
+    return new ImageRecognitionManagerImpl(imageRecognitionController, contextProvider,
+        orchextraLogger);
   }
 
   @Singleton

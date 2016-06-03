@@ -21,8 +21,6 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.PermissionChecker;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.information.AndroidApp;
@@ -31,6 +29,8 @@ import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
 import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
@@ -56,8 +56,8 @@ public class DeviceModule {
 
   @Singleton @Provides
   OrchextraTasksManager provideOrchextraTasksManager(BeaconScanner beaconScanner,
-      ConfigDelegateImp configDelegateImp, GeofenceRegister geofenceRegister){
-    return  new OrchextraTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister);
+      ConfigDelegateImp configDelegateImp, GeofenceRegister geofenceRegister, OrchextraLogger orchextraLogger){
+    return  new OrchextraTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister, orchextraLogger);
   }
 
   @Singleton
@@ -84,8 +84,11 @@ public class DeviceModule {
 
   @Singleton
   @Provides GoogleApiClientConnector provideGoogleApiClientConnector(ContextProvider contextProvider,
-                                                                     GoogleApiPermissionChecker googleApiPermissionChecker) {
-    return new GoogleApiClientConnector(contextProvider, googleApiPermissionChecker);
+                                                                     GoogleApiPermissionChecker googleApiPermissionChecker,
+                                                                      OrchextraLogger orchextraLogger) {
+
+    return new GoogleApiClientConnector(contextProvider, googleApiPermissionChecker,
+        orchextraLogger);
   }
 
   @Singleton
@@ -99,14 +102,15 @@ public class DeviceModule {
   }
 
   @Singleton
-  @Provides ErrorLogger provideErrorLogger() {
+  @Provides ErrorLogger provideErrorLogger(final OrchextraLogger orchextraLogger) {
     return new ErrorLogger() {
       @Override public void log(BusinessError businessError) {
-        GGGLogImpl.log(businessError.getMessage(), LogLevel.ERROR);
+        //TODO SEE WHY ERROR TEXT HERE IS NULL AND WRITE SOMETHING DIFFERENT
+        orchextraLogger.log(businessError.getMessage(), OrchextraSDKLogLevel.ERROR);
       }
 
       @Override public void log(String message) {
-        GGGLogImpl.log(message, LogLevel.ERROR);
+        orchextraLogger.log(message, OrchextraSDKLogLevel.ERROR);
       }
     };
   }

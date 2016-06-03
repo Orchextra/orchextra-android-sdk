@@ -38,6 +38,8 @@ import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoring
 import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScannerImpl;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScannerImpl;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
@@ -57,24 +59,25 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 @Module
 public class BeaconsModule {
 
-  @Provides @Singleton BeaconManager provideBeaconManager(ContextProvider contextProvider){
+  @Provides @Singleton BeaconManager provideBeaconManager(ContextProvider contextProvider,
+      OrchextraLogger orchextraLogger){
     BeaconManager beaconManager = BeaconManager.getInstanceForApplication(
         contextProvider.getApplicationContext());
 
-    switchAltBeaconLogOnOff();
+    setBeaconsLogLevel(orchextraLogger);
     BeaconParser bp = new BeaconParser().setBeaconLayout(BuildConfig.IBEACON_LAYOUT_PARSING);
     beaconManager.getBeaconParsers().add(bp);
     return beaconManager;
   }
 
-  private void switchAltBeaconLogOnOff() {
-    //if (BuildConfig.DEBUG){
+  private void setBeaconsLogLevel(OrchextraLogger orchextraLogger) {
+    if (orchextraLogger.getOrchextraSDKLogLevel() == OrchextraSDKLogLevel.ALL){
+      LogManager.setVerboseLoggingEnabled(true);
+      LogManager.setLogger(Loggers.verboseLogger());
+    }else{
       LogManager.setVerboseLoggingEnabled(false);
       LogManager.setLogger(Loggers.empty());
-    //}else{
-    //  LogManager.setVerboseLoggingEnabled(true);
-    //  LogManager.setLogger(Loggers.verboseLogger());
-    //}
+    }
   }
 
   @Provides @Singleton BackgroundPowerSaver BackgroundPowerSaver(ContextProvider contextProvider){
@@ -83,24 +86,25 @@ public class BeaconsModule {
 
   @Provides @Singleton BeaconScanner provideBeaconScanner(RegionMonitoringScanner regionMonitoringScanner,
       BeaconRangingScanner beaconRangingScanner, AppRunningMode appRunningMode,
-      BluetoothStatusInfo bluetoothStatusInfo, ConfigObservable configObservable){
+      BluetoothStatusInfo bluetoothStatusInfo, ConfigObservable configObservable,
+      OrchextraLogger orchextraLogger){
 
     return new BeaconScannerImpl(regionMonitoringScanner, beaconRangingScanner, bluetoothStatusInfo,
-        appRunningMode, configObservable);
+        appRunningMode, configObservable, orchextraLogger);
   }
 
   @Provides @Singleton BeaconRangingScanner provideBeaconRangingScanner(BeaconManager beaconManager,
       BeaconsController beaconsController, BeaconRegionAndroidMapper beaconRegionControlMapper,
-      BeaconAndroidMapper beaconAndroidMapper){
+      BeaconAndroidMapper beaconAndroidMapper, OrchextraLogger orchextraLogger){
     return new BeaconRangingScannerImpl(beaconManager, beaconsController, beaconRegionControlMapper,
-        beaconAndroidMapper);
+        beaconAndroidMapper, orchextraLogger);
   }
 
   @Provides @Singleton RegionMonitoringScanner provideRegionMonitoringScanner(ContextProvider contextProvider,
     BeaconManager beaconManager, MonitoringListener monitoringListener, BeaconsController beaconsController,
-      BeaconRegionAndroidMapper beaconRegionControlMapper){
+      BeaconRegionAndroidMapper beaconRegionControlMapper, OrchextraLogger orchextraLogger){
     return new RegionMonitoringScannerImpl(contextProvider, beaconManager, monitoringListener,
-        beaconsController, beaconRegionControlMapper);
+        beaconsController, beaconRegionControlMapper, orchextraLogger);
   }
 
   @Provides @Singleton BeaconsController provideBeaconsController(
@@ -115,8 +119,8 @@ public class BeaconsModule {
   }
 
   @Provides @Singleton MonitoringListener provideMonitoringListener(AppRunningMode appRunningMode,
-      BeaconRangingScanner beaconRangingScanner){
-    return new MonitoringListenerImpl(appRunningMode, beaconRangingScanner);
+      BeaconRangingScanner beaconRangingScanner, OrchextraLogger orchextraLogger){
+    return new MonitoringListenerImpl(appRunningMode, beaconRangingScanner, orchextraLogger);
   }
 
   @Provides @Singleton BeaconRegionAndroidMapper provideBeaconRegionAndroidMapper(){

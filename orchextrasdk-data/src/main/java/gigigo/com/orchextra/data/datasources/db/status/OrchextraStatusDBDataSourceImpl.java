@@ -21,9 +21,9 @@ package gigigo.com.orchextra.data.datasources.db.status;
 import android.content.Context;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraStatusDBDataSource;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
@@ -36,14 +36,17 @@ public class OrchextraStatusDBDataSourceImpl implements OrchextraStatusDBDataSou
   private final OrchextraStatusUpdater orchextraStatusUpdater;
   private final OrchextraStatusReader orchextraStatusReader;
   private final RealmDefaultInstance realmDefaultInstance;
+  private final OrchextraLogger orchextraLogger;
 
-  public OrchextraStatusDBDataSourceImpl(Context context, OrchextraStatusUpdater orchextraStatusUpdater,
-      OrchextraStatusReader orchextraStatusReader, RealmDefaultInstance realmDefaultInstance) {
+  public OrchextraStatusDBDataSourceImpl(Context context,
+      OrchextraStatusUpdater orchextraStatusUpdater, OrchextraStatusReader orchextraStatusReader,
+      RealmDefaultInstance realmDefaultInstance, OrchextraLogger orchextraLogger) {
 
     this.context = context;
     this.orchextraStatusUpdater = orchextraStatusUpdater;
     this.orchextraStatusReader = orchextraStatusReader;
     this.realmDefaultInstance = realmDefaultInstance;
+    this.orchextraLogger = orchextraLogger;
   }
 
   @Override public BusinessObject<OrchextraStatus> saveStatus(OrchextraStatus orchextraStatus) {
@@ -54,7 +57,7 @@ public class OrchextraStatusDBDataSourceImpl implements OrchextraStatusDBDataSou
       result = orchextraStatusUpdater.saveStatus(realm, orchextraStatus);
       //TODO Store crm and session
     } catch (RealmException re) {
-      return new BusinessObject<>(null,BusinessError.createKoInstance(re.getMessage()));
+      return new BusinessObject<>(null, BusinessError.createKoInstance(re.getMessage()));
     } finally {
       if (realm != null) {
         realm.commitTransaction();
@@ -70,12 +73,13 @@ public class OrchextraStatusDBDataSourceImpl implements OrchextraStatusDBDataSou
     try {
       result = orchextraStatusReader.readStatus(realm);
       //TODO retrieve crm and session
-    }catch (NotFountRealmObjectException exception){
-      GGGLogImpl.log("orchextraStatus info not present, new data will be created: "
-          +  exception.getMessage(), LogLevel.WARN);
-      return new BusinessObject<>(OrchextraStatus.getInstance(),BusinessError.createOKInstance());
+    } catch (NotFountRealmObjectException exception) {
+      orchextraLogger.log(
+          "orchextraStatus info not present, new data will be created: " + exception.getMessage(),
+          OrchextraSDKLogLevel.WARN);
+      return new BusinessObject<>(OrchextraStatus.getInstance(), BusinessError.createOKInstance());
     } catch (RealmException re) {
-      return new BusinessObject<>(null,BusinessError.createKoInstance(re.getMessage()));
+      return new BusinessObject<>(null, BusinessError.createKoInstance(re.getMessage()));
     } finally {
       if (realm != null) {
         realm.close();

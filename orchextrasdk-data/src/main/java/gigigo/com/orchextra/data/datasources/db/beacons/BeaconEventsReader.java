@@ -19,22 +19,23 @@
 package gigigo.com.orchextra.data.datasources.db.beacons;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-
 public class BeaconEventsReader {
 
   private final Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper;
+  private final OrchextraLogger orchextraLogger;
 
-  public BeaconEventsReader(
-      Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper) {
+  public BeaconEventsReader(Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper,
+      OrchextraLogger orchextraLogger) {
     this.regionEventRealmMapper = regionEventRealmMapper;
+    this.orchextraLogger = orchextraLogger;
   }
 
   public OrchextraRegion obtainRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
@@ -44,11 +45,11 @@ public class BeaconEventsReader {
         .findAll();
 
     if (results.size() > 1) {
-      GGGLogImpl.log("EVENT: More than one region Event with same Code stored", LogLevel.ERROR);
+      orchextraLogger.log("EVENT: More than one region Event with same Code stored", OrchextraSDKLogLevel.ERROR);
     } else if (results.size() == 1) {
-      GGGLogImpl.log("EVENT: Recovered orchextra region " + orchextraRegion.getCode());
+      orchextraLogger.log("EVENT: Recovered orchextra region " + orchextraRegion.getCode());
     } else {
-      GGGLogImpl.log("EVENT: Region Event not stored " + orchextraRegion.getCode());
+      orchextraLogger.log("EVENT: Region Event not stored " + orchextraRegion.getCode());
     }
 
     return regionEventRealmMapper.externalClassToModel(results.first());

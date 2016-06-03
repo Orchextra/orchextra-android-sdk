@@ -18,11 +18,11 @@
 package com.gigigo.orchextra.device.imagerecognition;
 
 import com.gigigo.ggglib.ContextProvider;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.control.controllers.imagerecognition.ImageRecognitionController;
 import com.gigigo.orchextra.control.controllers.imagerecognition.OnImageRecognitionCredentialsReadyListener;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 
 public class ImageRecognitionManagerImpl implements ImageRecognitionManager,
@@ -30,13 +30,16 @@ public class ImageRecognitionManagerImpl implements ImageRecognitionManager,
 
   private final ImageRecognitionController imageRecognitionController;
   private final ContextProvider contextProvider;
+  private final OrchextraLogger orchextraLogger;
   private ImageRecognition imageRecognitionImplementation;
 
   public ImageRecognitionManagerImpl(ImageRecognitionController imageRecognitionController,
-      ContextProvider contextProvider) {
+      ContextProvider contextProvider, OrchextraLogger orchextraLogger) {
     this.imageRecognitionController = imageRecognitionController;
     this.contextProvider = contextProvider;
-    this.imageRecognitionImplementation = new ImageRecognitionNullImpl();
+    this.orchextraLogger = orchextraLogger;
+    this.imageRecognitionImplementation = new ImageRecognitionNullImpl(orchextraLogger);
+
   }
 
   @Override public void setImplementation(ImageRecognition imageRecognition) {
@@ -54,7 +57,7 @@ public class ImageRecognitionManagerImpl implements ImageRecognitionManager,
   }
 
   @Override public void onCredentialsError(String message) {
-    GGGLogImpl.log(message, LogLevel.ERROR);
+    orchextraLogger.log(message, OrchextraSDKLogLevel.ERROR);
   }
 
   @Override public void recognizedPattern(String patternId) {

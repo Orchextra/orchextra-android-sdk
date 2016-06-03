@@ -106,4 +106,12 @@ public class Orchextra {
         OrchextraManager.openScannerView();
     }
 
+  /**
+   *
+   * @param orchextraLogLevel
+   */
+  public static void setLogLevel(OrchextraLogLevel orchextraLogLevel) {
+        OrchextraManager.setLogLevel(orchextraLogLevel);
+    }
+
 }

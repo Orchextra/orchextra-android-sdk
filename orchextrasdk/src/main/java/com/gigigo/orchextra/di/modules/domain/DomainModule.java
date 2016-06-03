@@ -34,6 +34,7 @@ import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
 import com.gigigo.orchextra.domain.Validator;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.invoker.InteractorInvokerImp;
 import com.gigigo.orchextra.domain.invoker.InteractorOutputThreadFactory;
@@ -67,8 +68,8 @@ public class DomainModule {
     return new Session(BuildConfig.TOKEN_TYPE_BEARER);
   }
 
-  @Provides @Singleton LogExceptionHandler provideLogExceptionHandler() {
-    return new LogExceptionHandler();
+  @Provides @Singleton LogExceptionHandler provideLogExceptionHandler(OrchextraLogger orchextraLogger) {
+    return new LogExceptionHandler(orchextraLogger);
   }
 
   @Provides @Singleton ExecutorService provideExecutor(ThreadFactory threadFactory,

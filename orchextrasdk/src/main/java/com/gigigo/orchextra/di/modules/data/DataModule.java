@@ -38,6 +38,7 @@ import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusReader;
 import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusUpdater;
@@ -125,9 +126,10 @@ public class DataModule {
   @Provides @Singleton BeaconsDBDataSource provideBeaconsDBDataSource(ContextProvider contextProvider,
       BeaconEventsUpdater beaconEventsUpdater,
       BeaconEventsReader beaconEventsReader,
-      RealmDefaultInstance realmDefaultInstance){
+      RealmDefaultInstance realmDefaultInstance,
+      OrchextraLogger orchextraLogger) {
     return new BeaconsDBDataSourceImpl(contextProvider.getApplicationContext(),
-        beaconEventsUpdater, beaconEventsReader, realmDefaultInstance);
+        beaconEventsUpdater, beaconEventsReader, realmDefaultInstance, orchextraLogger);
   }
 
   @Provides
@@ -144,9 +146,10 @@ public class DataModule {
   @Singleton OrchextraStatusDBDataSource provideOrchextraStatusDBDataSource(ContextProvider contextProvider,
       OrchextraStatusUpdater orchextraStatusUpdater,
       OrchextraStatusReader orchextraStatusReader,
-      RealmDefaultInstance realmDefaultInstance) {
+      RealmDefaultInstance realmDefaultInstance,
+      OrchextraLogger orchextraLogger) {
     return new OrchextraStatusDBDataSourceImpl(contextProvider.getApplicationContext(),
-        orchextraStatusUpdater, orchextraStatusReader, realmDefaultInstance);
+        orchextraStatusUpdater, orchextraStatusReader, realmDefaultInstance, orchextraLogger);
   }
 
   @Provides @Singleton DeviceDetailsProvider provideDeviceDetailsProvider(ContextProvider contextProvider){

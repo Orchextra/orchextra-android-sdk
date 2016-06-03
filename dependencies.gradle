@@ -29,9 +29,9 @@ allprojects {
         altBeacon                  : 'org.altbeacon:android-beacon-library:2+',
         barcodescanner             : 'me.dm7.barcodescanner:zbar:1.8.4',
 
-        gggJavaLib                 : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.4',
-        gggLogger                  : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.4',
-        gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.4',
+        gggJavaLib                 : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.5',
+        gggLogger                  : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.5',
+        gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.5',
 
         //Image Recognition
         imageRecognitionInterface  : 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:1.0',

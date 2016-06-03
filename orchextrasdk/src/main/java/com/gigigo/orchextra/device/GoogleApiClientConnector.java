@@ -20,9 +20,9 @@ package com.gigigo.orchextra.device;
 
 import android.os.Bundle;
 import com.gigigo.ggglib.ContextProvider;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.sdk.features.GooglePlayServicesStatus;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -34,14 +34,16 @@ public class GoogleApiClientConnector
 
   private final ContextProvider contextProvider;
   private final GoogleApiPermissionChecker googleApiPermissionChecker;
+  private final OrchextraLogger orchextraLogger;
 
   private GoogleApiClient client;
   private OnConnectedListener onConnectedListener;
 
   public GoogleApiClientConnector(ContextProvider contextProvider,
-      GoogleApiPermissionChecker googleApiPermissionChecker) {
+      GoogleApiPermissionChecker googleApiPermissionChecker, OrchextraLogger orchextraLogger) {
     this.contextProvider = contextProvider;
     this.googleApiPermissionChecker = googleApiPermissionChecker;
+    this.orchextraLogger = orchextraLogger;
   }
 
   public void connect() {
@@ -57,7 +59,7 @@ public class GoogleApiClientConnector
   }
 
   @Override public void onConnected(Bundle bundle) {
-    GGGLogImpl.log("onConnected");
+    orchextraLogger.log("onConnected");
 
     if (onConnectedListener != null) {
       onConnectedListener.onConnected(bundle);
@@ -65,19 +67,19 @@ public class GoogleApiClientConnector
   }
 
   @Override public void onConnectionSuspended(int cause) {
-    GGGLogImpl.log(
+    orchextraLogger.log(
         "onConnectionSuspended: Called when the client is temporarily in a disconnected state");
   }
 
   @Override public void onConnectionFailed(ConnectionResult connectionResult) {
-    GGGLogImpl.log("onConnectionFailed");
+    orchextraLogger.log("onConnectionFailed");
 
     switch (connectionResult.getErrorCode()) {
       case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-        GGGLogImpl.log("Necesita actualizar google play");
+        orchextraLogger.log("Necesita actualizar google play");
         break;
       case ConnectionResult.SERVICE_MISSING_PERMISSION:
-        GGGLogImpl.log("Falta algun permiso para ejecutar Google Play Services");
+        orchextraLogger.log("Falta algun permiso para ejecutar Google Play Services");
         break;
     }
   }
@@ -108,14 +110,14 @@ public class GoogleApiClientConnector
       if (isConnected()) {
         return true;
       } else {
-        GGGLogImpl.log("GoogleApiClientConnector connection Status: " + isConnected(),
-            LogLevel.ERROR);
+        orchextraLogger.log("GoogleApiClientConnector connection Status: " + isConnected(),
+            OrchextraSDKLogLevel.ERROR);
 
         return false;
       }
     } else {
-      GGGLogImpl.log("Google play services not ready, Status: " + gpss.getStringValue(),
-          LogLevel.ERROR);
+      orchextraLogger.log("Google play services not ready, Status: " + gpss.getStringValue(),
+          OrchextraSDKLogLevel.ERROR);
       return false;
     }
   }

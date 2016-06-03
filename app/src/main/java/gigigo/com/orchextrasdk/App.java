@@ -22,11 +22,13 @@ import android.os.Handler;
 import android.util.Log;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
+import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 public class App extends Application implements OrchextraCompletionCallback {
   @Override public void onCreate() {
     super.onCreate();
+    Orchextra.setLogLevel(OrchextraLogLevel.ALL);
     Log.d("APP", "Hello Application, start onCreate");
     Orchextra.init(App.this, App.this);
     Log.d("APP", "Hello Application, end onCreate");

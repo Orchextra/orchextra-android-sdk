@@ -23,10 +23,10 @@ import android.content.Context;
 import android.os.Build;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
+import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.ORCUser;
+import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
@@ -37,8 +37,9 @@ import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
-import com.gigigo.orchextra.di.modules.device.ImageRecognitionModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
@@ -53,6 +54,9 @@ import orchextra.javax.inject.Inject;
 
 public class OrchextraManager {
 
+  private static OrchextraSDKLogLevel orchextraSDKLogLevel =
+      (BuildConfig.DEBUG)? OrchextraSDKLogLevel.ALL : OrchextraSDKLogLevel.NONE;
+
   private static OrchextraManager instance;
   private InjectorImpl injector;
   private OrchextraManagerCompletionCallback orchextraCompletionCallback;
@@ -66,6 +70,7 @@ public class OrchextraManager {
   @Inject AppStatusEventsListener appStatusEventsListener;
   @Inject ScannerManager scannerManager;
   @Inject ImageRecognitionManager imageRecognitionManager;
+  @Inject OrchextraLogger orchextraLogger;
 
   /**
    * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -148,6 +153,14 @@ public class OrchextraManager {
     return null;
   }
 
+  public static void setLogLevel(OrchextraLogLevel logLevel) {
+    orchextraSDKLogLevel = logLevel.getSDKLogLevel();
+  }
+
+  public static OrchextraSDKLogLevel getLogLevel() {
+    return orchextraSDKLogLevel;
+  }
+
   private void stopOrchextraTasks() {
     orchextraTasksManager.stopAllTasks();
 
@@ -228,7 +241,7 @@ public class OrchextraManager {
       }
 
     }catch (SdkAlreadyStartedException alreadyStartedException){
-      GGGLogImpl.log(alreadyStartedException.getMessage(), LogLevel.WARN);
+      orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
       orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());
 
     }catch (SdkNotInitializedException notInitializedException){
@@ -240,7 +253,7 @@ public class OrchextraManager {
 
     }finally {
       if (exception!=null) {
-        GGGLogImpl.log(exception.getMessage(), LogLevel.ERROR);
+        orchextraLogger.log(exception.getMessage(), OrchextraSDKLogLevel.ERROR);
         orchextraCompletionCallback.onError(exception.getMessage());
       }
     }

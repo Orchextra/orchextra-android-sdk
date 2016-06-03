@@ -20,6 +20,7 @@ package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
@@ -31,9 +32,12 @@ import java.util.List;
 public class ConfigGeofenceUpdater {
 
   private final Mapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper;
+  private final OrchextraLogger orchextraLogger;
 
-  public ConfigGeofenceUpdater(Mapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper) {
+  public ConfigGeofenceUpdater(Mapper<OrchextraGeofence, GeofenceRealm> geofencesRealmMapper,
+      OrchextraLogger orchextraLogger) {
     this.geofencesRealmMapper = geofencesRealmMapper;
+    this.orchextraLogger = orchextraLogger;
   }
 
   public OrchextraGeofenceUpdates saveGeofences(Realm realm, List<OrchextraGeofence> geofences) {
@@ -60,7 +64,7 @@ public class ConfigGeofenceUpdater {
       if (!checkGeofenceAreEquals(geofenceRealm, newGeofence)) {
         newGeofences.add(geofence);
         realm.copyToRealmOrUpdate(newGeofence);
-        GGGLogImpl.log("Añadida geofence a la base de datos: " + geofence.getCode());
+        orchextraLogger.log("Añadida geofence a la base de datos: " + geofence.getCode());
       }
 
       used.add(geofence.getCode());
@@ -84,7 +88,7 @@ public class ConfigGeofenceUpdater {
       if (geofenceRealms.size() > 0) {
         geofenceRealms.first().removeFromRealm();
       }
-      GGGLogImpl.log("Eliminada geofence de la base de datos: " + code);
+      orchextraLogger.log("Eliminada geofence de la base de datos: " + code);
     }
 
     return deleteGeofences;

@@ -18,10 +18,9 @@
 
 package com.gigigo.orchextra.di.modules.data;
 
-import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
@@ -79,8 +78,12 @@ public class DBModule {
     @Singleton
     @Provides
     SessionReader provideSessionReader(SdkAuthReamlMapper sdkAuthRealmMapper,
-                                       ClientAuthRealmMapper clientAuthRealmMapper, CrmRealmMapper crmRealmMapper) {
-        return new SessionReader(sdkAuthRealmMapper, clientAuthRealmMapper, crmRealmMapper);
+                                       ClientAuthRealmMapper clientAuthRealmMapper,
+                                       CrmRealmMapper crmRealmMapper,
+                                       OrchextraLogger orchextraLogger) {
+
+        return new SessionReader(sdkAuthRealmMapper, clientAuthRealmMapper, crmRealmMapper,
+            orchextraLogger);
     }
 
     @Singleton
@@ -92,8 +95,9 @@ public class DBModule {
 
     @Singleton
     @Provides
-    ConfigGeofenceUpdater provideConfigGeofenceUpdater(Mapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper) {
-        return new ConfigGeofenceUpdater(geofenceRealmMapper);
+    ConfigGeofenceUpdater provideConfigGeofenceUpdater(Mapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper,
+    OrchextraLogger orchextraLogger) {
+        return new ConfigGeofenceUpdater(geofenceRealmMapper, orchextraLogger);
     }
 
     @Singleton
@@ -122,37 +126,41 @@ public class DBModule {
     ConfigInfoResultReader provideConfigInfoResultReader(@RealmMapperBeaconRegion Mapper<OrchextraRegion, BeaconRegionRealm>  regionRealmMapper,
                                                          Mapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper,
                                                          Mapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
-                                                         Mapper<Theme, ThemeRealm> themeRealmMapper) {
-        return new ConfigInfoResultReader(regionRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper);
+                                                         Mapper<Theme, ThemeRealm> themeRealmMapper, OrchextraLogger orchextraLogger) {
+        return new ConfigInfoResultReader(regionRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper,
+            orchextraLogger);
     }
 
   @Singleton
   @Provides BeaconEventsUpdater provideBeaconEventsUpdater(
       Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper,
-      Mapper<OrchextraBeacon, BeaconEventRealm> beaconEventRealmMapper
+      Mapper<OrchextraBeacon, BeaconEventRealm> beaconEventRealmMapper,
+      OrchextraLogger orchextraLogger
   ) {
-    return new BeaconEventsUpdater(regionEventRealmMapper, beaconEventRealmMapper);
+    return new BeaconEventsUpdater(regionEventRealmMapper, beaconEventRealmMapper, orchextraLogger);
   }
 
   @Singleton
   @Provides BeaconEventsReader provideBeaconEventsReader(
-      Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper
-  ) {
-    return new BeaconEventsReader(regionEventRealmMapper);
+      Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper,
+      OrchextraLogger orchextraLogger) {
+    return new BeaconEventsReader(regionEventRealmMapper, orchextraLogger);
   }
 
   @Singleton
   @Provides
     GeofenceEventsUpdater provideGeofenceEventsUpdater(
-          Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper) {
-      return new GeofenceEventsUpdater(geofenceEventRealmMapper);
+          Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper,
+          OrchextraLogger orchextraLogger) {
+      return new GeofenceEventsUpdater(geofenceEventRealmMapper, orchextraLogger);
   }
 
   @Singleton
   @Provides
   GeofenceEventsReader provideGeofenceEventsReader(
-          Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper) {
-      return new GeofenceEventsReader(geofenceEventRealmMapper);
+          Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper,
+          OrchextraLogger orchextraLogger) {
+      return new GeofenceEventsReader(geofenceEventRealmMapper, orchextraLogger);
   }
 
   @Singleton
@@ -163,7 +171,8 @@ public class DBModule {
 
   @Singleton
   @Provides OrchextraStatusReader provideOrchextraStatusReader(
-      Mapper<OrchextraStatus, OrchextraStatusRealm> orchextraStatusRealmMapper) {
-    return new OrchextraStatusReader(orchextraStatusRealmMapper);
+      Mapper<OrchextraStatus, OrchextraStatusRealm> orchextraStatusRealmMapper,
+      OrchextraLogger orchextraLogger) {
+    return new OrchextraStatusReader(orchextraStatusRealmMapper, orchextraLogger);
   }
 }

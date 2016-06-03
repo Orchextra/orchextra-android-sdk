@@ -30,7 +30,7 @@ import com.gigigo.orchextra.domain.Validator;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
-import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
@@ -135,8 +135,9 @@ public class DomainServicesModule {
   }
 
   @Provides @PerExecution
-  GcmInstanceIdRegister provideGcmInstanceIdRegister(ContextProvider contextProvider) {
-    return new GcmInstanceIdRegisterImp(contextProvider.getApplicationContext());
+  GcmInstanceIdRegister provideGcmInstanceIdRegister(ContextProvider contextProvider,
+      OrchextraLogger orchextraLogger) {
+    return new GcmInstanceIdRegisterImp(contextProvider.getApplicationContext(), orchextraLogger);
   }
 
   @Provides @PerExecution GeofenceCheckerService provideGeofenceCheckerService(

@@ -20,22 +20,22 @@ package com.gigigo.orchextra.device.notificationpush;
 
 import android.content.Context;
 
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.R;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
-import java.io.IOException;
-
 public class GcmInstanceIdRegisterImp implements GcmInstanceIdRegister {
 
   private final Context context;
+  private final OrchextraLogger orchextraLogger;
 
-  public GcmInstanceIdRegisterImp(Context context) {
+  public GcmInstanceIdRegisterImp(Context context, OrchextraLogger orchextraLogger) {
     this.context = context;
+    this.orchextraLogger = orchextraLogger;
   }
 
   @Override
@@ -47,14 +47,14 @@ public class GcmInstanceIdRegisterImp implements GcmInstanceIdRegister {
       String senderId = obtainSenderID();
       String token = instanceID.getToken(senderId, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
-      GGGLogImpl.log("GCM Registration Token: " + token);
+      orchextraLogger.log("GCM Registration Token: " + token);
 
       notificationPush.setToken(token);
       notificationPush.setSenderId(senderId);
 
       return notificationPush;
     } catch (Exception e) {
-      GGGLogImpl.log("Failed GCM Registration");
+      orchextraLogger.log("Failed GCM Registration");
       return null;
     }
   }
@@ -65,8 +65,8 @@ public class GcmInstanceIdRegisterImp implements GcmInstanceIdRegister {
 
     if (senderID.equals(context.getString(R.string.ox_notifications_demo_GCM_sender_id))){
 
-      GGGLogImpl.log("Push Notifications won't work "
-          + "ox_notifications_GCM_sender_id string value not found", LogLevel.ERROR);
+      orchextraLogger.log("Push Notifications won't work "
+          + "ox_notifications_GCM_sender_id string value not found", OrchextraSDKLogLevel.ERROR);
 
       throw new IllegalArgumentException("Push Notifications won't work "
           + "ox_notifications_GCM_sender_id string value not found");

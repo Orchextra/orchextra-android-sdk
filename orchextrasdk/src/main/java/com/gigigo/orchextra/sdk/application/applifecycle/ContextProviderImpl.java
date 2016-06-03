@@ -20,18 +20,19 @@ package com.gigigo.orchextra.sdk.application.applifecycle;
 
 import android.app.Activity;
 import android.content.Context;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
-
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 
 public class ContextProviderImpl implements OrchextraContextProvider {
 
   private final Context context;
+  private final OrchextraLogger orchextraLogger;
 
   private OrchextraActivityLifecycle orchextraActivityLifecycle;
 
-  public ContextProviderImpl(Context context) {
+  public ContextProviderImpl(Context context, OrchextraLogger orchextraLogger) {
     this.context = context;
+    this.orchextraLogger = orchextraLogger;
   }
 
   public void setOrchextraActivityLifecycle(OrchextraActivityLifecycle orchextraActivityLifecycle) {
@@ -41,7 +42,8 @@ public class ContextProviderImpl implements OrchextraContextProvider {
   //region context provider interface
   @Override public Activity getCurrentActivity() {
     if (orchextraActivityLifecycle==null){
-      GGGLogImpl.log("Calling activity context before app finished initialization", LogLevel.WARN);
+      orchextraLogger.log("Calling activity context before app finished initialization",
+          OrchextraSDKLogLevel.WARN);
       return null;
     }
     return orchextraActivityLifecycle.getCurrentActivity();

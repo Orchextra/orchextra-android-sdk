@@ -15,26 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.gigigo.orchextra.domain.invoker;
+package com.gigigo.orchextra;
 
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 
-public class LogExceptionHandler implements Thread.UncaughtExceptionHandler {
+public enum OrchextraLogLevel {
+  ALL(OrchextraSDKLogLevel.ALL),
+  NETWORK(OrchextraSDKLogLevel.NETWORK),
+  DEBUG(OrchextraSDKLogLevel.DEBUG),
+  WARN(OrchextraSDKLogLevel.WARN),
+  ERROR(OrchextraSDKLogLevel.ERROR),
+  NONE(OrchextraSDKLogLevel.NONE);
 
-  private final OrchextraLogger orchextraLogger;
+  private final OrchextraSDKLogLevel orchextraSDKLogLevel;
 
-  public LogExceptionHandler(OrchextraLogger orchextraLogger) {
-    this.orchextraLogger = orchextraLogger;
+  OrchextraLogLevel(OrchextraSDKLogLevel orchextraSDKLogLevel) {
+    this.orchextraSDKLogLevel = orchextraSDKLogLevel;
   }
 
-  @Override public void uncaughtException(Thread thread, Throwable ex) {
-    if (ex!=null){
-      ex.printStackTrace();
-      orchextraLogger.log("Unhandled Interactor Exception: " + ex.getMessage(), OrchextraSDKLogLevel.ERROR);
-    }else{
-      orchextraLogger.log("Unhandled Interactor Exception: exception trace not available");
-    }
+  public OrchextraSDKLogLevel getSDKLogLevel() {
+    return orchextraSDKLogLevel;
   }
+
 }

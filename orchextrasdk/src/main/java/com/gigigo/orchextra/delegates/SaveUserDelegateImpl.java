@@ -18,19 +18,20 @@
 
 package com.gigigo.orchextra.delegates;
 
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserDelegate;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
-
 
 public class SaveUserDelegateImpl implements SaveUserDelegate {
 
   private final SaveUserController saveUserController;
+  private final OrchextraLogger orchextraLogger;
 
-  public SaveUserDelegateImpl(SaveUserController saveUserController) {
+  public SaveUserDelegateImpl(SaveUserController saveUserController, OrchextraLogger orchextraLogger) {
     this.saveUserController = saveUserController;
+    this.orchextraLogger = orchextraLogger;
   }
 
   @Override public void init() {
@@ -46,7 +47,7 @@ public class SaveUserDelegateImpl implements SaveUserDelegate {
   }
 
   @Override public void saveUserError() {
-    GGGLogImpl.log("Save user was not successful", LogLevel.ERROR);
+    orchextraLogger.log("Save user was not successful", OrchextraSDKLogLevel.ERROR);
     destroy();
   }
 
