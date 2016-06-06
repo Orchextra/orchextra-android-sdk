@@ -26,7 +26,7 @@ public class OrchextraLoggerImpl implements OrchextraLogger {
   private void logLibCall(String message, OrchextraSDKLogLevel orchextraSDKLogLevel) {
     if (this.orchextraSDKLogLevel.intValue() <= orchextraSDKLogLevel.intValue()) {
       LogLevel level = orchextraLogLevelToGGGLogLevel(orchextraSDKLogLevel);
-      GGGLogImpl.log("OrchextraSDK:: " + message, level, "OrchextraSDK", 2);
+      GGGLogImpl.log(message, level, "OrchextraSDK", 2);
     }
   }
 
