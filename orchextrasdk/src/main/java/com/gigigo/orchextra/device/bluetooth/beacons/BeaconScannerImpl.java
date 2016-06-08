@@ -57,8 +57,6 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
     this.appRunningMode = appRunningMode;
     this.configObservable = configObservable;
     this.orchextraLogger = orchextraLogger;
-
-    registerAsObserver();
   }
 
   private void registerAsObserver() {
@@ -76,6 +74,8 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
   }
 
   @Override public void startMonitoring() {
+    registerAsObserver();
+
     bluetoothStatusInfo.setBluetoothStatusListener(this);
     bluetoothStatusInfo.obtainBluetoothStatus();
   }
@@ -85,7 +85,6 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
     if (!regionMonitoringScanner.isMonitoring()){
       regionMonitoringScanner.initMonitoring();
     }
-
   }
 
   @Override public void startRangingScanner() {
