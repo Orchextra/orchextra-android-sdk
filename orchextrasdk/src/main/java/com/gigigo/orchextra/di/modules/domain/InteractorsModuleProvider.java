@@ -20,6 +20,7 @@ package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
+import com.gigigo.orchextra.domain.interactors.config.ClearLocalStorageInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofencesProviderInteractor;
@@ -38,4 +39,5 @@ public interface InteractorsModuleProvider {
   ObtainThemeInteractor provideObtainThemeInteractor();
   GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor();
   ScannerInteractor provideScannerInteractor();
+  ClearLocalStorageInteractor provideClearLocalStorageInteractor();
 }

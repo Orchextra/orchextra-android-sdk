@@ -24,6 +24,7 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.modules.data.DataProviderModule;
 import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.ClearLocalStorageInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.CrmValidation;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
@@ -50,10 +51,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import orchextra.javax.inject.Singleton;
-
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
 
 @Module(includes = DataProviderModule.class)
@@ -99,6 +99,14 @@ public class DomainModule {
     InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectConfigInteractorInteractorExecution(
             interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideSendConfigInteractor());
+    return interactorExecution;
+  }
+
+  @ClearLocalStorageInteractorExecution
+  @Provides InteractorExecution provideClearStorageInteractorExecution() {
+    InteractorExecution interactorExecution = new InteractorExecution();
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectClearStorageInteractorExecution(interactorExecution);
+    interactorExecution.setInteractor(interactorExecutionComponent.provideClearLocalStorageInteractor());
     return interactorExecution;
   }
 

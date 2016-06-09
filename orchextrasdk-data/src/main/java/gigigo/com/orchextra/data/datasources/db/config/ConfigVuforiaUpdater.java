@@ -20,9 +20,9 @@ package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
+
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 public class ConfigVuforiaUpdater {
@@ -87,5 +87,11 @@ public class ConfigVuforiaUpdater {
     }
 
     return true;
+  }
+
+  public void removeVuforia(Realm realm) {
+    if (realm != null) {
+      realm.delete(VuforiaRealm.class);
+    }
   }
 }

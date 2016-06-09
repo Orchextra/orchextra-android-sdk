@@ -20,12 +20,16 @@ package gigigo.com.orchextrasdk;
 import android.app.Application;
 import android.os.Handler;
 import android.util.Log;
+
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
 import com.gigigo.orchextra.OrchextraLogLevel;
-import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 public class App extends Application implements OrchextraCompletionCallback {
+
+  public static final String API_KEY = "key";
+  public static final String API_SECRET = "secret";
+
   @Override public void onCreate() {
     super.onCreate();
     Orchextra.setLogLevel(OrchextraLogLevel.ALL);
@@ -49,7 +53,7 @@ public class App extends Application implements OrchextraCompletionCallback {
   private void callStart() {
     new Handler().post(new Runnable() {
       @Override public void run() {
-        Orchextra.start("key", "secret");
+        Orchextra.start(API_KEY, API_SECRET);
       }
     });
   }

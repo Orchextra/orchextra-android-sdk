@@ -21,11 +21,13 @@ package gigigo.com.orchextra.data.datasources.db.config;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ConfigBeaconUpdater {
 
@@ -98,5 +100,11 @@ public class ConfigBeaconUpdater {
         beacon.getMajor() == newBeacon.getMajor() &&
         beacon.getUuid().equals(newBeacon.getUuid()) &&
         beacon.isActive() == newBeacon.isActive();
+  }
+
+  public void removeRegions(Realm realm) {
+    if (realm != null) {
+      realm.delete(BeaconRegionRealm.class);
+    }
   }
 }

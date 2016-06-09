@@ -40,4 +40,6 @@ public interface ConfigDBDataSource {
   BusinessObject<Theme> obtainTheme();
 
   BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister();
+
+  BusinessObject removeLocalStorage();
 }

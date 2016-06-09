@@ -19,10 +19,12 @@
 package gigigo.com.orchextra.data.datasources.db.geofences;
 
 import android.content.Context;
+
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
 

@@ -31,16 +31,19 @@ public class ConfigController {
 
   private final InteractorInvoker interactorInvoker;
   private final Provider<InteractorExecution> sendConfigInteractorExecution;
+  private final Provider<InteractorExecution> clearDataseInteractorExecution;
   private final ConfigObservable configObservable;
   private final ErrorLogger errorLogger;
 
   public ConfigController(InteractorInvoker interactorInvoker,
       Provider<InteractorExecution> sendConfigInteractorExecution,
+      Provider<InteractorExecution> clearDataseInteractorExecution,
       ConfigObservable configObservable, ErrorLogger errorLogger) {
 
     this.interactorInvoker = interactorInvoker;
 
     this.sendConfigInteractorExecution = sendConfigInteractorExecution;
+    this.clearDataseInteractorExecution = clearDataseInteractorExecution;
     this.configObservable = configObservable;
     this.errorLogger = errorLogger;
   }
@@ -76,5 +79,9 @@ public class ConfigController {
     if (result.hasChanges()) {
       configObservable.notifyObservers(result);
     }
+  }
+
+  public void clearLocalStorage() {
+    clearDataseInteractorExecution.get().execute(interactorInvoker);
   }
 }

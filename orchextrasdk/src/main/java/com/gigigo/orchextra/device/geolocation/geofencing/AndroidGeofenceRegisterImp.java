@@ -73,7 +73,7 @@ public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer,
         }
     }
 
-    @Override public void registerAlDbGeofences() {
+    @Override public void registerAllDbGeofences() {
         geofenceController.getAllGeofencesInDb(this);
     }
 

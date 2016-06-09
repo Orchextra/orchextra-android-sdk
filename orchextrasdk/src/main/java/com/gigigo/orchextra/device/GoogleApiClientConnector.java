@@ -89,7 +89,7 @@ public class GoogleApiClientConnector
   }
 
   public boolean isConnected() {
-    return client.isConnected();
+    return client != null && client.isConnected();
   }
 
   public void disconnected() {

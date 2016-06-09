@@ -69,8 +69,11 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
   @Override public void stopAllTasks() {
     beaconScanner.stopMonitoring();
     beaconScanner.stopRangingScanner();
+
     geofenceRegister.stopGeofenceRegister();
     geofenceRegister.clearGeofences();
+
+    configDelegateImp.clearLocalStorage();
   }
 
   @Override public void stopBackgroundServices() {
@@ -83,7 +86,7 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
 
   @Override public void initBootTasks() {
     configDelegateImp.sendConfiguration();
-    geofenceRegister.registerAlDbGeofences();
+    geofenceRegister.registerAllDbGeofences();
   }
 
 }

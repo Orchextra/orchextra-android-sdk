@@ -32,4 +32,7 @@ public class ConfigDelegateImp {
     configController.sendConfiguration();
   }
 
+  public void clearLocalStorage() {
+    configController.clearLocalStorage();
+  }
 }

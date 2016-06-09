@@ -19,16 +19,18 @@
 package gigigo.com.orchextra.data.datasources.db.geofences;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+
+import java.util.NoSuchElementException;
+
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
-import java.util.NoSuchElementException;
 
 public class GeofenceEventsUpdater {
 
