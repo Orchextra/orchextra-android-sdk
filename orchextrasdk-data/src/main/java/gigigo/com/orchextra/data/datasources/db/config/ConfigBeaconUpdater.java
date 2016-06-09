@@ -82,7 +82,7 @@ public class ConfigBeaconUpdater {
       RealmResults<BeaconRegionRealm> beaconRegionRealm =
           realm.where(BeaconRegionRealm.class).equalTo("code", code).findAll();
       if (beaconRegionRealm.size() > 0) {
-        beaconRegionRealm.first().removeFromRealm();
+        beaconRegionRealm.first().deleteFromRealm();
       }
     }
 

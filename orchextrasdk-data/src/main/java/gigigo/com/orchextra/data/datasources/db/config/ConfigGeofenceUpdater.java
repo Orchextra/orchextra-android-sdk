@@ -87,7 +87,7 @@ public class ConfigGeofenceUpdater {
       RealmResults<GeofenceRealm> geofenceRealms =
           realm.where(GeofenceRealm.class).equalTo("code", code).findAll();
       if (geofenceRealms.size() > 0) {
-        geofenceRealms.first().removeFromRealm();
+        geofenceRealms.first().deleteFromRealm();
       }
       orchextraLogger.log("Eliminada geofence de la base de datos: " + code);
     }
