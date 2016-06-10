@@ -18,5 +18,12 @@
 
 <resources>
   <string name="app_name">OrchextraSDK</string>
+
   <string name="ox_notifications_GCM_sender_id">566047498340</string>
+
+  <string name="ox_start_orchextra">Start Orchextra</string>
+  <string name="ox_stop_orchextra">Stop Orchextra</string>
+  <string name="status_running">running</string>
+  <string name="status_text">Orchextra status: %s</string>
+  <string name="status_stoped">stopped</string>
 </resources>

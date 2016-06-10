@@ -68,4 +68,13 @@ public class ConfigInfoResultUpdater {
     realm.delete(ConfigInfoResultRealm.class);
     realm.copyToRealm(configInfoResultRealm);
   }
+
+  public void removeConfigInfo(Realm realm) {
+    realm.beginTransaction();
+    beaconUpdater.removeRegions(realm);
+    geofenceUpdater.removeGeofences(realm);
+    vuforiaUpdater.removeVuforia(realm);
+    themeUpdater.removeTheme(realm);
+    realm.commitTransaction();
+  }
 }

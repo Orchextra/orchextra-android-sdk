@@ -47,6 +47,7 @@ import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationServiceImpl;
 import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.config.LocalStorageService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
 import com.gigigo.orchextra.domain.services.imagerecognition.GetImageRecognitionCredentialsService;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
@@ -164,5 +165,10 @@ public class DomainServicesModule {
   @Provides @PerExecution ObtainGeoLocationTask provideObtainGeoLocationTask(FutureGeolocation futureGeolocation,
                                                  GeolocationManager geolocationManager) {
     return new ObtainGeoLocationTask(futureGeolocation, geolocationManager);
+  }
+
+  @Provides @PerExecution
+  LocalStorageService provideLocalStorageService(ConfigDataProvider configDataProvider) {
+    return new LocalStorageService(configDataProvider);
   }
 }

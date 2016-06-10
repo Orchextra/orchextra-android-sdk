@@ -19,17 +19,24 @@
 package com.gigigo.orchextra.device.bluetooth.beacons.ranging;
 
 import android.os.RemoteException;
+
 import com.gigigo.orchextra.BuildConfig;
+import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
 import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconAndroidMapper;
 import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconRegionAndroidMapper;
-import com.gigigo.orchextra.domain.abstractions.beacons.BackgroundBeaconsRangingTimeType;
-import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.exceptions.BulkRangingScannInBackgroundException;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.beacons.BackgroundBeaconsRangingTimeType;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
+
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,10 +45,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.RangeNotifier;
-import org.altbeacon.beacon.Region;
 
 public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingScanner{
 
@@ -181,7 +184,6 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       } catch (RemoteException e) {
         e.printStackTrace();
       }
-
     }}
     }).start();
   }

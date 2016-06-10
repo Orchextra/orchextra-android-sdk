@@ -22,6 +22,7 @@ import android.content.Context;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
@@ -118,6 +119,23 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
       List<OrchextraGeofence> geofences = configInfoResultReader.getAllGeofences(realm);
       return new BusinessObject<>(geofences, BusinessError.createOKInstance());
     } catch (NotFountRealmObjectException | RealmException re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public BusinessObject<Object> removeLocalStorage() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      configInfoResultUpdater.removeConfigInfo(realm);
+      return new BusinessObject<>(null, BusinessError.createOKInstance());
+    } catch (Exception re) {
+      GGGLogImpl.log("No se ha eliminado correctamente la bas de datos: " + re.getMessage());
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     } finally {
       if (realm != null) {

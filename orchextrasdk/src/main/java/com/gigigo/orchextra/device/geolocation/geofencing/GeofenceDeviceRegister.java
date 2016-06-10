@@ -29,8 +29,8 @@ import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofenceConverter;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -72,7 +72,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     public void register(OrchextraGeofenceUpdates geofenceUpdates) {
         this.geofenceUpdates = geofenceUpdates;
 
-        googleApiClientConnector.setOnConnectedListener(onConnectedListener);
+        googleApiClientConnector.setOnConnectedListener(onConnectedRegisterGeofenceListener);
         googleApiClientConnector.connect();
     }
 
@@ -111,7 +111,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
         }
     }
 
-    private GoogleApiClientConnector.OnConnectedListener onConnectedListener =
+    private GoogleApiClientConnector.OnConnectedListener onConnectedRegisterGeofenceListener =
             new GoogleApiClientConnector.OnConnectedListener() {
                 @Override
                 public void onConnected(Bundle bundle) {
@@ -161,7 +161,30 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     }
 
     public void clean() {
-        LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), geofencePendingIntentCreator.getGeofencingPendingIntent());
+        if (googleApiClientConnector.isConnected()) {
+            clearGeofences();
+        } else {
+            googleApiClientConnector.setOnConnectedListener(onConnectedRemoveGeofenceListener);
+            googleApiClientConnector.connect();
+        }
     }
 
+    private void clearGeofences() {
+        if (googleApiClientConnector.isConnected()) {
+            LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), geofencePendingIntentCreator.getGeofencingPendingIntent());
+        }
+    }
+
+    private GoogleApiClientConnector.OnConnectedListener onConnectedRemoveGeofenceListener =
+            new GoogleApiClientConnector.OnConnectedListener() {
+                @Override
+                public void onConnected(Bundle bundle) {
+                    clearGeofences();
+                }
+
+                @Override
+                public void onConnectionFailed(ConnectionResult connectionResult) {
+                    orchextraLogger.log("No se ha podido conectar GoogleApiClientConnector en las peticion de las geofences");
+                }
+            };
 }

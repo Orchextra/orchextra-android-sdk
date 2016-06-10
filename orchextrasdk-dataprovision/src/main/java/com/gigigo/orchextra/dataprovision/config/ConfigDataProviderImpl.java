@@ -87,6 +87,11 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     return configDBDataSource.obtainTheme();
   }
 
+  @Override
+  public BusinessObject<Boolean> removeLocalStorage() {
+    return configDBDataSource.removeLocalStorage();
+  }
+
   private boolean checkAuthenticationToken() {
     BusinessObject<SdkAuthData> deviceToken = sessionDBDataSource.getDeviceToken();
     if (deviceToken.isSuccess()) {

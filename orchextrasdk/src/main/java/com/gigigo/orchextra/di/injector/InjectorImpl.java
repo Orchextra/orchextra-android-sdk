@@ -181,4 +181,10 @@ public class InjectorImpl implements Injector {
     oibrc.injectOrchextraIrBroadcastReceiver(imageRecognitionReceiver);
     return oibrc;
   }
+
+  public InteractorExecutionComponent injectClearStorageInteractorExecution(InteractorExecution interactorExecution) {
+    InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
+    interactorExecutionComponent.injectClearStorageInteractorExecution(interactorExecution);
+    return interactorExecutionComponent;
+  }
 }
