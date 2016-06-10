@@ -137,6 +137,14 @@ dependencies {
 
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito
+
+  androidTestCompile parent.ext.testDependencies.testRunner
+  androidTestCompile parent.ext.testDependencies.testRules
+
+  androidTestCompile parent.ext.testDependencies.dexMaker
+  androidTestCompile(parent.ext.testDependencies.dexMakerMockito) {
+    exclude group: 'org.hamcrest', module: 'hamcrest-core'
+  }
 }
 
 // build a jar with source files
