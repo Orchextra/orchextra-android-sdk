@@ -76,6 +76,8 @@ public class ConfigDBDataSourceImplTest {
 
     @After
     public void tearDown() throws Exception {
+        realm.beginTransaction();
         realm.deleteAll();
+        realm.commitTransaction();
     }
 }
