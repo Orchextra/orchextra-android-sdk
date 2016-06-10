@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   private void stopOrchextra() {
     new Handler().post(new Runnable() {
       @Override public void run() {
-        Orchextra.sdkStop();
+        Orchextra.stop();
       }
     });
     isRunning = false;

@@ -75,7 +75,7 @@ public class Orchextra {
         OrchextraManager.startImageRecognition();
     }
 
-    public static synchronized void sdkStop() {
+    public static synchronized void stop() {
         OrchextraManager.sdkStop();
     }
 
