@@ -56,7 +56,7 @@ allprojects {
 
     versionMajor = 2
     versionMinor = 3
-    versionPatch = 0
+    versionPatch = 2
 
     androidVersionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch
     androidVersionName = versionMajor + "." + versionMinor + "." + versionPatch
