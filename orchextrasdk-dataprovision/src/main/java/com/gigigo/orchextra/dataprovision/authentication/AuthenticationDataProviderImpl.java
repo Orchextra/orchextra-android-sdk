@@ -49,7 +49,6 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
 
       if (deviceToken.isSuccess()) {
         sessionDBDataSource.saveSdkAuthResponse(deviceToken.getData());
-        //TODO check two following added lines
         SdkAuthCredentials sdkCredentials = ConsistencyUtils.checkInstance(credentials,
             SdkAuthCredentials.class);
         sessionDBDataSource.saveSdkAuthCredentials(sdkCredentials);
@@ -70,7 +69,6 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
 
       if (sessionToken.isSuccess()) {
         sessionDBDataSource.saveClientAuthResponse(sessionToken.getData());
-        //TODO check two following added lines
         ClientAuthCredentials clientAuthCredentials = ConsistencyUtils.checkInstance(credentials,
             ClientAuthCredentials.class);
         sessionDBDataSource.saveClientAuthCredentials(clientAuthCredentials);
