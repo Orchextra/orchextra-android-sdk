@@ -19,13 +19,16 @@
 package com.gigigo.orchextra.dataprovision.authentication;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
+import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 
 public class AuthenticationDataProviderImpl implements AuthenticationDataProvider {
 
@@ -47,9 +50,9 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
       if (deviceToken.isSuccess()) {
         sessionDBDataSource.saveSdkAuthResponse(deviceToken.getData());
         //TODO check two following added lines
-        //SdkAuthCredentials sdkCredentials = ConsistencyUtils.checkInstance(credentials,
-        //    SdkAuthCredentials.class);
-        //sessionDBDataSource.saveSdkAuthCredentials(sdkCredentials);
+        SdkAuthCredentials sdkCredentials = ConsistencyUtils.checkInstance(credentials,
+            SdkAuthCredentials.class);
+        sessionDBDataSource.saveSdkAuthCredentials(sdkCredentials);
       }
     }
 
@@ -68,9 +71,9 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
       if (sessionToken.isSuccess()) {
         sessionDBDataSource.saveClientAuthResponse(sessionToken.getData());
         //TODO check two following added lines
-        //ClientAuthCredentials clientAuthCredentials = ConsistencyUtils.checkInstance(credentials,
-        //    ClientAuthCredentials.class);
-        //sessionDBDataSource.saveClientAuthCredentials(clientAuthCredentials);
+        ClientAuthCredentials clientAuthCredentials = ConsistencyUtils.checkInstance(credentials,
+            ClientAuthCredentials.class);
+        sessionDBDataSource.saveClientAuthCredentials(clientAuthCredentials);
         saveCrmId(crmId);
       }
     }
