@@ -30,6 +30,7 @@ public class ConfigInfoResult {
   private RegionList regions;
   private GeofenceList geofences;
   private VuforiaReady vuforia;
+  @Deprecated
   private SupportsTheme theme;
 
   private int requestWaitTime;
@@ -45,7 +46,7 @@ public class ConfigInfoResult {
   public Vuforia getVuforia() {
     return vuforia.getVuforia();
   }
-
+  @Deprecated
   public Theme getTheme() {
     return theme.getTheme();
   }
@@ -85,7 +86,7 @@ public class ConfigInfoResult {
   public void setVuforia(VuforiaReady vuforia) {
     this.vuforia = vuforia;
   }
-
+  @Deprecated
   public void setTheme(SupportsTheme theme) {
     this.theme = theme;
   }

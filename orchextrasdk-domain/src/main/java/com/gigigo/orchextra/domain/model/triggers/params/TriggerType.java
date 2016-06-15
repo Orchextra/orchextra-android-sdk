@@ -33,7 +33,7 @@ public enum TriggerType implements StringValueEnum {
   TriggerType(final String type) {
     this.type = type;
   }
-
+  @Override
   public String getStringValue() {
     return type;
   }

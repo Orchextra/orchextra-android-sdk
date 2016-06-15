@@ -18,24 +18,29 @@
 
 package com.gigigo.orchextra.domain.model.vo;
 
+@Deprecated
 public class Theme {
 
-  private String primaryColor;
-  private String secondaryColor;
+    private String primaryColor;
+    private String secondaryColor;
 
-  public String getPrimaryColor() {
-    return primaryColor;
-  }
+    @Deprecated
+    public String getPrimaryColor() {
+        return primaryColor;
+    }
 
-  public void setPrimaryColor(String primaryColor) {
-    this.primaryColor = primaryColor;
-  }
+    @Deprecated
+    public void setPrimaryColor(String primaryColor) {
+        this.primaryColor = primaryColor;
+    }
 
-  public String getSecondaryColor() {
-    return secondaryColor;
-  }
+    @Deprecated
+    public String getSecondaryColor() {
+        return secondaryColor;
+    }
 
-  public void setSecondaryColor(String secondaryColor) {
-    this.secondaryColor = secondaryColor;
-  }
+    @Deprecated
+    public void setSecondaryColor(String secondaryColor) {
+        this.secondaryColor = secondaryColor;
+    }
 }

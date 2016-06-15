@@ -48,6 +48,9 @@ public class TriggerActionsFacadeService implements DomaninService {
     this.scheduleActionService = scheduleActionService;
   }
 
+  public void setEventAccessor(EventAccessor eventAccessor) {
+    this.eventAccessor = eventAccessor;
+  }
   public InteractorResponse<List<BasicAction>> triggerActions(
       List<OrchextraBeacon> orchextraBeacons) {
     return triggerActions(triggerService.getTrigger(orchextraBeacons));
@@ -55,7 +58,7 @@ public class TriggerActionsFacadeService implements DomaninService {
 
   public InteractorResponse<List<BasicAction>> triggerActions(OrchextraRegion detectedRegion) {
     return triggerActions(triggerService.getTrigger(detectedRegion));
-  }
+}
 
   public InteractorResponse<List<BasicAction>> triggerActions(List<OrchextraGeofence> geofences,
       GeoPointEventType geofenceTransition) {
@@ -77,9 +80,7 @@ public class TriggerActionsFacadeService implements DomaninService {
     return actions;
   }
 
-  public void setEventAccessor(EventAccessor eventAccessor) {
-    this.eventAccessor = eventAccessor;
-  }
+
 
   private void scheduleActions(InteractorResponse actionsResponse) {
     List<BasicAction> actions = (List<BasicAction>) actionsResponse.getResult();

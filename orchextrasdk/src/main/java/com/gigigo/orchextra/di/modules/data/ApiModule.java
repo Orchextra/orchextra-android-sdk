@@ -70,9 +70,8 @@ public class ApiModule {
     @Provides
     @Singleton
     @RetrofitLog
-    boolean provideRetrofitLog() {
-        return BuildConfig.RETROFIT_LOG;
-    }
+    boolean provideRetrofitLog() { return true;//todo BuildConfig.RETROFIT_LOG;
+         }
 
     @Provides
     @Singleton
@@ -130,6 +129,7 @@ public class ApiModule {
 
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
         okHttpClientBuilder.addInterceptor(headersInterceptor);
+
 
         if (retrofitLog){
             okHttpClientBuilder.addInterceptor(loggingInterceptor);

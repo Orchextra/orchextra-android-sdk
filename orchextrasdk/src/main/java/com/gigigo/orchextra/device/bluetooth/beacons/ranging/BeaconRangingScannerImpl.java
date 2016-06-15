@@ -209,7 +209,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
           stopRangingRegion(region);
           regionThreads.remove(region.getUniqueId());
         } catch (InterruptedException e) {
-          GGGLogImpl.log("This interruption coulbe be provoked see log below", LogLevel.WARN);
+          GGGLogImpl.log("This interruption could be provoked see log below", LogLevel.WARN);
         }
       }
     });

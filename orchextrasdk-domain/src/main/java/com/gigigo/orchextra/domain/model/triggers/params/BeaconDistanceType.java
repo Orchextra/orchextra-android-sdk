@@ -30,7 +30,7 @@ public enum BeaconDistanceType implements StringValueEnum {
   BeaconDistanceType(final String type) {
     this.type = type;
   }
-
+  @Override
   public String getStringValue() {
     return type;
   }

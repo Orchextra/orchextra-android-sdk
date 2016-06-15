@@ -34,7 +34,7 @@ import java.util.List;
 
 public class BeaconEventsInteractor
     implements Interactor<InteractorResponse<List<BasicAction>>>, EventAccessor {
-
+1
   private final BeaconCheckerService beaconCheckerService;
   private final RegionCheckerService regionCheckerService;
   private final TriggerActionsFacadeService triggerActionsFacadeService;
@@ -73,7 +73,7 @@ public class BeaconEventsInteractor
   public void setEventType(BeaconEventType eventType) {
     this.eventType = eventType;
   }
-
+    //this store the beacon or the regiaon beacon
   public void setData(Object data) {
     this.data = data;
   }
