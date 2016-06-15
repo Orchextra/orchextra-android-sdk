@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk) 
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-2.3.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-2.3.2-blue.svg)
 [![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
 
@@ -44,7 +44,7 @@ allprojects {
 ```
 and we add the Orchextra dependency in our **app** module like this:
 ```java
-    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.0'
+    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.2-dev'
 ```
 
 The previous dependency has to be added into this file:
@@ -59,17 +59,11 @@ We have to created a class which extends from Application (if we didn't do yet) 
 ```java
 Orchextra.init(this, new OrchextraCompletionCallback() {              
                     @Override
-                    public void onSuccess() {
-                        GGGLogImpl.log("onSuccess");
-                    }              
+                    public void onSuccess() { }              
                    @Override
-                    public void onError(String s) {
-                        GGGLogImpl.log("onError: " + s);
-                    }
+                    public void onError(String s) { }
                     @Override
-                    public void onInit(String s) {
-                        GGGLogImpl.log("onInit: " + s);
-                    }
+                    public void onInit(String s) { }
                 });
 ```
 
@@ -78,6 +72,8 @@ Then, in any part of our application we should start the orchextra sdk.
 ```java
 Orchextra.start(API_KEY, API_SECRET);
 ```
+
+After calling start, you can call `Orchextra.stop()` if you need to stop all Orchextra features, so you can call again start or stop in order to fit your requirements.
 
 ## Custom Scheme - Delegate
 In order to get custom schemes within our app must conform the CustomSchemeReceiver interface, the following method will handle all the custom schemes created in Orchextra.
@@ -93,12 +89,24 @@ Orchextra.setCustomSchemeReceiver(new CustomSchemeReceiver() {
 
 ## Add user to Orchextra
 ORCUser class is a local representation of a user persisted to the Orchextra Database to help to create a good user segmentation. This object is optional and could be set up at any time.
+
 ```java
 Orchextra.setUser(new ORCUser(CRM_ID,
                 new GregorianCalendar(1990, 10, 29), //any Birth date as a calendar instance
                 ORCUser.Gender.ORCGenderMale, //ORCGenderMale or ORCGenderFemale Enum
                 new ArrayList<>(Arrays.asList("keyword1", "keyword2"))));
 ```
+
+Regarding *Keywords* they are not used any more instead of use this constructor you should use the new one having TAG for replacing keywords, so the previous code could be something like:
+```java
+Orchextra.setUser(new ORCUser("123456789",
+        new GregorianCalendar(1990, 10, 29), //any Birth date as a calendar instance
+        ORCUser.Gender.ORCGenderMale, //ORCGenderMale or ORCGenderFemale Enum
+        new ORCUserTag("tag1"),
+        new ORCUserTag("tag2")));
+```
+
+ 
 ##  Start Actions
 Orchextra SDK let you invoke a couple of action within your own application to start a new user journey
 
@@ -214,8 +222,31 @@ As you can see image recognition Activity is using Orchextra like ascpect, but d
  - `ox_loading_indicator_message`: Message that indicates that image recognition module is being loaded
  - `ox_ir_scan_activity_name`: Name of image recognition _Activity_, appearing in _Toolbar_
 
-# Acknowledgements
+## Log level
+Now you can configure log level using the level you consider to get debug info from Orchextra SDK. In order to set the level, you MUST call `rchextra.setLogLevel(LOGLEVEL)` where _LOGLEVEL_ is an enum providing following info:
 
+- `OrchextraLogLevel.ALL`: All info, even altbeacon lib logs
+- `OrchextraLogLevel.NETWORK`: all debug from Orchextra plus network info 
+- `OrchextraLogLevel.DEBUG`: all debug info from SDK.
+- `OrchextraLogLevel.WARN`: Only SDK errors and warnings
+- `OrchextraLogLevel.ERROR`: Only errors
+- `OrchextraLogLevel.NONE`: Not logging at all
+
+Default level is `OrchextraLogLevel.NONE` for releases. 
+
+## Realm Support
+First at all you must include the newest version of [Realm](https://realm.io/docs/java/latest/#installation). Orchextra includes Realm as a library and exposes Orchextra's Realm module. You have to include this module in the Realm configuration when you define a Realm instance as follow:
+```java
+    RealmConfiguration config =
+        new RealmConfiguration.Builder(context)
+            .modules(Realm.getDefaultModule(), new OrchextraRealmModule())
+            .build();
+
+        Realm realm = Realm.getInstance(config);
+```
+For more information to include Realm, visit the [Realm's documentation](https://realm.io/docs/java/latest/#sharing-schemas).
+
+# Acknowledgements
 We would like to mention every company and particular developers that have been contributing this repo in some way:
 
 * Thank's to [Square](http://square.github.io/), we are using several libs they developed (Retrofit 2, OkHttp, Dagger).

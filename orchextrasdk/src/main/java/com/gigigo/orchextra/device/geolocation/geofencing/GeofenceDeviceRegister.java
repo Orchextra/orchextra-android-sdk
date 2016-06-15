@@ -25,16 +25,14 @@ import android.os.Bundle;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofenceConverter;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
-import com.gigigo.orchextra.sdk.features.GooglePlayServicesStatus;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.GeofencingRequest;
@@ -50,6 +48,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     private final PermissionChecker permissionChecker;
     private final PermissionLocationImp accessFineLocationPermissionImp;
     private final AndroidGeofenceConverter androidGeofenceConverter;
+    private final OrchextraLogger orchextraLogger;
 
     private OrchextraGeofenceUpdates geofenceUpdates;
 
@@ -58,7 +57,8 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
                                   GeofencePendingIntentCreator geofencePendingIntentCreator,
                                   PermissionChecker permissionChecker,
                                   PermissionLocationImp accessFineLocationPermissionImp,
-                                  AndroidGeofenceConverter androidGeofenceConverter) {
+                                  AndroidGeofenceConverter androidGeofenceConverter,
+                                  OrchextraLogger orchextraLogger) {
 
         this.contextProvider = contextProvider;
         this.googleApiClientConnector = googleApiClientConnector;
@@ -66,13 +66,13 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
         this.permissionChecker = permissionChecker;
         this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
         this.androidGeofenceConverter = androidGeofenceConverter;
-
+        this.orchextraLogger = orchextraLogger;
     }
 
     public void register(OrchextraGeofenceUpdates geofenceUpdates) {
         this.geofenceUpdates = geofenceUpdates;
 
-        googleApiClientConnector.setOnConnectedListener(onConnectedListener);
+        googleApiClientConnector.setOnConnectedListener(onConnectedRegisterGeofenceListener);
         googleApiClientConnector.connect();
     }
 
@@ -90,20 +90,20 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     @Override
     public void onResult(Status status) {
         if (status.isSuccess()) {
-            GGGLogImpl.log("Registered Geofences Success!", LogLevel.INFO);
+            orchextraLogger.log("Registered Geofences Success!", OrchextraSDKLogLevel.DEBUG);
         } else if (status.hasResolution()) {
             Activity currentActivity = contextProvider.getCurrentActivity();
             if (currentActivity != null) {
                 try {
                     status.startResolutionForResult(currentActivity, status.getStatusCode());
                 } catch (IntentSender.SendIntentException e) {
-                    GGGLogImpl.log("Geofences Handle resolution!", LogLevel.INFO);
+                    orchextraLogger.log("Geofences Handle resolution!", OrchextraSDKLogLevel.DEBUG);
                 }
             }
         } else if (status.isCanceled()) {
-            GGGLogImpl.log("Registered Geofences Canceled!", LogLevel.INFO);
+            orchextraLogger.log("Registered Geofences Canceled!", OrchextraSDKLogLevel.DEBUG);
         } else if (status.isInterrupted()) {
-            GGGLogImpl.log("Registered Geofences Interrupted!", LogLevel.INFO);
+            orchextraLogger.log("Registered Geofences Interrupted!", OrchextraSDKLogLevel.DEBUG);
         }
 
         if (googleApiClientConnector.isConnected()) {
@@ -111,7 +111,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
         }
     }
 
-    private GoogleApiClientConnector.OnConnectedListener onConnectedListener =
+    private GoogleApiClientConnector.OnConnectedListener onConnectedRegisterGeofenceListener =
             new GoogleApiClientConnector.OnConnectedListener() {
                 @Override
                 public void onConnected(Bundle bundle) {
@@ -120,7 +120,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
 
                 @Override
                 public void onConnectionFailed(ConnectionResult connectionResult) {
-                    GGGLogImpl.log("No se ha podido conectar GoogleApiClientConnector en las peticion de las geofences");
+                    orchextraLogger.log("No se ha podido conectar GoogleApiClientConnector en las peticion de las geofences");
                 }
             };
 
@@ -135,8 +135,8 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
 
     @SuppressWarnings("ResourceType")
     private void registerGeofence() {
-        GGGLogImpl.log("Removing " + geofenceUpdates.getDeleteGeofences().size() + " geofences...");
-        GGGLogImpl.log("Registering " + geofenceUpdates.getNewGeofences().size() + " geofences...");
+        orchextraLogger.log("Removing " + geofenceUpdates.getDeleteGeofences().size() + " geofences...");
+        orchextraLogger.log("Registering " + geofenceUpdates.getNewGeofences().size() + " geofences...");
 
         List<String> deleteCodeList = androidGeofenceConverter.getCodeList(geofenceUpdates.getDeleteGeofences());
 
@@ -153,15 +153,38 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
                     LocationServices.GeofencingApi.addGeofences(googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
                         geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);
                 }catch (Exception e){
-                    GGGLogImpl.log("Exception trying to add geofences: " + e.getMessage(),
-                        LogLevel.ERROR);
+                    orchextraLogger.log("Exception trying to add geofences: " + e.getMessage(),
+                        OrchextraSDKLogLevel.ERROR);
                 }
             }
         }
     }
 
     public void clean() {
-        LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), geofencePendingIntentCreator.getGeofencingPendingIntent());
+        if (googleApiClientConnector.isConnected()) {
+            clearGeofences();
+        } else {
+            googleApiClientConnector.setOnConnectedListener(onConnectedRemoveGeofenceListener);
+            googleApiClientConnector.connect();
+        }
     }
 
+    private void clearGeofences() {
+        if (googleApiClientConnector.isConnected()) {
+            LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), geofencePendingIntentCreator.getGeofencingPendingIntent());
+        }
+    }
+
+    private GoogleApiClientConnector.OnConnectedListener onConnectedRemoveGeofenceListener =
+            new GoogleApiClientConnector.OnConnectedListener() {
+                @Override
+                public void onConnected(Bundle bundle) {
+                    clearGeofences();
+                }
+
+                @Override
+                public void onConnectionFailed(ConnectionResult connectionResult) {
+                    orchextraLogger.log("No se ha podido conectar GoogleApiClientConnector en las peticion de las geofences");
+                }
+            };
 }

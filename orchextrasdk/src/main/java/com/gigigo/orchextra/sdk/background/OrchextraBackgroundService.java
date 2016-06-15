@@ -21,7 +21,7 @@ package com.gigigo.orchextra.sdk.background;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
@@ -32,10 +32,9 @@ import orchextra.javax.inject.Inject;
 public class OrchextraBackgroundService extends Service {
 
 	@Inject BackgroundTasksManager backgroundTasksManager;
-
 	@Inject OrchextraActivityLifecycle orchextraActivityLifecycle;
-
 	@Inject OrchextraStatusAccessor orchextraStatusAccessor;
+	@Inject OrchextraLogger orchextraLogger;
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -44,7 +43,7 @@ public class OrchextraBackgroundService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		GGGLogImpl.log("Service method :: onStartCommand");
+		orchextraLogger.log("Service method :: onStartCommand");
 		boolean requestConfig = shouldRequestConfig(intent);
 		if (orchextraStatusAccessor.isStarted()){
 			startBackgroundTasks(requestConfig);
@@ -75,12 +74,12 @@ public class OrchextraBackgroundService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		OrchextraManager.getInjector().injectServiceComponent(this);
-		GGGLogImpl.log("Service method :: onCreate");
+		orchextraLogger.log("Service method :: onCreate");
 	}
 
 	@Override
 	public void onDestroy() {
-		GGGLogImpl.log("Service method :: onDestroy");
+		orchextraLogger.log("Service method :: onDestroy");
 		backgroundTasksManager.finalizeBackgroundTasks();
 		super.onDestroy();
 	}

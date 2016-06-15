@@ -21,6 +21,7 @@ package gigigo.com.orchextra.data.datasources.db.config;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
@@ -45,17 +46,20 @@ public class ConfigInfoResultReader {
   private final ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper;
   private final ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper;
   private final ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper;
+  private final OrchextraLogger orchextraLogger;
 
   public ConfigInfoResultReader(
       ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper,
       ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper,
       ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper,
-      ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper) {
+      ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper,
+      OrchextraLogger orchextraLogger) {
 
     this.regionRealmMapper = regionRealmMapper;
     this.geofencesRealmMapper = geofencesRealmMapper;
     this.vuforiaRealmMapper = vuforiaRealmMapper;
     this.themeRealmMapper = themeRealmMapper;
+    this.orchextraLogger = orchextraLogger;
   }
 
   public ConfigInfoResult readConfigInfo(Realm realm) {
@@ -71,7 +75,7 @@ public class ConfigInfoResultReader {
         new ConfigInfoResult.Builder(config.getRequestWaitTime(), geofences, regions, theme,
             vuforia).build();
 
-    GGGLogImpl.log("Retrieved configInfoResult with properties"
+    orchextraLogger.log("Retrieved configInfoResult with properties"
         + " \n Theme :"
         + theme.toString()
         + " Vuforia :"
@@ -132,10 +136,10 @@ public class ConfigInfoResultReader {
         realm.where(GeofenceRealm.class).equalTo("code", geofenceId).findAll();
 
     if (geofenceRealm.size() == 0) {
-      GGGLogImpl.log("Not found geofence with id: " + geofenceId);
+      orchextraLogger.log("Not found geofence with id: " + geofenceId);
       throw new NotFountRealmObjectException();
     } else {
-      GGGLogImpl.log("Found geofence with id: " + geofenceId);
+      orchextraLogger.log("Found geofence with id: " + geofenceId);
       return geofencesRealmMapper.externalClassToModel(geofenceRealm.first());
     }
   }
@@ -149,9 +153,9 @@ public class ConfigInfoResultReader {
     }
 
     if (regions.size() > 0) {
-      GGGLogImpl.log("Retrieved " + regions.size() + " beacon regions");
+      orchextraLogger.log("Retrieved " + regions.size() + " beacon regions");
     } else {
-      GGGLogImpl.log("Not Retrieved any region");
+      orchextraLogger.log("Not Retrieved any region");
     }
 
     return regions;
@@ -175,9 +179,9 @@ public class ConfigInfoResultReader {
     }
 
     if (geofences.size() > 0) {
-      GGGLogImpl.log("Retrieved " + geofences.size() + " Geofences from DB");
+      orchextraLogger.log("Retrieved " + geofences.size() + " Geofences from DB");
     } else {
-      GGGLogImpl.log("Not Retrieved any Geofence");
+      orchextraLogger.log("Not Retrieved any Geofence");
     }
 
     return geofences;

@@ -17,9 +17,9 @@
  */
 package com.gigigo.orchextra.sdk;
 
-import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
 
 public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
@@ -30,15 +30,18 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
   private final BeaconScanner beaconScanner;
   private final ConfigDelegateImp configDelegateImp;
   private final GeofenceRegister geofenceRegister;
+  private final OrchextraLogger orchextraLogger;
 
   public OrchextraTasksManagerImpl(
       BeaconScanner beaconScanner,
       ConfigDelegateImp configDelegateImp,
-      GeofenceRegister geofenceRegister) {
+      GeofenceRegister geofenceRegister,
+      OrchextraLogger orchextraLogger) {
 
     this.beaconScanner = beaconScanner;
     this.configDelegateImp = configDelegateImp;
     this.geofenceRegister = geofenceRegister;
+    this.orchextraLogger = orchextraLogger;
 
   }
 
@@ -51,13 +54,13 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
   }
 
   private void initTasks(int appRunningMode) {
-    GGGLogImpl.log("Generic tasks have been started: Monitoring and Geofences");
+    orchextraLogger.log("Generic tasks have been started: Monitoring and Geofences");
 
     beaconScanner.startMonitoring();
     geofenceRegister.startGeofenceRegister();
 
     if (appRunningMode == FOREGROUND){
-      GGGLogImpl.log("Foreground tasks have been started: Ranging and Request config");
+      orchextraLogger.log("Foreground tasks have been started: Ranging and Request config");
       beaconScanner.initAvailableRegionsRangingScanner();
       configDelegateImp.sendConfiguration();
     }
@@ -66,8 +69,11 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
   @Override public void stopAllTasks() {
     beaconScanner.stopMonitoring();
     beaconScanner.stopRangingScanner();
+
     geofenceRegister.stopGeofenceRegister();
     geofenceRegister.clearGeofences();
+
+    configDelegateImp.clearLocalStorage();
   }
 
   @Override public void stopBackgroundServices() {
@@ -80,7 +86,7 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager{
 
   @Override public void initBootTasks() {
     configDelegateImp.sendConfiguration();
-    geofenceRegister.registerAlDbGeofences();
+    geofenceRegister.registerAllDbGeofences();
   }
 
 }

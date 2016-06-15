@@ -22,147 +22,157 @@ import android.content.Context;
 import android.hardware.Camera;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-
 import com.gigigo.ggglogger.GGGLogImpl;
-
+import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import java.util.Collection;
+import java.util.Iterator;
+import me.dm7.barcodescanner.core.DisplayUtils;
+import me.dm7.barcodescanner.zbar.BarcodeFormat;
+import me.dm7.barcodescanner.zbar.Result;
 import net.sourceforge.zbar.Config;
 import net.sourceforge.zbar.Image;
 import net.sourceforge.zbar.ImageScanner;
 import net.sourceforge.zbar.Symbol;
 import net.sourceforge.zbar.SymbolSet;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import me.dm7.barcodescanner.core.DisplayUtils;
-import me.dm7.barcodescanner.zbar.BarcodeFormat;
-import me.dm7.barcodescanner.zbar.Result;
-
 public class OxZBarScannerView extends OxScannerView {
 
-    private ImageScanner scanner;
-    private OxZBarScannerView.ResultHandler resultHandler;
+  private ImageScanner scanner;
+  private OxZBarScannerView.ResultHandler resultHandler;
+  private OrchextraLogger orchextraLogger;
 
-    public OxZBarScannerView(Context context) {
-        super(context);
-        setupScanner();
+  public OxZBarScannerView(Context context) {
+    super(context);
+    setupScanner();
+  }
+
+  public OxZBarScannerView(Context context, AttributeSet attributeSet) {
+    super(context, attributeSet);
+    setupScanner();
+  }
+
+  public OxZBarScannerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    setupScanner();
+  }
+
+  public OxZBarScannerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    super(context, attrs, defStyleAttr, defStyleRes);
+    setupScanner();
+  }
+
+  public void setResultHandler(OxZBarScannerView.ResultHandler resultHandler) {
+    this.resultHandler = resultHandler;
+  }
+
+  public Collection<BarcodeFormat> getFormats() {
+    return BarcodeFormat.ALL_FORMATS;
+  }
+
+  public void setupScanner() {
+    scanner = new ImageScanner();
+
+    scanner.setConfig(Symbol.NONE, Config.X_DENSITY, 3);
+    scanner.setConfig(Symbol.NONE, Config.Y_DENSITY, 3);
+
+    scanner.setConfig(Symbol.NONE, Config.ENABLE, 0);
+    for (BarcodeFormat format : getFormats()) {
+      scanner.setConfig(format.getId(), Config.ENABLE, 1);
     }
+  }
 
-    public OxZBarScannerView(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
-        setupScanner();
+  public void onPreviewFrame(byte[] data, Camera camera) {
+    try {
+      lookingForQR(data, camera);
+    } catch (Exception e) {
+      logError("ERROR " + e.getMessage());
     }
+  }
 
-    public OxZBarScannerView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        setupScanner();
+  private void logError(String s) {
+    if (orchextraLogger != null) {
+      orchextraLogger.log(s, OrchextraSDKLogLevel.ERROR);
+    } else {
+      GGGLogImpl.log(s, LogLevel.ERROR);
     }
+  }
 
-    public OxZBarScannerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        setupScanner();
-    }
+  private boolean lookingForQR(byte[] data, Camera camera) {
+    try {
+      Camera.Parameters parameters = camera.getParameters();
+      Camera.Size size = parameters.getPreviewSize();
+      int width = size.width;
+      int height = size.height;
+      int result;
+      if (DisplayUtils.getScreenOrientation(context) == 1) {
+        byte[] barcode = new byte[data.length];
 
-    public void setResultHandler(OxZBarScannerView.ResultHandler resultHandler) {
-        this.resultHandler = resultHandler;
-    }
-
-    public Collection<BarcodeFormat> getFormats() {
-        return BarcodeFormat.ALL_FORMATS;
-    }
-
-    public void setupScanner() {
-        scanner = new ImageScanner();
-
-        scanner.setConfig(Symbol.NONE, Config.X_DENSITY, 3);
-        scanner.setConfig(Symbol.NONE, Config.Y_DENSITY, 3);
-
-        scanner.setConfig(Symbol.NONE, Config.ENABLE, 0);
-        for (BarcodeFormat format : getFormats()) {
-            scanner.setConfig(format.getId(), Config.ENABLE, 1);
+        for (result = 0; result < height; ++result) {
+          for (int syms = 0; syms < width; ++syms) {
+            barcode[syms * height + height - result - 1] = data[syms + result * width];
+          }
         }
-    }
 
-    public void onPreviewFrame(byte[] data, Camera camera) {
-        try {
-            lookingForQR(data, camera);
-        } catch (Exception e) {
-            GGGLogImpl.log("ERROR " + e.getMessage());
-        }
-    }
+        result = width;
+        width = height;
+        height = result;
+        data = barcode;
+      }
 
-    private boolean lookingForQR(byte[] data, Camera camera) {
-        try {
-            Camera.Parameters parameters = camera.getParameters();
-            Camera.Size size = parameters.getPreviewSize();
-            int width = size.width;
-            int height = size.height;
-            int result;
-            if (DisplayUtils.getScreenOrientation(context) == 1) {
-                byte[] barcode = new byte[data.length];
+      Image image = new Image(width, height, "Y800");
+      image.setData(data);
+      result = scanner.scanImage(image);
+      if (result == 0) {
+        image.destroy();
+        image = new Image(width, height, "Y800");
+        image.setData(convert2NegativeImage(data));
+        result = scanner.scanImage(image);
+      }
 
-                for (result = 0; result < height; ++result) {
-                    for (int syms = 0; syms < width; ++syms) {
-                        barcode[syms * height + height - result - 1]
-                                = data[syms + result * width];
-                    }
-                }
+      if (result != 0) {
+        stopCamera();
+        if (resultHandler != null) {
+          SymbolSet symbolSet = scanner.getResults();
+          Result rawResult = new Result();
+          Iterator it = symbolSet.iterator();
 
-                result = width;
-                width = height;
-                height = result;
-                data = barcode;
+          while (it.hasNext()) {
+            Symbol sym = (Symbol) it.next();
+            String symData = sym.getData();
+            if (!TextUtils.isEmpty(symData)) {
+              rawResult.setContents(symData);
+              rawResult.setBarcodeFormat(BarcodeFormat.getFormatById(sym.getType()));
+              break;
             }
+          }
 
-            Image image = new Image(width, height, "Y800");
-            image.setData(data);
-            result = scanner.scanImage(image);
-            if (result == 0) {
-                image.destroy();
-                image = new Image(width, height, "Y800");
-                image.setData(convert2NegativeImage(data));
-                result = scanner.scanImage(image);
-            }
-
-
-            if (result != 0) {
-                stopCamera();
-                if (resultHandler != null) {
-                    SymbolSet symbolSet = scanner.getResults();
-                    Result rawResult = new Result();
-                    Iterator it = symbolSet.iterator();
-
-                    while (it.hasNext()) {
-                        Symbol sym = (Symbol) it.next();
-                        String symData = sym.getData();
-                        if (!TextUtils.isEmpty(symData)) {
-                            rawResult.setContents(symData);
-                            rawResult.setBarcodeFormat(BarcodeFormat.getFormatById(sym.getType()));
-                            break;
-                        }
-                    }
-
-                    resultHandler.handleResult(rawResult);
-                }
-            } else {
-                camera.setOneShotPreviewCallback(this);
-            }
-        } catch (Exception e) {
-            return false;
+          resultHandler.handleResult(rawResult);
         }
-        return false;
+      } else {
+        camera.setOneShotPreviewCallback(this);
+      }
+    } catch (Exception e) {
+      return false;
     }
+    return false;
+  }
 
-    private byte[] convert2NegativeImage(byte[] data) {
-        long end = data.length;
-        for (int i = 0; i < end; i++) {
-            byte aux = data[i];
-            data[i] = (byte) (255 - aux);
-        }
-        return data;
+  private byte[] convert2NegativeImage(byte[] data) {
+    long end = data.length;
+    for (int i = 0; i < end; i++) {
+      byte aux = data[i];
+      data[i] = (byte) (255 - aux);
     }
+    return data;
+  }
 
-    public interface ResultHandler {
-        void handleResult(Result result);
-    }
+  public void setLogger(OrchextraLogger logger) {
+    this.orchextraLogger = logger;
+  }
+
+  public interface ResultHandler {
+    void handleResult(Result result);
+  }
 }

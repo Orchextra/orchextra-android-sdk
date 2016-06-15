@@ -26,6 +26,7 @@ import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidNotification;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.google.android.gms.gcm.GcmListenerService;
@@ -36,6 +37,8 @@ public class OrchextraGcmListenerService extends GcmListenerService {
 
   @Inject ActionRecovery actionRecovery;
 
+  @Inject OrchextraLogger orchextraLogger;
+
   @Override
   public void onCreate() {
     super.onCreate();
@@ -44,8 +47,8 @@ public class OrchextraGcmListenerService extends GcmListenerService {
 
   @Override
   public void onMessageReceived(String from, Bundle data) {
-    GGGLogImpl.log("Notification Push From: " + from);
-    GGGLogImpl.log("Notification Push Message: " + data.toString());
+    orchextraLogger.log("Notification Push From: " + from);
+    orchextraLogger.log("Notification Push Message: " + data.toString());
 
     String message = getMessageFromBundle(data);
 

@@ -21,11 +21,11 @@ package com.gigigo.orchextra.device.actions.scheduler;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsScheduler;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
 import com.google.android.gms.gcm.GcmNetworkManager;
@@ -45,16 +45,19 @@ public class ActionsSchedulerGcmImpl implements ActionsScheduler {
   private final GcmNetworkManager gcmNetworkManager;
   private final AndroidBasicActionMapper androidBasicActionMapper;
   private final Gson gson;
+  private final OrchextraLogger orchextraLogger;
 
   public ActionsSchedulerGcmImpl(Context context, Gson gson,
                                  AndroidBasicActionMapper androidBasicActionMapper,
-                                 GoogleApiPermissionChecker googleApiPermissionChecker) {
+                                 GoogleApiPermissionChecker googleApiPermissionChecker,
+                                 OrchextraLogger orchextraLogger) {
 
     googleApiPermissionChecker.checkPlayServicesStatus();
 
     this.gcmNetworkManager = GcmNetworkManager.getInstance(context);
     this.androidBasicActionMapper = androidBasicActionMapper;
     this.gson = gson;
+    this.orchextraLogger = orchextraLogger;
   }
 
   @Override public void scheduleAction(ScheduledAction action) {
@@ -78,13 +81,13 @@ public class ActionsSchedulerGcmImpl implements ActionsScheduler {
 
     logShowTime(action);
 
-    GGGLogImpl.log("Scheduled action "+ action.getId());
+    orchextraLogger.log("Scheduled action "+ action.getId());
 
     gcmNetworkManager.schedule(task);
   }
 
   @Override public void cancelAction(ScheduledAction action) {
-    GGGLogImpl.log("Canceled Scheduled action "+ action.getId());
+    orchextraLogger.log("Canceled Scheduled action "+ action.getId());
     gcmNetworkManager.cancelTask(action.getId(), OrchextraGcmTaskService.class);
   }
 
@@ -94,7 +97,7 @@ public class ActionsSchedulerGcmImpl implements ActionsScheduler {
 
   public long logShowTime(ScheduledAction action) {
     long time = System.currentTimeMillis() + action.getScheduleTime();
-    GGGLogImpl.log("Scheduled Notification will be shown at minimum " + new Date(time).toString() + " max " + new Date(time+(DEFAULT_DELAY_MAX*ONE_SECOND)).toString() );
+    orchextraLogger.log("Scheduled Notification will be shown at minimum " + new Date(time).toString() + " max " + new Date(time+(DEFAULT_DELAY_MAX*ONE_SECOND)).toString() );
     return time;
   }
 }

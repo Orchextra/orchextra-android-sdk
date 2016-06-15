@@ -39,6 +39,7 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsScheduler;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerPersistor;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.abstractions.stats.StatsDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
@@ -99,9 +100,10 @@ public class ActionsModule {
   }
 
   @Singleton @Provides ActionsScheduler provideActionsScheduler(ContextProvider contextProvider, Gson gson,
-      AndroidBasicActionMapper androidBasicActionMapper, GoogleApiPermissionChecker googleApiPermissionChecker){
+      AndroidBasicActionMapper androidBasicActionMapper, GoogleApiPermissionChecker googleApiPermissionChecker,
+      OrchextraLogger orchextraLogger){
     return new ActionsSchedulerGcmImpl(contextProvider.getApplicationContext(), gson,
-        androidBasicActionMapper, googleApiPermissionChecker);
+        androidBasicActionMapper, googleApiPermissionChecker, orchextraLogger);
   }
 
   @Singleton @Provides Gson gson(){

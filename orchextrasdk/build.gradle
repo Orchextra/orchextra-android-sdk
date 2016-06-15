@@ -72,6 +72,7 @@ android {
       buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
       buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
     }
+
     release {
       buildConfigField BOOLEAN, "RETROFIT_LOG", "true" //todo delete this
       buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
@@ -136,6 +137,14 @@ dependencies {
 
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito
+
+  androidTestCompile parent.ext.testDependencies.testRunner
+  androidTestCompile parent.ext.testDependencies.testRules
+
+  androidTestCompile parent.ext.testDependencies.dexMaker
+  androidTestCompile(parent.ext.testDependencies.dexMakerMockito) {
+    exclude group: 'org.hamcrest', module: 'hamcrest-core'
+  }
 }
 
 // build a jar with source files

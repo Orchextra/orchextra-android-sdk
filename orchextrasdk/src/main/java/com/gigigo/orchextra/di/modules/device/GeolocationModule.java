@@ -31,6 +31,7 @@ import com.gigigo.orchextra.device.geolocation.geofencing.mapper.AndroidGeofence
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofencePendingIntentCreator;
 import com.gigigo.orchextra.device.geolocation.location.RetrieveLastKnownLocation;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofenceRegister;
 
 import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
@@ -48,8 +49,10 @@ public class GeolocationModule {
   RetrieveLastKnownLocation provideRetrieveLastKnownLocation(ContextProvider contextProvider,
       GoogleApiClientConnector googleApiClientConnector,
       PermissionChecker permissionChecker,
-      PermissionLocationImp permissionLocationImp) {
-    return new RetrieveLastKnownLocation(contextProvider, googleApiClientConnector, permissionChecker, permissionLocationImp);
+      PermissionLocationImp permissionLocationImp,
+      OrchextraLogger orchextraLogger) {
+
+    return new RetrieveLastKnownLocation(contextProvider, googleApiClientConnector, permissionChecker, permissionLocationImp, orchextraLogger);
   }
 
   @Singleton
@@ -87,8 +90,9 @@ public class GeolocationModule {
                                                                  GeofencePendingIntentCreator geofencePendingIntentCreator,
                                                                  PermissionChecker permissionChecker,
                                                                  PermissionLocationImp permissionLocationImp,
-                                                                 AndroidGeofenceConverter androidGeofenceConverter) {
+                                                                 AndroidGeofenceConverter androidGeofenceConverter,
+                                                                 OrchextraLogger orchextraLogger) {
     return new GeofenceDeviceRegister(contextProvider, googleApiClientConnector, geofencePendingIntentCreator,
-            permissionChecker, permissionLocationImp, androidGeofenceConverter);
+            permissionChecker, permissionLocationImp, androidGeofenceConverter, orchextraLogger);
   }
 }

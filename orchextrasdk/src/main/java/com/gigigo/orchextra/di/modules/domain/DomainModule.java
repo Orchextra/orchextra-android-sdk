@@ -24,6 +24,7 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.modules.data.DataProviderModule;
 import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
+import com.gigigo.orchextra.di.qualifiers.ClearLocalStorageInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.CrmValidation;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
@@ -34,6 +35,7 @@ import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
 import com.gigigo.orchextra.domain.Validator;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.invoker.InteractorInvokerImp;
 import com.gigigo.orchextra.domain.invoker.InteractorOutputThreadFactory;
@@ -49,10 +51,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import orchextra.javax.inject.Singleton;
-
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
 
 @Module(includes = DataProviderModule.class)
@@ -67,8 +68,8 @@ public class DomainModule {
     return new Session(BuildConfig.TOKEN_TYPE_BEARER);
   }
 
-  @Provides @Singleton LogExceptionHandler provideLogExceptionHandler() {
-    return new LogExceptionHandler();
+  @Provides @Singleton LogExceptionHandler provideLogExceptionHandler(OrchextraLogger orchextraLogger) {
+    return new LogExceptionHandler(orchextraLogger);
   }
 
   @Provides @Singleton ExecutorService provideExecutor(ThreadFactory threadFactory,
@@ -98,6 +99,14 @@ public class DomainModule {
     InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectConfigInteractorInteractorExecution(
             interactorExecution);
     interactorExecution.setInteractor(interactorExecutionComponent.provideSendConfigInteractor());
+    return interactorExecution;
+  }
+
+  @ClearLocalStorageInteractorExecution
+  @Provides InteractorExecution provideClearStorageInteractorExecution() {
+    InteractorExecution interactorExecution = new InteractorExecution();
+    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectClearStorageInteractorExecution(interactorExecution);
+    interactorExecution.setInteractor(interactorExecutionComponent.provideClearLocalStorageInteractor());
     return interactorExecution;
   }
 

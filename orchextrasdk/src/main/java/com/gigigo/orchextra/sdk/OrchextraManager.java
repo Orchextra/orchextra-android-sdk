@@ -23,10 +23,10 @@ import android.content.Context;
 import android.os.Build;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
+import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.ORCUser;
+import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
@@ -37,8 +37,9 @@ import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
-import com.gigigo.orchextra.di.modules.device.ImageRecognitionModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
@@ -54,9 +55,12 @@ import orchextra.javax.inject.Inject;
 
 public  class OrchextraManager {
 
-    private static OrchextraManager instance;
-    private InjectorImpl injector;
-    private OrchextraManagerCompletionCallback orchextraCompletionCallback;
+  private static OrchextraSDKLogLevel orchextraSDKLogLevel =
+      (BuildConfig.DEBUG)? OrchextraSDKLogLevel.ALL : OrchextraSDKLogLevel.NONE;
+
+  private static OrchextraManager instance;
+  private InjectorImpl injector;
+  private OrchextraManagerCompletionCallback orchextraCompletionCallback;
 
     @Inject
     OrchextraActivityLifecycle orchextraActivityLifecycle;
@@ -76,6 +80,7 @@ public  class OrchextraManager {
     ScannerManager scannerManager;
     @Inject
     ImageRecognitionManager imageRecognitionManager;
+  @Inject OrchextraLogger orchextraLogger;
 
     /**
      * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -161,8 +166,16 @@ public  class OrchextraManager {
         return null;
     }
 
-    private void stopOrchextraTasks() {
-        orchextraTasksManager.stopAllTasks();
+  public static void setLogLevel(OrchextraLogLevel logLevel) {
+    orchextraSDKLogLevel = logLevel.getSDKLogLevel();
+  }
+
+  public static OrchextraSDKLogLevel getLogLevel() {
+    return orchextraSDKLogLevel;
+  }
+
+  private void stopOrchextraTasks() {
+    orchextraTasksManager.stopAllTasks();
 
         if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND) {
             appStatusEventsListener.onBackgroundEnd();
@@ -233,9 +246,9 @@ public  class OrchextraManager {
         try {
             StartStatusType status = orchextraStatusAccessor.setStartedStatus(apiKey, apiSecret);
 
-            if (status == StartStatusType.SDK_READY_FOR_START) {
-                start();
-            }
+    }catch (SdkAlreadyStartedException alreadyStartedException){
+      orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
+      orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());
 
             if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS) {
                 //TODO restart or call any service???
@@ -245,8 +258,13 @@ public  class OrchextraManager {
             GGGLogImpl.log(alreadyStartedException.getMessage(), LogLevel.WARN);
             orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());
 
-        } catch (SdkNotInitializedException notInitializedException) {
-            exception = notInitializedException;
+    }finally {
+      if (exception!=null) {
+        orchextraLogger.log(exception.getMessage(), OrchextraSDKLogLevel.ERROR);
+        orchextraCompletionCallback.onError(exception.getMessage());
+      }
+    }
+  }
 
         } catch (SdkInitializationException initializationException) {
             exception = initializationException;

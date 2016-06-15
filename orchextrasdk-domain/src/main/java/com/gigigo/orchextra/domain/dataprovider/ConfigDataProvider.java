@@ -29,4 +29,6 @@ public interface ConfigDataProvider {
   int obtainRequestTime();
 
   BusinessObject<Theme> obtainTheme();
+
+  BusinessObject<Boolean> removeLocalStorage();
 }

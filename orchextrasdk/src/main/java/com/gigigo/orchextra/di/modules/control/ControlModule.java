@@ -18,16 +18,17 @@
 
 package com.gigigo.orchextra.di.modules.control;
 
-import com.gigigo.orchextra.control.controllers.status.OrchextraStatusAccessorAccessorImpl;
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
+import com.gigigo.orchextra.control.controllers.status.OrchextraStatusAccessorAccessorImpl;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.modules.domain.DomainModule;
 import com.gigigo.orchextra.di.modules.domain.FastDomainServicesModule;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
+import com.gigigo.orchextra.di.qualifiers.ClearLocalStorageInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ConfigInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceProviderInteractorExecution;
@@ -39,15 +40,14 @@ import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
-
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
-import orchextra.javax.inject.Provider;
-import orchextra.javax.inject.Singleton;
 
+import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 
 @Module(includes = {DomainModule.class, FastDomainServicesModule.class})
 public class ControlModule {
@@ -71,8 +71,9 @@ public class ControlModule {
   @Singleton ConfigController provideConfigController(
       InteractorInvoker interactorInvoker,
       @ConfigInteractorExecution Provider<InteractorExecution> sendConfigInteractorProvider,
+      @ClearLocalStorageInteractorExecution Provider<InteractorExecution> clearStorageInteractorProvider,
       ConfigObservable configObservable, ErrorLogger errorLogger) {
-    return new ConfigController(interactorInvoker, sendConfigInteractorProvider, configObservable, errorLogger);
+    return new ConfigController(interactorInvoker, sendConfigInteractorProvider, clearStorageInteractorProvider, configObservable, errorLogger);
   }
 
   @Provides @Singleton

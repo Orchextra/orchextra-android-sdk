@@ -18,17 +18,23 @@
 
 package com.gigigo.orchextra.domain.invoker;
 
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 
 public class LogExceptionHandler implements Thread.UncaughtExceptionHandler {
+
+  private final OrchextraLogger orchextraLogger;
+
+  public LogExceptionHandler(OrchextraLogger orchextraLogger) {
+    this.orchextraLogger = orchextraLogger;
+  }
 
   @Override public void uncaughtException(Thread thread, Throwable ex) {
     if (ex!=null){
       ex.printStackTrace();
-      GGGLogImpl.log("Unhandled Interactor Exception: " + ex.getMessage(), LogLevel.ERROR);
+      orchextraLogger.log("Unhandled Interactor Exception: " + ex.getMessage(), OrchextraSDKLogLevel.ERROR);
     }else{
-      GGGLogImpl.log("Unhandled Interactor Exception: exception trace not available");
+      orchextraLogger.log("Unhandled Interactor Exception: exception trace not available");
     }
   }
 }

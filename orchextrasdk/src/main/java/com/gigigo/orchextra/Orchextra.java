@@ -75,9 +75,9 @@ public class Orchextra {
         OrchextraManager.startImageRecognition();
     }
 
-    //public static synchronized void sdkStop() {
-    //    OrchextraManager.sdkStop();
-    //}
+    public static synchronized void stop() {
+        OrchextraManager.sdkStop();
+    }
 
     /**
      *
@@ -104,6 +104,14 @@ public class Orchextra {
 
     public static void startScannerActivity() {
         OrchextraManager.openScannerView();
+    }
+
+  /**
+   *
+   * @param orchextraLogLevel
+   */
+  public static void setLogLevel(OrchextraLogLevel orchextraLogLevel) {
+        OrchextraManager.setLogLevel(orchextraLogLevel);
     }
 
 }

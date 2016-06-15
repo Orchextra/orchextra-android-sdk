@@ -89,7 +89,7 @@ public class ConfigService implements DomaninService {
     }
   }
 
-  public InteractorResponse<OrchextraUpdates> processError(BusinessError businessError) {
+  private InteractorResponse<OrchextraUpdates> processError(BusinessError businessError) {
     InteractorResponse interactorResponse = serviceErrorChecker.checkErrors(businessError);
     if (interactorResponse.hasError()) {
       return interactorResponse;

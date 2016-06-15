@@ -15,14 +15,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.gigigo.orchextra.domain.abstractions.device;
 
-package com.gigigo.orchextra.di.modules.data.qualifiers;
+public enum OrchextraSDKLogLevel {
+  ALL(0),
+  NETWORK(1),
+  DEBUG(2),
+  WARN(3),
+  ERROR(4),
+  NONE(5);
 
-import java.lang.annotation.Retention;
-import orchextra.javax.inject.Qualifier;
+  private final int intValue;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+  OrchextraSDKLogLevel(int intValue) {
+    this.intValue = intValue;
+  }
 
-@Qualifier @Retention(RUNTIME)
-public @interface RetrofitLog {
+  public int intValue() {
+    return intValue;
+  }
+
+  public String getStringValue() {
+    switch (intValue()) {
+      case 0:
+        return "ALL";
+      case 1:
+        return "NETWORK";
+      case 2:
+        return "DEBUG";
+      case 3:
+        return "WARN";
+      case 4:
+        return "ERROR";
+      case 5:
+      default:
+        return "NONE";
+    }
+
+  }
 }

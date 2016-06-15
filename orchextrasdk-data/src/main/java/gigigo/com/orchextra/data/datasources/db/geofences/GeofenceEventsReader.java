@@ -21,8 +21,8 @@ package gigigo.com.orchextra.data.datasources.db.geofences;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import io.realm.Realm;
@@ -31,10 +31,13 @@ import io.realm.RealmResults;
 public class GeofenceEventsReader {
 
   private final Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper;
+  private final OrchextraLogger orchextraLogger;
 
   public GeofenceEventsReader(
-      Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper) {
+      Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper,
+      OrchextraLogger orchextraLogger) {
     this.geofenceEventRealmMapper = geofenceEventRealmMapper;
+    this.orchextraLogger = orchextraLogger;
   }
 
   public boolean isGeofenceEventStored(Realm realm, OrchextraGeofence geofence) {
@@ -47,12 +50,12 @@ public class GeofenceEventsReader {
       result = (!realms.isEmpty());
 
       if (result) {
-        GGGLogImpl.log("This geofence event was stored");
+        orchextraLogger.log("This geofence event was stored");
       } else {
-        GGGLogImpl.log("This geofence event was not stored");
+        orchextraLogger.log("This geofence event was not stored");
       }
     } catch (Exception e) {
-      GGGLogImpl.log(e.getMessage(), LogLevel.ERROR);
+      orchextraLogger.log(e.getMessage(), OrchextraSDKLogLevel.ERROR);
     } finally {
       return result;
     }
@@ -66,17 +69,17 @@ public class GeofenceEventsReader {
         .findAll();
 
     if (results.size() > 1) {
-      GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+      orchextraLogger.log("More than one region Event with same Code stored", OrchextraSDKLogLevel.ERROR);
     } else if (results.size() == 0) {
 
-      GGGLogImpl.log("No geofence events found with code"
+      orchextraLogger.log("No geofence events found with code"
           + orchextraGeofence.getCode()
           + " and id "
           + orchextraGeofence.getGeofenceId());
 
       return new BusinessObject<>(null, BusinessError.createKoInstance("No geofence events found"));
     } else {
-      GGGLogImpl.log("Retrieved geofence event found with code"
+      orchextraLogger.log("Retrieved geofence event found with code"
           + orchextraGeofence.getCode()
           + " and id "
           + orchextraGeofence.getGeofenceId());

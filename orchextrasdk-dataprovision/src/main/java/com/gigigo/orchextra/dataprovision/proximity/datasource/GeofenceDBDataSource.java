@@ -30,5 +30,4 @@ public interface GeofenceDBDataSource {
     BusinessObject<OrchextraGeofence> obtainGeofenceEvent(OrchextraGeofence data);
 
     BusinessObject<OrchextraGeofence> updateGeofenceWithActionId(OrchextraGeofence geofence);
-
 }

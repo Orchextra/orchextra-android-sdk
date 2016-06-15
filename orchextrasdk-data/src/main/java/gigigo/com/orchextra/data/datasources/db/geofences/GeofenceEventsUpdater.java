@@ -19,26 +19,30 @@
 package gigigo.com.orchextra.data.datasources.db.geofences;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.ggglogger.LogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+
+import java.util.NoSuchElementException;
+
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
-import java.util.NoSuchElementException;
 
 public class GeofenceEventsUpdater {
 
   private final Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper;
+  private final OrchextraLogger orchextraLogger;
 
   public GeofenceEventsUpdater(
-      Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper) {
+      Mapper<OrchextraGeofence, GeofenceEventRealm> geofenceEventRealmMapper,
+      OrchextraLogger orchextraLogger) {
 
     this.geofenceEventRealmMapper = geofenceEventRealmMapper;
+    this.orchextraLogger = orchextraLogger;
   }
 
   public OrchextraGeofence storeGeofenceEvent(Realm realm, OrchextraGeofence geofence) {
@@ -54,7 +58,7 @@ public class GeofenceEventsUpdater {
         .findAll();
 
     if (results.size() > 1) {
-      GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+      orchextraLogger.log("More than one region Event with same Code stored", OrchextraSDKLogLevel.ERROR);
     } else if (results.size() == 0) {
       throw new NotFountRealmObjectException();
     }
@@ -85,10 +89,10 @@ public class GeofenceEventsUpdater {
         .findAll();
 
     if (results.isEmpty()) {
-      GGGLogImpl.log("Required region does not Exist", LogLevel.ERROR);
+      orchextraLogger.log("Required region does not Exist", OrchextraSDKLogLevel.ERROR);
       throw new NoSuchElementException("Required region does not Exist");
     } else if (results.size() > 1) {
-      GGGLogImpl.log("More than one region Event with same Code stored", LogLevel.ERROR);
+      orchextraLogger.log("More than one region Event with same Code stored", OrchextraSDKLogLevel.ERROR);
     }
 
     realm.beginTransaction();

@@ -26,11 +26,10 @@ import com.gigigo.orchextra.di.modules.data.qualifiers.AcceptLanguage;
 import com.gigigo.orchextra.di.modules.data.qualifiers.ApiVersion;
 import com.gigigo.orchextra.di.modules.data.qualifiers.Endpoint;
 import com.gigigo.orchextra.di.modules.data.qualifiers.HeadersInterceptor;
-import com.gigigo.orchextra.di.modules.data.qualifiers.RetrofitLog;
 import com.gigigo.orchextra.di.modules.data.qualifiers.XAppSdk;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
-import gigigo.com.orchextra.data.datasources.api.model.responses.base.BaseOrchextraApiResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.base.GenericErrorOrchextraApiResponse;
 import java.util.Locale;
 
@@ -69,12 +68,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    @RetrofitLog
-    boolean provideRetrofitLog() { return true;//todo BuildConfig.RETROFIT_LOG;
-         }
-
-    @Provides
-    @Singleton
+   
     @XAppSdk
     String provideXAppSdk() {
         return BuildConfig.X_APP_SDK + "_" + BuildConfig.VERSION_NAME;
@@ -123,15 +117,15 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    OkHttpClient provideOkClient(@RetrofitLog boolean retrofitLog,
-                                 @HeadersInterceptor Interceptor headersInterceptor,
-                                    HttpLoggingInterceptor loggingInterceptor) {
+    OkHttpClient provideOkClient(@HeadersInterceptor Interceptor headersInterceptor,
+                                    HttpLoggingInterceptor loggingInterceptor,
+                                    OrchextraLogger orchextraLogger) {
 
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
         okHttpClientBuilder.addInterceptor(headersInterceptor);
 
-
-        if (retrofitLog){
+       // if (retrofitLog){
+        if (orchextraLogger.isNetworkLoggingLevelEnabled()){
             okHttpClientBuilder.addInterceptor(loggingInterceptor);
         }
 

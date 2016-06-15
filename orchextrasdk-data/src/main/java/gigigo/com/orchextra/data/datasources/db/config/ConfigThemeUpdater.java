@@ -72,4 +72,10 @@ public class ConfigThemeUpdater {
               && first.getSecondaryColor().equals(themeRealm.getSecondaryColor());
     }
   }
+
+  public void removeTheme(Realm realm) {
+    if (realm != null) {
+      realm.delete(ThemeRealm.class);
+    }
+  }
 }

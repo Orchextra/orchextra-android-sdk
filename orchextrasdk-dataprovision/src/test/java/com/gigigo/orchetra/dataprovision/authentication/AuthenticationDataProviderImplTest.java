@@ -25,6 +25,7 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.Authenticati
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class AuthenticationDataProviderImplTest {
     @Mock
     ClientAuthData clientAuthData;
 
-    @Mock Credentials credentials;
+    @Mock ClientAuthCredentials clientAuthCredentials;
 
     private AuthenticationDataProviderImpl authenticationDataProvider;
 
@@ -78,7 +79,7 @@ public class AuthenticationDataProviderImplTest {
         when(businessObjectCrm.getData()).thenReturn(crm);
 
 
-        authenticationDataProvider.authenticateUser(credentials, "111111");
+        authenticationDataProvider.authenticateUser(clientAuthCredentials, "111111");
 
         verify(sessionDBDataSource).saveClientAuthResponse(sessionToken.getData());
         verify(sessionDBDataSource).saveUser(crm);
@@ -96,7 +97,7 @@ public class AuthenticationDataProviderImplTest {
 
         when(sessionToken.isSuccess()).thenReturn(true);
 
-        authenticationDataProvider.authenticateUser(credentials, null);
+        authenticationDataProvider.authenticateUser(clientAuthCredentials, null);
 
         verify(sessionDBDataSource).saveClientAuthResponse(any(ClientAuthData.class));
     }
@@ -116,9 +117,9 @@ public class AuthenticationDataProviderImplTest {
 
         when(sessionToken.isSuccess()).thenReturn(false);
 
-        authenticationDataProvider.authenticateUser(credentials, null);
+        authenticationDataProvider.authenticateUser(clientAuthCredentials, null);
 
-        verify(authenticationDataSource).authenticateUser(credentials);
+        verify(authenticationDataSource).authenticateUser(clientAuthCredentials);
         verify(sessionDBDataSource, never()).saveClientAuthResponse(sessionToken.getData());
         verify(sessionDBDataSource, never()).saveUser(crm);
     }

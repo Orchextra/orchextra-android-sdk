@@ -29,6 +29,7 @@ import com.gigigo.orchextra.control.presenters.scanner.OxCodeScannerView;
 import com.gigigo.orchextra.control.presenters.scanner.entities.ScannerResultPresenter;
 import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.ui.OxToolbarActivity;
@@ -39,17 +40,11 @@ import me.dm7.barcodescanner.zbar.Result;
 
 public class OxScannerActivity extends OxToolbarActivity implements OxCodeScannerView, OxZBarScannerView.ResultHandler {
 
-    @Inject
-    PermissionChecker permissionChecker;
-
-    @Inject
-    PermissionCameraImp cameraPermissionImp;
-
-    @Inject
-    OxCodeScannerPresenter presenter;
-
-    @Inject
-    ActionDispatcher actionDispatcher;
+    @Inject PermissionChecker permissionChecker;
+    @Inject PermissionCameraImp cameraPermissionImp;
+    @Inject OxCodeScannerPresenter presenter;
+    @Inject ActionDispatcher actionDispatcher;
+    @Inject OrchextraLogger orchextraLogger;
 
     private OxZBarScannerView scannerView;
 
@@ -80,6 +75,7 @@ public class OxScannerActivity extends OxToolbarActivity implements OxCodeScanne
     public void initViews() {
         super.initMainViews();
         scannerView = (OxZBarScannerView) findViewById(R.id.cameraPreview);
+        scannerView.setLogger(orchextraLogger);
     }
 
     @Override
@@ -139,7 +135,7 @@ public class OxScannerActivity extends OxToolbarActivity implements OxCodeScanne
                 scannerView.stopCamera();
             }
         } catch (Exception e) {
-            GGGLogImpl.log("Error al parar la camara del scanner");
+            orchextraLogger.log("Error al parar la camara del scanner");
         }
     }
 
@@ -155,14 +151,14 @@ public class OxScannerActivity extends OxToolbarActivity implements OxCodeScanne
 
     @Override
     public void handleResult(Result rawResult) {
-        GGGLogImpl.log(rawResult.toString());
+        orchextraLogger.log(rawResult.toString());
 
         final ScannerResultPresenter scanResult = new ScannerResultPresenter();
         scanResult.setContent(rawResult.getContents());
         scanResult.setType(rawResult.getBarcodeFormat().getName());
 
-        GGGLogImpl.log("Scanner Code: " + rawResult.getContents());
-        GGGLogImpl.log("Scanner Type: " + rawResult.getBarcodeFormat().getName());
+        orchextraLogger.log("Scanner Code: " + rawResult.getContents());
+        orchextraLogger.log("Scanner Type: " + rawResult.getBarcodeFormat().getName());
 
         presenter.sendScannerResult(scanResult);
 

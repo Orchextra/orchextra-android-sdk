@@ -20,7 +20,7 @@ package com.gigigo.orchextra.sdk.application.applifecycle;
 
 import android.content.Context;
 import android.content.Intent;
-import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
@@ -32,23 +32,25 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   private final Context context;
   private final ForegroundTasksManager foregroundTasksManager;
   private final OrchextraStatusAccessor orchextraStatusAccessor;
+  private final OrchextraLogger orchextraLogger;
 
   public AppStatusEventsListenerImpl(Context context, ForegroundTasksManager foregroundTasksManager,
-      OrchextraStatusAccessor orchextraStatusAccessor) {
+      OrchextraStatusAccessor orchextraStatusAccessor, OrchextraLogger orchextraLogger) {
     this.context = context;
     this.foregroundTasksManager = foregroundTasksManager;
     this.orchextraStatusAccessor = orchextraStatusAccessor;
+    this.orchextraLogger = orchextraLogger;
   }
 
   @Override public void onBackgroundStart() {
-    GGGLogImpl.log("App goes to background mode ");
+    orchextraLogger.log("App goes to background mode ");
     if (orchextraStatusAccessor.isStarted()){
       startServices();
     }
   }
 
   @Override public void onBackgroundEnd() {
-    GGGLogImpl.log("App leaves background mode");
+    orchextraLogger.log("App leaves background mode");
     stopServices();
   }
 
@@ -59,14 +61,14 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
   @Override public void onForegroundStart() {
     //Stop Monitoring && startRanging
-    GGGLogImpl.log("App Come to Foreground mode");
+    orchextraLogger.log("App Come to Foreground mode");
     if (orchextraStatusAccessor.isStarted()){
       startForegroundTasks();
     }
   }
 
   @Override public void onForegroundEnd() {
-    GGGLogImpl.log("App leaves Foreground mode");
+    orchextraLogger.log("App leaves Foreground mode");
     foregroundTasksManager.finalizeForegroundTasks();
   }
 

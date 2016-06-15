@@ -29,5 +29,5 @@ public interface GeofenceRegister {
 
   void stopGeofenceRegister();
 
-  void registerAlDbGeofences();
+  void registerAllDbGeofences();
 }
