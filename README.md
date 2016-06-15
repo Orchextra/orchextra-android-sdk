@@ -234,8 +234,19 @@ Now you can configure log level using the level you consider to get debug info f
 
 Default level is `OrchextraLogLevel.NONE` for releases. 
 
-# Acknowledgements
+## Realm Support
+First at all you must include the newest version of [Realm](https://realm.io/docs/java/latest/#installation). Orchextra includes Realm as a library and exposes Orchextra's Realm module. You have to include this module in the Realm configuration when you define a Realm instance as follow:
+```java
+    RealmConfiguration config =
+        new RealmConfiguration.Builder(context)
+            .modules(Realm.getDefaultModule(), new OrchextraRealmModule())
+            .build();
 
+        Realm realm = Realm.getInstance(config);
+```
+For more information to include Realm, visit the [Realm's documentation](https://realm.io/docs/java/latest/#sharing-schemas).
+
+# Acknowledgements
 We would like to mention every company and particular developers that have been contributing this repo in some way:
 
 * Thank's to [Square](http://square.github.io/), we are using several libs they developed (Retrofit 2, OkHttp, Dagger).
