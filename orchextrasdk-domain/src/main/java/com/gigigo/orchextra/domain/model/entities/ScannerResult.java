@@ -41,6 +41,7 @@ public class ScannerResult {
     return type;
   }
 
+  //todo asv revisar como hacer el de QR y el Barcode q estan en el mapper en vez de estar aqui
   public static ScannerResult createImageRecognitionResult(String patternId) {
     ScannerResult scannerResult = new ScannerResult();
     scannerResult.setType(ScannerType.IMAGE_RECOGNITION);

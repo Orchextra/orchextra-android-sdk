@@ -35,6 +35,8 @@ public class BeaconRegionTrigger extends Trigger {
     this.geoPointEventType =
         GeoPointEventType.getTypeFromString(orchextraRegion.getRegionEvent().getStringValue());
     this.isTriggerable = true;
+
+
   }
 
   @Override void setConcreteBehaviour() {

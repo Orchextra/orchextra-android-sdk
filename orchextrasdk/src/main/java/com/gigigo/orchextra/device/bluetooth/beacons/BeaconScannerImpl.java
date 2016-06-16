@@ -99,7 +99,8 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
       throw new RangingScanInBackgroundException(
           "Infinite Ranging Scan in Background Mode is not allowed");
     }
-
+//wen need to reeboot ranging process, beacuse the transition between background to foreground,
+// change the rangin time from 10sg in background to infinite time if you are inside region and the app in foreground
     if (beaconRangingScanner.isRanging()){
       beaconRangingScanner.stopAllCurrentRangingScannedRegions();
     }

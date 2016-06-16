@@ -22,6 +22,7 @@ import com.gigigo.orchextra.domain.Validator;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
+
 import java.util.List;
 import java.util.ListIterator;
 import java.util.regex.Matcher;
@@ -29,53 +30,68 @@ import java.util.regex.Pattern;
 
 public class CrmValidator implements Validator<Crm> {
 
-  private final ErrorLogger errorLogger;
+    private final ErrorLogger errorLogger;
 
-  public CrmValidator(ErrorLogger errorLogger) {
-    this.errorLogger = errorLogger;
-  }
-
-  @Override public void validate(Crm crm) {
-    filterCrmKeywords(crm.getKeywords());
-    filterCrmTags(crm.getTags());
-  }
-
-  @Deprecated private void filterCrmKeywords(List<String> keywords) {
-
-    for (ListIterator<String> keyListIterator = keywords.listIterator();
-        keyListIterator.hasNext();) {
-      String keyword = keyListIterator.next();
-      if (keywordIsNotValid(keyword)) {
-        keyListIterator.remove();
-        errorLogger.log("The provided keyword " + keyword + " is not valid");
-      }
+    public CrmValidator(ErrorLogger errorLogger) {
+        this.errorLogger = errorLogger;
     }
-  }
 
-  private boolean keywordIsNotValid(String keyword) {
-    String pattern = "^[a-zA-Z][a-zA-Z0-9_]*$";
-    return !Pattern.matches(pattern, keyword);
-  }
-
-  private void filterCrmTags(List<CrmTag> tags) {
-    for (ListIterator<CrmTag> tagListIterator = tags.listIterator(); tagListIterator.hasNext();) {
-      CrmTag tag = tagListIterator.next();
-      if (tagIsNotValid(tag)) {
-        tagListIterator.remove();
-        errorLogger.log("The provided tag " + tag.toString() + " is not valid");
-      }
+    @Override
+    public void validate(Crm crm) {
+        filterCrmKeywords(crm.getKeywords());
+        filterCrmTags(crm.getTags());
     }
-  }
 
-  private boolean tagIsNotValid(CrmTag tag) {
-    String prefixPattern = "(::|/|^_(?!(s$|b$))|^[^_].{0}$)";
-    String namePattern = "(::|/|^_|^.{0,1}$)";
+    @Deprecated
+    private void filterCrmKeywords(List<String> keywords) {
+        ListIterator<String> keyListIterator = keywords.listIterator();
+        while (keyListIterator.hasNext()) {
+            String keyword = keyListIterator.next();
+            if (keywordIsNotValid(keyword)) {
+                keyListIterator.remove();
+                errorLogger.log("The provided keyword " + keyword + " is not valid");
+            }
+        }
+    }
 
-    Pattern ptPrefix = Pattern.compile(prefixPattern);
-    Pattern ptName = Pattern.compile(namePattern);
-    Matcher matcherPrefix = ptPrefix.matcher(tag.getPrefix());
-    Matcher matcherName = ptName.matcher(tag.getName());
+    @Deprecated
+    private boolean keywordIsNotValid(String keyword) {
+        String pattern = "^[a-zA-Z][a-zA-Z0-9_]*$";
+        return !Pattern.matches(pattern, keyword);
+    }
 
-    return matcherPrefix.find() || matcherName.find();
-  }
+    @Deprecated
+    private void filterCrmTags(List<CrmTag> tags) {
+        ListIterator<CrmTag> tagListIterator = tags.listIterator();
+        while (tagListIterator.hasNext()) {
+            CrmTag tag = tagListIterator.next();
+            if (tagIsNotValid(tag)) {
+                tagListIterator.remove();
+                errorLogger.log("The provided tag " + tag.toString() + " is not valid");
+            }
+        }
+    }
+
+    private boolean tagIsNotValid(CrmTag tag) {
+        boolean bReturn = false;
+        try {
+            String prefixPattern = "(::|/|^_(?!(s$|b$))|^[^_].{0}$)";
+            String namePattern = "(::|/|^_|^.{0,1}$)";
+
+            Pattern ptPrefix = Pattern.compile(prefixPattern);
+            Pattern ptName = Pattern.compile(namePattern);
+            Matcher matcherPrefix = ptPrefix.matcher(tag.getPrefix());
+            Matcher matcherName = ptName.matcher(tag.getName());
+
+            if (matcherPrefix != null && matcherName != null) {
+                bReturn = matcherPrefix.find() || matcherName.find();
+            }
+
+        } catch (Exception tr) {
+            errorLogger.log("The provided tag " + tag.toString() + " cause error " + tr.getMessage());
+        } finally {
+            return bReturn;
+        }
+
+    }
 }

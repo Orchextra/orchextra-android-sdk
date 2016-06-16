@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 
+@groovy.transform.Field private java.lang.String checkstyle
 apply from: 'dependencies.gradle'
 apply from: 'gradle/jacoco.gradle'
 
@@ -68,16 +69,16 @@ allprojects {
     maven { url "https://jitpack.io" }
   }
 
-  apply plugin: 'checkstyle'
-
-  task checkstyle(type: Checkstyle) {
-    configFile file("${project.rootDir}/config/checkstyle.xml")
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**'
-
-    classpath = files()
-  }
+//  apply plugin:  checkstyle
+//
+//  task checkstyle(type: Checkstyle) {
+//    configFile file("${project.rootDir}/checkstyle.xml")
+//    source 'src'
+//    include '**/*.java'
+//    exclude '**/gen/**'
+//
+//    classpath = files()
+//  }
 }
 apply plugin: "org.sonarqube"
 

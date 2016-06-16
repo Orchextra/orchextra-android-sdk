@@ -22,18 +22,19 @@ import com.gigigo.orchextra.domain.model.GenderType;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-
+//todo add a prefix(applictionId, or whatever) to crm_id for make de crm_Id always unique, for stats
 public class Crm {
 
   private String crmId;
   private GenderType gender;
   private Date birthDate;
+  @Deprecated
   private List<String> keywords;
   private List<CrmTag> tags;
 
   public Crm() {
   }
-
+  @Deprecated
   public Crm(String crmId, GenderType gender, Date birthDate, List<String> keywords, List<CrmTag> tags) {
     this.crmId = crmId;
     this.gender = gender;
@@ -41,7 +42,7 @@ public class Crm {
     this.keywords = keywords;
     this.tags = tags;
   }
-
+  @Deprecated
   public Crm(String crmId, GenderType gender, Date birthDate, List<String> keywords) {
     this(crmId, gender, birthDate, keywords, Collections.EMPTY_LIST);
   }
@@ -69,11 +70,11 @@ public class Crm {
   public void setBirthDate(Date birthDate) {
     this.birthDate = birthDate;
   }
-
+  @Deprecated
   public List<String> getKeywords() {
     return keywords;
   }
-
+  @Deprecated
   public void setKeywords(List<String> keywords) {
     this.keywords = keywords;
   }

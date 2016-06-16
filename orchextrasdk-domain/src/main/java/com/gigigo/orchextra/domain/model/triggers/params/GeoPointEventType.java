@@ -31,6 +31,7 @@ public enum GeoPointEventType implements StringValueEnum {
     this.type = type;
   }
 
+  @Override
   public String getStringValue() {
     return type;
   }

@@ -34,7 +34,7 @@ public class RealmDefaultInstance {
 
     return Realm.getInstance(config);
   }
-
+//todo Beni
   public static int getNextKey(Realm realm, Class classType) {
     try {
       return realm.where(classType).max("id").intValue() + 1;

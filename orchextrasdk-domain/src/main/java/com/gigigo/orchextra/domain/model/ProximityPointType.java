@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.domain.model;
 
-public enum ProximityPointType {
+public enum ProximityPointType implements StringValueEnum {
   BEACON("beacon"),
   GEOFENCE("geofence");
 
@@ -28,6 +28,7 @@ public enum ProximityPointType {
     this.text = text;
   }
 
+  @Override
   public String getStringValue() {
     return text;
   }

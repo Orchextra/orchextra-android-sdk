@@ -18,27 +18,29 @@
 
 package com.gigigo.orchextra.domain.model;
 
-public enum GenderType {
-  MALE("m"),
-  FEMALE("f"),
-  ND("n");
 
-  private final String text;
+public enum GenderType implements StringValueEnum {
+    MALE("m"),
+    FEMALE("f"),
+    ND("n");
 
-  GenderType(final String text) {
-    this.text = text;
-  }
+    private final String text;
 
-  public String getStringValue() {
-    return text;
-  }
-
-  public static GenderType getTypeFromString(String gender) {
-    for (GenderType genderType : GenderType.values()) {
-      if (genderType.getStringValue().equals(gender)) {
-        return genderType;
-      }
+    GenderType(final String text) {
+        this.text = text;
     }
-    return ND;
-  }
+
+    @Override
+    public String getStringValue() {
+        return text;
+    }
+
+    public static GenderType getTypeFromString(String gender) {
+        for (GenderType genderType : GenderType.values()) {
+            if (genderType.getStringValue().equals(gender)) {
+                return genderType;
+            }
+        }
+        return ND;
+    }
 }

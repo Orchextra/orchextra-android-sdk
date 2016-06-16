@@ -40,7 +40,7 @@ import org.altbeacon.beacon.Region;
 public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     BeaconConsumer, MonitorNotifier {
 
-  private final BeaconManager beaconManager;
+  private final org.altbeacon.beacon.BeaconManager beaconManager;
   private final Context context;
   private final MonitoringListener monitoringListener;
   private final BeaconsController beaconsController;
