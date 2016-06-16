@@ -123,8 +123,8 @@ dependencies {
 
   compile parent.ext.dependencies.altBeacon
 
-  apt parent.ext.dependencies.threaddecoratedviewcompiler
-  compile parent.ext.dependencies.threaddecoratedview
+//  apt parent.ext.dependencies.threaddecoratedviewcompiler
+//  compile parent.ext.dependencies.threaddecoratedview
 
   compile parent.ext.dependencies.playServicesLocation
 //  compile parent.ext.dependencies.playServicesGcm

@@ -25,14 +25,13 @@ import com.gigigo.orchextra.control.presenters.scanner.entities.mapper.ScannerRe
 import com.gigigo.orchextra.di.qualifiers.BackThread;
 import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-
-import orchextra.javax.inject.Provider;
-import orchextra.javax.inject.Singleton;
 
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 
 @Module
 public class UiModule {

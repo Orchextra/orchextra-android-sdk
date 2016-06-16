@@ -19,9 +19,9 @@
 package com.gigigo.orchextra.device.actions.stats;
 
 import com.gigigo.orchextra.domain.abstractions.stats.StatsDispatcher;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 
 import gigigo.com.orchextra.data.datasources.api.stats.StatsDataSourceImp;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 public class StatsDispatcherImp implements StatsDispatcher{
 

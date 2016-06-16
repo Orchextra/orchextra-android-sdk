@@ -42,17 +42,16 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerPersisto
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.abstractions.stats.StatsDispatcher;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
 import com.google.gson.Gson;
 
-import orchextra.javax.inject.Singleton;
-
+import gigigo.com.orchextra.data.datasources.api.stats.StatsDataSourceImp;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
-import gigigo.com.orchextra.data.datasources.api.stats.StatsDataSourceImp;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import orchextra.javax.inject.Singleton;
 
 
 @Module

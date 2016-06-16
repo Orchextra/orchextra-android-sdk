@@ -20,6 +20,7 @@ package com.gigigo.orchextra.control.controllers.imagerecognition;
 import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
@@ -27,8 +28,9 @@ import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.ScannerResult;
 import com.gigigo.orchextra.domain.model.entities.Vuforia;
+
 import java.util.List;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+
 import orchextra.javax.inject.Provider;
 
 public class ImageRecognitionController {

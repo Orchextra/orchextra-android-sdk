@@ -27,8 +27,9 @@ import com.gigigo.orchextra.di.qualifiers.GetIrCredentialsInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 import orchextra.javax.inject.Provider;

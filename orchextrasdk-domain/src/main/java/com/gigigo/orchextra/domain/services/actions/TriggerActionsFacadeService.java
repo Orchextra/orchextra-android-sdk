@@ -65,13 +65,13 @@ public class TriggerActionsFacadeService implements DomaninService {
     return triggerActions(triggerService.getTrigger(geofences, geofenceTransition));
   }
 
-  private InteractorResponse triggerActions(InteractorResponse response) {
+  private InteractorResponse<List<BasicAction>> triggerActions(InteractorResponse response) {
 
     if (response.hasError()) {
       return response;
     }
 
-    InteractorResponse actions = getActionService.getActions((List<Trigger>) response.getResult());
+    InteractorResponse<List<BasicAction>> actions = getActionService.getActions((List<Trigger>) response.getResult());
 
     if (!actions.hasError()) {
       scheduleActions(actions);
@@ -103,7 +103,7 @@ public class TriggerActionsFacadeService implements DomaninService {
     }
   }
 
-  public InteractorResponse triggerActions(ScannerResult scanner, OrchextraPoint orchextraPoint) {
+  public InteractorResponse<List<BasicAction>> triggerActions(ScannerResult scanner, OrchextraPoint orchextraPoint) {
     return triggerActions(triggerService.getTrigger(scanner, orchextraPoint));
   }
 }

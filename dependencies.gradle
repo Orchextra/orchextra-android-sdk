@@ -38,8 +38,8 @@ allprojects {
         imageRecognitionImpl       : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.2',
 
 //      TODO this two lib should be not necessary at all
-        threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',
-        threaddecoratedviewcompiler : 'me.panavtec:threaddecoratedview-compiler:1.5.1'
+//        threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',
+//        threaddecoratedviewcompiler : 'me.panavtec:threaddecoratedview-compiler:1.5.1'
 
 //        coordinator         : 'me.panavtec:coordinator:1.1.5',
 //        coordinatorCompiler : 'me.panavtec:coordinator-compiler:1.1.5',

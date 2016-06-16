@@ -23,6 +23,7 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.beacons.RegionsProviderListener;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventType;
@@ -31,9 +32,9 @@ import com.gigigo.orchextra.domain.interactors.beacons.BeaconsInteractorError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+
 import java.util.List;
 
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import orchextra.javax.inject.Provider;
 
 public class BeaconsController {

@@ -19,18 +19,20 @@
 package com.gigigo.orchextra.control.controllers.authentication;
 
 import com.gigigo.orchextra.control.InteractorResult;
-import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
+import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.config.ValidationError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+
 import orchextra.javax.inject.Provider;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+
 
 public class SaveUserController extends Presenter<SaveUserDelegate> {
 
@@ -42,7 +44,9 @@ public class SaveUserController extends Presenter<SaveUserDelegate> {
   public SaveUserController(InteractorInvoker interactorInvoker,
       Provider<InteractorExecution> interactorExecutionProvider, ThreadSpec mainThreadSpec,
       ConfigObservable configObservable, ErrorLogger errorLogger) {
-    super(mainThreadSpec);
+
+    super();
+
     this.interactorInvoker = interactorInvoker;
     this.interactorExecutionProvider = interactorExecutionProvider;
     this.configObservable = configObservable;

@@ -23,14 +23,16 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofencesProviderListener;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveGeofenceItemError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+
 import java.util.List;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+
 import orchextra.javax.inject.Provider;
 
 public class GeofenceController {

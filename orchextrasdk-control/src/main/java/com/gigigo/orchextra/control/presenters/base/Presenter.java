@@ -18,25 +18,21 @@
 
 package com.gigigo.orchextra.control.presenters.base;
 
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
-import me.panavtec.threaddecoratedview.views.ViewInjector;
-
 public abstract class Presenter<UiView> {
 
   private UiView uiView;
-  private ThreadSpec mainThreadSpec;
 
-  public Presenter(ThreadSpec mainThreadSpec) {
-    this.mainThreadSpec = mainThreadSpec;
+  public Presenter() {
+
   }
 
   public void attachView(UiView view) {
-    this.uiView = ViewInjector.inject(view, mainThreadSpec);
+    this.uiView = view;
     onViewAttached();
   }
 
   public void detachView() {
-    this.uiView = ViewInjector.nullObjectPatternView(uiView);
+    this.uiView = null;
   }
 
   public UiView getView() {

@@ -18,12 +18,6 @@
 
 package com.gigigo.orchextra.control.presenters.scanner;
 
-import me.panavtec.threaddecoratedview.views.qualifiers.NotDecorated;
-import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
-
-@ThreadDecoratedView
 public interface OxCodeScannerView {
-
-    @NotDecorated
     void initUi();
 }
