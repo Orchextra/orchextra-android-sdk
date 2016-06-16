@@ -22,13 +22,6 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
   buildToolsVersion parent.ext.androidBuildToolsVersion
-
-
-
-
-
-
-
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
     minSdkVersion parent.ext.androidMinSdkVersion
@@ -72,6 +65,7 @@ android {
 dependencies {
 
   compile project(':orchextrasdk')
+  compile(name:'appoxee_sdk_2.7.0', ext:'aar')
   compile parent.ext.dependencies.imageRecognitionImpl
 
   testCompile parent.ext.testDependencies.junit
