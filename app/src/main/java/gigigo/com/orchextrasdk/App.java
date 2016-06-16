@@ -18,7 +18,6 @@
 package gigigo.com.orchextrasdk;
 
 import android.app.Application;
-import android.os.Handler;
 import android.util.Log;
 
 import com.gigigo.orchextra.Orchextra;
@@ -28,14 +27,15 @@ import com.gigigo.orchextra.OrchextraLogLevel;
 public class App extends Application implements OrchextraCompletionCallback {
 
     public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
-  public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
+    public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
+
     @Override
     public void onCreate() {
         super.onCreate();
         Orchextra.setLogLevel(OrchextraLogLevel.NETWORK);
         Log.d("APP", "Hello Application, start onCreate");
         Orchextra.init(App.this, App.this);
-       
+
         Log.d("APP", "Hello Application, end onCreate");
     }
 
@@ -49,12 +49,12 @@ public class App extends Application implements OrchextraCompletionCallback {
         Log.d("APP", "onError: " + s);
     }
 
-  
+
     @Override
     public void onInit(String s) {
         Log.d("APP", "onInit: " + s);
     }
-  }
- }
+}
+
 
 
