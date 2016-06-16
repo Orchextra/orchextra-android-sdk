@@ -19,7 +19,8 @@
 package com.gigigo.orchextra.domain.outputs;
 
 import android.os.Handler;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 
 public class MainThreadSpec implements ThreadSpec {
 

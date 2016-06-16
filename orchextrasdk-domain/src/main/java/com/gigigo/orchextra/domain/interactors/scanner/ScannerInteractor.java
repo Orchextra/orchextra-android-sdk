@@ -53,7 +53,9 @@ public class ScannerInteractor implements Interactor<InteractorResponse<List<Bas
             point = geolocation.getPoint();
         }
 
-        return triggerActionsFacadeService.triggerActions(scanner, point);
+        InteractorResponse<List<BasicAction>> interactorResponse = triggerActionsFacadeService.triggerActions(scanner, point);
+
+        return interactorResponse;
     }
 
     public void setScanner(ScannerResult scanner) {

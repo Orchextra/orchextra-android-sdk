@@ -19,9 +19,8 @@
 package com.gigigo.orchextra.control.controllers.authentication;
 
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
-import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
 
-@ThreadDecoratedView public interface SaveUserDelegate {
+public interface SaveUserDelegate {
 
   void init();
 

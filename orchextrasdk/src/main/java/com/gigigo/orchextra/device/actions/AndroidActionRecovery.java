@@ -20,9 +20,9 @@ package com.gigigo.orchextra.device.actions;
 
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
-import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 
 
 public class AndroidActionRecovery implements ActionRecovery {

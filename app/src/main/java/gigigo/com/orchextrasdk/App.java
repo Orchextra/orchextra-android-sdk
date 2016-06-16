@@ -27,12 +27,12 @@ import com.gigigo.orchextra.OrchextraLogLevel;
 
 public class App extends Application implements OrchextraCompletionCallback {
 
-  public static final String API_KEY = "key";
-  public static final String API_SECRET = "secret";
+  public static final String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
+  public static final String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
 
   @Override public void onCreate() {
     super.onCreate();
-    Orchextra.setLogLevel(OrchextraLogLevel.ALL);
+    Orchextra.setLogLevel(OrchextraLogLevel.NETWORK);
     Log.d("APP", "Hello Application, start onCreate");
     Orchextra.init(App.this, App.this);
     Log.d("APP", "Hello Application, end onCreate");

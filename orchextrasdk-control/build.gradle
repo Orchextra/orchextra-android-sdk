@@ -36,8 +36,8 @@ dependencies {
         exclude group:'javax.inject'
     }
 
-    compile rootProject.ext.dependencies.threaddecoratedview
-    apt rootProject.ext.dependencies.threaddecoratedviewcompiler
+//    compile rootProject.ext.dependencies.threaddecoratedview
+//    apt rootProject.ext.dependencies.threaddecoratedviewcompiler
 
     testCompile rootProject.ext.testDependencies.junit
     testCompile rootProject.ext.testDependencies.mockito

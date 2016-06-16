@@ -24,6 +24,7 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.control.presenters.scanner.entities.ScannerResultPresenter;
 import com.gigigo.orchextra.control.presenters.scanner.entities.mapper.ScannerResultMapper;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
@@ -34,8 +35,6 @@ import com.gigigo.orchextra.domain.model.entities.ScannerResult;
 import java.util.List;
 
 import orchextra.javax.inject.Provider;
-
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
 public class OxCodeScannerPresenter extends Presenter<OxCodeScannerView> {
 
@@ -51,7 +50,7 @@ public class OxCodeScannerPresenter extends Presenter<OxCodeScannerView> {
                                   ScannerResultMapper scannerResultMapper,
                                   ActionDispatcher actionDispatcher,
                                   ThreadSpec mainThreadSpec) {
-        super(threadSpec);
+        super();
 
         this.interactorInvoker = interactorInvoker;
         this.scannerInteractorExecutionProvider = scannerInteractorExecutionProvider;
