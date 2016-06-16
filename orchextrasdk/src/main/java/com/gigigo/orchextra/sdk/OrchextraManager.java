@@ -50,37 +50,27 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
-
 import orchextra.javax.inject.Inject;
 
-public  class OrchextraManager {
+public class OrchextraManager {
 
-  private static OrchextraSDKLogLevel orchextraSDKLogLevel =
-      (BuildConfig.DEBUG)? OrchextraSDKLogLevel.ALL : OrchextraSDKLogLevel.NONE;
+    private static OrchextraSDKLogLevel orchextraSDKLogLevel =
+            (BuildConfig.DEBUG)? OrchextraSDKLogLevel.ALL : OrchextraSDKLogLevel.NONE;
 
-  private static OrchextraManager instance;
-  private InjectorImpl injector;
-  private OrchextraManagerCompletionCallback orchextraCompletionCallback;
+    private static OrchextraManager instance;
+    private InjectorImpl injector;
+    private OrchextraManagerCompletionCallback orchextraCompletionCallback;
 
-    @Inject
-    OrchextraActivityLifecycle orchextraActivityLifecycle;
-    @Inject
-    OrchextraTasksManager orchextraTasksManager;
-    @Inject
-    OrcUserToCrmConverter orcUserToCrmConverter;
-    @Inject
-    OrchextraStatusAccessor orchextraStatusAccessor;
-    @Inject
-    SaveUserController saveUserController;
-    @Inject
-    AppRunningMode appRunningMode;
-    @Inject
-    AppStatusEventsListener appStatusEventsListener;
-    @Inject
-    ScannerManager scannerManager;
-    @Inject
-    ImageRecognitionManager imageRecognitionManager;
-  @Inject OrchextraLogger orchextraLogger;
+    @Inject OrchextraActivityLifecycle orchextraActivityLifecycle;
+    @Inject OrchextraTasksManager orchextraTasksManager;
+    @Inject OrcUserToCrmConverter orcUserToCrmConverter;
+    @Inject OrchextraStatusAccessor orchextraStatusAccessor;
+    @Inject SaveUserController saveUserController;
+    @Inject AppRunningMode appRunningMode;
+    @Inject AppStatusEventsListener appStatusEventsListener;
+    @Inject ScannerManager scannerManager;
+    @Inject ImageRecognitionManager imageRecognitionManager;
+    @Inject OrchextraLogger orchextraLogger;
 
     /**
      * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -97,11 +87,11 @@ public  class OrchextraManager {
      * This method is called from client app in order to start application at one concrete moment,
      * this is not dependant on context neither app lifecycle, could be called in any moment.
      *
-     * @param apiKey    credentials
+     * @param apiKey credentials
      * @param apiSecret credentials
      */
     public static synchronized void sdkStart(String apiKey, String apiSecret) {
-        if (OrchextraManager.instance != null &&
+        if (OrchextraManager.instance!=null &&
                 AndroidSdkVersion.hasJellyBean18()) {
             OrchextraManager.instance.start(apiKey, apiSecret);
         }
@@ -110,35 +100,33 @@ public  class OrchextraManager {
     /**
      * Called for inform sdk about client app user information, useful for tacking segmentation about
      * users. This call can provokes call to configuration
-     *
      * @param user information about client app user
      */
     public static synchronized void setUser(ORCUser user) {
         OrchextraManager orchextraManager = OrchextraManager.instance;
-        if (orchextraManager != null && AndroidSdkVersion.hasJellyBean18()) {
-
+        if (orchextraManager!=null &&
+                AndroidSdkVersion.hasJellyBean18()) {
             if (orchextraManager.orchextraStatusAccessor.isStarted()){
-            OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
-            SaveUserController saveUserController = orchextraManager.saveUserController;
+                OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
+                SaveUserController saveUserController = orchextraManager.saveUserController;
 
-            Crm crm = orcUserToCrmConverter.convertOrcUserToCrm(user);
-            saveUserController.saveUser(crm);
-     /* }else{
-      //TODO could be nice the idea of just store user in local storage if sdk is not running
-        orchextraManager.orchextraCompletionCallback.onInit("Not started SDK, "
-          + "must have SDK started before calling set user");
-      }*/
+                Crm crm = orcUserToCrmConverter.convertOrcUserToCrm(user);
+                saveUserController.saveUser(crm);
+            }else{
+                //TODO could be nice the idea of just store user in local storage if sdk is not running
+                orchextraManager.orchextraCompletionCallback.onInit("Not started SDK, "
+                        + "must have SDK started before calling set user");
+            }
         }
     }
 
     /**
      * Called for set custom scheme receiver
-     *
      * @param customSchemeReceiver custom scheme receiver
      */
-    public static synchronized void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver) {
+    public static synchronized void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver){
         OrchextraModule orchextraModule = getOrchextraModule();
-        if (orchextraModule != null) {
+        if (orchextraModule != null){
             orchextraModule.setCustomSchemeReceiver(customSchemeReceiver);
         }
     }
@@ -148,7 +136,7 @@ public  class OrchextraManager {
      */
     public static synchronized void sdkStop() {
         OrchextraManager orchextraManager = OrchextraManager.instance;
-        if (orchextraManager != null && orchextraManager.orchextraStatusAccessor.isStarted()) {
+        if (orchextraManager !=null && orchextraManager.orchextraStatusAccessor.isStarted()){
             orchextraManager.orchextraStatusAccessor.setStoppedStatus();
             orchextraManager.instance.stopOrchextraTasks();
         }
@@ -156,7 +144,6 @@ public  class OrchextraManager {
 
     /**
      * Internal sdk dependency injector
-     *
      * @return dependency injector
      */
     public static InjectorImpl getInjector() {
@@ -166,18 +153,18 @@ public  class OrchextraManager {
         return null;
     }
 
-  public static void setLogLevel(OrchextraLogLevel logLevel) {
-    orchextraSDKLogLevel = logLevel.getSDKLogLevel();
-  }
+    public static void setLogLevel(OrchextraLogLevel logLevel) {
+        orchextraSDKLogLevel = logLevel.getSDKLogLevel();
+    }
 
-  public static OrchextraSDKLogLevel getLogLevel() {
-    return orchextraSDKLogLevel;
-  }
+    public static OrchextraSDKLogLevel getLogLevel() {
+        return orchextraSDKLogLevel;
+    }
 
-  private void stopOrchextraTasks() {
-    orchextraTasksManager.stopAllTasks();
+    private void stopOrchextraTasks() {
+        orchextraTasksManager.stopAllTasks();
 
-        if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND) {
+        if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND){
             appStatusEventsListener.onBackgroundEnd();
         }
     }
@@ -192,12 +179,12 @@ public  class OrchextraManager {
 
         orchextraCompletionCallback = completionCallback;
 
-        if (AndroidSdkVersion.hasJellyBean18()) {
+        if (AndroidSdkVersion.hasJellyBean18()){
             initDependencyInjection(app.getApplicationContext(), completionCallback);
             initLifecyle(app);
             //initialize();
             orchextraStatusAccessor.initialize();
-        } else {
+        }else{
             completionCallback.onInit(app.getString(R.string.ox_not_supported_android_sdk));
         }
     }
@@ -219,17 +206,16 @@ public  class OrchextraManager {
 
     private Runnable getStartRunnable() {
         return new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 startSDK();
             }
         };
     }
 
     private void startSDK() {
-        if (appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND) {
+        if (appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND){
             appStatusEventsListener.onForegroundStart();
-        } else if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND) {
+        }else if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND){
             appStatusEventsListener.onBackgroundStart();
         }
     }
@@ -246,33 +232,28 @@ public  class OrchextraManager {
         try {
             StartStatusType status = orchextraStatusAccessor.setStartedStatus(apiKey, apiSecret);
 
-    }catch (SdkAlreadyStartedException alreadyStartedException){
-      orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
-      orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());
+            if (status == StartStatusType.SDK_READY_FOR_START){
+                start();
+            }
 
-            if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS) {
+            if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS){
                 //TODO restart or call any service???
             }
 
-        } catch (SdkAlreadyStartedException alreadyStartedException) {
-            GGGLogImpl.log(alreadyStartedException.getMessage(), LogLevel.WARN);
+        }catch (SdkAlreadyStartedException alreadyStartedException){
+            orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
             orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());
 
-    }finally {
-      if (exception!=null) {
-        orchextraLogger.log(exception.getMessage(), OrchextraSDKLogLevel.ERROR);
-        orchextraCompletionCallback.onError(exception.getMessage());
-      }
-    }
-  }
+        }catch (SdkNotInitializedException notInitializedException){
+            exception = notInitializedException;
 
-        } catch (SdkInitializationException initializationException) {
+        }catch (SdkInitializationException initializationException){
             exception = initializationException;
             exception.printStackTrace();
 
-        } finally {
-            if (exception != null) {
-                GGGLogImpl.log(exception.getMessage(), LogLevel.ERROR);
+        }finally {
+            if (exception!=null) {
+                orchextraLogger.log(exception.getMessage(), OrchextraSDKLogLevel.ERROR);
                 orchextraCompletionCallback.onError(exception.getMessage());
             }
         }
@@ -293,7 +274,7 @@ public  class OrchextraManager {
     }
 
     private static OrchextraModule getOrchextraModule() {
-        if (getInjector() != null) {
+        if (getInjector()!=null) {
             OrchextraComponent orchextraComponent = getInjector().getOrchextraComponent();
             return orchextraComponent.getOrchextraModule();
         } else {
@@ -308,12 +289,9 @@ public  class OrchextraManager {
 
     }
 
-    public static void startImageRecognition() {
+    public static void startImageRecognition(){
         if (OrchextraManager.instance != null) {
             OrchextraManager.instance.imageRecognitionManager.startImageRecognition();
         }
     }
 }
-
-
-

@@ -32,20 +32,23 @@ import java.util.GregorianCalendar;
 
 public class App extends Application implements OrchextraCompletionCallback {
 
-public static final String API_KEY = "key";
-  public static final String API_SECRET = "secret";
-
-	Orchextra.setLogLevel(OrchextraLogLevel.ALL);
-     Log.d("APP", "Hello Application, start onCreate");
+    public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
+  public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Orchextra.setLogLevel(OrchextraLogLevel.NETWORK);
+        Log.d("APP", "Hello Application, start onCreate");
         Orchextra.init(App.this, App.this);
-        Orchextra.start("a370a3ec9a01dc8235b28f37082cf873907d3218", "69b5252c3e8c848014223e94d967db087393d526");
-      Log.d("APP", "Hello Application, end onCreate");
+        callStart();
+        Log.d("APP", "Hello Application, end onCreate");
+    }
 
+    @Override
+    public void onSuccess() {
 
-     
-         
+    }
 
-   
     @Override
     public void onError(String s) {
     }
@@ -53,7 +56,7 @@ public static final String API_KEY = "key";
   
     @Override
     public void onInit(String s) {
-
+    }
    private void callStart() {
     new Handler().post(new Runnable() {
       @Override public void run() {
@@ -62,3 +65,5 @@ public static final String API_KEY = "key";
     });
   }
  }
+
+

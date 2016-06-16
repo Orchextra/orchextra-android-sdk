@@ -28,12 +28,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
     Log.d("APP", "Hello MainActivity, start onCreate");
         Button button = (Button) findViewById(R.id.button);
         Button button2 = (Button) findViewById(R.id.button2);
         button.setOnClickListener(this);
         button2.setOnClickListener(this);
         Log.d("APP", "Hello MainActivity, end onCreate");
+
+
+      button3 = (Button) findViewById(R.id.button3);
+      button3.setOnClickListener(this);
+
+      statusText = (TextView) findViewById(R.id.statusText);
+
+      Orchextra.setImageRecognitionModule( new ImageRecognitionVuforiaImpl());
+
+
+      startOrchextra();
     }
 
     private void setCrmUser() {
@@ -50,14 +62,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new ORCUserTag("yeah 41", "sibarete 34 "),
                 new ORCUserTag("12 :3432 dasa", "uoyo"),
                 new ORCUserTag("fasa", "teg tags a"),
-                new ORCUserTag("fasa", "yanosaleel:nullen el 105"),
-                new ORCUserTag("prúébádéa´cénüs", "prúébádéa´cénüs")};
+                new ORCUserTag("fasa", "yanosaleel:nullen el 105")};
 
         //todo something like this, maybe we can put this kind of thing always and add the crm_user_id are setted
         String myCrmId = getApplicationContext().getPackageName();
         //
         /*ORCUserTag[] orcUserTagArray = new ORCUserTag[]{
                 new ORCUserTag("Pais", "Colombia")};*/
+        GregorianCalendar ORCBirthDay =new GregorianCalendar(1990, Calendar.MAY, 29);
         ORCUser orcUser = new ORCUser(myCrmId
                 , ORCBirthDay
                 , ORCUser.Gender.ORCGenderMale,
@@ -65,28 +77,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Orchextra.setUser(orcUser);
     }
 
-Button button = (Button) findViewById(R.id.button);
-    Button button2 = (Button) findViewById(R.id.button2);
-    button.setOnClickListener(this);
-    button2.setOnClickListener(this);
 
-    Log.d("APP", "Hello MainActivity, end onCreate");
-
-    button3 = (Button) findViewById(R.id.button3);
-    button3.setOnClickListener(this);
-
-    statusText = (TextView) findViewById(R.id.statusText);
-
-    startOrchextra();
-}    }
 @Override public void onClick(View v) {
     if (v.getId() == R.id.button){
       Orchextra.startImageRecognition();
     }
-    if (v.getId() == R.id.button2){
-      Orchextra.startScannerActivity();
-    }
-  }
     if (v.getId() == R.id.button2){
       Orchextra.startScannerActivity();
     }

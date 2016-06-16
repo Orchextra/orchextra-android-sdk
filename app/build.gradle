@@ -23,12 +23,23 @@ android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
   buildToolsVersion parent.ext.androidBuildToolsVersion
 
+
+
+
+
+
+
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
     minSdkVersion parent.ext.androidMinSdkVersion
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode
     versionName parent.ext.androidVersionName
+    //for Vuforia,Vuforia Only work with armv7 lib.so, in this case we exclude all
+    //less than armv7, but not with exclude, wit Ndk { abifilters
+   ndk {
+      abiFilters  "armeabi-v7a"
+    }
   }
 
   lintOptions {

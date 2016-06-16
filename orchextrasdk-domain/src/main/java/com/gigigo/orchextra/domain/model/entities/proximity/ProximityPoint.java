@@ -27,8 +27,8 @@ public class ProximityPoint {
   private String id;
   private String code;
   private String name;
-
- // private List<String> tags;
+    @Deprecated
+  private List<String> tags;
   private ProximityPointType type;
   private Date createdAt;
   private Date updatedAt;
@@ -59,14 +59,14 @@ public class ProximityPoint {
   public void setName(String name) {
     this.name = name;
   }
-
-//  public List<String> getTags() {
-//    return tags;
-//  }
-//
-//  public void setTags(List<String> tags) {
-//    this.tags = tags;
-//  }
+@Deprecated
+  public List<String> getTags() {
+    return tags;
+  }
+    @Deprecated
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
 
   public ProximityPointType getType() {
     return type;

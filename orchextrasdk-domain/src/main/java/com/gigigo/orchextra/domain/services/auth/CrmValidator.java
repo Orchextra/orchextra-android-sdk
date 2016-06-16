@@ -44,9 +44,8 @@ public class CrmValidator implements Validator<Crm> {
 
     @Deprecated
     private void filterCrmKeywords(List<String> keywords) {
-
-        for (ListIterator<String> keyListIterator = keywords.listIterator();
-             keyListIterator.hasNext(); ) {
+        ListIterator<String> keyListIterator = keywords.listIterator();
+        while (keyListIterator.hasNext()) {
             String keyword = keyListIterator.next();
             if (keywordIsNotValid(keyword)) {
                 keyListIterator.remove();
@@ -54,14 +53,17 @@ public class CrmValidator implements Validator<Crm> {
             }
         }
     }
+
     @Deprecated
     private boolean keywordIsNotValid(String keyword) {
         String pattern = "^[a-zA-Z][a-zA-Z0-9_]*$";
         return !Pattern.matches(pattern, keyword);
     }
 
+    @Deprecated
     private void filterCrmTags(List<CrmTag> tags) {
-        for (ListIterator<CrmTag> tagListIterator = tags.listIterator(); tagListIterator.hasNext(); ) {
+        ListIterator<CrmTag> tagListIterator = tags.listIterator();
+        while (tagListIterator.hasNext()) {
             CrmTag tag = tagListIterator.next();
             if (tagIsNotValid(tag)) {
                 tagListIterator.remove();
@@ -81,8 +83,9 @@ public class CrmValidator implements Validator<Crm> {
             Matcher matcherPrefix = ptPrefix.matcher(tag.getPrefix());
             Matcher matcherName = ptName.matcher(tag.getName());
 
-            if (matcherPrefix != null && matcherName != null)
+            if (matcherPrefix != null && matcherName != null) {
                 bReturn = matcherPrefix.find() || matcherName.find();
+            }
 
         } catch (Exception tr) {
             errorLogger.log("The provided tag " + tag.toString() + " cause error " + tr.getMessage());
