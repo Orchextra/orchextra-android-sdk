@@ -23,7 +23,7 @@ import com.gigigo.orchextra.domain.model.vo.Theme;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
-
+@Deprecated
 public class ConfigThemeUpdater {
 
   private final Mapper<Theme, ThemeRealm> themeRealmMapper;

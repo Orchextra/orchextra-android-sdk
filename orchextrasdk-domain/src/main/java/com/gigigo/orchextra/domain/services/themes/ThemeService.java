@@ -23,14 +23,17 @@ import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import com.gigigo.orchextra.domain.services.DomaninService;
 
+@Deprecated
 public class ThemeService implements DomaninService {
 
     private final ConfigDataProvider configDataProvider;
 
+    @Deprecated
     public ThemeService(ConfigDataProvider configDataProvider) {
         this.configDataProvider = configDataProvider;
     }
 
+    @Deprecated
     public BusinessObject<Theme> obtainTheme() {
         return configDataProvider.obtainTheme();
     }

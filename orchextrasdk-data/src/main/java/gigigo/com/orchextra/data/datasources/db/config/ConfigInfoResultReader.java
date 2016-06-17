@@ -45,9 +45,10 @@ public class ConfigInfoResultReader {
   private final ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper;
   private final ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper;
   private final ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper;
+  @Deprecated
   private final ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper;
   private final OrchextraLogger orchextraLogger;
-
+  @Deprecated
   public ConfigInfoResultReader(
       ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper,
       ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper,
@@ -160,7 +161,7 @@ public class ConfigInfoResultReader {
 
     return regions;
   }
-
+  @Deprecated
   public Theme getTheme(Realm realm) {
     ThemeRealm themeRealm = realm.where(ThemeRealm.class).findFirst();
     if (themeRealm != null) {

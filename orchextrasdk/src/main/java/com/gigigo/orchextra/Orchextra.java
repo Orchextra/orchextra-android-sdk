@@ -60,14 +60,14 @@ public class Orchextra {
                 }
             }
         });
-
-
     }
 
-    //this method enabled or disabled the service with the intent-filter for RECEIVER the push, this is necesary
-    //because you must to declare always in the manifest file, you can not do it with code. Beacause that we
-    //keep the service OrchextraGcmListenerService and the intent filter in manifest, but weenabled or disabled
-    //the service if the sender ID in Orchextra are not setted
+    /**
+     * this method enabled or disabled the service with the intent-filter for RECEIVER the push, this is necesary
+     * //because you must to declare always in the manifest file, you can not do it with code. Beacause that we
+     * //keep the service OrchextraGcmListenerService and the intent filter in manifest, but weenabled or disabled
+     * the service if the sender ID in Orchextra are not setted
+     */
     private static void enabledOrchextraNotificationPush(Application application) {
 
         String senderID = application.getApplicationContext().getString(R.string.ox_notifications_GCM_sender_id);

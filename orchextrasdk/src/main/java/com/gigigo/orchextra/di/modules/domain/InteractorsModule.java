@@ -50,57 +50,78 @@ import orchextra.dagger.Provides;
 @Module(includes = {DomainServicesModule.class})
 public class InteractorsModule {
 
-  @Provides @PerExecution SaveUserInteractor provideSaveUserInteractor(
-      AuthenticationService authenticationService, ConfigService configService){
-    return new SaveUserInteractor(authenticationService, configService);
-  }
-
-  @Provides @PerExecution SendConfigInteractor provideSendConfigInteractor(ConfigService configService){
-    return new SendConfigInteractor(configService);
-  }
-
-  @Provides @PerExecution RegionsProviderInteractor provideRegionsProviderInteractor (
-      ObtainRegionsService obtainRegionsService){
-    return new RegionsProviderInteractor(obtainRegionsService);
-  }
-
-  @Provides @PerExecution BeaconEventsInteractor provideRegionCheckerInteractor (
-      BeaconCheckerService beaconCheckerService, RegionCheckerService regionCheckerService,
-      TriggerActionsFacadeService triggerActionsFacadeService,
-      EventUpdaterService eventUpdaterService){
-
-    return new BeaconEventsInteractor(beaconCheckerService, regionCheckerService,
-        triggerActionsFacadeService, eventUpdaterService);
-  }
-
-    @Provides @PerExecution GeofenceInteractor provideGeofenceInteractor(
-        TriggerActionsFacadeService triggerActionsFacadeService,
-        GeofenceCheckerService geofenceCheckerService,
-        EventUpdaterService eventUpdaterService) {
-
-      return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService, eventUpdaterService);
+    @Provides
+    @PerExecution
+    SaveUserInteractor provideSaveUserInteractor(
+            AuthenticationService authenticationService, ConfigService configService) {
+        return new SaveUserInteractor(authenticationService, configService);
     }
 
-  @Provides @PerExecution GeofencesProviderInteractor provideGeofencesProviderInteractor(
-      ObtainGeofencesService obtainGeofencesService) {
-    return new GeofencesProviderInteractor(obtainGeofencesService);
-  }
+    @Provides
+    @PerExecution
+    SendConfigInteractor provideSendConfigInteractor(ConfigService configService) {
+        return new SendConfigInteractor(configService);
+    }
 
-    @Provides @PerExecution ObtainThemeInteractor provideObtainThemeInteractor(ThemeService themeService){
+    @Provides
+    @PerExecution
+    RegionsProviderInteractor provideRegionsProviderInteractor(
+            ObtainRegionsService obtainRegionsService) {
+        return new RegionsProviderInteractor(obtainRegionsService);
+    }
+
+    @Provides
+    @PerExecution
+    BeaconEventsInteractor provideRegionCheckerInteractor(
+            BeaconCheckerService beaconCheckerService, RegionCheckerService regionCheckerService,
+            TriggerActionsFacadeService triggerActionsFacadeService,
+            EventUpdaterService eventUpdaterService) {
+
+        return new BeaconEventsInteractor(beaconCheckerService, regionCheckerService,
+                triggerActionsFacadeService, eventUpdaterService);
+    }
+
+    @Provides
+    @PerExecution
+    GeofenceInteractor provideGeofenceInteractor(
+            TriggerActionsFacadeService triggerActionsFacadeService,
+            GeofenceCheckerService geofenceCheckerService,
+            EventUpdaterService eventUpdaterService) {
+
+        return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService, eventUpdaterService);
+    }
+
+    @Provides
+    @PerExecution
+    GeofencesProviderInteractor provideGeofencesProviderInteractor(
+            ObtainGeofencesService obtainGeofencesService) {
+        return new GeofencesProviderInteractor(obtainGeofencesService);
+    }
+
+    @Deprecated
+    @Provides
+    @PerExecution
+    ObtainThemeInteractor provideObtainThemeInteractor(ThemeService themeService) {
         return new ObtainThemeInteractor(themeService);
     }
 
 
-  @Provides @PerExecution GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor(GetImageRecognitionCredentialsService imageRecognitionCredentialsService){
-    return new GetImageRecognitionCredentialsInteractor(imageRecognitionCredentialsService);
-  }
+    @Provides
+    @PerExecution
+    GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor(GetImageRecognitionCredentialsService imageRecognitionCredentialsService) {
+        return new GetImageRecognitionCredentialsInteractor(imageRecognitionCredentialsService);
+    }
 
-  @Provides @PerExecution ScannerInteractor provideScannerInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
-                                                                       ObtainGeoLocationTask obtainGeoLocationTask){
+    @Provides
+    @PerExecution
+    ScannerInteractor provideScannerInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
+                                               ObtainGeoLocationTask obtainGeoLocationTask) {
         return new ScannerInteractor(triggerActionsFacadeService, obtainGeoLocationTask);
     }
 
-  @Provides @PerExecution ClearLocalStorageInteractor provideClearLocalStorageInteractor(LocalStorageService localStorageService) {
-    return new ClearLocalStorageInteractor(localStorageService);
-  }
+    @Provides
+    @PerExecution
+    ClearLocalStorageInteractor provideClearLocalStorageInteractor(LocalStorageService localStorageService) {
+        return new ClearLocalStorageInteractor(localStorageService);
+    }
 }

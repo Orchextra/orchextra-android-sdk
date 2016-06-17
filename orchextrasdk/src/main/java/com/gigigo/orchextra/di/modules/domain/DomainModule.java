@@ -59,114 +59,149 @@ import orchextra.javax.inject.Singleton;
 @Module(includes = DataProviderModule.class)
 public class DomainModule {
 
-  @Provides @Singleton InteractorInvoker provideInteractorInvoker(ExecutorService executor,
-      LogExceptionHandler logExceptionHandler) {
-    return new InteractorInvokerImp(executor, logExceptionHandler);
-  }
+    @Provides
+    @Singleton
+    InteractorInvoker provideInteractorInvoker(ExecutorService executor,
+                                               LogExceptionHandler logExceptionHandler) {
+        return new InteractorInvokerImp(executor, logExceptionHandler);
+    }
 
-  @Provides @Singleton Session provideSession() {
-    return new Session(BuildConfig.TOKEN_TYPE_BEARER);
-  }
+    @Provides
+    @Singleton
+    Session provideSession() {
+        return new Session(BuildConfig.TOKEN_TYPE_BEARER);
+    }
 
-  @Provides @Singleton LogExceptionHandler provideLogExceptionHandler(OrchextraLogger orchextraLogger) {
-    return new LogExceptionHandler(orchextraLogger);
-  }
+    @Provides
+    @Singleton
+    LogExceptionHandler provideLogExceptionHandler(OrchextraLogger orchextraLogger) {
+        return new LogExceptionHandler(orchextraLogger);
+    }
 
-  @Provides @Singleton ExecutorService provideExecutor(ThreadFactory threadFactory,
-      BlockingQueue<Runnable> blockingQueue) {
-    return new PriorizableThreadPoolExecutor(BuildConfig.CONCURRENT_INTERACTORS,
-        BuildConfig.CONCURRENT_INTERACTORS, 0L, TimeUnit.MILLISECONDS, blockingQueue,
-        threadFactory);
-  }
+    @Provides
+    @Singleton
+    ExecutorService provideExecutor(ThreadFactory threadFactory,
+                                    BlockingQueue<Runnable> blockingQueue) {
+        return new PriorizableThreadPoolExecutor(BuildConfig.CONCURRENT_INTERACTORS,
+                BuildConfig.CONCURRENT_INTERACTORS, 0L, TimeUnit.MILLISECONDS, blockingQueue,
+                threadFactory);
+    }
 
-  @RegionsProviderInteractorExecution @Provides InteractorExecution provideRegionsProviderInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectRegionsProviderInteractorExecution(interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideRegionsProviderInteractor());
-    return interactorExecution;
-  }
+    @RegionsProviderInteractorExecution
+    @Provides
+    InteractorExecution provideRegionsProviderInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectRegionsProviderInteractorExecution(interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideRegionsProviderInteractor());
+        return interactorExecution;
+    }
 
-  @BeaconEventsInteractorExecution @Provides InteractorExecution provideBeaconEventsInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectBeaconEventsInteractorExecution(
-            interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideBeaconEventsInteractor());
-    return interactorExecution;
-  }
+    @BeaconEventsInteractorExecution
+    @Provides
+    InteractorExecution provideBeaconEventsInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectBeaconEventsInteractorExecution(
+                interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideBeaconEventsInteractor());
+        return interactorExecution;
+    }
 
-  @ConfigInteractorExecution @Provides InteractorExecution provideConfigInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectConfigInteractorInteractorExecution(
-            interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideSendConfigInteractor());
-    return interactorExecution;
-  }
+    @ConfigInteractorExecution
+    @Provides
+    InteractorExecution provideConfigInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectConfigInteractorInteractorExecution(
+                interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideSendConfigInteractor());
+        return interactorExecution;
+    }
 
-  @ClearLocalStorageInteractorExecution
-  @Provides InteractorExecution provideClearStorageInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectClearStorageInteractorExecution(interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideClearLocalStorageInteractor());
-    return interactorExecution;
-  }
+    @ClearLocalStorageInteractorExecution
+    @Provides
+    InteractorExecution provideClearStorageInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectClearStorageInteractorExecution(interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideClearLocalStorageInteractor());
+        return interactorExecution;
+    }
 
-  @GeofenceInteractorExecution @Provides InteractorExecution provideGeofenceInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceInteractorExecution(
-            interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideGeofenceInteractor());
-    return interactorExecution;
-  }
+    @GeofenceInteractorExecution
+    @Provides
+    InteractorExecution provideGeofenceInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceInteractorExecution(
+                interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideGeofenceInteractor());
+        return interactorExecution;
+    }
 
-  @GeofenceProviderInteractorExecution @Provides InteractorExecution provideGeofenceProviderInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceProviderInteractorExecution(
-        interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideGeofenceProviderInteractor());
-    return interactorExecution;
-  }
+    @GeofenceProviderInteractorExecution
+    @Provides
+    InteractorExecution provideGeofenceProviderInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectGeofenceProviderInteractorExecution(
+                interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideGeofenceProviderInteractor());
+        return interactorExecution;
+    }
 
-  @SaveUserInteractorExecution @Provides InteractorExecution provideSaveUserInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(
-            interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());
-    return interactorExecution;
-  }
+    @SaveUserInteractorExecution
+    @Provides
+    InteractorExecution provideSaveUserInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectSaveUserInteractorExecution(
+                interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideSaveUserInteractor());
+        return interactorExecution;
+    }
 
-  @ObtainThemeInteractorExecution @Provides InteractorExecution provideObtainThemeInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectObtainThemeInteractorExecution(
-            interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideObtainThemeInteractor());
-    return interactorExecution;
-  }
+    @Deprecated
+    @ObtainThemeInteractorExecution
+    @Provides
+    InteractorExecution provideObtainThemeInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectObtainThemeInteractorExecution(
+                interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideObtainThemeInteractor());
+        return interactorExecution;
+    }
 
-  @GetIrCredentialsInteractorExecution @Provides InteractorExecution provideObtainIrCredentialsInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectObtainIrCredentialsInteractorExecution(
-        interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideGetImageRecognitionCredentialsInteractor());
-    return interactorExecution;
-  }
+    @GetIrCredentialsInteractorExecution
+    @Provides
+    InteractorExecution provideObtainIrCredentialsInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectObtainIrCredentialsInteractorExecution(
+                interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideGetImageRecognitionCredentialsInteractor());
+        return interactorExecution;
+    }
 
-  @ScannerInteractorExecution @Provides InteractorExecution provideScannerInteractorExecution() {
-    InteractorExecution interactorExecution = new InteractorExecution();
-    InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectScannerInteractorExecution(
-            interactorExecution);
-    interactorExecution.setInteractor(interactorExecutionComponent.provideScannerInteractor());
-    return interactorExecution;
-  }
+    @ScannerInteractorExecution
+    @Provides
+    InteractorExecution provideScannerInteractorExecution() {
+        InteractorExecution interactorExecution = new InteractorExecution();
+        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectScannerInteractorExecution(
+                interactorExecution);
+        interactorExecution.setInteractor(interactorExecutionComponent.provideScannerInteractor());
+        return interactorExecution;
+    }
 
-  @Provides @Singleton public BlockingQueue<Runnable> provideBlockingQueue() {
-    return new InteractorPriorityBlockingQueue(100);
-  }
+    @Provides
+    @Singleton
+    public BlockingQueue<Runnable> provideBlockingQueue() {
+        return new InteractorPriorityBlockingQueue(100);
+    }
 
-  @Provides @Singleton ThreadFactory provideThreadFactory() {
-    return new InteractorOutputThreadFactory();
-  }
+    @Provides
+    @Singleton
+    ThreadFactory provideThreadFactory() {
+        return new InteractorOutputThreadFactory();
+    }
 
-  @CrmValidation @Provides @Singleton Validator provideCrmValidator(ErrorLogger errorLogger) {
-    return new CrmValidator(errorLogger);
-  }
+    @CrmValidation
+    @Provides
+    @Singleton
+    Validator provideCrmValidator(ErrorLogger errorLogger) {
+        return new CrmValidator(errorLogger);
+    }
 }

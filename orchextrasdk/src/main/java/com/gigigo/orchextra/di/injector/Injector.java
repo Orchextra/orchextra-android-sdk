@@ -57,7 +57,7 @@ public interface Injector {
   InteractorExecutionComponent injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
   InteractorExecutionComponent injectGeofenceProviderInteractorExecution(InteractorExecution<List<OrchextraGeofence>> interactorExecution);
   GcmListenerServiceComponent injectGcmListenerServiceComponent(OrchextraGcmListenerService orchextraGcmListenerService);
-
+  @Deprecated
   InteractorExecutionComponent injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
   InteractorExecutionComponent injectObtainIrCredentialsInteractorExecution(InteractorExecution<Vuforia> interactorExecution);
 

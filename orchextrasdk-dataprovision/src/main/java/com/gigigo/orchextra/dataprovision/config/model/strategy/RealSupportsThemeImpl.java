@@ -20,15 +20,15 @@ package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
-
+@Deprecated
 public class RealSupportsThemeImpl implements SupportsTheme {
-
+  @Deprecated
   private Theme theme = null;
-
+  @Deprecated
   public RealSupportsThemeImpl(Theme theme) {
     this.theme = theme;
   }
-
+  @Deprecated
   @Override public Theme getTheme() {
     return theme;
   }

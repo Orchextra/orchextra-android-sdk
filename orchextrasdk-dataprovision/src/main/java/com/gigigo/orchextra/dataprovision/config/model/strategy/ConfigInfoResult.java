@@ -50,7 +50,7 @@ public class ConfigInfoResult {
   public Theme getTheme() {
     return theme.getTheme();
   }
-
+  @Deprecated
   public boolean supportsTheme() {
     return theme.isSupported();
   }

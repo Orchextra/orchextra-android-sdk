@@ -41,9 +41,10 @@ public class ConfigApiExternalClassToModelMapper
 
   private final GeofenceExternalClassToModelMapper geofenceResponseMapper;
   private final BeaconExternalClassToModelMapper beaconResponseMapper;
+  @Deprecated
   private final ThemeExternalClassToModelMapper themeResponseMapper;
   private final VuforiaExternalClassToModelMapper vuforiaResponseMapper;
-
+  @Deprecated
   public ConfigApiExternalClassToModelMapper(
       VuforiaExternalClassToModelMapper vuforiaResponseMapper,
       ThemeExternalClassToModelMapper themeResponseMapper,

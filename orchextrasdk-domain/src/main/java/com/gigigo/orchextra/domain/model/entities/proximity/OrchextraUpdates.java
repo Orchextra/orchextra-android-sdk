@@ -26,8 +26,9 @@ public class OrchextraUpdates {
   private OrchextraBeaconUpdates orchextraBeaconUpdates;
   private OrchextraGeofenceUpdates orchextraGeofenceUpdates;
   private Vuforia vuforiaUpdates;
+  @Deprecated
   private Theme themeUpdates;
-
+  @Deprecated
   public OrchextraUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates,
       OrchextraGeofenceUpdates orchextraGeofenceChanges, Vuforia vuforiaChanges,
       Theme themeChanges) {
@@ -61,11 +62,11 @@ public class OrchextraUpdates {
   public void setVuforiaUpdates(Vuforia vuforiaUpdates) {
     this.vuforiaUpdates = vuforiaUpdates;
   }
-
+  @Deprecated
   public Theme getThemeUpdates() {
     return themeUpdates;
   }
-
+  @Deprecated
   public void setThemeUpdates(Theme themeUpdates) {
     this.themeUpdates = themeUpdates;
   }

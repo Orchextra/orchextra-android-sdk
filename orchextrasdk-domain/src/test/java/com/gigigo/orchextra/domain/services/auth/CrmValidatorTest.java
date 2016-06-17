@@ -48,7 +48,7 @@ import static org.junit.Assert.assertTrue;
     crmValidator = new CrmValidator(errorLogger);
     crm = new Crm();
   }
-
+  @Deprecated
   @Test public void shouldvalidateAllTags() {
     int size = validTagsArrayList().size();
     crm.setTags(validTagsArrayList());
@@ -58,7 +58,7 @@ import static org.junit.Assert.assertTrue;
 
     assertEquals(crm.getTags().size(), size);
   }
-
+  @Deprecated
   @Test public void shouldnotValidateAllTags() {
     int size = notValidTagsArrayList().size();
     crm.setTags(notValidTagsArrayList());
@@ -68,7 +68,7 @@ import static org.junit.Assert.assertTrue;
 
     assertTrue(crm.getTags().size() < size);
   }
-
+  @Deprecated
   @Test public void shoulValidateAllStrangeTags() {
     int size = allValidStrangeTagsArrayList().size();
     crm.setTags(allValidStrangeTagsArrayList());
@@ -78,7 +78,7 @@ import static org.junit.Assert.assertTrue;
 
     assertTrue(crm.getTags().size() == size);
   }
-
+  @Deprecated
   @Test public void shouldnotValidateAnyTag() {
     crm.setTags(allNotValidTagsArrayList());
     crm.setKeywords(Collections.<String>emptyList());
@@ -87,7 +87,7 @@ import static org.junit.Assert.assertTrue;
 
     assertTrue(crm.getTags().size() == 0);
   }
-
+  @Deprecated
   @Test public void shouldvalidateAllKeywords() {
     int size = validKeywordsArrayList().size();
     crm.setTags(Collections.<CrmTag>emptyList());
@@ -97,14 +97,14 @@ import static org.junit.Assert.assertTrue;
 
     assertEquals(crm.getKeywords().size(), size);
   }
-
+  @Deprecated
   private List<String> validKeywordsArrayList() {
     List<String> keywords = new ArrayList<>();
     keywords.add("Hello");
     keywords.add("World");
     return keywords;
   }
-
+  @Deprecated
   @Test public void shouldnotValidateAllKeywords() {
     int size = notValidKeywordsArrayList().size();
     crm.setTags(Collections.<CrmTag>emptyList());
@@ -114,28 +114,28 @@ import static org.junit.Assert.assertTrue;
 
     assertTrue(crm.getKeywords().size() < size);
   }
-
+  @Deprecated
   private List<String> notValidKeywordsArrayList() {
     List<String> keywords = new ArrayList<>();
     keywords.add("Hello");
     keywords.add("Orchextra2.3.0");
     return keywords;
   }
-
+  @Deprecated
   private List<CrmTag> validTagsArrayList() {
     List<CrmTag> tags = new ArrayList<>();
     tags.add(new CrmTag("Hello", "World"));
     tags.add(new CrmTag("Hello2", "World2"));
     return tags;
   }
-
+  @Deprecated
   private List<CrmTag> notValidTagsArrayList() {
     List<CrmTag> tags = new ArrayList<>();
     tags.add(new CrmTag("::Hello", "World"));
     tags.add(new CrmTag("Hello2", "World2"));
     return tags;
   }
-
+  @Deprecated
   private List<CrmTag> allNotValidTagsArrayList() {
     List<CrmTag> tags = new ArrayList<>();
 
@@ -152,7 +152,7 @@ import static org.junit.Assert.assertTrue;
 
     return tags;
   }
-
+  @Deprecated
   private List<CrmTag> allValidStrangeTagsArrayList() {
     List<CrmTag> tags = new ArrayList<>();
 

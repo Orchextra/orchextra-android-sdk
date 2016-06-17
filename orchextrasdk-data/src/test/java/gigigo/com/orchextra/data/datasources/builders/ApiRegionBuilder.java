@@ -15,11 +15,13 @@ public class ApiRegionBuilder {
     public static final String CREATED_AT = "2015-10-21T11:46:13Z";
     public static final String UPDATED_AT = "2015-10-21T18:41:39Z";
 
+    //todo clear never used
     private int minor = MINOR;
     private int major = MAJOR;
     private String uuid = UUID;
     private boolean active = true;
     private String code = CODE;
+    @Deprecated
     private List<String> tags;
     private String createdAt = CREATED_AT;
     private String updatedAt = UPDATED_AT;

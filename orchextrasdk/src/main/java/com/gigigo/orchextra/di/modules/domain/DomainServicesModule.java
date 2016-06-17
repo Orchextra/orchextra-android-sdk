@@ -65,110 +65,145 @@ import orchextra.dagger.Provides;
 @Module(includes = DomainServiceErrorCheckerModule.class)
 public class DomainServicesModule {
 
-  @Provides @PerExecution AuthenticationService provideAuthService(
-      AuthenticationDataProvider authDataProvider,
-      DeviceDetailsProvider deviceDetailsProvider, Session session,
-      @CrmValidation  Validator validator){
+    @Provides
+    @PerExecution
+    AuthenticationService provideAuthService(
+            AuthenticationDataProvider authDataProvider,
+            DeviceDetailsProvider deviceDetailsProvider, Session session,
+            @CrmValidation Validator validator) {
 
-    return new AuthenticationServiceImpl(authDataProvider,
-        deviceDetailsProvider, session, validator);
-  }
+        return new AuthenticationServiceImpl(authDataProvider,
+                deviceDetailsProvider, session, validator);
+    }
 
-  @Provides @PerExecution BeaconCheckerService provideBeaconCheckerService(
-      ProximityLocalDataProvider proximityLocalDataProvider,
-      ConfigDataProvider configDataProvider){
+    @Provides
+    @PerExecution
+    BeaconCheckerService provideBeaconCheckerService(
+            ProximityLocalDataProvider proximityLocalDataProvider,
+            ConfigDataProvider configDataProvider) {
 
-    return new BeaconCheckerService(proximityLocalDataProvider, configDataProvider);
-  }
+        return new BeaconCheckerService(proximityLocalDataProvider, configDataProvider);
+    }
 
-  @Provides @PerExecution RegionCheckerService provideRegionCheckerService(
-      ProximityLocalDataProvider proximityLocalDataProvider){
+    @Provides
+    @PerExecution
+    RegionCheckerService provideRegionCheckerService(
+            ProximityLocalDataProvider proximityLocalDataProvider) {
 
-    return new RegionCheckerService(proximityLocalDataProvider);
-  }
+        return new RegionCheckerService(proximityLocalDataProvider);
+    }
 
-  @Provides @PerExecution EventUpdaterService provideEventUpdaterService(
-      ProximityLocalDataProvider proximityLocalDataProvider){
+    @Provides
+    @PerExecution
+    EventUpdaterService provideEventUpdaterService(
+            ProximityLocalDataProvider proximityLocalDataProvider) {
 
-    return new EventUpdaterService(proximityLocalDataProvider);
-  }
+        return new EventUpdaterService(proximityLocalDataProvider);
+    }
 
-  @Provides @PerExecution GetActionService provideGetActionService(
-      ActionsDataProvider actionsDataProvider,
-      @ActionsErrorChecker ServiceErrorChecker serviceErrorChecker){
+    @Provides
+    @PerExecution
+    GetActionService provideGetActionService(
+            ActionsDataProvider actionsDataProvider,
+            @ActionsErrorChecker ServiceErrorChecker serviceErrorChecker) {
 
-    return new GetActionService(actionsDataProvider,serviceErrorChecker);
-  }
+        return new GetActionService(actionsDataProvider, serviceErrorChecker);
+    }
 
-  @Provides @PerExecution ScheduleActionService provideScheduleActionService(
-      ActionsSchedulerController actionsSchedulerController){
-    return new ScheduleActionService(actionsSchedulerController);
-  }
+    @Provides
+    @PerExecution
+    ScheduleActionService provideScheduleActionService(
+            ActionsSchedulerController actionsSchedulerController) {
+        return new ScheduleActionService(actionsSchedulerController);
+    }
 
-  @Provides @PerExecution TriggerService provideTriggerService(AppRunningMode appRunningMode){
-    return new TriggerService(appRunningMode);
-  }
+    @Provides
+    @PerExecution
+    TriggerService provideTriggerService(AppRunningMode appRunningMode) {
+        return new TriggerService(appRunningMode);
+    }
 
-  @Provides @PerExecution TriggerActionsFacadeService provideTriggerActionsFacadeService(
-      TriggerService triggerService, GetActionService getActionService,
-      ScheduleActionService scheduleActionService){
-    return new TriggerActionsFacadeService(triggerService, getActionService, scheduleActionService);
-  }
+    @Provides
+    @PerExecution
+    TriggerActionsFacadeService provideTriggerActionsFacadeService(
+            TriggerService triggerService, GetActionService getActionService,
+            ScheduleActionService scheduleActionService) {
+        return new TriggerActionsFacadeService(triggerService, getActionService, scheduleActionService);
+    }
 
-  @Provides @PerExecution ConfigService provideConfigService(ConfigDataProvider configDataProvider,
-      AuthenticationDataProvider authenticationDataProvider,
-      @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
-      AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask,
-      GcmInstanceIdRegister gcmInstanceIdRegister){
-    return new ConfigService(configDataProvider, authenticationDataProvider, errorChecker,
-        androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask,
-        gcmInstanceIdRegister);
-  }
+    @Provides
+    @PerExecution
+    ConfigService provideConfigService(ConfigDataProvider configDataProvider,
+                                       AuthenticationDataProvider authenticationDataProvider,
+                                       @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
+                                       AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask,
+                                       GcmInstanceIdRegister gcmInstanceIdRegister) {
+        return new ConfigService(configDataProvider, authenticationDataProvider, errorChecker,
+                androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask,
+                gcmInstanceIdRegister);
+    }
 
-  @Provides @PerExecution ObtainRegionsService provideObtainRegionsService(
-      ProximityLocalDataProvider proximityLocalDataProvider){
-    return new ObtainRegionsService(proximityLocalDataProvider);
-  }
+    @Provides
+    @PerExecution
+    ObtainRegionsService provideObtainRegionsService(
+            ProximityLocalDataProvider proximityLocalDataProvider) {
+        return new ObtainRegionsService(proximityLocalDataProvider);
+    }
 
-  @Provides @PerExecution ObtainGeofencesService provideObtainGeofencesService(
-      ProximityLocalDataProvider proximityLocalDataProvider){
-    return new ObtainGeofencesService(proximityLocalDataProvider);
-  }
+    @Provides
+    @PerExecution
+    ObtainGeofencesService provideObtainGeofencesService(
+            ProximityLocalDataProvider proximityLocalDataProvider) {
+        return new ObtainGeofencesService(proximityLocalDataProvider);
+    }
 
-  @Provides @PerExecution
-  GcmInstanceIdRegister provideGcmInstanceIdRegister(ContextProvider contextProvider,
-      OrchextraLogger orchextraLogger) {
-    return new GcmInstanceIdRegisterImp(contextProvider.getApplicationContext(), orchextraLogger);
-  }
+    @Provides
+    @PerExecution
+    GcmInstanceIdRegister provideGcmInstanceIdRegister(ContextProvider contextProvider,
+                                                       OrchextraLogger orchextraLogger) {
+        return new GcmInstanceIdRegisterImp(contextProvider.getApplicationContext(), orchextraLogger);
+    }
 
-  @Provides @PerExecution GeofenceCheckerService provideGeofenceCheckerService(
-      ProximityLocalDataProvider proximityLocalDataProvider){
-    return new GeofenceCheckerService(proximityLocalDataProvider);
-  }
+    @Provides
+    @PerExecution
+    GeofenceCheckerService provideGeofenceCheckerService(
+            ProximityLocalDataProvider proximityLocalDataProvider) {
+        return new GeofenceCheckerService(proximityLocalDataProvider);
+    }
 
-  @Provides @PerExecution FutureGeolocation provideFutureGeolocation(){
-    return new FutureGeolocation();
-  }
+    @Provides
+    @PerExecution
+    FutureGeolocation provideFutureGeolocation() {
+        return new FutureGeolocation();
+    }
 
-  @Provides @PerExecution ThemeService provideThemeService(ConfigDataProvider configDataProvider) {
-    return new ThemeService(configDataProvider);
-  }
+    @Deprecated
+    @Provides
+    @PerExecution
+    ThemeService provideThemeService(ConfigDataProvider configDataProvider) {
+        return new ThemeService(configDataProvider);
+    }
 
-  @Provides @PerExecution GetImageRecognitionCredentialsService
-  provideGetImageRecognitionCredentialsService(ImageRecognitionLocalDataProvider
-      imageRecognitionLocalDataProvider) {
+    @Provides
+    @PerExecution
+    GetImageRecognitionCredentialsService
+    provideGetImageRecognitionCredentialsService(ImageRecognitionLocalDataProvider
+                                                         imageRecognitionLocalDataProvider) {
 
-    return new GetImageRecognitionCredentialsService(imageRecognitionLocalDataProvider);
+        return new GetImageRecognitionCredentialsService(imageRecognitionLocalDataProvider);
 
-  }
+    }
 
-  @Provides @PerExecution ObtainGeoLocationTask provideObtainGeoLocationTask(FutureGeolocation futureGeolocation,
-                                                 GeolocationManager geolocationManager) {
-    return new ObtainGeoLocationTask(futureGeolocation, geolocationManager);
-  }
+    @Provides
+    @PerExecution
+    ObtainGeoLocationTask provideObtainGeoLocationTask(FutureGeolocation futureGeolocation,
+                                                       GeolocationManager geolocationManager) {
+        return new ObtainGeoLocationTask(futureGeolocation, geolocationManager);
+    }
 
-  @Provides @PerExecution
-  LocalStorageService provideLocalStorageService(ConfigDataProvider configDataProvider) {
-    return new LocalStorageService(configDataProvider);
-  }
+    @Provides
+    @PerExecution
+    LocalStorageService provideLocalStorageService(ConfigDataProvider configDataProvider) {
+        return new LocalStorageService(configDataProvider);
+    }
 }
