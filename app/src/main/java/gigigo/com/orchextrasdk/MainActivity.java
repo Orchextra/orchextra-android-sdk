@@ -15,19 +15,36 @@ import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import com.appoxee.Appoxee;
+import com.appoxee.AppoxeeManager;
+import com.appoxee.AppoxeeObserver;
+import com.appoxee.asyncs.initAsync;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
- private boolean isRunning = false;
+    private boolean isRunning = false;
 
-  private Button button3;
-  private TextView statusText;
+    private Button button3;
+    private TextView statusText;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-      setContentView(R.layout.activity_main);
-    Log.d("APP", "Hello MainActivity, start onCreate");
+    /**/
+    private final static String APPOXEE_SDK_KEY = "575e7877b16df0.22390647";
+    private final static String APPOXEE_SDK_SECRET = "575e7877b16f48.87387869";
+    private static final String TAG = "MainActivity";
+    private static final String SOME_UNIQUE_USER_IDENTIFIER = "example";
+    private static final String SOME_CUSTOM_FIELD = "custom_field";
+    ExecutorService threadPool = Executors.newSingleThreadExecutor();
+    /**/
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.d("APP", "Hello MainActivity, start onCreate");
         Button button = (Button) findViewById(R.id.button);
         Button button2 = (Button) findViewById(R.id.button2);
         button.setOnClickListener(this);
@@ -35,17 +52,98 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("APP", "Hello MainActivity, end onCreate");
 
 
-      button3 = (Button) findViewById(R.id.button3);
-      button3.setOnClickListener(this);
+        button3 = (Button) findViewById(R.id.button3);
+        button3.setOnClickListener(this);
 
-      statusText = (TextView) findViewById(R.id.statusText);
+        statusText = (TextView) findViewById(R.id.statusText);
 
-      Orchextra.setImageRecognitionModule( new ImageRecognitionVuforiaImpl());
+        Orchextra.setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
 
 
-      startOrchextra();
+        startOrchextra();
+        startAppoxee();
     }
 
+    /**/
+    private void startAppoxee() {
+        new initAsync(this,
+                APPOXEE_SDK_KEY,
+                APPOXEE_SDK_SECRET,
+                MainActivity.class.getName(), true, appoxeeCallbacksObserver)
+                .execute();
+
+    }
+
+    //we'll wait for appoxee to complete registration before using the API
+    private AppoxeeObserver appoxeeCallbacksObserver = new AppoxeeObserver() {
+        @Override
+        public void onRegistrationCompleted() {
+            Log.d(TAG, "appoxee is ready");
+
+            //using a background thread, because API method invoke network operations directly
+            threadPool.submit(new Runnable() {
+                @Override
+                public void run() {
+                    //setting device alias
+                    boolean success = Appoxee.setDeviceAlias(SOME_UNIQUE_USER_IDENTIFIER);
+                    Log.d(TAG, "alias had been set: " + success);
+
+                    //reading device alias value
+                    String alias = Appoxee.getDeviceAlias();
+                    Log.d(TAG, "alias: " + alias);
+                }
+            });
+
+            threadPool.submit(new Runnable() {
+                @Override
+                public void run() {
+                    //setting a custom fiels
+                    boolean success = Appoxee.setCustomField(SOME_CUSTOM_FIELD, "ok");
+                    Log.d(TAG, "custom field set success: " + success);
+
+                    ArrayList<String> fieldArray = new ArrayList<String>();
+                    fieldArray.add(SOME_CUSTOM_FIELD);
+                    //reading custom field value
+                    ArrayList<String> fieldValue = Appoxee.getCustomFieldsValues(fieldArray);
+                    if (fieldValue != null && fieldValue.size() > 0) {
+                        Log.d(TAG, "field value: " + fieldValue.get(0));
+                    } else {
+                        Log.w(TAG, "couldn't get field value");
+                    }
+
+                }
+            });
+
+            threadPool.submit(new Runnable() {
+                @Override
+                public void run() {
+                    String[] tagArray = {"example_tag"};
+                    boolean success = Appoxee.addTagsToDevice(new ArrayList<String>(Arrays.asList(tagArray)));
+                    Log.d(TAG, "custom field set success: " + success);
+
+                    ArrayList<String> tags = Appoxee.getTagList();
+                    Log.d(TAG, "tags list: " + tags);
+                }
+            });
+        }
+
+        @Override
+        public void onRegistrationFailure() {
+            Log.d(TAG, "appoxee registration failed");
+        }
+
+        @Override
+        public void onGeoRegistrationFailure() {
+            //for future support
+        }
+
+        @Override
+        public void onMessagesUpdateCompleted() {
+            //for custom inbox
+        }
+    };
+
+    /**/
     private void setCrmUser() {
      /*new method setuser for tags*/
         ORCUserTag[] orcUserTagArray = new ORCUserTag[]{
@@ -67,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //
         /*ORCUserTag[] orcUserTagArray = new ORCUserTag[]{
                 new ORCUserTag("Pais", "Colombia")};*/
-        GregorianCalendar ORCBirthDay =new GregorianCalendar(1990, Calendar.MAY, 29);
+        GregorianCalendar ORCBirthDay = new GregorianCalendar(1990, Calendar.MAY, 29);
         ORCUser orcUser = new ORCUser(myCrmId
                 , ORCBirthDay
                 , ORCUser.Gender.ORCGenderMale,
@@ -76,42 +174,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-@Override public void onClick(View v) {
-    if (v.getId() == R.id.button){
-      Orchextra.startImageRecognition();
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button) {
+            Orchextra.startImageRecognition();
+        }
+        if (v.getId() == R.id.button2) {
+            Orchextra.startScannerActivity();
+        }
+        if (v.getId() == R.id.button3) {
+            if (isRunning) {
+                stopOrchextra();
+            } else {
+                startOrchextra();
+            }
+        }
     }
-    if (v.getId() == R.id.button2){
-      Orchextra.startScannerActivity();
+
+    private void startOrchextra() {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                Orchextra.start(App.API_KEY, App.API_SECRET);
+            }
+        });
+
+        isRunning = true;
+        button3.setText(R.string.ox_stop_orchextra);
+        statusText.setText(getString(R.string.status_text, getString(R.string.status_running)));
     }
-    if (v.getId() == R.id.button3) {
-      if (isRunning) {
-        stopOrchextra();
-      } else {
-        startOrchextra();
-      }
+
+    private void stopOrchextra() {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                Orchextra.stop();
+            }
+        });
+        isRunning = false;
+        button3.setText(R.string.ox_start_orchextra);
+        statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
     }
-  }
-
-  private void startOrchextra() {
-    new Handler().post(new Runnable() {
-      @Override public void run() {
-        Orchextra.start(App.API_KEY, App.API_SECRET);
-      }
-    });
-
-    isRunning = true;
-    button3.setText(R.string.ox_stop_orchextra);
-    statusText.setText(getString(R.string.status_text, getString(R.string.status_running)));
-  }
-
-  private void stopOrchextra() {
-    new Handler().post(new Runnable() {
-      @Override public void run() {
-        Orchextra.stop();
-      }
-    });
-    isRunning = false;
-    button3.setText(R.string.ox_start_orchextra);
-    statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
-  }
 }

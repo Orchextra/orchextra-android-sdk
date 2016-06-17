@@ -83,6 +83,7 @@ configurations {
 
 dependencies {
   compile project(':orchextrasdk')
+  compile(name:'appoxee_sdk_2.7.0', ext:'aar')
   compile parent.ext.dependencies.imageRecognitionImpl
 
   testCompile parent.ext.testDependencies.junit
