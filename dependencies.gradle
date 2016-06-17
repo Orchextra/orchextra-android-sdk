@@ -19,33 +19,23 @@
 allprojects {
   ext {
     dependencies = [
-        loggingInterceptor  : 'com.squareup.okhttp3:logging-interceptor:3.2.0',
+        loggingInterceptor         : 'com.squareup.okhttp3:logging-interceptor:3.2.0',
 
-        daggerCompiler      : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.2',
-        dagger              : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
+        daggerCompiler             : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.2',
+        dagger                     : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
 
         playServicesLocation       : 'com.google.android.gms:play-services-location:8.4.0',
 
         altBeacon                  : 'org.altbeacon:android-beacon-library:2+',
         barcodescanner             : 'me.dm7.barcodescanner:zbar:1.8.4',
 
-        gggJavaLib                 : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.5',
-        gggLogger                  : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.5',
-        gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.5',
+        gggJavaLib                 : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.6',
+        gggLogger                  : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.6',
+        gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.6',
 
         //Image Recognition
         imageRecognitionInterface  : 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:1.0',
         imageRecognitionImpl       : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.2',
-
-//      TODO this two lib should be not necessary at all
-//        threaddecoratedview : 'me.panavtec:threaddecoratedview-common:1.5.1',
-//        threaddecoratedviewcompiler : 'me.panavtec:threaddecoratedview-compiler:1.5.1'
-
-//        coordinator         : 'me.panavtec:coordinator:1.1.5',
-//        coordinatorCompiler : 'me.panavtec:coordinator-compiler:1.1.5',
-//        playServicesGcm            : 'com.google.android.gms:play-services-gcm:8.4.0',
-//        retrofit            : 'com.squareup.retrofit2:retrofit:2.0.0',
-//        gsonConverter       : 'com.squareup.retrofit2:converter-gson:2.0.0',
     ]
 
     testDependencies = [

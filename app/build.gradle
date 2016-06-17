@@ -23,12 +23,6 @@ android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
   buildToolsVersion parent.ext.androidBuildToolsVersion
 
-
-
-
-
-
-
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
     minSdkVersion parent.ext.androidMinSdkVersion
