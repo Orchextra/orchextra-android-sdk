@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     boolean success = Appoxee.setCustomField(SOME_CUSTOM_FIELD, "ok");
                     Log.d(TAG, "custom field set success: " + success);
 
-                    List<String> fieldArray = new ArrayList<String>();
+                    ArrayList<String> fieldArray = new ArrayList<String>();
                     fieldArray.add(SOME_CUSTOM_FIELD);
                     //reading custom field value
                     List<String> fieldValue = Appoxee.getCustomFieldsValues(fieldArray);
