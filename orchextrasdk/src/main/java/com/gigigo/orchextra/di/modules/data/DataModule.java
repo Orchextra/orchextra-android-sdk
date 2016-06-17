@@ -30,6 +30,7 @@ import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
+import com.gigigo.orchextra.device.information.AndroidInstanceIdProvider;
 import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
 import com.gigigo.orchextra.di.qualifiers.ActionsResponse;
 import com.gigigo.orchextra.di.qualifiers.ClientDataResponseMapper;
@@ -37,16 +38,8 @@ import com.gigigo.orchextra.di.qualifiers.ConfigRequest;
 import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
-
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusDBDataSourceImpl;
-import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusReader;
-import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusUpdater;
-import orchextra.javax.inject.Provider;
-import orchextra.javax.inject.Singleton;
 
-import orchextra.dagger.Module;
-import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.action.ActionsDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.auth.AuthenticationDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.api.config.ConfigDataSourceImpl;
@@ -65,7 +58,14 @@ import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceDBDataSourceImp;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsReader;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsUpdater;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusDBDataSourceImpl;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusReader;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusUpdater;
 import gigigo.com.orchextra.data.datasources.device.DeviceDetailsProviderImpl;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 
 
 @Module(includes = {ApiModule.class, ApiMappersModule.class, DBModule.class})
@@ -152,8 +152,17 @@ public class DataModule {
         orchextraStatusUpdater, orchextraStatusReader, realmDefaultInstance, orchextraLogger);
   }
 
-  @Provides @Singleton DeviceDetailsProvider provideDeviceDetailsProvider(ContextProvider contextProvider){
-    return new DeviceDetailsProviderImpl(contextProvider.getApplicationContext());
+  @Provides
+  @Singleton
+  AndroidInstanceIdProvider provideAndroidInstanceIdProvider() {
+    return new AndroidInstanceIdProvider();
+  }
+
+  @Provides @Singleton DeviceDetailsProvider provideDeviceDetailsProvider(ContextProvider contextProvider,
+                                                                          AndroidInstanceIdProvider androidInstanceIdProvider){
+
+    String androidInstanceId = androidInstanceIdProvider.provideAndroidInstanceId(contextProvider.getApplicationContext());
+    return new DeviceDetailsProviderImpl(contextProvider.getApplicationContext(), androidInstanceId);
   }
 
   @Provides
