@@ -148,7 +148,7 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
             GeofencingRequest geofencingRequest =
                 androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
 
-            if (googleApiClientConnector.googleApiClientAvailable()) {
+            if (googleApiClientConnector.isGoogleApiClientAvailable()) {
                 try {
                     LocationServices.GeofencingApi.addGeofences(googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
                         geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);

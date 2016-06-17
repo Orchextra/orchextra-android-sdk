@@ -47,7 +47,7 @@ public class GeolocationModule {
   @Singleton
   @Provides
   RetrieveLastKnownLocation provideRetrieveLastKnownLocation(ContextProvider contextProvider,
-      GoogleApiClientConnector googleApiClientConnector,
+                                                             GoogleApiClientConnector googleApiClientConnector,
       PermissionChecker permissionChecker,
       PermissionLocationImp permissionLocationImp,
       OrchextraLogger orchextraLogger) {

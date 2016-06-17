@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.appoxee.Appoxee;
+import com.appoxee.AppoxeeObserver;
+import com.appoxee.asyncs.initAsync;
 import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.ORCUserTag;
 import com.gigigo.orchextra.Orchextra;
@@ -17,16 +20,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.appoxee.Appoxee;
-import com.appoxee.AppoxeeManager;
-import com.appoxee.AppoxeeObserver;
-import com.appoxee.asyncs.initAsync;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
 
     private boolean isRunning = false;
 
@@ -106,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ArrayList<String> fieldArray = new ArrayList<String>();
                     fieldArray.add(SOME_CUSTOM_FIELD);
                     //reading custom field value
-                    ArrayList<String> fieldValue = Appoxee.getCustomFieldsValues(fieldArray);
+                    List<String> fieldValue = Appoxee.getCustomFieldsValues(fieldArray);
                     if (fieldValue != null && fieldValue.size() > 0) {
                         Log.d(TAG, "field value: " + fieldValue.get(0));
                     } else {
@@ -123,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     boolean success = Appoxee.addTagsToDevice(new ArrayList<String>(Arrays.asList(tagArray)));
                     Log.d(TAG, "custom field set success: " + success);
 
-                    ArrayList<String> tags = Appoxee.getTagList();
+                    List<String> tags = Appoxee.getTagList();
                     Log.d(TAG, "tags list: " + tags);
                 }
             });

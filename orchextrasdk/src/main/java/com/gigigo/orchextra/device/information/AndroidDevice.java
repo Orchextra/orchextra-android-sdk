@@ -29,9 +29,11 @@ import java.util.TimeZone;
 public class AndroidDevice {
 
     private final Context context;
+    private final AndroidInstanceIdProvider androidInstanceIdProvider;
 
-    public AndroidDevice(Context context) {
+    public AndroidDevice(Context context, AndroidInstanceIdProvider androidInstanceIdProvider) {
         this.context = context;
+        this.androidInstanceIdProvider = androidInstanceIdProvider;
     }
 
     public Device getAndroidDeviceInfo() {
@@ -39,7 +41,7 @@ public class AndroidDevice {
 
         device.setHandset(DeviceInfoProvider.getHandset());
         device.setOsVersion(DeviceInfoProvider.getOsVersion());
-        device.setInstanceId(DeviceInfoProvider.getAndroidInstanceId(context));
+        device.setInstanceId(androidInstanceIdProvider.provideAndroidInstanceId(context));
         device.setSecureId(DeviceInfoProvider.getAndroidSecureId(context));
         device.setSerialNumber(DeviceInfoProvider.getAndroidSerialNumber());
         device.setBluetoothMacAddress(DeviceInfoProvider.getBluetoothMac());

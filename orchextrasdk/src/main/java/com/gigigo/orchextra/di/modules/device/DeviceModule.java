@@ -23,8 +23,10 @@ import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
+import com.gigigo.orchextra.device.GoogleApiClientConnectorImp;
 import com.gigigo.orchextra.device.information.AndroidApp;
 import com.gigigo.orchextra.device.information.AndroidDevice;
+import com.gigigo.orchextra.device.information.AndroidInstanceIdProvider;
 import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
 import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
@@ -83,11 +85,12 @@ public class DeviceModule {
   }
 
   @Singleton
-  @Provides GoogleApiClientConnector provideGoogleApiClientConnector(ContextProvider contextProvider,
-                                                                     GoogleApiPermissionChecker googleApiPermissionChecker,
-                                                                      OrchextraLogger orchextraLogger) {
+  @Provides
+  GoogleApiClientConnector provideGoogleApiClientConnector(ContextProvider contextProvider,
+                                                              GoogleApiPermissionChecker googleApiPermissionChecker,
+                                                              OrchextraLogger orchextraLogger) {
 
-    return new GoogleApiClientConnector(contextProvider, googleApiPermissionChecker,
+    return new GoogleApiClientConnectorImp(contextProvider, googleApiPermissionChecker,
         orchextraLogger);
   }
 
@@ -97,8 +100,9 @@ public class DeviceModule {
   }
 
   @Singleton
-  @Provides AndroidDevice provideAndroidDevice(ContextProvider contextProvider) {
-    return new AndroidDevice(contextProvider.getApplicationContext());
+  @Provides AndroidDevice provideAndroidDevice(ContextProvider contextProvider,
+                                               AndroidInstanceIdProvider androidInstanceIdProvider) {
+    return new AndroidDevice(contextProvider.getApplicationContext(), androidInstanceIdProvider);
   }
 
   @Singleton
