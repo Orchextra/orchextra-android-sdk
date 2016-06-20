@@ -63,12 +63,9 @@ android {
 
 
   productFlavors {
-    play9 {
-    }
-    play8 {
-    }
-    play7 {
-    }
+    play7{}
+    play8{}
+    play9{}
   }
 }
 
@@ -79,6 +76,7 @@ configurations {
   play7ReleaseCompile
   play8ReleaseCompile
   play9ReleaseCompile
+
 }
 
 dependencies {
@@ -95,5 +93,4 @@ dependencies {
   play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
   play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
   play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
-
 }
