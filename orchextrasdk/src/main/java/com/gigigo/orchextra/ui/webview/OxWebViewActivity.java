@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecution;
 import com.gigigo.orchextra.ui.OxToolbarActivity;
@@ -78,12 +79,12 @@ public class OxWebViewActivity extends OxToolbarActivity {
             new OxWebView.OnActionListener() {
                 @Override
                 public void openScanner() {
-                    //TODO Open Scanner
+                    Orchextra.startScannerActivity();
                 }
 
                 @Override
                 public void openImageRecognition() {
-                    //TODO Open Image Recognition
+                    Orchextra.startImageRecognition();
                 }
             };
 }
