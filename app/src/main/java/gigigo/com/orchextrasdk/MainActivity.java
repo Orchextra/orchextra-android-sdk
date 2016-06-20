@@ -14,7 +14,6 @@ import com.appoxee.asyncs.initAsync;
 import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.ORCUserTag;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,13 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button2.setOnClickListener(this);
         Log.d("APP", "Hello MainActivity, end onCreate");
 
-
         button3 = (Button) findViewById(R.id.button3);
         button3.setOnClickListener(this);
 
         statusText = (TextView) findViewById(R.id.statusText);
-
-        Orchextra.setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
 
 
         startOrchextra();

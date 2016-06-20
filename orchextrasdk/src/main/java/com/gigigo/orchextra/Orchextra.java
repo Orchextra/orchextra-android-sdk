@@ -27,39 +27,13 @@ import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeRec
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
-public class Orchextra {
+public final class Orchextra {
 
-    /**
-     * @param application
-     * @param orchextraCompletionCallback
-     */
-    public static synchronized void init(Application application,
-                                         final OrchextraCompletionCallback orchextraCompletionCallback) {
+    private Orchextra() {
+    }
 
-        enabledOrchextraNotificationPush(application);
-
-        OrchextraManager.sdkInit(application, new OrchextraManagerCompletionCallback() {
-            @Override
-            public void onSuccess() {
-                if (orchextraCompletionCallback != null) {
-                    orchextraCompletionCallback.onSuccess();
-                }
-            }
-
-            @Override
-            public void onError(String s) {
-                if (orchextraCompletionCallback != null) {
-                    orchextraCompletionCallback.onError(s);
-                }
-            }
-
-            @Override
-            public void onInit(String s) {
-                if (orchextraCompletionCallback != null) {
-                    orchextraCompletionCallback.onInit(s);
-                }
-            }
-        });
+    public static OrchextraBuilder Builder() {
+        return new OrchextraBuilder();
     }
 
     /**
@@ -89,10 +63,6 @@ public class Orchextra {
 
     }
 
-    public static synchronized void setImageRecognitionModule(ImageRecognition imageRecognitionModule) {
-        OrchextraManager.setImageRecognition(imageRecognitionModule);
-    }
-
     public static synchronized void startImageRecognition() {
         OrchextraManager.startImageRecognition();
     }
@@ -101,8 +71,8 @@ public class Orchextra {
         OrchextraManager.sdkStop();
     }
 
-    /**
-     * @param customSchemeReceiver
+    /** It gets custom schemes in our app
+     * @param customSchemeReceiver Callback with the scheme detected from Orchextra
      */
     public static synchronized void setCustomSchemeReceiver(final CustomSchemeReceiver customSchemeReceiver) {
         if (customSchemeReceiver != null) {
@@ -129,8 +99,47 @@ public class Orchextra {
     /**
      * @param orchextraLogLevel
      */
+    @Deprecated
     public static void setLogLevel(OrchextraLogLevel orchextraLogLevel) {
         OrchextraManager.setLogLevel(orchextraLogLevel);
     }
 
+    @Deprecated
+    public static synchronized void setImageRecognitionModule(ImageRecognition imageRecognitionModule) {
+        OrchextraManager.setImageRecognition(imageRecognitionModule);
+    }
+
+    /**
+     * @param application
+     * @param orchextraCompletionCallback
+     */
+    @Deprecated
+    public static synchronized void init(Application application,
+                                         final OrchextraCompletionCallback orchextraCompletionCallback) {
+
+        enabledOrchextraNotificationPush(application);
+
+        OrchextraManager.sdkInit(application, new OrchextraManagerCompletionCallback() {
+            @Override
+            public void onSuccess() {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onSuccess();
+                }
+            }
+
+            @Override
+            public void onError(String s) {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onError(s);
+                }
+            }
+
+            @Override
+            public void onInit(String s) {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onInit(s);
+                }
+            }
+        });
+    }
 }
