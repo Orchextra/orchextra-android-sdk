@@ -8,18 +8,8 @@ import com.gigigo.orchextra.sdk.OrchextraManager;
 
 public class OrchextraBuilder {
 
-    private String apiKey;
-    private String apiSecret;
     private OrchextraManagerCompletionCallback orchextraCompletionCallback;
 
-    /**
-     * Set the Api key and secret in Orchextra defined in the Orchextra dashboard
-     */
-//    public OrchextraBuilder setApiKeyAndSecret(String apiKey, String apiSecret) {
-//        this.apiKey = apiKey;
-//        this.apiSecret = apiSecret;
-//        return this;
-//    }
 
     /**
      * Callback status when orchextra is initialized

@@ -42,7 +42,6 @@ public class App extends Application implements OrchextraManagerCompletionCallba
                 .setLogLevel(OrchextraLogLevel.NETWORK)
                 .setOrchextraCompletionCallback(this)
                 .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
-//                .setApiKeyAndSecret(API_KEY, API_SECRET)
                 .initialize(this);
 
         Log.d("APP", "Hello Application, end onCreate");
