@@ -71,7 +71,7 @@ public class CrmValidator implements Validator<Crm> {
             }
         }
     }
-
+    @Deprecated
     private boolean tagIsNotValid(CrmTag tag) {
         boolean bReturn = false;
         try {

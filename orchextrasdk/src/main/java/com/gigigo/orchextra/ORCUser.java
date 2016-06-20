@@ -29,18 +29,21 @@ public class ORCUser {
     private final String crmId;
     private final GregorianCalendar birthdate;
     private final Gender gender;
+    @Deprecated
     private List<String> keywords;
+    @Deprecated
     private final List<ORCUserTag> tags;
 
-  /**
-   * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
-   * tracking in dashboard
-   * @param crmId Crm ID, can be the user name of your app
-   * @param birthdate user's birth date.
-   * @param gender user's male, using an enum
-   * @param keywords important words in order to segment specific actions
-   */
-    //TODO enable deprecation strategy when tags will be ready
+    /**
+     * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
+     * tracking in dashboard
+     *
+     * @param crmId     Crm ID, can be the user name of your app
+     * @param birthdate user's birth date.
+     * @param gender    user's male, using an enum
+     * @param keywords  important words in order to segment specific actions
+     */
+    @Deprecated
     public ORCUser(String crmId, GregorianCalendar birthdate, Gender gender, List<String> keywords) {
         this(crmId, birthdate, gender);
         this.keywords = keywords;
@@ -49,12 +52,14 @@ public class ORCUser {
     /**
      * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
      * tracking in dashboard
-     * @param crmId Crm ID, can be the user name of your app
+     *
+     * @param crmId     Crm ID, can be the user name of your app
      * @param birthdate user's birth date.
-     * @param gender user's male, using an enum
-     * @param tags important Tags in order to segment specific actions
+     * @param gender    user's male, using an enum
+     * @param tags      important Tags in order to segment specific actions
      */
-    public ORCUser(String crmId, GregorianCalendar birthdate, Gender gender, ORCUserTag...tags) {
+    @Deprecated
+    public ORCUser(String crmId, GregorianCalendar birthdate, Gender gender, ORCUserTag... tags) {
         this.crmId = crmId;
         this.birthdate = birthdate;
         this.gender = gender;
@@ -74,14 +79,17 @@ public class ORCUser {
         return gender;
     }
 
+    @Deprecated
     public List<String> getKeywords() {
         return keywords;
     }
 
+    @Deprecated
     public List<ORCUserTag> getTags() {
         return tags;
     }
-
+    //todo REFACTOR this must be a GenderType and must to encapsulate el value of this field in server, ORCGenderMale-->"male"
+    //OrcGenderConverter must be inside GenderType, i'm think
     public enum Gender {
         ORCGenderMale,
         ORCGenderFemale

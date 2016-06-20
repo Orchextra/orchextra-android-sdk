@@ -22,7 +22,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 
-
+@Deprecated
 public class ThemeRealmMapper implements Mapper<Theme, ThemeRealm> {
 
   @Override public ThemeRealm modelToExternalClass(Theme theme) {

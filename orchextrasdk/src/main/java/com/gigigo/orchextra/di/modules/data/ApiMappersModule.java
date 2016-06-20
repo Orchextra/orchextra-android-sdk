@@ -113,7 +113,7 @@ public class ApiMappersModule {
   ExternalClassToModelMapper provideActionScheduleResponseMapper(){
     return new ActionScheduledExternalClassToModelMapper();
   }
-
+  @Deprecated
   @Provides @Singleton ConfigApiExternalClassToModelMapper provideConfigApiResponseMapper(
       @BeaconResponse BeaconExternalClassToModelMapper beaconResponse,
       @GeofenceResponse GeofenceExternalClassToModelMapper geofenceResponseMapper,
@@ -128,7 +128,7 @@ public class ApiMappersModule {
   VuforiaExternalClassToModelMapper provideVuforiaResponseMapper(){
     return new VuforiaExternalClassToModelMapper();
   }
-
+  @Deprecated
   @Provides @Singleton @ThemeResponse ThemeExternalClassToModelMapper provideThemeResponseMapper(){
     return new ThemeExternalClassToModelMapper();
   }

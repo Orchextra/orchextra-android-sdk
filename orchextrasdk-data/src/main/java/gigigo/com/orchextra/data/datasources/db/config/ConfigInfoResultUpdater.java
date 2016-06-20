@@ -33,6 +33,7 @@ public class ConfigInfoResultUpdater {
   private final ConfigBeaconUpdater beaconUpdater;
   private final ConfigGeofenceUpdater geofenceUpdater;
   private final ConfigVuforiaUpdater vuforiaUpdater;
+  @Deprecated
   private final ConfigThemeUpdater themeUpdater;
 
   public ConfigInfoResultUpdater(ConfigBeaconUpdater beaconUpdater,

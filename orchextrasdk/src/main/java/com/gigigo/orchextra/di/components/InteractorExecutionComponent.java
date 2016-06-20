@@ -42,6 +42,7 @@ public interface InteractorExecutionComponent extends InteractorsModuleProvider 
     void injectBeaconEventsInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
     void injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
     void injectGeofenceProviderInteractorExecution(InteractorExecution<List<OrchextraGeofence>> interactorExecution);
+    @Deprecated
     void injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
     void injectObtainIrCredentialsInteractorExecution(InteractorExecution<Vuforia> interactorExecution);
     void injectScannerInteractorExecution(InteractorExecution<BasicAction> interactorExecution);

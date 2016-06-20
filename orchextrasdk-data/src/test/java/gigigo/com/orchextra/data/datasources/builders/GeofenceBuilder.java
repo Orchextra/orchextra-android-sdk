@@ -20,6 +20,7 @@ public class GeofenceBuilder {
     public static final int STAY = 3000;
     public static final Date CREATED = DateBuilder.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
     public static final Date UPDATED = DateBuilder.getCalendar(2014, Calendar.SEPTEMBER, 29, 18, 46, 19);
+    @Deprecated
     public static final String TAG_NAME = "tagName";
 
     public static final String CREATEDS = "2013-09-29T18:46:19Z";
@@ -35,6 +36,7 @@ public class GeofenceBuilder {
     private int stay = STAY;
     private Date created = CREATED;
     private Date updated = UPDATED;
+    @Deprecated
     private String tag = TAG_NAME;
 
     public static GeofenceBuilder Builder() {

@@ -29,7 +29,7 @@ import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
 
 
 public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
-
+  @Deprecated
   private final KeyWordRealmMapper keyWordRealmMapper;
 
   public CrmRealmMapper(KeyWordRealmMapper keyWordRealmMapper) {

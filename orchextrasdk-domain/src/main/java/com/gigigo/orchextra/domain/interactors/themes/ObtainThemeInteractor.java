@@ -24,11 +24,11 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import com.gigigo.orchextra.domain.services.themes.ThemeService;
-
+@Deprecated
 public class ObtainThemeInteractor implements Interactor<InteractorResponse<Theme>> {
-
+    @Deprecated
     private final ThemeService themeService;
-
+    @Deprecated
     public ObtainThemeInteractor(ThemeService themeService) {
         this.themeService = themeService;
     }

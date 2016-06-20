@@ -22,10 +22,10 @@ import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiTheme;
 
-
+@Deprecated
 public class ThemeExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiTheme, Theme> {
-
+  @Deprecated
   @Override public Theme externalClassToModel(ApiTheme apiTheme) {
     Theme theme = new Theme();
 

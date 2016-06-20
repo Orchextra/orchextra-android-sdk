@@ -97,7 +97,7 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
     }
     return new BusinessObject<>(regions, BusinessError.createOKInstance());
   }
-
+  @Deprecated
   @Override
   public BusinessObject<Theme> obtainTheme() {
     Realm realm = realmDefaultInstance.createRealmInstance(context);

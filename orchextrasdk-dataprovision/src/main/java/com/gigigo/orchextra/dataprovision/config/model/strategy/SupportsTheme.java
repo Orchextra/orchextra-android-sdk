@@ -21,7 +21,7 @@ package com.gigigo.orchextra.dataprovision.config.model.strategy;
 import com.gigigo.orchextra.domain.model.MethodSupported;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
-
+@Deprecated
 public interface SupportsTheme extends MethodSupported {
   Theme getTheme();
 }

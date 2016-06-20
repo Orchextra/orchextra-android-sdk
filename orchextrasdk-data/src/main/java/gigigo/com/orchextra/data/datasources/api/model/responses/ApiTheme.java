@@ -21,7 +21,7 @@ package gigigo.com.orchextra.data.datasources.api.model.responses;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
+@Deprecated
 public class ApiTheme {
 
   @Expose @SerializedName("primaryColor") private String primaryColor;

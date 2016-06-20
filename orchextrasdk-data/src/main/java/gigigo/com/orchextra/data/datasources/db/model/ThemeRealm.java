@@ -20,7 +20,7 @@ package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
 
-
+@Deprecated
 public class ThemeRealm extends RealmObject {
 
   private String primaryColor;

@@ -72,13 +72,13 @@ public class DBMapperModule {
     ClientAuthRealmMapper provideClientAuthRealmMapper() {
         return new ClientAuthRealmMapper();
     }
-
+    @Deprecated
     @Singleton
     @Provides
     KeyWordRealmMapper provideKeyWordRealmMapper() {
         return new KeyWordRealmMapper();
     }
-
+    @Deprecated
     @Singleton
     @Provides
     CrmRealmMapper provideCrmRealmMapper(KeyWordRealmMapper keyWordRealmMapper) {
@@ -122,7 +122,7 @@ public class DBMapperModule {
     Mapper<OrchextraPoint, RealmPoint> provideRealmMapperRealmPoint() {
         return new RealmPointMapper();
     }
-
+    @Deprecated
     @Singleton
     @Provides
     Mapper<OrchextraGeofence, GeofenceRealm> provideRealmMapperGeofenceRealm(Mapper<OrchextraPoint, RealmPoint> realmPointRealmMapper,
@@ -135,7 +135,7 @@ public class DBMapperModule {
     Mapper<Vuforia, VuforiaRealm> provideRealmMapperVuforiaRealm() {
         return new VuforiaRealmMapper();
     }
-
+    @Deprecated
     @Singleton
     @Provides
     Mapper<Theme, ThemeRealm> provideRealmMapperThemeRealm() {

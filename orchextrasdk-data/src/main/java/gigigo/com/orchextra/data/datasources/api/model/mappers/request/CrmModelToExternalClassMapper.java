@@ -52,7 +52,7 @@ public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper
 
     return apiCrm;
   }
-
+  @Deprecated
   private List<String> getTags(Crm crm) {
     List<String> tags = new ArrayList<>();
 

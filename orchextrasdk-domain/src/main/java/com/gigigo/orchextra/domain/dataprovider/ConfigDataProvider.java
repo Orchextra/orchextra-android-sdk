@@ -27,7 +27,7 @@ public interface ConfigDataProvider {
   BusinessObject sendConfigInfo(Config config);
 
   int obtainRequestTime();
-
+  @Deprecated
   BusinessObject<Theme> obtainTheme();
 
   BusinessObject<Boolean> removeLocalStorage();

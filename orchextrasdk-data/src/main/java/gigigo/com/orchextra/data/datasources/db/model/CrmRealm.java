@@ -25,49 +25,53 @@ import io.realm.annotations.PrimaryKey;
 
 public class CrmRealm extends RealmObject {
 
-  @PrimaryKey private int id;
-  private String crmId;
-  private String gender;
-  private String birthDate;
-  private RealmList<KeyWordRealm> keywords;
+    @PrimaryKey
+    private int id;
+    private String crmId;
+    private String gender;
+    private String birthDate;
+    @Deprecated
+    private RealmList<KeyWordRealm> keywords;
 
-  public String getCrmId() {
-    return crmId;
-  }
+    public String getCrmId() {
+        return crmId;
+    }
 
-  public void setCrmId(String crmId) {
-    this.crmId = crmId;
-  }
+    public void setCrmId(String crmId) {
+        this.crmId = crmId;
+    }
 
-  public String getGender() {
-    return gender;
-  }
+    public String getGender() {
+        return gender;
+    }
 
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-  public String getBirthDate() {
-    return birthDate;
-  }
+    public String getBirthDate() {
+        return birthDate;
+    }
 
-  public void setBirthDate(String birthDate) {
-    this.birthDate = birthDate;
-  }
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
 
-  public RealmList<KeyWordRealm> getKeywords() {
-    return keywords;
-  }
+    @Deprecated
+    public RealmList<KeyWordRealm> getKeywords() {
+        return keywords;
+    }
 
-  public void setKeywords(RealmList<KeyWordRealm> keywords) {
-    this.keywords = keywords;
-  }
+    @Deprecated
+    public void setKeywords(RealmList<KeyWordRealm> keywords) {
+        this.keywords = keywords;
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  public int getId() {
-    return id;
-  }
+    public int getId() {
+        return id;
+    }
 }

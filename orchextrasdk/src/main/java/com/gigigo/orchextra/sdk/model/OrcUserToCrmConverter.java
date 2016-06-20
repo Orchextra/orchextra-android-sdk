@@ -54,7 +54,7 @@ public class OrcUserToCrmConverter {
         }
         return crm;
     }
-
+    @Deprecated
     private List<String> obtainUserKeyWords(ORCUser user) {
 
         if (user.getKeywords() != null) {
@@ -70,7 +70,7 @@ public class OrcUserToCrmConverter {
         }
 
     }
-
+    @Deprecated
     private List<CrmTag> obtainUserTags(ORCUser user) {
 
         if (user.getTags() != null) {

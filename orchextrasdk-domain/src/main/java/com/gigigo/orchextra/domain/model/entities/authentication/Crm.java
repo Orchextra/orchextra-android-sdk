@@ -30,6 +30,7 @@ public class Crm {
   private Date birthDate;
   @Deprecated
   private List<String> keywords;
+  @Deprecated
   private List<CrmTag> tags;
 
   public Crm() {
@@ -78,11 +79,11 @@ public class Crm {
   public void setKeywords(List<String> keywords) {
     this.keywords = keywords;
   }
-
+  @Deprecated
   public List<CrmTag> getTags() {
     return tags;
   }
-
+  @Deprecated
   public void setTags(List<CrmTag> tags) {
     this.tags = tags;
   }

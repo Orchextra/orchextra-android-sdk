@@ -20,98 +20,120 @@ package gigigo.com.orchextra.data.datasources.api.model.responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 
 public abstract class ApiProximityPoint {
 
-  @Expose @SerializedName("code") private String code;
+    @Expose
+    @SerializedName("code")
+    private String code;
 
-  @Expose @SerializedName("name") private String name;
+    @Expose
+    @SerializedName("name")
+    private String name;
 
-  @Expose @SerializedName("tags") private List<String> tags;
+    @Expose
+    @SerializedName("tags")
+    @Deprecated
+    private List<String> tags;
 
-  @Expose @SerializedName("type") private String type;
+    @Expose
+    @SerializedName("type")
+    private String type;
 
-  @Expose @SerializedName("createdAt") private String createdAt;
+    @Expose
+    @SerializedName("createdAt")
+    private String createdAt;
 
-  @Expose @SerializedName("updatedAt") private String updatedAt;
+    @Expose
+    @SerializedName("updatedAt")
+    private String updatedAt;
 
-  @Expose @SerializedName("notifyOnExit") private boolean notifyOnExit;
+    @Expose
+    @SerializedName("notifyOnExit")
+    private boolean notifyOnExit;
 
-  @Expose @SerializedName("notifyOnEntry") private boolean notifyOnEntry;
+    @Expose
+    @SerializedName("notifyOnEntry")
+    private boolean notifyOnEntry;
 
-  @Expose @SerializedName("stayTime") private int stayTime;
+    @Expose
+    @SerializedName("stayTime")
+    private int stayTime;
 
-  public String getCode() {
-    return code;
-  }
+    public String getCode() {
+        return code;
+    }
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public List<String> getTags() {
-    return tags;
-  }
+    @Deprecated
+    public List<String> getTags() {
+        return tags;
+    }
 
-  public void setTags(List<String> tags) {
-    this.tags = tags;
-  }
+    @Deprecated
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
-  public String getCreatedAt() {
-    return createdAt;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public void setCreatedAt(String createdAt) {
-    this.createdAt = createdAt;
-  }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-  public void setUpdatedAt(String updatedAt) {
-    this.updatedAt = updatedAt;
-  }
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-  public boolean getNotifyOnExit() {
-    return notifyOnExit;
-  }
+    public boolean getNotifyOnExit() {
+        return notifyOnExit;
+    }
 
-  public void setNotifyOnExit(boolean notifyOnExit) {
-    this.notifyOnExit = notifyOnExit;
-  }
+    public void setNotifyOnExit(boolean notifyOnExit) {
+        this.notifyOnExit = notifyOnExit;
+    }
 
-  public boolean getNotifyOnEntry() {
-    return notifyOnEntry;
-  }
+    public boolean getNotifyOnEntry() {
+        return notifyOnEntry;
+    }
 
-  public void setNotifyOnEntry(boolean notifyOnEntry) {
-    this.notifyOnEntry = notifyOnEntry;
-  }
+    public void setNotifyOnEntry(boolean notifyOnEntry) {
+        this.notifyOnEntry = notifyOnEntry;
+    }
 
-  public int getStayTime() {
-    return stayTime;
-  }
+    public int getStayTime() {
+        return stayTime;
+    }
 
-  public void setStayTime(int stayTime) {
-    this.stayTime = stayTime;
-  }
+    public void setStayTime(int stayTime) {
+        this.stayTime = stayTime;
+    }
 
-  public String getType() {
-    return type;
-  }
+    public String getType() {
+        return type;
+    }
 
-  public void setType(String type) {
-    this.type = type;
-  }
+    public void setType(String type) {
+        this.type = type;
+    }
 }

@@ -20,58 +20,75 @@ package gigigo.com.orchextra.data.datasources.api.model.requests;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 
 public class ApiCrm {
 
-  @Expose @SerializedName("crmId") private String crmId;
+    @Expose
+    @SerializedName("crmId")
+    private String crmId;
 
-  @Expose @SerializedName("gender") private String gender;
+    @Expose
+    @SerializedName("gender")
+    private String gender;
 
-  @Expose @SerializedName("birthDate") private String birthDate;
+    @Expose
+    @SerializedName("birthDate")
+    private String birthDate;
 
-  @Expose @SerializedName("keywords") private List<String> keywords;
+    @Expose
+    @SerializedName("keywords")
+    @Deprecated
+    private List<String> keywords;
 
-  @Expose @SerializedName("tags") private List<String> tags;
+    @Expose
+    @SerializedName("tags")
+    @Deprecated
+    private List<String> tags;
 
-  public String getGender() {
-    return gender;
-  }
+    public String getGender() {
+        return gender;
+    }
 
-  public void setGender(String gender) {
-    this.gender = gender;
-  }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-  public String getBirthDate() {
-    return birthDate;
-  }
+    public String getBirthDate() {
+        return birthDate;
+    }
 
-  public void setBirthDate(String birthDate) {
-    this.birthDate = birthDate;
-  }
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
 
-  public List<String> getKeywords() {
-    return keywords;
-  }
+    @Deprecated
+    public List<String> getKeywords() {
+        return keywords;
+    }
 
-  public void setKeywords(List<String> keywords) {
-    this.keywords = keywords;
-  }
+    @Deprecated
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
 
-  public String getCrmId() {
-    return crmId;
-  }
+    public String getCrmId() {
+        return crmId;
+    }
 
-  public void setCrmId(String crmId) {
-    this.crmId = crmId;
-  }
+    public void setCrmId(String crmId) {
+        this.crmId = crmId;
+    }
 
-  public List<String> getTags() {
-    return tags;
-  }
+    @Deprecated
+    public List<String> getTags() {
+        return tags;
+    }
 
-  public void setTags(List<String> tags) {
-    this.tags = tags;
-  }
+    @Deprecated
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 }

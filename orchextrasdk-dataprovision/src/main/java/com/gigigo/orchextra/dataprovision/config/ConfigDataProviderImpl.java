@@ -72,7 +72,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
       return new BusinessObject<>(null, configResponse.getBusinessError());
     }
   }
-
+  @Deprecated
   @Override public int obtainRequestTime() {
     BusinessObject<ConfigInfoResult> bo = configDBDataSource.obtainConfigData();
     if (bo.isSuccess()) {
@@ -82,7 +82,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     }
   }
 
-  @Override
+  @Override @Deprecated
   public BusinessObject<Theme> obtainTheme() {
     return configDBDataSource.obtainTheme();
   }

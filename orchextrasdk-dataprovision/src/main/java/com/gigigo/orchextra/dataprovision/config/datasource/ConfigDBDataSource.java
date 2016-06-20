@@ -36,7 +36,7 @@ public interface ConfigDBDataSource {
   BusinessObject<OrchextraGeofence> obtainGeofenceById(String uuid);
 
   BusinessObject<List<OrchextraRegion>> obtainRegionsForScan();
-
+  @Deprecated
   BusinessObject<Theme> obtainTheme();
 
   BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister();

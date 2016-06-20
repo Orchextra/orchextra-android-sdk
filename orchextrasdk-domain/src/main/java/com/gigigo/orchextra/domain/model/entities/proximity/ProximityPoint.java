@@ -19,100 +19,103 @@
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
 import com.gigigo.orchextra.domain.model.ProximityPointType;
+
 import java.util.Date;
 import java.util.List;
 
 public class ProximityPoint {
 
-  private String id;
-  private String code;
-  private String name;
+    private String id;
+    private String code;
+    private String name;
     @Deprecated
-  private List<String> tags;
-  private ProximityPointType type;
-  private Date createdAt;
-  private Date updatedAt;
-  private boolean notifyOnExit;
-  private boolean notifyOnEntry;
-  private int stayTime;
+    private List<String> tags;
+    private ProximityPointType type;
+    private Date createdAt;
+    private Date updatedAt;
+    private boolean notifyOnExit;
+    private boolean notifyOnEntry;
+    private int stayTime;
 
-  public String getId() {
-    return id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String getCode() {
-    return code;
-  }
+    public String getCode() {
+        return code;
+    }
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-@Deprecated
-  public List<String> getTags() {
-    return tags;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Deprecated
-  public void setTags(List<String> tags) {
-    this.tags = tags;
-  }
+    public List<String> getTags() {
+        return tags;
+    }
 
-  public ProximityPointType getType() {
-    return type;
-  }
+    @Deprecated
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
-  public void setType(ProximityPointType type) {
-    this.type = type;
-  }
+    public ProximityPointType getType() {
+        return type;
+    }
 
-  public Date getCreatedAt() {
-    return createdAt;
-  }
+    public void setType(ProximityPointType type) {
+        this.type = type;
+    }
 
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 
-  public Date getUpdatedAt() {
-    return updatedAt;
-  }
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
-  }
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
 
-  public boolean isNotifyOnExit() {
-    return notifyOnExit;
-  }
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-  public void setNotifyOnExit(boolean notifyOnExit) {
-    this.notifyOnExit = notifyOnExit;
-  }
+    public boolean isNotifyOnExit() {
+        return notifyOnExit;
+    }
 
-  public boolean isNotifyOnEntry() {
-    return notifyOnEntry;
-  }
+    public void setNotifyOnExit(boolean notifyOnExit) {
+        this.notifyOnExit = notifyOnExit;
+    }
 
-  public void setNotifyOnEntry(boolean notifyOnEntry) {
-    this.notifyOnEntry = notifyOnEntry;
-  }
+    public boolean isNotifyOnEntry() {
+        return notifyOnEntry;
+    }
 
-  public int getStayTime() {
-    return stayTime;
-  }
+    public void setNotifyOnEntry(boolean notifyOnEntry) {
+        this.notifyOnEntry = notifyOnEntry;
+    }
 
-  public void setStayTime(int stayTime) {
-    this.stayTime = stayTime;
-  }
+    public int getStayTime() {
+        return stayTime;
+    }
+
+    public void setStayTime(int stayTime) {
+        this.stayTime = stayTime;
+    }
 }
