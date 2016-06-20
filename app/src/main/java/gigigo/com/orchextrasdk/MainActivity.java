@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new ORCUserTag("fasa", "teg tags a"),
                 new ORCUserTag("fasa", "yanosaleel:nullen el 105")};
 
-        //todo something like this, maybe we can put this kind of thing always and add the crm_user_id are setted
         String myCrmId = getApplicationContext().getPackageName();
         //
         /*ORCUserTag[] orcUserTagArray = new ORCUserTag[]{
