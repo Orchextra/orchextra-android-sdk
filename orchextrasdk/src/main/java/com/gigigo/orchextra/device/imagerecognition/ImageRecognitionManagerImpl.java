@@ -33,6 +33,7 @@ public class ImageRecognitionManagerImpl implements ImageRecognitionManager,
   private final OrchextraLogger orchextraLogger;
   private ImageRecognition imageRecognitionImplementation;
 
+
   public ImageRecognitionManagerImpl(ImageRecognitionController imageRecognitionController,
       ContextProvider contextProvider, OrchextraLogger orchextraLogger) {
     this.imageRecognitionController = imageRecognitionController;

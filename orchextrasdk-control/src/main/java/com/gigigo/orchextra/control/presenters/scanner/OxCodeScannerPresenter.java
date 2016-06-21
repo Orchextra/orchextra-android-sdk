@@ -24,6 +24,7 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.control.presenters.scanner.entities.ScannerResultPresenter;
 import com.gigigo.orchextra.control.presenters.scanner.entities.mapper.ScannerResultMapper;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
@@ -43,13 +44,15 @@ public class OxCodeScannerPresenter extends Presenter<OxCodeScannerView> {
     private final ScannerResultMapper scannerResultMapper;
     private final ActionDispatcher actionDispatcher;
     private final ThreadSpec mainThreadSpec;
+    private final OrchextraLogger mErrorLogger;
 
     public OxCodeScannerPresenter(ThreadSpec threadSpec,
                                   InteractorInvoker interactorInvoker,
                                   Provider<InteractorExecution> scannerInteractorExecutionProvider,
                                   ScannerResultMapper scannerResultMapper,
                                   ActionDispatcher actionDispatcher,
-                                  ThreadSpec mainThreadSpec) {
+                                  ThreadSpec mainThreadSpec,
+                                  OrchextraLogger errorLogger) {
         super();
 
         this.interactorInvoker = interactorInvoker;
@@ -57,6 +60,7 @@ public class OxCodeScannerPresenter extends Presenter<OxCodeScannerView> {
         this.scannerResultMapper = scannerResultMapper;
         this.actionDispatcher = actionDispatcher;
         this.mainThreadSpec = mainThreadSpec;
+        this.mErrorLogger=errorLogger;
     }
 
     @Override
@@ -79,9 +83,13 @@ public class OxCodeScannerPresenter extends Presenter<OxCodeScannerView> {
         }).error(GenericError.class, new InteractorResult<InteractorError>() {
             @Override
             public void onResult(InteractorError result) {
-
+            manageInteractorError(result);
             }
         }).execute(interactorInvoker);
+    }
+
+    private void manageInteractorError(InteractorError result) {
+        this.mErrorLogger.log(result.getError().getMessage());
     }
 
     private void executeActions(List<BasicAction> actions) {
