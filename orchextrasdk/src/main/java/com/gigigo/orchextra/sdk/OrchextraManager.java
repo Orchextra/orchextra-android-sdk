@@ -23,6 +23,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
@@ -41,8 +42,8 @@ import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
@@ -53,6 +54,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
+
 import orchextra.javax.inject.Inject;
 
 public class OrchextraManager {
@@ -97,6 +99,8 @@ public class OrchextraManager {
         if (OrchextraManager.instance!=null &&
                 AndroidSdkVersion.hasJellyBean18()) {
             OrchextraManager.instance.start(apiKey, apiSecret);
+        } else {
+            Log.e("Orchextra", "PAY ATTENTION: Orchextra is NOT INITIALIZED. You HAVE TO initialize Orchextra on the onCreate method in the Application. You must be call the init method BEFORE you call the start method.");
         }
     }
 

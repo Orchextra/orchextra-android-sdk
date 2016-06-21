@@ -21,10 +21,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.gigigo.orchextra.CustomSchemeReceiver;
-import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
-import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 
 public class App extends Application implements OrchextraManagerCompletionCallback, CustomSchemeReceiver {
@@ -38,11 +35,13 @@ public class App extends Application implements OrchextraManagerCompletionCallba
 
         Log.d("APP", "Hello Application, start onCreate");
 
-        Orchextra.Builder()
-                .setLogLevel(OrchextraLogLevel.NETWORK)
-                .setOrchextraCompletionCallback(this)
-                .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
-                .initialize(this);
+//        Orchextra.Builder()
+//                .setLogLevel(OrchextraLogLevel.NETWORK)
+//                .setOrchextraCompletionCallback(this)
+//                .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
+//                .initialize(this);
+//
+//        Orchextra.setCustomSchemeReceiver(this);
 
         Log.d("APP", "Hello Application, end onCreate");
     }

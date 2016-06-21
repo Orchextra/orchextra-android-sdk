@@ -35,7 +35,6 @@ public final class Orchextra {
      */
     public static synchronized void start(String apiKey, String apiSecret) {
         OrchextraManager.sdkStart(apiKey, apiSecret);
-
     }
 
     public static synchronized void startImageRecognition() {
