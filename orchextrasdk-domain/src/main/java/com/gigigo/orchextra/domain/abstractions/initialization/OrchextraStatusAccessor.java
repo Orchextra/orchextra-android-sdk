@@ -34,7 +34,11 @@ public interface OrchextraStatusAccessor {
    * again authentication.
    * @throws RuntimeException
    */
-  StartStatusType setStartedStatus(String apiKey, String apiSecret) throws RuntimeException;
+  StartStatusType getOrchextraStatusWhenReinitMode(String apiKey, String apiSecret) throws RuntimeException;
+
+  StartStatusType getOrchextraStatusWhenStartMode() throws RuntimeException;
+
+  boolean hasCredentials();
 
   /**
    * Checks if sdk status is already started
@@ -47,6 +51,8 @@ public interface OrchextraStatusAccessor {
    * sets sdk status as stopped
    */
   void setStoppedStatus();
+
+  void saveCredentials(String apiKey, String apiSecret);
 
   //region TODO
   //TODO move CRM and Session management here

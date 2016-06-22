@@ -43,18 +43,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Log.d("APP", "Hello MainActivity, start onCreate");
+
         Button button = (Button) findViewById(R.id.button);
         Button button2 = (Button) findViewById(R.id.button2);
         button.setOnClickListener(this);
         button2.setOnClickListener(this);
+
         Log.d("APP", "Hello MainActivity, end onCreate");
 
         button3 = (Button) findViewById(R.id.button3);
         button3.setOnClickListener(this);
 
         statusText = (TextView) findViewById(R.id.statusText);
-
 
         startOrchextra();
         startAppoxee();
@@ -190,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                Orchextra.start(App.API_KEY, App.API_SECRET);
+                Orchextra.start();
             }
         });
 

@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.BuildConfig;
+import com.gigigo.orchextra.control.controllers.status.OrchextraStatusManagerImp;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
@@ -37,6 +38,7 @@ import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
 import com.gigigo.orchextra.domain.Validator;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.invoker.InteractorInvokerImp;
 import com.gigigo.orchextra.domain.invoker.InteractorOutputThreadFactory;
 import com.gigigo.orchextra.domain.invoker.InteractorPriorityBlockingQueue;
@@ -44,6 +46,8 @@ import com.gigigo.orchextra.domain.invoker.LogExceptionHandler;
 import com.gigigo.orchextra.domain.invoker.PriorizableThreadPoolExecutor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.services.auth.CrmValidator;
+import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
+import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import java.util.concurrent.BlockingQueue;
@@ -70,6 +74,13 @@ public class DomainModule {
     @Singleton
     Session provideSession() {
         return new Session(BuildConfig.TOKEN_TYPE_BEARER);
+    }
+
+    @Provides @Singleton
+    OrchextraStatusManager provideOrchextraStatusManager(Session session,
+                                                         LoadOrchextraServiceStatus loadOrchextraServiceStatus,
+                                                         UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
+        return new OrchextraStatusManagerImp(session, loadOrchextraServiceStatus, updateOrchextraServiceStatus);
     }
 
     @Provides

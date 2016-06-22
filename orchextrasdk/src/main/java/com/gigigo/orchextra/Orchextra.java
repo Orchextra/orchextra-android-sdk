@@ -25,16 +25,21 @@ public final class Orchextra {
     private Orchextra() {
     }
 
-    public static OrchextraBuilder Builder() {
-        return new OrchextraBuilder();
+    public static void initialize(OrchextraBuilder orchextraBuilder) {
+        OrchextraManager.checkInitMethodCall(orchextraBuilder.getApplication(), orchextraBuilder.getOrchextraCompletionCallback());
+
+        OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
+        OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraBuilder.getOrchextraCompletionCallback());
+        OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
+        OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
     }
 
-    /**
-     * @param apiKey
-     * @param apiSecret
-     */
-    public static synchronized void start(String apiKey, String apiSecret) {
-        OrchextraManager.sdkStart(apiKey, apiSecret);
+    public static void start() {
+        OrchextraManager.sdkStart();
+    }
+
+    public static synchronized void reinit(String apiKey, String apiSecret) {
+        OrchextraManager.sdkReinit(apiKey, apiSecret);
     }
 
     public static synchronized void startImageRecognition() {
@@ -45,9 +50,6 @@ public final class Orchextra {
         OrchextraManager.sdkStop();
     }
 
-    /** It gets custom schemes in our app
-     * @param customSchemeReceiver Callback with the scheme detected from Orchextra
-     */
     public static synchronized void setCustomSchemeReceiver(final CustomSchemeReceiver customSchemeReceiver) {
         if (customSchemeReceiver != null) {
             OrchextraManager.setCustomSchemeReceiver(new CustomOrchextraSchemeReceiver() {
@@ -59,9 +61,6 @@ public final class Orchextra {
         }
     }
 
-    /**
-     * @param orcUser
-     */
     public static synchronized void setUser(ORCUser orcUser) {
         OrchextraManager.setUser(orcUser);
     }

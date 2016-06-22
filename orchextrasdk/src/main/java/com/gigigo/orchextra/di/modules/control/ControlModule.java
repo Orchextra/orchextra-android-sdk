@@ -36,13 +36,11 @@ import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
-import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
-import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
@@ -86,13 +84,9 @@ public class ControlModule {
         errorLogger);
   }
 
-  @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(
-      Session session, LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-      UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
-      ErrorLogger errorLogger){
+  @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(OrchextraStatusManager orchextraStatusManager){
 
-    return new OrchextraStatusAccessorAccessorImpl(session, loadOrchextraServiceStatus,
-        updateOrchextraServiceStatus, errorLogger);
+    return new OrchextraStatusAccessorAccessorImpl(orchextraStatusManager);
   }
 
   @Singleton @Provides @MainThread ThreadSpec provideMainThread(){
