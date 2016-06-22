@@ -50,74 +50,89 @@ import orchextra.dagger.Provides;
 @Module(includes = {BluetoothModule.class, ActionsModule.class, NotificationsModule.class, GeolocationModule.class, ImageRecognitionModule.class})
 public class DeviceModule {
 
-  @Singleton @Provides
-  ForegroundTasksManager provideBackgroundTasksManager(OrchextraTasksManager orchextraTasksManager,
-      PermissionChecker permissionChecker, ContextProvider contextProvider){
-    return new ForegroundTasksManagerImpl(orchextraTasksManager, permissionChecker, contextProvider);
-  }
+    @Singleton
+    @Provides
+    ForegroundTasksManager provideBackgroundTasksManager(OrchextraTasksManager orchextraTasksManager,
+                                                         PermissionChecker permissionChecker, ContextProvider contextProvider) {
+        return new ForegroundTasksManagerImpl(orchextraTasksManager, permissionChecker, contextProvider);
+    }
 
-  @Singleton @Provides
-  OrchextraTasksManager provideOrchextraTasksManager(BeaconScanner beaconScanner,
-      ConfigDelegateImp configDelegateImp, GeofenceRegister geofenceRegister, OrchextraLogger orchextraLogger){
-    return  new OrchextraTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister, orchextraLogger);
-  }
+    @Singleton
+    @Provides
+    OrchextraTasksManager provideOrchextraTasksManager(BeaconScanner beaconScanner,
+                                                       ConfigDelegateImp configDelegateImp, GeofenceRegister geofenceRegister, OrchextraLogger orchextraLogger) {
+        return new OrchextraTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister, orchextraLogger);
+    }
 
-  @Singleton
-  @Provides
-  GoogleApiPermissionChecker provideGoogleApiPermissionChecker(ContextProvider contextProvider,
-                                                               FeatureListener featureListener) {
-    return new GoogleApiPermissionChecker(contextProvider.getApplicationContext(), featureListener);
-  }
+    @Singleton
+    @Provides
+    GoogleApiPermissionChecker provideGoogleApiPermissionChecker(ContextProvider contextProvider,
+                                                                 FeatureListener featureListener) {
+        return new GoogleApiPermissionChecker(contextProvider.getApplicationContext(), featureListener);
+    }
 
-  @Provides PermissionChecker providePermissionChecker(ContextProvider contextProvider) {
-    return new AndroidPermissionCheckerImpl(contextProvider.getApplicationContext(), contextProvider);
-  }
+    @Provides
+    PermissionChecker providePermissionChecker(ContextProvider contextProvider) {
+        return new AndroidPermissionCheckerImpl(contextProvider.getApplicationContext(), contextProvider);
+    }
 
-  @Singleton
-  @Provides PermissionLocationImp providePermissionLocationImp() {
-    return new PermissionLocationImp();
-  }
+    @Singleton
+    @Provides
+    PermissionLocationImp providePermissionLocationImp() {
+        return new PermissionLocationImp();
+    }
 
-  @Singleton
-  @Provides
-  PermissionCameraImp providePermissionCameraImp() {
-    return new PermissionCameraImp();
-  }
+    @Singleton
+    @Provides
+    PermissionCameraImp providePermissionCameraImp() {
+        return new PermissionCameraImp();
+    }
 
-  @Singleton
-  @Provides
-  GoogleApiClientConnector provideGoogleApiClientConnector(ContextProvider contextProvider,
-                                                              GoogleApiPermissionChecker googleApiPermissionChecker,
-                                                              OrchextraLogger orchextraLogger) {
+    @Singleton
+    @Provides
+    GoogleApiClientConnector provideGoogleApiClientConnector(ContextProvider contextProvider,
+                                                             GoogleApiPermissionChecker googleApiPermissionChecker,
+                                                             OrchextraLogger orchextraLogger) {
 
-    return new GoogleApiClientConnectorImp(contextProvider, googleApiPermissionChecker,
-        orchextraLogger);
-  }
+        return new GoogleApiClientConnectorImp(contextProvider, googleApiPermissionChecker,
+                orchextraLogger);
+    }
 
-  @Singleton
-  @Provides AndroidApp provideAndroidApp() {
-    return new AndroidApp();
-  }
+    @Singleton
+    @Provides
+    AndroidApp provideAndroidApp() {
+        return new AndroidApp();
+    }
 
-  @Singleton
-  @Provides AndroidDevice provideAndroidDevice(ContextProvider contextProvider,
-                                               AndroidInstanceIdProvider androidInstanceIdProvider) {
-    return new AndroidDevice(contextProvider.getApplicationContext(), androidInstanceIdProvider);
-  }
+    @Singleton
+    @Provides
+    AndroidDevice provideAndroidDevice(ContextProvider contextProvider,
+                                       AndroidInstanceIdProvider androidInstanceIdProvider) {
+        return new AndroidDevice(contextProvider.getApplicationContext(), androidInstanceIdProvider);
+    }
 
-  @Singleton
-  @Provides ErrorLogger provideErrorLogger(final OrchextraLogger orchextraLogger) {
-    return new ErrorLogger() {
-      @Override public void log(BusinessError businessError) {
-        //TODO SEE WHY ERROR TEXT HERE IS NULL AND WRITE SOMETHING DIFFERENT
-        orchextraLogger.log(businessError.getMessage(), OrchextraSDKLogLevel.ERROR);
-      }
+    @Singleton
+    @Provides
+    ErrorLogger provideErrorLogger(final OrchextraLogger orchextraLogger) {
+        return new ErrorLogger() {
+            @Override
+            public void log(BusinessError businessError) {
+                //When we change the credentials the server say {"status":false,"error":{"code":401}}
+                // instead {"status":false,"error":{"message":"Error.","code":403}}
+                //no error messages come from server
+                if (businessError.getMessage() != null)
+                    orchextraLogger.log(businessError.getMessage(), OrchextraSDKLogLevel.ERROR);
+                else
+                    orchextraLogger.log("Error: " + businessError.getCode(), OrchextraSDKLogLevel.ERROR);
 
-      @Override public void log(String message) {
-        orchextraLogger.log(message, OrchextraSDKLogLevel.ERROR);
-      }
-    };
-  }
+            }
+
+            @Override
+            public void log(String message) {
+                orchextraLogger.log(message, OrchextraSDKLogLevel.ERROR);
+            }
+        };
+    }
 
 
 }

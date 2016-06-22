@@ -64,20 +64,14 @@ android {
     buildConfigField STRING, "IBEACON_LAYOUT_PARSING", '"m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"'
 
     buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
-    buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
   }
-
 
   buildTypes {
     debug{
-      buildConfigField BOOLEAN, "RETROFIT_LOG", "true"
       buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
     }
-
     release {
-      buildConfigField BOOLEAN, "RETROFIT_LOG", "false" //todo delete this
       buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
-
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
     }
@@ -90,6 +84,7 @@ android {
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
     targetCompatibility JavaVersion.VERSION_1_7
+    incremental false //this is for do Clean pre any Build, do it 4 prevent Dagger no-true-errors
   }
 
   lintOptions {

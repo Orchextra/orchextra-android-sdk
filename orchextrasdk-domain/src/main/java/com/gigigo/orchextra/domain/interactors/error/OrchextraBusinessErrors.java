@@ -17,7 +17,7 @@
  */
 
 package com.gigigo.orchextra.domain.interactors.error;
-
+//refactor,esto deberia ser type
 public enum OrchextraBusinessErrors {
   NO_AUTH_EXPIRED(401),
   NO_AUTH_CREDENTIALS(403),

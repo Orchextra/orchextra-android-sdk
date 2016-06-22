@@ -124,7 +124,9 @@ public class ApiModule {
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
         okHttpClientBuilder.addInterceptor(headersInterceptor);
 
-       // if (retrofitLog){
+
+
+
         if (orchextraLogger.isNetworkLoggingLevelEnabled()){
             okHttpClientBuilder.addInterceptor(loggingInterceptor);
         }

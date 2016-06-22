@@ -34,17 +34,18 @@ public enum ScannerType {
         this.type = type;
     }
 
-    public String getStringValue() {
+    public String toString() {
         return type;
     }
 
     public static ScannerType getScannerTypeFromString(String scannerTypeString) {
         for (ScannerType scannerType : ScannerType.values()) {
-            if (scannerType.getStringValue().equals(scannerTypeString)) {
+            if (scannerType.toString().equals(scannerTypeString)) {
                 return scannerType;
             }
         }
         return BARCODE;
     }
+
 
 }

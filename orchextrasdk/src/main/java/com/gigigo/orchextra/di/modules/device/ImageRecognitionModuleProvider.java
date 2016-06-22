@@ -21,5 +21,6 @@ package com.gigigo.orchextra.di.modules.device;
 import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionManager;
 
 public interface ImageRecognitionModuleProvider {
+
   ImageRecognitionManager provideImageRecognitionManager();
 }

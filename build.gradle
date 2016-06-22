@@ -20,6 +20,8 @@
 apply from: 'dependencies.gradle'
 apply from: 'gradle/jacoco.gradle'
 
+
+
 buildscript {
   repositories {
     maven {
@@ -28,6 +30,7 @@ buildscript {
     jcenter()
     mavenCentral()
   }
+
   dependencies {
     classpath 'com.android.tools.build:gradle:2.1.0'
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -102,7 +105,15 @@ subprojects {
 task wrapper(type: Wrapper) {
   gradleVersion = '2.12'
 }
-
-task clean(type: Delete) {
-  delete rootProject.buildDir
-}
+/* add task clean in before run in project configuration
+task cleanAll(type: Delete) {
+  println("Clean OX Executed")
+  subprojects.each {
+    it.afterEvaluate {
+      def cleanTask = it.tasks.findByName('clean')
+      if (cleanTask) {
+        dependsOn(cleanTask)
+      }
+    }
+  }
+}*/
