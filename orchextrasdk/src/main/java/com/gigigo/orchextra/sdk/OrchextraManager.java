@@ -19,8 +19,11 @@ package com.gigigo.orchextra.sdk;
 
 import android.annotation.TargetApi;
 import android.app.Application;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
@@ -33,13 +36,14 @@ import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedExceptio
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
 import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionManager;
+import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
@@ -50,6 +54,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
+
 import orchextra.javax.inject.Inject;
 
 public class OrchextraManager {
@@ -94,6 +99,8 @@ public class OrchextraManager {
         if (OrchextraManager.instance!=null &&
                 AndroidSdkVersion.hasJellyBean18()) {
             OrchextraManager.instance.start(apiKey, apiSecret);
+        } else {
+            Log.e("Orchextra", "PAY ATTENTION: Orchextra is NOT INITIALIZED. You HAVE TO initialize Orchextra on the onCreate method in the Application. You must be call the init method BEFORE you call the start method.");
         }
     }
 
@@ -178,6 +185,7 @@ public class OrchextraManager {
     private void init(Application app, OrchextraManagerCompletionCallback completionCallback) {
 
         orchextraCompletionCallback = completionCallback;
+        enabledOrchextraNotificationPush(app);
 
         if (AndroidSdkVersion.hasJellyBean18()){
             initDependencyInjection(app.getApplicationContext(), completionCallback);
@@ -292,6 +300,24 @@ public class OrchextraManager {
     public static void startImageRecognition(){
         if (OrchextraManager.instance != null) {
             OrchextraManager.instance.imageRecognitionManager.startImageRecognition();
+        }
+    }
+
+    /**
+     * this method enabled or disabled the service with the intent-filter for RECEIVER the push, this is necesary
+     * //because you must to declare always in the manifest file, you can not do it with code. Beacause that we
+     * //keep the service OrchextraGcmListenerService and the intent filter in manifest, but weenabled or disabled
+     * the service if the sender ID in Orchextra are not setted
+     */
+    private static void enabledOrchextraNotificationPush(Application application) {
+
+        String senderID = application.getApplicationContext().getString(R.string.ox_notifications_GCM_sender_id);
+        if (senderID.equals(application.getApplicationContext().getString(R.string.ox_notifications_demo_GCM_sender_id))) {
+            ComponentName component = new ComponentName(application, OrchextraGcmListenerService.class);
+            application.getPackageManager().setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        } else {
+            ComponentName component = new ComponentName(application, OrchextraGcmListenerService.class);
+            application.getPackageManager().setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
         }
     }
 }
