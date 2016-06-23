@@ -60,7 +60,7 @@ public class OxCodeScannerPresenter extends Presenter<OxCodeScannerView> {
         this.scannerResultMapper = scannerResultMapper;
         this.actionDispatcher = actionDispatcher;
         this.mainThreadSpec = mainThreadSpec;
-        this.mErrorLogger=errorLogger;
+        this.mErrorLogger = errorLogger;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class OxCodeScannerPresenter extends Presenter<OxCodeScannerView> {
         }).error(GenericError.class, new InteractorResult<InteractorError>() {
             @Override
             public void onResult(InteractorError result) {
-            manageInteractorError(result);
+                manageInteractorError(result);
             }
         }).execute(interactorInvoker);
     }
@@ -95,7 +95,8 @@ public class OxCodeScannerPresenter extends Presenter<OxCodeScannerView> {
     private void executeActions(List<BasicAction> actions) {
         for (final BasicAction action : actions) {
             mainThreadSpec.execute(new Runnable() {
-                @Override public void run() {
+                @Override
+                public void run() {
                     action.performAction(actionDispatcher);
                 }
             });

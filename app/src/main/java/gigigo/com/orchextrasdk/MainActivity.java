@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                Orchextra.start(App.API_KEY, App.API_SECRET);
+                Orchextra.start();
             }
         });
 

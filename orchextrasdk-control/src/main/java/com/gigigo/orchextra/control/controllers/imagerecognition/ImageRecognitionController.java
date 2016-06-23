@@ -54,7 +54,7 @@ public class ImageRecognitionController {
                                       ThreadSpec mainThreadSpec,
                                       ScannerResultMapper scannerResultMapper,
                                       OrchextraLogger errorLogger
-                            ) {
+    ) {
 
         this.interactorInvoker = interactorInvoker;
         this.getImageRecognitionCredentialsExecutionProvider = getImageRecognitionCredentialsExecutionProvider;
@@ -62,7 +62,7 @@ public class ImageRecognitionController {
         this.actionDispatcher = actionDispatcher;
         this.mainThreadSpec = mainThreadSpec;
         this.mScannerResultMapper = scannerResultMapper;
-        this.mErrorLogger=errorLogger;
+        this.mErrorLogger = errorLogger;
     }
 
     public void getCredentials(final OnImageRecognitionCredentialsReadyListener listener) {
@@ -83,6 +83,7 @@ public class ImageRecognitionController {
 
     /**
      * This method makes de call for send the info to the server
+     *
      * @param patternId value of identificate pattern to send
      */
     public void recognizedPattern(String patternId) {
@@ -98,14 +99,17 @@ public class ImageRecognitionController {
                 executeActions(actions);
             }
         }).error(GenericError.class, new InteractorResult<GenericError>() {
-            @Override public void onResult(GenericError result) {
+            @Override
+            public void onResult(GenericError result) {
                 manageGenericError(result);
             }
         }).execute(interactorInvoker);
     }
+
     private void manageGenericError(GenericError result) {
         mErrorLogger.log(result.getError().toString());
     }
+
     private ScannerResult obtainMappedScannerResult(String patternId) {
         final ScannerResultPresenter scanResult = new ScannerResultPresenter();
         scanResult.setContent(patternId);
