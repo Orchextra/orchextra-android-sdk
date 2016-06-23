@@ -38,8 +38,8 @@ public final class Orchextra {
         OrchextraManager.sdkStart();
     }
 
-    public static synchronized void reinit(String apiKey, String apiSecret) {
-        OrchextraManager.sdkReinit(apiKey, apiSecret);
+    public static synchronized void changeCredentials(String apiKey, String apiSecret) {
+        OrchextraManager.changeCredentials(apiKey, apiSecret);
     }
 
     public static synchronized void startImageRecognition() {

@@ -4,6 +4,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusMa
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
+import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsService;
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 
@@ -12,15 +13,18 @@ public class OrchextraStatusManagerImp implements OrchextraStatusManager {
     private final Session session;
     private final LoadOrchextraServiceStatus loadOrchextraServiceStatus;
     private final UpdateOrchextraServiceStatus updateOrchextraServiceStatus;
+    private final ClearOrchextraCredentialsService clearOrchextraCredentialsService;
 
     private OrchextraStatus orchextraStatus = null;
 
     public OrchextraStatusManagerImp(Session session,
                                      LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-                                     UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
+                                     UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
+                                     ClearOrchextraCredentialsService clearOrchextraCredentialsService) {
         this.session = session;
         this.loadOrchextraServiceStatus = loadOrchextraServiceStatus;
         this.updateOrchextraServiceStatus = updateOrchextraServiceStatus;
+        this.clearOrchextraCredentialsService = clearOrchextraCredentialsService;
     }
 
     @Override
@@ -32,8 +36,11 @@ public class OrchextraStatusManagerImp implements OrchextraStatusManager {
 
     @Override
     public void changeSdkCredentials(String apiKey, String apiSecret) {
+        clearSdkCredentials();
+
         loadOrchextraStatus();
         session.setAppParams(apiKey, apiSecret);
+        session.setTokenString(null);
         orchextraStatus.setSession(session);
         updateOrchextraStatus();
     }
@@ -113,6 +120,11 @@ public class OrchextraStatusManagerImp implements OrchextraStatusManager {
             this.orchextraStatus = response.getResult();
         }
     }
+
+    private void clearSdkCredentials() {
+        clearOrchextraCredentialsService.clearSdkCredentials();
+    }
+
     //endregion
 
 

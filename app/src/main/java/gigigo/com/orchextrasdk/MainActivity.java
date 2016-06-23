@@ -14,7 +14,6 @@ import com.appoxee.asyncs.initAsync;
 import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.ORCUserTag;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

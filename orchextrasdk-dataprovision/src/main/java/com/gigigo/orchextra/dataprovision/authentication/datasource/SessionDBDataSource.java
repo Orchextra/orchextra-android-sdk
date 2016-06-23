@@ -47,4 +47,6 @@ public interface SessionDBDataSource {
   boolean storeCrm(Crm crm);
 
   void clearAuthenticatedUser();
+
+  void clearAuthenticatedSdk();
 }

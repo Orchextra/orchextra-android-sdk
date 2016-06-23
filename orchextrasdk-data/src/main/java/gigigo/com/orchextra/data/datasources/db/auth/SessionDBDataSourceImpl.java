@@ -19,6 +19,7 @@
 package gigigo.com.orchextra.data.datasources.db.auth;
 
 import android.content.Context;
+
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
@@ -27,9 +28,12 @@ import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
+
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
+import gigigo.com.orchextra.data.datasources.db.model.SdkAuthCredentialsRealm;
+import gigigo.com.orchextra.data.datasources.db.model.SdkAuthRealm;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
 
@@ -207,6 +211,23 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     try {
       realm.beginTransaction();
       realm.delete(ClientAuthRealm.class);
+    } catch (RealmException re) {
+
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public void clearAuthenticatedSdk() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    try {
+      realm.beginTransaction();
+      realm.delete(SdkAuthCredentialsRealm.class);
+      realm.delete(SdkAuthRealm.class);
     } catch (RealmException re) {
 
     } finally {

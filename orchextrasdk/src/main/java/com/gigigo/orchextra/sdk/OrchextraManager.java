@@ -142,10 +142,10 @@ public class OrchextraManager {
      * @param apiKey    credentials
      * @param apiSecret credentials
      */
-    public static synchronized void sdkReinit(String apiKey, String apiSecret) {
+    public static synchronized void changeCredentials(String apiKey, String apiSecret) {
         if (AndroidSdkVersion.hasJellyBean18()) {
             if (OrchextraManager.instance != null) {
-                OrchextraManager.instance.reinitOrchextra(apiKey, apiSecret);
+                OrchextraManager.instance.changeOrchextraCredentials(apiKey, apiSecret);
             } else {
                 showInitializationError();
             }
@@ -337,7 +337,7 @@ public class OrchextraManager {
      * @param apiKey
      * @param apiSecret
      */
-    private void reinitOrchextra(String apiKey, String apiSecret) {
+    private void changeOrchextraCredentials(String apiKey, String apiSecret) {
         Exception exception = null;
         try {
             StartStatusType status = orchextraStatusAccessor.getOrchextraStatusWhenReinitMode(apiKey, apiSecret);
@@ -347,6 +347,7 @@ public class OrchextraManager {
             }
 
             if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS) {
+                start();
                 //TODO restart or call any service???
             }
 

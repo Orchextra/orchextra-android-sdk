@@ -79,6 +79,10 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
     return sessionToken;
   }
 
+  @Override public void clearAuthenticatedSdk() {
+    sessionDBDataSource.clearAuthenticatedSdk();
+  }
+
   @Override public void clearAuthenticatedUser() {
     sessionDBDataSource.clearAuthenticatedUser();
   }

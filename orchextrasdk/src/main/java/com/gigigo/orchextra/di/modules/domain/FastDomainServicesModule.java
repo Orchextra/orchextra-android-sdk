@@ -17,7 +17,9 @@
  */
 package com.gigigo.orchextra.di.modules.domain;
 
+import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
+import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsService;
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import orchextra.dagger.Module;
@@ -36,5 +38,11 @@ public class FastDomainServicesModule {
   @Provides @Singleton UpdateOrchextraServiceStatus provideUpdateOrchextraServiceStatus(
       OrchextraStatusDataProvider orchextraStatusDataProvider){
     return new UpdateOrchextraServiceStatus(orchextraStatusDataProvider);
+  }
+
+  @Provides @Singleton
+  ClearOrchextraCredentialsService provideClearOrchextraCredentialsService(
+          AuthenticationDataProvider authenticationDataProvider) {
+    return new ClearOrchextraCredentialsService(authenticationDataProvider);
   }
 }

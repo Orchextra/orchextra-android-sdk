@@ -30,6 +30,8 @@ public interface AuthenticationDataProvider {
 
   BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId);
 
+  void clearAuthenticatedSdk();
+
   void clearAuthenticatedUser();
 
   BusinessObject<ClientAuthData> getCredentials();

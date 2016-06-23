@@ -46,6 +46,7 @@ import com.gigigo.orchextra.domain.invoker.LogExceptionHandler;
 import com.gigigo.orchextra.domain.invoker.PriorizableThreadPoolExecutor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.services.auth.CrmValidator;
+import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsService;
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 import com.gigigo.orchextra.sdk.OrchextraManager;
@@ -79,8 +80,10 @@ public class DomainModule {
     @Provides @Singleton
     OrchextraStatusManager provideOrchextraStatusManager(Session session,
                                                          LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-                                                         UpdateOrchextraServiceStatus updateOrchextraServiceStatus) {
-        return new OrchextraStatusManagerImp(session, loadOrchextraServiceStatus, updateOrchextraServiceStatus);
+                                                         UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
+                                                         ClearOrchextraCredentialsService clearOrchextraCredentialsService) {
+        return new OrchextraStatusManagerImp(session, loadOrchextraServiceStatus,
+                updateOrchextraServiceStatus, clearOrchextraCredentialsService);
     }
 
     @Provides
