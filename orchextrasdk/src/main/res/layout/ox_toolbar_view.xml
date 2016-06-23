@@ -26,6 +26,7 @@
     android:elevation="4dp"
     android:minHeight="?attr/actionBarSize"
     android:orientation="horizontal"
+
     >
 
   <ImageView

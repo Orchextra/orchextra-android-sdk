@@ -17,8 +17,11 @@
  */
 package com.gigigo.orchextra;
 
+import android.webkit.WebView;
+
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.sdk.OrchextraManager;
+import com.gigigo.orchextra.ui.webview.OxWebView;
 
 public final class Orchextra {
 
@@ -45,7 +48,9 @@ public final class Orchextra {
         OrchextraManager.sdkStop();
     }
 
-    /** It gets custom schemes in our app
+    /**
+     * It gets custom schemes in our app
+     *
      * @param customSchemeReceiver Callback with the scheme detected from Orchextra
      */
     public static synchronized void setCustomSchemeReceiver(final CustomSchemeReceiver customSchemeReceiver) {

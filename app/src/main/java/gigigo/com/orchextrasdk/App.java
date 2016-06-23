@@ -24,6 +24,7 @@ import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 
@@ -45,6 +46,7 @@ public class App extends Application implements OrchextraManagerCompletionCallba
                 .initialize(this);
 
         Orchextra.setCustomSchemeReceiver(this);
+
 
         Log.d("APP", "Hello Application, end onCreate");
     }

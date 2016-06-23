@@ -19,12 +19,15 @@
 
 
 <LinearLayout
+    android:id="@+id/lytOrchextraWebView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/ox_toolbar_view"/>
+    <include android:id="@+id/lytToolBar"
+
+        layout="@layout/ox_toolbar_view"/>
 
     <com.gigigo.orchextra.ui.webview.OxWebView
         android:id="@+id/ox_orchextraWebView"

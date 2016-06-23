@@ -27,4 +27,12 @@
     <item name="colorAccent">@color/color_accent</item>
   </style>
 
+  <style name="AppThemeNoBar"
+      parent="Theme.AppCompat.Light.NoActionBar">
+  </style>
+  <!-- Base application theme. -->
+  <style name="menu_labels_style">
+    <item name="android:textColor">@color/grey7</item>
+    <item name="android:textSize">@dimen/label_fab_font_size</item>
+  </style>
 </resources>

@@ -25,7 +25,7 @@ android {
 
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
-    minSdkVersion parent.ext.androidMinSdkVersion
+    minSdkVersion 11//parent.ext.androidMinSdkVersion //you can change that, but you need API >=10
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode
     versionName parent.ext.androidVersionName
@@ -86,8 +86,11 @@ configurations {
 
 dependencies {
   compile project(':orchextrasdk')
-  compile(name:'appoxee_sdk_2.7.0', ext:'aar')
-  compile parent.ext.dependencies.imageRecognitionImpl
+  compile(name:'appoxee_sdk_2.7.0', ext:'aar') //appoxee, u can test double pushnotification
+  compile parent.ext.dependencies.imageRecognitionImpl //vuforia
+
+  //webview
+   compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
 
   testCompile parent.ext.testDependencies.junit
 

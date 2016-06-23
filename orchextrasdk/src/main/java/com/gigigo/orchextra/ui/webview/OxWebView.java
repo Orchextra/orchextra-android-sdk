@@ -32,6 +32,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
+import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.R;
 
 public class OxWebView extends LinearLayout {
@@ -56,6 +57,11 @@ public class OxWebView extends LinearLayout {
 
         init();
     }
+public WebView getWebView()
+{
+    return  this.webView;
+}
+
 
     public OxWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -140,13 +146,15 @@ public class OxWebView extends LinearLayout {
                     if (onActionListener != null) {
                         onActionListener.openScanner();
                     }
-//                  Orchextra.openScannerView();
-                    callBack = CLOSE_SCANNER;
+                    //never  callBack = CLOSE_SCANNER;
                 } else if (nativeMessage.equals(OPEN_IMAGE_RECOGNITION)) {
-//                  OrchextraManager.startImageRecognitionActivity();
-                    callBack = CLOSE_IMAGE_RECOGNITION;
+
+                    if (onActionListener != null) {
+                        onActionListener.openImageRecognition();
+                    }
+                    //never callBack = CLOSE_IMAGE_RECOGNITION;
                 }
-//                Orchextra.setNativeResponseToJSCallBack(callBack);
+                //jsinterface never callback, Orchextra.setNativeResponseToJSCallBack(callBack);
             }
 
         }
@@ -154,6 +162,7 @@ public class OxWebView extends LinearLayout {
 
     public interface OnActionListener {
         void openScanner();
+
         void openImageRecognition();
     }
 

@@ -1,5 +1,6 @@
 package gigigo.com.orchextrasdk;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +12,12 @@ import android.widget.TextView;
 import com.appoxee.Appoxee;
 import com.appoxee.AppoxeeObserver;
 import com.appoxee.asyncs.initAsync;
+import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.ORCUserTag;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.sdk.OrchextraManager;
+import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,42 +29,28 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private boolean isRunning = false;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.d("APP", "Hello MainActivity, start onCreate");
+        //orchextraSDK
+        getViews();
+        setListeners();
+        startOrchextra();
 
-    private Button button3;
-    private TextView statusText;
+        //appoxeeSDK
+        startAppoxee();
+    }
 
-    /**/
+    //region Appoxee
     private final static String APPOXEE_SDK_KEY = "575e7877b16df0.22390647";
     private final static String APPOXEE_SDK_SECRET = "575e7877b16f48.87387869";
     private static final String TAG = "MainActivity";
     private static final String SOME_UNIQUE_USER_IDENTIFIER = "example";
     private static final String SOME_CUSTOM_FIELD = "custom_field";
     ExecutorService threadPool = Executors.newSingleThreadExecutor();
-    /**/
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.d("APP", "Hello MainActivity, start onCreate");
-        Button button = (Button) findViewById(R.id.button);
-        Button button2 = (Button) findViewById(R.id.button2);
-        button.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        Log.d("APP", "Hello MainActivity, end onCreate");
-
-        button3 = (Button) findViewById(R.id.button3);
-        button3.setOnClickListener(this);
-
-        statusText = (TextView) findViewById(R.id.statusText);
-
-
-        startOrchextra();
-        startAppoxee();
-    }
-
-    /**/
     private void startAppoxee() {
         new initAsync(this,
                 APPOXEE_SDK_KEY,
@@ -140,38 +129,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    /**/
-    private void setCrmUser() {
-     /*new method setuser for tags*/
-        ORCUserTag[] orcUserTagArray = new ORCUserTag[]{
-                new ORCUserTag("Pais", "Colombia"),
-                new ORCUserTag("::macheo", "espacio espacio"),
-                new ORCUserTag("or 1=1", "and 0=0"),
-                new ORCUserTag("||  1=1", "&& 0=0"),
-                new ORCUserTag("JiYgIDE9MQ==", "JiYgIDE9MQ=="),
-                new ORCUserTag("grijander monder6", " 7::1"),
-                new ORCUserTag("genero", "macho ta"),
-                new ORCUserTag("GEneRo", "/7uijk''=2"),
-                new ORCUserTag("yeah 41", "sibarete 34 "),
-                new ORCUserTag("12 :3432 dasa", "uoyo"),
-                new ORCUserTag("fasa", "teg tags a"),
-                new ORCUserTag("fasa", "yanosaleel:nullen el 105")};
+    //endregion
 
-        String myCrmId = getApplicationContext().getPackageName();
-        //
-        /*ORCUserTag[] orcUserTagArray = new ORCUserTag[]{
-                new ORCUserTag("Pais", "Colombia")};*/
-        GregorianCalendar ORCBirthDay = new GregorianCalendar(1990, Calendar.MAY, 29);
-        ORCUser orcUser = new ORCUser(myCrmId
-                , ORCBirthDay
-                , ORCUser.Gender.ORCGenderMale,
-                orcUserTagArray);
-        Orchextra.setUser(orcUser);
+    //region Orchextra
+    private boolean isRunning = false;
+    private Button button, button2, button3, button4, button5;
+    private TextView statusText;
+
+    //region getViews/Buttons onClick
+    private void getViews() {
+        button = (Button) findViewById(R.id.button);
+        button2 = (Button) findViewById(R.id.button2);
+        button3 = (Button) findViewById(R.id.button3);
+        button4 = (Button) findViewById(R.id.button4);
+        button5 = (Button) findViewById(R.id.button5);
+        statusText = (TextView) findViewById(R.id.statusText);
     }
 
+    private void setListeners() {
+        button.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+        button5.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View v) {
+        final String TEST_STREAM_URL = "http://research.gigigo.com ";
+        final String CUSTOM_SCHEME = "webview://";
+
         if (v.getId() == R.id.button) {
             Orchextra.startImageRecognition();
         }
@@ -185,7 +172,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startOrchextra();
             }
         }
+        //region orchextraWebview
+        if (v.getId() == R.id.button4) {
+            OxWebViewActivity.open(this, TEST_STREAM_URL, false);
+            Orchextra.setCustomSchemeReceiver(new CustomSchemeReceiver() {
+                @Override
+                public void onReceive(String scheme) {
+                    if (scheme.contains(CUSTOM_SCHEME)) {
+                        String url = scheme.replace(CUSTOM_SCHEME, "");
+                        OxWebViewActivity.navigateUrl(url);
+                    }
+                }
+            });
+        }
+        //endregion
+
+        //region orchextraWebview in app activity
+        if (v.getId() == R.id.button5) {
+            Intent intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra("URL", TEST_STREAM_URL);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.startActivity(intent);
+        }
+        //endregion
     }
+
+    //endregion
 
     private void startOrchextra() {
         new Handler().post(new Runnable() {
@@ -211,4 +223,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button3.setText(R.string.ox_start_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
     }
+
+    /*not used*/
+    private void setCrmUser() {
+     /*new method setuser for tags*/
+        ORCUserTag[] orcUserTagArray = new ORCUserTag[]{
+                new ORCUserTag("Pais", "Colombia"),
+                new ORCUserTag("::macheo", "espacio espacio"),
+                new ORCUserTag("or 1=1", "and 0=0"),
+                new ORCUserTag("||  1=1", "&& 0=0"),
+                new ORCUserTag("JiYgIDE9MQ==", "JiYgIDE9MQ=="),
+                new ORCUserTag("genero", "macho ta"),
+                new ORCUserTag("GEneRo", "/7uijk''=2"),
+                new ORCUserTag("yeah 41", "palabro 34 "),
+                new ORCUserTag("12 :3432 dasa", "uoyo"),
+                new ORCUserTag("fasa", "teg tags a"),
+                new ORCUserTag("fasa", "yanosaleel:nullen el 105")};
+
+        String myCrmId = getApplicationContext().getPackageName();
+
+        GregorianCalendar ORCBirthDay = new GregorianCalendar(1990, Calendar.MAY, 29);
+
+        ORCUser orcUser = new ORCUser(myCrmId
+                , ORCBirthDay
+                , ORCUser.Gender.ORCGenderMale,
+                orcUserTagArray);
+        Orchextra.setUser(orcUser);
+    }
+    //endregion
+
+
 }
