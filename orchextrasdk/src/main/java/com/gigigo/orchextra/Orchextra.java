@@ -17,8 +17,11 @@
  */
 package com.gigigo.orchextra;
 
+import android.webkit.WebView;
+
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.sdk.OrchextraManager;
+import com.gigigo.orchextra.ui.webview.OxWebView;
 
 public final class Orchextra {
 

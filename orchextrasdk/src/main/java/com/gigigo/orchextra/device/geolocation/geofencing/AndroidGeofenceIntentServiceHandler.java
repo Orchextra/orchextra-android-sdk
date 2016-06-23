@@ -52,13 +52,15 @@ public class AndroidGeofenceIntentServiceHandler {
     public List<String> getTriggeringGeofenceIds(GeofencingEvent geofencingEvent) {
         List<String> triggerGeofenceIds = new ArrayList<>();
 
-        if (geofencingEvent == null){
+        if (geofencingEvent == null) {
             return Collections.emptyList();
         }
 
         List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
-        for (Geofence triggeringGeofence : triggeringGeofences) {
-            triggerGeofenceIds.add(triggeringGeofence.getRequestId());
+        if (triggeringGeofences != null) {
+            for (Geofence triggeringGeofence : triggeringGeofences) {
+                triggerGeofenceIds.add(triggeringGeofence.getRequestId());
+            }
         }
         return triggerGeofenceIds;
     }
@@ -66,7 +68,7 @@ public class AndroidGeofenceIntentServiceHandler {
     public GeoPointEventType getGeofenceTransition(GeofencingEvent geofencingEvent) {
         if (!geofencingEvent.hasError()) {
             int transition = geofencingEvent.getGeofenceTransition();
-            switch(transition) {
+            switch (transition) {
                 case Geofence.GEOFENCE_TRANSITION_ENTER:
                     return GeoPointEventType.ENTER;
                 case Geofence.GEOFENCE_TRANSITION_DWELL:
@@ -75,6 +77,6 @@ public class AndroidGeofenceIntentServiceHandler {
                     return GeoPointEventType.EXIT;
             }
         }
-        throw new GeofenceEventException("Geofence Event Error was produced, code is: " +  geofencingEvent.getErrorCode() );
+        throw new GeofenceEventException("Geofence Event Error was produced, code is: " + geofencingEvent.getErrorCode());
     }
 }

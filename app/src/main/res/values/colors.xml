@@ -21,4 +21,10 @@
   <color name="color_primary">#EE524F</color>
   <color name="color_primary_dark">#AC2A27</color>
   <color name="color_accent">#FFFFFF</color>
+
+  <color name="grey7">#777</color>
+
+  <color name="black_overlay">#66000000</color>
+  <color name="transparent">#00000000</color>
+  <color name="grey2">#212121</color>
 </resources>

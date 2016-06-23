@@ -25,6 +25,7 @@ import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 
@@ -36,11 +37,8 @@ public class App extends Application implements OrchextraManagerCompletionCallba
     @Override
     public void onCreate() {
         super.onCreate();
-
         Log.d("APP", "Hello Application, start onCreate");
-
         initOrchextra();
-
         Log.d("APP", "Hello Application, end onCreate");
     }
 
@@ -66,7 +64,6 @@ public class App extends Application implements OrchextraManagerCompletionCallba
     public void onError(String s) {
         Log.d("APP", "onError: " + s);
     }
-
 
     @Override
     public void onInit(String s) {
