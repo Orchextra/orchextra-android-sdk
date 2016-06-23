@@ -22,6 +22,7 @@ import android.util.Log;
 
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
@@ -36,19 +37,22 @@ public class App extends Application implements OrchextraManagerCompletionCallba
     @Override
     public void onCreate() {
         super.onCreate();
-
         Log.d("APP", "Hello Application, start onCreate");
+        initOrchextra();
+        Log.d("APP", "Hello Application, end onCreate");
+    }
 
-        Orchextra.Builder()
+    private void initOrchextra() {
+
+        OrchextraBuilder builder = new OrchextraBuilder(this)
+                .setApiKeyAndSecret(API_KEY, API_SECRET)
                 .setLogLevel(OrchextraLogLevel.NETWORK)
                 .setOrchextraCompletionCallback(this)
-                .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
-                .initialize(this);
+                .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
+
+        Orchextra.initialize(builder);
 
         Orchextra.setCustomSchemeReceiver(this);
-
-
-        Log.d("APP", "Hello Application, end onCreate");
     }
 
     @Override
@@ -60,7 +64,6 @@ public class App extends Application implements OrchextraManagerCompletionCallba
     public void onError(String s) {
         Log.d("APP", "onError: " + s);
     }
-
 
     @Override
     public void onInit(String s) {
