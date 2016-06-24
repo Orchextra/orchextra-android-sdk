@@ -23,13 +23,12 @@ import android.util.Log;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraBuilder;
+import com.gigigo.orchextra.OrchextraCompletionCallback;
 import com.gigigo.orchextra.OrchextraLogLevel;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
-import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 
-public class App extends Application implements OrchextraManagerCompletionCallback, CustomSchemeReceiver {
+public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
 
     public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
     public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";

@@ -3,14 +3,13 @@ package com.gigigo.orchextra;
 import android.app.Application;
 
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 
 public class OrchextraBuilder {
 
     private final Application application;
     private String apiKey;
     private String apiSecret;
-    private OrchextraManagerCompletionCallback orchextraCompletionCallback;
+    private OrchextraCompletionCallback orchextraCompletionCallback;
     private ImageRecognition imageRecognitionModule;
     private OrchextraLogLevel orchextraLogLevel;
 
@@ -21,7 +20,7 @@ public class OrchextraBuilder {
     /**
      * Callback status when orchextra is initialized
      */
-    public OrchextraBuilder setOrchextraCompletionCallback(OrchextraManagerCompletionCallback orchextraCompletionCallback) {
+    public OrchextraBuilder setOrchextraCompletionCallback(OrchextraCompletionCallback orchextraCompletionCallback) {
         this.orchextraCompletionCallback = orchextraCompletionCallback;
         return this;
     }
@@ -68,7 +67,7 @@ public class OrchextraBuilder {
         return apiSecret;
     }
 
-    public OrchextraManagerCompletionCallback getOrchextraCompletionCallback() {
+    public OrchextraCompletionCallback getOrchextraCompletionCallback() {
         return orchextraCompletionCallback;
     }
 

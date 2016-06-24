@@ -17,22 +17,45 @@
  */
 package com.gigigo.orchextra;
 
-import android.webkit.WebView;
-
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
-import com.gigigo.orchextra.ui.webview.OxWebView;
 
 public final class Orchextra {
 
     private Orchextra() {
     }
 
-    public static void initialize(OrchextraBuilder orchextraBuilder) {
-        OrchextraManager.checkInitMethodCall(orchextraBuilder.getApplication(), orchextraBuilder.getOrchextraCompletionCallback());
+    public static void initialize(final OrchextraBuilder orchextraBuilder) {
+
+        final OrchextraCompletionCallback orchextraCompletionCallback = orchextraBuilder.getOrchextraCompletionCallback();
+        OrchextraManagerCompletionCallback orchextraManagerCompletionCallback = new OrchextraManagerCompletionCallback() {
+            @Override
+            public void onSuccess() {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onSuccess();
+                }
+            }
+
+            @Override
+            public void onError(String s) {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onError(s);
+                }
+            }
+
+            @Override
+            public void onInit(String s) {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onInit(s);
+                }
+            }
+        };
+
+        OrchextraManager.checkInitMethodCall(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
 
         OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
-        OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraBuilder.getOrchextraCompletionCallback());
+        OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
         OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
         OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
     }
@@ -71,4 +94,6 @@ public final class Orchextra {
     public static void startScannerActivity() {
         OrchextraManager.openScannerView();
     }
+
+
 }
