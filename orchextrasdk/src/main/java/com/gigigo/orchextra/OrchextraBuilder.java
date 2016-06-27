@@ -42,6 +42,7 @@ public class OrchextraBuilder {
 
     /**
      * Include the image recognition module in Orchextra core.
+     *
      * <a href="https://github.com/Orchextra/orchextra-android-sdk#image-recognition-integration">For more info, visit this link</a>.
      */
     public OrchextraBuilder setImageRecognitionModule(ImageRecognition imageRecognitionModule) {
@@ -49,6 +50,11 @@ public class OrchextraBuilder {
         return this;
     }
 
+    /**
+     * Set the api key and secret of your project.
+     *
+     * You can obtain this credentials from the Orchextra dashboard
+     */
     public OrchextraBuilder setApiKeyAndSecret(String apiKey, String apiSecret) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;

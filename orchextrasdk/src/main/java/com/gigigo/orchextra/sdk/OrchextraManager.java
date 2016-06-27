@@ -183,10 +183,6 @@ public class OrchextraManager {
                     saveUserController.saveUserAndReloadConfig(crm);
                 } else {
                     saveUserController.saveUserOnly(crm);
-
-                    //TODO could be nice the idea of just store user in local storage if sdk is not running
-//                    orchextraManager.orchextraCompletionCallback.onInit("Not started SDK, "
-//                            + "must have SDK started before calling set user");
                 }
             } else {
                 showInitializationError();

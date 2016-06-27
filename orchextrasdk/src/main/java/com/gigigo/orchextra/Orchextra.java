@@ -26,6 +26,13 @@ public final class Orchextra {
     private Orchextra() {
     }
 
+    /**
+     * Initialize Orchextra library.
+     *
+     * You MUST call this method inside of the onCreate method in your Application.
+     *
+     * It the FIRST Orchextra method you MUST call.
+     */
     public static void initialize(final OrchextraBuilder orchextraBuilder) {
 
         final OrchextraCompletionCallback orchextraCompletionCallback = orchextraBuilder.getOrchextraCompletionCallback();
@@ -60,22 +67,44 @@ public final class Orchextra {
         OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
     }
 
+    /**
+     * Start the Orchextra library. Calling this method Orchextra start to send and receive events.
+     *
+     * You can call this method in any moment after the calling of the initialize method.
+     */
     public static void start() {
         OrchextraManager.sdkStart();
     }
 
+
+    /**
+     * Change the api key and secret defined in the initialization call in any moment.
+     *
+     * If the credentials are the same, it doesn't have effects. You don't have to use it, except you have almost 2 different credentials.
+     */
     public static synchronized void changeCredentials(String apiKey, String apiSecret) {
         OrchextraManager.changeCredentials(apiKey, apiSecret);
     }
 
+    /**
+     * Start a new recognition view to scanner a image.
+     *
+     * You have to include Orchextra image recognition module in Gradle dependencies and initializate the module.
+     */
     public static synchronized void startImageRecognition() {
         OrchextraManager.startImageRecognition();
     }
 
+    /**
+     * Orchextra stop to send and receive events. You can restart Orchextra calling start method.
+     */
     public static synchronized void stop() {
         OrchextraManager.sdkStop();
     }
 
+    /**
+     * If it is definied in the dashboard a custom scheme action, all the events trigger, which match with of this type, are sending at this callback
+     */
     public static synchronized void setCustomSchemeReceiver(final CustomSchemeReceiver customSchemeReceiver) {
         if (customSchemeReceiver != null) {
             OrchextraManager.setCustomSchemeReceiver(new CustomOrchextraSchemeReceiver() {
@@ -87,10 +116,16 @@ public final class Orchextra {
         }
     }
 
+    /**
+     * You can define a specific user to associate Orchextra events.
+     */
     public static synchronized void setUser(ORCUser orcUser) {
         OrchextraManager.setUser(orcUser);
     }
 
+    /**
+     * Open scanner view to scan QR's and barcodes
+     */
     public static void startScannerActivity() {
         OrchextraManager.openScannerView();
     }
