@@ -39,6 +39,10 @@ public class OrchextraUpdates {
     setThemeUpdates(themeChanges);
   }
 
+  public OrchextraUpdates() {
+
+  }
+
   public OrchextraBeaconUpdates getOrchextraBeaconUpdates() {
     return orchextraBeaconUpdates;
   }
@@ -72,8 +76,8 @@ public class OrchextraUpdates {
   }
 
   public boolean hasChanges() {
-    return orchextraBeaconUpdates.hasChanges()
-        || orchextraGeofenceUpdates.hasChanges()
+    return (orchextraBeaconUpdates != null && orchextraBeaconUpdates.hasChanges())
+        || (orchextraGeofenceUpdates != null && orchextraGeofenceUpdates.hasChanges())
         || vuforiaUpdates != null
         || themeUpdates != null;
   }
