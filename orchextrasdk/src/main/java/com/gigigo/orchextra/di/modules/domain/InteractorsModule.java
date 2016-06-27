@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.di.scopes.PerExecution;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.config.ClearLocalStorageInteractor;
@@ -53,8 +54,10 @@ public class InteractorsModule {
     @Provides
     @PerExecution
     SaveUserInteractor provideSaveUserInteractor(
-            AuthenticationService authenticationService, ConfigService configService) {
-        return new SaveUserInteractor(authenticationService, configService);
+            AuthenticationService authenticationService,
+            ConfigService configService,
+            OrchextraStatusManager orchextraStatusManager) {
+        return new SaveUserInteractor(authenticationService, configService, orchextraStatusManager);
     }
 
     @Provides

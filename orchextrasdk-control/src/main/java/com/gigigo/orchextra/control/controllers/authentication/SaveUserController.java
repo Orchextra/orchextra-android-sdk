@@ -56,17 +56,36 @@ public class SaveUserController extends Presenter<SaveUserDelegate> {
   @Override public void onViewAttached() {
   }
 
-  public void saveUser(Crm crm) {
+  public void saveUserAndReloadConfig(Crm crm) {
     InteractorExecution interactorExecution = interactorExecutionProvider.get();
     SaveUserInteractor saveUserInteractor =
         (SaveUserInteractor) interactorExecution.getInteractor();
     saveUserInteractor.setCrm(crm);
+    saveUserInteractor.setHasReloadConfig(true);
 
     interactorExecution.result(new InteractorResult<OrchextraUpdates>() {
       @Override public void onResult(OrchextraUpdates orchextraUpdates) {
         notifyChanges(orchextraUpdates);
       }
     }).error(ValidationError.class, new InteractorResult<ValidationError>() {
+      @Override public void onResult(ValidationError result) {
+        manageInteractorError(result);
+      }
+    }).error(GenericError.class, new InteractorResult<GenericError>() {
+      @Override public void onResult(GenericError result) {
+        manageInteractorError(result);
+      }
+    }).execute(interactorInvoker);
+  }
+
+  public void saveUserOnly(Crm crm) {
+    InteractorExecution interactorExecution = interactorExecutionProvider.get();
+    SaveUserInteractor saveUserInteractor =
+            (SaveUserInteractor) interactorExecution.getInteractor();
+    saveUserInteractor.setCrm(crm);
+    saveUserInteractor.setHasReloadConfig(false);
+
+    interactorExecution.error(ValidationError.class, new InteractorResult<ValidationError>() {
       @Override public void onResult(ValidationError result) {
         manageInteractorError(result);
       }

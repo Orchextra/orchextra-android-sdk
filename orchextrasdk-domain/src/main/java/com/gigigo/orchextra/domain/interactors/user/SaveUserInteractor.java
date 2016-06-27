@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.domain.interactors.user;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
@@ -31,14 +32,18 @@ public class SaveUserInteractor implements Interactor<InteractorResponse<Orchext
 
   private final AuthenticationService authenticationService;
   private final ConfigService configService;
+  private final OrchextraStatusManager orchextraStatusManager;
 
   private Crm crm;
+  private boolean hasReloadConfig = false;
 
   public SaveUserInteractor(AuthenticationService authenticationService,
-      ConfigService configService) {
+                            ConfigService configService,
+                            OrchextraStatusManager orchextraStatusManager) {
 
     this.authenticationService = authenticationService;
     this.configService = configService;
+    this.orchextraStatusManager = orchextraStatusManager;
   }
 
   public void setCrm(Crm crm) {
@@ -51,12 +56,20 @@ public class SaveUserInteractor implements Interactor<InteractorResponse<Orchext
     BusinessObject<Crm> crmBusinessObject = authenticationService.saveUser(crm);
 
     if (crmBusinessObject.isSuccess()) {
-      boOrchextraUpdates = configService.refreshConfig();
+      if (hasReloadConfig && orchextraStatusManager.isStarted()) {
+        boOrchextraUpdates = configService.refreshConfig();
+      } else {
+        return new InteractorResponse<>(new OrchextraUpdates());
+      }
     } else {
       return new InteractorResponse<>(
           new AuthenticationError(crmBusinessObject.getBusinessError()));
     }
 
     return boOrchextraUpdates;
+  }
+
+  public void setHasReloadConfig(boolean hasReloadConfig) {
+    this.hasReloadConfig = hasReloadConfig;
   }
 }

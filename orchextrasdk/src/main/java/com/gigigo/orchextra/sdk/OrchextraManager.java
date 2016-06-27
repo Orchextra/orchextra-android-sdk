@@ -173,16 +173,20 @@ public class OrchextraManager {
         OrchextraManager orchextraManager = OrchextraManager.instance;
         if (AndroidSdkVersion.hasJellyBean18()) {
             if (orchextraManager != null) {
-                if (orchextraManager.orchextraStatusAccessor.isStarted()) {
-                    OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
-                    SaveUserController saveUserController = orchextraManager.saveUserController;
 
-                    Crm crm = orcUserToCrmConverter.convertOrcUserToCrm(user);
-                    saveUserController.saveUser(crm);
+                OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
+                SaveUserController saveUserController = orchextraManager.saveUserController;
+
+                Crm crm = orcUserToCrmConverter.convertOrcUserToCrm(user);
+
+                if (orchextraManager.orchextraStatusAccessor.isStarted()) {
+                    saveUserController.saveUserAndReloadConfig(crm);
                 } else {
+                    saveUserController.saveUserOnly(crm);
+
                     //TODO could be nice the idea of just store user in local storage if sdk is not running
-                    orchextraManager.orchextraCompletionCallback.onInit("Not started SDK, "
-                            + "must have SDK started before calling set user");
+//                    orchextraManager.orchextraCompletionCallback.onInit("Not started SDK, "
+//                            + "must have SDK started before calling set user");
                 }
             } else {
                 showInitializationError();

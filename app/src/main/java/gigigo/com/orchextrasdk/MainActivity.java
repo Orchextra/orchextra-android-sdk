@@ -16,7 +16,6 @@ import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.ORCUserTag;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
 import java.util.ArrayList;
@@ -37,10 +36,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //orchextraSDK
         getViews();
         setListeners();
+
         startOrchextra();
 
         //appoxeeSDK
         startAppoxee();
+
     }
 
     //region Appoxee
@@ -225,20 +226,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /*not used*/
-    private void setCrmUser() {
+    public void setCrmUser() {
      /*new method setuser for tags*/
         ORCUserTag[] orcUserTagArray = new ORCUserTag[]{
-                new ORCUserTag("Pais", "Colombia"),
-                new ORCUserTag("::macheo", "espacio espacio"),
-                new ORCUserTag("or 1=1", "and 0=0"),
-                new ORCUserTag("||  1=1", "&& 0=0"),
-                new ORCUserTag("JiYgIDE9MQ==", "JiYgIDE9MQ=="),
-                new ORCUserTag("genero", "macho ta"),
-                new ORCUserTag("GEneRo", "/7uijk''=2"),
-                new ORCUserTag("yeah 41", "palabro 34 "),
-                new ORCUserTag("12 :3432 dasa", "uoyo"),
-                new ORCUserTag("fasa", "teg tags a"),
-                new ORCUserTag("fasa", "yanosaleel:nullen el 105")};
+                new ORCUserTag("Pais", "Colombia")
+//                ,
+//                new ORCUserTag("::macheo", "espacio espacio"),
+//                new ORCUserTag("or 1=1", "and 0=0"),
+//                new ORCUserTag("||  1=1", "&& 0=0"),
+//                new ORCUserTag("JiYgIDE9MQ==", "JiYgIDE9MQ=="),
+//                new ORCUserTag("genero", "macho ta"),
+//                new ORCUserTag("GEneRo", "/7uijk''=2"),
+//                new ORCUserTag("yeah 41", "palabro 34 "),
+//                new ORCUserTag("12 :3432 dasa", "uoyo"),
+//                new ORCUserTag("fasa", "teg tags a"),
+//                new ORCUserTag("fasa", "yanosaleel:nullen el 105")
+ };
 
         String myCrmId = getApplicationContext().getPackageName();
 

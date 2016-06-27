@@ -54,7 +54,7 @@ public class SaveUserDelegateImpl implements SaveUserDelegate {
   @Override
   public void saveUser(Crm crm) {
     init();
-    saveUserController.saveUser(crm);
+    saveUserController.saveUserAndReloadConfig(crm);
   }
 
 }
