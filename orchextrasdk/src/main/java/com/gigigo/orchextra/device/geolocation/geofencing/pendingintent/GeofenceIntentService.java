@@ -31,6 +31,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
+
 import orchextra.javax.inject.Inject;
 
 public class GeofenceIntentService extends IntentService {
@@ -62,17 +63,16 @@ public class GeofenceIntentService extends IntentService {
     }
 
     public void processGeofenceIntentPending(Intent intent) {
-        GeofencingEvent geofencingEvent = geofenceHandler.getGeofencingEvent(intent);
-
-        List<String> geofenceIds = geofenceHandler.getTriggeringGeofenceIds(geofencingEvent);
-
         try {
+            GeofencingEvent geofencingEvent = geofenceHandler.getGeofencingEvent(intent);
+
+            List<String> geofenceIds = geofenceHandler.getTriggeringGeofenceIds(geofencingEvent);
             GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
-
             orchextraLogger.log("Localizado: " + transition.getStringValue());
-
-            controller.processTriggers(geofenceIds, transition);
-        }catch (GeofenceEventException geofenceEventException){
+            if (geofenceIds != null && !geofenceIds.isEmpty()) {
+                controller.processTriggers(geofenceIds, transition);
+            }
+        } catch (GeofenceEventException geofenceEventException) {
             orchextraLogger.log(geofenceEventException.getMessage(), OrchextraSDKLogLevel.ERROR);
         }
     }
