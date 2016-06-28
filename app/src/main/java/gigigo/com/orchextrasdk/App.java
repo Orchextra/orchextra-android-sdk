@@ -26,9 +26,9 @@ import com.gigigo.orchextra.OrchextraCompletionCallback;
 import com.gigigo.orchextra.OrchextraLogLevel;
 
 public class App extends Application implements OrchextraCompletionCallback {
-
-  public static final String API_KEY = "key";
-  public static final String API_SECRET = "secret";
+//internal demo
+  public static final String API_KEY = "1ci8ZLDA0yza0wdGgYeu9l1FGIG1Jo7gRjrelDJk";
+  public static final String API_SECRET = "W2uB7WHOuXH6ZWgsCbMgnDli1qluFNj526TR4qkT";
 
   @Override public void onCreate() {
     super.onCreate();
@@ -39,15 +39,16 @@ public class App extends Application implements OrchextraCompletionCallback {
   }
 
   @Override public void onSuccess() {
-    callStart();
+    Log.d("APP", "Hello Application, end onCreate");
   }
 
   @Override public void onError(String s) {
-
+    Log.d("APP", "onError"+ s);
   }
 
   @Override public void onInit(String s) {
     callStart();
+    Log.d("APP", "onInit"+ s);
   }
 
   private void callStart() {

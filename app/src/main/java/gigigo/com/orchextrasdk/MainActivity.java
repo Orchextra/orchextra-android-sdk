@@ -14,6 +14,7 @@ import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     setContentView(R.layout.activity_main);
 
     Orchextra.setUser(new ORCUser("123456789",
-        new GregorianCalendar(1990, 10, 29), //any Birth date as a calendar instance
+        new GregorianCalendar(1990, Calendar.OCTOBER, 29), //any Birth date as a calendar instance
         ORCUser.Gender.ORCGenderMale, //ORCGenderMale or ORCGenderFemale Enum
         new ArrayList<>(Arrays.asList("keyword1", "keyword2"))));
 
