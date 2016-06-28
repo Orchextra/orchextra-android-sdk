@@ -20,49 +20,53 @@ apply plugin: 'com.android.application'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 
 android {
-  compileSdkVersion parent.ext.androidCompileSdkVersion
-  buildToolsVersion parent.ext.androidBuildToolsVersion
+    compileSdkVersion parent.ext.androidCompileSdkVersion
+    buildToolsVersion parent.ext.androidBuildToolsVersion
 
-  defaultConfig {
-    applicationId "gigigo.com.orchextrasdk"
-    minSdkVersion parent.ext.androidMinSdkVersion
-    targetSdkVersion parent.ext.androidTargetSdkVersion
-    versionCode parent.ext.androidVersionCode
-    versionName parent.ext.androidVersionName
-  }
 
-  lintOptions {
-    abortOnError false
-  }
-
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt')
+    defaultConfig {
+        applicationId "gigigo.com.orchextrasdk"
+        minSdkVersion parent.ext.androidMinSdkVersion
+        targetSdkVersion parent.ext.androidTargetSdkVersion
+        versionCode parent.ext.androidVersionCode
+        versionName parent.ext.androidVersionName
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
-  }
 
-  testOptions {
-    unitTests.returnDefaultValues = true
-  }
+    lintOptions {
+        abortOnError false
+    }
 
-  dexOptions {
-    // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
-    preDexLibraries = preDexEnabled && !travisBuild && !jenkinsBuild
-  }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+        }
+    }
 
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_7
-    targetCompatibility JavaVersion.VERSION_1_7
-  }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    dexOptions {
+        // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
+        preDexLibraries = preDexEnabled && !travisBuild && !jenkinsBuild
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 
 }
 
 dependencies {
 
-  compile project(':orchextrasdk')
-  compile parent.ext.dependencies.imageRecognitionImpl
+    compile project(':orchextrasdk')
+    compile parent.ext.dependencies.imageRecognitionImpl
 
-  testCompile parent.ext.testDependencies.junit
+    testCompile parent.ext.testDependencies.junit
 
 }
