@@ -65,23 +65,6 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_7
     targetCompatibility JavaVersion.VERSION_1_7
   }
-
-
-  productFlavors {
-    play7{}
-    play8{}
-    play9{}
-  }
-}
-
-configurations {
-  play7DebugCompile
-  play8DebugCompile
-  play9DebugCompile
-  play7ReleaseCompile
-  play8ReleaseCompile
-  play9ReleaseCompile
-
 }
 
 dependencies {
@@ -94,11 +77,5 @@ dependencies {
 
   testCompile parent.ext.testDependencies.junit
 
-  play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
-  play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
-  play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
 
-  play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
-  play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
-  play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
 }

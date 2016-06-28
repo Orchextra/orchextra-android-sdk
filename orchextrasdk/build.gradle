@@ -96,22 +96,6 @@ android {
     exclude 'LICENSE.txt'
     exclude 'META-INF/INDEX.LIST'
   }
-
-  publishNonDefault true
-
-  flavorDimensions "play"
-
-  productFlavors {
-    play9 {
-      dimension "play"
-    }
-    play8 {
-      dimension "play"
-    }
-    play7 {
-      dimension "play"
-    }
-  }
 }
 
 dependencies {
@@ -132,14 +116,9 @@ dependencies {
 
   compile parent.ext.dependencies.altBeacon
 
-  play9Compile parent.ext.dependencies.playServicesLocation9
-  play9Compile parent.ext.dependencies.playServicesGcm9
+  compile parent.ext.dependencies.playServicesLocation
+  compile parent.ext.dependencies.playServicesGcm
 
-  play8Compile parent.ext.dependencies.playServicesLocation8
-  play8Compile parent.ext.dependencies.playServicesGcm8
-
-  play7Compile parent.ext.dependencies.playServicesLocation7
-  play7Compile parent.ext.dependencies.playServicesGcm7
 
   compile parent.ext.dependencies.barcodescanner
   compile parent.ext.dependencies.imageRecognitionInterface
