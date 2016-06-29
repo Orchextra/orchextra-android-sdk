@@ -61,7 +61,9 @@ public final class Orchextra {
 
         OrchextraManager.checkInitMethodCall(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
 
-        OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
+        if (orchextraBuilder.getOrchextraLogLevel() != null) {
+            OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
+        }
         OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
         OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
         OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
