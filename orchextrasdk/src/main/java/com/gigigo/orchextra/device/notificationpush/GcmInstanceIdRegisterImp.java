@@ -20,11 +20,11 @@ package com.gigigo.orchextra.device.notificationpush;
 
 import android.content.Context;
 
-import com.gigigo.orchextra.R;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
@@ -61,9 +61,9 @@ public class GcmInstanceIdRegisterImp implements GcmInstanceIdRegister {
 
   private String obtainSenderID() {
 
-    String senderID = context.getString(R.string.ox_notifications_GCM_sender_id);
+    String gcmSenderId = OrchextraManager.getGcmSenderId();
 
-    if (senderID.equals(context.getString(R.string.ox_notifications_demo_GCM_sender_id))){
+    if (gcmSenderId == null){
 
       orchextraLogger.log("Push Notifications won't work "
           + "ox_notifications_GCM_sender_id string value not found", OrchextraSDKLogLevel.ERROR);
@@ -72,7 +72,7 @@ public class GcmInstanceIdRegisterImp implements GcmInstanceIdRegister {
           + "ox_notifications_GCM_sender_id string value not found");
 
     }
-      return senderID;
+      return gcmSenderId;
 
   }
 

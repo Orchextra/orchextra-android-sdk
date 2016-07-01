@@ -12,6 +12,7 @@ public class OrchextraBuilder {
     private OrchextraCompletionCallback orchextraCompletionCallback;
     private ImageRecognition imageRecognitionModule;
     private OrchextraLogLevel orchextraLogLevel;
+    private String gcmSenderId;
 
     public OrchextraBuilder(Application application) {
         this.application = application;
@@ -61,6 +62,11 @@ public class OrchextraBuilder {
         return this;
     }
 
+    public OrchextraBuilder setGcmSenderId(String gcmSenderId) {
+        this.gcmSenderId = gcmSenderId;
+        return this;
+    }
+
     public Application getApplication() {
         return application;
     }
@@ -83,5 +89,9 @@ public class OrchextraBuilder {
 
     public OrchextraLogLevel getOrchextraLogLevel() {
         return orchextraLogLevel;
+    }
+
+    public String getGcmSenderId() {
+        return gcmSenderId;
     }
 }

@@ -69,6 +69,7 @@ public class OrchextraManager {
 
     private InjectorImpl injector;
     private OrchextraManagerCompletionCallback orchextraCompletionCallback;
+    private String gcmSenderId;
 
     @Inject
     OrchextraActivityLifecycle orchextraActivityLifecycle;
@@ -228,7 +229,9 @@ public class OrchextraManager {
     }
 
     public static void setLogLevel(OrchextraLogLevel logLevel) {
-        orchextraSDKLogLevel = logLevel.getSDKLogLevel();
+        if (logLevel != null) {
+            orchextraSDKLogLevel = logLevel.getSDKLogLevel();
+        }
     }
 
     public static OrchextraSDKLogLevel getLogLevel() {
@@ -252,7 +255,7 @@ public class OrchextraManager {
     private void initOrchextra(Application app, OrchextraManagerCompletionCallback completionCallback) {
 
         orchextraCompletionCallback = completionCallback;
-        enabledOrchextraNotificationPush(app);
+//        enabledOrchextraNotificationPush(app);
 
         if (AndroidSdkVersion.hasJellyBean18()) {
             initDependencyInjection(app.getApplicationContext(), completionCallback);
@@ -394,7 +397,7 @@ public class OrchextraManager {
     }
 
     public static void setImageRecognition(ImageRecognition imageRecognition) {
-        if (OrchextraManager.instance != null) {
+        if (OrchextraManager.instance != null && imageRecognition != null) {
             OrchextraManager.instance.imageRecognitionManager.setImplementation(imageRecognition);
         }
 
@@ -406,28 +409,9 @@ public class OrchextraManager {
         }
     }
 
-    /**
-     * this method enabled or disabled the service with the intent-filter for RECEIVER the push, this is necesary
-     * //because you must to declare always in the manifest file, you can not do it with code. Beacause that we
-     * //keep the service OrchextraGcmListenerService and the intent filter in manifest, but weenabled or disabled
-     * the service if the sender ID in Orchextra are not setted
-     */
-    private static void enabledOrchextraNotificationPush(Application application) {
-
-        String senderID = application.getApplicationContext().getString(R.string.ox_notifications_GCM_sender_id);
-        if (senderID.equals(application.getApplicationContext().getString(R.string.ox_notifications_demo_GCM_sender_id))) {
-            ComponentName component = new ComponentName(application, OrchextraGcmListenerService.class);
-            application.getPackageManager().setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        } else {
-            ComponentName component = new ComponentName(application, OrchextraGcmListenerService.class);
-            application.getPackageManager().setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-        }
-    }
-
     public static void saveApiKeyAndSecret(String apiKey, String apiSecret) {
         if (AndroidSdkVersion.hasJellyBean18()) {
             saveCredentials(apiKey, apiSecret);
-
         }
     }
 
@@ -435,5 +419,34 @@ public class OrchextraManager {
         if (!TextUtils.isEmpty(apiKey) && !TextUtils.isEmpty(apiSecret)) {
             OrchextraManager.instance.orchextraStatusAccessor.saveCredentials(apiKey, apiSecret);
         }
+    }
+
+    public static void setGcmSendId(Application application, String gcmSenderId) {
+        OrchextraManager.instance.gcmSenderId = gcmSenderId;
+        enabledOrchextraNotificationPush(application, gcmSenderId);
+    }
+
+    /**
+     * this method enabled or disabled the service with the intent-filter for RECEIVER the push, this is necesary
+     * //because you must to declare always in the manifest file, you can not do it with code. Beacause that we
+     * //keep the service OrchextraGcmListenerService and the intent filter in manifest, but weenabled or disabled
+     * the service if the sender ID in Orchextra are not setted
+     * @param application
+     * @param gcmSenderId
+     */
+    private static void enabledOrchextraNotificationPush(Application application, String gcmSenderId) {
+        int componentEnabledState;
+        if (gcmSenderId == null) {
+            componentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        } else {
+            componentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+        }
+
+        ComponentName component = new ComponentName(application, OrchextraGcmListenerService.class);
+        application.getPackageManager().setComponentEnabledSetting(component, componentEnabledState, PackageManager.DONT_KILL_APP);
+    }
+
+    public static String getGcmSenderId() {
+        return OrchextraManager.instance.gcmSenderId;
     }
 }
