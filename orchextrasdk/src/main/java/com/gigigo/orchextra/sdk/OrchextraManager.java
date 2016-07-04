@@ -441,7 +441,6 @@ public class OrchextraManager {
         } else {
             componentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
         }
-
         ComponentName component = new ComponentName(application, OrchextraGcmListenerService.class);
         application.getPackageManager().setComponentEnabledSetting(component, componentEnabledState, PackageManager.DONT_KILL_APP);
     }

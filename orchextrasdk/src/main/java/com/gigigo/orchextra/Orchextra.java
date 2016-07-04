@@ -28,9 +28,9 @@ public final class Orchextra {
 
     /**
      * Initialize Orchextra library.
-     *
+     * <p/>
      * You MUST call this method inside of the onCreate method in your Application.
-     *
+     * <p/>
      * It the FIRST Orchextra method you MUST call.
      */
     public static void initialize(final OrchextraBuilder orchextraBuilder) {
@@ -60,18 +60,21 @@ public final class Orchextra {
         };
 
         OrchextraManager.checkInitMethodCall(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
-
-        OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
-
+        if (orchextraBuilder.getOrchextraLogLevel() != null) {
+            OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
+        }
         OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
         OrchextraManager.setGcmSendId(orchextraBuilder.getApplication(), orchextraBuilder.getGcmSenderId());
         OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
         OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
     }
 
+
+
+
     /**
      * Start the Orchextra library. Calling this method Orchextra start to send and receive events.
-     *
+     * <p/>
      * You can call this method in any moment after the calling of the initialize method.
      */
     public static void start() {
@@ -81,7 +84,7 @@ public final class Orchextra {
 
     /**
      * Change the api key and secret defined in the initialization call in any moment.
-     *
+     * <p/>
      * If the credentials are the same, it doesn't have effects. You don't have to use it, except you have almost 2 different credentials.
      */
     public static synchronized void changeCredentials(String apiKey, String apiSecret) {
@@ -90,7 +93,7 @@ public final class Orchextra {
 
     /**
      * Start a new recognition view to scanner a image.
-     *
+     * <p/>
      * You have to include Orchextra image recognition module in Gradle dependencies and initializate the module.
      */
     public static synchronized void startImageRecognition() {
