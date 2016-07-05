@@ -1,8 +1,8 @@
-# Orchextra SDK for Android
-[![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk) 
+`# Orchextra SDK for Android
+[![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-2.3.2-blue.svg)
+![Version](https://img.shields.io/badge/Version-2.3.4-blue.svg)
 [![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
 
@@ -13,7 +13,7 @@ Start by creating a project in [Orchextra Dashboard](https://dashboard.orchextra
 
 ## Overview
 Orchextra SDK is composed of **Orchextra Core**.
-  
+
 #### Orchextra Core
 - Geofences
 - Beacons
@@ -44,7 +44,7 @@ allprojects {
 ```
 and we add the Orchextra dependency in our **app** module like this:
 ```java
-    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.2'
+    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.4'
 ```
 
 The previous dependency has to be added into this file:
@@ -54,12 +54,12 @@ The previous dependency has to be added into this file:
 and we must sync gradle project.
 
 ## Integrate Orchextra SDK
-We have to created a class which extends from Application (if we didn't do yet) and add the Orchextra init method. We could implement OrchextraCompletionCallback interface in order to receive the orchextra status.   
+We have to created a class which extends from Application (if we didn't do yet) and add the Orchextra init method. We could implement OrchextraCompletionCallback interface in order to receive the orchextra status.
 
 ```java
-Orchextra.init(this, new OrchextraCompletionCallback() {              
+Orchextra.init(this, new OrchextraCompletionCallback() {
                     @Override
-                    public void onSuccess() { }              
+                    public void onSuccess() { }
                    @Override
                     public void onError(String s) { }
                     @Override
@@ -100,7 +100,7 @@ Orchextra.setUser(new ORCUser(CRM_ID,
 Regarding *Keywords* they are not used any more instead of use this constructor you should use the new one having TAG for replacing keywords, so the previous code could be something like:
 ```java
 Orchextra.setUser(new ORCUser("123456789",
-        new GregorianCalendar(1990, 10, 29), //any Birth date as a calendar instance
+        new GregorianCalendar(1990, Calendar.NOVEMBER, 29), //any Birth date as a calendar instance
         ORCUser.Gender.ORCGenderMale, //ORCGenderMale or ORCGenderFemale Enum
         new ORCUserTag("tag1"),
         new ORCUserTag("tag2")));
