@@ -20,12 +20,12 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
 import com.gigigo.ggglib.mappers.MapperUtils;
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
-import com.gigigo.orchextra.domain.model.config.Config;
-import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
+import com.gigigo.orchextra.domain.model.config.ConfigRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiConfigRequest;
 
 
 public class ConfigModelToExternalClassMapper
-    implements ModelToExternalClassMapper<Config, OrchextraApiConfigRequest> {
+    implements ModelToExternalClassMapper<ConfigRequest, ApiConfigRequest> {
 
   private final AppModelToExternalClassMapper appRequestMapper;
   private final CrmModelToExternalClassMapper crmRequestMapper;
@@ -46,9 +46,9 @@ public class ConfigModelToExternalClassMapper
     this.appRequestMapper = appRequestMapper;
   }
 
-  @Override public OrchextraApiConfigRequest modelToExternalClass(Config config) {
+  @Override public ApiConfigRequest modelToExternalClass(ConfigRequest config) {
 
-    OrchextraApiConfigRequest configRequest = new OrchextraApiConfigRequest();
+    ApiConfigRequest configRequest = new ApiConfigRequest();
 
     configRequest.setApp(MapperUtils.checkNullDataRequest(appRequestMapper, config.getSdkAppInfo()));
     configRequest.setCrm(MapperUtils.checkNullDataRequest(crmRequestMapper, config.getCrmUser()));

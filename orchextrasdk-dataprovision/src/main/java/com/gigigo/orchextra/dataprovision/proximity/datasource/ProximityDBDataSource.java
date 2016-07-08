@@ -24,7 +24,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.List;
 
 
-public interface BeaconsDBDataSource {
+public interface ProximityDBDataSource {
 
   BusinessObject<OrchextraRegion> obtainRegionEvent(OrchextraRegion orchextraRegion);
 

@@ -16,18 +16,32 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextra.data.datasources.api.model.requests;
+package com.gigigo.orchextra.domain.model;
 
-import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
+public enum ProximityItemType implements StringValueEnum {
+  BEACON("beacon"),
+  GEOFENCE("geofence");
 
+  private final String text;
 
-public class OrchextraApiClientAuthRequest extends OrchextraApiAuthRequest {
-
-  public OrchextraApiClientAuthRequest(GrantType grantType, AuthCredentials authCredentials) {
-    super(grantType, authCredentials);
+  ProximityItemType(final String text) {
+    this.text = text;
   }
 
-  @Override ApiCredentials obtainApiCredentialsFromCredentials(AuthCredentials authCredentials) {
-    return new ApiClientAuthCredentials(authCredentials);
+  @Override
+  public String getStringValue() {
+    return text;
+  }
+
+  public static ProximityItemType getProximityPointTypeValue(String type) {
+    if (type != null) {
+      if (type.equals(BEACON.getStringValue())) {
+        return BEACON;
+      } else {
+        return GEOFENCE;
+      }
+    } else {
+      return null;
+    }
   }
 }

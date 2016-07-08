@@ -2,7 +2,7 @@ package gigigo.com.orchextra.data.datasources.builders;
 
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
-import com.gigigo.orchextra.domain.model.ProximityPointType;
+import com.gigigo.orchextra.domain.model.ProximityItemType;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,7 +16,7 @@ public class GeofenceBuilder {
     public static final String ID = "1234";
     public static final String CODE = "999";
     public static final String NAME = "GEOFENCE";
-    public static final ProximityPointType TYPE = ProximityPointType.GEOFENCE;
+    public static final ProximityItemType TYPE = ProximityItemType.GEOFENCE;
     public static final int STAY = 3000;
     public static final Date CREATED = DateBuilder.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
     public static final Date UPDATED = DateBuilder.getCalendar(2014, Calendar.SEPTEMBER, 29, 18, 46, 19);
@@ -32,7 +32,7 @@ public class GeofenceBuilder {
     private String id = ID;
     private String code = CODE;
     private String name = NAME;
-    private ProximityPointType type = TYPE;
+    private ProximityItemType type = TYPE;
     private int stay = STAY;
     private Date created = CREATED;
     private Date updated = UPDATED;

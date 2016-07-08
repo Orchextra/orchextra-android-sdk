@@ -20,7 +20,7 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
-import com.gigigo.orchextra.domain.model.ProximityPointType;
+import com.gigigo.orchextra.domain.model.ProximityItemType;
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
@@ -46,7 +46,7 @@ public class GeofenceEventRealmMapper implements Mapper<OrchextraGeofence, Geofe
     geofence.setNotifyOnEntry(geofenceEventRealm.isNotifyOnEntry());
     geofence.setNotifyOnExit(geofenceEventRealm.isNotifyOnExit());
     geofence.setStayTime(geofenceEventRealm.getStayTime());
-    geofence.setType(ProximityPointType.getProximityPointTypeValue(geofenceEventRealm.getType()));
+    geofence.setType(ProximityItemType.getProximityPointTypeValue(geofenceEventRealm.getType()));
 
     geofence.setActionRelated(new ActionRelated(geofenceEventRealm.getActionRelated(),
         geofenceEventRealm.isActionRelatedCancelable()));

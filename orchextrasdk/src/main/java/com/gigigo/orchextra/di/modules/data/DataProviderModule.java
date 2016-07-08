@@ -29,7 +29,7 @@ import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.imagerecognition.ImageRecognitionLocalDataProviderImp;
 import com.gigigo.orchextra.dataprovision.proximity.ProximityAndGeofencesLocalDataProviderImp;
-import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.dataprovision.status.OrchextraStatusDataProviderImpl;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
@@ -69,9 +69,9 @@ public class DataProviderModule {
 
     @Provides @Singleton
     ProximityAndGeofencesLocalDataProvider provideGeofenceDataProvider(ConfigDBDataSource configDBDataSource,
-                                                                       BeaconsDBDataSource beaconsDBDataSource,
+                                                                       ProximityDBDataSource proximityDBDataSource,
                                                                        GeofenceDBDataSource geofenceDBDataSource) {
-        return new ProximityAndGeofencesLocalDataProviderImp(configDBDataSource, beaconsDBDataSource, geofenceDBDataSource);
+        return new ProximityAndGeofencesLocalDataProviderImp(configDBDataSource, proximityDBDataSource, geofenceDBDataSource);
     }
 
   @Provides @Singleton OrchextraStatusDataProvider provideOrchextraStatusDataProvider(

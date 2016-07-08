@@ -20,7 +20,7 @@ package gigigo.com.orchextra.data.datasources.db.model;
 
 import io.realm.RealmObject;
 
-
+@Deprecated
 public class KeyWordRealm extends RealmObject {
   private String keyword;
 

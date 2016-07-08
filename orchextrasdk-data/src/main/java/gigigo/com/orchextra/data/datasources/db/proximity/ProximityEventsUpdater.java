@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextra.data.datasources.db.beacons;
+package gigigo.com.orchextra.data.datasources.db.proximity;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
@@ -30,22 +30,22 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 
-public class BeaconEventsUpdater {
+public class ProximityEventsUpdater {
 
-  private final Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper;
+  private final Mapper<OrchextraRegion, RegionEventRealm> regionEventRealmMapper;
   private final Mapper<OrchextraBeacon, BeaconEventRealm> beaconEventRealmMapper;
   private final OrchextraLogger orchextraLogger;
 
-  public BeaconEventsUpdater(Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper,
-      Mapper<OrchextraBeacon, BeaconEventRealm> beaconEventRealmMapper,
-      OrchextraLogger orchextraLogger) {
+  public ProximityEventsUpdater(Mapper<OrchextraRegion, RegionEventRealm> regionEventRealmMapper,
+                                Mapper<OrchextraBeacon, BeaconEventRealm> beaconEventRealmMapper,
+                                OrchextraLogger orchextraLogger) {
 
     this.regionEventRealmMapper = regionEventRealmMapper;
     this.beaconEventRealmMapper = beaconEventRealmMapper;
@@ -88,17 +88,17 @@ public class BeaconEventsUpdater {
   }
 
   public synchronized OrchextraRegion storeRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
-    BeaconRegionEventRealm beaconRegionEventRealm =
+    RegionEventRealm regionEventRealm =
         regionEventRealmMapper.modelToExternalClass(orchextraRegion);
-    storeElement(realm, beaconRegionEventRealm);
+    storeElement(realm, regionEventRealm);
     orchextraLogger.log("Stored region event with code " + orchextraRegion.getCode());
-    return regionEventRealmMapper.externalClassToModel(beaconRegionEventRealm);
+    return regionEventRealmMapper.externalClassToModel(regionEventRealm);
   }
 
   public synchronized OrchextraRegion deleteRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
 
-    RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
-        .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
+    RealmResults<RegionEventRealm> results = realm.where(RegionEventRealm.class)
+        .equalTo(RegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
         .findAll();
 
     if (results.size() > 1) {
@@ -121,8 +121,8 @@ public class BeaconEventsUpdater {
 
   public synchronized OrchextraRegion addActionToRegion(Realm realm, OrchextraRegion orchextraRegion) {
 
-    RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
-        .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
+    RealmResults<RegionEventRealm> results = realm.where(RegionEventRealm.class)
+        .equalTo(RegionEventRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
         .findAll();
 
     if (results.isEmpty()) {
@@ -138,14 +138,14 @@ public class BeaconEventsUpdater {
     }
 
     realm.beginTransaction();
-    BeaconRegionEventRealm beaconRegionEventRealm = results.first();
-    beaconRegionEventRealm.setActionRelated(orchextraRegion.getActionRelatedId());
-    beaconRegionEventRealm.setActionRelatedCancelable(
+    RegionEventRealm regionEventRealm = results.first();
+    regionEventRealm.setActionRelated(orchextraRegion.getActionRelatedId());
+    regionEventRealm.setActionRelatedCancelable(
         (orchextraRegion.relatedActionIsCancelable()));
-    realm.copyToRealmOrUpdate(beaconRegionEventRealm);
+    realm.copyToRealmOrUpdate(regionEventRealm);
     realm.commitTransaction();
 
-    return regionEventRealmMapper.externalClassToModel(beaconRegionEventRealm);
+    return regionEventRealmMapper.externalClassToModel(regionEventRealm);
   }
 
   private synchronized RealmResults<BeaconEventRealm> obtainPurgeResults(Realm realm, long timeStamptForDelete) {

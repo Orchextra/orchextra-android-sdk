@@ -28,7 +28,7 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraSta
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
-import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.device.information.AndroidInstanceIdProvider;
 import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
@@ -49,13 +49,13 @@ import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
-import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsReader;
-import gigigo.com.orchextra.data.datasources.db.beacons.BeaconEventsUpdater;
-import gigigo.com.orchextra.data.datasources.db.beacons.BeaconsDBDataSourceImpl;
+import gigigo.com.orchextra.data.datasources.db.proximity.RegionEventsReader;
+import gigigo.com.orchextra.data.datasources.db.proximity.ProximityEventsUpdater;
+import gigigo.com.orchextra.data.datasources.db.proximity.ProximityDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
-import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceDBDataSourceImp;
+import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsReader;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsUpdater;
 import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusDBDataSourceImpl;
@@ -123,13 +123,14 @@ public class DataModule {
         configInfoResultUpdater, configInfoResultReader, realmDefaultInstance);
   }
 
-  @Provides @Singleton BeaconsDBDataSource provideBeaconsDBDataSource(ContextProvider contextProvider,
-      BeaconEventsUpdater beaconEventsUpdater,
-      BeaconEventsReader beaconEventsReader,
-      RealmDefaultInstance realmDefaultInstance,
-      OrchextraLogger orchextraLogger) {
-    return new BeaconsDBDataSourceImpl(contextProvider.getApplicationContext(),
-        beaconEventsUpdater, beaconEventsReader, realmDefaultInstance, orchextraLogger);
+  @Provides @Singleton
+  ProximityDBDataSource provideBeaconsDBDataSource(ContextProvider contextProvider,
+                                                   ProximityEventsUpdater proximityEventsUpdater,
+                                                   RegionEventsReader regionEventsReader,
+                                                   RealmDefaultInstance realmDefaultInstance,
+                                                   OrchextraLogger orchextraLogger) {
+    return new ProximityDBDataSourceImpl(contextProvider.getApplicationContext(),
+            proximityEventsUpdater, regionEventsReader, realmDefaultInstance, orchextraLogger);
   }
 
   @Provides
@@ -138,7 +139,7 @@ public class DataModule {
                                                    GeofenceEventsUpdater geofenceEventsUpdater,
                                                    GeofenceEventsReader geofenceEventsReader,
                                                    RealmDefaultInstance realmDefaultInstance) {
-    return new GeofenceDBDataSourceImp(contextProvider.getApplicationContext(),
+    return new GeofenceDBDataSourceImpl(contextProvider.getApplicationContext(),
             geofenceEventsReader, geofenceEventsUpdater, realmDefaultInstance);
   }
 

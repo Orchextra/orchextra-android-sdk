@@ -29,7 +29,7 @@ import com.gigigo.orchextra.domain.model.vo.Theme;
 import java.util.ArrayList;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiRegion;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 
@@ -80,13 +80,13 @@ public class ConfigApiExternalClassToModelMapper
     return geofences;
   }
 
-  private List<OrchextraRegion> mapBeacons(List<ApiBeaconRegion> apiBeaconRegions) {
+  private List<OrchextraRegion> mapBeacons(List<ApiRegion> apiRegions) {
     List<OrchextraRegion> beacons = new ArrayList<>();
 
     if (beacons == null) return beacons;
 
-    for (ApiBeaconRegion apiBeaconRegion : apiBeaconRegions) {
-      beacons.add(MapperUtils.checkNullDataResponse(beaconResponseMapper, apiBeaconRegion));
+    for (ApiRegion apiRegion : apiRegions) {
+      beacons.add(MapperUtils.checkNullDataResponse(beaconResponseMapper, apiRegion));
     }
 
     return beacons;

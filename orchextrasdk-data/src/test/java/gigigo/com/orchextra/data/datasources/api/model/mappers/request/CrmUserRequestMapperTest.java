@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrm;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrmUser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -29,13 +29,13 @@ public class CrmUserRequestMapperTest {
         CrmUser crmUser = new CrmUser("1234", GenderType.MALE, getCalendar(2012, 9, 21, 11, 22, 34), keywords);
 
         CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
-        ApiCrm apiCrm = mapper.modelToExternalClass(crmUser);
+        ApiCrmUser apiCrmUser = mapper.modelToExternalClass(crmUser);
 
-        assertEquals("1234", apiCrm.getCrmId());
-        assertEquals("m", apiCrm.getGender());
-        assertEquals("2012-10-21", apiCrm.getBirthDate());
-        assertEquals(1, apiCrm.getKeywords().size());
-        assertEquals("palabra", apiCrm.getKeywords().get(0));
+        assertEquals("1234", apiCrmUser.getCrmId());
+        assertEquals("m", apiCrmUser.getGender());
+        assertEquals("2012-10-21", apiCrmUser.getBirthDate());
+        assertEquals(1, apiCrmUser.getKeywords().size());
+        assertEquals("palabra", apiCrmUser.getKeywords().get(0));
     }
 
     @Test
@@ -43,12 +43,12 @@ public class CrmUserRequestMapperTest {
         CrmUser crmUser = new CrmUser("1234", GenderType.FEMALE, getCalendar(2012, 9, 21, 11, 22, 34), new ArrayList<String>());
 
         CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
-        ApiCrm apiCrm = mapper.modelToExternalClass(crmUser);
+        ApiCrmUser apiCrmUser = mapper.modelToExternalClass(crmUser);
 
-        assertEquals("1234", apiCrm.getCrmId());
-        assertEquals("f", apiCrm.getGender());
-        assertEquals("2012-10-21", apiCrm.getBirthDate());
-        assertEquals(0, apiCrm.getKeywords().size());
+        assertEquals("1234", apiCrmUser.getCrmId());
+        assertEquals("f", apiCrmUser.getGender());
+        assertEquals("2012-10-21", apiCrmUser.getBirthDate());
+        assertEquals(0, apiCrmUser.getKeywords().size());
     }
 
     @Test
@@ -56,11 +56,11 @@ public class CrmUserRequestMapperTest {
         CrmUser crmUser = new CrmUser("1234", GenderType.ND, getCalendar(1970, 0, 01, 01, 00, 00), null);
 
         CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
-        ApiCrm apiCrm = mapper.modelToExternalClass(crmUser);
+        ApiCrmUser apiCrmUser = mapper.modelToExternalClass(crmUser);
 
-        assertEquals("1234", apiCrm.getCrmId());
-        assertEquals("n", apiCrm.getGender());
-        assertEquals("1970-01-01", apiCrm.getBirthDate());
-        assertNull(apiCrm.getKeywords());
+        assertEquals("1234", apiCrmUser.getCrmId());
+        assertEquals("n", apiCrmUser.getGender());
+        assertEquals("1970-01-01", apiCrmUser.getBirthDate());
+        assertNull(apiCrmUser.getKeywords());
     }
 }

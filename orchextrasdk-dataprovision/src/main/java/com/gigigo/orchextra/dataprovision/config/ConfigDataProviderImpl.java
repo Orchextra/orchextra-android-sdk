@@ -27,7 +27,7 @@ import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.interactors.error.OrchextraBusinessErrors;
-import com.gigigo.orchextra.domain.model.config.Config;
+import com.gigigo.orchextra.domain.model.config.ConfigRequest;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
@@ -53,7 +53,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     this.session = session;
   }
 
-  @Override public BusinessObject<OrchextraUpdates> sendConfigInfo(Config config) {
+  @Override public BusinessObject<OrchextraUpdates> sendConfigInfo(ConfigRequest configRequest) {
 
     boolean isAuthenticated = checkAuthenticationToken();
     if (!isAuthenticated) {
@@ -62,7 +62,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
               BusinessContentType.BUSINESS_ERROR_CONTENT));
     }
 
-    BusinessObject<ConfigInfoResult> configResponse = configDataSource.sendConfigInfo(config);
+    BusinessObject<ConfigInfoResult> configResponse = configDataSource.sendConfigInfo(configRequest);
 
     if (configResponse.isSuccess()) {
       OrchextraUpdates orchextraUpdates =

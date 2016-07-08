@@ -16,32 +16,32 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextra.data.datasources.db.beacons;
+package gigigo.com.orchextra.data.datasources.db.proximity;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class BeaconEventsReader {
+public class RegionEventsReader {
 
-  private final Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper;
+  private final Mapper<OrchextraRegion, RegionEventRealm> regionEventRealmMapper;
   private final OrchextraLogger orchextraLogger;
 
-  public BeaconEventsReader(Mapper<OrchextraRegion, BeaconRegionEventRealm> regionEventRealmMapper,
-      OrchextraLogger orchextraLogger) {
+  public RegionEventsReader(Mapper<OrchextraRegion, RegionEventRealm> regionEventRealmMapper,
+                            OrchextraLogger orchextraLogger) {
     this.regionEventRealmMapper = regionEventRealmMapper;
     this.orchextraLogger = orchextraLogger;
   }
 
   public OrchextraRegion obtainRegionEvent(Realm realm, OrchextraRegion orchextraRegion) {
 
-    RealmResults<BeaconRegionEventRealm> results = realm.where(BeaconRegionEventRealm.class)
-        .equalTo(BeaconRegionRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
+    RealmResults<RegionEventRealm> results = realm.where(RegionEventRealm.class)
+        .equalTo(RegionRealm.CODE_FIELD_NAME, orchextraRegion.getCode())
         .findAll();
 
     if (results.size() > 1) {

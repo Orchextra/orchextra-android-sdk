@@ -22,27 +22,27 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.RegionEventType;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 
 
-public class BeaconRegionEventRealmMapper
-    implements Mapper<OrchextraRegion, BeaconRegionEventRealm> {
+public class RegionEventRealmMapper
+    implements Mapper<OrchextraRegion, RegionEventRealm> {
 
-  private final Mapper<OrchextraRegion, BeaconRegionRealm> beaconRegionRealmMapper;
+  private final Mapper<OrchextraRegion, RegionRealm> beaconRegionRealmMapper;
 
-  public BeaconRegionEventRealmMapper(
-      Mapper<OrchextraRegion, BeaconRegionRealm> beaconRegionRealmMapper) {
+  public RegionEventRealmMapper(
+      Mapper<OrchextraRegion, RegionRealm> beaconRegionRealmMapper) {
     this.beaconRegionRealmMapper = beaconRegionRealmMapper;
   }
 
-  @Override public BeaconRegionEventRealm modelToExternalClass(OrchextraRegion region) {
-    BeaconRegionRealm beaconRegionRealm = beaconRegionRealmMapper.modelToExternalClass(region);
-    BeaconRegionEventRealm regionEventRealm = new BeaconRegionEventRealm(beaconRegionRealm);
+  @Override public RegionEventRealm modelToExternalClass(OrchextraRegion region) {
+    RegionRealm regionRealm = beaconRegionRealmMapper.modelToExternalClass(region);
+    RegionEventRealm regionEventRealm = new RegionEventRealm(regionRealm);
     return regionEventRealm;
   }
 
-  @Override public OrchextraRegion externalClassToModel(BeaconRegionEventRealm regionEventRealm) {
+  @Override public OrchextraRegion externalClassToModel(RegionEventRealm regionEventRealm) {
     OrchextraRegion orchextraRegion =
         new OrchextraRegion(regionEventRealm.getCode(), regionEventRealm.getUuid(),
             regionEventRealm.getMajor(), regionEventRealm.getMinor(), regionEventRealm.isActive());

@@ -14,8 +14,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
-import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.VuforiaRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.VuforiaCredentialsRealm;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.VuforiaCredentialsRealmMapper;
 import io.realm.Realm;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -26,17 +26,17 @@ import static org.mockito.Mockito.when;
 public class ConfigDBDataSourceImplTest {
 
     private Realm realm;
-    private ConfigVuforiaUpdater updater;
+    private ConfigVuforiaCredentialsUpdater updater;
 
-    Mapper<VuforiaCredentials, VuforiaRealm> vuforiaMapper;
+    Mapper<VuforiaCredentials, VuforiaCredentialsRealm> vuforiaMapper;
 
     @Before
     public void setUp() throws Exception {
-        vuforiaMapper = Mockito.mock(VuforiaRealmMapper.class);
+        vuforiaMapper = Mockito.mock(VuforiaCredentialsRealmMapper.class);
 
         initRealmInstance();
 
-        updater = new ConfigVuforiaUpdater(vuforiaMapper);
+        updater = new ConfigVuforiaCredentialsUpdater(vuforiaMapper);
     }
 
     private void initRealmInstance() {
@@ -52,26 +52,26 @@ public class ConfigDBDataSourceImplTest {
         vuforiaCredentials.setClientSecretKey("Secret");
         vuforiaCredentials.setLicenseKey("License");
 
-        VuforiaRealm vuforiaRealm = new VuforiaRealm();
-        vuforiaRealm.setClientAccessKey("Key");
-        vuforiaRealm.setClientSecretKey("Secret");
-        vuforiaRealm.setLicenseKey("License");
+        VuforiaCredentialsRealm vuforiaCredentialsRealm = new VuforiaCredentialsRealm();
+        vuforiaCredentialsRealm.setClientAccessKey("Key");
+        vuforiaCredentialsRealm.setClientSecretKey("Secret");
+        vuforiaCredentialsRealm.setLicenseKey("License");
 
-        when(vuforiaMapper.modelToExternalClass(vuforiaCredentials)).thenReturn(vuforiaRealm);
+        when(vuforiaMapper.modelToExternalClass(vuforiaCredentials)).thenReturn(vuforiaCredentialsRealm);
 
-        assertThat(realm.where(VuforiaRealm.class).count(), is(0L));
+        assertThat(realm.where(VuforiaCredentialsRealm.class).count(), is(0L));
 
         realm.beginTransaction();
         updater.saveVuforia(realm, vuforiaCredentials);
         realm.commitTransaction();
 
-        assertThat(realm.where(VuforiaRealm.class).count(), is(1L));
+        assertThat(realm.where(VuforiaCredentialsRealm.class).count(), is(1L));
 
         realm.beginTransaction();
         updater.removeVuforia(realm);
         realm.commitTransaction();
 
-        assertThat(realm.where(VuforiaRealm.class).count(), is(0L));
+        assertThat(realm.where(VuforiaCredentialsRealm.class).count(), is(0L));
     }
 
     @After

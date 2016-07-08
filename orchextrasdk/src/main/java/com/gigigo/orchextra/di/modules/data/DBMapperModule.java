@@ -29,25 +29,25 @@ import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmUserRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.OrchextraStatusRealmMapper;
 import orchextra.javax.inject.Singleton;
 
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
-import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
+import gigigo.com.orchextra.data.datasources.db.model.VuforiaCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconEventRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconRegionEventRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconRegionRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.RegionEventRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.RegionRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.GeofenceEventRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.GeofenceRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.KeyWordRealmMapper;
@@ -55,7 +55,7 @@ import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmPointMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthReamlMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ThemeRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.VuforiaRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.VuforiaCredentialsRealmMapper;
 
 
 @Module
@@ -81,8 +81,8 @@ public class DBMapperModule {
     @Deprecated
     @Singleton
     @Provides
-    CrmRealmMapper provideCrmRealmMapper(KeyWordRealmMapper keyWordRealmMapper) {
-        return new CrmRealmMapper(keyWordRealmMapper);
+    CrmUserRealmMapper provideCrmRealmMapper(KeyWordRealmMapper keyWordRealmMapper) {
+        return new CrmUserRealmMapper(keyWordRealmMapper);
     }
 
     @Singleton
@@ -100,15 +100,15 @@ public class DBMapperModule {
     @Singleton
     @RealmMapperBeaconRegion
     @Provides
-    Mapper<OrchextraRegion, BeaconRegionRealm> provideRealmMapperBeaconRegion() {
-        return new BeaconRegionRealmMapper();
+    Mapper<OrchextraRegion, RegionRealm> provideRealmMapperBeaconRegion() {
+        return new RegionRealmMapper();
     }
 
     @Singleton
     @Provides
-    Mapper<OrchextraRegion, BeaconRegionEventRealm> provideRealmMapperBeaconRegionEvent(
-        @RealmMapperBeaconRegion Mapper<OrchextraRegion, BeaconRegionRealm> realmMapperBeaconRegion) {
-        return new BeaconRegionEventRealmMapper(realmMapperBeaconRegion);
+    Mapper<OrchextraRegion, RegionEventRealm> provideRealmMapperBeaconRegionEvent(
+        @RealmMapperBeaconRegion Mapper<OrchextraRegion, RegionRealm> realmMapperBeaconRegion) {
+        return new RegionEventRealmMapper(realmMapperBeaconRegion);
     }
 
     @Singleton
@@ -132,8 +132,8 @@ public class DBMapperModule {
 
     @Singleton
     @Provides
-    Mapper<VuforiaCredentials, VuforiaRealm> provideRealmMapperVuforiaRealm() {
-        return new VuforiaRealmMapper();
+    Mapper<VuforiaCredentials, VuforiaCredentialsRealm> provideRealmMapperVuforiaRealm() {
+        return new VuforiaCredentialsRealmMapper();
     }
     @Deprecated
     @Singleton

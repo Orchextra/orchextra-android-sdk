@@ -22,7 +22,7 @@ import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
-import com.gigigo.orchextra.domain.model.ProximityPointType;
+import com.gigigo.orchextra.domain.model.ProximityItemType;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 
@@ -82,7 +82,7 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
         geofence.setNotifyOnExit(geofenceRealm.getNotifyOnExit());
         geofence.setStayTime(geofenceRealm.getStayTime());
         geofence.setTags(keyWordRealmMapper.realmKeyWordsToStringList(geofenceRealm.getTags()));
-        geofence.setType(ProximityPointType.getProximityPointTypeValue(geofenceRealm.getType()));
+        geofence.setType(ProximityItemType.getProximityPointTypeValue(geofenceRealm.getType()));
 
         geofence.setCreatedAt(DateUtils.stringToDateWithFormat(geofenceRealm.getCreatedAt(),
                 DateFormatConstants.DATE_FORMAT_TIME));

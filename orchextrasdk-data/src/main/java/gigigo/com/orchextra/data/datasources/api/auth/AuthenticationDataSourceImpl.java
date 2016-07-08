@@ -27,9 +27,9 @@ import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 import gigigo.com.orchextra.data.datasources.api.model.requests.GrantType;
-import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiAuthRequest;
-import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiClientAuthRequest;
-import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiSdkAuthRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiAuthRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiClientAuthRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiSdkAuthRequest;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import orchextra.javax.inject.Provider;
 
@@ -54,8 +54,8 @@ public class AuthenticationDataSourceImpl implements AuthenticationDataSource {
   @Override public BusinessObject<SdkAuthData> authenticateSdk(AuthCredentials authCredentials) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
-    OrchextraApiAuthRequest request =
-        new OrchextraApiSdkAuthRequest(GrantType.AUTH_SDK, authCredentials);
+    ApiAuthRequest request =
+        new ApiSdkAuthRequest(GrantType.AUTH_SDK, authCredentials);
 
     ApiGenericResponse apiGenericResponse =
         serviceExecutor.executeNetworkServiceConnection(SdkAuthData.class,
@@ -67,8 +67,8 @@ public class AuthenticationDataSourceImpl implements AuthenticationDataSource {
   @Override public BusinessObject<ClientAuthData> authenticateUser(AuthCredentials authCredentials) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
-    OrchextraApiAuthRequest request =
-        new OrchextraApiClientAuthRequest(GrantType.AUTH_USER, authCredentials);
+    ApiAuthRequest request =
+        new ApiClientAuthRequest(GrantType.AUTH_USER, authCredentials);
 
     ApiGenericResponse apiGenericResponse =
         serviceExecutor.executeNetworkServiceConnection(SdkAuthData.class,

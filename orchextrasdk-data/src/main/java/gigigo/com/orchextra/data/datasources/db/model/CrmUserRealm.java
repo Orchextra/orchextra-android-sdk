@@ -23,7 +23,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 
-public class CrmRealm extends RealmObject {
+public class CrmUserRealm extends RealmObject {
 
     @PrimaryKey
     private int id;

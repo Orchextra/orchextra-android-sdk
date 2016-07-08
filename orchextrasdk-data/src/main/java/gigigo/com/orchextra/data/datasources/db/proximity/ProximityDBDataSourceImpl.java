@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextra.data.datasources.db.beacons;
+package gigigo.com.orchextra.data.datasources.db.proximity;
 
 import android.content.Context;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
@@ -32,22 +32,22 @@ import java.util.List;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
 
-public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
+public class ProximityDBDataSourceImpl implements ProximityDBDataSource {
 
   private final Context context;
-  private final BeaconEventsUpdater beaconEventsUpdater;
-  private final BeaconEventsReader beaconEventsReader;
+  private final ProximityEventsUpdater proximityEventsUpdater;
+  private final RegionEventsReader regionEventsReader;
   private final RealmDefaultInstance realmDefaultInstance;
-  private final  OrchextraLogger orchextraLogger;
+  private final OrchextraLogger orchextraLogger;
 
-  public BeaconsDBDataSourceImpl(Context context, BeaconEventsUpdater beaconEventsUpdater,
-                                 BeaconEventsReader beaconEventsReader,
-      RealmDefaultInstance realmDefaultInstance,
-      OrchextraLogger orchextraLogger) {
+  public ProximityDBDataSourceImpl(Context context, ProximityEventsUpdater proximityEventsUpdater,
+                                   RegionEventsReader regionEventsReader,
+                                   RealmDefaultInstance realmDefaultInstance,
+                                   OrchextraLogger orchextraLogger) {
 
     this.context = context;
-    this.beaconEventsUpdater = beaconEventsUpdater;
-    this.beaconEventsReader = beaconEventsReader;
+    this.proximityEventsUpdater = proximityEventsUpdater;
+    this.regionEventsReader = regionEventsReader;
     this.realmDefaultInstance = realmDefaultInstance;
     this.orchextraLogger = orchextraLogger;
   }
@@ -56,7 +56,7 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
   public BusinessObject<OrchextraRegion> obtainRegionEvent(OrchextraRegion orchextraRegion) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
     try {
-      OrchextraRegion region = beaconEventsReader.obtainRegionEvent(realm, orchextraRegion);
+      OrchextraRegion region = regionEventsReader.obtainRegionEvent(realm, orchextraRegion);
       return new BusinessObject<>(region, BusinessError.createOKInstance());
     } catch (Exception e) {
       return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
@@ -71,7 +71,7 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
   public BusinessObject<OrchextraRegion> storeRegionEvent(OrchextraRegion orchextraRegion) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
     try {
-      OrchextraRegion region = beaconEventsUpdater.storeRegionEvent(realm, orchextraRegion);
+      OrchextraRegion region = proximityEventsUpdater.storeRegionEvent(realm, orchextraRegion);
       return new BusinessObject<>(region, BusinessError.createOKInstance());
     } catch (Exception e) {
       return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
@@ -86,7 +86,7 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
   public BusinessObject<OrchextraRegion> deleteRegionEvent(OrchextraRegion orchextraRegion) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
     try {
-      OrchextraRegion region = beaconEventsUpdater.deleteRegionEvent(realm, orchextraRegion);
+      OrchextraRegion region = proximityEventsUpdater.deleteRegionEvent(realm, orchextraRegion);
       return new BusinessObject<>(region, BusinessError.createOKInstance());
     } catch (Exception e) {
       return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
@@ -100,7 +100,7 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
   @Override public BusinessObject<OrchextraBeacon> storeBeaconEvent(OrchextraBeacon beacon) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
     try {
-      OrchextraBeacon storedBeacon = beaconEventsUpdater.storeBeaconEvent(realm, beacon);
+      OrchextraBeacon storedBeacon = proximityEventsUpdater.storeBeaconEvent(realm, beacon);
       return new BusinessObject<>(storedBeacon, BusinessError.createOKInstance());
     } catch (Exception e) {
       return new BusinessObject<>(null, BusinessError.createKoInstance(e.getMessage()));
@@ -116,7 +116,7 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
    */
   @Override public void deleteAllBeaconsInListWithTimeStampt(int requestTime) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
-    beaconEventsUpdater.deleteAllBeaconsInListWithTimeStampt(realm, requestTime);
+    proximityEventsUpdater.deleteAllBeaconsInListWithTimeStampt(realm, requestTime);
     if (realm != null) {
       realm.close();
     }
@@ -127,7 +127,7 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
-      List<String> codes = beaconEventsUpdater.obtainStoredEventBeaconCodes(realm, list);
+      List<String> codes = proximityEventsUpdater.obtainStoredEventBeaconCodes(realm, list);
       List<OrchextraBeacon> beacons = OrchextraBeacon.removeFromListElementsWithCodes(list, codes);
 
       if (!beacons.isEmpty()) {
@@ -151,7 +151,7 @@ public class BeaconsDBDataSourceImpl implements BeaconsDBDataSource {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
     try {
       OrchextraRegion orchextraRegionUpdated =
-          beaconEventsUpdater.addActionToRegion(realm, orchextraRegion);
+          proximityEventsUpdater.addActionToRegion(realm, orchextraRegion);
 
       return new BusinessObject<>(orchextraRegionUpdated, BusinessError.createOKInstance());
     } catch (Exception e) {

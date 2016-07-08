@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
-import com.gigigo.orchextra.domain.model.ProximityPointType;
+import com.gigigo.orchextra.domain.model.ProximityItemType;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ProximityItem {
     private String name;
     @Deprecated
     private List<String> tags;
-    private ProximityPointType type;
+    private ProximityItemType type;
     private Date createdAt;
     private Date updatedAt;
     private boolean notifyOnExit;
@@ -74,11 +74,11 @@ public class ProximityItem {
         this.tags = tags;
     }
 
-    public ProximityPointType getType() {
+    public ProximityItemType getType() {
         return type;
     }
 
-    public void setType(ProximityPointType type) {
+    public void setType(ProximityItemType type) {
         this.type = type;
     }
 

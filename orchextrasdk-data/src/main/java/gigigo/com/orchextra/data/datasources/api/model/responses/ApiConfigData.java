@@ -32,7 +32,7 @@ public class ApiConfigData {
 
     @Expose
     @SerializedName("proximity")
-    private List<ApiBeaconRegion> proximity;
+    private List<ApiRegion> proximity;
     @Deprecated
     @Expose
     @SerializedName("theme")
@@ -40,7 +40,7 @@ public class ApiConfigData {
 
     @Expose
     @SerializedName("vuforia")
-    private ApiVuforia vuforia;
+    private ApiVuforiaCredentials vuforia;
 
     @Expose
     @SerializedName("requestWaitTime")
@@ -54,11 +54,11 @@ public class ApiConfigData {
         this.geoMarketing = geoMarketing;
     }
 
-    public List<ApiBeaconRegion> getProximity() {
+    public List<ApiRegion> getProximity() {
         return proximity;
     }
 
-    public void setProximity(List<ApiBeaconRegion> proximity) {
+    public void setProximity(List<ApiRegion> proximity) {
         this.proximity = proximity;
     }
 
@@ -72,11 +72,11 @@ public class ApiConfigData {
         this.theme = theme;
     }
 
-    public ApiVuforia getVuforia() {
+    public ApiVuforiaCredentials getVuforia() {
         return vuforia;
     }
 
-    public void setVuforia(ApiVuforia vuforia) {
+    public void setVuforia(ApiVuforiaCredentials vuforia) {
         this.vuforia = vuforia;
     }
 

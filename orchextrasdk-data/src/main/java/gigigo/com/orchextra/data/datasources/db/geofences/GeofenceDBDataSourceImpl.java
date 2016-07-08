@@ -28,15 +28,15 @@ import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
 
-public class GeofenceDBDataSourceImp implements GeofenceDBDataSource {
+public class GeofenceDBDataSourceImpl implements GeofenceDBDataSource {
 
   private final Context context;
   private final GeofenceEventsReader geofenceEventsReader;
   private final GeofenceEventsUpdater geofenceEventsUpdater;
   private final RealmDefaultInstance realmDefaultInstance;
 
-  public GeofenceDBDataSourceImp(Context context, GeofenceEventsReader geofenceEventsReader,
-      GeofenceEventsUpdater geofenceEventsUpdater, RealmDefaultInstance realmDefaultInstance) {
+  public GeofenceDBDataSourceImpl(Context context, GeofenceEventsReader geofenceEventsReader,
+                                  GeofenceEventsUpdater geofenceEventsUpdater, RealmDefaultInstance realmDefaultInstance) {
     this.context = context;
     this.geofenceEventsReader = geofenceEventsReader;
     this.geofenceEventsUpdater = geofenceEventsUpdater;

@@ -20,7 +20,7 @@ package com.gigigo.orchextra.dataprovision.proximity;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
-import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.domain.dataprovider.ProximityAndGeofencesLocalDataProvider;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
@@ -32,13 +32,13 @@ import java.util.List;
 public class ProximityAndGeofencesLocalDataProviderImp implements ProximityAndGeofencesLocalDataProvider {
 
   private final ConfigDBDataSource configDBDataSource;
-  private final BeaconsDBDataSource beaconsDBDataSource;
+  private final ProximityDBDataSource proximityDBDataSource;
   private final GeofenceDBDataSource geofenceDBDataSource;
 
   public ProximityAndGeofencesLocalDataProviderImp(ConfigDBDataSource configDBDataSource,
-                                                   BeaconsDBDataSource beaconsDBDataSource, GeofenceDBDataSource geofenceDBDataSource) {
+                                                   ProximityDBDataSource proximityDBDataSource, GeofenceDBDataSource geofenceDBDataSource) {
     this.configDBDataSource = configDBDataSource;
-    this.beaconsDBDataSource = beaconsDBDataSource;
+    this.proximityDBDataSource = proximityDBDataSource;
     this.geofenceDBDataSource = geofenceDBDataSource;
   }
 
@@ -75,28 +75,28 @@ public class ProximityAndGeofencesLocalDataProviderImp implements ProximityAndGe
   }
 
   @Override public BusinessObject<OrchextraRegion> obtainRegion(OrchextraRegion orchextraRegion) {
-    return beaconsDBDataSource.obtainRegionEvent(orchextraRegion);
+    return proximityDBDataSource.obtainRegionEvent(orchextraRegion);
   }
 
   @Override public BusinessObject<OrchextraRegion> storeRegion(OrchextraRegion orchextraRegion) {
-    return beaconsDBDataSource.storeRegionEvent(orchextraRegion);
+    return proximityDBDataSource.storeRegionEvent(orchextraRegion);
   }
 
   @Override public BusinessObject<OrchextraRegion> deleteRegion(OrchextraRegion orchextraRegion) {
-    return beaconsDBDataSource.deleteRegionEvent(orchextraRegion);
+    return proximityDBDataSource.deleteRegionEvent(orchextraRegion);
   }
 
   @Override public BusinessObject<OrchextraBeacon> storeBeaconEvent(OrchextraBeacon beacon) {
-    return beaconsDBDataSource.storeBeaconEvent(beacon);
+    return proximityDBDataSource.storeBeaconEvent(beacon);
   }
 
   @Override public void purgeOldBeaconEventsWithRequestTime(int requestTime) {
-    beaconsDBDataSource.deleteAllBeaconsInListWithTimeStampt(requestTime);
+    proximityDBDataSource.deleteAllBeaconsInListWithTimeStampt(requestTime);
   }
 
   @Override public BusinessObject<List<OrchextraBeacon>> getNotStoredBeaconEvents(
       List<OrchextraBeacon> beacons) {
-    return beaconsDBDataSource.getNotStoredBeaconEvents(beacons);
+    return proximityDBDataSource.getNotStoredBeaconEvents(beacons);
   }
 
   @Override public BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister() {
@@ -105,6 +105,6 @@ public class ProximityAndGeofencesLocalDataProviderImp implements ProximityAndGe
 
   @Override
   public BusinessObject<OrchextraRegion> updateRegionWithActionId(OrchextraRegion orchextraRegion) {
-    return beaconsDBDataSource.updateRegionWithActionId(orchextraRegion);
+    return proximityDBDataSource.updateRegionWithActionId(orchextraRegion);
   }
 }

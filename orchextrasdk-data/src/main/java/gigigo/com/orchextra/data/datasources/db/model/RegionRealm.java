@@ -23,7 +23,7 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 
-public class BeaconRegionRealm extends RealmObject {
+public class RegionRealm extends RealmObject {
 
   public static final String CODE_FIELD_NAME = "code";
 
@@ -37,18 +37,18 @@ public class BeaconRegionRealm extends RealmObject {
   private boolean active;
   private boolean actionRelatedCancelable;
 
-  public BeaconRegionRealm(BeaconRegionRealm beaconRegionRealm) {
-    this.code = beaconRegionRealm.getCode();
-    this.uuid = beaconRegionRealm.getUuid();
-    this.major = beaconRegionRealm.getMajor();
-    this.minor = beaconRegionRealm.getMinor();
-    this.eventType = beaconRegionRealm.getEventType();
-    this.actionRelated = beaconRegionRealm.getActionRelated();
-    this.actionRelatedCancelable = beaconRegionRealm.isActionRelatedCancelable();
-    this.active = beaconRegionRealm.isActive();
+  public RegionRealm(RegionRealm regionRealm) {
+    this.code = regionRealm.getCode();
+    this.uuid = regionRealm.getUuid();
+    this.major = regionRealm.getMajor();
+    this.minor = regionRealm.getMinor();
+    this.eventType = regionRealm.getEventType();
+    this.actionRelated = regionRealm.getActionRelated();
+    this.actionRelatedCancelable = regionRealm.isActionRelatedCancelable();
+    this.active = regionRealm.isActive();
   }
 
-  public BeaconRegionRealm() {
+  public RegionRealm() {
   }
 
   public String getCode() {

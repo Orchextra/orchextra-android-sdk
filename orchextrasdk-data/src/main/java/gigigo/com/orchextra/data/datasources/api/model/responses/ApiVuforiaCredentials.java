@@ -16,18 +16,19 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextra.data.datasources.db.model;
+package gigigo.com.orchextra.data.datasources.api.model.responses;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class VuforiaRealm extends RealmObject {
 
-  @PrimaryKey private int id;
+public class ApiVuforiaCredentials {
 
-  private String licenseKey;
-  private String clientAccessKey;
-  private String clientSecretKey;
+  @Expose @SerializedName("licenseKey") private String licenseKey;
+
+  @Expose @SerializedName("clientAccessKey") private String clientAccessKey;
+
+  @Expose @SerializedName("clientSecretKey") private String clientSecretKey;
 
   public String getLicenseKey() {
     return licenseKey;
@@ -51,14 +52,6 @@ public class VuforiaRealm extends RealmObject {
 
   public void setClientSecretKey(String clientSecretKey) {
     this.clientSecretKey = clientSecretKey;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public int getId() {
-    return id;
   }
 
 }

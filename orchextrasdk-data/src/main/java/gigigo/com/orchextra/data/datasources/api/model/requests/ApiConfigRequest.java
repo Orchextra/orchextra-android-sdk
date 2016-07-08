@@ -22,9 +22,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class OrchextraApiConfigRequest {
+public class ApiConfigRequest {
 
-  @Expose @SerializedName("app") private ApiApp app;
+  @Expose @SerializedName("app") private ApiSdkVersionAppInfo app;
 
   @Expose @SerializedName("device") private ApiDevice device;
 
@@ -32,13 +32,13 @@ public class OrchextraApiConfigRequest {
 
   @Expose @SerializedName("notificationPush") private ApiNotificationPush notificationPush;
 
-  @Expose @SerializedName("crm") private ApiCrm crm;
+  @Expose @SerializedName("crm") private ApiCrmUser crm;
 
-  public ApiApp getApp() {
+  public ApiSdkVersionAppInfo getApp() {
     return app;
   }
 
-  public void setApp(ApiApp app) {
+  public void setApp(ApiSdkVersionAppInfo app) {
     this.app = app;
   }
 
@@ -66,11 +66,11 @@ public class OrchextraApiConfigRequest {
     this.notificationPush = notificationPush;
   }
 
-  public ApiCrm getCrm() {
+  public ApiCrmUser getCrm() {
     return crm;
   }
 
-  public void setCrm(ApiCrm crm) {
+  public void setCrm(ApiCrmUser crm) {
     this.crm = crm;
   }
 }

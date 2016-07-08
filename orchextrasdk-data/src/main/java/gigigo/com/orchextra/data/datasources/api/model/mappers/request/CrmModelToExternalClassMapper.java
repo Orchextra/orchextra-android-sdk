@@ -24,34 +24,34 @@ import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
 
-import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrm;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrmUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper<CrmUser, ApiCrm> {
+public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper<CrmUser, ApiCrmUser> {
 
-  @Override public ApiCrm modelToExternalClass(CrmUser crmUser) {
+  @Override public ApiCrmUser modelToExternalClass(CrmUser crmUser) {
 
-    ApiCrm apiCrm = new ApiCrm();
+    ApiCrmUser apiCrmUser = new ApiCrmUser();
 
-    apiCrm.setBirthDate(
+    apiCrmUser.setBirthDate(
         DateUtils.dateToStringWithFormat(crmUser.getBirthDate(), DateFormatConstants.DATE_FORMAT_NO_TIME));
-    apiCrm.setCrmId(crmUser.getCrmId());
+    apiCrmUser.setCrmId(crmUser.getCrmId());
 
     //TODO change all if null with Checker from utils
     if (crmUser.getGender() != null) {
-      apiCrm.setGender(crmUser.getGender().getStringValue());
+      apiCrmUser.setGender(crmUser.getGender().getStringValue());
     }
 
     if (crmUser.getKeywords()!=null) {
-      apiCrm.setKeywords(crmUser.getKeywords());
+      apiCrmUser.setKeywords(crmUser.getKeywords());
     }
 
     if (crmUser.getTags()!=null) {
-      apiCrm.setTags(getTags(crmUser));
+      apiCrmUser.setTags(getTags(crmUser));
     }
 
-    return apiCrm;
+    return apiCrmUser;
   }
   @Deprecated
   private List<String> getTags(CrmUser crmUser) {

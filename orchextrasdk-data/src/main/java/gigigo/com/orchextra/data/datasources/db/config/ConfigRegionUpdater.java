@@ -25,15 +25,15 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.ArrayList;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ConfigBeaconUpdater {
+public class ConfigRegionUpdater {
 
-  private final Mapper<OrchextraRegion, BeaconRegionRealm> beaconRealmMapper;
+  private final Mapper<OrchextraRegion, RegionRealm> beaconRealmMapper;
 
-  public ConfigBeaconUpdater(Mapper<OrchextraRegion, BeaconRegionRealm> beaconRealmMapper) {
+  public ConfigRegionUpdater(Mapper<OrchextraRegion, RegionRealm> beaconRealmMapper) {
     this.beaconRealmMapper = beaconRealmMapper;
   }
 
@@ -54,9 +54,9 @@ public class ConfigBeaconUpdater {
   private void addOrUpdateRegion(Realm realm, List<OrchextraRegion> newRegions, List<String> used,
       List<OrchextraRegion> regions) {
     for (OrchextraRegion region : regions) {
-      BeaconRegionRealm newRegion = beaconRealmMapper.modelToExternalClass(region);
-      RealmResults<BeaconRegionRealm> regionRealm =
-          realm.where(BeaconRegionRealm.class).equalTo("code", region.getCode()).findAll();
+      RegionRealm newRegion = beaconRealmMapper.modelToExternalClass(region);
+      RealmResults<RegionRealm> regionRealm =
+          realm.where(RegionRealm.class).equalTo("code", region.getCode()).findAll();
 
       if (!checkRegionAreEquals(regionRealm, newRegion)) {
         newRegions.add(region);
@@ -71,30 +71,30 @@ public class ConfigBeaconUpdater {
     List<OrchextraRegion> deleteRegions = new ArrayList<>();
 
     List<String> beaconsToDelete = new ArrayList<>();
-    RealmResults<BeaconRegionRealm> all = realm.where(BeaconRegionRealm.class).findAll();
-    for (BeaconRegionRealm regionRealm : all) {
+    RealmResults<RegionRealm> all = realm.where(RegionRealm.class).findAll();
+    for (RegionRealm regionRealm : all) {
       if (!used.contains(regionRealm.getCode())) {
         deleteRegions.add(beaconRealmMapper.externalClassToModel(regionRealm));
         beaconsToDelete.add(regionRealm.getCode());
       }
     }
     for (String code : beaconsToDelete) {
-      RealmResults<BeaconRegionRealm> beaconRegionRealm =
-          realm.where(BeaconRegionRealm.class).equalTo("code", code).findAll();
-      if (beaconRegionRealm.size() > 0) {
-        beaconRegionRealm.first().deleteFromRealm();
+      RealmResults<RegionRealm> regionRealm =
+          realm.where(RegionRealm.class).equalTo("code", code).findAll();
+      if (regionRealm.size() > 0) {
+        regionRealm.first().deleteFromRealm();
       }
     }
 
     return deleteRegions;
   }
 
-  private boolean checkRegionAreEquals(RealmResults<BeaconRegionRealm> beaconRealm,
-      BeaconRegionRealm newBeacon) {
+  private boolean checkRegionAreEquals(RealmResults<RegionRealm> beaconRealm,
+      RegionRealm newBeacon) {
     if (beaconRealm.size() == 0 || newBeacon == null) {
       return false;
     }
-    BeaconRegionRealm beacon = beaconRealm.first();
+    RegionRealm beacon = beaconRealm.first();
     return beacon.getCode().equals(newBeacon.getCode()) &&
         beacon.getMinor() == newBeacon.getMinor() &&
         beacon.getMajor() == newBeacon.getMajor() &&
@@ -104,7 +104,7 @@ public class ConfigBeaconUpdater {
 
   public void removeRegions(Realm realm) {
     if (realm != null) {
-      realm.delete(BeaconRegionRealm.class);
+      realm.delete(RegionRealm.class);
     }
   }
 }

@@ -22,7 +22,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class ApiBeaconRegion extends ApiProximityPoint {
+public class ApiRegion extends ApiProximityItem {
 
   @Expose @SerializedName("minor") private Integer minor;
 

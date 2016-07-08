@@ -22,13 +22,13 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.RegionEventType;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 
 
-public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRegionRealm> {
+public class RegionRealmMapper implements Mapper<OrchextraRegion, RegionRealm> {
 
-  @Override public BeaconRegionRealm modelToExternalClass(OrchextraRegion region) {
-    BeaconRegionRealm regionRealm = new BeaconRegionRealm();
+  @Override public RegionRealm modelToExternalClass(OrchextraRegion region) {
+    RegionRealm regionRealm = new RegionRealm();
 
     regionRealm.setCode(region.getCode());
     regionRealm.setUuid(region.getUuid());
@@ -44,7 +44,7 @@ public class BeaconRegionRealmMapper implements Mapper<OrchextraRegion, BeaconRe
     return regionRealm;
   }
 
-  @Override public OrchextraRegion externalClassToModel(BeaconRegionRealm regionRealm) {
+  @Override public OrchextraRegion externalClassToModel(RegionRealm regionRealm) {
 
     OrchextraRegion region =
         new OrchextraRegion(regionRealm.getCode(), regionRealm.getUuid(), regionRealm.getMajor(),

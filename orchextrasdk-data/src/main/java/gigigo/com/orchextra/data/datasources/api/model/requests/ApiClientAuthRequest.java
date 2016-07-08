@@ -21,13 +21,13 @@ package gigigo.com.orchextra.data.datasources.api.model.requests;
 import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 
 
-public class OrchextraApiSdkAuthRequest extends OrchextraApiAuthRequest {
+public class ApiClientAuthRequest extends ApiAuthRequest {
 
-  public OrchextraApiSdkAuthRequest(GrantType grantType, AuthCredentials authCredentials) {
+  public ApiClientAuthRequest(GrantType grantType, AuthCredentials authCredentials) {
     super(grantType, authCredentials);
   }
 
   @Override ApiCredentials obtainApiCredentialsFromCredentials(AuthCredentials authCredentials) {
-    return new ApiSdkAuthCredentials(authCredentials);
+    return new ApiClientAuthCredentials(authCredentials);
   }
 }

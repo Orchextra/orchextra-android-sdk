@@ -18,39 +18,21 @@
 
 package gigigo.com.orchextra.data.datasources.api.model.requests;
 
+import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class ApiApp {
+public abstract class ApiAuthRequest {
 
-  @Expose @SerializedName("appVersion") private String appVersion;
+  @Expose @SerializedName("grantType") private final String grantType;
 
-  @Expose @SerializedName("buildVersion") private String buildVersion;
+  @Expose @SerializedName("credentials") private final ApiCredentials credentials;
 
-  @Expose @SerializedName("bundleId") private String bundleId;
-
-  public String getAppVersion() {
-    return appVersion;
+  public ApiAuthRequest(GrantType grantType, AuthCredentials authCredentials) {
+    this.grantType = grantType.getStringValue();
+    this.credentials = obtainApiCredentialsFromCredentials(authCredentials);
   }
 
-  public void setAppVersion(String appVersion) {
-    this.appVersion = appVersion;
-  }
-
-  public String getBuildVersion() {
-    return buildVersion;
-  }
-
-  public void setBuildVersion(String buildVersion) {
-    this.buildVersion = buildVersion;
-  }
-
-  public String getBundleId() {
-    return bundleId;
-  }
-
-  public void setBundleId(String bundleId) {
-    this.bundleId = bundleId;
-  }
+  abstract ApiCredentials obtainApiCredentialsFromCredentials(AuthCredentials authCredentials);
 }

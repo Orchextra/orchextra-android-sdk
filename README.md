@@ -190,7 +190,7 @@ That's all in Google console. Now you should create a project in _Parse Dashboar
 In this new version of OrchextraSDK you can use your own Push Notifications and use the OrchextraSDK Push Notification combine.For that you must to implements in your sdkVersionAppInfo an enrouter Service (extends *GcmListenerService*)
     , for redirect the notification using the parameter *String from* in *onMessageReceived* method. That parameter contains the sender_id or projectNumber configurated in push server(like Parse). Write us if you need more help at this point.
 
-### SDK config for using Notification Push
+### SDK configRequest for using Notification Push
 
 In this version we use the OrchextraBuilder instead of `strings.xml` for set the sender_ID.
 
@@ -292,12 +292,12 @@ OrchextraBuilder builder = new OrchextraBuilder(this)
 ## Realm Support
 First at all you must include the newest version of [Realm](https://realm.io/docs/java/latest/#installation). Orchextra includes Realm as a library and exposes Orchextra's Realm module. You have to include this module in the Realm configuration when you define a Realm instance as follow:
 ```java
-    RealmConfiguration config =
+    RealmConfiguration configRequest =
         new RealmConfiguration.Builder(context)
             .modules(Realm.getDefaultModule(), new OrchextraRealmModule())
             .build();
 
-        Realm realm = Realm.getInstance(config);
+        Realm realm = Realm.getInstance(configRequest);
 ```
 For more information to include Realm, visit the [Realm's documentation](https://realm.io/docs/java/latest/#sharing-schemas).
 

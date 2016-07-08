@@ -21,15 +21,15 @@ package gigigo.com.orchextra.data.datasources.db.config;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
-import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
+import gigigo.com.orchextra.data.datasources.db.model.VuforiaCredentialsRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ConfigVuforiaUpdater {
+public class ConfigVuforiaCredentialsUpdater {
 
-  private final Mapper<VuforiaCredentials, VuforiaRealm> vuforiaRealmMapper;
+  private final Mapper<VuforiaCredentials, VuforiaCredentialsRealm> vuforiaRealmMapper;
 
-  public ConfigVuforiaUpdater(Mapper<VuforiaCredentials, VuforiaRealm> vuforiaRealmMapper) {
+  public ConfigVuforiaCredentialsUpdater(Mapper<VuforiaCredentials, VuforiaCredentialsRealm> vuforiaRealmMapper) {
     this.vuforiaRealmMapper = vuforiaRealmMapper;
   }
 
@@ -39,7 +39,7 @@ public class ConfigVuforiaUpdater {
     if (vuforiaCredentials != null) {
       hasChangedVuforia = checkIfChangedVuforia(realm, vuforiaCredentials);
     } else {
-      realm.delete(VuforiaRealm.class);
+      realm.delete(VuforiaCredentialsRealm.class);
     }
 
     if (hasChangedVuforia) {
@@ -52,24 +52,24 @@ public class ConfigVuforiaUpdater {
   private boolean checkIfChangedVuforia(Realm realm, VuforiaCredentials vuforiaCredentials) {
     boolean hasChangedVuforia = false;
 
-    VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToExternalClass(vuforiaCredentials);
+    VuforiaCredentialsRealm vuforiaCredentialsRealm = vuforiaRealmMapper.modelToExternalClass(vuforiaCredentials);
 
-    RealmResults<VuforiaRealm> savedVuforia = realm.where(VuforiaRealm.class).findAll();
+    RealmResults<VuforiaCredentialsRealm> savedVuforia = realm.where(VuforiaCredentialsRealm.class).findAll();
     if (savedVuforia.isEmpty()) {
-      realm.copyToRealm(vuforiaRealm);
+      realm.copyToRealm(vuforiaCredentialsRealm);
       return true;
     }else if (savedVuforia.size() > 0){
-      hasChangedVuforia = !checkVuforiaAreEquals(vuforiaRealm, savedVuforia.first());
+      hasChangedVuforia = !checkVuforiaAreEquals(vuforiaCredentialsRealm, savedVuforia.first());
     }
 
     if (hasChangedVuforia) {
-      realm.copyToRealmOrUpdate(vuforiaRealm);
+      realm.copyToRealmOrUpdate(vuforiaCredentialsRealm);
     }
 
     return hasChangedVuforia;
   }
 
-  private boolean checkVuforiaAreEquals(VuforiaRealm vuforiaRealm, VuforiaRealm oldVuforia) {
+  private boolean checkVuforiaAreEquals(VuforiaCredentialsRealm vuforiaCredentialsRealm, VuforiaCredentialsRealm oldVuforia) {
     if (oldVuforia == null) {
       return false;
     }
@@ -78,9 +78,9 @@ public class ConfigVuforiaUpdater {
     String oldSecretKey = (oldVuforia.getClientSecretKey() != null)? oldVuforia.getClientSecretKey() : "";
     String oldLicense = (oldVuforia.getLicenseKey() != null)? oldVuforia.getLicenseKey() : "";
 
-    String accessKey = (vuforiaRealm.getClientAccessKey() != null)? vuforiaRealm.getClientAccessKey() : "";
-    String secretKey = (vuforiaRealm.getClientSecretKey() != null)? vuforiaRealm.getClientSecretKey() : "";
-    String license = (vuforiaRealm.getLicenseKey() != null)? vuforiaRealm.getLicenseKey() : "";
+    String accessKey = (vuforiaCredentialsRealm.getClientAccessKey() != null)? vuforiaCredentialsRealm.getClientAccessKey() : "";
+    String secretKey = (vuforiaCredentialsRealm.getClientSecretKey() != null)? vuforiaCredentialsRealm.getClientSecretKey() : "";
+    String license = (vuforiaCredentialsRealm.getLicenseKey() != null)? vuforiaCredentialsRealm.getLicenseKey() : "";
 
     if (!oldAccessKey.equals(accessKey) || !oldSecretKey.equals(secretKey) || !oldLicense.equals(license)){
       return false;
@@ -91,7 +91,7 @@ public class ConfigVuforiaUpdater {
 
   public void removeVuforia(Realm realm) {
     if (realm != null) {
-      realm.delete(VuforiaRealm.class);
+      realm.delete(VuforiaCredentialsRealm.class);
     }
   }
 }

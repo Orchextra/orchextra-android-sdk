@@ -27,7 +27,7 @@ import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 /**
  * this class keep the data for get the sdk configuration info
  */
-public class Config {
+public class ConfigRequest {
 
   private SdkVersionAppInfo sdkVersionAppInfo;
   private Device device;
@@ -35,15 +35,15 @@ public class Config {
   private NotificationPush notificationPush;
   private CrmUser crmUser;
 
-  public Config() {
+  public ConfigRequest() {
   }
 
-  public Config(CrmUser user) {
+  public ConfigRequest(CrmUser user) {
     this.crmUser = user;
   }
 
-  public Config(SdkVersionAppInfo sdkVersionAppInfo, Device device, GeoLocation geoLocation, NotificationPush notificationPush,
-                CrmUser crmUser) {
+  public ConfigRequest(SdkVersionAppInfo sdkVersionAppInfo, Device device, GeoLocation geoLocation, NotificationPush notificationPush,
+                       CrmUser crmUser) {
     this.sdkVersionAppInfo = sdkVersionAppInfo;
     this.device = device;
     this.geoLocation = geoLocation;

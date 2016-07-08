@@ -22,7 +22,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 
-public class BeaconRegionEventRealm extends RealmObject {
+public class RegionEventRealm extends RealmObject {
 
   public static final String CODE_FIELD_NAME = "code";
 
@@ -36,19 +36,19 @@ public class BeaconRegionEventRealm extends RealmObject {
   private long timeStampt;
   @PrimaryKey private String code;
 
-  public BeaconRegionEventRealm(BeaconRegionRealm beaconRegionRealm) {
-    this.code = beaconRegionRealm.getCode();
-    this.uuid = beaconRegionRealm.getUuid();
-    this.major = beaconRegionRealm.getMajor();
-    this.minor = beaconRegionRealm.getMinor();
-    this.eventType = beaconRegionRealm.getEventType();
-    this.actionRelated = beaconRegionRealm.getActionRelated();
-    this.actionRelatedCancelable = beaconRegionRealm.isActionRelatedCancelable();
-    this.active = beaconRegionRealm.isActive();
+  public RegionEventRealm(RegionRealm regionRealm) {
+    this.code = regionRealm.getCode();
+    this.uuid = regionRealm.getUuid();
+    this.major = regionRealm.getMajor();
+    this.minor = regionRealm.getMinor();
+    this.eventType = regionRealm.getEventType();
+    this.actionRelated = regionRealm.getActionRelated();
+    this.actionRelatedCancelable = regionRealm.isActionRelatedCancelable();
+    this.active = regionRealm.isActive();
     timeStampt = System.currentTimeMillis();
   }
 
-  public BeaconRegionEventRealm() {
+  public RegionEventRealm() {
   }
 
   public String getCode() {

@@ -26,7 +26,7 @@ import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import java.util.NoSuchElementException;
 
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -54,7 +54,7 @@ public class GeofenceEventsUpdater {
   public OrchextraGeofence deleteGeofenceEvent(Realm realm, OrchextraGeofence geofence) {
 
     RealmResults<GeofenceEventRealm> results = realm.where(GeofenceEventRealm.class)
-        .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, geofence.getCode())
+        .equalTo(RegionEventRealm.CODE_FIELD_NAME, geofence.getCode())
         .findAll();
 
     if (results.size() > 1) {
@@ -85,7 +85,7 @@ public class GeofenceEventsUpdater {
 
   public OrchextraGeofence addActionToGeofence(Realm realm, OrchextraGeofence geofence) {
     RealmResults<GeofenceEventRealm> results = realm.where(GeofenceEventRealm.class)
-        .equalTo(BeaconRegionEventRealm.CODE_FIELD_NAME, geofence.getCode())
+        .equalTo(RegionEventRealm.CODE_FIELD_NAME, geofence.getCode())
         .findAll();
 
     if (results.isEmpty()) {

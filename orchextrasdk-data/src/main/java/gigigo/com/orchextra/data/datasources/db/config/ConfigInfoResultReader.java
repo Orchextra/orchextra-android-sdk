@@ -30,28 +30,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
-import gigigo.com.orchextra.data.datasources.db.model.BeaconRegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
-import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
+import gigigo.com.orchextra.data.datasources.db.model.VuforiaCredentialsRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 
 public class ConfigInfoResultReader {
 
-  private final ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper;
+  private final ExternalClassToModelMapper<RegionRealm, OrchextraRegion> regionRealmMapper;
   private final ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper;
-  private final ExternalClassToModelMapper<VuforiaRealm, VuforiaCredentials> vuforiaRealmMapper;
+  private final ExternalClassToModelMapper<VuforiaCredentialsRealm, VuforiaCredentials> vuforiaRealmMapper;
   @Deprecated
   private final ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper;
   private final OrchextraLogger orchextraLogger;
   @Deprecated
   public ConfigInfoResultReader(
-      ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper,
+      ExternalClassToModelMapper<RegionRealm, OrchextraRegion> regionRealmMapper,
       ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper,
-      ExternalClassToModelMapper<VuforiaRealm, VuforiaCredentials> vuforiaRealmMapper,
+      ExternalClassToModelMapper<VuforiaCredentialsRealm, VuforiaCredentials> vuforiaRealmMapper,
       ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper,
       OrchextraLogger orchextraLogger) {
 
@@ -90,10 +90,10 @@ public class ConfigInfoResultReader {
     return configInfoResult;
   }
 
-  private List<OrchextraRegion> regionsToModel(List<BeaconRegionRealm> beaconRegionRealms) {
+  private List<OrchextraRegion> regionsToModel(List<RegionRealm> regionRealms) {
     List<OrchextraRegion> regions = new ArrayList<>();
-    for (BeaconRegionRealm beaconRegionRealm : beaconRegionRealms) {
-      regions.add(regionRealmMapper.externalClassToModel(beaconRegionRealm));
+    for (RegionRealm regionRealm : regionRealms) {
+      regions.add(regionRealmMapper.externalClassToModel(regionRealm));
     }
     return regions;
   }
@@ -114,8 +114,8 @@ public class ConfigInfoResultReader {
     return configInfo;
   }
 
-  private VuforiaRealm readVuforiaObject(Realm realm) {
-    return realm.where(VuforiaRealm.class).findFirst();
+  private VuforiaCredentialsRealm readVuforiaObject(Realm realm) {
+    return realm.where(VuforiaCredentialsRealm.class).findFirst();
   }
 
   private ThemeRealm readThemeObject(Realm realm) {
@@ -126,8 +126,8 @@ public class ConfigInfoResultReader {
     return realm.where(GeofenceRealm.class).findAll();
   }
 
-  private List<BeaconRegionRealm> readRegionsObjects(Realm realm) {
-    return realm.where(BeaconRegionRealm.class).findAll();
+  private List<RegionRealm> readRegionsObjects(Realm realm) {
+    return realm.where(RegionRealm.class).findAll();
   }
 
   public OrchextraGeofence getGeofenceById(Realm realm, String geofenceId) {
@@ -145,11 +145,11 @@ public class ConfigInfoResultReader {
   }
 
   public List<OrchextraRegion> getAllRegions(Realm realm) {
-    RealmResults<BeaconRegionRealm> regionRealms = realm.where(BeaconRegionRealm.class).findAll();
+    RealmResults<RegionRealm> regionRealms = realm.where(RegionRealm.class).findAll();
     List<OrchextraRegion> regions = new ArrayList<>();
 
-    for (BeaconRegionRealm beaconRegionRealm : regionRealms) {
-      regions.add(regionRealmMapper.externalClassToModel(beaconRegionRealm));
+    for (RegionRealm regionRealm : regionRealms) {
+      regions.add(regionRealmMapper.externalClassToModel(regionRealm));
     }
 
     if (regions.size() > 0) {

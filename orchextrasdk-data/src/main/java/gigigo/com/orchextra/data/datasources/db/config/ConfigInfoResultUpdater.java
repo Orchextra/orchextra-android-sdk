@@ -30,14 +30,14 @@ import io.realm.Realm;
 
 public class ConfigInfoResultUpdater {
 
-  private final ConfigBeaconUpdater beaconUpdater;
+  private final ConfigRegionUpdater beaconUpdater;
   private final ConfigGeofenceUpdater geofenceUpdater;
-  private final ConfigVuforiaUpdater vuforiaUpdater;
+  private final ConfigVuforiaCredentialsUpdater vuforiaUpdater;
   @Deprecated
   private final ConfigThemeUpdater themeUpdater;
 
-  public ConfigInfoResultUpdater(ConfigBeaconUpdater beaconUpdater,
-      ConfigGeofenceUpdater geofenceUpdater, ConfigVuforiaUpdater vuforiaUpdater,
+  public ConfigInfoResultUpdater(ConfigRegionUpdater beaconUpdater,
+      ConfigGeofenceUpdater geofenceUpdater, ConfigVuforiaCredentialsUpdater vuforiaUpdater,
       ConfigThemeUpdater themeUpdater) {
     this.beaconUpdater = beaconUpdater;
     this.geofenceUpdater = geofenceUpdater;

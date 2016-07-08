@@ -25,8 +25,8 @@ import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
-import com.gigigo.orchextra.domain.model.config.Config;
-import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
+import com.gigigo.orchextra.domain.model.config.ConfigRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
 import orchextra.javax.inject.Provider;
@@ -37,7 +37,7 @@ public class ConfigDataSourceImpl implements ConfigDataSource {
   private final OrchextraApiService orchextraApiService;
   private final Provider<ApiServiceExecutor> serviceExecutorProvider;
 
-  private final ModelToExternalClassMapper<Config, OrchextraApiConfigRequest>
+  private final ModelToExternalClassMapper<ConfigRequest, ApiConfigRequest>
       configModelToExternalClassMapper;
   private final ApiGenericResponseMapper configResponseMapper;
 
@@ -52,11 +52,11 @@ public class ConfigDataSourceImpl implements ConfigDataSource {
     this.configModelToExternalClassMapper = configModelToExternalClassMapper;
   }
 
-  @Override public BusinessObject<ConfigInfoResult> sendConfigInfo(Config config) {
+  @Override public BusinessObject<ConfigInfoResult> sendConfigInfo(ConfigRequest configRequest) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
-    OrchextraApiConfigRequest request =
-        configModelToExternalClassMapper.modelToExternalClass(config);
+    ApiConfigRequest request =
+        configModelToExternalClassMapper.modelToExternalClass(configRequest);
 
     ApiGenericResponse apiGenericResponse =
         serviceExecutor.executeNetworkServiceConnection(ApiConfigData.class,

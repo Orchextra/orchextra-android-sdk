@@ -28,7 +28,7 @@ import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
-import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
+import gigigo.com.orchextra.data.datasources.db.model.CrmUserRealm;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthRealm;
 import io.realm.Realm;
@@ -39,7 +39,7 @@ public class SessionUpdater {
 
   private final ModelToExternalClassMapper<SdkAuthData, SdkAuthRealm> sdkAuthRealmMapper;
   private final ModelToExternalClassMapper<ClientAuthData, ClientAuthRealm> clientAuthRealmMapper;
-  private final ModelToExternalClassMapper<CrmUser, CrmRealm> crmRealmMapper;
+  private final ModelToExternalClassMapper<CrmUser, CrmUserRealm> crmRealmMapper;
   private final ModelToExternalClassMapper<SdkAuthCredentials, SdkAuthCredentialsRealm>
       sdkCredentialsRealmMapper;
   private final ModelToExternalClassMapper<ClientAuthCredentials, ClientAuthCredentialsRealm>
@@ -47,7 +47,7 @@ public class SessionUpdater {
 
   public SessionUpdater(ModelToExternalClassMapper<SdkAuthData, SdkAuthRealm> sdkAuthRealmMapper,
       ModelToExternalClassMapper<ClientAuthData, ClientAuthRealm> clientAuthRealmMapper,
-      ModelToExternalClassMapper<CrmUser, CrmRealm> crmRealmMapper,
+      ModelToExternalClassMapper<CrmUser, CrmUserRealm> crmRealmMapper,
       ModelToExternalClassMapper<SdkAuthCredentials, SdkAuthCredentialsRealm> sdkCredentialsRealmMapper,
       ModelToExternalClassMapper<ClientAuthCredentials, ClientAuthCredentialsRealm> clientCredentialsRealmMapper) {
 
@@ -115,25 +115,25 @@ public class SessionUpdater {
   }
 
   public void updateCrm(Realm realm, CrmUser crmUser) {
-    CrmRealm realmItem = getRealmItem(realm, CrmRealm.class);
+    CrmUserRealm realmItem = getRealmItem(realm, CrmUserRealm.class);
 
-    CrmRealm crmRealm = crmRealmMapper.modelToExternalClass(crmUser);
+    CrmUserRealm crmUserRealm = crmRealmMapper.modelToExternalClass(crmUser);
     if (realmItem == null) {
-      crmRealm.setId(RealmDefaultInstance.getNextKey(realm, CrmRealm.class));
+      crmUserRealm.setId(RealmDefaultInstance.getNextKey(realm, CrmUserRealm.class));
     } else {
-      crmRealm.setId(realmItem.getId());
+      crmUserRealm.setId(realmItem.getId());
     }
 
-    realm.copyToRealmOrUpdate(crmRealm);
+    realm.copyToRealmOrUpdate(crmUserRealm);
   }
 
   public void updateCrm(Realm realm, String crmId) {
 
-    CrmRealm realmItem = getRealmItem(realm, CrmRealm.class);
+    CrmUserRealm realmItem = getRealmItem(realm, CrmUserRealm.class);
 
     if (realmItem == null) {
-      realmItem = new CrmRealm();
-      realmItem.setId(RealmDefaultInstance.getNextKey(realm, CrmRealm.class));
+      realmItem = new CrmUserRealm();
+      realmItem.setId(RealmDefaultInstance.getNextKey(realm, CrmUserRealm.class));
     }
 
     realmItem.setCrmId(crmId);

@@ -25,7 +25,7 @@ import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
-import com.gigigo.orchextra.domain.model.config.Config;
+import com.gigigo.orchextra.domain.model.config.ConfigRequest;
 import com.gigigo.orchextra.domain.model.entities.SdkVersionAppInfo;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
@@ -71,9 +71,9 @@ public class ConfigDomainService implements DomainService {
     GeoLocation geolocation = obtainGeoLocationTask.getGeolocation();
 
     NotificationPush notificationPush = gcmInstanceIdRegister.getGcmNotification();
-    Config config = generateConfig(geolocation, crmUser, notificationPush);
+    ConfigRequest configRequest = generateConfig(geolocation, crmUser, notificationPush);
 
-    BusinessObject<OrchextraUpdates> boOrchextraUpdates = configDataProvider.sendConfigInfo(config);
+    BusinessObject<OrchextraUpdates> boOrchextraUpdates = configDataProvider.sendConfigInfo(configRequest);
 
     if (boOrchextraUpdates.isSuccess()) {
       return new InteractorResponse<>(boOrchextraUpdates.getData());
@@ -100,14 +100,14 @@ public class ConfigDomainService implements DomainService {
     }
   }
 
-  private Config generateConfig(GeoLocation geoLocation, CrmUser crmUser, NotificationPush notificationPush) {
-    Config config = new Config();
-    config.setSdkAppInfo(sdkVersionAppInfo);
-    config.setDevice(device);
-    config.setGeoLocation(geoLocation);
-    config.setCrmUser(crmUser);
-    config.setNotificationPush(notificationPush);
+  private ConfigRequest generateConfig(GeoLocation geoLocation, CrmUser crmUser, NotificationPush notificationPush) {
+    ConfigRequest configRequest = new ConfigRequest();
+    configRequest.setSdkAppInfo(sdkVersionAppInfo);
+    configRequest.setDevice(device);
+    configRequest.setGeoLocation(geoLocation);
+    configRequest.setCrmUser(crmUser);
+    configRequest.setNotificationPush(notificationPush);
 
-    return config;
+    return configRequest;
   }
 }

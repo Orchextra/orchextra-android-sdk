@@ -4,7 +4,7 @@ import com.gigigo.orchextra.domain.model.entities.SdkVersionAppInfo;
 
 import org.junit.Test;
 
-import gigigo.com.orchextra.data.datasources.api.model.requests.ApiApp;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiSdkVersionAppInfo;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,10 +18,10 @@ public class SdkVersionAppInfoRequestMapperTest {
         sdkVersionAppInfo.setBundleId("Bundle");
 
         AppModelToExternalClassMapper appRequestMapper = new AppModelToExternalClassMapper();
-        ApiApp apiApp = appRequestMapper.modelToExternalClass(sdkVersionAppInfo);
+        ApiSdkVersionAppInfo apiSdkVersionAppInfo = appRequestMapper.modelToExternalClass(sdkVersionAppInfo);
 
-        assertEquals("3.14", apiApp.getAppVersion());
-        assertEquals("1.1", apiApp.getBuildVersion());
-        assertEquals("Bundle", apiApp.getBundleId());
+        assertEquals("3.14", apiSdkVersionAppInfo.getAppVersion());
+        assertEquals("1.1", apiSdkVersionAppInfo.getBuildVersion());
+        assertEquals("Bundle", apiSdkVersionAppInfo.getBundleId());
     }
 }

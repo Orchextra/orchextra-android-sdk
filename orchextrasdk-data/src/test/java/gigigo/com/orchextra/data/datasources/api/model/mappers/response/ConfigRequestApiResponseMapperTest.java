@@ -13,22 +13,22 @@ import java.util.List;
 import gigigo.com.orchextra.data.datasources.builders.ApiRegionBuilder;
 import gigigo.com.orchextra.data.datasources.builders.ApiGeofenceBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiRegion;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiTheme;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiVuforia;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiVuforiaCredentials;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ConfigApiResponseMapperTest {
+public class ConfigRequestApiResponseMapperTest {
 
     @Mock
     ApiTheme apiTheme;
 
     @Mock
-    ApiVuforia apiVuforia;
+    ApiVuforiaCredentials apiVuforiaCredentials;
 
     @Mock VuforiaExternalClassToModelMapper vuforiaResponseMapper;
 
@@ -44,16 +44,16 @@ public class ConfigApiResponseMapperTest {
         List<ApiGeofence> apiGeofencesList = new ArrayList<>();
         apiGeofencesList.add(ApiGeofenceBuilder.Builder().build());
 
-        ApiBeaconRegion apiBeaconRegion = ApiRegionBuilder.Builder().build();
-        List<ApiBeaconRegion> apiBeaconRegionList = new ArrayList<>();
-        apiBeaconRegionList.add(apiBeaconRegion);
+        ApiRegion apiRegion = ApiRegionBuilder.Builder().build();
+        List<ApiRegion> apiRegionList = new ArrayList<>();
+        apiRegionList.add(apiRegion);
 
         ApiConfigData apiConfigData = new ApiConfigData();
 
         apiConfigData.setGeoMarketing(apiGeofencesList);
-        apiConfigData.setProximity(apiBeaconRegionList);
+        apiConfigData.setProximity(apiRegionList);
         apiConfigData.setTheme(apiTheme);
-        apiConfigData.setVuforia(apiVuforia);
+        apiConfigData.setVuforia(apiVuforiaCredentials);
         apiConfigData.setRequestWaitTime(120);
 
         ConfigApiExternalClassToModelMapper mapper = new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper, themeResponseMapper,
