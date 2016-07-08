@@ -19,17 +19,17 @@
 package com.gigigo.orchextra.device.information;
 
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.domain.model.entities.App;
+import com.gigigo.orchextra.domain.model.entities.SdkVersionAppInfo;
 
 public class AndroidApp {
 
-    public App getAndroidAppInfo() {
-        App app = new App();
+    public SdkVersionAppInfo getAndroidAppInfo() {
+        SdkVersionAppInfo sdkVersionAppInfo = new SdkVersionAppInfo();
 
-        app.setAppVersion(BuildConfig.VERSION_NAME);
-        app.setBuildVersion(String.valueOf(BuildConfig.VERSION_CODE));
-        app.setBundleId(BuildConfig.APPLICATION_ID);
+        sdkVersionAppInfo.setAppVersion(BuildConfig.VERSION_NAME);
+        sdkVersionAppInfo.setBuildVersion(String.valueOf(BuildConfig.VERSION_CODE));
+        sdkVersionAppInfo.setBundleId(BuildConfig.APPLICATION_ID);
 
-        return app;
+        return sdkVersionAppInfo;
     }
 }

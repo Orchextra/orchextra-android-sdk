@@ -101,7 +101,7 @@ public class ActionDispatcherImpl implements ActionDispatcher {
   }
 
   @Override public void dispatchAction(NotificationAction action) {
-    OrchextraNotification notification = action.getNotifFunctionality();
+    OrchextraNotification notification = action.getNotificationBehavior();
     if (notification.shouldBeShown()) {
       notificationBehavior.dispatchNotificationAction(action, notification);
     }

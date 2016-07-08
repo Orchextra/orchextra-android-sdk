@@ -25,11 +25,11 @@ import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
-import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.auth.errors.SdkAuthError;
@@ -38,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   private final AuthenticationDataProvider authDataProvider;
   private final DeviceDetailsProvider deviceDetailsProvider;
-  private final Validator<Crm> crmValidator;
+  private final Validator<CrmUser> crmValidator;
   private final Session session;
 
   public AuthenticationServiceImpl(AuthenticationDataProvider authDataProvider,
@@ -51,7 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @Override public InteractorResponse authenticate() {
-    BusinessObject<Crm> boCrm = authDataProvider.retrieveCrm();
+    BusinessObject<CrmUser> boCrm = authDataProvider.retrieveCrm();
 
     String crmId = null;
     if (boCrm.isSuccess()) {
@@ -64,18 +64,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return authenticate(crmId);
   }
 
-  @Override public BusinessObject<Crm> saveUser(Crm crm) {
-    BusinessObject<Crm> boCrm = authDataProvider.retrieveCrm();
+  @Override public BusinessObject<CrmUser> saveUser(CrmUser crmUser) {
+    BusinessObject<CrmUser> boCrm = authDataProvider.retrieveCrm();
 
-    if (boCrm.isSuccess() && !boCrm.getData().isEquals(crm.getCrmId())) {
+    if (boCrm.isSuccess() && !boCrm.getData().isEquals(crmUser.getCrmId())) {
       authDataProvider.clearAuthenticatedUser();
     }
 
-    crmValidator.validate(crm);
+    crmValidator.doValidate(crmUser);
 
-    authDataProvider.storeCrmId(crm);
+    authDataProvider.storeCrmId(crmUser);
 
-    return new BusinessObject<>(crm, BusinessError.createOKInstance());
+    return new BusinessObject<>(crmUser, BusinessError.createOKInstance());
   }
 
   private InteractorResponse authenticate(String crmId) {
@@ -83,17 +83,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     InteractorResponse<SdkAuthData> interactorResponse = authenticateSDK();
 
     if (!interactorResponse.hasError()) {
-      Credentials credentials =
+      AuthCredentials authCredentials =
           new ClientAuthCredentials(interactorResponse.getResult(), deviceDetailsProvider, crmId);
-      interactorResponse = authenticateClient(credentials, crmId);
+      interactorResponse = authenticateClient(authCredentials, crmId);
     }
     return interactorResponse;
   }
 
   private InteractorResponse authenticateSDK() {
 
-    Credentials credentials = new SdkAuthCredentials(session.getApiKey(), session.getApiSecret());
-    BusinessObject<SdkAuthData> sdk = authDataProvider.authenticateSdk(credentials);
+    AuthCredentials authCredentials = new SdkAuthCredentials(session.getApiKey(), session.getApiSecret());
+    BusinessObject<SdkAuthData> sdk = authDataProvider.authenticateSdk(authCredentials);
 
     if (!sdk.isSuccess()) {
       return new InteractorResponse<>(new SdkAuthError(sdk.getBusinessError()));
@@ -101,9 +101,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return new InteractorResponse<>(sdk.getData());
   }
 
-  private InteractorResponse authenticateClient(Credentials credentials, String crmId) {
+  private InteractorResponse authenticateClient(AuthCredentials authCredentials, String crmId) {
 
-    BusinessObject<ClientAuthData> user = authDataProvider.authenticateUser(credentials, crmId);
+    BusinessObject<ClientAuthData> user = authDataProvider.authenticateUser(authCredentials, crmId);
 
     if (!user.isSuccess()) {
       return new InteractorResponse<>(new AuthenticationError(user.getBusinessError()));

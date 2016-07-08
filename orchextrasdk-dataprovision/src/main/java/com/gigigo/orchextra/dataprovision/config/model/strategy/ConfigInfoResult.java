@@ -18,8 +18,8 @@
 
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import java.util.List;
@@ -43,8 +43,8 @@ public class ConfigInfoResult {
     return regions.getRegions();
   }
 
-  public Vuforia getVuforia() {
-    return vuforia.getVuforia();
+  public VuforiaCredentials getVuforia() {
+    return vuforia.getVuforiaCredentials();
   }
   @Deprecated
   public Theme getTheme() {
@@ -97,17 +97,17 @@ public class ConfigInfoResult {
     private List<OrchextraRegion> proximity;
     private Theme theme;
     private int requestWaitTime;
-    private Vuforia vuforia;
+    private VuforiaCredentials vuforiaCredentials;
 
     public Builder(int requestWaitTime, List<OrchextraGeofence> geoMarketing,
         List<OrchextraRegion> proximity, Theme theme,
-        Vuforia vuforia) {
+        VuforiaCredentials vuforiaCredentials) {
 
       this.geoMarketing = geoMarketing;
       this.proximity = proximity;
       this.theme = theme;
       this.requestWaitTime = requestWaitTime;
-      this.vuforia = vuforia;
+      this.vuforiaCredentials = vuforiaCredentials;
     }
 
     public ConfigInfoResult build() {
@@ -118,7 +118,7 @@ public class ConfigInfoResult {
       configInfoResult.setRegions(new RealRegionListImpl(proximity));
       configInfoResult.setGeofences(new RealGeofenceListImpl(geoMarketing));
       configInfoResult.setTheme(new RealSupportsThemeImpl(theme));
-      configInfoResult.setVuforia(new VuforiaReadyImpl(vuforia));
+      configInfoResult.setVuforia(new VuforiaReadyImpl(vuforiaCredentials));
 
       return configInfoResult;
     }

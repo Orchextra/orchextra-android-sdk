@@ -19,6 +19,5 @@
 package com.gigigo.orchextra.domain.abstractions.stats;
 
 public interface StatsDispatcher {
-
   void sendCompletedActionTrackId(String trackId);
 }

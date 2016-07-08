@@ -18,36 +18,39 @@
 
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
+import com.gigigo.orchextra.domain.model.entities.Updates;
+
 import java.util.List;
 
-public class OrchextraBeaconUpdates {
+public class OrchextraBeaconUpdates implements Updates {
 
-  List<OrchextraRegion> newRegions;
-  List<OrchextraRegion> deleteRegions;
+    List<OrchextraRegion> newRegions;
+    List<OrchextraRegion> deleteRegions;
 
-  public OrchextraBeaconUpdates(List<OrchextraRegion> newRegions,
-      List<OrchextraRegion> deleteRegions) {
-    setNewRegions(newRegions);
-    setDeleteRegions(deleteRegions);
-  }
+    public OrchextraBeaconUpdates(List<OrchextraRegion> newRegions,
+                                  List<OrchextraRegion> deleteRegions) {
+        setNewRegions(newRegions);
+        setDeleteRegions(deleteRegions);
+    }
 
-  public List<OrchextraRegion> getNewRegions() {
-    return newRegions;
-  }
+    public List<OrchextraRegion> getNewRegions() {
+        return newRegions;
+    }
 
-  public void setNewRegions(List<OrchextraRegion> newRegions) {
-    this.newRegions = newRegions;
-  }
+    public void setNewRegions(List<OrchextraRegion> newRegions) {
+        this.newRegions = newRegions;
+    }
 
-  public List<OrchextraRegion> getDeleteRegions() {
-    return deleteRegions;
-  }
+    public List<OrchextraRegion> getDeleteRegions() {
+        return deleteRegions;
+    }
 
-  public void setDeleteRegions(List<OrchextraRegion> deleteRegions) {
-    this.deleteRegions = deleteRegions;
-  }
+    public void setDeleteRegions(List<OrchextraRegion> deleteRegions) {
+        this.deleteRegions = deleteRegions;
+    }
 
-  public boolean hasChanges() {
-    return newRegions.size() > 0 || deleteRegions.size() > 0;
-  }
+    @Override
+    public boolean hasChanges() {
+        return newRegions.size() > 0 || deleteRegions.size() > 0;
+    }
 }

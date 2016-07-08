@@ -19,33 +19,34 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 
 
-public class VuforiaRealmMapper implements Mapper<Vuforia, VuforiaRealm> {
+public class VuforiaRealmMapper implements Mapper<VuforiaCredentials, VuforiaRealm> {
 
-  @Override public VuforiaRealm modelToExternalClass(Vuforia vuforia) {
+  @Override public VuforiaRealm modelToExternalClass(VuforiaCredentials vuforiaCredentials) {
     VuforiaRealm vuforiaRealm = new VuforiaRealm();
 
-    if (vuforia != null) {
-      vuforiaRealm.setClientAccessKey(vuforia.getClientAccessKey());
-      vuforiaRealm.setClientSecretKey(vuforia.getClientSecretKey());
-      vuforiaRealm.setLicenseKey(vuforia.getLicenseKey());
+    if (vuforiaCredentials != null) {
+      vuforiaRealm.setClientAccessKey(vuforiaCredentials.getClientAccessKey());
+      vuforiaRealm.setClientSecretKey(vuforiaCredentials.getClientSecretKey());
+      vuforiaRealm.setLicenseKey(vuforiaCredentials.getLicenseKey());
     }
 
     return vuforiaRealm;
   }
 
-  @Override public Vuforia externalClassToModel(VuforiaRealm vuforiaRealm) {
-    Vuforia vuforia = new Vuforia();
+  @Override public VuforiaCredentials externalClassToModel(VuforiaRealm vuforiaRealm) {
+    VuforiaCredentials vuforiaCredentials = new VuforiaCredentials();
 
     if (vuforiaRealm != null) {
-      vuforia.setClientAccessKey(vuforiaRealm.getClientAccessKey());
-      vuforia.setClientSecretKey(vuforiaRealm.getClientSecretKey());
-      vuforia.setLicenseKey(vuforiaRealm.getLicenseKey());
+      vuforiaCredentials.setClientAccessKey(vuforiaRealm.getClientAccessKey());
+      vuforiaCredentials.setClientSecretKey(vuforiaRealm.getClientSecretKey());
+      vuforiaCredentials.setLicenseKey(vuforiaRealm.getLicenseKey());
     }
 
-    return vuforia;
+    return vuforiaCredentials;
   }
 }

@@ -50,8 +50,8 @@ public class ConfigModelToExternalClassMapper
 
     OrchextraApiConfigRequest configRequest = new OrchextraApiConfigRequest();
 
-    configRequest.setApp(MapperUtils.checkNullDataRequest(appRequestMapper, config.getApp()));
-    configRequest.setCrm(MapperUtils.checkNullDataRequest(crmRequestMapper, config.getCrm()));
+    configRequest.setApp(MapperUtils.checkNullDataRequest(appRequestMapper, config.getSdkAppInfo()));
+    configRequest.setCrm(MapperUtils.checkNullDataRequest(crmRequestMapper, config.getCrmUser()));
 
     configRequest.setDevice(
         MapperUtils.checkNullDataRequest(deviceRequestMapper, config.getDevice()));

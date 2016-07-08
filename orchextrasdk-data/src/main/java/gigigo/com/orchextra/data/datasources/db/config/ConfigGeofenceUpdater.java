@@ -20,8 +20,8 @@ package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 
 import java.util.ArrayList;
 import java.util.List;

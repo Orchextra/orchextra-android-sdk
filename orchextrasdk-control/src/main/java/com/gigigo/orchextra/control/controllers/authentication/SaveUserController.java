@@ -28,7 +28,7 @@ import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.config.ValidationError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
 import orchextra.javax.inject.Provider;
@@ -56,11 +56,11 @@ public class SaveUserController extends Presenter<SaveUserDelegate> {
   @Override public void onViewAttached() {
   }
 
-  public void saveUserAndReloadConfig(Crm crm) {
+  public void saveUserAndReloadConfig(CrmUser crmUser) {
     InteractorExecution interactorExecution = interactorExecutionProvider.get();
     SaveUserInteractor saveUserInteractor =
         (SaveUserInteractor) interactorExecution.getInteractor();
-    saveUserInteractor.setCrm(crm);
+    saveUserInteractor.setCrmUser(crmUser);
     saveUserInteractor.setHasReloadConfig(true);
 
     interactorExecution.result(new InteractorResult<OrchextraUpdates>() {
@@ -78,11 +78,11 @@ public class SaveUserController extends Presenter<SaveUserDelegate> {
     }).execute(interactorInvoker);
   }
 
-  public void saveUserOnly(Crm crm) {
+  public void saveUserOnly(CrmUser crmUser) {
     InteractorExecution interactorExecution = interactorExecutionProvider.get();
     SaveUserInteractor saveUserInteractor =
             (SaveUserInteractor) interactorExecution.getInteractor();
-    saveUserInteractor.setCrm(crm);
+    saveUserInteractor.setCrmUser(crmUser);
     saveUserInteractor.setHasReloadConfig(false);
 
     interactorExecution.error(ValidationError.class, new InteractorResult<ValidationError>() {

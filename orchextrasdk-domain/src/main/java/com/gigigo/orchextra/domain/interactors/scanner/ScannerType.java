@@ -18,7 +18,8 @@
 
 package com.gigigo.orchextra.domain.interactors.scanner;
 
-public enum ScannerType {
+//todo only this kinds of barcodes/qrs??
+public enum ScannerType  {
     QRCODE("QRCODE"),
     IMAGE_RECOGNITION("IR"),
     BARCODE_UPCA("UPCA"),

@@ -20,9 +20,9 @@ package com.gigigo.orchextra.di.modules.data;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
@@ -132,7 +132,7 @@ public class DBMapperModule {
 
     @Singleton
     @Provides
-    Mapper<Vuforia, VuforiaRealm> provideRealmMapperVuforiaRealm() {
+    Mapper<VuforiaCredentials, VuforiaRealm> provideRealmMapperVuforiaRealm() {
         return new VuforiaRealmMapper();
     }
     @Deprecated

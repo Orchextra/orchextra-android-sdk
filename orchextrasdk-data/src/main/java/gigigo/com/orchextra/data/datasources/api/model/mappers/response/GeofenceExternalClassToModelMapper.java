@@ -23,7 +23,7 @@ import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
 import com.gigigo.orchextra.domain.model.ProximityPointType;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 

@@ -18,67 +18,74 @@
 
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.Updates;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
-public class OrchextraUpdates {
+public class OrchextraUpdates implements Updates {
 
-  private OrchextraBeaconUpdates orchextraBeaconUpdates;
-  private OrchextraGeofenceUpdates orchextraGeofenceUpdates;
-  private Vuforia vuforiaUpdates;
-  @Deprecated
-  private Theme themeUpdates;
-  @Deprecated
-  public OrchextraUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates,
-      OrchextraGeofenceUpdates orchextraGeofenceChanges, Vuforia vuforiaChanges,
-      Theme themeChanges) {
+    private OrchextraBeaconUpdates orchextraBeaconUpdates;
+    private OrchextraGeofenceUpdates orchextraGeofenceUpdates;
+    private VuforiaCredentials vuforiaCredentialsUpdates;
+    @Deprecated
+    private Theme themeUpdates;
 
-    setOrchextraBeaconUpdates(orchextraBeaconUpdates);
-    setOrchextraGeofenceUpdates(orchextraGeofenceChanges);
-    setVuforiaUpdates(vuforiaChanges);
-    setThemeUpdates(themeChanges);
-  }
+    @Deprecated
+    public OrchextraUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates,
+                             OrchextraGeofenceUpdates orchextraGeofenceChanges,
+                            VuforiaCredentials vuforiaCredentialsChanges,
+                            Theme themeChanges) {
 
-  public OrchextraUpdates() {
+        setOrchextraBeaconUpdates(orchextraBeaconUpdates);
+        setOrchextraGeofenceUpdates(orchextraGeofenceChanges);
+        setVuforiaCredentialsUpdates(vuforiaCredentialsChanges);
+        setThemeUpdates(themeChanges);
+    }
 
-  }
+    public OrchextraUpdates() {
 
-  public OrchextraBeaconUpdates getOrchextraBeaconUpdates() {
-    return orchextraBeaconUpdates;
-  }
+    }
 
-  public void setOrchextraBeaconUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates) {
-    this.orchextraBeaconUpdates = orchextraBeaconUpdates;
-  }
+    public OrchextraBeaconUpdates getOrchextraBeaconUpdates() {
+        return orchextraBeaconUpdates;
+    }
 
-  public OrchextraGeofenceUpdates getOrchextraGeofenceUpdates() {
-    return orchextraGeofenceUpdates;
-  }
+    public void setOrchextraBeaconUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates) {
+        this.orchextraBeaconUpdates = orchextraBeaconUpdates;
+    }
 
-  public void setOrchextraGeofenceUpdates(OrchextraGeofenceUpdates orchextraGeofenceUpdates) {
-    this.orchextraGeofenceUpdates = orchextraGeofenceUpdates;
-  }
+    public  OrchextraGeofenceUpdates getOrchextraGeofenceUpdates() {
+        return orchextraGeofenceUpdates;
+    }
 
-  public Vuforia getVuforiaUpdates() {
-    return vuforiaUpdates;
-  }
+    public void setOrchextraGeofenceUpdates(OrchextraGeofenceUpdates orchextraGeofenceUpdates) {
+        this.orchextraGeofenceUpdates = orchextraGeofenceUpdates;
+    }
 
-  public void setVuforiaUpdates(Vuforia vuforiaUpdates) {
-    this.vuforiaUpdates = vuforiaUpdates;
-  }
-  @Deprecated
-  public Theme getThemeUpdates() {
-    return themeUpdates;
-  }
-  @Deprecated
-  public void setThemeUpdates(Theme themeUpdates) {
-    this.themeUpdates = themeUpdates;
-  }
+    public VuforiaCredentials getVuforiaCredentialsUpdates() {
+        return vuforiaCredentialsUpdates;
+    }
 
-  public boolean hasChanges() {
-    return (orchextraBeaconUpdates != null && orchextraBeaconUpdates.hasChanges())
-        || (orchextraGeofenceUpdates != null && orchextraGeofenceUpdates.hasChanges())
-        || vuforiaUpdates != null
-        || themeUpdates != null;
-  }
+    public void setVuforiaCredentialsUpdates(VuforiaCredentials vuforiaCredentialsUpdates) {
+        this.vuforiaCredentialsUpdates = vuforiaCredentialsUpdates;
+    }
+
+    @Deprecated
+    public Theme getThemeUpdates() {
+        return themeUpdates;
+    }
+
+    @Deprecated
+    public void setThemeUpdates(Theme themeUpdates) {
+        this.themeUpdates = themeUpdates;
+    }
+
+    @Override
+    public boolean hasChanges() {
+        return (orchextraBeaconUpdates != null && orchextraBeaconUpdates.hasChanges())
+                || (orchextraGeofenceUpdates != null && orchextraGeofenceUpdates.hasChanges())
+                || vuforiaCredentialsUpdates != null
+                || themeUpdates != null;
+    }
 }

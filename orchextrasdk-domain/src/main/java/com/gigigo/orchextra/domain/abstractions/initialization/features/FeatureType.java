@@ -19,18 +19,19 @@
 package com.gigigo.orchextra.domain.abstractions.initialization.features;
 
 import com.gigigo.orchextra.domain.model.StringValueEnum;
-
+//todo notcomplete
 public enum FeatureType implements StringValueEnum {
-  BEACONS("BEACONS"),
-  GOOGLE_PLAY_SERVICES("GOOGLE PLAY SERVICES");
+    BEACONS("BEACONS"),
+    GOOGLE_PLAY_SERVICES("GOOGLE PLAY SERVICES");
 
-  private final String type;
+    private final String type;
 
-  FeatureType(final String type) {
-    this.type = type;
-  }
+    FeatureType(final String type) {
+        this.type = type;
+    }
 
-  public String getStringValue() {
-    return type;
-  }
+    @Override
+    public String getStringValue() {
+        return type;
+    }
 }

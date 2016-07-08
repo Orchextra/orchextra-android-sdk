@@ -21,42 +21,43 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
+
 import gigigo.com.orchextra.data.datasources.api.model.requests.ApiCrm;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper<Crm, ApiCrm> {
+public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper<CrmUser, ApiCrm> {
 
-  @Override public ApiCrm modelToExternalClass(Crm crm) {
+  @Override public ApiCrm modelToExternalClass(CrmUser crmUser) {
 
     ApiCrm apiCrm = new ApiCrm();
 
     apiCrm.setBirthDate(
-        DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT_NO_TIME));
-    apiCrm.setCrmId(crm.getCrmId());
+        DateUtils.dateToStringWithFormat(crmUser.getBirthDate(), DateFormatConstants.DATE_FORMAT_NO_TIME));
+    apiCrm.setCrmId(crmUser.getCrmId());
 
     //TODO change all if null with Checker from utils
-    if (crm.getGender() != null) {
-      apiCrm.setGender(crm.getGender().getStringValue());
+    if (crmUser.getGender() != null) {
+      apiCrm.setGender(crmUser.getGender().getStringValue());
     }
 
-    if (crm.getKeywords()!=null) {
-      apiCrm.setKeywords(crm.getKeywords());
+    if (crmUser.getKeywords()!=null) {
+      apiCrm.setKeywords(crmUser.getKeywords());
     }
 
-    if (crm.getTags()!=null) {
-      apiCrm.setTags(getTags(crm));
+    if (crmUser.getTags()!=null) {
+      apiCrm.setTags(getTags(crmUser));
     }
 
     return apiCrm;
   }
   @Deprecated
-  private List<String> getTags(Crm crm) {
+  private List<String> getTags(CrmUser crmUser) {
     List<String> tags = new ArrayList<>();
 
-    for (CrmTag crmTag:crm.getTags()){
+    for (CrmTag crmTag: crmUser.getTags()){
       tags.add(crmTag.toString());
     }
     return tags;

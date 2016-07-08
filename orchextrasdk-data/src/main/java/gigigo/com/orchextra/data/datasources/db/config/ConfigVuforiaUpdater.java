@@ -19,7 +19,7 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaRealm;
 import io.realm.Realm;
@@ -27,32 +27,32 @@ import io.realm.RealmResults;
 
 public class ConfigVuforiaUpdater {
 
-  private final Mapper<Vuforia, VuforiaRealm> vuforiaRealmMapper;
+  private final Mapper<VuforiaCredentials, VuforiaRealm> vuforiaRealmMapper;
 
-  public ConfigVuforiaUpdater(Mapper<Vuforia, VuforiaRealm> vuforiaRealmMapper) {
+  public ConfigVuforiaUpdater(Mapper<VuforiaCredentials, VuforiaRealm> vuforiaRealmMapper) {
     this.vuforiaRealmMapper = vuforiaRealmMapper;
   }
 
-  public Vuforia saveVuforia(Realm realm, Vuforia vuforia) {
+  public VuforiaCredentials saveVuforia(Realm realm, VuforiaCredentials vuforiaCredentials) {
     boolean hasChangedVuforia = false;
 
-    if (vuforia != null) {
-      hasChangedVuforia = checkIfChangedVuforia(realm, vuforia);
+    if (vuforiaCredentials != null) {
+      hasChangedVuforia = checkIfChangedVuforia(realm, vuforiaCredentials);
     } else {
       realm.delete(VuforiaRealm.class);
     }
 
     if (hasChangedVuforia) {
-      return vuforia;
+      return vuforiaCredentials;
     } else {
       return null;
     }
   }
 
-  private boolean checkIfChangedVuforia(Realm realm, Vuforia vuforia) {
+  private boolean checkIfChangedVuforia(Realm realm, VuforiaCredentials vuforiaCredentials) {
     boolean hasChangedVuforia = false;
 
-    VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToExternalClass(vuforia);
+    VuforiaRealm vuforiaRealm = vuforiaRealmMapper.modelToExternalClass(vuforiaCredentials);
 
     RealmResults<VuforiaRealm> savedVuforia = realm.where(VuforiaRealm.class).findAll();
     if (savedVuforia.isEmpty()) {

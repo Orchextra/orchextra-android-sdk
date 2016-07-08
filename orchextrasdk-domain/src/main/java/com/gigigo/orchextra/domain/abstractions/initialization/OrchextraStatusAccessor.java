@@ -54,12 +54,12 @@ public interface OrchextraStatusAccessor {
 
   void saveCredentials(String apiKey, String apiSecret);
 
-  //region TODO
+  //region TODO check com.gigigo.orchextra.domain.model.vo.OrchextraStatus
   //TODO move CRM and Session management here
   //Session getSession();
   //void updateSession(Session session);
 
-  //Crm getCrm();
-  //void updateCrm(Crm crm);
+  //CrmUser getCrmUser();
+  //void updateCrm(CrmUser crm);
   //endregion
 }

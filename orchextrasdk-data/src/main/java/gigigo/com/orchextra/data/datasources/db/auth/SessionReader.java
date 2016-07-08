@@ -19,10 +19,9 @@
 package gigigo.com.orchextra.data.datasources.db.auth;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
-import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
@@ -73,7 +72,7 @@ public class SessionReader {
     }
   }
 
-  public Crm readCrm(Realm realm) {
+  public CrmUser readCrm(Realm realm) {
     RealmResults<CrmRealm> crmRealm = realm.where(CrmRealm.class).findAll();
     if (crmRealm.size() > 0) {
       orchextraLogger.log("CRM_ID found");

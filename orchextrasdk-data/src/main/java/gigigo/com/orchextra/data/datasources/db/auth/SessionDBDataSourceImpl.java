@@ -24,7 +24,7 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
@@ -126,12 +126,12 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     return true;
   }
 
-  @Override public boolean saveUser(Crm crm) {
+  @Override public boolean saveUser(CrmUser crmUser) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
-      sessionUpdater.updateCrm(realm, crm);
+      sessionUpdater.updateCrm(realm, crmUser);
     } catch (RealmException re) {
       return false;
     } finally {
@@ -174,12 +174,12 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     }
   }
 
-  @Override public BusinessObject<Crm> getCrm() {
+  @Override public BusinessObject<CrmUser> getCrm() {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
-      Crm crm = sessionReader.readCrm(realm);
-      return new BusinessObject(crm, BusinessError.createOKInstance());
+      CrmUser crmUser = sessionReader.readCrm(realm);
+      return new BusinessObject(crmUser, BusinessError.createOKInstance());
     } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     } finally {
@@ -189,12 +189,12 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     }
   }
 
-  @Override public boolean storeCrm(Crm crm) {
+  @Override public boolean storeCrm(CrmUser crmUser) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
-      sessionUpdater.updateCrm(realm, crm);
+      sessionUpdater.updateCrm(realm, crmUser);
     } catch (RealmException re) {
       return false;
     } finally {

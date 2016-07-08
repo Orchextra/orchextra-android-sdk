@@ -18,27 +18,27 @@
 
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public class VuforiaReadyImpl implements VuforiaReady {
 
-  private Vuforia vuforia;
+  private VuforiaCredentials vuforiaCredentials;
 
-  public VuforiaReadyImpl(Vuforia vuforia) {
-    this.vuforia = vuforia;
+  public VuforiaReadyImpl(VuforiaCredentials vuforiaCredentials) {
+    this.vuforiaCredentials = vuforiaCredentials;
   }
 
-  @Override public Vuforia getVuforia() {
-    return vuforia;
+  public VuforiaCredentials getVuforiaCredentials() {
+    return vuforiaCredentials;
   }
 
   @Override public boolean isSupported() {
-    return (vuforia != null
-        && vuforia.getLicenseKey() != null
-        && vuforia.getLicenseKey().length() > 0
-        && vuforia.getClientAccessKey() != null
-        && vuforia.getClientAccessKey().length() > 0
-        && vuforia.getClientSecretKey() != null
-        && vuforia.getClientSecretKey().length() > 0) ? true : false;
+    return (vuforiaCredentials != null
+        && vuforiaCredentials.getLicenseKey() != null
+        && vuforiaCredentials.getLicenseKey().length() > 0
+        && vuforiaCredentials.getClientAccessKey() != null
+        && vuforiaCredentials.getClientAccessKey().length() > 0
+        && vuforiaCredentials.getClientSecretKey() != null
+        && vuforiaCredentials.getClientSecretKey().length() > 0) ? true : false;
   }
 }

@@ -21,8 +21,8 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
@@ -61,11 +61,11 @@ public class ConfigApiExternalClassToModelMapper
     List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
     List<OrchextraGeofence> geofences = mapGeofences(apiConfigData.getGeoMarketing());
     Theme theme = MapperUtils.checkNullDataResponse(themeResponseMapper, apiConfigData.getTheme());
-    Vuforia vuforia =
+    VuforiaCredentials vuforiaCredentials =
         MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
     return new ConfigInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND, geofences,
-        beacons, theme, vuforia).build();
+        beacons, theme, vuforiaCredentials).build();
   }
 
   private List<OrchextraGeofence> mapGeofences(List<ApiGeofence> apiGeofences) {

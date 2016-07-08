@@ -29,7 +29,7 @@ import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
-
+    //projectid-->575e81a7893ba72f448b467f pro
     public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
     public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
     public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive

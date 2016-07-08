@@ -26,12 +26,13 @@ import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 import com.gigigo.orchextra.domain.model.actions.strategy.ScheduledActionImpl;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
-import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
-import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
-import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
+import com.gigigo.orchextra.domain.services.actions.EventUpdaterDomainService;
+import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
+import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainService;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
@@ -46,11 +47,14 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class) public class GeofenceInteractorTest {
 
-  @Mock TriggerActionsFacadeService triggerActionsFacadeService;
+  @Mock
+  TriggerActionsFacadeDomainService triggerActionsFacadeDomainService;
 
-  @Mock GeofenceCheckerService geofenceCheckerService;
+  @Mock
+  GeofenceCheckerDomainService geofenceCheckerDomainService;
 
-  @Mock EventUpdaterService eventUpdaterService;
+  @Mock
+  EventUpdaterDomainService eventUpdaterDomainService;
 
   @Mock InteractorResponse interactorResponse;
 
@@ -63,8 +67,8 @@ import static org.mockito.Mockito.when;
   private List idsList;
 
   @Before public void setUp() throws Exception {
-    interactor = new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService,
-        eventUpdaterService);
+    interactor = new GeofenceInteractor(triggerActionsFacadeDomainService, geofenceCheckerDomainService,
+            eventUpdaterDomainService);
 
     buildGeofenceFakeList();
   }
@@ -84,18 +88,18 @@ import static org.mockito.Mockito.when;
     GeoPointEventType eventType = GeoPointEventType.ENTER;
     interactor.setGeofenceData(idsList, eventType);
 
-    when(geofenceCheckerService.obtainEventGeofences(idsList, eventType)).thenReturn(
+    when(geofenceCheckerDomainService.obtainEventGeofences(idsList, eventType)).thenReturn(
         eventGeofenceList);
 
-    when(geofenceCheckerService.obtainGeofencesById(idsList)).thenReturn(list);
-    when(triggerActionsFacadeService.triggerActions(list, eventType)).thenReturn(
+    when(geofenceCheckerDomainService.obtainGeofencesById(idsList)).thenReturn(list);
+    when(triggerActionsFacadeDomainService.triggerActions(list, eventType)).thenReturn(
         interactorResponse);
 
     interactor.call();
 
-    verify(geofenceCheckerService).obtainEventGeofences(idsList, eventType);
-    verify(geofenceCheckerService).obtainGeofencesById(idsList);
-    verify(triggerActionsFacadeService).triggerActions(list, eventType);
+    verify(geofenceCheckerDomainService).obtainEventGeofences(idsList, eventType);
+    verify(geofenceCheckerDomainService).obtainGeofencesById(idsList);
+    verify(triggerActionsFacadeDomainService).triggerActions(list, eventType);
   }
 
   @Test public void shouldObtainEventGeofencesAndObtainGeofenceTrigger() throws Exception {
@@ -106,21 +110,21 @@ import static org.mockito.Mockito.when;
     OrchextraGeofence geofence = new OrchextraGeofence();
     orchextraGeofenceList.add(geofence);
 
-    when(geofenceCheckerService.obtainEventGeofences(idsList, eventType)).thenReturn(
+    when(geofenceCheckerDomainService.obtainEventGeofences(idsList, eventType)).thenReturn(
         eventGeofenceList);
     when(eventGeofenceList.getResult()).thenReturn(orchextraGeofenceList);
 
-    when(geofenceCheckerService.obtainGeofencesById(idsList)).thenReturn(list);
-    when(triggerActionsFacadeService.triggerActions(list, eventType)).thenReturn(
+    when(geofenceCheckerDomainService.obtainGeofencesById(idsList)).thenReturn(list);
+    when(triggerActionsFacadeDomainService.triggerActions(list, eventType)).thenReturn(
         interactorResponse);
 
     interactor.call();
 
-    verify(geofenceCheckerService).obtainEventGeofences(idsList, eventType);
+    verify(geofenceCheckerDomainService).obtainEventGeofences(idsList, eventType);
     verify(eventGeofenceList).getResult();
-    verify(triggerActionsFacadeService).deleteScheduledActionIfExists(geofence);
-    verify(geofenceCheckerService).obtainGeofencesById(idsList);
-    verify(triggerActionsFacadeService).triggerActions(list, eventType);
+    verify(triggerActionsFacadeDomainService).deleteScheduledActionIfExists(geofence);
+    verify(geofenceCheckerDomainService).obtainGeofencesById(idsList);
+    verify(triggerActionsFacadeDomainService).triggerActions(list, eventType);
   }
 
   @Mock BusinessObject<OrchextraGeofence> boOrchextraGeofence;
@@ -137,7 +141,7 @@ import static org.mockito.Mockito.when;
         new BrowserAction("0", "0", "http://www.google.es", new OrchextraNotification(), schedule);
     basicAction.setEventCode("AAA");
 
-    when(geofenceCheckerService.obtainCheckedGeofence(basicAction.getEventCode())).thenReturn(
+    when(geofenceCheckerDomainService.obtainCheckedGeofence(basicAction.getEventCode())).thenReturn(
         boOrchextraGeofence);
 
     when(boOrchextraGeofence.isSuccess()).thenReturn(true);
@@ -146,8 +150,8 @@ import static org.mockito.Mockito.when;
 
     interactor.updateEventWithAction(basicAction);
 
-    verify(geofenceCheckerService).obtainCheckedGeofence("AAA");
+    verify(geofenceCheckerDomainService).obtainCheckedGeofence("AAA");
     verify(orchextraGeofence).setActionRelated(any(ActionRelated.class));
-    verify(eventUpdaterService).associateActionToGeofenceEvent(orchextraGeofence);
+    verify(eventUpdaterDomainService).associateActionToGeofenceEvent(orchextraGeofence);
   }
 }

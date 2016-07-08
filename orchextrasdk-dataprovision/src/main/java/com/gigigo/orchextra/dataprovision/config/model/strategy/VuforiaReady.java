@@ -19,9 +19,9 @@
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
 import com.gigigo.orchextra.domain.model.MethodSupported;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 
 public interface VuforiaReady extends MethodSupported {
-  Vuforia getVuforia();
+  VuforiaCredentials getVuforiaCredentials();
 }

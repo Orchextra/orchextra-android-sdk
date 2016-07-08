@@ -39,9 +39,9 @@ public abstract class BasicAction {
   private String id;
   private String trackId;
   protected ActionType actionType;
-  protected URLFunctionality urlFunctionality;
-  protected NotifFunctionality notifFunctionality;
-  protected ScheduleFunctionality scheduleFunctionality;
+  protected URLBehavior urlBehavior;
+  protected NotificationBehavior notificationBehavior;
+  protected ScheduleBehavior scheduleBehavior;
 
   private String eventCode;
 
@@ -51,18 +51,18 @@ public abstract class BasicAction {
     this.id = id;
     this.trackId = trackId;
 
-    this.urlFunctionality = new URLFunctionalityImpl(url);
+    this.urlBehavior = new URLBehaviorImpl(url);
 
     if (notification == null) {
-      this.notifFunctionality = new EmptyNotifFunctionalityImpl();
+      this.notificationBehavior = new EmptyNotificationBehaviorImpl();
     } else {
-      this.notifFunctionality = new NotifFunctionalityImpl(notification);
+      this.notificationBehavior = new NotificationBehaviorImpl(notification);
     }
 
     if (schedule == null) {
-      this.scheduleFunctionality = new EmptyScheduleFunctionalityImpl();
+      this.scheduleBehavior = new EmptyScheduleBehaviorImpl();
     } else {
-      this.scheduleFunctionality = new ScheduleFunctionalityImpl(schedule);
+      this.scheduleBehavior = new ScheduleBehaviorImpl(schedule);
     }
   }
 
@@ -79,8 +79,8 @@ public abstract class BasicAction {
   }
 
   public void performAction(ActionDispatcher actionDispatcher) {
-    if (notifFunctionality.isSupported()) {
-      notifFunctionality.getNotification().setShown(true);
+    if (notificationBehavior.isSupported()) {
+      notificationBehavior.getNotification().setShown(true);
       performNotifAction(actionDispatcher);
     } else {
       performSimpleAction(actionDispatcher);
@@ -88,11 +88,11 @@ public abstract class BasicAction {
   }
 
   public boolean isScheduled() {
-    return scheduleFunctionality.isSupported();
+    return scheduleBehavior.isSupported();
   }
 
   public ScheduledActionImpl getScheduledAction() {
-    if (scheduleFunctionality.isSupported()) {
+    if (scheduleBehavior.isSupported()) {
       return new ScheduledActionImpl(this);
     } else {
       throw new UnsupportedOperationException();
@@ -100,11 +100,11 @@ public abstract class BasicAction {
   }
 
   public String getUrl() {
-    return this.urlFunctionality.getUrl();
+    return this.urlBehavior.getUrl();
   }
 
-  public OrchextraNotification getNotifFunctionality() {
-    return notifFunctionality.getNotification();
+  public OrchextraNotification getNotificationBehavior() {
+    return notificationBehavior.getNotification();
   }
 
   protected abstract void performSimpleAction(ActionDispatcher actionDispatcher);

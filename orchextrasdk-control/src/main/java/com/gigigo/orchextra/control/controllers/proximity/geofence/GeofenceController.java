@@ -28,7 +28,7 @@ import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveGeofenceItemError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 
 import java.util.List;

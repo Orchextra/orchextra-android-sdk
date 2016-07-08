@@ -30,18 +30,18 @@ import com.gigigo.orchextra.domain.interactors.imagerecognition.GetImageRecognit
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
 import com.gigigo.orchextra.domain.interactors.themes.ObtainThemeInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
-import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
-import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
+import com.gigigo.orchextra.domain.services.actions.EventUpdaterDomainService;
+import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
-import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
 import com.gigigo.orchextra.domain.services.config.LocalStorageService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
 import com.gigigo.orchextra.domain.services.imagerecognition.GetImageRecognitionCredentialsService;
-import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
-import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
-import com.gigigo.orchextra.domain.services.proximity.ObtainGeofencesService;
-import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
-import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
+import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerDomainService;
+import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainService;
+import com.gigigo.orchextra.domain.services.geofences.ObtainGeofencesDomainService;
+import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsDomainService;
+import com.gigigo.orchextra.domain.services.proximity.RegionCheckerDomainService;
 import com.gigigo.orchextra.domain.services.themes.ThemeService;
 
 import orchextra.dagger.Module;
@@ -55,50 +55,50 @@ public class InteractorsModule {
     @PerExecution
     SaveUserInteractor provideSaveUserInteractor(
             AuthenticationService authenticationService,
-            ConfigService configService,
+            ConfigDomainService configDomainService,
             OrchextraStatusManager orchextraStatusManager) {
-        return new SaveUserInteractor(authenticationService, configService, orchextraStatusManager);
+        return new SaveUserInteractor(authenticationService, configDomainService, orchextraStatusManager);
     }
 
     @Provides
     @PerExecution
-    SendConfigInteractor provideSendConfigInteractor(ConfigService configService) {
-        return new SendConfigInteractor(configService);
+    SendConfigInteractor provideSendConfigInteractor(ConfigDomainService configDomainService) {
+        return new SendConfigInteractor(configDomainService);
     }
 
     @Provides
     @PerExecution
     RegionsProviderInteractor provideRegionsProviderInteractor(
-            ObtainRegionsService obtainRegionsService) {
-        return new RegionsProviderInteractor(obtainRegionsService);
+            ObtainRegionsDomainService obtainRegionsDomainService) {
+        return new RegionsProviderInteractor(obtainRegionsDomainService);
     }
 
     @Provides
     @PerExecution
     BeaconEventsInteractor provideRegionCheckerInteractor(
-            BeaconCheckerService beaconCheckerService, RegionCheckerService regionCheckerService,
-            TriggerActionsFacadeService triggerActionsFacadeService,
-            EventUpdaterService eventUpdaterService) {
+            BeaconCheckerDomainService beaconCheckerDomainService, RegionCheckerDomainService regionCheckerDomainService,
+            TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
+            EventUpdaterDomainService eventUpdaterDomainService) {
 
-        return new BeaconEventsInteractor(beaconCheckerService, regionCheckerService,
-                triggerActionsFacadeService, eventUpdaterService);
+        return new BeaconEventsInteractor(beaconCheckerDomainService, regionCheckerDomainService,
+                triggerActionsFacadeDomainService, eventUpdaterDomainService);
     }
 
     @Provides
     @PerExecution
     GeofenceInteractor provideGeofenceInteractor(
-            TriggerActionsFacadeService triggerActionsFacadeService,
-            GeofenceCheckerService geofenceCheckerService,
-            EventUpdaterService eventUpdaterService) {
+            TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
+            GeofenceCheckerDomainService geofenceCheckerDomainService,
+            EventUpdaterDomainService eventUpdaterDomainService) {
 
-        return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService, eventUpdaterService);
+        return new GeofenceInteractor(triggerActionsFacadeDomainService, geofenceCheckerDomainService, eventUpdaterDomainService);
     }
 
     @Provides
     @PerExecution
     GeofencesProviderInteractor provideGeofencesProviderInteractor(
-            ObtainGeofencesService obtainGeofencesService) {
-        return new GeofencesProviderInteractor(obtainGeofencesService);
+            ObtainGeofencesDomainService obtainGeofencesDomainService) {
+        return new GeofencesProviderInteractor(obtainGeofencesDomainService);
     }
 
     @Deprecated
@@ -117,9 +117,9 @@ public class InteractorsModule {
 
     @Provides
     @PerExecution
-    ScannerInteractor provideScannerInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
+    ScannerInteractor provideScannerInteractor(TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
                                                ObtainGeoLocationTask obtainGeoLocationTask) {
-        return new ScannerInteractor(triggerActionsFacadeService, obtainGeoLocationTask);
+        return new ScannerInteractor(triggerActionsFacadeDomainService, obtainGeoLocationTask);
     }
 
     @Provides

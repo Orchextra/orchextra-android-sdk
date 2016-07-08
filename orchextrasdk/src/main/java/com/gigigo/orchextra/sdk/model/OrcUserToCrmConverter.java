@@ -22,9 +22,10 @@ import android.text.TextUtils;
 
 import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.ORCUserTag;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,22 +38,22 @@ public class OrcUserToCrmConverter {
         this.genderConverter = genderConverter;
     }
 
-    public Crm convertOrcUserToCrm(ORCUser user) {
-        Crm crm = new Crm();
+    public CrmUser convertOrcUserToCrm(ORCUser user) {
+        CrmUser crmUser = new CrmUser();
 
         if (user != null) {
-            crm.setCrmId(user.getCrmId());
-            crm.setGender(genderConverter.convertGender(user.getGender()));
+            crmUser.setCrmId(user.getCrmId());
+            crmUser.setGender(genderConverter.convertGender(user.getGender()));
 
             if (user.getBirthdate() != null) {
-                crm.setBirthDate(user.getBirthdate().getTime());
+                crmUser.setBirthDate(user.getBirthdate().getTime());
             }
 
-            crm.setKeywords(obtainUserKeyWords(user));
-            crm.setTags(obtainUserTags(user));
+            crmUser.setKeywords(obtainUserKeyWords(user));
+            crmUser.setTags(obtainUserTags(user));
 
         }
-        return crm;
+        return crmUser;
     }
     @Deprecated
     private List<String> obtainUserKeyWords(ORCUser user) {

@@ -22,7 +22,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ImageRecognitionLocalDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public class GetImageRecognitionCredentialsService {
 
@@ -32,8 +32,8 @@ public class GetImageRecognitionCredentialsService {
     this.imageRecognitionLocalDataProvider = irLdp;
   }
 
-  public InteractorResponse<Vuforia> obtainImageRecognitionCredentials() {
-    BusinessObject<Vuforia> bo = imageRecognitionLocalDataProvider.obtainVuforiaInfo();
+  public InteractorResponse<VuforiaCredentials> obtainImageRecognitionCredentials() {
+    BusinessObject<VuforiaCredentials> bo = imageRecognitionLocalDataProvider.obtainVuforiaInfo();
     if (bo.isSuccess()) {
       return new InteractorResponse(bo.getData());
     } else {

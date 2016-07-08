@@ -30,7 +30,7 @@ import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerType;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.ScannerResult;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 import java.util.List;
 
@@ -66,9 +66,9 @@ public class ImageRecognitionController {
     }
 
     public void getCredentials(final OnImageRecognitionCredentialsReadyListener listener) {
-        getImageRecognitionCredentialsExecutionProvider.get().result(new InteractorResult<Vuforia>() {
+        getImageRecognitionCredentialsExecutionProvider.get().result(new InteractorResult<VuforiaCredentials>() {
             @Override
-            public void onResult(Vuforia result) {
+            public void onResult(VuforiaCredentials result) {
                 if (result != null) {
                     listener.onCredentialsReady(result);
                 }

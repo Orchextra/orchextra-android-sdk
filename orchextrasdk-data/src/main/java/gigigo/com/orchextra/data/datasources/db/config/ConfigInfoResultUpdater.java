@@ -19,9 +19,9 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
@@ -55,11 +55,11 @@ public class ConfigInfoResultUpdater {
     OrchextraGeofenceUpdates orchextraGeofenceChanges =
         geofenceUpdater.saveGeofences(realm, config.getGeofences());
 
-    Vuforia vuforiaChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
+    VuforiaCredentials vuforiaCredentialsChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
 
     Theme themeChanges = themeUpdater.saveTheme(realm, config.getTheme());
 
-    return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaChanges,
+    return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges,
         themeChanges);
   }
 

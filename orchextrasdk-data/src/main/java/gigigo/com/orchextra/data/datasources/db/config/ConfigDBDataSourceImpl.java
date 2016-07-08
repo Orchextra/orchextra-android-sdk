@@ -25,7 +25,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Theme;

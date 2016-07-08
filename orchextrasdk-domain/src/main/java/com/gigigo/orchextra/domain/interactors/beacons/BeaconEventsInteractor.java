@@ -26,34 +26,35 @@ import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.actions.EventAccessor;
-import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
-import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
-import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
-import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
+import com.gigigo.orchextra.domain.services.actions.EventUpdaterDomainService;
+import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
+import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerDomainService;
+import com.gigigo.orchextra.domain.services.proximity.RegionCheckerDomainService;
+
 import java.util.List;
 
 public class BeaconEventsInteractor
     implements Interactor<InteractorResponse<List<BasicAction>>>, EventAccessor {
 
-  private final BeaconCheckerService beaconCheckerService;
-  private final RegionCheckerService regionCheckerService;
-  private final TriggerActionsFacadeService triggerActionsFacadeService;
-  private final EventUpdaterService eventUpdaterService;
+  private final BeaconCheckerDomainService beaconCheckerDomainService;
+  private final RegionCheckerDomainService regionCheckerDomainService;
+  private final TriggerActionsFacadeDomainService triggerActionsFacadeDomainService;
+  private final EventUpdaterDomainService eventUpdaterDomainService;
 
   private BeaconEventType eventType;
   private Object data;
 
-  public BeaconEventsInteractor(BeaconCheckerService beaconCheckerService,
-      RegionCheckerService regionCheckerService,
-      TriggerActionsFacadeService triggerActionsFacadeService,
-      EventUpdaterService eventUpdaterService) {
+  public BeaconEventsInteractor(BeaconCheckerDomainService beaconCheckerDomainService,
+      RegionCheckerDomainService regionCheckerDomainService,
+      TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
+      EventUpdaterDomainService eventUpdaterDomainService) {
 
-    this.beaconCheckerService = beaconCheckerService;
-    this.regionCheckerService = regionCheckerService;
-    this.triggerActionsFacadeService = triggerActionsFacadeService;
-    this.eventUpdaterService = eventUpdaterService;
+    this.beaconCheckerDomainService = beaconCheckerDomainService;
+    this.regionCheckerDomainService = regionCheckerDomainService;
+    this.triggerActionsFacadeDomainService = triggerActionsFacadeDomainService;
+    this.eventUpdaterDomainService = eventUpdaterDomainService;
 
-    triggerActionsFacadeService.setEventAccessor(this);
+    triggerActionsFacadeDomainService.setEventAccessor(this);
   }
 
   @Override public InteractorResponse<List<BasicAction>> call() throws Exception {
@@ -81,18 +82,18 @@ public class BeaconEventsInteractor
   private InteractorResponse<List<BasicAction>> beaconsEventResult() {
     List<OrchextraBeacon> orchextraBeacons = (List<OrchextraBeacon>) data;
 
-    InteractorResponse response = beaconCheckerService.getCheckedBeaconList(orchextraBeacons);
+    InteractorResponse response = beaconCheckerDomainService.getCheckedBeaconList(orchextraBeacons);
     if (response.hasError()) {
       return response;
     }
-    return triggerActionsFacadeService.triggerActions((List<OrchextraBeacon>) response.getResult());
+    return triggerActionsFacadeDomainService.triggerActions((List<OrchextraBeacon>) response.getResult());
   }
 
   private InteractorResponse<List<BasicAction>> regionEventResult(BeaconEventType eventType) {
     OrchextraRegion detectedRegion = (OrchextraRegion) data;
     detectedRegion.setRegionEvent(eventType);
 
-    InteractorResponse response = regionCheckerService.obtainCheckedRegion(detectedRegion);
+    InteractorResponse response = regionCheckerDomainService.obtainCheckedRegion(detectedRegion);
 
     if (response.hasError()) {
       return response;
@@ -100,11 +101,11 @@ public class BeaconEventsInteractor
 
     if (eventType == BeaconEventType.REGION_EXIT) {
       if (response.getResult() instanceof OrchextraRegion) {
-        triggerActionsFacadeService.deleteScheduledActionIfExists(
+        triggerActionsFacadeDomainService.deleteScheduledActionIfExists(
             (ScheduledActionEvent) response.getResult());
       }
     }
-    response = triggerActionsFacadeService.triggerActions(detectedRegion);
+    response = triggerActionsFacadeDomainService.triggerActions(detectedRegion);
     return response;
   }
 
@@ -114,7 +115,7 @@ public class BeaconEventsInteractor
         OrchextraRegion detectedRegion = (OrchextraRegion) data;
         detectedRegion.setActionRelated(new ActionRelated(basicAction.getScheduledAction().getId(),
             basicAction.getScheduledAction().isCancelable()));
-        eventUpdaterService.associateActionToRegionEvent(detectedRegion);
+        eventUpdaterDomainService.associateActionToRegionEvent(detectedRegion);
       case REGION_EXIT:
         break;
       default:

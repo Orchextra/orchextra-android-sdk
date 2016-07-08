@@ -45,10 +45,10 @@ import com.gigigo.orchextra.domain.invoker.InteractorPriorityBlockingQueue;
 import com.gigigo.orchextra.domain.invoker.LogExceptionHandler;
 import com.gigigo.orchextra.domain.invoker.PriorizableThreadPoolExecutor;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
-import com.gigigo.orchextra.domain.services.auth.CrmValidator;
-import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsService;
-import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
-import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
+import com.gigigo.orchextra.domain.services.auth.CrmUserFieldsValidator;
+import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsDomainService;
+import com.gigigo.orchextra.domain.services.status.LoadOrchextraDomainServiceStatus;
+import com.gigigo.orchextra.domain.services.status.UpdateOrchextraDomainServiceStatus;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import java.util.concurrent.BlockingQueue;
@@ -79,11 +79,11 @@ public class DomainModule {
 
     @Provides @Singleton
     OrchextraStatusManager provideOrchextraStatusManager(Session session,
-                                                         LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-                                                         UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
-                                                         ClearOrchextraCredentialsService clearOrchextraCredentialsService) {
-        return new OrchextraStatusManagerImp(session, loadOrchextraServiceStatus,
-                updateOrchextraServiceStatus, clearOrchextraCredentialsService);
+                                                         LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus,
+                                                         UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus,
+                                                         ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService) {
+        return new OrchextraStatusManagerImp(session, loadOrchextraDomainServiceStatus,
+                updateOrchextraDomainServiceStatus, clearOrchextraCredentialsDomainService);
     }
 
     @Provides
@@ -216,6 +216,6 @@ public class DomainModule {
     @Provides
     @Singleton
     Validator provideCrmValidator(ErrorLogger errorLogger) {
-        return new CrmValidator(errorLogger);
+        return new CrmUserFieldsValidator(errorLogger);
     }
 }

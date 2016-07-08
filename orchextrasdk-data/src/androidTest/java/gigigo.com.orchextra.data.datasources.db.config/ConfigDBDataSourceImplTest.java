@@ -5,7 +5,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +28,7 @@ public class ConfigDBDataSourceImplTest {
     private Realm realm;
     private ConfigVuforiaUpdater updater;
 
-    Mapper<Vuforia, VuforiaRealm> vuforiaMapper;
+    Mapper<VuforiaCredentials, VuforiaRealm> vuforiaMapper;
 
     @Before
     public void setUp() throws Exception {
@@ -47,22 +47,22 @@ public class ConfigDBDataSourceImplTest {
 
     @Test
     public void shouldBeEmptyImageReconitionDatabaseWhenOneItemIsAddedAndThenIsRemoved() throws Exception {
-        Vuforia vuforia = new Vuforia();
-        vuforia.setClientAccessKey("Key");
-        vuforia.setClientSecretKey("Secret");
-        vuforia.setLicenseKey("License");
+        VuforiaCredentials vuforiaCredentials = new VuforiaCredentials();
+        vuforiaCredentials.setClientAccessKey("Key");
+        vuforiaCredentials.setClientSecretKey("Secret");
+        vuforiaCredentials.setLicenseKey("License");
 
         VuforiaRealm vuforiaRealm = new VuforiaRealm();
         vuforiaRealm.setClientAccessKey("Key");
         vuforiaRealm.setClientSecretKey("Secret");
         vuforiaRealm.setLicenseKey("License");
 
-        when(vuforiaMapper.modelToExternalClass(vuforia)).thenReturn(vuforiaRealm);
+        when(vuforiaMapper.modelToExternalClass(vuforiaCredentials)).thenReturn(vuforiaRealm);
 
         assertThat(realm.where(VuforiaRealm.class).count(), is(0L));
 
         realm.beginTransaction();
-        updater.saveVuforia(realm, vuforia);
+        updater.saveVuforia(realm, vuforiaCredentials);
         realm.commitTransaction();
 
         assertThat(realm.where(VuforiaRealm.class).count(), is(1L));

@@ -18,7 +18,7 @@
 
 package gigigo.com.orchextra.data.datasources.api.model.requests;
 
-import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -29,10 +29,10 @@ public abstract class OrchextraApiAuthRequest {
 
   @Expose @SerializedName("credentials") private final ApiCredentials credentials;
 
-  public OrchextraApiAuthRequest(GrantType grantType, Credentials credentials) {
+  public OrchextraApiAuthRequest(GrantType grantType, AuthCredentials authCredentials) {
     this.grantType = grantType.getStringValue();
-    this.credentials = obtainApiCredentialsFromCredentials(credentials);
+    this.credentials = obtainApiCredentialsFromCredentials(authCredentials);
   }
 
-  abstract ApiCredentials obtainApiCredentialsFromCredentials(Credentials credentials);
+  abstract ApiCredentials obtainApiCredentialsFromCredentials(AuthCredentials authCredentials);
 }

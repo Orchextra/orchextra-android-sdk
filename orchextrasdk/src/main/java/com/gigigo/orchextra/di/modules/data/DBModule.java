@@ -21,9 +21,9 @@ package com.gigigo.orchextra.di.modules.data;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.domain.model.vo.Theme;
@@ -102,7 +102,7 @@ public class DBModule {
 
     @Singleton
     @Provides
-    ConfigVuforiaUpdater provideConfigVuforiaUpdater(Mapper<Vuforia, VuforiaRealm> vuforiaRealmMapper) {
+    ConfigVuforiaUpdater provideConfigVuforiaUpdater(Mapper<VuforiaCredentials, VuforiaRealm> vuforiaRealmMapper) {
         return new ConfigVuforiaUpdater(vuforiaRealmMapper);
     }
 
@@ -126,7 +126,7 @@ public class DBModule {
     @Provides
     ConfigInfoResultReader provideConfigInfoResultReader(@RealmMapperBeaconRegion Mapper<OrchextraRegion, BeaconRegionRealm> regionRealmMapper,
                                                          Mapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper,
-                                                         Mapper<Vuforia, VuforiaRealm> vuforiaRealmMapper,
+                                                         Mapper<VuforiaCredentials, VuforiaRealm> vuforiaRealmMapper,
                                                          Mapper<Theme, ThemeRealm> themeRealmMapper, OrchextraLogger orchextraLogger) {
         return new ConfigInfoResultReader(regionRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper,
                 orchextraLogger);

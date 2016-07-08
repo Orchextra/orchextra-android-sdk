@@ -23,7 +23,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.dataprovider.ImageRecognitionLocalDataProvider;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public class ImageRecognitionLocalDataProviderImp implements ImageRecognitionLocalDataProvider {
 
@@ -33,7 +33,7 @@ public class ImageRecognitionLocalDataProviderImp implements ImageRecognitionLoc
     this.configDBDataSource = configDBDataSource;
   }
 
-  @Override public BusinessObject<Vuforia> obtainVuforiaInfo() {
+  @Override public BusinessObject<VuforiaCredentials> obtainVuforiaInfo() {
     BusinessObject<ConfigInfoResult> bo = configDBDataSource.obtainConfigData();
 
     if (bo.isSuccess()) {

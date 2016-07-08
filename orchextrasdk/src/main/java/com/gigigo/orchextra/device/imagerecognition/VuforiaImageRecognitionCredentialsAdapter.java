@@ -18,25 +18,25 @@
 package com.gigigo.orchextra.device.imagerecognition;
 
 import com.gigigo.imagerecognitioninterface.ImageRecognitionCredentials;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public class VuforiaImageRecognitionCredentialsAdapter implements ImageRecognitionCredentials{
 
-  private final Vuforia vuforia;
+  private final VuforiaCredentials vuforiaCredentials;
 
-  public VuforiaImageRecognitionCredentialsAdapter(Vuforia vuforia) {
-    this.vuforia = vuforia;
+  public VuforiaImageRecognitionCredentialsAdapter(VuforiaCredentials vuforiaCredentials) {
+    this.vuforiaCredentials = vuforiaCredentials;
   }
 
   @Override public String getClientAccessKey() {
-    return vuforia.getClientAccessKey();
+    return vuforiaCredentials.getClientAccessKey();
   }
 
   @Override public String getLicensekey() {
-    return vuforia.getLicenseKey();
+    return vuforiaCredentials.getLicenseKey();
   }
 
   @Override public String getClientSecretKey() {
-    return vuforia.getClientSecretKey();
+    return vuforiaCredentials.getClientSecretKey();
   }
 }

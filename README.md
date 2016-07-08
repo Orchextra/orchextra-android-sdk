@@ -6,7 +6,7 @@
 [![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
 
-A library that gives you access to Orchextra platform from your Android app.
+A library that gives you access to Orchextra platform from your Android sdkVersionAppInfo.
 
 ## Getting started
 Start by creating a project in [Orchextra Dashboard](https://dashboard.orchextra.io/start/login), if you haven't done it yet. Go to "Setting" > "SDK Configuration" to get the **api key** and **api secret**, you will need these values to start Orchextra SDK.
@@ -24,7 +24,7 @@ Orchextra SDK is composed of **Orchextra Core**.
 - Image Recognition Scanner Module: Vuforia implementation
 
 ## Installation
-Download [Orchextra Android Sample ](https://github.com/Orchextra/orchextra-android-sample-app) to understand how to use the SDK.
+Download [Orchextra Android Sample ](https://github.com/Orchextra/orchextra-android-sample-sdkVersionAppInfo) to understand how to use the SDK.
 
 ### Requirements
 Android Jelly Bean (v. 18) or later. But Orchextra can be integrated in Android Gingerbread (v. 10)
@@ -43,7 +43,7 @@ allprojects {
 }
 ```
 Thinking about how to improve , in this version we have created different flavors using 3 different versions of GCM . And generating three versions of .aar possibilities.
-and we add the Orchextra dependency in our **app** module:
+and we add the Orchextra dependency in our **sdkVersionAppInfo** module:
 
 with GCM 7.8
 ```java
@@ -90,15 +90,15 @@ Orchextra.start();
 ```
 After calling start, you can call `Orchextra.stop()` if you need to stop all Orchextra features, so you can call again start or stop in order to fit your requirements.
 
-## Change project/credentials Orchextra SDK
-In the new version we set the Orchextra project credentials when we initialize the sdk, if we want to change the Ox Project, we can call it in any moment.
+## Change project/authCredentials Orchextra SDK
+In the new version we set the Orchextra project authCredentials when we initialize the sdk, if we want to change the Ox Project, we can call it in any moment.
 ```java
 Orchextra.changeCredentials(NEW_API_KEY,NEW_API_SECRET);
 ```
 If the credetials, have no change, the method do nothing.
 
 ## Custom Scheme - Delegate
-In order to get custom schemes within our app must conform the CustomSchemeReceiver interface, the following method will handle all the custom schemes created in Orchextra.
+In order to get custom schemes within our sdkVersionAppInfo must conform the CustomSchemeReceiver interface, the following method will handle all the custom schemes created in Orchextra.
 
 ```java
 Orchextra.setCustomSchemeReceiver(new CustomSchemeReceiver() {
@@ -138,7 +138,7 @@ You can scan QR and Barcode linked in Orchextra. To launch the scanner you just 
 Orchextra.startScannerActivity();
 ```
 ##Customizing styles
-Orchextra has default icons, colors and texts which can be overwritten. Firstly, you app must extends from **Theme.AppCompat.Light** style and overwrite the **colorPrimary**, **colorPrimaryDark** and **colorAccent** items to be applied to Orchextra styles. For example, the color of the toolbar is the color definied as colorPrimary style.
+Orchextra has default icons, colors and texts which can be overwritten. Firstly, you sdkVersionAppInfo must extends from **Theme.AppCompat.Light** style and overwrite the **colorPrimary**, **colorPrimaryDark** and **colorAccent** items to be applied to Orchextra styles. For example, the color of the toolbar is the color definied as colorPrimary style.
 ```xml
 <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     <item name="colorPrimary">@color/color_primary</item>
@@ -183,11 +183,11 @@ First of all is important to create and configure your project in [Google Cloud 
 
 * Regarding project information _"Project Number"_ that would be the identifier of sending events you will use inside SDK.
 
-* Regarding API information _"Server API KEY"_, this is something you have to create. _Create credentials -> API key -> Server Key_ this will generate a String taht you will have to include in your parse project.
+* Regarding API information _"Server API KEY"_, this is something you have to create. _Create authCredentials -> API key -> Server Key_ this will generate a String taht you will have to include in your parse project.
 
 That's all in Google console. Now you should create a project in _Parse Dashboard_ and Set up notifications for android giving _"Server API KEY"_ you created in previous step to you parse project.
 
-In this new version of OrchextraSDK you can use your own Push Notifications and use the OrchextraSDK Push Notification combine.For that you must to implements in your app an enrouter Service (extends *GcmListenerService*)
+In this new version of OrchextraSDK you can use your own Push Notifications and use the OrchextraSDK Push Notification combine.For that you must to implements in your sdkVersionAppInfo an enrouter Service (extends *GcmListenerService*)
     , for redirect the notification using the parameter *String from* in *onMessageReceived* method. That parameter contains the sender_id or projectNumber configurated in push server(like Parse). Write us if you need more help at this point.
 
 ### SDK config for using Notification Push
@@ -239,14 +239,14 @@ To start an image recognition activity you only need to call:
 Orchextra.startImageRecognition();
 ```
 
-For this image recognition implementation uses Vuforia, and the NDK for Vuforia only works with Arm v7 processor architecture, for that you must add to you app build gradle:
+For this image recognition implementation uses Vuforia, and the NDK for Vuforia only works with Arm v7 processor architecture, for that you must add to you sdkVersionAppInfo build gradle:
  ```groovy
   ndk {
             abiFilters "armeabi-v7a"
         }
  ```
  With that Vuforia works in any kind of device
- For more infor about Vuforia visit https://developer.vuforia.com/support
+ For more infor about Vuforia visit https://developer.vuforiaCredentials.com/support
 
 That's all!!
 

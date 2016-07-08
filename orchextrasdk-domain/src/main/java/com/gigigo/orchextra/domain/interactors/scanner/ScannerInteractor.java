@@ -24,21 +24,21 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.ScannerResult;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
-import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
+import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
 
 import java.util.List;
 
 public class ScannerInteractor implements Interactor<InteractorResponse<List<BasicAction>>> {
 
-    private final TriggerActionsFacadeService triggerActionsFacadeService;
+    private final TriggerActionsFacadeDomainService triggerActionsFacadeDomainService;
     private final ObtainGeoLocationTask obtainGeoLocationTask;
 
     private ScannerResult scanner;
 
-    public ScannerInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
+    public ScannerInteractor(TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
                              ObtainGeoLocationTask obtainGeoLocationTask) {
-        this.triggerActionsFacadeService = triggerActionsFacadeService;
+        this.triggerActionsFacadeDomainService = triggerActionsFacadeDomainService;
         this.obtainGeoLocationTask = obtainGeoLocationTask;
 
     }
@@ -53,7 +53,7 @@ public class ScannerInteractor implements Interactor<InteractorResponse<List<Bas
             point = geolocation.getPoint();
         }
 
-        InteractorResponse<List<BasicAction>> interactorResponse = triggerActionsFacadeService.triggerActions(scanner, point);
+        InteractorResponse<List<BasicAction>> interactorResponse = triggerActionsFacadeDomainService.triggerActions(scanner, point);
 
         return interactorResponse;
     }

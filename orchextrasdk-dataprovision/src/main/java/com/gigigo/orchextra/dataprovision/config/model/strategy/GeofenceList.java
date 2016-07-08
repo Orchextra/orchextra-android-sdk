@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.MethodSupported;
 import java.util.List;
 

@@ -22,7 +22,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
 import com.gigigo.orchextra.domain.model.ProximityPointType;
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;

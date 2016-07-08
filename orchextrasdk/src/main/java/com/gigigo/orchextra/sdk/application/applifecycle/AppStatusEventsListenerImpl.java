@@ -43,14 +43,14 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   }
 
   @Override public void onBackgroundStart() {
-    orchextraLogger.log("App goes to background mode ");
+    orchextraLogger.log("SdkVersionAppInfo goes to background mode ");
     if (orchextraStatusAccessor.isStarted()){
       startServices();
     }
   }
 
   @Override public void onBackgroundEnd() {
-    orchextraLogger.log("App leaves background mode");
+    orchextraLogger.log("SdkVersionAppInfo leaves background mode");
     stopServices();
   }
 
@@ -61,14 +61,14 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
   @Override public void onForegroundStart() {
     //Stop Monitoring && startRanging
-    orchextraLogger.log("App Come to Foreground mode");
+    orchextraLogger.log("SdkVersionAppInfo Come to Foreground mode");
     if (orchextraStatusAccessor.isStarted()){
       startForegroundTasks();
     }
   }
 
   @Override public void onForegroundEnd() {
-    orchextraLogger.log("App leaves Foreground mode");
+    orchextraLogger.log("SdkVersionAppInfo leaves Foreground mode");
     foregroundTasksManager.finalizeForegroundTasks();
   }
 

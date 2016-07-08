@@ -21,17 +21,17 @@ package com.gigigo.orchextra.domain.interactors.config;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
 
 public class SendConfigInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
 
-  private final ConfigService configService;
+  private final ConfigDomainService configDomainService;
 
-  public SendConfigInteractor(ConfigService configService) {
-    this.configService = configService;
+  public SendConfigInteractor(ConfigDomainService configDomainService) {
+    this.configDomainService = configDomainService;
   }
 
   @Override public InteractorResponse<OrchextraUpdates> call() throws Exception {
-    return configService.refreshConfig();
+    return configDomainService.refreshConfig();
   }
 }

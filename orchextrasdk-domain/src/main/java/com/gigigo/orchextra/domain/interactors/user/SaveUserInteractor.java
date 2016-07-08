@@ -22,42 +22,42 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
-import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
 
 public class SaveUserInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
 
   private final AuthenticationService authenticationService;
-  private final ConfigService configService;
+  private final ConfigDomainService configDomainService;
   private final OrchextraStatusManager orchextraStatusManager;
 
-  private Crm crm;
+  private CrmUser crmUser;
   private boolean hasReloadConfig = false;
 
   public SaveUserInteractor(AuthenticationService authenticationService,
-                            ConfigService configService,
+                            ConfigDomainService configDomainService,
                             OrchextraStatusManager orchextraStatusManager) {
 
     this.authenticationService = authenticationService;
-    this.configService = configService;
+    this.configDomainService = configDomainService;
     this.orchextraStatusManager = orchextraStatusManager;
   }
 
-  public void setCrm(Crm crm) {
-    this.crm = crm;
+  public void setCrmUser(CrmUser crmUser) {
+    this.crmUser = crmUser;
   }
 
   @Override public InteractorResponse<OrchextraUpdates> call() {
     InteractorResponse<OrchextraUpdates> boOrchextraUpdates;
 
-    BusinessObject<Crm> crmBusinessObject = authenticationService.saveUser(crm);
+    BusinessObject<CrmUser> crmBusinessObject = authenticationService.saveUser(crmUser);
 
     if (crmBusinessObject.isSuccess()) {
       if (hasReloadConfig && orchextraStatusManager.isStarted()) {
-        boOrchextraUpdates = configService.refreshConfig();
+        boOrchextraUpdates = configDomainService.refreshConfig();
       } else {
         return new InteractorResponse<>(new OrchextraUpdates());
       }

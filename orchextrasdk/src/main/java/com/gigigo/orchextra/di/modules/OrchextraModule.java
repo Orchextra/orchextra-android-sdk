@@ -38,7 +38,7 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.initalization.features.FeatureList;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
-import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImp;
+import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListenerImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
@@ -106,7 +106,7 @@ public class OrchextraModule {
   @Provides
   @Singleton
   AppRunningMode provideAppRunningMode() {
-    return new AppRunningModeImp();
+    return new AppRunningModeImpl();
   }
 
   @Singleton

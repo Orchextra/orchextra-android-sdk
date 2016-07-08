@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import com.gigigo.orchextra.domain.model.ProximityPointType;
 

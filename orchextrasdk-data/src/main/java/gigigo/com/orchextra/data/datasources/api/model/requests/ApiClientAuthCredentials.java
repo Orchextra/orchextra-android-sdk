@@ -19,8 +19,8 @@
 package gigigo.com.orchextra.data.datasources.api.model.requests;
 
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
+import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
-import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -36,10 +36,10 @@ public class ApiClientAuthCredentials implements ApiCredentials {
   @Expose @SerializedName("wifiMacAddress") private final String wifiMacAddress;
   @Expose @SerializedName("bluetoothMacAddress") private final String bluetoothMacAddress;
 
-  public ApiClientAuthCredentials(Credentials credentials) {
+  public ApiClientAuthCredentials(AuthCredentials authCredentials) {
 
     ClientAuthCredentials clientCredentials =
-        ConsistencyUtils.checkInstance(credentials, ClientAuthCredentials.class);
+        ConsistencyUtils.checkInstance(authCredentials, ClientAuthCredentials.class);
 
     this.clientToken = clientCredentials.getClientToken();
     this.instanceId = clientCredentials.getInstanceId();

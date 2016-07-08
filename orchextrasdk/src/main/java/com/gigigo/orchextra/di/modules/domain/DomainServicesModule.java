@@ -37,27 +37,27 @@ import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ImageRecognitionLocalDataProvider;
-import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
+import com.gigigo.orchextra.domain.dataprovider.ProximityAndGeofencesLocalDataProvider;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
-import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
-import com.gigigo.orchextra.domain.services.actions.GetActionService;
-import com.gigigo.orchextra.domain.services.actions.ScheduleActionService;
-import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
+import com.gigigo.orchextra.domain.services.actions.EventUpdaterDomainService;
+import com.gigigo.orchextra.domain.services.actions.GetActionDomainService;
+import com.gigigo.orchextra.domain.services.actions.ScheduleActionDomainService;
+import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationServiceImpl;
-import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
 import com.gigigo.orchextra.domain.services.config.LocalStorageService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
+import com.gigigo.orchextra.domain.services.geofences.ObtainGeofencesDomainService;
 import com.gigigo.orchextra.domain.services.imagerecognition.GetImageRecognitionCredentialsService;
-import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
-import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
-import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
-import com.gigigo.orchextra.domain.services.proximity.ObtainGeofencesService;
-import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
-import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
+import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerDomainService;
+import com.gigigo.orchextra.domain.services.geofences.FutureGeolocation;
+import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainService;
+import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsDomainService;
+import com.gigigo.orchextra.domain.services.proximity.RegionCheckerDomainService;
 import com.gigigo.orchextra.domain.services.themes.ThemeService;
-import com.gigigo.orchextra.domain.services.triggers.TriggerService;
+import com.gigigo.orchextra.domain.services.triggers.TriggerDomainService;
 
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
@@ -78,83 +78,83 @@ public class DomainServicesModule {
 
     @Provides
     @PerExecution
-    BeaconCheckerService provideBeaconCheckerService(
-            ProximityLocalDataProvider proximityLocalDataProvider,
+    BeaconCheckerDomainService provideBeaconCheckerService(
+            ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider,
             ConfigDataProvider configDataProvider) {
 
-        return new BeaconCheckerService(proximityLocalDataProvider, configDataProvider);
+        return new BeaconCheckerDomainService(proximityAndGeofencesLocalDataProvider, configDataProvider);
     }
 
     @Provides
     @PerExecution
-    RegionCheckerService provideRegionCheckerService(
-            ProximityLocalDataProvider proximityLocalDataProvider) {
+    RegionCheckerDomainService provideRegionCheckerService(
+            ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
 
-        return new RegionCheckerService(proximityLocalDataProvider);
+        return new RegionCheckerDomainService(proximityAndGeofencesLocalDataProvider);
     }
 
     @Provides
     @PerExecution
-    EventUpdaterService provideEventUpdaterService(
-            ProximityLocalDataProvider proximityLocalDataProvider) {
+    EventUpdaterDomainService provideEventUpdaterService(
+            ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
 
-        return new EventUpdaterService(proximityLocalDataProvider);
+        return new EventUpdaterDomainService(proximityAndGeofencesLocalDataProvider);
     }
 
     @Provides
     @PerExecution
-    GetActionService provideGetActionService(
+    GetActionDomainService provideGetActionService(
             ActionsDataProvider actionsDataProvider,
             @ActionsErrorChecker ServiceErrorChecker serviceErrorChecker) {
 
-        return new GetActionService(actionsDataProvider, serviceErrorChecker);
+        return new GetActionDomainService(actionsDataProvider, serviceErrorChecker);
     }
 
     @Provides
     @PerExecution
-    ScheduleActionService provideScheduleActionService(
+    ScheduleActionDomainService provideScheduleActionService(
             ActionsSchedulerController actionsSchedulerController) {
-        return new ScheduleActionService(actionsSchedulerController);
+        return new ScheduleActionDomainService(actionsSchedulerController);
     }
 
     @Provides
     @PerExecution
-    TriggerService provideTriggerService(AppRunningMode appRunningMode) {
-        return new TriggerService(appRunningMode);
+    TriggerDomainService provideTriggerService(AppRunningMode appRunningMode) {
+        return new TriggerDomainService(appRunningMode);
     }
 
     @Provides
     @PerExecution
-    TriggerActionsFacadeService provideTriggerActionsFacadeService(
-            TriggerService triggerService, GetActionService getActionService,
-            ScheduleActionService scheduleActionService) {
-        return new TriggerActionsFacadeService(triggerService, getActionService, scheduleActionService);
+    TriggerActionsFacadeDomainService provideTriggerActionsFacadeService(
+            TriggerDomainService triggerDomainService, GetActionDomainService getActionDomainService,
+            ScheduleActionDomainService scheduleActionDomainService) {
+        return new TriggerActionsFacadeDomainService(triggerDomainService, getActionDomainService, scheduleActionDomainService);
     }
 
     @Provides
     @PerExecution
-    ConfigService provideConfigService(ConfigDataProvider configDataProvider,
-                                       AuthenticationDataProvider authenticationDataProvider,
-                                       @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
-                                       AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask,
-                                       GcmInstanceIdRegister gcmInstanceIdRegister) {
-        return new ConfigService(configDataProvider, authenticationDataProvider, errorChecker,
+    ConfigDomainService provideConfigService(ConfigDataProvider configDataProvider,
+                                             AuthenticationDataProvider authenticationDataProvider,
+                                             @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
+                                             AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask,
+                                             GcmInstanceIdRegister gcmInstanceIdRegister) {
+        return new ConfigDomainService(configDataProvider, authenticationDataProvider, errorChecker,
                 androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask,
                 gcmInstanceIdRegister);
     }
 
     @Provides
     @PerExecution
-    ObtainRegionsService provideObtainRegionsService(
-            ProximityLocalDataProvider proximityLocalDataProvider) {
-        return new ObtainRegionsService(proximityLocalDataProvider);
+    ObtainRegionsDomainService provideObtainRegionsService(
+            ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
+        return new ObtainRegionsDomainService(proximityAndGeofencesLocalDataProvider);
     }
 
     @Provides
     @PerExecution
-    ObtainGeofencesService provideObtainGeofencesService(
-            ProximityLocalDataProvider proximityLocalDataProvider) {
-        return new ObtainGeofencesService(proximityLocalDataProvider);
+    ObtainGeofencesDomainService provideObtainGeofencesService(
+            ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
+        return new ObtainGeofencesDomainService(proximityAndGeofencesLocalDataProvider);
     }
 
     @Provides
@@ -166,9 +166,9 @@ public class DomainServicesModule {
 
     @Provides
     @PerExecution
-    GeofenceCheckerService provideGeofenceCheckerService(
-            ProximityLocalDataProvider proximityLocalDataProvider) {
-        return new GeofenceCheckerService(proximityLocalDataProvider);
+    GeofenceCheckerDomainService provideGeofenceCheckerService(
+            ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
+        return new GeofenceCheckerDomainService(proximityAndGeofencesLocalDataProvider);
     }
 
     @Provides

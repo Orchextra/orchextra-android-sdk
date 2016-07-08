@@ -19,20 +19,21 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiVuforia;
 
 
 public class VuforiaExternalClassToModelMapper
-    implements ExternalClassToModelMapper<ApiVuforia, Vuforia> {
+    implements ExternalClassToModelMapper<ApiVuforia, VuforiaCredentials> {
 
-  @Override public Vuforia externalClassToModel(ApiVuforia apiVuforia) {
-    Vuforia vuforia = new Vuforia();
+  @Override public VuforiaCredentials externalClassToModel(ApiVuforia apiVuforia) {
+    VuforiaCredentials vuforiaCredentials = new VuforiaCredentials();
 
-    vuforia.setClientAccessKey(apiVuforia.getClientAccessKey());
-    vuforia.setClientSecretKey(apiVuforia.getClientSecretKey());
-    vuforia.setLicenseKey(apiVuforia.getLicenseKey());
+    vuforiaCredentials.setClientAccessKey(apiVuforia.getClientAccessKey());
+    vuforiaCredentials.setClientSecretKey(apiVuforia.getClientSecretKey());
+    vuforiaCredentials.setLicenseKey(apiVuforia.getLicenseKey());
 
-    return vuforia;
+    return vuforiaCredentials;
   }
 }

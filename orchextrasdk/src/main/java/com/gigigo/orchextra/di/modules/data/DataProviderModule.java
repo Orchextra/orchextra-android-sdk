@@ -28,7 +28,7 @@ import com.gigigo.orchextra.dataprovision.config.ConfigDataProviderImpl;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.imagerecognition.ImageRecognitionLocalDataProviderImp;
-import com.gigigo.orchextra.dataprovision.proximity.ProximityLocalDataProviderImp;
+import com.gigigo.orchextra.dataprovision.proximity.ProximityAndGeofencesLocalDataProviderImp;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.BeaconsDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.dataprovision.status.OrchextraStatusDataProviderImpl;
@@ -37,7 +37,7 @@ import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ImageRecognitionLocalDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
-import com.gigigo.orchextra.domain.dataprovider.ProximityLocalDataProvider;
+import com.gigigo.orchextra.domain.dataprovider.ProximityAndGeofencesLocalDataProvider;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
 import orchextra.javax.inject.Singleton;
@@ -67,10 +67,11 @@ public class DataProviderModule {
     return new ActionsDataProviderImpl(actionsDataSource);
   }
 
-    @Provides @Singleton ProximityLocalDataProvider provideGeofenceDataProvider(ConfigDBDataSource configDBDataSource,
-                                                                                BeaconsDBDataSource beaconsDBDataSource,
-                                                                                GeofenceDBDataSource geofenceDBDataSource) {
-        return new ProximityLocalDataProviderImp(configDBDataSource, beaconsDBDataSource, geofenceDBDataSource);
+    @Provides @Singleton
+    ProximityAndGeofencesLocalDataProvider provideGeofenceDataProvider(ConfigDBDataSource configDBDataSource,
+                                                                       BeaconsDBDataSource beaconsDBDataSource,
+                                                                       GeofenceDBDataSource geofenceDBDataSource) {
+        return new ProximityAndGeofencesLocalDataProviderImp(configDBDataSource, beaconsDBDataSource, geofenceDBDataSource);
     }
 
   @Provides @Singleton OrchextraStatusDataProvider provideOrchextraStatusDataProvider(

@@ -19,9 +19,9 @@
 package com.gigigo.orchextra.dataprovision.authentication.datasource;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
@@ -36,15 +36,15 @@ public interface SessionDBDataSource {
 
   boolean saveClientAuthResponse(ClientAuthData clientAuthData);
 
-  boolean saveUser(Crm crm);
+  boolean saveUser(CrmUser crmUser);
 
   BusinessObject<ClientAuthData> getSessionToken();
 
   BusinessObject<SdkAuthData> getDeviceToken();
 
-  BusinessObject<Crm> getCrm();
+  BusinessObject<CrmUser> getCrm();
 
-  boolean storeCrm(Crm crm);
+  boolean storeCrm(CrmUser crmUser);
 
   void clearAuthenticatedUser();
 

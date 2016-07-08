@@ -21,10 +21,10 @@ package com.gigigo.orchextra.domain.services.themes;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.model.vo.Theme;
-import com.gigigo.orchextra.domain.services.DomaninService;
+import com.gigigo.orchextra.domain.services.DomainService;
 
 @Deprecated
-public class ThemeService implements DomaninService {
+public class ThemeService implements DomainService {
 
     private final ConfigDataProvider configDataProvider;
 

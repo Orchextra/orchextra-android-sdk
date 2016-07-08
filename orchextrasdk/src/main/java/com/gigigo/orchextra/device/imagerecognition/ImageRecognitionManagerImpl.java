@@ -23,7 +23,7 @@ import com.gigigo.orchextra.control.controllers.imagerecognition.ImageRecognitio
 import com.gigigo.orchextra.control.controllers.imagerecognition.OnImageRecognitionCredentialsReadyListener;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public class ImageRecognitionManagerImpl implements ImageRecognitionManager,
     OnImageRecognitionCredentialsReadyListener {
@@ -52,8 +52,8 @@ public class ImageRecognitionManagerImpl implements ImageRecognitionManager,
     imageRecognitionController.getCredentials(this);
   }
 
-  @Override public void onCredentialsReady(Vuforia vuforia) {
-    VuforiaImageRecognitionCredentialsAdapter adapter = new VuforiaImageRecognitionCredentialsAdapter(vuforia);
+  @Override public void onCredentialsReady(VuforiaCredentials vuforiaCredentials) {
+    VuforiaImageRecognitionCredentialsAdapter adapter = new VuforiaImageRecognitionCredentialsAdapter(vuforiaCredentials);
     imageRecognitionImplementation.startImageRecognition(adapter);
   }
 

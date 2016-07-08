@@ -23,9 +23,9 @@ import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModuleProvider;
 import com.gigigo.orchextra.di.scopes.PerExecution;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.vo.Theme;
@@ -44,7 +44,7 @@ public interface InteractorExecutionComponent extends InteractorsModuleProvider 
     void injectGeofenceProviderInteractorExecution(InteractorExecution<List<OrchextraGeofence>> interactorExecution);
     @Deprecated
     void injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
-    void injectObtainIrCredentialsInteractorExecution(InteractorExecution<Vuforia> interactorExecution);
+    void injectObtainIrCredentialsInteractorExecution(InteractorExecution<VuforiaCredentials> interactorExecution);
     void injectScannerInteractorExecution(InteractorExecution<BasicAction> interactorExecution);
     void injectClearStorageInteractorExecution(InteractorExecution<Boolean> interactorExecution);
 }

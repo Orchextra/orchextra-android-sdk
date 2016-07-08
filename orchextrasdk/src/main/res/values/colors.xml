@@ -25,7 +25,7 @@
   <color name="color_primary_dark">#AC2A27</color>
   <color name="color_accent">#FFFFFF</color>
 
-  <!-- Vuforia Module customization -->
+  <!-- VuforiaCredentials Module customization -->
   <color name="ir_color_primary">@color/color_primary</color>
   <color name="ir_color_primary_dark">@color/color_primary_dark</color>
   <color name="ir_color_accent">@color/color_accent</color>
@@ -35,6 +35,6 @@
 
   <color name="ir_scan_point_color">@color/ir_color_primary</color>
   <color name="ir_scan_line_color">@color/ir_color_accent</color>
-  <!-- Vuforia Module customization -->
+  <!-- VuforiaCredentials Module customization -->
 
 </resources>

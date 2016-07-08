@@ -38,7 +38,7 @@ public class ORCUser {
      * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
      * tracking in dashboard
      *
-     * @param crmId     Crm ID, can be the user name of your app
+     * @param crmId     CrmUser ID, can be the user name of your app
      * @param birthdate user's birth date.
      * @param gender    user's male, using an enum
      * @param keywords  important words in order to segment specific actions
@@ -53,7 +53,7 @@ public class ORCUser {
      * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
      * tracking in dashboard
      *
-     * @param crmId     Crm ID, can be the user name of your app
+     * @param crmId     CrmUser ID, can be the user name of your app
      * @param birthdate user's birth date.
      * @param gender    user's male, using an enum
      * @param tags      important Tags in order to segment specific actions

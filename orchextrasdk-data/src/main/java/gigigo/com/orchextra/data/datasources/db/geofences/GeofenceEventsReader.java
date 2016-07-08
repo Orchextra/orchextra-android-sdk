@@ -23,7 +23,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import io.realm.Realm;
 import io.realm.RealmResults;

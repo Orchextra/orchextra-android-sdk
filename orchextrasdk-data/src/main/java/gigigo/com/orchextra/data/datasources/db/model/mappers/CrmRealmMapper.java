@@ -24,11 +24,11 @@ import com.gigigo.gggjavalib.general.utils.DateFormatConstants;
 import com.gigigo.gggjavalib.general.utils.DateUtils;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.GenderType;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import gigigo.com.orchextra.data.datasources.db.model.CrmRealm;
 
 
-public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
+public class CrmRealmMapper implements Mapper<CrmUser, CrmRealm> {
   @Deprecated
   private final KeyWordRealmMapper keyWordRealmMapper;
 
@@ -36,54 +36,54 @@ public class CrmRealmMapper implements Mapper<Crm, CrmRealm> {
     this.keyWordRealmMapper = keyWordRealmMapper;
   }
 
-  @Override public CrmRealm modelToExternalClass(Crm crm) {
+  @Override public CrmRealm modelToExternalClass(CrmUser crmUser) {
     CrmRealm crmRealm = new CrmRealm();
 
-    if (crm != null) {
-      if (crm.getKeywords() != null) {
-        crmRealm.setKeywords(keyWordRealmMapper.stringKeyWordsToRealmList(crm.getKeywords()));
+    if (crmUser != null) {
+      if (crmUser.getKeywords() != null) {
+        crmRealm.setKeywords(keyWordRealmMapper.stringKeyWordsToRealmList(crmUser.getKeywords()));
       }
 
-      if (crm.getBirthDate() != null) {
+      if (crmUser.getBirthDate() != null) {
         crmRealm.setBirthDate(
-            DateUtils.dateToStringWithFormat(crm.getBirthDate(), DateFormatConstants.DATE_FORMAT_TIME));
+            DateUtils.dateToStringWithFormat(crmUser.getBirthDate(), DateFormatConstants.DATE_FORMAT_TIME));
       }
 
-      if (crm.getCrmId() != null) {
-        crmRealm.setCrmId(crm.getCrmId());
+      if (crmUser.getCrmId() != null) {
+        crmRealm.setCrmId(crmUser.getCrmId());
       }
 
-      if (crm.getGender() != null) {
-        crmRealm.setGender(crm.getGender().getStringValue());
+      if (crmUser.getGender() != null) {
+        crmRealm.setGender(crmUser.getGender().getStringValue());
       }
     }
 
     return crmRealm;
   }
 
-  @Override public Crm externalClassToModel(CrmRealm crmRealm) {
-    Crm crm = new Crm();
+  @Override public CrmUser externalClassToModel(CrmRealm crmRealm) {
+    CrmUser crmUser = new CrmUser();
 
     if (crmRealm != null) {
 
       if (!TextUtils.isEmpty(crmRealm.getCrmId())) {
-        crm.setCrmId(crmRealm.getCrmId());
+        crmUser.setCrmId(crmRealm.getCrmId());
       }
 
       if (crmRealm.getKeywords() != null && crmRealm.getKeywords().size() > 0) {
-        crm.setKeywords(keyWordRealmMapper.realmKeyWordsToStringList(crmRealm.getKeywords()));
+        crmUser.setKeywords(keyWordRealmMapper.realmKeyWordsToStringList(crmRealm.getKeywords()));
       }
 
       if (!TextUtils.isEmpty(crmRealm.getGender())) {
-        crm.setGender(GenderType.getTypeFromString(crmRealm.getGender()));
+        crmUser.setGender(GenderType.getTypeFromString(crmRealm.getGender()));
       }
 
       if (!TextUtils.isEmpty(crmRealm.getBirthDate())) {
-        crm.setBirthDate(DateUtils.stringToDateWithFormat(crmRealm.getBirthDate(),
+        crmUser.setBirthDate(DateUtils.stringToDateWithFormat(crmRealm.getBirthDate(),
                 DateFormatConstants.DATE_FORMAT_TIME));
       }
     }
 
-    return crm;
+    return crmUser;
   }
 }

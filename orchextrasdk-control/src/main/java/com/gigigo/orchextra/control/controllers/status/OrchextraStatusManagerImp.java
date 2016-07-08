@@ -4,27 +4,27 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusMa
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
-import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsService;
-import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
-import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
+import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsDomainService;
+import com.gigigo.orchextra.domain.services.status.LoadOrchextraDomainServiceStatus;
+import com.gigigo.orchextra.domain.services.status.UpdateOrchextraDomainServiceStatus;
 
 public class OrchextraStatusManagerImp implements OrchextraStatusManager {
 
     private final Session session;
-    private final LoadOrchextraServiceStatus loadOrchextraServiceStatus;
-    private final UpdateOrchextraServiceStatus updateOrchextraServiceStatus;
-    private final ClearOrchextraCredentialsService clearOrchextraCredentialsService;
+    private final LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus;
+    private final UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus;
+    private final ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService;
 
     private OrchextraStatus orchextraStatus = null;
 
     public OrchextraStatusManagerImp(Session session,
-                                     LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-                                     UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
-                                     ClearOrchextraCredentialsService clearOrchextraCredentialsService) {
+                                     LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus,
+                                     UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus,
+                                     ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService) {
         this.session = session;
-        this.loadOrchextraServiceStatus = loadOrchextraServiceStatus;
-        this.updateOrchextraServiceStatus = updateOrchextraServiceStatus;
-        this.clearOrchextraCredentialsService = clearOrchextraCredentialsService;
+        this.loadOrchextraDomainServiceStatus = loadOrchextraDomainServiceStatus;
+        this.updateOrchextraDomainServiceStatus = updateOrchextraDomainServiceStatus;
+        this.clearOrchextraCredentialsDomainService = clearOrchextraCredentialsDomainService;
     }
 
     @Override
@@ -105,7 +105,7 @@ public class OrchextraStatusManagerImp implements OrchextraStatusManager {
 
     private OrchextraStatus loadOrchextraStatus() {
         if (orchextraStatus == null) {
-            InteractorResponse<OrchextraStatus> response = loadOrchextraServiceStatus.load();
+            InteractorResponse<OrchextraStatus> response = loadOrchextraDomainServiceStatus.load();
             if (!response.hasError()) {
                 this.orchextraStatus = response.getResult();
             }
@@ -115,14 +115,14 @@ public class OrchextraStatusManagerImp implements OrchextraStatusManager {
 
     private void updateOrchextraStatus() {
         InteractorResponse<OrchextraStatus> response =
-                updateOrchextraServiceStatus.update(orchextraStatus);
+                updateOrchextraDomainServiceStatus.update(orchextraStatus);
         if (!response.hasError()) {
             this.orchextraStatus = response.getResult();
         }
     }
 
     private void clearSdkCredentials() {
-        clearOrchextraCredentialsService.clearSdkCredentials();
+        clearOrchextraCredentialsDomainService.clearSdkCredentials();
     }
 
     //endregion
@@ -139,12 +139,12 @@ public class OrchextraStatusManagerImp implements OrchextraStatusManager {
     //  //TODO
     //}
     //
-    //@Override public Crm getCrm() {
+    //@Override public CrmUser getCrmUser() {
     //  //TODO
     //  return null;
     //}
     //
-    //@Override public void updateCrm(Crm crm) {
+    //@Override public void updateCrm(CrmUser crm) {
     //  //TODO
     //}
     // endregion

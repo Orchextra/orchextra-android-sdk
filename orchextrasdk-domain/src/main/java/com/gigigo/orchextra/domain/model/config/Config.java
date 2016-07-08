@@ -18,42 +18,45 @@
 
 package com.gigigo.orchextra.domain.model.config;
 
-import com.gigigo.orchextra.domain.model.entities.App;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.SdkVersionAppInfo;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 
+/**
+ * this class keep the data for get the sdk configuration info
+ */
 public class Config {
 
-  private App app;
+  private SdkVersionAppInfo sdkVersionAppInfo;
   private Device device;
   private GeoLocation geoLocation;
   private NotificationPush notificationPush;
-  private Crm crm;
+  private CrmUser crmUser;
 
   public Config() {
   }
 
-  public Config(Crm user) {
-    this.crm = user;
+  public Config(CrmUser user) {
+    this.crmUser = user;
   }
 
-  public Config(App app, Device device, GeoLocation geoLocation, NotificationPush notificationPush,
-      Crm crm) {
-    this.app = app;
+  public Config(SdkVersionAppInfo sdkVersionAppInfo, Device device, GeoLocation geoLocation, NotificationPush notificationPush,
+                CrmUser crmUser) {
+    this.sdkVersionAppInfo = sdkVersionAppInfo;
     this.device = device;
     this.geoLocation = geoLocation;
     this.notificationPush = notificationPush;
-    this.crm = crm;
+    this.crmUser = crmUser;
   }
 
-  public App getApp() {
-    return app;
+  public SdkVersionAppInfo getSdkAppInfo() {
+    return sdkVersionAppInfo;
   }
 
-  public void setApp(App app) {
-    this.app = app;
+  public void setSdkAppInfo(SdkVersionAppInfo sdkVersionAppInfo) {
+    this.sdkVersionAppInfo = sdkVersionAppInfo;
   }
 
   public Device getDevice() {
@@ -80,11 +83,11 @@ public class Config {
     this.notificationPush = notificationPush;
   }
 
-  public Crm getCrm() {
-    return crm;
+  public CrmUser getCrmUser() {
+    return crmUser;
   }
 
-  public void setCrm(Crm crm) {
-    this.crm = crm;
+  public void setCrmUser(CrmUser crmUser) {
+    this.crmUser = crmUser;
   }
 }

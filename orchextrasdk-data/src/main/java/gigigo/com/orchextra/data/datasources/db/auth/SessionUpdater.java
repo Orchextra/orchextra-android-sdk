@@ -20,10 +20,11 @@ package gigigo.com.orchextra.data.datasources.db.auth;
 
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
+
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
@@ -38,7 +39,7 @@ public class SessionUpdater {
 
   private final ModelToExternalClassMapper<SdkAuthData, SdkAuthRealm> sdkAuthRealmMapper;
   private final ModelToExternalClassMapper<ClientAuthData, ClientAuthRealm> clientAuthRealmMapper;
-  private final ModelToExternalClassMapper<Crm, CrmRealm> crmRealmMapper;
+  private final ModelToExternalClassMapper<CrmUser, CrmRealm> crmRealmMapper;
   private final ModelToExternalClassMapper<SdkAuthCredentials, SdkAuthCredentialsRealm>
       sdkCredentialsRealmMapper;
   private final ModelToExternalClassMapper<ClientAuthCredentials, ClientAuthCredentialsRealm>
@@ -46,7 +47,7 @@ public class SessionUpdater {
 
   public SessionUpdater(ModelToExternalClassMapper<SdkAuthData, SdkAuthRealm> sdkAuthRealmMapper,
       ModelToExternalClassMapper<ClientAuthData, ClientAuthRealm> clientAuthRealmMapper,
-      ModelToExternalClassMapper<Crm, CrmRealm> crmRealmMapper,
+      ModelToExternalClassMapper<CrmUser, CrmRealm> crmRealmMapper,
       ModelToExternalClassMapper<SdkAuthCredentials, SdkAuthCredentialsRealm> sdkCredentialsRealmMapper,
       ModelToExternalClassMapper<ClientAuthCredentials, ClientAuthCredentialsRealm> clientCredentialsRealmMapper) {
 
@@ -113,10 +114,10 @@ public class SessionUpdater {
     realm.copyToRealmOrUpdate(clientAuthRealm);
   }
 
-  public void updateCrm(Realm realm, Crm crm) {
+  public void updateCrm(Realm realm, CrmUser crmUser) {
     CrmRealm realmItem = getRealmItem(realm, CrmRealm.class);
 
-    CrmRealm crmRealm = crmRealmMapper.modelToExternalClass(crm);
+    CrmRealm crmRealm = crmRealmMapper.modelToExternalClass(crmUser);
     if (realmItem == null) {
       crmRealm.setId(RealmDefaultInstance.getNextKey(realm, CrmRealm.class));
     } else {

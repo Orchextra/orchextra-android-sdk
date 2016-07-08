@@ -23,8 +23,8 @@ import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
-import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
@@ -41,15 +41,15 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
     this.sessionDBDataSource = sessionDBDataSource;
   }
 
-  @Override public BusinessObject<SdkAuthData> authenticateSdk(Credentials credentials) {
+  @Override public BusinessObject<SdkAuthData> authenticateSdk(AuthCredentials authCredentials) {
     BusinessObject<SdkAuthData> deviceToken = sessionDBDataSource.getDeviceToken();
 
     if (!deviceToken.isSuccess() || deviceToken.getData().isExpired()) {
-      deviceToken = authenticationDataSource.authenticateSdk(credentials);
+      deviceToken = authenticationDataSource.authenticateSdk(authCredentials);
 
       if (deviceToken.isSuccess()) {
         sessionDBDataSource.saveSdkAuthResponse(deviceToken.getData());
-        SdkAuthCredentials sdkCredentials = ConsistencyUtils.checkInstance(credentials,
+        SdkAuthCredentials sdkCredentials = ConsistencyUtils.checkInstance(authCredentials,
             SdkAuthCredentials.class);
         sessionDBDataSource.saveSdkAuthCredentials(sdkCredentials);
       }
@@ -59,17 +59,17 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   }
 
   @Override
-  public BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId) {
+  public BusinessObject<ClientAuthData> authenticateUser(AuthCredentials authCredentials, String crmId) {
     BusinessObject<ClientAuthData> sessionToken = sessionDBDataSource.getSessionToken();
 
     if (!sessionToken.isSuccess() || sessionToken.getData() == null || sessionToken.getData()
         .isExpired()) {
 
-      sessionToken = authenticationDataSource.authenticateUser(credentials);
+      sessionToken = authenticationDataSource.authenticateUser(authCredentials);
 
       if (sessionToken.isSuccess()) {
         sessionDBDataSource.saveClientAuthResponse(sessionToken.getData());
-        ClientAuthCredentials clientAuthCredentials = ConsistencyUtils.checkInstance(credentials,
+        ClientAuthCredentials clientAuthCredentials = ConsistencyUtils.checkInstance(authCredentials,
             ClientAuthCredentials.class);
         sessionDBDataSource.saveClientAuthCredentials(clientAuthCredentials);
         saveCrmId(crmId);
@@ -88,25 +88,25 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
   }
 
   private void saveCrmId(String crmId) {
-    Crm crm = sessionDBDataSource.getCrm().getData();
+    CrmUser crmUser = sessionDBDataSource.getCrm().getData();
 
-    if (crm == null) {
-      crm = new Crm();
+    if (crmUser == null) {
+      crmUser = new CrmUser();
     }
 
-    crm.setCrmId(crmId);
-    sessionDBDataSource.saveUser(crm);
+    crmUser.setCrmId(crmId);
+    sessionDBDataSource.saveUser(crmUser);
   }
 
   @Override public BusinessObject<ClientAuthData> getCredentials() {
     return sessionDBDataSource.getSessionToken();
   }
 
-  @Override public BusinessObject<Crm> retrieveCrm() {
+  @Override public BusinessObject<CrmUser> retrieveCrm() {
     return sessionDBDataSource.getCrm();
   }
 
-  @Override public boolean storeCrmId(Crm crm) {
-    return sessionDBDataSource.storeCrm(crm);
+  @Override public boolean storeCrmId(CrmUser crmUser) {
+    return sessionDBDataSource.storeCrm(crmUser);
   }
 }

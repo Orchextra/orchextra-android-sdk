@@ -21,7 +21,7 @@ package com.gigigo.orchextra.domain.model.entities.proximity;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventType;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 
-public class OrchextraRegion extends ProximityPoint implements ScheduledActionEvent {
+public class OrchextraRegion extends ProximityItem implements ScheduledActionEvent {
 
   private final String code;
 

@@ -31,7 +31,7 @@ import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.Geofence
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;

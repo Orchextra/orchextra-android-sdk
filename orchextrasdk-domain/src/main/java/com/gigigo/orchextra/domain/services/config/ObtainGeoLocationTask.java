@@ -20,7 +20,7 @@ package com.gigigo.orchextra.domain.services.config;
 
 import com.gigigo.orchextra.domain.abstractions.device.GeolocationManager;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
-import com.gigigo.orchextra.domain.services.proximity.FutureGeolocation;
+import com.gigigo.orchextra.domain.services.geofences.FutureGeolocation;
 
 import java.util.concurrent.Future;
 

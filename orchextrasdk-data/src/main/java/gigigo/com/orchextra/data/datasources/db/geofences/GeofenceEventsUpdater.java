@@ -21,7 +21,7 @@ package gigigo.com.orchextra.data.datasources.db.geofences;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 
 import java.util.NoSuchElementException;
 

@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.control.controllers.authentication;
 
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 
 public interface SaveUserDelegate {
 
@@ -30,5 +30,5 @@ public interface SaveUserDelegate {
 
   void saveUserError();
 
-  void saveUser(Crm crm);
+  void saveUser(CrmUser crmUser);
 }

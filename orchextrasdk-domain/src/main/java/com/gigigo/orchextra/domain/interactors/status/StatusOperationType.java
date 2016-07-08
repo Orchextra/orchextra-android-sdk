@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 package com.gigigo.orchextra.domain.interactors.status;
-
+//todo neverused
 public enum StatusOperationType {
   UPDATE_ORCHEXTRA_STATUS,
   LOAD_ORCHEXTRA_STATUS;

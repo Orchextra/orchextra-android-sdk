@@ -5,7 +5,7 @@ import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceContr
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegisterImp;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceDeviceRegister;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,7 @@
 package com.gigigo.orchextra.android.builders;
 
 import com.gigigo.orchextra.domain.model.ProximityPointType;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
 import java.util.ArrayList;
 import java.util.Calendar;

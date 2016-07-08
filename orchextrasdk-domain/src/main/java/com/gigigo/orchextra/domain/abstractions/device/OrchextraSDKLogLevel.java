@@ -17,40 +17,43 @@
  */
 package com.gigigo.orchextra.domain.abstractions.device;
 
-public enum OrchextraSDKLogLevel {
-  ALL(0),
-  NETWORK(1),
-  DEBUG(2),
-  WARN(3),
-  ERROR(4),
-  NONE(5);
+import com.gigigo.orchextra.domain.model.StringValueEnum;
 
-  private final int intValue;
+public enum OrchextraSDKLogLevel implements StringValueEnum {
+    ALL(0),
+    NETWORK(1),
+    DEBUG(2),
+    WARN(3),
+    ERROR(4),
+    NONE(5);
 
-  OrchextraSDKLogLevel(int intValue) {
-    this.intValue = intValue;
-  }
+    private final int intValue;
 
-  public int intValue() {
-    return intValue;
-  }
-
-  public String getStringValue() {
-    switch (intValue()) {
-      case 0:
-        return "ALL";
-      case 1:
-        return "NETWORK";
-      case 2:
-        return "DEBUG";
-      case 3:
-        return "WARN";
-      case 4:
-        return "ERROR";
-      case 5:
-      default:
-        return "NONE";
+    OrchextraSDKLogLevel(int intValue) {
+        this.intValue = intValue;
     }
 
-  }
+    public int intValue() {
+        return intValue;
+    }
+
+    @Override
+    public String getStringValue() {
+        switch (intValue()) {
+            case 0:
+                return "ALL";
+            case 1:
+                return "NETWORK";
+            case 2:
+                return "DEBUG";
+            case 3:
+                return "WARN";
+            case 4:
+                return "ERROR";
+            case 5:
+            default:
+                return "NONE";
+        }
+
+    }
 }

@@ -19,11 +19,10 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
-import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
@@ -44,7 +43,7 @@ public class ConfigInfoResultReader {
 
   private final ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper;
   private final ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper;
-  private final ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper;
+  private final ExternalClassToModelMapper<VuforiaRealm, VuforiaCredentials> vuforiaRealmMapper;
   @Deprecated
   private final ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper;
   private final OrchextraLogger orchextraLogger;
@@ -52,7 +51,7 @@ public class ConfigInfoResultReader {
   public ConfigInfoResultReader(
       ExternalClassToModelMapper<BeaconRegionRealm, OrchextraRegion> regionRealmMapper,
       ExternalClassToModelMapper<GeofenceRealm, OrchextraGeofence> geofencesRealmMapper,
-      ExternalClassToModelMapper<VuforiaRealm, Vuforia> vuforiaRealmMapper,
+      ExternalClassToModelMapper<VuforiaRealm, VuforiaCredentials> vuforiaRealmMapper,
       ExternalClassToModelMapper<ThemeRealm, Theme> themeRealmMapper,
       OrchextraLogger orchextraLogger) {
 
@@ -67,20 +66,20 @@ public class ConfigInfoResultReader {
 
     ConfigInfoResultRealm config = readConfigObject(realm);
 
-    Vuforia vuforia = vuforiaRealmMapper.externalClassToModel(readVuforiaObject(realm));
+    VuforiaCredentials vuforiaCredentials = vuforiaRealmMapper.externalClassToModel(readVuforiaObject(realm));
     Theme theme = themeRealmMapper.externalClassToModel(readThemeObject(realm));
     List<OrchextraGeofence> geofences = geofencesToModel(readGeofenceObjects(realm));
     List<OrchextraRegion> regions = regionsToModel(readRegionsObjects(realm));
 
     ConfigInfoResult configInfoResult =
         new ConfigInfoResult.Builder(config.getRequestWaitTime(), geofences, regions, theme,
-            vuforia).build();
+                vuforiaCredentials).build();
 
     orchextraLogger.log("Retrieved configInfoResult with properties"
         + " \n Theme :"
         + theme.toString()
-        + " Vuforia :"
-        + vuforia.toString()
+        + " VuforiaCredentials :"
+        + vuforiaCredentials.toString()
         + " Geofences :"
         + geofences.size()
         + " Regions :"

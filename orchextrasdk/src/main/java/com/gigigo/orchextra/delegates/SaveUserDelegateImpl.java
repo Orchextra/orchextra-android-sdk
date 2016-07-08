@@ -22,7 +22,7 @@ import com.gigigo.orchextra.control.controllers.authentication.SaveUserControlle
 import com.gigigo.orchextra.control.controllers.authentication.SaveUserDelegate;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 
 public class SaveUserDelegateImpl implements SaveUserDelegate {
 
@@ -52,9 +52,9 @@ public class SaveUserDelegateImpl implements SaveUserDelegate {
   }
 
   @Override
-  public void saveUser(Crm crm) {
+  public void saveUser(CrmUser crmUser) {
     init();
-    saveUserController.saveUserAndReloadConfig(crm);
+    saveUserController.saveUserAndReloadConfig(crmUser);
   }
 
 }

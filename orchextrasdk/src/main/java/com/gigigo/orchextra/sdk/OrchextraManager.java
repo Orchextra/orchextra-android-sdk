@@ -50,7 +50,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAc
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
@@ -178,12 +178,12 @@ public class OrchextraManager {
                 OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
                 SaveUserController saveUserController = orchextraManager.saveUserController;
 
-                Crm crm = orcUserToCrmConverter.convertOrcUserToCrm(user);
+                CrmUser crmUser = orcUserToCrmConverter.convertOrcUserToCrm(user);
 
                 if (orchextraManager.orchextraStatusAccessor.isStarted()) {
-                    saveUserController.saveUserAndReloadConfig(crm);
+                    saveUserController.saveUserAndReloadConfig(crmUser);
                 } else {
-                    saveUserController.saveUserOnly(crm);
+                    saveUserController.saveUserOnly(crmUser);
                 }
             } else {
                 showInitializationError();

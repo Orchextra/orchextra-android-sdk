@@ -23,19 +23,19 @@ import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
 public class ScheduledActionImpl implements ScheduledAction {
 
   private final BasicAction basicAction;
-  private final ScheduleFunctionality scheduleFunctionality;
+  private final ScheduleBehavior scheduleBehavior;
 
   public ScheduledActionImpl(BasicAction basicAction) {
-    this.scheduleFunctionality = basicAction.scheduleFunctionality;
+    this.scheduleBehavior = basicAction.scheduleBehavior;
     this.basicAction = basicAction;
   }
 
   @Override public boolean isCancelable() {
-    return scheduleFunctionality.isCancelable();
+    return scheduleBehavior.isCancelable();
   }
 
   @Override public long getScheduleTime() {
-    return scheduleFunctionality.getScheduleTime();
+    return scheduleBehavior.getScheduleTime();
   }
 
   @Override public String getId() {
@@ -43,11 +43,11 @@ public class ScheduledActionImpl implements ScheduledAction {
   }
 
   @Override public String getEventId() {
-    return scheduleFunctionality.getSchedule().getEventId();
+    return scheduleBehavior.getSchedule().getEventId();
   }
 
   @Override public void setEventId(String id) {
-    scheduleFunctionality.getSchedule().setEventId(id);
+    scheduleBehavior.getSchedule().setEventId(id);
   }
 
   @Override public BasicAction getBasicAction() {

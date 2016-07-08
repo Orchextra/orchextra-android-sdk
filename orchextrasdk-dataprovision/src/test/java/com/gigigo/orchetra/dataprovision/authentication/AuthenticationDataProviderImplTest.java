@@ -24,9 +24,10 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.Authenticati
 
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
+import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
-import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,14 +50,16 @@ public class AuthenticationDataProviderImplTest {
     @Mock BusinessObject<ClientAuthData> sessionToken;
 
 
-    @Mock BusinessObject<Crm> businessObjectCrm;
+    @Mock BusinessObject<CrmUser> businessObjectCrm;
 
-    @Mock Crm crm;
+    @Mock
+    CrmUser crmUser;
 
     @Mock
     ClientAuthData clientAuthData;
 
-    @Mock ClientAuthCredentials clientAuthCredentials;
+    @Mock
+    ClientAuthCredentials clientAuthCredentials;
 
     private AuthenticationDataProviderImpl authenticationDataProvider;
 
@@ -71,29 +74,29 @@ public class AuthenticationDataProviderImplTest {
 
         when(sessionToken.isSuccess()).thenReturn(false);
 
-        when(authenticationDataSource.authenticateUser(any(Credentials.class))).thenReturn(sessionToken);
+        when(authenticationDataSource.authenticateUser(any(AuthCredentials.class))).thenReturn(sessionToken);
 
         when(sessionToken.isSuccess()).thenReturn(true);
 
         when(sessionDBDataSource.getCrm()).thenReturn(businessObjectCrm);
-        when(businessObjectCrm.getData()).thenReturn(crm);
+        when(businessObjectCrm.getData()).thenReturn(crmUser);
 
 
         authenticationDataProvider.authenticateUser(clientAuthCredentials, "111111");
 
         verify(sessionDBDataSource).saveClientAuthResponse(sessionToken.getData());
-        verify(sessionDBDataSource).saveUser(crm);
+        verify(sessionDBDataSource).saveUser(crmUser);
     }
 
     @Test
     public void shouldAuthenticateUserAndSaveWhenCriteriaAreCorrect() throws Exception {
         when(sessionDBDataSource.getSessionToken()).thenReturn(sessionToken);
         when(sessionDBDataSource.getCrm()).thenReturn(businessObjectCrm);
-        when(businessObjectCrm.getData()).thenReturn(crm);
+        when(businessObjectCrm.getData()).thenReturn(crmUser);
 
         when(sessionToken.isSuccess()).thenReturn(false);
 
-        when(authenticationDataSource.authenticateUser(any(Credentials.class))).thenReturn(sessionToken);
+        when(authenticationDataSource.authenticateUser(any(AuthCredentials.class))).thenReturn(sessionToken);
 
         when(sessionToken.isSuccess()).thenReturn(true);
 
@@ -106,14 +109,14 @@ public class AuthenticationDataProviderImplTest {
     public void shouldReturnSessionTokenWhenAuthenticateIsFailed() throws Exception {
         when(sessionDBDataSource.getSessionToken()).thenReturn(sessionToken);
         when(sessionDBDataSource.getCrm()).thenReturn(businessObjectCrm);
-        when(businessObjectCrm.getData()).thenReturn(crm);
+        when(businessObjectCrm.getData()).thenReturn(crmUser);
 
         when(sessionToken.isSuccess()).thenReturn(false);
         when(sessionToken.getData()).thenReturn(clientAuthData);
         when(sessionToken.getData().isExpired()).thenReturn(false);
-        when(crm.getCrmId()).thenReturn("111");
+        when(crmUser.getCrmId()).thenReturn("111");
 
-        when(authenticationDataSource.authenticateUser(any(Credentials.class))).thenReturn(sessionToken);
+        when(authenticationDataSource.authenticateUser(any(AuthCredentials.class))).thenReturn(sessionToken);
 
         when(sessionToken.isSuccess()).thenReturn(false);
 
@@ -121,6 +124,6 @@ public class AuthenticationDataProviderImplTest {
 
         verify(authenticationDataSource).authenticateUser(clientAuthCredentials);
         verify(sessionDBDataSource, never()).saveClientAuthResponse(sessionToken.getData());
-        verify(sessionDBDataSource, never()).saveUser(crm);
+        verify(sessionDBDataSource, never()).saveUser(crmUser);
     }
 }
