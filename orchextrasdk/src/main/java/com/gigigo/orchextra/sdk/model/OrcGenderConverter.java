@@ -18,12 +18,12 @@
 
 package com.gigigo.orchextra.sdk.model;
 
-import com.gigigo.orchextra.ORCUser;
+import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.domain.model.GenderType;
 
 public class OrcGenderConverter {
 
-    public GenderType convertGender(ORCUser.Gender gender) {
+    public GenderType convertGender(CrmUser.Gender gender) {
         switch (gender) {
             case ORCGenderMale:
                 return GenderType.MALE;

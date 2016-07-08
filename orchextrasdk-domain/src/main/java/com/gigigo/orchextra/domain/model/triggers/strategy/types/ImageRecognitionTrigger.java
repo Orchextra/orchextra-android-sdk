@@ -23,11 +23,11 @@ import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 public class ImageRecognitionTrigger extends Trigger {
 
-  public ImageRecognitionTrigger(String id, OrchextraPoint point, AppRunningModeType runningMode) {
+  public ImageRecognitionTrigger(String id, OrchextraLocationPoint point, AppRunningModeType runningMode) {
     super(TriggerType.VUFORIA, id, point, runningMode);
     this.isTriggerable = true;
   }

@@ -29,7 +29,7 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanc
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointBehaviour;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviour;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 public abstract class Trigger {
 
@@ -49,7 +49,7 @@ public abstract class Trigger {
   protected BeaconDistanceTypeBehaviour beaconDistanceTypeBehaviour;
   protected GeoDistanceBehaviour geoDistanceBehaviour;
 
-  Trigger(TriggerType triggerType, String code, OrchextraPoint point,
+  Trigger(TriggerType triggerType, String code, OrchextraLocationPoint point,
       AppRunningModeType appRunningModeType) {
     this.triggerType = triggerType;
     this.code = code;
@@ -66,7 +66,7 @@ public abstract class Trigger {
 
   abstract void setConcreteBehaviour();
 
-  public static GeofenceTrigger createGeofenceTrigger(String code, OrchextraPoint point,
+  public static GeofenceTrigger createGeofenceTrigger(String code, OrchextraLocationPoint point,
       AppRunningModeType appRunningModeType, double distance, GeoPointEventType geoPointEventType) {
 
     GeofenceTrigger geofenceTrigger =
@@ -75,7 +75,7 @@ public abstract class Trigger {
     return geofenceTrigger;
   }
 
-  @Deprecated public static BeaconTrigger createBeaconTrigger(String id, OrchextraPoint point,
+  @Deprecated public static BeaconTrigger createBeaconTrigger(String id, OrchextraLocationPoint point,
       AppRunningModeType appRunningModeType, BeaconDistanceType beaconDistType,
       GeoPointEventType geoPointEventType) {
 
@@ -85,19 +85,19 @@ public abstract class Trigger {
     return beaconTrigger;
   }
 
-  public static Trigger createQrScanTrigger(String id, OrchextraPoint point) {
+  public static Trigger createQrScanTrigger(String id, OrchextraLocationPoint point) {
     return createScanTrigger(id, TriggerType.QR, point);
   }
 
-  public static Trigger createBarcodeScanTrigger(String id, OrchextraPoint point) {
+  public static Trigger createBarcodeScanTrigger(String id, OrchextraLocationPoint point) {
     return createScanTrigger(id, TriggerType.BARCODE, point);
   }
 
-  public static Trigger createVuforiaScanTrigger(String id, OrchextraPoint point) {
+  public static Trigger createVuforiaScanTrigger(String id, OrchextraLocationPoint point) {
     return createScanTrigger(id, TriggerType.VUFORIA, point);
   }
 
-  private static Trigger createScanTrigger(String id, TriggerType scanType, OrchextraPoint point) {
+  private static Trigger createScanTrigger(String id, TriggerType scanType, OrchextraLocationPoint point) {
     try {
       ScanTrigger scanTrigger = new ScanTrigger(scanType, id, point, AppRunningModeType.FOREGROUND);
       scanTrigger.setConcreteBehaviour();
@@ -131,10 +131,10 @@ public abstract class Trigger {
     }
   }
 
-  public static Trigger createImageRecognitionTrigger(String content, OrchextraPoint orchextraPoint) {
+  public static Trigger createImageRecognitionTrigger(String content, OrchextraLocationPoint orchextraLocationPoint) {
     try {
       ImageRecognitionTrigger imageRecognitionTrigger =
-          new ImageRecognitionTrigger(content, orchextraPoint, AppRunningModeType.FOREGROUND);
+          new ImageRecognitionTrigger(content, orchextraLocationPoint, AppRunningModeType.FOREGROUND);
       imageRecognitionTrigger.setConcreteBehaviour();
       return imageRecognitionTrigger;
     } catch (Exception e) {
@@ -150,7 +150,7 @@ public abstract class Trigger {
     return code;
   }
 
-  public OrchextraPoint getPoint() {
+  public OrchextraLocationPoint getPoint() {
     return geoPointBehaviour.getPoint();
   }
 

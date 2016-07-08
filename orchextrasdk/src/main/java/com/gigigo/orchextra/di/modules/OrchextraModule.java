@@ -51,6 +51,9 @@ import orchextra.javax.inject.Singleton;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 
+/**
+ * module refers dagger module object
+ */
 @Module(includes = { ControlModule.class, DeviceModule.class, DelegateModule.class, UiModule.class})
 public class OrchextraModule {
 

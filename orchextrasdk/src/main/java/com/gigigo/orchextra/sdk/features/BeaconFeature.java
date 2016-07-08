@@ -23,7 +23,7 @@ import com.gigigo.orchextra.domain.initalization.features.Feature;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType;
 import com.gigigo.orchextra.domain.model.StringValueEnum;
 
-
+//todo notcomplete
 public class BeaconFeature extends Feature {
 
   public BeaconFeature(StringValueEnum status) {

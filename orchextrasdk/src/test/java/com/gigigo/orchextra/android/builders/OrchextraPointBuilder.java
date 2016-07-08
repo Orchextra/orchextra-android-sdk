@@ -1,6 +1,6 @@
 package com.gigigo.orchextra.android.builders;
 
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 public class OrchextraPointBuilder {
 
@@ -14,8 +14,8 @@ public class OrchextraPointBuilder {
         return new OrchextraPointBuilder();
     }
 
-    public OrchextraPoint build() {
-        OrchextraPoint point = new OrchextraPoint();
+    public OrchextraLocationPoint build() {
+        OrchextraLocationPoint point = new OrchextraLocationPoint();
         point.setLat(lat);
         point.setLng(lng);
         return point;

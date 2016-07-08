@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.gigigo.orchextra.domain.model.ProximityItemType;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GeofenceBuilder {
 
-    public static final OrchextraPoint POINT = PointBuilder.Builder().build();
+    public static final OrchextraLocationPoint POINT = PointBuilder.Builder().build();
     public static final int RADIUS = 30;
     public static final String ID = "1234";
     public static final String CODE = "999";
@@ -27,7 +27,7 @@ public class GeofenceBuilder {
     public static final String UPDATEDS = "2014-09-29T18:46:19Z";
 
 
-    private OrchextraPoint point = POINT;
+    private OrchextraLocationPoint point = POINT;
     private int radius = RADIUS;
     private String id = ID;
     private String code = CODE;

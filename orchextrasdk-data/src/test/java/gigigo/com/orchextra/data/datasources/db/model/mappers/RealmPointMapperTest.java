@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class RealmPointMapperTest {
 
     @Test
     public void shouldMapModelToData() throws Exception {
-        OrchextraPoint point = PointBuilder.Builder().build();
+        OrchextraLocationPoint point = PointBuilder.Builder().build();
 
         RealmPointMapper mapper = new RealmPointMapper();
         RealmPoint realmPoint = mapper.modelToExternalClass(point);
@@ -29,7 +29,7 @@ public class RealmPointMapperTest {
         realmPoint.setLng(PointBuilder.LNG);
 
         RealmPointMapper mapper = new RealmPointMapper();
-        OrchextraPoint point = mapper.externalClassToModel(realmPoint);
+        OrchextraLocationPoint point = mapper.externalClassToModel(realmPoint);
 
         assertEquals(PointBuilder.LAT, point.getLat(), 0.001);
         assertEquals(PointBuilder.LNG, point.getLng(), 0.001);

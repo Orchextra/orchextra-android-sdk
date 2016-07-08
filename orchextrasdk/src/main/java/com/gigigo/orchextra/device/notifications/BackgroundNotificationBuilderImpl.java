@@ -26,13 +26,13 @@ import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBuilde
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
-public class BackgroundNotificationBuilderImp implements NotificationBuilder {
+public class BackgroundNotificationBuilderImpl implements NotificationBuilder {
 
     private final AndroidNotificationBuilder androidNotification;
     private final AndroidBasicActionMapper androidBasicActionMapper;
 
-    public BackgroundNotificationBuilderImp(AndroidNotificationBuilder androidNotification,
-                                            AndroidBasicActionMapper androidBasicActionMapper) {
+    public BackgroundNotificationBuilderImpl(AndroidNotificationBuilder androidNotification,
+                                             AndroidBasicActionMapper androidBasicActionMapper) {
         this.androidNotification = androidNotification;
         this.androidBasicActionMapper = androidBasicActionMapper;
     }

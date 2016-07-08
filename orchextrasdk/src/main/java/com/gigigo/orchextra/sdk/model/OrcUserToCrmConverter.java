@@ -20,9 +20,8 @@ package com.gigigo.orchextra.sdk.model;
 
 import android.text.TextUtils;
 
-import com.gigigo.orchextra.ORCUser;
-import com.gigigo.orchextra.ORCUserTag;
-import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
+import com.gigigo.orchextra.CrmUser;
+import com.gigigo.orchextra.CrmUserTag;
 
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
 
@@ -38,8 +37,8 @@ public class OrcUserToCrmConverter {
         this.genderConverter = genderConverter;
     }
 
-    public CrmUser convertOrcUserToCrm(ORCUser user) {
-        CrmUser crmUser = new CrmUser();
+    public com.gigigo.orchextra.domain.model.entities.authentication.CrmUser convertOrcUserToCrm(CrmUser user) {
+        com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = new com.gigigo.orchextra.domain.model.entities.authentication.CrmUser();
 
         if (user != null) {
             crmUser.setCrmId(user.getCrmId());
@@ -56,7 +55,7 @@ public class OrcUserToCrmConverter {
         return crmUser;
     }
     @Deprecated
-    private List<String> obtainUserKeyWords(ORCUser user) {
+    private List<String> obtainUserKeyWords(CrmUser user) {
 
         if (user.getKeywords() != null) {
             List<String> keywords = new ArrayList<>();
@@ -72,11 +71,11 @@ public class OrcUserToCrmConverter {
 
     }
     @Deprecated
-    private List<CrmTag> obtainUserTags(ORCUser user) {
+    private List<CrmTag> obtainUserTags(CrmUser user) {
 
         if (user.getTags() != null) {
             List<CrmTag> tags = new ArrayList<>();
-            for (ORCUserTag orcTag : user.getTags()) {
+            for (CrmUserTag orcTag : user.getTags()) {
                     tags.add(new CrmTag(orcTag.getPrefix(), orcTag.getValue()));
             }
             return tags;

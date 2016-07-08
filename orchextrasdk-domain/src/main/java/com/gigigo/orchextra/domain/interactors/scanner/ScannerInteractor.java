@@ -23,7 +23,7 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.ScannerResult;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
 
@@ -47,7 +47,7 @@ public class ScannerInteractor implements Interactor<InteractorResponse<List<Bas
     public InteractorResponse<List<BasicAction>> call() throws Exception {
         GeoLocation geolocation = obtainGeoLocationTask.getGeolocation();
 
-        OrchextraPoint point = null;
+        OrchextraLocationPoint point = null;
 
         if (geolocation != null) {
             point = geolocation.getPoint();

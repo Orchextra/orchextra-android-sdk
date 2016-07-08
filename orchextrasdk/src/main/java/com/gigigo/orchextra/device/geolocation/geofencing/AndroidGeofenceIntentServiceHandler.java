@@ -23,12 +23,11 @@ import android.location.Location;
 
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class AndroidGeofenceIntentServiceHandler {
         return GeofencingEvent.fromIntent(intent);
     }
 
-    public OrchextraPoint getTriggeringPoint(GeofencingEvent geofencingEvent) {
+    public OrchextraLocationPoint getTriggeringPoint(GeofencingEvent geofencingEvent) {
         Location triggeringLocation = geofencingEvent.getTriggeringLocation();
         return locationMapper.externalClassToModel(triggeringLocation);
     }

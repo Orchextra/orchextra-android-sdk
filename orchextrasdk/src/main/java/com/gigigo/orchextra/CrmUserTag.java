@@ -18,17 +18,17 @@
 
 package com.gigigo.orchextra;
 
-public class ORCUserTag {
+public class CrmUserTag {
 
   private final String prefix;
   private final String value;
 
-  public ORCUserTag(String prefix, String value) {
+  public CrmUserTag(String prefix, String value) {
     this.prefix = prefix;
     this.value = value;
   }
 
-  public ORCUserTag(String value) {
+  public CrmUserTag(String value) {
     this.prefix = null;
     this.value = value;
   }

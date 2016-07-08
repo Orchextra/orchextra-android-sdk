@@ -7,7 +7,7 @@ import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -63,7 +63,7 @@ public class GetActionDomainServiceTest {
     @Test
     public void shouldReturnEmptyListWhenTriggerListDoesntCorrespondsWithAction() throws Exception {
         List<Trigger> triggerList = new ArrayList<>();
-        Trigger trigger = Trigger.createBarcodeScanTrigger("1234", new OrchextraPoint());
+        Trigger trigger = Trigger.createBarcodeScanTrigger("1234", new OrchextraLocationPoint());
         triggerList.add(trigger);
 
         when(mockActionsDataProvider.obtainAction(trigger)).thenReturn(mockBoBasicAction);
@@ -85,7 +85,7 @@ public class GetActionDomainServiceTest {
     @Test
     public void shouldReturnOneActionWhenTriggerListCorrespondsWithAction() throws Exception {
         List<Trigger> triggerList = new ArrayList<>();
-        Trigger trigger = Trigger.createBarcodeScanTrigger("1234", new OrchextraPoint());
+        Trigger trigger = Trigger.createBarcodeScanTrigger("1234", new OrchextraLocationPoint());
         triggerList.add(trigger);
 
         when(mockActionsDataProvider.obtainAction(trigger)).thenReturn(mockBoBasicAction);

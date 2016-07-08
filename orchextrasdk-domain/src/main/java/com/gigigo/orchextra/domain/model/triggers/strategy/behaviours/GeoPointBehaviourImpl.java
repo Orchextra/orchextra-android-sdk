@@ -18,17 +18,17 @@
 
 package com.gigigo.orchextra.domain.model.triggers.strategy.behaviours;
 
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 public class GeoPointBehaviourImpl implements GeoPointBehaviour {
 
-  private OrchextraPoint point;
+  private OrchextraLocationPoint point;
 
-  public GeoPointBehaviourImpl(OrchextraPoint point) {
+  public GeoPointBehaviourImpl(OrchextraLocationPoint point) {
     this.point = point;
   }
 
-  @Override public OrchextraPoint getPoint() {
+  @Override public OrchextraLocationPoint getPoint() {
     return point;
   }
 

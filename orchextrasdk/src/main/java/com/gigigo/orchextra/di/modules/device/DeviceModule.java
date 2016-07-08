@@ -23,8 +23,8 @@ import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.delegates.ConfigDelegateImp;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
-import com.gigigo.orchextra.device.GoogleApiClientConnectorImp;
-import com.gigigo.orchextra.device.information.AndroidApp;
+import com.gigigo.orchextra.device.GoogleApiClientConnectorImpl;
+import com.gigigo.orchextra.device.information.AndroidSdkVersionAppInfo;
 import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.information.AndroidInstanceIdProvider;
 import com.gigigo.orchextra.device.permissions.GoogleApiPermissionChecker;
@@ -94,14 +94,14 @@ public class DeviceModule {
                                                              GoogleApiPermissionChecker googleApiPermissionChecker,
                                                              OrchextraLogger orchextraLogger) {
 
-        return new GoogleApiClientConnectorImp(contextProvider, googleApiPermissionChecker,
+        return new GoogleApiClientConnectorImpl(contextProvider, googleApiPermissionChecker,
                 orchextraLogger);
     }
 
     @Singleton
     @Provides
-    AndroidApp provideAndroidApp() {
-        return new AndroidApp();
+    AndroidSdkVersionAppInfo provideAndroidApp() {
+        return new AndroidSdkVersionAppInfo();
     }
 
     @Singleton

@@ -19,12 +19,11 @@
 package com.gigigo.orchextra;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class ORCUser {
+public class CrmUser {
 
     private final String crmId;
     private final GregorianCalendar birthdate;
@@ -32,7 +31,7 @@ public class ORCUser {
     @Deprecated
     private List<String> keywords;
     @Deprecated
-    private final List<ORCUserTag> tags;
+    private final List<CrmUserTag> tags;
 
     /**
      * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
@@ -44,7 +43,7 @@ public class ORCUser {
      * @param keywords  important words in order to segment specific actions
      */
     @Deprecated
-    public ORCUser(String crmId, GregorianCalendar birthdate, Gender gender, List<String> keywords) {
+    public CrmUser(String crmId, GregorianCalendar birthdate, Gender gender, List<String> keywords) {
         this(crmId, birthdate, gender);
         this.keywords = keywords;
     }
@@ -59,7 +58,7 @@ public class ORCUser {
      * @param tags      important Tags in order to segment specific actions
      */
     @Deprecated
-    public ORCUser(String crmId, GregorianCalendar birthdate, Gender gender, ORCUserTag... tags) {
+    public CrmUser(String crmId, GregorianCalendar birthdate, Gender gender, CrmUserTag... tags) {
         this.crmId = crmId;
         this.birthdate = birthdate;
         this.gender = gender;
@@ -85,7 +84,7 @@ public class ORCUser {
     }
 
     @Deprecated
-    public List<ORCUserTag> getTags() {
+    public List<CrmUserTag> getTags() {
         return tags;
     }
     //todo REFACTOR this must be a GenderType and must to encapsulate el value of this field in server, ORCGenderMale-->"male"

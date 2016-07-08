@@ -30,7 +30,7 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import java.util.Collections;
 import java.util.List;
 
-public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer,
+public class AndroidGeofenceRegisterImpl implements GeofenceRegister, Observer,
     GeofencesProviderListener {
 
     private final GeofenceDeviceRegister geofenceDeviceRegister;
@@ -39,9 +39,9 @@ public class AndroidGeofenceRegisterImp implements GeofenceRegister, Observer,
 
     private boolean isRegistered = false;
 
-    public AndroidGeofenceRegisterImp(GeofenceDeviceRegister geofenceDeviceRegister,
-                                      ConfigObservable configObservable,
-                                      GeofenceController geofenceController) {
+    public AndroidGeofenceRegisterImpl(GeofenceDeviceRegister geofenceDeviceRegister,
+                                       ConfigObservable configObservable,
+                                       GeofenceController geofenceController) {
         this.geofenceDeviceRegister = geofenceDeviceRegister;
         this.configObservable = configObservable;
         this.geofenceController = geofenceController;

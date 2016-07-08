@@ -21,22 +21,22 @@ package com.gigigo.orchextra.domain.model.entities.geofences;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.proximity.ProximityItem;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 public class OrchextraGeofence extends ProximityItem implements ScheduledActionEvent {
 
-  private OrchextraPoint point;
+  private OrchextraLocationPoint point;
   private int radius;
   private double distanceToDeviceInKm;
   private String geofenceId;
 
   private ActionRelated actionRelated;
 
-  public OrchextraPoint getPoint() {
+  public OrchextraLocationPoint getPoint() {
     return point;
   }
 
-  public void setPoint(OrchextraPoint point) {
+  public void setPoint(OrchextraLocationPoint point) {
     this.point = point;
   }
 

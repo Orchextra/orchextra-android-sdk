@@ -30,12 +30,12 @@ import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
-public class GcmInstanceIdRegisterImp implements GcmInstanceIdRegister {
+public class GcmInstanceIdRegisterImpl implements GcmInstanceIdRegister {
 
   private final Context context;
   private final OrchextraLogger orchextraLogger;
 
-  public GcmInstanceIdRegisterImp(Context context, OrchextraLogger orchextraLogger) {
+  public GcmInstanceIdRegisterImpl(Context context, OrchextraLogger orchextraLogger) {
     this.context = context;
     this.orchextraLogger = orchextraLogger;
   }

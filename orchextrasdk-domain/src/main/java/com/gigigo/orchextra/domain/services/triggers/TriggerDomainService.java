@@ -26,7 +26,7 @@ import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.gigigo.orchextra.domain.services.DomainService;
 
 import java.util.ArrayList;
@@ -83,18 +83,18 @@ public class TriggerDomainService implements DomainService {
     return new InteractorResponse(triggers);
   }
 
-  public InteractorResponse getTrigger(ScannerResult scanner, OrchextraPoint orchextraPoint) {
+  public InteractorResponse getTrigger(ScannerResult scanner, OrchextraLocationPoint orchextraLocationPoint) {
     List<Trigger> triggers = new ArrayList<>();
 
     switch (scanner.getType()) {
       case IMAGE_RECOGNITION:
-        triggers.add(Trigger.createImageRecognitionTrigger(scanner.getContent(), orchextraPoint));
+        triggers.add(Trigger.createImageRecognitionTrigger(scanner.getContent(), orchextraLocationPoint));
         break;
       case QRCODE:
-        triggers.add(Trigger.createQrScanTrigger(scanner.getContent(), orchextraPoint));
+        triggers.add(Trigger.createQrScanTrigger(scanner.getContent(), orchextraLocationPoint));
         break;
       default:
-        triggers.add(Trigger.createBarcodeScanTrigger(scanner.getContent(), orchextraPoint));
+        triggers.add(Trigger.createBarcodeScanTrigger(scanner.getContent(), orchextraLocationPoint));
         break;
     }
 

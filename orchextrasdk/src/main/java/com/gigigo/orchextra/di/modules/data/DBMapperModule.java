@@ -24,7 +24,7 @@ import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.domain.model.vo.Theme;
 
@@ -119,13 +119,13 @@ public class DBMapperModule {
 
     @Singleton
     @Provides
-    Mapper<OrchextraPoint, RealmPoint> provideRealmMapperRealmPoint() {
+    Mapper<OrchextraLocationPoint, RealmPoint> provideRealmMapperRealmPoint() {
         return new RealmPointMapper();
     }
     @Deprecated
     @Singleton
     @Provides
-    Mapper<OrchextraGeofence, GeofenceRealm> provideRealmMapperGeofenceRealm(Mapper<OrchextraPoint, RealmPoint> realmPointRealmMapper,
+    Mapper<OrchextraGeofence, GeofenceRealm> provideRealmMapperGeofenceRealm(Mapper<OrchextraLocationPoint, RealmPoint> realmPointRealmMapper,
                                                                          KeyWordRealmMapper keyWordRealmMapper) {
         return new GeofenceRealmMapper(realmPointRealmMapper, keyWordRealmMapper);
     }
@@ -144,7 +144,7 @@ public class DBMapperModule {
 
     @Singleton
     @Provides
-    Mapper<OrchextraGeofence, GeofenceEventRealm> provideGeofenceEventRealmMapper(Mapper<OrchextraPoint, RealmPoint> realmPointMapper) {
+    Mapper<OrchextraGeofence, GeofenceEventRealm> provideGeofenceEventRealmMapper(Mapper<OrchextraLocationPoint, RealmPoint> realmPointMapper) {
         return new GeofenceEventRealmMapper(realmPointMapper);
     }
 

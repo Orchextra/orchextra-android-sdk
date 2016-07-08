@@ -21,7 +21,7 @@ package com.gigigo.orchextra.device.information;
 import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.domain.model.entities.SdkVersionAppInfo;
 
-public class AndroidApp {
+public class AndroidSdkVersionAppInfo {
 
     public SdkVersionAppInfo getAndroidAppInfo() {
         SdkVersionAppInfo sdkVersionAppInfo = new SdkVersionAppInfo();

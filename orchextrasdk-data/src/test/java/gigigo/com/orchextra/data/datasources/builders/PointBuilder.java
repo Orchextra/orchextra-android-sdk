@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 public class PointBuilder {
 
@@ -14,8 +14,8 @@ public class PointBuilder {
         return new PointBuilder();
     }
 
-    public OrchextraPoint build() {
-        OrchextraPoint point = new OrchextraPoint();
+    public OrchextraLocationPoint build() {
+        OrchextraLocationPoint point = new OrchextraLocationPoint();
         point.setLat(lat);
         point.setLng(lng);
         return point;

@@ -21,12 +21,12 @@ package com.gigigo.orchextra.device.geolocation.geofencing.mapper;
 import android.location.Location;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
-public class LocationMapper implements ExternalClassToModelMapper<Location, OrchextraPoint> {
+public class LocationMapper implements ExternalClassToModelMapper<Location, OrchextraLocationPoint> {
 
-    @Override public OrchextraPoint externalClassToModel(Location location) {
-        OrchextraPoint point = new OrchextraPoint();
+    @Override public OrchextraLocationPoint externalClassToModel(Location location) {
+        OrchextraLocationPoint point = new OrchextraLocationPoint();
 
         point.setLat(location.getLatitude());
         point.setLng(location.getLongitude());

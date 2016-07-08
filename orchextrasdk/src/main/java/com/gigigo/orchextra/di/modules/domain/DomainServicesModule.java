@@ -19,9 +19,9 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.ggglib.ContextProvider;
-import com.gigigo.orchextra.device.information.AndroidApp;
+import com.gigigo.orchextra.device.information.AndroidSdkVersionAppInfo;
 import com.gigigo.orchextra.device.information.AndroidDevice;
-import com.gigigo.orchextra.device.notificationpush.GcmInstanceIdRegisterImp;
+import com.gigigo.orchextra.device.notificationpush.GcmInstanceIdRegisterImpl;
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.CrmValidation;
@@ -135,11 +135,11 @@ public class DomainServicesModule {
     @PerExecution
     ConfigDomainService provideConfigService(ConfigDataProvider configDataProvider,
                                              AuthenticationDataProvider authenticationDataProvider,
-                                             @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidApp androidApp,
+                                             @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidSdkVersionAppInfo androidSdkVersionAppInfo,
                                              AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask,
                                              GcmInstanceIdRegister gcmInstanceIdRegister) {
         return new ConfigDomainService(configDataProvider, authenticationDataProvider, errorChecker,
-                androidApp.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask,
+                androidSdkVersionAppInfo.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask,
                 gcmInstanceIdRegister);
     }
 
@@ -161,7 +161,7 @@ public class DomainServicesModule {
     @PerExecution
     GcmInstanceIdRegister provideGcmInstanceIdRegister(ContextProvider contextProvider,
                                                        OrchextraLogger orchextraLogger) {
-        return new GcmInstanceIdRegisterImp(contextProvider.getApplicationContext(), orchextraLogger);
+        return new GcmInstanceIdRegisterImpl(contextProvider.getApplicationContext(), orchextraLogger);
     }
 
     @Provides

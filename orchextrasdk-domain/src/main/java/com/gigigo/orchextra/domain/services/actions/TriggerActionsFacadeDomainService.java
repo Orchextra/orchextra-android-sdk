@@ -27,7 +27,7 @@ import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.gigigo.orchextra.domain.services.DomainService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerDomainService;
 
@@ -107,7 +107,7 @@ public class TriggerActionsFacadeDomainService implements DomainService {
     }
   }
 
-  public InteractorResponse<List<BasicAction>> triggerActions(ScannerResult scanner, OrchextraPoint orchextraPoint) {
-    return triggerActions(triggerDomainService.getTrigger(scanner, orchextraPoint));
+  public InteractorResponse<List<BasicAction>> triggerActions(ScannerResult scanner, OrchextraLocationPoint orchextraLocationPoint) {
+    return triggerActions(triggerDomainService.getTrigger(scanner, orchextraLocationPoint));
   }
 }

@@ -28,7 +28,7 @@ import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.gigigo.orchextra.domain.services.actions.EventUpdaterDomainService;
 import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
 import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainService;
@@ -78,7 +78,7 @@ import static org.mockito.Mockito.when;
     idsList.add("aaaa");
     idsList.add("bbbb");
 
-    OrchextraPoint geofencePoint = new OrchextraPoint();
+    OrchextraLocationPoint geofencePoint = new OrchextraLocationPoint();
     geofencePoint.setLat(123);
     geofencePoint.setLng(321);
   }

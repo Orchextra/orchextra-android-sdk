@@ -39,9 +39,7 @@ public class OxWebView extends LinearLayout {
 
     public static final String OPEN_SCANNER = "OpenScanner";
     public static final String OPEN_IMAGE_RECOGNITION = "OpenImageRecog";
-    public static final String CLOSE_SCANNER = "CloseScanner";
-    public static final String CLOSE_IMAGE_RECOGNITION = "CloseImageRecog";
-    public static final String CLOSE_UNKNOW = "CLOSE_UNKNOW";
+       public static final String CLOSE_UNKNOW = "CLOSE_UNKNOW";
 
     private WebView webView;
 

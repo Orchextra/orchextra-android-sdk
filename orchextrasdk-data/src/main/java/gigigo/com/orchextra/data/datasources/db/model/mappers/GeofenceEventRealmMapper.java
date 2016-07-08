@@ -23,15 +23,15 @@ import com.gigigo.ggglib.mappers.MapperUtils;
 import com.gigigo.orchextra.domain.model.ProximityItemType;
 import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 
 public class GeofenceEventRealmMapper implements Mapper<OrchextraGeofence, GeofenceEventRealm> {
 
-  private final Mapper<OrchextraPoint, RealmPoint> realmPointMapper;
+  private final Mapper<OrchextraLocationPoint, RealmPoint> realmPointMapper;
 
-  public GeofenceEventRealmMapper(Mapper<OrchextraPoint, RealmPoint> realmPointMapper) {
+  public GeofenceEventRealmMapper(Mapper<OrchextraLocationPoint, RealmPoint> realmPointMapper) {
     this.realmPointMapper = realmPointMapper;
   }
 

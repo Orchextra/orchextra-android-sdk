@@ -26,14 +26,14 @@ import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 public class BeaconTrigger extends Trigger {
 
   private final BeaconDistanceType beaconDistanceType;
 
-  public BeaconTrigger(String code, OrchextraPoint point, AppRunningModeType appRunningModeType,
-      BeaconDistanceType beaconDistanceType, GeoPointEventType geoPointEventType) {
+  public BeaconTrigger(String code, OrchextraLocationPoint point, AppRunningModeType appRunningModeType,
+                       BeaconDistanceType beaconDistanceType, GeoPointEventType geoPointEventType) {
     super(TriggerType.BEACON, code, point, appRunningModeType);
 
     this.beaconDistanceType = beaconDistanceType;

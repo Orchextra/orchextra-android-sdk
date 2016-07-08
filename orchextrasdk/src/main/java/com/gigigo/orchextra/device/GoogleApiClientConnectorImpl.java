@@ -29,7 +29,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-public class GoogleApiClientConnectorImp
+public class GoogleApiClientConnectorImpl
     implements GoogleApiClientConnector {
 
   private final ContextProvider contextProvider;
@@ -39,8 +39,8 @@ public class GoogleApiClientConnectorImp
   private GoogleApiClient client;
   private OnConnectedListener onConnectedListener;
 
-  public GoogleApiClientConnectorImp(ContextProvider contextProvider,
-                                     GoogleApiPermissionChecker googleApiPermissionChecker, OrchextraLogger orchextraLogger) {
+  public GoogleApiClientConnectorImpl(ContextProvider contextProvider,
+                                      GoogleApiPermissionChecker googleApiPermissionChecker, OrchextraLogger orchextraLogger) {
     this.contextProvider = contextProvider;
     this.googleApiPermissionChecker = googleApiPermissionChecker;
     this.orchextraLogger = orchextraLogger;

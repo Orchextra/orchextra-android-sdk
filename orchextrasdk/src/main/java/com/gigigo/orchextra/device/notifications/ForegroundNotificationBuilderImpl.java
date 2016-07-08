@@ -30,14 +30,14 @@ import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.ui.dialogs.DialogOneOption;
 import com.gigigo.orchextra.ui.dialogs.DialogTwoOptions;
 
-public class ForegroundNotificationBuilderImp implements ForegroundNotificationBuilder {
+public class ForegroundNotificationBuilderImpl implements ForegroundNotificationBuilder {
 
     private final ContextProvider contextProvider;
 
     private ActionDispatcherListener actionDispatcherListener;
     private BasicAction action;
 
-    public ForegroundNotificationBuilderImp(ContextProvider contextProvider) {
+    public ForegroundNotificationBuilderImpl(ContextProvider contextProvider) {
         this.contextProvider = contextProvider;
     }
 

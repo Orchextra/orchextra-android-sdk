@@ -2,7 +2,7 @@ package com.gigigo.orchextra.android.proximity.geofencing;
 
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
-import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegisterImp;
+import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceRegisterImpl;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceDeviceRegister;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
@@ -31,18 +31,18 @@ public class AndroidGeofenceManagerTest {
 
     @Mock GeofenceController geofenceController;
 
-    private AndroidGeofenceRegisterImp androidGeofenceRegisterImp;
+    private AndroidGeofenceRegisterImpl androidGeofenceRegisterImpl;
 
     @Before
     public void setUp() throws Exception {
-        androidGeofenceRegisterImp = new AndroidGeofenceRegisterImp(geofenceDeviceRegister, configObservable, geofenceController);
+        androidGeofenceRegisterImpl = new AndroidGeofenceRegisterImpl(geofenceDeviceRegister, configObservable, geofenceController);
     }
 
     @Test
     public void shouldRegisterGeofencesWhenIsFillGeofenceList() throws Exception {
         doNothing().when(geofenceDeviceRegister).register(any(OrchextraGeofenceUpdates.class));
 
-        androidGeofenceRegisterImp.registerGeofences(any(OrchextraGeofenceUpdates.class));
+        androidGeofenceRegisterImpl.registerGeofences(any(OrchextraGeofenceUpdates.class));
 
         verify(geofenceDeviceRegister).register(any(OrchextraGeofenceUpdates.class));
     }
@@ -51,7 +51,7 @@ public class AndroidGeofenceManagerTest {
     public void shouldStartGeofenceRegister() throws Exception {
         doNothing().when(configObservable).registerObserver(any(Observer.class));
 
-        androidGeofenceRegisterImp.startGeofenceRegister();
+        androidGeofenceRegisterImpl.startGeofenceRegister();
 
         verify(configObservable).registerObserver(any(Observer.class));
     }
@@ -60,9 +60,9 @@ public class AndroidGeofenceManagerTest {
     public void shouldStartGeofenceRegisterOnlyOnce() throws Exception {
         doNothing().when(configObservable).registerObserver(any(Observer.class));
 
-        androidGeofenceRegisterImp.startGeofenceRegister();
+        androidGeofenceRegisterImpl.startGeofenceRegister();
 
-        androidGeofenceRegisterImp.startGeofenceRegister();
+        androidGeofenceRegisterImpl.startGeofenceRegister();
 
         verify(configObservable).registerObserver(any(Observer.class));
     }
@@ -71,7 +71,7 @@ public class AndroidGeofenceManagerTest {
     public void shouldDoNothingWhenIsNotInitializated() throws Exception {
         doNothing().when(configObservable).removeObserver(any(Observer.class));
 
-        androidGeofenceRegisterImp.stopGeofenceRegister();
+        androidGeofenceRegisterImpl.stopGeofenceRegister();
 
         verify(configObservable, never()).removeObserver(any(Observer.class));
     }
@@ -81,8 +81,8 @@ public class AndroidGeofenceManagerTest {
         doNothing().when(configObservable).registerObserver(any(Observer.class));
         doNothing().when(configObservable).removeObserver(any(Observer.class));
 
-        androidGeofenceRegisterImp.startGeofenceRegister();
-        androidGeofenceRegisterImp.stopGeofenceRegister();
+        androidGeofenceRegisterImpl.startGeofenceRegister();
+        androidGeofenceRegisterImpl.stopGeofenceRegister();
 
         verify(configObservable).registerObserver(any(Observer.class));
         verify(configObservable).removeObserver(any(Observer.class));

@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +40,7 @@ public class GeofenceRealmMapperTest {
         RealmPoint realmPoint = new RealmPoint();
         realmPoint.setLat(PointBuilder.LAT);
         realmPoint.setLng(PointBuilder.LNG);
-        when(realmPointMapper.modelToExternalClass(any(OrchextraPoint.class))).thenReturn(realmPoint);
+        when(realmPointMapper.modelToExternalClass(any(OrchextraLocationPoint.class))).thenReturn(realmPoint);
 
         RealmList<KeyWordRealm> keyWordRealmList = new RealmList<>();
         KeyWordRealm keyWordRealm = new KeyWordRealm();
@@ -69,7 +69,7 @@ public class GeofenceRealmMapperTest {
     public void shouldMapDataToModel() throws Exception {
         GeofenceRealm geofenceRealm = GeofenceRealmBuilder.Builder().build();
 
-        OrchextraPoint realmPoint = new OrchextraPoint();
+        OrchextraLocationPoint realmPoint = new OrchextraLocationPoint();
         realmPoint.setLat(PointRealmBuilder.LAT);
         realmPoint.setLng(PointRealmBuilder.LNG);
         when(realmPointMapper.externalClassToModel(any(RealmPoint.class))).thenReturn(realmPoint);

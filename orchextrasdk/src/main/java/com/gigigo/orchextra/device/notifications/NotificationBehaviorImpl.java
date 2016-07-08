@@ -29,7 +29,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
-public class NotificationBehaviorImp implements NotificationBehavior {
+public class NotificationBehaviorImpl implements NotificationBehavior {
 
     private final AppRunningMode appRunningMode;
     private final ForegroundNotificationBuilder foregroundNotificationBuilder;
@@ -38,10 +38,10 @@ public class NotificationBehaviorImp implements NotificationBehavior {
 
     private ActionDispatcherListener actionDispatcherListener;
 
-    public NotificationBehaviorImp(AppRunningMode appRunningMode,
-                                   ForegroundNotificationBuilder foregroundNotificationBuilder,
-                                   NotificationBuilder backgroundNotificationBuilder,
-                                   ContextProvider contextProvider) {
+    public NotificationBehaviorImpl(AppRunningMode appRunningMode,
+                                    ForegroundNotificationBuilder foregroundNotificationBuilder,
+                                    NotificationBuilder backgroundNotificationBuilder,
+                                    ContextProvider contextProvider) {
         this.appRunningMode = appRunningMode;
         this.foregroundNotificationBuilder = foregroundNotificationBuilder;
         this.backgroundNotificationBuilder = backgroundNotificationBuilder;

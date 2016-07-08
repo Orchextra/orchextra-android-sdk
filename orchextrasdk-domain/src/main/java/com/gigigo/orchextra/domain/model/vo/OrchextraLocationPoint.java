@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.domain.model.vo;
 
-public class OrchextraPoint {
+public class OrchextraLocationPoint {
 
     public static final int EARTH_RADIUS = 6371;
 
@@ -42,7 +42,7 @@ public class OrchextraPoint {
     }
 
     //region useless
-    public double getDistanceFromPointInKm(OrchextraPoint point) {
+    public double getDistanceFromPointInKm(OrchextraLocationPoint point) {
         int earthRadius = EARTH_RADIUS;
 
         double dLat = deg2rad(point.getLat() - this.lat);  // deg2rad below

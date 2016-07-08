@@ -29,7 +29,7 @@ import android.util.Log;
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.ORCUser;
+import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserController;
@@ -50,7 +50,6 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAc
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
-import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
@@ -170,7 +169,7 @@ public class OrchextraManager {
      *
      * @param user information about client app user
      */
-    public static synchronized void setUser(ORCUser user) {
+    public static synchronized void setUser(CrmUser user) {
         OrchextraManager orchextraManager = OrchextraManager.instance;
         if (AndroidSdkVersion.hasJellyBean18()) {
             if (orchextraManager != null) {
@@ -178,7 +177,7 @@ public class OrchextraManager {
                 OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
                 SaveCrmUserController saveCrmUserController = orchextraManager.saveCrmUserController;
 
-                CrmUser crmUser = orcUserToCrmConverter.convertOrcUserToCrm(user);
+                com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = orcUserToCrmConverter.convertOrcUserToCrm(user);
 
                 if (orchextraManager.orchextraStatusAccessor.isStarted()) {
                     saveCrmUserController.saveUserAndReloadConfig(crmUser);

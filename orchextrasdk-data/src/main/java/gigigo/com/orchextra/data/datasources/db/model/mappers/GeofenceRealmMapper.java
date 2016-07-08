@@ -24,7 +24,7 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
 import com.gigigo.orchextra.domain.model.ProximityItemType;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
@@ -32,7 +32,7 @@ import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 
 public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRealm> {
 
-    private final Mapper<OrchextraPoint, RealmPoint> realmPointMapper;
+    private final Mapper<OrchextraLocationPoint, RealmPoint> realmPointMapper;
     private final KeyWordRealmMapper keyWordRealmMapper;
 
     public GeofenceRealmMapper(Mapper realmPointMapper, KeyWordRealmMapper keyWordRealmMapper) {

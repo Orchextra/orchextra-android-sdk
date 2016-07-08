@@ -124,8 +124,8 @@ public final class Orchextra {
     /**
      * You can define a specific user to associate Orchextra events.
      */
-    public static synchronized void setUser(ORCUser orcUser) {
-        OrchextraManager.setUser(orcUser);
+    public static synchronized void setUser(CrmUser crmUser) {
+        OrchextraManager.setUser(crmUser);
     }
 
     /**
