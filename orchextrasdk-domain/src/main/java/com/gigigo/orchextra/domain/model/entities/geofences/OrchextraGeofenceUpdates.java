@@ -27,13 +27,13 @@ public class OrchextraGeofenceUpdates implements Updates {
     List<OrchextraGeofence> newGeofences;
     List<OrchextraGeofence> deleteGeofences;
 
-    public OrchextraGeofenceUpdates(List< OrchextraGeofence> newGeofences,
-                                    List< OrchextraGeofence> deleteGeofences) {
+    public OrchextraGeofenceUpdates(List<OrchextraGeofence> newGeofences,
+                                    List<OrchextraGeofence> deleteGeofences) {
         setNewGeofences(newGeofences);
         setDeleteGeofences(deleteGeofences);
     }
 
-    public List< OrchextraGeofence> getNewGeofences() {
+    public List<OrchextraGeofence> getNewGeofences() {
         return newGeofences;
     }
 
@@ -41,11 +41,11 @@ public class OrchextraGeofenceUpdates implements Updates {
         this.newGeofences = newGeofences;
     }
 
-    public List< OrchextraGeofence> getDeleteGeofences() {
+    public List<OrchextraGeofence> getDeleteGeofences() {
         return deleteGeofences;
     }
 
-    public void setDeleteGeofences(List< OrchextraGeofence> deleteGeofences) {
+    public void setDeleteGeofences(List<OrchextraGeofence> deleteGeofences) {
         this.deleteGeofences = deleteGeofences;
     }
 
