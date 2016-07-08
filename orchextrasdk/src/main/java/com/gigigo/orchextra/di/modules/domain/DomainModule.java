@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.control.controllers.status.OrchextraStatusManagerImp;
+import com.gigigo.orchextra.control.controllers.status.OrchextraStatusManagerImpl;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
@@ -82,7 +82,7 @@ public class DomainModule {
                                                          LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus,
                                                          UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus,
                                                          ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService) {
-        return new OrchextraStatusManagerImp(session, loadOrchextraDomainServiceStatus,
+        return new OrchextraStatusManagerImpl(session, loadOrchextraDomainServiceStatus,
                 updateOrchextraDomainServiceStatus, clearOrchextraCredentialsDomainService);
     }
 

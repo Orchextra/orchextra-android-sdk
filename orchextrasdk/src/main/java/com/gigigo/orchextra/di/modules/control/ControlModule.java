@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.di.modules.control;
 
-import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
+import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserController;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
@@ -75,12 +75,12 @@ public class ControlModule {
   }
 
   @Provides @Singleton
-  SaveUserController provideAuthenticationController(
+  SaveCrmUserController provideAuthenticationController(
       InteractorInvoker interactorInvoker,
       @SaveUserInteractorExecution Provider<InteractorExecution> interactorExecutionProvider,
       @MainThread ThreadSpec backThreadSpec, ConfigObservable configObservable, ErrorLogger errorLogger){
 
-    return new SaveUserController(interactorInvoker, interactorExecutionProvider, backThreadSpec, configObservable,
+    return new SaveCrmUserController(interactorInvoker, interactorExecutionProvider, backThreadSpec, configObservable,
         errorLogger);
   }
 

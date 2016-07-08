@@ -20,15 +20,15 @@ package com.gigigo.orchextra.control.controllers.authentication;
 
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 
-public interface SaveUserDelegate {
+public interface SaveCrmUserDelegate {
 
   void init();
 
   void destroy();
 
-  void saveUserSuccessful();
+  void saveCrmUserSuccessful();
 
-  void saveUserError();
+  void saveCrmUserError();
 
-  void saveUser(CrmUser crmUser);
+  void saveCrmUser(CrmUser crmUser);
 }

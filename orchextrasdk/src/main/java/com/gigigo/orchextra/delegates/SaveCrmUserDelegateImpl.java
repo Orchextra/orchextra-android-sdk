@@ -18,43 +18,43 @@
 
 package com.gigigo.orchextra.delegates;
 
-import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
-import com.gigigo.orchextra.control.controllers.authentication.SaveUserDelegate;
+import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserController;
+import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserDelegate;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 
-public class SaveUserDelegateImpl implements SaveUserDelegate {
+public class SaveCrmUserDelegateImpl implements SaveCrmUserDelegate {
 
-  private final SaveUserController saveUserController;
+  private final SaveCrmUserController saveCrmUserController;
   private final OrchextraLogger orchextraLogger;
 
-  public SaveUserDelegateImpl(SaveUserController saveUserController, OrchextraLogger orchextraLogger) {
-    this.saveUserController = saveUserController;
+  public SaveCrmUserDelegateImpl(SaveCrmUserController saveCrmUserController, OrchextraLogger orchextraLogger) {
+    this.saveCrmUserController = saveCrmUserController;
     this.orchextraLogger = orchextraLogger;
   }
 
   @Override public void init() {
-    saveUserController.attachView(this);
+    saveCrmUserController.attachView(this);
   }
 
   @Override public void destroy() {
-    saveUserController.detachView();
+    saveCrmUserController.detachView();
   }
 
-  @Override public void saveUserSuccessful() {
+  @Override public void saveCrmUserSuccessful() {
     destroy();
   }
 
-  @Override public void saveUserError() {
+  @Override public void saveCrmUserError() {
     orchextraLogger.log("Save user was not successful", OrchextraSDKLogLevel.ERROR);
     destroy();
   }
 
   @Override
-  public void saveUser(CrmUser crmUser) {
+  public void saveCrmUser(CrmUser crmUser) {
     init();
-    saveUserController.saveUserAndReloadConfig(crmUser);
+    saveCrmUserController.saveUserAndReloadConfig(crmUser);
   }
 
 }

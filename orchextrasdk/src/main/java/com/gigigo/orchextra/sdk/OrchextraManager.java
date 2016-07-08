@@ -32,7 +32,7 @@ import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.ORCUser;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.R;
-import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
+import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserController;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
@@ -80,7 +80,7 @@ public class OrchextraManager {
     @Inject
     OrchextraStatusAccessor orchextraStatusAccessor;
     @Inject
-    SaveUserController saveUserController;
+    SaveCrmUserController saveCrmUserController;
     @Inject
     AppRunningMode appRunningMode;
     @Inject
@@ -176,14 +176,14 @@ public class OrchextraManager {
             if (orchextraManager != null) {
 
                 OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
-                SaveUserController saveUserController = orchextraManager.saveUserController;
+                SaveCrmUserController saveCrmUserController = orchextraManager.saveCrmUserController;
 
                 CrmUser crmUser = orcUserToCrmConverter.convertOrcUserToCrm(user);
 
                 if (orchextraManager.orchextraStatusAccessor.isStarted()) {
-                    saveUserController.saveUserAndReloadConfig(crmUser);
+                    saveCrmUserController.saveUserAndReloadConfig(crmUser);
                 } else {
-                    saveUserController.saveUserOnly(crmUser);
+                    saveCrmUserController.saveUserOnly(crmUser);
                 }
             } else {
                 showInitializationError();

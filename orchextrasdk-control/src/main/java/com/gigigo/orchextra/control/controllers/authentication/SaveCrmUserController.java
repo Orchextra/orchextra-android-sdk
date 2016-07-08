@@ -34,16 +34,16 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import orchextra.javax.inject.Provider;
 
 
-public class SaveUserController extends Presenter<SaveUserDelegate> {
+public class SaveCrmUserController extends Presenter<SaveCrmUserDelegate> {
 
   private final InteractorInvoker interactorInvoker;
   private final Provider<InteractorExecution> interactorExecutionProvider;
   private final ConfigObservable configObservable;
   private final ErrorLogger errorLogger;
 
-  public SaveUserController(InteractorInvoker interactorInvoker,
-      Provider<InteractorExecution> interactorExecutionProvider, ThreadSpec mainThreadSpec,
-      ConfigObservable configObservable, ErrorLogger errorLogger) {
+  public SaveCrmUserController(InteractorInvoker interactorInvoker,
+                               Provider<InteractorExecution> interactorExecutionProvider, ThreadSpec mainThreadSpec,
+                               ConfigObservable configObservable, ErrorLogger errorLogger) {
 
     super();
 

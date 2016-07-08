@@ -8,7 +8,7 @@ import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsDoma
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraDomainServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraDomainServiceStatus;
 
-public class OrchextraStatusManagerImp implements OrchextraStatusManager {
+public class OrchextraStatusManagerImpl implements OrchextraStatusManager {
 
     private final Session session;
     private final LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus;
@@ -17,10 +17,10 @@ public class OrchextraStatusManagerImp implements OrchextraStatusManager {
 
     private OrchextraStatus orchextraStatus = null;
 
-    public OrchextraStatusManagerImp(Session session,
-                                     LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus,
-                                     UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus,
-                                     ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService) {
+    public OrchextraStatusManagerImpl(Session session,
+                                      LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus,
+                                      UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus,
+                                      ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService) {
         this.session = session;
         this.loadOrchextraDomainServiceStatus = loadOrchextraDomainServiceStatus;
         this.updateOrchextraDomainServiceStatus = updateOrchextraDomainServiceStatus;
