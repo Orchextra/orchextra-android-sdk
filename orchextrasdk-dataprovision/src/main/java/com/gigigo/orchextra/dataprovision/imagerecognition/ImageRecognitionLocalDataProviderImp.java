@@ -42,7 +42,7 @@ public class ImageRecognitionLocalDataProviderImp implements ImageRecognitionLoc
         return new BusinessObject(configInfoResult.getVuforia(), BusinessError.createOKInstance());
       } else {
         return new BusinessObject(null, BusinessError.createKoInstance(
-            "Image Recognition Module" + " configuration not enabled, review dashboard"));
+            "Image Recognition Module" + " configuration credentials not set or not enabled, review dashboard"));
       }
     } else {
       return new BusinessObject(null, bo.getBusinessError());
