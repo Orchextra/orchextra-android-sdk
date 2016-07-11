@@ -20,11 +20,11 @@ package com.gigigo.orchextra.delegates;
 
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 
-public class ConfigDelegateImp {
+public class ConfigDelegateImpl {
 
   private final ConfigController configController;
 
-  public ConfigDelegateImp(ConfigController configController) {
+  public ConfigDelegateImpl(ConfigController configController) {
     this.configController = configController;
   }
 

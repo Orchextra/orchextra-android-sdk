@@ -21,7 +21,7 @@ import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.PermissionChecker;
-import com.gigigo.orchextra.delegates.ConfigDelegateImp;
+import com.gigigo.orchextra.delegates.ConfigDelegateImpl;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.GoogleApiClientConnectorImpl;
 import com.gigigo.orchextra.device.information.AndroidSdkVersionAppInfo;
@@ -60,8 +60,8 @@ public class DeviceModule {
     @Singleton
     @Provides
     OrchextraTasksManager provideOrchextraTasksManager(BeaconScanner beaconScanner,
-                                                       ConfigDelegateImp configDelegateImp, GeofenceRegister geofenceRegister, OrchextraLogger orchextraLogger) {
-        return new OrchextraTasksManagerImpl(beaconScanner, configDelegateImp, geofenceRegister, orchextraLogger);
+                                                       ConfigDelegateImpl configDelegateImpl, GeofenceRegister geofenceRegister, OrchextraLogger orchextraLogger) {
+        return new OrchextraTasksManagerImpl(beaconScanner, configDelegateImpl, geofenceRegister, orchextraLogger);
     }
 
     @Singleton
