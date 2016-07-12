@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * this class prenteds be a sample of facade pattern
+ * this class pretends be a sample of facade pattern
  */
 public class TriggerActionsFacadeDomainService implements DomainService {
 
