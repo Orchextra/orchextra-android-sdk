@@ -33,10 +33,7 @@ public class ApiConfigData {
     @Expose
     @SerializedName("proximity")
     private List<ApiRegion> proximity;
-    @Deprecated
-    @Expose
-    @SerializedName("theme")
-    private ApiTheme theme;
+
 
     @Expose
     @SerializedName("vuforia")
@@ -62,15 +59,6 @@ public class ApiConfigData {
         this.proximity = proximity;
     }
 
-    @Deprecated
-    public ApiTheme getTheme() {
-        return theme;
-    }
-
-    @Deprecated
-    public void setTheme(ApiTheme theme) {
-        this.theme = theme;
-    }
 
     public ApiVuforiaCredentials getVuforia() {
         return vuforia;

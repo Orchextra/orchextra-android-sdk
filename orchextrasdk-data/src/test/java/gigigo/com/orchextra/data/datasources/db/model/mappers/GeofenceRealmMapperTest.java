@@ -16,7 +16,6 @@ import gigigo.com.orchextra.data.datasources.builders.GeofenceRealmBuilder;
 import gigigo.com.orchextra.data.datasources.builders.PointBuilder;
 import gigigo.com.orchextra.data.datasources.builders.PointRealmBuilder;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
-import gigigo.com.orchextra.data.datasources.db.model.KeyWordRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 import io.realm.RealmList;
 

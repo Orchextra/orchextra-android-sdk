@@ -18,7 +18,7 @@ public interface GoogleApiClientConnector extends GoogleApiClient.ConnectionCall
 
     void setOnConnectedListener(OnConnectedListener onConnectedListener);
 
-    public interface OnConnectedListener {
+    interface OnConnectedListener {
         void onConnected(Bundle bundle);
 
         void onConnectionFailed(ConnectionResult connectionResult);

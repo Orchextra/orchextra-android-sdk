@@ -26,7 +26,6 @@ import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofencesProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.imagerecognition.GetImageRecognitionCredentialsInteractor;
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
-import com.gigigo.orchextra.domain.interactors.themes.ObtainThemeInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 
 public interface InteractorsModuleProvider {
@@ -36,7 +35,7 @@ public interface InteractorsModuleProvider {
   BeaconEventsInteractor provideBeaconEventsInteractor();
   GeofenceInteractor provideGeofenceInteractor();
   GeofencesProviderInteractor provideGeofenceProviderInteractor();
-  ObtainThemeInteractor provideObtainThemeInteractor();
+
   GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor();
   ScannerInteractor provideScannerInteractor();
   ClearLocalStorageInteractor provideClearLocalStorageInteractor();

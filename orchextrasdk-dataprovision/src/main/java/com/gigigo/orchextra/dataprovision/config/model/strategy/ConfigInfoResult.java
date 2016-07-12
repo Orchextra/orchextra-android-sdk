@@ -21,7 +21,7 @@ package com.gigigo.orchextra.dataprovision.config.model.strategy;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.domain.model.vo.Theme;
+
 import java.util.List;
 
 
@@ -30,9 +30,6 @@ public class ConfigInfoResult {
   private RegionList regions;
   private GeofenceList geofences;
   private VuforiaReady vuforia;
-  @Deprecated
-  private SupportsTheme theme;
-
   private int requestWaitTime;
 
   public List<OrchextraGeofence> getGeofences() {
@@ -45,14 +42,6 @@ public class ConfigInfoResult {
 
   public VuforiaCredentials getVuforia() {
     return vuforia.getVuforiaCredentials();
-  }
-  @Deprecated
-  public Theme getTheme() {
-    return theme.getTheme();
-  }
-  @Deprecated
-  public boolean supportsTheme() {
-    return theme.isSupported();
   }
 
   public boolean supportsVuforia() {
@@ -86,26 +75,20 @@ public class ConfigInfoResult {
   public void setVuforia(VuforiaReady vuforia) {
     this.vuforia = vuforia;
   }
-  @Deprecated
-  public void setTheme(SupportsTheme theme) {
-    this.theme = theme;
-  }
 
   public static class Builder {
 
     private List<OrchextraGeofence> geoMarketing;
     private List<OrchextraRegion> proximity;
-    private Theme theme;
     private int requestWaitTime;
     private VuforiaCredentials vuforiaCredentials;
 
     public Builder(int requestWaitTime, List<OrchextraGeofence> geoMarketing,
-        List<OrchextraRegion> proximity, Theme theme,
+        List<OrchextraRegion> proximity,
         VuforiaCredentials vuforiaCredentials) {
 
       this.geoMarketing = geoMarketing;
       this.proximity = proximity;
-      this.theme = theme;
       this.requestWaitTime = requestWaitTime;
       this.vuforiaCredentials = vuforiaCredentials;
     }
@@ -117,7 +100,6 @@ public class ConfigInfoResult {
       configInfoResult.setRequestWaitTime(requestWaitTime);
       configInfoResult.setRegions(new RealRegionListImpl(proximity));
       configInfoResult.setGeofences(new RealGeofenceListImpl(geoMarketing));
-      configInfoResult.setTheme(new RealSupportsThemeImpl(theme));
       configInfoResult.setVuforia(new VuforiaReadyImpl(vuforiaCredentials));
 
       return configInfoResult;

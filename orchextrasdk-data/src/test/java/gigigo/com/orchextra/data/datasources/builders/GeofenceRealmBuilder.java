@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
-import gigigo.com.orchextra.data.datasources.db.model.KeyWordRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 import io.realm.RealmList;
 

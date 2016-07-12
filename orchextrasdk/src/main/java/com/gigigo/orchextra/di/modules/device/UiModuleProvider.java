@@ -23,6 +23,5 @@ import com.gigigo.orchextra.ui.scanner.OxScannerActivity;
 
 public interface UiModuleProvider {
     void injectCodeScannerActivity(OxScannerActivity oxCodeScannerActivity);
-
     OxCodeScannerPresenter provideOxCodeScannerPresenter();
 }

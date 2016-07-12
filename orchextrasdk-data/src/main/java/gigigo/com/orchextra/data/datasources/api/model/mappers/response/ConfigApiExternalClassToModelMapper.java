@@ -24,7 +24,6 @@ import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,17 +40,14 @@ public class ConfigApiExternalClassToModelMapper
 
   private final GeofenceExternalClassToModelMapper geofenceResponseMapper;
   private final BeaconExternalClassToModelMapper beaconResponseMapper;
-  @Deprecated
-  private final ThemeExternalClassToModelMapper themeResponseMapper;
+
   private final VuforiaExternalClassToModelMapper vuforiaResponseMapper;
-  @Deprecated
+
   public ConfigApiExternalClassToModelMapper(
       VuforiaExternalClassToModelMapper vuforiaResponseMapper,
-      ThemeExternalClassToModelMapper themeResponseMapper,
       BeaconExternalClassToModelMapper beaconResponseMapper,
       GeofenceExternalClassToModelMapper geofenceResponseMapper) {
     this.vuforiaResponseMapper = vuforiaResponseMapper;
-    this.themeResponseMapper = themeResponseMapper;
     this.beaconResponseMapper = beaconResponseMapper;
     this.geofenceResponseMapper = geofenceResponseMapper;
   }
@@ -60,12 +56,12 @@ public class ConfigApiExternalClassToModelMapper
 
     List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
     List<OrchextraGeofence> geofences = mapGeofences(apiConfigData.getGeoMarketing());
-    Theme theme = MapperUtils.checkNullDataResponse(themeResponseMapper, apiConfigData.getTheme());
+
     VuforiaCredentials vuforiaCredentials =
         MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
     return new ConfigInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND, geofences,
-        beacons, theme, vuforiaCredentials).build();
+        beacons, vuforiaCredentials).build();
   }
 
   private List<OrchextraGeofence> mapGeofences(List<ApiGeofence> apiGeofences) {

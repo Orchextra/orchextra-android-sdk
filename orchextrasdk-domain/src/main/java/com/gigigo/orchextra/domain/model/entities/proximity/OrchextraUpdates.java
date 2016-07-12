@@ -21,26 +21,23 @@ package com.gigigo.orchextra.domain.model.entities.proximity;
 import com.gigigo.orchextra.domain.model.entities.Updates;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 
 public class OrchextraUpdates implements Updates {
 
     private OrchextraBeaconUpdates orchextraBeaconUpdates;
     private OrchextraGeofenceUpdates orchextraGeofenceUpdates;
     private VuforiaCredentials vuforiaCredentialsUpdates;
-    @Deprecated
-    private Theme themeUpdates;
+
 
     @Deprecated
     public OrchextraUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates,
                              OrchextraGeofenceUpdates orchextraGeofenceChanges,
-                            VuforiaCredentials vuforiaCredentialsChanges,
-                            Theme themeChanges) {
+                            VuforiaCredentials vuforiaCredentialsChanges ) {
 
         setOrchextraBeaconUpdates(orchextraBeaconUpdates);
         setOrchextraGeofenceUpdates(orchextraGeofenceChanges);
         setVuforiaCredentialsUpdates(vuforiaCredentialsChanges);
-        setThemeUpdates(themeChanges);
+
     }
 
     public OrchextraUpdates() {
@@ -71,21 +68,12 @@ public class OrchextraUpdates implements Updates {
         this.vuforiaCredentialsUpdates = vuforiaCredentialsUpdates;
     }
 
-    @Deprecated
-    public Theme getThemeUpdates() {
-        return themeUpdates;
-    }
-
-    @Deprecated
-    public void setThemeUpdates(Theme themeUpdates) {
-        this.themeUpdates = themeUpdates;
-    }
 
     @Override
     public boolean hasChanges() {
         return (orchextraBeaconUpdates != null && orchextraBeaconUpdates.hasChanges())
                 || (orchextraGeofenceUpdates != null && orchextraGeofenceUpdates.hasChanges())
                 || vuforiaCredentialsUpdates != null
-                || themeUpdates != null;
+                 ;
     }
 }

@@ -82,11 +82,8 @@ public class ConfigVuforiaCredentialsUpdater {
     String secretKey = (vuforiaCredentialsRealm.getClientSecretKey() != null)? vuforiaCredentialsRealm.getClientSecretKey() : "";
     String license = (vuforiaCredentialsRealm.getLicenseKey() != null)? vuforiaCredentialsRealm.getLicenseKey() : "";
 
-    if (!oldAccessKey.equals(accessKey) || !oldSecretKey.equals(secretKey) || !oldLicense.equals(license)){
-      return false;
-    }
+    return !(!oldAccessKey.equals(accessKey) || !oldSecretKey.equals(secretKey) || !oldLicense.equals(license));
 
-    return true;
   }
 
   public void removeVuforia(Realm realm) {

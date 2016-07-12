@@ -26,7 +26,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import gigigo.com.orchextra.data.datasources.db.proximity.ProximityEventsUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigRegionUpdater;
@@ -48,13 +47,11 @@ import gigigo.com.orchextra.data.datasources.db.proximity.RegionEventsReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigGeofenceUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
-import gigigo.com.orchextra.data.datasources.db.config.ConfigThemeUpdater;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsReader;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsUpdater;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
-import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthCredentialsRealmMapper;
@@ -106,20 +103,14 @@ public class DBModule {
         return new ConfigVuforiaCredentialsUpdater(vuforiaRealmMapper);
     }
 
-    @Deprecated
-    @Singleton
-    @Provides
-    ConfigThemeUpdater provideConfigThemeUpdater(Mapper<Theme, ThemeRealm> themeRealmMapper) {
-        return new ConfigThemeUpdater(themeRealmMapper);
-    }
 
     @Singleton
     @Provides
     ConfigInfoResultUpdater provideConfigInfoResultUpdater(ConfigRegionUpdater configRegionUpdater,
                                                            ConfigGeofenceUpdater configGeofenceUpdater,
-                                                           ConfigVuforiaCredentialsUpdater configVuforiaCredentialsUpdater,
-                                                           ConfigThemeUpdater configThemeUpdater) {
-        return new ConfigInfoResultUpdater(configRegionUpdater, configGeofenceUpdater, configVuforiaCredentialsUpdater, configThemeUpdater);
+                                                           ConfigVuforiaCredentialsUpdater configVuforiaCredentialsUpdater
+                                                          ) {
+        return new ConfigInfoResultUpdater(configRegionUpdater, configGeofenceUpdater, configVuforiaCredentialsUpdater);
     }
 
     @Singleton
@@ -127,9 +118,8 @@ public class DBModule {
     ConfigInfoResultReader provideConfigInfoResultReader(@RealmMapperBeaconRegion Mapper<OrchextraRegion, RegionRealm> regionRealmMapper,
                                                          Mapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper,
                                                          Mapper<VuforiaCredentials, VuforiaCredentialsRealm> vuforiaRealmMapper,
-                                                         Mapper<Theme, ThemeRealm> themeRealmMapper, OrchextraLogger orchextraLogger) {
-        return new ConfigInfoResultReader(regionRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, themeRealmMapper,
-                orchextraLogger);
+                                                          OrchextraLogger orchextraLogger) {
+        return new ConfigInfoResultReader(regionRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, orchextraLogger);
     }
 
     @Singleton

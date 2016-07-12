@@ -39,11 +39,6 @@ public class ApiCrmUser {
     private String birthDate;
 
     @Expose
-    @SerializedName("keywords")
-    @Deprecated
-    private List<String> keywords;
-
-    @Expose
     @SerializedName("tags")
     @Deprecated
     private List<String> tags;
@@ -62,16 +57,6 @@ public class ApiCrmUser {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
-    }
-
-    @Deprecated
-    public List<String> getKeywords() {
-        return keywords;
-    }
-
-    @Deprecated
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
     }
 
     public String getCrmId() {

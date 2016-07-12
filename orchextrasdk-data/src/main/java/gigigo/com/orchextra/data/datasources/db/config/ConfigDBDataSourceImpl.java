@@ -28,7 +28,6 @@ import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import java.util.List;
 
@@ -96,21 +95,6 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
       realm.close();
     }
     return new BusinessObject<>(regions, BusinessError.createOKInstance());
-  }
-  @Deprecated
-  @Override
-  public BusinessObject<Theme> obtainTheme() {
-    Realm realm = realmDefaultInstance.createRealmInstance(context);
-    try {
-      Theme theme = configInfoResultReader.getTheme(realm);
-      return new BusinessObject<>(theme, BusinessError.createOKInstance());
-    } catch (NotFountRealmObjectException | RealmException re) {
-      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-    } finally {
-      if (realm != null) {
-        realm.close();
-      }
-    }
   }
 
   @Override public BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister() {

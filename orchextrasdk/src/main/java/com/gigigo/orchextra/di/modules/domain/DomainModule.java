@@ -31,7 +31,6 @@ import com.gigigo.orchextra.di.qualifiers.CrmValidation;
 import com.gigigo.orchextra.di.qualifiers.GeofenceInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GeofenceProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.GetIrCredentialsInteractorExecution;
-import com.gigigo.orchextra.di.qualifiers.ObtainThemeInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
@@ -169,16 +168,7 @@ public class DomainModule {
         return interactorExecution;
     }
 
-    @Deprecated
-    @ObtainThemeInteractorExecution
-    @Provides
-    InteractorExecution provideObtainThemeInteractorExecution() {
-        InteractorExecution interactorExecution = new InteractorExecution();
-        InteractorExecutionComponent interactorExecutionComponent = OrchextraManager.getInjector().injectObtainThemeInteractorExecution(
-                interactorExecution);
-        interactorExecution.setInteractor(interactorExecutionComponent.provideObtainThemeInteractor());
-        return interactorExecution;
-    }
+
 
     @GetIrCredentialsInteractorExecution
     @Provides

@@ -32,20 +32,14 @@ public abstract class OxToolbarActivity extends AppCompatActivity {
 
     public void initMainViews() {
         initMainUi();
-        setMainTheme();
+
     }
 
     public void initMainUi() {
         closeToolbarButton = (ImageView) findViewById(R.id.closeToolbarButton);
         titleToolbar = (TextView) findViewById(R.id.titleToolbar);
     }
-    @Deprecated
-    public void setMainTheme() {
-        titleToolbar.setText(getResources().getString(getToolbarTitle()));
-        titleToolbar.setTextColor(getResources().getColor(R.color.ox_toolbar_title_color));
-        closeToolbarButton.setImageResource(R.drawable.ox_close);
-        closeToolbarButton.setOnClickListener(onCloseToolbarButtonListener);
-    }
+
 
     protected abstract int getToolbarTitle();
 

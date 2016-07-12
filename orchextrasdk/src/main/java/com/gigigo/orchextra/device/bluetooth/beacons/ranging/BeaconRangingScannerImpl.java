@@ -328,11 +328,11 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   //endregion
   // region Background scanning time
   @Override public BackgroundBeaconsRangingTimeType getBackgroundBeaconsRangingTimeType() {
-    if (this.backgroundBeaconsRangingTimeType == BackgroundBeaconsRangingTimeType.INFINITE) {
+    if (backgroundBeaconsRangingTimeType == BackgroundBeaconsRangingTimeType.INFINITE) {
       orchextraLogger.log("WARNING --> INFINITE Background Beacons Ranging Time Type could provoke "
           + "an extremely drain of you battery use MAX instead", OrchextraSDKLogLevel.WARN);
     }
-    return this.backgroundBeaconsRangingTimeType;
+    return backgroundBeaconsRangingTimeType;
   }
 
   @Override public boolean isRanging() {

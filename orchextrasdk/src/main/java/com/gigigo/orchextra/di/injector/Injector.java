@@ -36,7 +36,6 @@ import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.sdk.background.OrchextraBootBroadcastReceiver;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
@@ -57,8 +56,6 @@ public interface Injector {
   InteractorExecutionComponent injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
   InteractorExecutionComponent injectGeofenceProviderInteractorExecution(InteractorExecution<List<OrchextraGeofence>> interactorExecution);
   GcmListenerServiceComponent injectGcmListenerServiceComponent(OrchextraGcmListenerService orchextraGcmListenerService);
-  @Deprecated
-  InteractorExecutionComponent injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
   InteractorExecutionComponent injectObtainIrCredentialsInteractorExecution(InteractorExecution<VuforiaCredentials> interactorExecution);
 
   InteractorExecutionComponent injectScannerInteractorExecution(InteractorExecution<BasicAction> interactorExecution);

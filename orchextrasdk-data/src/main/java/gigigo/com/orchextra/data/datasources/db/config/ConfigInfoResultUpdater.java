@@ -23,7 +23,7 @@ import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
+
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import io.realm.Realm;
 
@@ -33,16 +33,14 @@ public class ConfigInfoResultUpdater {
   private final ConfigRegionUpdater beaconUpdater;
   private final ConfigGeofenceUpdater geofenceUpdater;
   private final ConfigVuforiaCredentialsUpdater vuforiaUpdater;
-  @Deprecated
-  private final ConfigThemeUpdater themeUpdater;
+
 
   public ConfigInfoResultUpdater(ConfigRegionUpdater beaconUpdater,
-      ConfigGeofenceUpdater geofenceUpdater, ConfigVuforiaCredentialsUpdater vuforiaUpdater,
-      ConfigThemeUpdater themeUpdater) {
+      ConfigGeofenceUpdater geofenceUpdater, ConfigVuforiaCredentialsUpdater vuforiaUpdater) {
     this.beaconUpdater = beaconUpdater;
     this.geofenceUpdater = geofenceUpdater;
     this.vuforiaUpdater = vuforiaUpdater;
-    this.themeUpdater = themeUpdater;
+
   }
 
   public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigInfoResult config) {
@@ -57,10 +55,9 @@ public class ConfigInfoResultUpdater {
 
     VuforiaCredentials vuforiaCredentialsChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
 
-    Theme themeChanges = themeUpdater.saveTheme(realm, config.getTheme());
 
-    return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges,
-        themeChanges);
+
+    return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges);
   }
 
   public void saveRequestWaitTime(Realm realm, ConfigInfoResult config) {
@@ -75,7 +72,7 @@ public class ConfigInfoResultUpdater {
     beaconUpdater.removeRegions(realm);
     geofenceUpdater.removeGeofences(realm);
     vuforiaUpdater.removeVuforia(realm);
-    themeUpdater.removeTheme(realm);
+
     realm.commitTransaction();
   }
 }

@@ -56,7 +56,6 @@ import com.gigigo.orchextra.domain.services.geofences.FutureGeolocation;
 import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsDomainService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerDomainService;
-import com.gigigo.orchextra.domain.services.themes.ThemeService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerDomainService;
 
 import orchextra.dagger.Module;
@@ -177,12 +176,7 @@ public class DomainServicesModule {
         return new FutureGeolocation();
     }
 
-    @Deprecated
-    @Provides
-    @PerExecution
-    ThemeService provideThemeService(ConfigDataProvider configDataProvider) {
-        return new ThemeService(configDataProvider);
-    }
+
 
     @Provides
     @PerExecution

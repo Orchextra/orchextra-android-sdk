@@ -70,7 +70,8 @@ public class OrchextraModule {
   @Provides
   @Singleton
   OrchextraActivityLifecycle provideOrchextraActivityLifecycle(
-          AppRunningMode appRunningMode, OrchextraContextProvider contextProvider,
+          AppRunningMode appRunningMode,
+          OrchextraContextProvider contextProvider,
           AppStatusEventsListener appStatusEventsListener,
           NotificationDispatcher notificationDispatcher,
           OrchextraLogger orchextraLogger) {

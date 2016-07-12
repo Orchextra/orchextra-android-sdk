@@ -53,7 +53,6 @@ import static org.junit.Assert.assertTrue;
   @Test public void shouldvalidateAllTags() {
     int size = validTagsArrayList().size();
     crmUser.setTags(validTagsArrayList());
-    crmUser.setKeywords(Collections.<String>emptyList());
 
     crmUserFieldsValidator.doValidate(crmUser);
 
@@ -63,7 +62,6 @@ import static org.junit.Assert.assertTrue;
   @Test public void shouldnotValidateAllTags() {
     int size = notValidTagsArrayList().size();
     crmUser.setTags(notValidTagsArrayList());
-    crmUser.setKeywords(Collections.<String>emptyList());
 
     crmUserFieldsValidator.doValidate(crmUser);
 
@@ -73,7 +71,6 @@ import static org.junit.Assert.assertTrue;
   @Test public void shoulValidateAllStrangeTags() {
     int size = allValidStrangeTagsArrayList().size();
     crmUser.setTags(allValidStrangeTagsArrayList());
-    crmUser.setKeywords(Collections.<String>emptyList());
 
     crmUserFieldsValidator.doValidate(crmUser);
 
@@ -82,46 +79,14 @@ import static org.junit.Assert.assertTrue;
   @Deprecated
   @Test public void shouldnotValidateAnyTag() {
     crmUser.setTags(allNotValidTagsArrayList());
-    crmUser.setKeywords(Collections.<String>emptyList());
 
     crmUserFieldsValidator.doValidate(crmUser);
 
     assertTrue(crmUser.getTags().size() == 0);
   }
-  @Deprecated
-  @Test public void shouldvalidateAllKeywords() {
-    int size = validKeywordsArrayList().size();
-    crmUser.setTags(Collections.<CrmTag>emptyList());
-    crmUser.setKeywords(validKeywordsArrayList());
 
-    crmUserFieldsValidator.doValidate(crmUser);
 
-    assertEquals(crmUser.getKeywords().size(), size);
-  }
-  @Deprecated
-  private List<String> validKeywordsArrayList() {
-    List<String> keywords = new ArrayList<>();
-    keywords.add("Hello");
-    keywords.add("World");
-    return keywords;
-  }
-  @Deprecated
-  @Test public void shouldnotValidateAllKeywords() {
-    int size = notValidKeywordsArrayList().size();
-    crmUser.setTags(Collections.<CrmTag>emptyList());
-    crmUser.setKeywords(notValidKeywordsArrayList());
 
-    crmUserFieldsValidator.doValidate(crmUser);
-
-    assertTrue(crmUser.getKeywords().size() < size);
-  }
-  @Deprecated
-  private List<String> notValidKeywordsArrayList() {
-    List<String> keywords = new ArrayList<>();
-    keywords.add("Hello");
-    keywords.add("Orchextra2.3.0");
-    return keywords;
-  }
   @Deprecated
   private List<CrmTag> validTagsArrayList() {
     List<CrmTag> tags = new ArrayList<>();

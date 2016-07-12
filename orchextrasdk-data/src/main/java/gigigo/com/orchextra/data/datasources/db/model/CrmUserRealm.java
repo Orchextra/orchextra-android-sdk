@@ -30,8 +30,6 @@ public class CrmUserRealm extends RealmObject {
     private String crmId;
     private String gender;
     private String birthDate;
-    @Deprecated
-    private RealmList<KeyWordRealm> keywords;
 
     public String getCrmId() {
         return crmId;
@@ -55,16 +53,6 @@ public class CrmUserRealm extends RealmObject {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
-    }
-
-    @Deprecated
-    public RealmList<KeyWordRealm> getKeywords() {
-        return keywords;
-    }
-
-    @Deprecated
-    public void setKeywords(RealmList<KeyWordRealm> keywords) {
-        this.keywords = keywords;
     }
 
     public void setId(int id) {

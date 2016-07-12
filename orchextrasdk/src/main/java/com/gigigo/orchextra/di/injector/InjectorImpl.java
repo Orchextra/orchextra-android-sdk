@@ -43,7 +43,6 @@ import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.sdk.background.OrchextraBootBroadcastReceiver;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
@@ -148,13 +147,7 @@ public class InjectorImpl implements Injector {
         return interactorExecutionComponent;
     }
 
-    @Deprecated
-    @Override
-    public InteractorExecutionComponent injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution) {
-        InteractorExecutionComponent interactorExecutionComponent = createInteractorExecutionComponent();
-        interactorExecutionComponent.injectObtainThemeInteractorExecution(interactorExecution);
-        return interactorExecutionComponent;
-    }
+
 
     @Override
     public InteractorExecutionComponent injectObtainIrCredentialsInteractorExecution(InteractorExecution<VuforiaCredentials> interactorExecution) {

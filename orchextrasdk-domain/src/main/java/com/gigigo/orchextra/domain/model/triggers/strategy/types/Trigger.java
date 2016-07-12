@@ -75,16 +75,6 @@ public abstract class Trigger {
     return geofenceTrigger;
   }
 
-  @Deprecated public static BeaconTrigger createBeaconTrigger(String id, OrchextraLocationPoint point,
-      AppRunningModeType appRunningModeType, BeaconDistanceType beaconDistType,
-      GeoPointEventType geoPointEventType) {
-
-    BeaconTrigger beaconTrigger =
-        new BeaconTrigger(id, point, appRunningModeType, beaconDistType, geoPointEventType);
-    beaconTrigger.setConcreteBehaviour();
-    return beaconTrigger;
-  }
-
   public static Trigger createQrScanTrigger(String id, OrchextraLocationPoint point) {
     return createScanTrigger(id, TriggerType.QR, point);
   }

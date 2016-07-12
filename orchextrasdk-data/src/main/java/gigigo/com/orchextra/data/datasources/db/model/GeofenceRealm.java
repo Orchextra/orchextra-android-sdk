@@ -34,8 +34,6 @@ public class GeofenceRealm extends RealmObject {
 
   private String id;
   private String name;
-  @Deprecated
-  private RealmList<KeyWordRealm> tags;
   private String type;
   private String createdAt;
   private String updatedAt;
@@ -78,14 +76,6 @@ public class GeofenceRealm extends RealmObject {
 
   public void setName(String name) {
     this.name = name;
-  }
-  @Deprecated
-  public RealmList<KeyWordRealm> getTags() {
-    return tags;
-  }
-  @Deprecated
-  public void setTags(RealmList<KeyWordRealm> tags) {
-    this.tags = tags;
   }
 
   public String getType() {

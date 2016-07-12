@@ -16,7 +16,6 @@ import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiRegion;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiTheme;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiVuforiaCredentials;
 
 import static org.junit.Assert.assertEquals;

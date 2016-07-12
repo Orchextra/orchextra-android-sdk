@@ -29,23 +29,16 @@ public class CrmUser {
   private GenderType gender;
   private Date birthDate;
   @Deprecated
-  private List<String> keywords;
-  @Deprecated
   private List<CrmTag> tags;
 
   public CrmUser() {
   }
-  @Deprecated
-  public CrmUser(String crmId, GenderType gender, Date birthDate, List<String> keywords, List<CrmTag> tags) {
+
+  public CrmUser(String crmId, GenderType gender, Date birthDate) {
     this.crmId = crmId;
     this.gender = gender;
     this.birthDate = birthDate;
-    this.keywords = keywords;
-    this.tags = tags;
-  }
-  @Deprecated
-  public CrmUser(String crmId, GenderType gender, Date birthDate, List<String> keywords) {
-    this(crmId, gender, birthDate, keywords, Collections.EMPTY_LIST);
+
   }
 
   public String getCrmId() {
@@ -71,14 +64,7 @@ public class CrmUser {
   public void setBirthDate(Date birthDate) {
     this.birthDate = birthDate;
   }
-  @Deprecated
-  public List<String> getKeywords() {
-    return keywords;
-  }
-  @Deprecated
-  public void setKeywords(List<String> keywords) {
-    this.keywords = keywords;
-  }
+
   @Deprecated
   public List<CrmTag> getTags() {
     return tags;

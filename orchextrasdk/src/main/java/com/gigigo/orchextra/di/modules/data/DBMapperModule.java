@@ -26,7 +26,6 @@ import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmUserRealmMapper;
@@ -41,7 +40,6 @@ import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
-import gigigo.com.orchextra.data.datasources.db.model.ThemeRealm;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconEventRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.RegionEventRealmMapper;
@@ -50,11 +48,9 @@ import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthCredenti
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.GeofenceEventRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.GeofenceRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.KeyWordRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmPointMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthReamlMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.ThemeRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.VuforiaCredentialsRealmMapper;
 
 
@@ -72,18 +68,7 @@ public class DBMapperModule {
     ClientAuthRealmMapper provideClientAuthRealmMapper() {
         return new ClientAuthRealmMapper();
     }
-    @Deprecated
-    @Singleton
-    @Provides
-    KeyWordRealmMapper provideKeyWordRealmMapper() {
-        return new KeyWordRealmMapper();
-    }
-    @Deprecated
-    @Singleton
-    @Provides
-    CrmUserRealmMapper provideCrmRealmMapper(KeyWordRealmMapper keyWordRealmMapper) {
-        return new CrmUserRealmMapper(keyWordRealmMapper);
-    }
+
 
     @Singleton
     @Provides
@@ -104,10 +89,26 @@ public class DBMapperModule {
         return new RegionRealmMapper();
     }
 
+
+    @Singleton
+    @Provides
+    CrmUserRealmMapper provideCrmUserRealmMapper() {
+        return new CrmUserRealmMapper();
+    }
+
+
+    @Deprecated
+    @Singleton
+    @Provides
+    Mapper<OrchextraGeofence, GeofenceRealm> provideRealmMapperGeofenceRealm(Mapper<OrchextraLocationPoint, RealmPoint> realmPointRealmMapper) {
+        return new GeofenceRealmMapper(realmPointRealmMapper);
+    }
+
+
     @Singleton
     @Provides
     Mapper<OrchextraRegion, RegionEventRealm> provideRealmMapperBeaconRegionEvent(
-        @RealmMapperBeaconRegion Mapper<OrchextraRegion, RegionRealm> realmMapperBeaconRegion) {
+            @RealmMapperBeaconRegion Mapper<OrchextraRegion, RegionRealm> realmMapperBeaconRegion) {
         return new RegionEventRealmMapper(realmMapperBeaconRegion);
     }
 
@@ -122,25 +123,14 @@ public class DBMapperModule {
     Mapper<OrchextraLocationPoint, RealmPoint> provideRealmMapperRealmPoint() {
         return new RealmPointMapper();
     }
-    @Deprecated
-    @Singleton
-    @Provides
-    Mapper<OrchextraGeofence, GeofenceRealm> provideRealmMapperGeofenceRealm(Mapper<OrchextraLocationPoint, RealmPoint> realmPointRealmMapper,
-                                                                         KeyWordRealmMapper keyWordRealmMapper) {
-        return new GeofenceRealmMapper(realmPointRealmMapper, keyWordRealmMapper);
-    }
+
 
     @Singleton
     @Provides
     Mapper<VuforiaCredentials, VuforiaCredentialsRealm> provideRealmMapperVuforiaRealm() {
         return new VuforiaCredentialsRealmMapper();
     }
-    @Deprecated
-    @Singleton
-    @Provides
-    Mapper<Theme, ThemeRealm> provideRealmMapperThemeRealm() {
-        return new ThemeRealmMapper();
-    }
+
 
     @Singleton
     @Provides

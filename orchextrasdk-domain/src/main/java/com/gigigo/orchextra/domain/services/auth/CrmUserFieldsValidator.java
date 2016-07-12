@@ -41,27 +41,9 @@ public class CrmUserFieldsValidator implements Validator<CrmUser> {
 
     @Override
     public void doValidate(CrmUser crmUser) {
-        filterCrmKeywords(crmUser.getKeywords());
         filterCrmTags(crmUser.getTags());
     }
 
-    @Deprecated
-    private void filterCrmKeywords(List<String> keywords) {
-        ListIterator<String> keyListIterator = keywords.listIterator();
-        while (keyListIterator.hasNext()) {
-            String keyword = keyListIterator.next();
-            if (keywordIsNotValid(keyword)) {
-                keyListIterator.remove();
-                errorLogger.log("The provided keyword " + keyword + " is not valid");
-            }
-        }
-    }
-
-    @Deprecated
-    private boolean keywordIsNotValid(String keyword) {
-        String pattern = "^[a-zA-Z][a-zA-Z0-9_]*$";
-        return !Pattern.matches(pattern, keyword);
-    }
 
     @Deprecated
     private void filterCrmTags(List<CrmTag> tags) {

@@ -32,7 +32,6 @@ import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 
 
 public class ConfigDataProviderImpl implements ConfigDataProvider {
@@ -72,7 +71,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
       return new BusinessObject<>(null, configResponse.getBusinessError());
     }
   }
-  @Deprecated
+
   @Override public int obtainRequestTime() {
     BusinessObject<ConfigInfoResult> bo = configDBDataSource.obtainConfigData();
     if (bo.isSuccess()) {
@@ -82,10 +81,6 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
     }
   }
 
-  @Override @Deprecated
-  public BusinessObject<Theme> obtainTheme() {
-    return configDBDataSource.obtainTheme();
-  }
 
   @Override
   public BusinessObject<Boolean> removeLocalStorage() {

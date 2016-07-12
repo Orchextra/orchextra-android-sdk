@@ -20,15 +20,12 @@ package com.gigigo.orchextra.domain.dataprovider;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.model.config.ConfigRequest;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 
 public interface ConfigDataProvider {
 
   BusinessObject sendConfigInfo(ConfigRequest configRequest);
 
   int obtainRequestTime();
-  @Deprecated
-  BusinessObject<Theme> obtainTheme();
 
   BusinessObject<Boolean> removeLocalStorage();
 }

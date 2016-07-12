@@ -47,29 +47,11 @@ public class OrcUserToCrmConverter {
             if (user.getBirthdate() != null) {
                 crmUser.setBirthDate(user.getBirthdate().getTime());
             }
-
-            crmUser.setKeywords(obtainUserKeyWords(user));
             crmUser.setTags(obtainUserTags(user));
-
         }
         return crmUser;
     }
-    @Deprecated
-    private List<String> obtainUserKeyWords(CrmUser user) {
 
-        if (user.getKeywords() != null) {
-            List<String> keywords = new ArrayList<>();
-            for (String keyword : user.getKeywords()) {
-                if (!TextUtils.isEmpty(keyword)) {
-                    keywords.add(keyword);
-                }
-            }
-            return keywords;
-        } else {
-            return Collections.EMPTY_LIST;
-        }
-
-    }
     @Deprecated
     private List<CrmTag> obtainUserTags(CrmUser user) {
 

@@ -209,7 +209,7 @@ public class OrchextraManager {
         OrchextraManager orchextraManager = OrchextraManager.instance;
         if (orchextraManager != null && orchextraManager.orchextraStatusAccessor.isStarted()) {
             orchextraManager.orchextraStatusAccessor.setStoppedStatus();
-            orchextraManager.instance.stopOrchextraTasks();
+            instance.stopOrchextraTasks();
         }
     }
 

@@ -23,7 +23,6 @@ import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 
 import java.util.List;
 
@@ -36,8 +35,6 @@ public interface ConfigDBDataSource {
   BusinessObject<OrchextraGeofence> obtainGeofenceById(String uuid);
 
   BusinessObject<List<OrchextraRegion>> obtainRegionsForScan();
-  @Deprecated
-  BusinessObject<Theme> obtainTheme();
 
   BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister();
 

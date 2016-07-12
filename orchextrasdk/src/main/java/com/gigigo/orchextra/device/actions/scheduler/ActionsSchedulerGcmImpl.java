@@ -38,7 +38,7 @@ import java.util.Date;
 
 public class ActionsSchedulerGcmImpl implements ActionsScheduler {
 
-  private static final long DEFAULT_DELAY_MAX = 3600;
+  private static final long DEFAULT_DELAY_MAX = 300;
   public static final String BUNDLE_TASK_PARAM_NAME = "TASK";
   private static final long ONE_SECOND = 1000;
 

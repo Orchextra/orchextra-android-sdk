@@ -155,7 +155,7 @@ import java.util.Stack;
   private void startForegroundMode() {
     appStatusEventsListener.onForegroundStart();
   }
-
+  //todo notcomplete
   private void prinStatusOfStack(String s) {
     orchextraLogger.log("STACK Status :: " + s);
     orchextraLogger.log("STACK Status :: Elements in Stack :" + activityStack.size());

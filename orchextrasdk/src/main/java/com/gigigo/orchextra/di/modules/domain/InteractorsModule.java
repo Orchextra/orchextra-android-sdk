@@ -28,7 +28,7 @@ import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofencesProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.imagerecognition.GetImageRecognitionCredentialsInteractor;
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
-import com.gigigo.orchextra.domain.interactors.themes.ObtainThemeInteractor;
+
 import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
 import com.gigigo.orchextra.domain.services.actions.EventUpdaterDomainService;
 import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
@@ -42,7 +42,6 @@ import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainServi
 import com.gigigo.orchextra.domain.services.geofences.ObtainGeofencesDomainService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsDomainService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerDomainService;
-import com.gigigo.orchextra.domain.services.themes.ThemeService;
 
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
@@ -101,12 +100,6 @@ public class InteractorsModule {
         return new GeofencesProviderInteractor(obtainGeofencesDomainService);
     }
 
-    @Deprecated
-    @Provides
-    @PerExecution
-    ObtainThemeInteractor provideObtainThemeInteractor(ThemeService themeService) {
-        return new ObtainThemeInteractor(themeService);
-    }
 
 
     @Provides

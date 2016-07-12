@@ -33,11 +33,10 @@ import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRealm> {
 
     private final Mapper<OrchextraLocationPoint, RealmPoint> realmPointMapper;
-    private final KeyWordRealmMapper keyWordRealmMapper;
 
-    public GeofenceRealmMapper(Mapper realmPointMapper, KeyWordRealmMapper keyWordRealmMapper) {
+
+    public GeofenceRealmMapper(Mapper realmPointMapper) {
         this.realmPointMapper = realmPointMapper;
-        this.keyWordRealmMapper = keyWordRealmMapper;
     }
 
     @Override
@@ -53,7 +52,7 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
         geofenceRealm.setNotifyOnEntry(geofence.isNotifyOnEntry());
         geofenceRealm.setNotifyOnExit(geofence.isNotifyOnExit());
         geofenceRealm.setStayTime(geofence.getStayTime());
-        geofenceRealm.setTags(keyWordRealmMapper.stringKeyWordsToRealmList(geofence.getTags()));
+
         if (geofence.getType() != null) {
             geofenceRealm.setType(geofence.getType().getStringValue());
         }
@@ -81,7 +80,6 @@ public class GeofenceRealmMapper implements Mapper<OrchextraGeofence, GeofenceRe
         geofence.setNotifyOnEntry(geofenceRealm.getNotifyOnEntry());
         geofence.setNotifyOnExit(geofenceRealm.getNotifyOnExit());
         geofence.setStayTime(geofenceRealm.getStayTime());
-        geofence.setTags(keyWordRealmMapper.realmKeyWordsToStringList(geofenceRealm.getTags()));
         geofence.setType(ProximityItemType.getProximityPointTypeValue(geofenceRealm.getType()));
 
         geofence.setCreatedAt(DateUtils.stringToDateWithFormat(geofenceRealm.getCreatedAt(),
