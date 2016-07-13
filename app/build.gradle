@@ -84,10 +84,10 @@ configurations {
 }
 
 dependencies {
-    compile project(':orchextrasdk')
+    /*  compile project(':orchextrasdk')*/
 
 //flavour dependencies from project, for test
-/*
+
   play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
   play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
   play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
@@ -95,7 +95,7 @@ dependencies {
   play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
   play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
   play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
-*/
+
     //flavour depencies from maven aar
 /*
     compile('com.github.nuborisar.orchextra-android-sdk:orchextrasdk:2.4.1RC:play8Release@aar')
