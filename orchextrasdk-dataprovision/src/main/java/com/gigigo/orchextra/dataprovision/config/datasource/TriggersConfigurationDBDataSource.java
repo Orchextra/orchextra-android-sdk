@@ -19,18 +19,18 @@
 package com.gigigo.orchextra.dataprovision.config.datasource;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
 import java.util.List;
 
 
-public interface ConfigDBDataSource {
-  OrchextraUpdates saveConfigData(ConfigInfoResult config);
+public interface TriggersConfigurationDBDataSource {
+  OrchextraUpdates saveConfigData(ConfigurationInfoResult config);
 
-  BusinessObject<ConfigInfoResult> obtainConfigData();
+  BusinessObject<ConfigurationInfoResult> obtainConfigData();
 
   BusinessObject<OrchextraGeofence> obtainGeofenceById(String uuid);
 

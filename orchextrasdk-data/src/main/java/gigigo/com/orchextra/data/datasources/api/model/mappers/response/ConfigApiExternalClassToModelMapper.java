@@ -20,7 +20,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
@@ -34,7 +34,7 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 
 
 public class ConfigApiExternalClassToModelMapper
-    implements ExternalClassToModelMapper<ApiConfigData, ConfigInfoResult> {
+    implements ExternalClassToModelMapper<ApiConfigData, ConfigurationInfoResult> {
 
   private static final int ONE_SECOND = 1000;
 
@@ -52,7 +52,7 @@ public class ConfigApiExternalClassToModelMapper
     this.geofenceResponseMapper = geofenceResponseMapper;
   }
 
-  @Override public ConfigInfoResult externalClassToModel(ApiConfigData apiConfigData) {
+  @Override public ConfigurationInfoResult externalClassToModel(ApiConfigData apiConfigData) {
 
     List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
     List<OrchextraGeofence> geofences = mapGeofences(apiConfigData.getGeoMarketing());
@@ -60,7 +60,7 @@ public class ConfigApiExternalClassToModelMapper
     VuforiaCredentials vuforiaCredentials =
         MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
-    return new ConfigInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND, geofences,
+    return new ConfigurationInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND, geofences,
         beacons, vuforiaCredentials).build();
   }
 

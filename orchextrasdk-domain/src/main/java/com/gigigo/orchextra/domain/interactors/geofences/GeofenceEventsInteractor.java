@@ -22,7 +22,7 @@ import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelatedWithRegionAndGeofences;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.services.actions.EventAccessor;
@@ -32,7 +32,7 @@ import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainServi
 
 import java.util.List;
 
-public class GeofenceInteractor
+public class GeofenceEventsInteractor
     implements Interactor<InteractorResponse<List<BasicAction>>>, EventAccessor {
 
   private final TriggerActionsFacadeDomainService triggerActionsFacadeDomainService;
@@ -42,8 +42,8 @@ public class GeofenceInteractor
   private List<String> triggeringGeofenceIds;
   private GeoPointEventType geofenceTransition;
 
-  public GeofenceInteractor(TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
-                            GeofenceCheckerDomainService geofenceCheckerDomainService, EventUpdaterDomainService eventUpdaterDomainService) {
+  public GeofenceEventsInteractor(TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
+                                  GeofenceCheckerDomainService geofenceCheckerDomainService, EventUpdaterDomainService eventUpdaterDomainService) {
 
     this.triggerActionsFacadeDomainService = triggerActionsFacadeDomainService;
     this.geofenceCheckerDomainService = geofenceCheckerDomainService;
@@ -78,7 +78,7 @@ public class GeofenceInteractor
         .getCode()
         .equals(basicAction.getEventCode())) {
       OrchextraGeofence geofence = boGeofence.getData();
-      geofence.setActionRelated(new ActionRelated(basicAction.getScheduledAction().getId(),
+      geofence.setActionRelatedWithRegionAndGeofences(new ActionRelatedWithRegionAndGeofences(basicAction.getScheduledAction().getId(),
           basicAction.getScheduledAction().isCancelable()));
       eventUpdaterDomainService.associateActionToGeofenceEvent(geofence);
     }

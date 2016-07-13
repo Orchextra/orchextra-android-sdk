@@ -22,7 +22,7 @@ import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelatedWithRegionAndGeofences;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.services.actions.EventAccessor;
@@ -41,7 +41,7 @@ public class BeaconEventsInteractor
   private final TriggerActionsFacadeDomainService triggerActionsFacadeDomainService;
   private final EventUpdaterDomainService eventUpdaterDomainService;
 
-  private BeaconEventType eventType;
+  private ProximityEventType eventType;
   private Object data;
 
   public BeaconEventsInteractor(BeaconCheckerDomainService beaconCheckerDomainService,
@@ -71,7 +71,7 @@ public class BeaconEventsInteractor
     }
   }
 
-  public void setEventType(BeaconEventType eventType) {
+  public void setEventType(ProximityEventType eventType) {
     this.eventType = eventType;
   }
     //this store the beacon or the regiaon beacon
@@ -89,7 +89,7 @@ public class BeaconEventsInteractor
     return triggerActionsFacadeDomainService.triggerActions((List<OrchextraBeacon>) response.getResult());
   }
 
-  private InteractorResponse<List<BasicAction>> regionEventResult(BeaconEventType eventType) {
+  private InteractorResponse<List<BasicAction>> regionEventResult(ProximityEventType eventType) {
     OrchextraRegion detectedRegion = (OrchextraRegion) data;
     detectedRegion.setRegionEvent(eventType);
 
@@ -99,7 +99,7 @@ public class BeaconEventsInteractor
       return response;
     }
 
-    if (eventType == BeaconEventType.REGION_EXIT) {
+    if (eventType == ProximityEventType.REGION_EXIT) {
       if (response.getResult() instanceof OrchextraRegion) {
         triggerActionsFacadeDomainService.deleteScheduledActionIfExists(
             (ScheduledActionEvent) response.getResult());
@@ -113,7 +113,7 @@ public class BeaconEventsInteractor
     switch (eventType) {
       case REGION_ENTER:
         OrchextraRegion detectedRegion = (OrchextraRegion) data;
-        detectedRegion.setActionRelated(new ActionRelated(basicAction.getScheduledAction().getId(),
+        detectedRegion.setActionRelatedWithRegionAndGeofences(new ActionRelatedWithRegionAndGeofences(basicAction.getScheduledAction().getId(),
             basicAction.getScheduledAction().isCancelable()));
         eventUpdaterDomainService.associateActionToRegionEvent(detectedRegion);
       case REGION_EXIT:

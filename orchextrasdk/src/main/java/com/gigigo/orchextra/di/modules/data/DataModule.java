@@ -26,7 +26,7 @@ import com.gigigo.orchextra.dataprovision.actions.datasource.ActionsDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.AuthenticationDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraStatusDBDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
-import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
+import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
@@ -49,10 +49,10 @@ import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.TriggersConfigurationDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.proximity.RegionEventsReader;
 import gigigo.com.orchextra.data.datasources.db.proximity.ProximityEventsUpdater;
 import gigigo.com.orchextra.data.datasources.db.proximity.ProximityDBDataSourceImpl;
-import gigigo.com.orchextra.data.datasources.db.config.ConfigDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceDBDataSourceImpl;
@@ -115,11 +115,12 @@ public class DataModule {
         sessionUpdater, sessionReader, realmDefaultInstance);
   }
 
-  @Provides @Singleton ConfigDBDataSource provideConfigDBDataSource(ContextProvider contextProvider,
-      ConfigInfoResultUpdater configInfoResultUpdater,
-      ConfigInfoResultReader configInfoResultReader,
-      RealmDefaultInstance realmDefaultInstance){
-    return new ConfigDBDataSourceImpl(contextProvider.getApplicationContext(),
+  @Provides @Singleton
+  TriggersConfigurationDBDataSource provideConfigDBDataSource(ContextProvider contextProvider,
+                                                              ConfigInfoResultUpdater configInfoResultUpdater,
+                                                              ConfigInfoResultReader configInfoResultReader,
+                                                              RealmDefaultInstance realmDefaultInstance){
+    return new TriggersConfigurationDBDataSourceImpl(contextProvider.getApplicationContext(),
         configInfoResultUpdater, configInfoResultReader, realmDefaultInstance);
   }
 

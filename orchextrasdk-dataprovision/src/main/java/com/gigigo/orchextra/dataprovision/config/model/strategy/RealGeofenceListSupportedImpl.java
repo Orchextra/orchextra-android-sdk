@@ -22,11 +22,11 @@ import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import java.util.List;
 
 
-public class RealGeofenceListImpl implements GeofenceList {
+public class RealGeofenceListSupportedImpl implements GeofenceListSupported {
 
   private List<OrchextraGeofence> geofences;
 
-  public RealGeofenceListImpl(List<OrchextraGeofence> beacons) {
+  public RealGeofenceListSupportedImpl(List<OrchextraGeofence> beacons) {
     this.geofences = beacons;
   }
 

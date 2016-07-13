@@ -19,12 +19,9 @@
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
 import com.gigigo.orchextra.domain.model.MethodSupported;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import java.util.List;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 
-public interface RegionList extends MethodSupported {
-  List<OrchextraRegion> getRegions();
-
-  boolean hasChanged();
+public interface VuforiaCredentialsSupported extends MethodSupported {
+  VuforiaCredentials getVuforiaCredentials();
 }

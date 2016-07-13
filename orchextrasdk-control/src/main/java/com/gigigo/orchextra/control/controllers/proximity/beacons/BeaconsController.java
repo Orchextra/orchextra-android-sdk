@@ -26,7 +26,7 @@ import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
-import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventType;
+import com.gigigo.orchextra.domain.interactors.beacons.ProximityEventType;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconsInteractorError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
@@ -75,7 +75,7 @@ public class BeaconsController {
     BeaconEventsInteractor beaconEventsInteractor =
         (BeaconEventsInteractor) execution.getInteractor();
 
-    beaconEventsInteractor.setEventType(BeaconEventType.BEACONS_DETECTED);
+    beaconEventsInteractor.setEventType(ProximityEventType.BEACONS_DETECTED);
     dispatchBeaconEvent(beacons, execution, beaconEventsInteractor);
   }
 
@@ -84,7 +84,7 @@ public class BeaconsController {
     BeaconEventsInteractor beaconEventsInteractor =
         (BeaconEventsInteractor) execution.getInteractor();
 
-    beaconEventsInteractor.setEventType(BeaconEventType.REGION_ENTER);
+    beaconEventsInteractor.setEventType(ProximityEventType.REGION_ENTER);
     dispatchBeaconEvent(region, execution, beaconEventsInteractor);
   }
 
@@ -93,7 +93,7 @@ public class BeaconsController {
     BeaconEventsInteractor beaconEventsInteractor =
         (BeaconEventsInteractor) execution.getInteractor();
 
-    beaconEventsInteractor.setEventType(BeaconEventType.REGION_EXIT);
+    beaconEventsInteractor.setEventType(ProximityEventType.REGION_EXIT);
     dispatchBeaconEvent(region, execution, beaconEventsInteractor);
   }
 

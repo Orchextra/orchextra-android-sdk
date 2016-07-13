@@ -16,10 +16,15 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.domain.interactors.beacons;
+package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
-public enum BeaconEventType {
-  BEACONS_DETECTED,
-  REGION_ENTER,
-  REGION_EXIT
+import com.gigigo.orchextra.domain.model.MethodSupported;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import java.util.List;
+
+
+public interface RegionListSupported extends MethodSupported {
+  List<OrchextraRegion> getRegions();
+
+  boolean hasChanged();
 }

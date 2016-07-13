@@ -22,9 +22,9 @@ import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
-import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
+import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
 import com.gigigo.orchextra.domain.interactors.error.OrchextraBusinessErrors;
 import com.gigigo.orchextra.domain.model.config.ConfigRequest;
@@ -38,16 +38,16 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
 
   private static final int DEFAULT_REQUEST_TIME = 100000;
   private final ConfigDataSource configDataSource;
-  private final ConfigDBDataSource configDBDataSource;
+  private final TriggersConfigurationDBDataSource triggersConfigurationDBDataSource;
   private final SessionDBDataSource sessionDBDataSource;
   private final Session session;
 
   public ConfigDataProviderImpl(ConfigDataSource configDataSource,
-      ConfigDBDataSource configDBDataSource, SessionDBDataSource sessionDBDataSource,
-      Session session) {
+                                TriggersConfigurationDBDataSource triggersConfigurationDBDataSource, SessionDBDataSource sessionDBDataSource,
+                                Session session) {
 
     this.configDataSource = configDataSource;
-    this.configDBDataSource = configDBDataSource;
+    this.triggersConfigurationDBDataSource = triggersConfigurationDBDataSource;
     this.sessionDBDataSource = sessionDBDataSource;
     this.session = session;
   }
@@ -61,11 +61,11 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
               BusinessContentType.BUSINESS_ERROR_CONTENT));
     }
 
-    BusinessObject<ConfigInfoResult> configResponse = configDataSource.sendConfigInfo(configRequest);
+    BusinessObject<ConfigurationInfoResult> configResponse = configDataSource.sendConfigInfo(configRequest);
 
     if (configResponse.isSuccess()) {
       OrchextraUpdates orchextraUpdates =
-          configDBDataSource.saveConfigData(configResponse.getData());
+          triggersConfigurationDBDataSource.saveConfigData(configResponse.getData());
       return new BusinessObject(orchextraUpdates, BusinessError.createOKInstance());
     } else {
       return new BusinessObject<>(null, configResponse.getBusinessError());
@@ -73,7 +73,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
   }
 
   @Override public int obtainRequestTime() {
-    BusinessObject<ConfigInfoResult> bo = configDBDataSource.obtainConfigData();
+    BusinessObject<ConfigurationInfoResult> bo = triggersConfigurationDBDataSource.obtainConfigData();
     if (bo.isSuccess()) {
       return bo.getData().getRequestWaitTime();
     } else {
@@ -84,7 +84,7 @@ public class ConfigDataProviderImpl implements ConfigDataProvider {
 
   @Override
   public BusinessObject<Boolean> removeLocalStorage() {
-    return configDBDataSource.removeLocalStorage();
+    return triggersConfigurationDBDataSource.removeLocalStorage();
   }
 
   private boolean checkAuthenticationToken() {

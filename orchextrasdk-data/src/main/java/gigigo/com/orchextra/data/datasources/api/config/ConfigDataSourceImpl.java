@@ -24,7 +24,7 @@ import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.mappers.ApiGenericResponseMapper;
 import com.gigigo.ggglib.network.responses.ApiGenericResponse;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.model.config.ConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.model.requests.ApiConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
@@ -52,7 +52,7 @@ public class ConfigDataSourceImpl implements ConfigDataSource {
     this.configModelToExternalClassMapper = configModelToExternalClassMapper;
   }
 
-  @Override public BusinessObject<ConfigInfoResult> sendConfigInfo(ConfigRequest configRequest) {
+  @Override public BusinessObject<ConfigurationInfoResult> sendConfigInfo(ConfigRequest configRequest) {
     ApiServiceExecutor serviceExecutor = serviceExecutorProvider.get();
 
     ApiConfigRequest request =

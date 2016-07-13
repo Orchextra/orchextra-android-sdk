@@ -27,7 +27,7 @@ import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.config.ValidationError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
-import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
@@ -58,10 +58,10 @@ public class SaveCrmUserController extends Presenter<SaveCrmUserDelegate> {
 
   public void saveUserAndReloadConfig(CrmUser crmUser) {
     InteractorExecution interactorExecution = interactorExecutionProvider.get();
-    SaveUserInteractor saveUserInteractor =
-        (SaveUserInteractor) interactorExecution.getInteractor();
-    saveUserInteractor.setCrmUser(crmUser);
-    saveUserInteractor.setHasReloadConfig(true);
+    SaveCrmUserInteractor saveCrmUserInteractor =
+        (SaveCrmUserInteractor) interactorExecution.getInteractor();
+    saveCrmUserInteractor.setCrmUser(crmUser);
+    saveCrmUserInteractor.setHasReloadConfig(true);
 
     interactorExecution.result(new InteractorResult<OrchextraUpdates>() {
       @Override public void onResult(OrchextraUpdates orchextraUpdates) {
@@ -80,10 +80,10 @@ public class SaveCrmUserController extends Presenter<SaveCrmUserDelegate> {
 
   public void saveUserOnly(CrmUser crmUser) {
     InteractorExecution interactorExecution = interactorExecutionProvider.get();
-    SaveUserInteractor saveUserInteractor =
-            (SaveUserInteractor) interactorExecution.getInteractor();
-    saveUserInteractor.setCrmUser(crmUser);
-    saveUserInteractor.setHasReloadConfig(false);
+    SaveCrmUserInteractor saveCrmUserInteractor =
+            (SaveCrmUserInteractor) interactorExecution.getInteractor();
+    saveCrmUserInteractor.setCrmUser(crmUser);
+    saveCrmUserInteractor.setHasReloadConfig(false);
 
     interactorExecution.error(ValidationError.class, new InteractorResult<ValidationError>() {
       @Override public void onResult(ValidationError result) {

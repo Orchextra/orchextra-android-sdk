@@ -18,9 +18,9 @@
 
 package gigigo.com.orchextra.data.datasources.db.config;
 
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegionUpdates;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
@@ -43,11 +43,11 @@ public class ConfigInfoResultUpdater {
 
   }
 
-  public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigInfoResult config) {
+  public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigurationInfoResult config) {
 
     saveRequestWaitTime(realm, config);
 
-    OrchextraBeaconUpdates orchextraBeaconUpdates =
+    OrchextraRegionUpdates orchextraRegionUpdates =
         beaconUpdater.saveRegions(realm, config.getRegions());
 
     OrchextraGeofenceUpdates orchextraGeofenceChanges =
@@ -57,10 +57,10 @@ public class ConfigInfoResultUpdater {
 
 
 
-    return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges);
+    return new OrchextraUpdates(orchextraRegionUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges);
   }
 
-  public void saveRequestWaitTime(Realm realm, ConfigInfoResult config) {
+  public void saveRequestWaitTime(Realm realm, ConfigurationInfoResult config) {
     ConfigInfoResultRealm configInfoResultRealm = new ConfigInfoResultRealm();
     configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
     realm.delete(ConfigInfoResultRealm.class);

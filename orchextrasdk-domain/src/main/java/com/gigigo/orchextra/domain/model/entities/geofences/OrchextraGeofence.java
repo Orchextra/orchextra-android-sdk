@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.domain.model.entities.geofences;
 
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
-import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelatedWithRegionAndGeofences;
 import com.gigigo.orchextra.domain.model.entities.proximity.ProximityItem;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
@@ -30,7 +30,7 @@ public class OrchextraGeofence extends ProximityItem implements ScheduledActionE
   private double distanceToDeviceInKm;
   private String geofenceId;
 
-  private ActionRelated actionRelated;
+  private ActionRelatedWithRegionAndGeofences actionRelatedWithRegionAndGeofences;
 
   public OrchextraLocationPoint getPoint() {
     return point;
@@ -65,22 +65,22 @@ public class OrchextraGeofence extends ProximityItem implements ScheduledActionE
   }
 
   @Override public String getActionRelatedId() {
-    return actionRelated.getActionId();
+    return actionRelatedWithRegionAndGeofences.getActionId();
   }
 
   @Override public boolean hasActionRelated() {
-    return actionRelated != null;
+    return actionRelatedWithRegionAndGeofences != null;
   }
 
-  @Override public void setActionRelated(ActionRelated actionRelated) {
-    this.actionRelated = actionRelated;
+  public void setActionRelatedWithRegionAndGeofences(ActionRelatedWithRegionAndGeofences actionRelatedWithRegionAndGeofences) {
+    this.actionRelatedWithRegionAndGeofences = actionRelatedWithRegionAndGeofences;
   }
 
   @Override public boolean relatedActionIsCancelable() {
-    if (actionRelated == null) {
+    if (actionRelatedWithRegionAndGeofences == null) {
       return false;
     } else {
-      return actionRelated.isCancelable();
+      return actionRelatedWithRegionAndGeofences.isCancelable();
     }
   }
 }

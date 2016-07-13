@@ -18,10 +18,11 @@
 
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.MethodSupported;
-import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+import java.util.List;
 
 
-public interface VuforiaReady extends MethodSupported {
-  VuforiaCredentials getVuforiaCredentials();
+public interface GeofenceListSupported extends MethodSupported {
+  List<OrchextraGeofence> getGeofences();
 }

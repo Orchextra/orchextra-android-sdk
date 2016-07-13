@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.dataprovision.proximity;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
+import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.domain.dataprovider.ProximityAndGeofencesLocalDataProvider;
@@ -31,20 +31,20 @@ import java.util.List;
 
 public class ProximityAndGeofencesLocalDataProviderImp implements ProximityAndGeofencesLocalDataProvider {
 
-  private final ConfigDBDataSource configDBDataSource;
+  private final TriggersConfigurationDBDataSource triggersConfigurationDBDataSource;
   private final ProximityDBDataSource proximityDBDataSource;
   private final GeofenceDBDataSource geofenceDBDataSource;
 
-  public ProximityAndGeofencesLocalDataProviderImp(ConfigDBDataSource configDBDataSource,
+  public ProximityAndGeofencesLocalDataProviderImp(TriggersConfigurationDBDataSource triggersConfigurationDBDataSource,
                                                    ProximityDBDataSource proximityDBDataSource, GeofenceDBDataSource geofenceDBDataSource) {
-    this.configDBDataSource = configDBDataSource;
+    this.triggersConfigurationDBDataSource = triggersConfigurationDBDataSource;
     this.proximityDBDataSource = proximityDBDataSource;
     this.geofenceDBDataSource = geofenceDBDataSource;
   }
 
   @Override
   public BusinessObject<OrchextraGeofence> obtainSavedGeofenceInDatabase(String geofenceId) {
-    return configDBDataSource.obtainGeofenceById(geofenceId);
+    return triggersConfigurationDBDataSource.obtainGeofenceById(geofenceId);
   }
 
   @Override
@@ -71,7 +71,7 @@ public class ProximityAndGeofencesLocalDataProviderImp implements ProximityAndGe
   }
 
   @Override public BusinessObject<List<OrchextraRegion>> getBeaconRegionsForScan() {
-    return configDBDataSource.obtainRegionsForScan();
+    return triggersConfigurationDBDataSource.obtainRegionsForScan();
   }
 
   @Override public BusinessObject<OrchextraRegion> obtainRegion(OrchextraRegion orchextraRegion) {
@@ -100,7 +100,7 @@ public class ProximityAndGeofencesLocalDataProviderImp implements ProximityAndGe
   }
 
   @Override public BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister() {
-    return configDBDataSource.obtainGeofencesForRegister();
+    return triggersConfigurationDBDataSource.obtainGeofencesForRegister();
   }
 
   @Override

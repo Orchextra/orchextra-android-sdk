@@ -18,11 +18,27 @@
 
 package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
-import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.MethodSupported;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.List;
 
 
-public interface GeofenceList extends MethodSupported {
-  List<OrchextraGeofence> getGeofences();
+public class RealRegionListSupportedImpl implements RegionListSupported {
+
+  private List<OrchextraRegion> currentRegions;
+
+  public RealRegionListSupportedImpl(List<OrchextraRegion> regions) {
+    this.currentRegions = regions;
+  }
+
+  @Override public List<OrchextraRegion> getRegions() {
+    return currentRegions;
+  }
+
+  @Override public boolean hasChanged() {
+    return true;
+  }
+
+  @Override public boolean isSupported() {
+    return (currentRegions == null) ? false : true;
+  }
 }

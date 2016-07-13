@@ -18,12 +18,16 @@
 
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
-public class ActionRelated {
+/**
+ * This class only store action id and boolean Is the action cancelable, for when the response comes,
+ * we can do the relationship beetween response schedulable action and the action will be executed
+ */
+public class ActionRelatedWithRegionAndGeofences {
 
   final String actionId;
   final boolean cancelable;
 
-  public ActionRelated(String actionId, boolean cancelable) {
+  public ActionRelatedWithRegionAndGeofences(String actionId, boolean cancelable) {
     this.actionId = actionId;
     this.cancelable = cancelable;
   }

@@ -16,29 +16,14 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.dataprovision.config.model.strategy;
+package com.gigigo.orchextra.domain.interactors.beacons;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import java.util.List;
-
-
-public class RealRegionListImpl implements RegionList {
-
-  private List<OrchextraRegion> currentRegions;
-
-  public RealRegionListImpl(List<OrchextraRegion> regions) {
-    this.currentRegions = regions;
-  }
-
-  @Override public List<OrchextraRegion> getRegions() {
-    return currentRegions;
-  }
-
-  @Override public boolean hasChanged() {
-    return true;
-  }
-
-  @Override public boolean isSupported() {
-    return (currentRegions == null) ? false : true;
-  }
+/**
+ * This enums is the value of another kinds enumType, that implements StringValueEnum and anothers
+ * that apply only for regions.
+ */
+public enum ProximityEventType {
+  BEACONS_DETECTED,
+  REGION_ENTER,
+  REGION_EXIT
 }

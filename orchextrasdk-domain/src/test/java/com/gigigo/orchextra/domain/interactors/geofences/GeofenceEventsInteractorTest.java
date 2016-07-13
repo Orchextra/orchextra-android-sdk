@@ -25,7 +25,7 @@ import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.Schedule;
 import com.gigigo.orchextra.domain.model.actions.strategy.ScheduledActionImpl;
 import com.gigigo.orchextra.domain.model.actions.types.BrowserAction;
-import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelatedWithRegionAndGeofences;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
@@ -45,7 +45,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class) public class GeofenceInteractorTest {
+@RunWith(MockitoJUnitRunner.class) public class GeofenceEventsInteractorTest {
 
   @Mock
   TriggerActionsFacadeDomainService triggerActionsFacadeDomainService;
@@ -62,12 +62,12 @@ import static org.mockito.Mockito.when;
 
   @Mock InteractorResponse<List<OrchextraGeofence>> eventGeofenceList;
 
-  private GeofenceInteractor interactor;
+  private GeofenceEventsInteractor interactor;
 
   private List idsList;
 
   @Before public void setUp() throws Exception {
-    interactor = new GeofenceInteractor(triggerActionsFacadeDomainService, geofenceCheckerDomainService,
+    interactor = new GeofenceEventsInteractor(triggerActionsFacadeDomainService, geofenceCheckerDomainService,
             eventUpdaterDomainService);
 
     buildGeofenceFakeList();
@@ -151,7 +151,7 @@ import static org.mockito.Mockito.when;
     interactor.updateEventWithAction(basicAction);
 
     verify(geofenceCheckerDomainService).obtainCheckedGeofence("AAA");
-    verify(orchextraGeofence).setActionRelated(any(ActionRelated.class));
+    verify(orchextraGeofence).setActionRelatedWithRegionAndGeofences(any(ActionRelatedWithRegionAndGeofences.class));
     verify(eventUpdaterDomainService).associateActionToGeofenceEvent(orchextraGeofence);
   }
 }

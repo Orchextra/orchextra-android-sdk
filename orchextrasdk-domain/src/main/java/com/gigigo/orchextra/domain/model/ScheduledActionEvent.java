@@ -18,14 +18,14 @@
 
 package com.gigigo.orchextra.domain.model;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelatedWithRegionAndGeofences;
 
 public interface ScheduledActionEvent {
   String getActionRelatedId();
 
   boolean hasActionRelated();
 
-  void setActionRelated(ActionRelated actionRelated);
+  void setActionRelatedWithRegionAndGeofences(ActionRelatedWithRegionAndGeofences actionRelatedWithRegionAndGeofences);
 
   boolean relatedActionIsCancelable();
 }

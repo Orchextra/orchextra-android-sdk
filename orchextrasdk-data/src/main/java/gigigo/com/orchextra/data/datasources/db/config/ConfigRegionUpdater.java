@@ -19,7 +19,7 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegionUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class ConfigRegionUpdater {
     this.beaconRealmMapper = beaconRealmMapper;
   }
 
-  public OrchextraBeaconUpdates saveRegions(Realm realm, List<OrchextraRegion> regions) {
+  public OrchextraRegionUpdates saveRegions(Realm realm, List<OrchextraRegion> regions) {
     List<OrchextraRegion> newRegions = new ArrayList<>();
     List<OrchextraRegion> deleteRegions = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class ConfigRegionUpdater {
       deleteRegions = removeUnusedRegions(realm, used);
     }
 
-    return new OrchextraBeaconUpdates(newRegions, deleteRegions);
+    return new OrchextraRegionUpdates(newRegions, deleteRegions);
   }
 
   private void addOrUpdateRegion(Realm realm, List<OrchextraRegion> newRegions, List<String> used,

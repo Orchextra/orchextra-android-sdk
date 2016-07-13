@@ -22,12 +22,12 @@ import com.gigigo.orchextra.domain.model.entities.Updates;
 
 import java.util.List;
 
-public class OrchextraBeaconUpdates implements Updates {
+public class OrchextraRegionUpdates implements Updates {
 
     List<OrchextraRegion> newRegions;
     List<OrchextraRegion> deleteRegions;
 
-    public OrchextraBeaconUpdates(List<OrchextraRegion> newRegions,
+    public OrchextraRegionUpdates(List<OrchextraRegion> newRegions,
                                   List<OrchextraRegion> deleteRegions) {
         setNewRegions(newRegions);
         setDeleteRegions(deleteRegions);

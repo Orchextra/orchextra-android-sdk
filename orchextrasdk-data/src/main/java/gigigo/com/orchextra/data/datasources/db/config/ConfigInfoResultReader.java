@@ -19,7 +19,7 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
@@ -59,7 +59,7 @@ public class ConfigInfoResultReader {
         this.orchextraLogger = orchextraLogger;
     }
 
-    public ConfigInfoResult readConfigInfo(Realm realm) {
+    public ConfigurationInfoResult readConfigInfo(Realm realm) {
 
         ConfigInfoResultRealm config = readConfigObject(realm);
 
@@ -68,11 +68,11 @@ public class ConfigInfoResultReader {
         List<OrchextraGeofence> geofences = geofencesToModel(readGeofenceObjects(realm));
         List<OrchextraRegion> regions = regionsToModel(readRegionsObjects(realm));
 
-        ConfigInfoResult configInfoResult =
-                new ConfigInfoResult.Builder(config.getRequestWaitTime(), geofences, regions,
+        ConfigurationInfoResult configurationInfoResult =
+                new ConfigurationInfoResult.Builder(config.getRequestWaitTime(), geofences, regions,
                         vuforiaCredentials).build();
 
-        orchextraLogger.log("Retrieved configInfoResult with properties"
+        orchextraLogger.log("Retrieved configurationInfoResult with properties"
 
                 + " VuforiaCredentials :"
                 + vuforiaCredentials.toString()
@@ -83,7 +83,7 @@ public class ConfigInfoResultReader {
                 + " Request Time :"
                 + config.getRequestWaitTime());
 
-        return configInfoResult;
+        return configurationInfoResult;
     }
 
     private List<OrchextraRegion> regionsToModel(List<RegionRealm> regionRealms) {

@@ -25,7 +25,7 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.Authenticati
 import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraStatusDBDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.ConfigDataProviderImpl;
-import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
+import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.imagerecognition.ImageRecognitionLocalDataProviderImp;
 import com.gigigo.orchextra.dataprovision.proximity.ProximityAndGeofencesLocalDataProviderImp;
@@ -56,10 +56,10 @@ public class DataProviderModule {
 
   @Provides @Singleton ConfigDataProvider provideConfigDataProvider(
       ConfigDataSource configDataSource,
-      ConfigDBDataSource configDBDataSource,
+      TriggersConfigurationDBDataSource triggersConfigurationDBDataSource,
       SessionDBDataSource sessionDBDataSource,
       Session session){
-    return new ConfigDataProviderImpl(configDataSource, configDBDataSource, sessionDBDataSource, session);
+    return new ConfigDataProviderImpl(configDataSource, triggersConfigurationDBDataSource, sessionDBDataSource, session);
   }
 
   @Provides @Singleton ActionsDataProvider provideActionsDataProvider(
@@ -68,10 +68,10 @@ public class DataProviderModule {
   }
 
     @Provides @Singleton
-    ProximityAndGeofencesLocalDataProvider provideGeofenceDataProvider(ConfigDBDataSource configDBDataSource,
+    ProximityAndGeofencesLocalDataProvider provideGeofenceDataProvider(TriggersConfigurationDBDataSource triggersConfigurationDBDataSource,
                                                                        ProximityDBDataSource proximityDBDataSource,
                                                                        GeofenceDBDataSource geofenceDBDataSource) {
-        return new ProximityAndGeofencesLocalDataProviderImp(configDBDataSource, proximityDBDataSource, geofenceDBDataSource);
+        return new ProximityAndGeofencesLocalDataProviderImp(triggersConfigurationDBDataSource, proximityDBDataSource, geofenceDBDataSource);
     }
 
   @Provides @Singleton OrchextraStatusDataProvider provideOrchextraStatusDataProvider(
@@ -80,8 +80,8 @@ public class DataProviderModule {
   }
 
   @Provides @Singleton ImageRecognitionLocalDataProvider provideImageRecognitionLocalDataProvider(
-      ConfigDBDataSource configDBDataSource) {
-    return new ImageRecognitionLocalDataProviderImp(configDBDataSource);
+      TriggersConfigurationDBDataSource triggersConfigurationDBDataSource) {
+    return new ImageRecognitionLocalDataProviderImp(triggersConfigurationDBDataSource);
   }
 
 }

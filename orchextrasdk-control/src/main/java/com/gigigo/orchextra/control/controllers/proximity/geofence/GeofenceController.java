@@ -25,7 +25,7 @@ import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.geofences.GeofencesProviderListener;
 import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.GeofenceEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.errors.RetrieveGeofenceItemError;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
@@ -62,9 +62,9 @@ public class GeofenceController {
       GeoPointEventType geofenceTransition) {
 
     InteractorExecution interactorExecution = interactorExecutionProvider.get();
-    GeofenceInteractor geofenceInteractor =
-        (GeofenceInteractor) interactorExecution.getInteractor();
-    geofenceInteractor.setGeofenceData(triggeringGeofenceIds, geofenceTransition);
+    GeofenceEventsInteractor geofenceEventsInteractor =
+        (GeofenceEventsInteractor) interactorExecution.getInteractor();
+    geofenceEventsInteractor.setGeofenceData(triggeringGeofenceIds, geofenceTransition);
 
     interactorExecution.result(new InteractorResult<List<BasicAction>>() {
       @Override public void onResult(List<BasicAction> actions) {

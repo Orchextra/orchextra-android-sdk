@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,15 +58,15 @@ public class ConfigRequestApiResponseMapperTest {
         ConfigApiExternalClassToModelMapper mapper = new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper, themeResponseMapper,
                 beaconResponseMapper, geofenceResponseMapper);
 
-        ConfigInfoResult configInfoResult = mapper.externalClassToModel(apiConfigData);
+        ConfigurationInfoResult configurationInfoResult = mapper.externalClassToModel(apiConfigData);
 
-        assertEquals(1, configInfoResult.getGeofences().size());
-        assertEquals(23.45, configInfoResult.getGeofences().get(0).getPoint().getLat(), 0.001);
-        assertEquals(56.45, configInfoResult.getGeofences().get(0).getPoint().getLng(), 0.001);
-        assertEquals(30, configInfoResult.getGeofences().get(0).getRadius(), 0.001);
-        assertEquals(1, configInfoResult.getRegions().size());
-        assertEquals(ApiRegionBuilder.CODE, configInfoResult.getRegions().get(0).getCode());
-        assertEquals(ApiRegionBuilder.MAJOR, configInfoResult.getRegions().get(0).getMajor());
-        assertEquals(120000, configInfoResult.getRequestWaitTime());
+        assertEquals(1, configurationInfoResult.getGeofences().size());
+        assertEquals(23.45, configurationInfoResult.getGeofences().get(0).getPoint().getLat(), 0.001);
+        assertEquals(56.45, configurationInfoResult.getGeofences().get(0).getPoint().getLng(), 0.001);
+        assertEquals(30, configurationInfoResult.getGeofences().get(0).getRadius(), 0.001);
+        assertEquals(1, configurationInfoResult.getRegions().size());
+        assertEquals(ApiRegionBuilder.CODE, configurationInfoResult.getRegions().get(0).getCode());
+        assertEquals(ApiRegionBuilder.MAJOR, configurationInfoResult.getRegions().get(0).getMajor());
+        assertEquals(120000, configurationInfoResult.getRequestWaitTime());
     }
 }

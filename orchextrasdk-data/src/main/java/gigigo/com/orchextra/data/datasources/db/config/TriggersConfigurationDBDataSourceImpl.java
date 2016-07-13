@@ -23,8 +23,8 @@ import android.content.Context;
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglogger.GGGLogImpl;
-import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
@@ -37,15 +37,15 @@ import io.realm.Realm;
 import io.realm.exceptions.RealmException;
 
 
-public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
+public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurationDBDataSource {
 
   private final Context context;
   private final ConfigInfoResultUpdater configInfoResultUpdater;
   private final ConfigInfoResultReader configInfoResultReader;
   private final RealmDefaultInstance realmDefaultInstance;
 
-  public ConfigDBDataSourceImpl(Context context, ConfigInfoResultUpdater configInfoResultUpdater,
-      ConfigInfoResultReader configInfoResultReader, RealmDefaultInstance realmDefaultInstance) {
+  public TriggersConfigurationDBDataSourceImpl(Context context, ConfigInfoResultUpdater configInfoResultUpdater,
+                                               ConfigInfoResultReader configInfoResultReader, RealmDefaultInstance realmDefaultInstance) {
 
     this.context = context;
     this.configInfoResultUpdater = configInfoResultUpdater;
@@ -53,14 +53,14 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
     this.realmDefaultInstance = realmDefaultInstance;
   }
 
-  public OrchextraUpdates saveConfigData(ConfigInfoResult configInfoResult) {
+  public OrchextraUpdates saveConfigData(ConfigurationInfoResult configurationInfoResult) {
 
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       realm.beginTransaction();
       OrchextraUpdates orchextraUpdates =
-          configInfoResultUpdater.updateConfigInfoV2(realm, configInfoResult);
+          configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
       return orchextraUpdates;
     } catch (Exception re) {
       re.printStackTrace();
@@ -73,12 +73,12 @@ public class ConfigDBDataSourceImpl implements ConfigDBDataSource {
     }
   }
 
-  public BusinessObject<ConfigInfoResult> obtainConfigData() {
+  public BusinessObject<ConfigurationInfoResult> obtainConfigData() {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
-      ConfigInfoResult configInfoResult = configInfoResultReader.readConfigInfo(realm);
-      return new BusinessObject<>(configInfoResult, BusinessError.createOKInstance());
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      return new BusinessObject<>(configurationInfoResult, BusinessError.createOKInstance());
     } catch (NotFountRealmObjectException | RealmException re) {
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     } finally {

@@ -28,7 +28,7 @@ import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
 
-public class SaveUserInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
+public class SaveCrmUserInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
 
   private final AuthenticationService authenticationService;
   private final ConfigDomainService configDomainService;
@@ -37,9 +37,9 @@ public class SaveUserInteractor implements Interactor<InteractorResponse<Orchext
   private CrmUser crmUser;
   private boolean hasReloadConfig = false;
 
-  public SaveUserInteractor(AuthenticationService authenticationService,
-                            ConfigDomainService configDomainService,
-                            OrchextraStatusManager orchextraStatusManager) {
+  public SaveCrmUserInteractor(AuthenticationService authenticationService,
+                               ConfigDomainService configDomainService,
+                               OrchextraStatusManager orchextraStatusManager) {
 
     this.authenticationService = authenticationService;
     this.configDomainService = configDomainService;

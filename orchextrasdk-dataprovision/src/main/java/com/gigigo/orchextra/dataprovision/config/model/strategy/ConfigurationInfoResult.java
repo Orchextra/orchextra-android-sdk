@@ -25,11 +25,11 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import java.util.List;
 
 
-public class ConfigInfoResult {
+public class ConfigurationInfoResult {
 
-  private RegionList regions;
-  private GeofenceList geofences;
-  private VuforiaReady vuforia;
+  private RegionListSupported regions;
+  private GeofenceListSupported geofences;
+  private VuforiaCredentialsSupported vuforia;
   private int requestWaitTime;
 
   public List<OrchextraGeofence> getGeofences() {
@@ -64,15 +64,15 @@ public class ConfigInfoResult {
     this.requestWaitTime = requestWaitTime;
   }
 
-  public void setRegions(RegionList regions) {
+  public void setRegions(RegionListSupported regions) {
     this.regions = regions;
   }
 
-  public void setGeofences(GeofenceList geofences) {
+  public void setGeofences(GeofenceListSupported geofences) {
     this.geofences = geofences;
   }
 
-  public void setVuforia(VuforiaReady vuforia) {
+  public void setVuforia(VuforiaCredentialsSupported vuforia) {
     this.vuforia = vuforia;
   }
 
@@ -93,16 +93,16 @@ public class ConfigInfoResult {
       this.vuforiaCredentials = vuforiaCredentials;
     }
 
-    public ConfigInfoResult build() {
+    public ConfigurationInfoResult build() {
 
-      ConfigInfoResult configInfoResult = new ConfigInfoResult();
+      ConfigurationInfoResult configurationInfoResult = new ConfigurationInfoResult();
 
-      configInfoResult.setRequestWaitTime(requestWaitTime);
-      configInfoResult.setRegions(new RealRegionListImpl(proximity));
-      configInfoResult.setGeofences(new RealGeofenceListImpl(geoMarketing));
-      configInfoResult.setVuforia(new VuforiaReadyImpl(vuforiaCredentials));
+      configurationInfoResult.setRequestWaitTime(requestWaitTime);
+      configurationInfoResult.setRegions(new RealRegionListSupportedImpl(proximity));
+      configurationInfoResult.setGeofences(new RealGeofenceListSupportedImpl(geoMarketing));
+      configurationInfoResult.setVuforia(new VuforiaCredentialsSupportedImpl(vuforiaCredentials));
 
-      return configInfoResult;
+      return configurationInfoResult;
     }
   }
 }

@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * this class is the shared fields between regionsand beacons,and come in the dashboard configuration
+ * this class is the shared fields between regions/beacons and geofences,and come in the dashboard configuration
  */
 public class ProximityItem {
 

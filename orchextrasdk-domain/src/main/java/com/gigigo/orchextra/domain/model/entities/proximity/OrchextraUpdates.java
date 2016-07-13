@@ -24,17 +24,17 @@ import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpd
 
 public class OrchextraUpdates implements Updates {
 
-    private OrchextraBeaconUpdates orchextraBeaconUpdates;
+    private OrchextraRegionUpdates orchextraRegionUpdates;
     private OrchextraGeofenceUpdates orchextraGeofenceUpdates;
     private VuforiaCredentials vuforiaCredentialsUpdates;
 
 
     @Deprecated
-    public OrchextraUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates,
+    public OrchextraUpdates(OrchextraRegionUpdates orchextraRegionUpdates,
                              OrchextraGeofenceUpdates orchextraGeofenceChanges,
                             VuforiaCredentials vuforiaCredentialsChanges ) {
 
-        setOrchextraBeaconUpdates(orchextraBeaconUpdates);
+        setOrchextraRegionUpdates(orchextraRegionUpdates);
         setOrchextraGeofenceUpdates(orchextraGeofenceChanges);
         setVuforiaCredentialsUpdates(vuforiaCredentialsChanges);
 
@@ -44,12 +44,12 @@ public class OrchextraUpdates implements Updates {
 
     }
 
-    public OrchextraBeaconUpdates getOrchextraBeaconUpdates() {
-        return orchextraBeaconUpdates;
+    public OrchextraRegionUpdates getOrchextraRegionUpdates() {
+        return orchextraRegionUpdates;
     }
 
-    public void setOrchextraBeaconUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates) {
-        this.orchextraBeaconUpdates = orchextraBeaconUpdates;
+    public void setOrchextraRegionUpdates(OrchextraRegionUpdates orchextraRegionUpdates) {
+        this.orchextraRegionUpdates = orchextraRegionUpdates;
     }
 
     public  OrchextraGeofenceUpdates getOrchextraGeofenceUpdates() {
@@ -71,7 +71,7 @@ public class OrchextraUpdates implements Updates {
 
     @Override
     public boolean hasChanges() {
-        return (orchextraBeaconUpdates != null && orchextraBeaconUpdates.hasChanges())
+        return (orchextraRegionUpdates != null && orchextraRegionUpdates.hasChanges())
                 || (orchextraGeofenceUpdates != null && orchextraGeofenceUpdates.hasChanges())
                 || vuforiaCredentialsUpdates != null
                  ;

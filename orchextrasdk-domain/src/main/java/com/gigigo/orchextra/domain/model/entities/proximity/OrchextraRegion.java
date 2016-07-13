@@ -18,20 +18,17 @@
 
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
-import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventType;
+import com.gigigo.orchextra.domain.interactors.beacons.ProximityEventType;
 import com.gigigo.orchextra.domain.model.ScheduledActionEvent;
 
 public class OrchextraRegion extends ProximityItem implements ScheduledActionEvent {
 
   private final String code;
-
   private final String uuid;
   private final int minor;
   private final int major;
   private RegionEventType regionEvent;
-
-  private ActionRelated actionRelated;
-
+  private ActionRelatedWithRegionAndGeofences actionRelatedWithRegionAndGeofences;
   private final boolean active;
 
   public OrchextraRegion(String code, String uuid, int major, int minor, boolean active) {
@@ -78,35 +75,35 @@ public class OrchextraRegion extends ProximityItem implements ScheduledActionEve
     this.regionEvent = regionEvent;
   }
 
-  public void setRegionEvent(BeaconEventType eventType) {
-    if (eventType == BeaconEventType.REGION_ENTER) {
+  public void setRegionEvent(ProximityEventType eventType) {
+    if (eventType == ProximityEventType.REGION_ENTER) {
       regionEvent = RegionEventType.ENTER;
     } else {
       regionEvent = RegionEventType.EXIT;
     }
   }
 
-  @Override public void setActionRelated(ActionRelated actionRelated) {
-    this.actionRelated = actionRelated;
+  public void setActionRelatedWithRegionAndGeofences(ActionRelatedWithRegionAndGeofences actionRelatedWithRegionAndGeofences) {
+    this.actionRelatedWithRegionAndGeofences = actionRelatedWithRegionAndGeofences;
   }
 
   @Override public String getActionRelatedId() {
-    if (actionRelated == null) {
+    if (actionRelatedWithRegionAndGeofences == null) {
       return "";
     } else {
-      return actionRelated.getActionId();
+      return actionRelatedWithRegionAndGeofences.getActionId();
     }
   }
 
   @Override public boolean hasActionRelated() {
-    return (actionRelated != null);
+    return (actionRelatedWithRegionAndGeofences != null);
   }
 
   @Override public boolean relatedActionIsCancelable() {
-    if (actionRelated == null) {
+    if (actionRelatedWithRegionAndGeofences == null) {
       return false;
     } else {
-      return actionRelated.isCancelable();
+      return actionRelatedWithRegionAndGeofences.isCancelable();
     }
   }
 }

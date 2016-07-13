@@ -21,7 +21,7 @@ package com.gigigo.orchextra.domain.interactors.authentication;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
@@ -38,7 +38,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SaveUserInteractorTest {
+public class SaveCrmUserInteractorTest {
 
     @Mock
     AuthenticationService authenticationService;
@@ -52,13 +52,13 @@ public class SaveUserInteractorTest {
     @Mock
     BusinessObject<CrmUser> saveUserResponse;
 
-    private SaveUserInteractor interactor;
+    private SaveCrmUserInteractor interactor;
 
     CrmUser crmUser;
 
     @Before
     public void setUp() throws Exception {
-        interactor = new SaveUserInteractor(authenticationService, configDomainService, orchextraStatusManager);
+        interactor = new SaveCrmUserInteractor(authenticationService, configDomainService, orchextraStatusManager);
         crmUser = new CrmUser();
         crmUser.setCrmId("1111");
         interactor.setCrmUser(crmUser);

@@ -20,11 +20,11 @@ package com.gigigo.orchextra.dataprovision.config.model.strategy;
 
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
-public class VuforiaReadyImpl implements VuforiaReady {
+public class VuforiaCredentialsSupportedImpl implements VuforiaCredentialsSupported {
 
   private VuforiaCredentials vuforiaCredentials;
 
-  public VuforiaReadyImpl(VuforiaCredentials vuforiaCredentials) {
+  public VuforiaCredentialsSupportedImpl(VuforiaCredentials vuforiaCredentials) {
     this.vuforiaCredentials = vuforiaCredentials;
   }
 

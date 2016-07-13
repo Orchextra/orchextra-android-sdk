@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.domain.model.entities;
 
-public class VuforiaCredentials {
+public class VuforiaCredentials implements Updates {
 
   private String licenseKey;
   private String clientAccessKey;
@@ -48,7 +48,9 @@ public class VuforiaCredentials {
     this.clientSecretKey = clientSecretKey;
   }
 
+  @Override
   public boolean hasChanges() {
+    //by default, never change
     return false;
   }
 }

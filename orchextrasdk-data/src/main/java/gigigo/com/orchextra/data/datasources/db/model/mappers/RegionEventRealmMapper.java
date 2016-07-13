@@ -19,7 +19,7 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelatedWithRegionAndGeofences;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.RegionEventType;
 import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
@@ -47,7 +47,7 @@ public class RegionEventRealmMapper
         new OrchextraRegion(regionEventRealm.getCode(), regionEventRealm.getUuid(),
             regionEventRealm.getMajor(), regionEventRealm.getMinor(), regionEventRealm.isActive());
 
-    orchextraRegion.setActionRelated(new ActionRelated(regionEventRealm.getActionRelated(),
+    orchextraRegion.setActionRelatedWithRegionAndGeofences(new ActionRelatedWithRegionAndGeofences(regionEventRealm.getActionRelated(),
         regionEventRealm.isActionRelatedCancelable()));
 
     orchextraRegion.setRegionEvent(

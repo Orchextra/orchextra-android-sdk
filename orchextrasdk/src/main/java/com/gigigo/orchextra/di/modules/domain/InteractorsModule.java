@@ -24,12 +24,12 @@ import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.config.ClearLocalStorageInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.GeofenceEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofencesProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.imagerecognition.GetImageRecognitionCredentialsInteractor;
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
 
-import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserInteractor;
 import com.gigigo.orchextra.domain.services.actions.EventUpdaterDomainService;
 import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
@@ -52,11 +52,11 @@ public class InteractorsModule {
 
     @Provides
     @PerExecution
-    SaveUserInteractor provideSaveUserInteractor(
+    SaveCrmUserInteractor provideSaveUserInteractor(
             AuthenticationService authenticationService,
             ConfigDomainService configDomainService,
             OrchextraStatusManager orchextraStatusManager) {
-        return new SaveUserInteractor(authenticationService, configDomainService, orchextraStatusManager);
+        return new SaveCrmUserInteractor(authenticationService, configDomainService, orchextraStatusManager);
     }
 
     @Provides
@@ -85,12 +85,12 @@ public class InteractorsModule {
 
     @Provides
     @PerExecution
-    GeofenceInteractor provideGeofenceInteractor(
+    GeofenceEventsInteractor provideGeofenceInteractor(
             TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
             GeofenceCheckerDomainService geofenceCheckerDomainService,
             EventUpdaterDomainService eventUpdaterDomainService) {
 
-        return new GeofenceInteractor(triggerActionsFacadeDomainService, geofenceCheckerDomainService, eventUpdaterDomainService);
+        return new GeofenceEventsInteractor(triggerActionsFacadeDomainService, geofenceCheckerDomainService, eventUpdaterDomainService);
     }
 
     @Provides

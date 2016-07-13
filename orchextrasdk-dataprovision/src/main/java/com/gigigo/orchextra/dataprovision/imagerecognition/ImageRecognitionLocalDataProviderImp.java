@@ -20,26 +20,26 @@ package com.gigigo.orchextra.dataprovision.imagerecognition;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDBDataSource;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.dataprovider.ImageRecognitionLocalDataProvider;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public class ImageRecognitionLocalDataProviderImp implements ImageRecognitionLocalDataProvider {
 
-  private final ConfigDBDataSource configDBDataSource;
+  private final TriggersConfigurationDBDataSource triggersConfigurationDBDataSource;
 
-  public ImageRecognitionLocalDataProviderImp(ConfigDBDataSource configDBDataSource) {
-    this.configDBDataSource = configDBDataSource;
+  public ImageRecognitionLocalDataProviderImp(TriggersConfigurationDBDataSource triggersConfigurationDBDataSource) {
+    this.triggersConfigurationDBDataSource = triggersConfigurationDBDataSource;
   }
 
   @Override public BusinessObject<VuforiaCredentials> obtainVuforiaInfo() {
-    BusinessObject<ConfigInfoResult> bo = configDBDataSource.obtainConfigData();
+    BusinessObject<ConfigurationInfoResult> bo = triggersConfigurationDBDataSource.obtainConfigData();
 
     if (bo.isSuccess()) {
-      ConfigInfoResult configInfoResult = bo.getData();
-      if (configInfoResult.supportsVuforia()) {
-        return new BusinessObject(configInfoResult.getVuforia(), BusinessError.createOKInstance());
+      ConfigurationInfoResult configurationInfoResult = bo.getData();
+      if (configurationInfoResult.supportsVuforia()) {
+        return new BusinessObject(configurationInfoResult.getVuforia(), BusinessError.createOKInstance());
       } else {
         return new BusinessObject(null, BusinessError.createKoInstance(
             "Image Recognition Module" + " configuration credentials not set or not enabled, review dashboard"));
