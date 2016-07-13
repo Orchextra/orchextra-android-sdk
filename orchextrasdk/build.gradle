@@ -68,7 +68,7 @@ android {
 
   buildTypes {
     debug{
-      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
+      buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
     }
     release {
       buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
@@ -96,7 +96,34 @@ android {
     exclude 'LICENSE.txt'
     exclude 'META-INF/INDEX.LIST'
   }
+  flavorDimensions "play"
+
+  productFlavors {
+    play9 {
+      dimension "play"
+    }
+    play8 {
+      dimension "play"
+    }
+    play7 {
+      dimension "play"
+    }
+  }
+  // true to publish all flavour artifacts
+  publishNonDefault true
+  // default build flavour
+  defaultPublishConfig "play8Release"
 }
+
+configurations {
+  play7DebugCompile
+  play8DebugCompile
+  play9DebugCompile
+  play7ReleaseCompile
+  play8ReleaseCompile
+  play9ReleaseCompile
+}
+
 
 dependencies {
 
@@ -116,9 +143,23 @@ dependencies {
 
   compile parent.ext.dependencies.altBeacon
 
-  compile parent.ext.dependencies.playServicesLocation
-  compile parent.ext.dependencies.playServicesGcm
+  play9DebugCompile('com.google.android.gms:play-services-location:9.0.0')
+  play9DebugCompile('com.google.android.gms:play-services-gcm:9.0.0')
 
+  play8DebugCompile('com.google.android.gms:play-services-location:8.4.0')
+  play8DebugCompile('com.google.android.gms:play-services-gcm:8.4.0')
+
+  play7DebugCompile('com.google.android.gms:play-services-location:7.8.0')
+  play7DebugCompile('com.google.android.gms:play-services-gcm:7.8.0')
+
+  play9ReleaseCompile('com.google.android.gms:play-services-location:9.0.0')
+  play9ReleaseCompile('com.google.android.gms:play-services-gcm:9.0.0')
+
+  play8ReleaseCompile('com.google.android.gms:play-services-location:8.4.0')
+  play8ReleaseCompile('com.google.android.gms:play-services-gcm:8.4.0')
+
+  play7ReleaseCompile('com.google.android.gms:play-services-location:7.8.0')
+  play7ReleaseCompile('com.google.android.gms:play-services-gcm:7.8.0')
 
   compile parent.ext.dependencies.barcodescanner
   compile parent.ext.dependencies.imageRecognitionInterface
