@@ -143,12 +143,12 @@ public class OrchextraModule {
   }
 
   @Singleton @Provides
-  CrmUserGenderConverter provideOrcGenderConverter() {
+  CrmUserGenderConverter provideCrmGenderConverter() {
     return new CrmUserGenderConverter();
   }
 
   @Singleton @Provides
-  CrmUserDomainToCrmUserSdkConverter provideOrcUserToCrmConverter(CrmUserGenderConverter crmUserGenderConverter) {
+  CrmUserDomainToCrmUserSdkConverter provideSdkUserToDomainConverter(CrmUserGenderConverter crmUserGenderConverter) {
     return new CrmUserDomainToCrmUserSdkConverter(crmUserGenderConverter);
   }
 

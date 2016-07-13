@@ -29,7 +29,7 @@ public class CrmUserDomainToCrmUserSdkConverter {
         this.genderConverter = genderConverter;
     }
 
-    public com.gigigo.orchextra.domain.model.entities.authentication.CrmUser convertOrcUserToCrm(CrmUser user) {
+    public com.gigigo.orchextra.domain.model.entities.authentication.CrmUser convertSdkUserToDomain(CrmUser user) {
         com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = new com.gigigo.orchextra.domain.model.entities.authentication.CrmUser();
 
         if (user != null) {

@@ -21,7 +21,6 @@ apply from: 'dependencies.gradle'
 apply from: 'gradle/jacoco.gradle'
 
 
-
 buildscript {
   repositories {
     maven {
@@ -59,8 +58,8 @@ allprojects {
     androidApplicationId = 'com.gigigo.orchextra.sdk'
 
     versionMajor = 2
-    versionMinor = 3
-    versionPatch = 2
+    versionMinor = 4
+    versionPatch = 1
 
     androidVersionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch
     androidVersionName = versionMajor + "." + versionMinor + "." + versionPatch

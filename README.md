@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-2.4.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-2.4.1-blue.svg)
 [![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
 
@@ -24,10 +24,10 @@ Orchextra SDK is composed of **Orchextra Core**.
 - Image Recognition Scanner Module: Vuforia implementation
 
 ## Installation
-Download [Orchextra Android Sample ](https://github.com/Orchextra/orchextra-android-sample-sdkVersionAppInfo) to understand how to use the SDK.
+You can check how SDK works with the :app module of this repository.
 
 ### Requirements
-Android Jelly Bean (v. 18) or later. But Orchextra can be integrated in Android Gingerbread (v. 10)
+Android Jelly Bean (v. 18) or later. But Orchextra can be integrated in Android Gingerbread (v. 10), Google Play Services 7.8, 8.4 , or 9.0, and Google Support Api23.
 
 ## Add the dependency
 We have to add the gradle dependencies. In our rootproject **build.gradle** file, we add the following maven dependency. This is required in order to advice gradle that it has to look for Orchextra sdk inside **jitpack.io** maven repository. Gradle file is this one:
@@ -47,21 +47,21 @@ and we add the Orchextra dependency in our **sdkVersionAppInfo** module:
 
 with GCM 7.8
 ```java
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.0RC:play7Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.1RC:play7Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:7.8.0'
    compile 'com.google.android.gms:play-services-gcm:7.8.0'
 ```
 or with GCM 8.4
 ```java
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.0RC:play8Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.1RC:play8Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:8.4.0'
    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 ```
 or with GCM 9.0
 ```java
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.0RC:play9Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.1RC:play9Release@aar')
      {transitive true}
    compile 'com.google.android.gms:play-services-location:9.0.0'
    compile 'com.google.android.gms:play-services-gcm:9.0.0'
@@ -81,7 +81,9 @@ OrchextraBuilder builder = new OrchextraBuilder(this)
                 .setOrchextraCompletionCallback(this));
         Orchextra.initialize(builder);
 ```
-**IMPORTANT** you must make this call in **public void onCreate()** of your Application class, if you do not call initialize in this method, the SDK will not initialize properly.
+**IMPORTANT** you must make this call in **public void onCreate()** of your Application class, if you do not call initialize in this method, the SDK will not initialize properly. You can check that using the logLevel.
+
+**IMPORTANT** if you are using Android Studio 2.1 or higher, and have "Instant Run" enabled, the first time you install the APK is installed in new device, the initialize() spends too much time, maybe a minute on older devices.The second time the problem disappears. To avoid this problem in Android Studio, disables the " Instant Run" from settings-> Build , Execution , Deployment- > Instant Run
 
 Then, in any part of our application we should start the orchextra sdk.
 
@@ -110,16 +112,16 @@ Orchextra.setCustomSchemeReceiver(new CustomSchemeReceiver() {
 ```
 
 ## Add user to Orchextra
-ORCUser class is a local representation of a user persisted to the Orchextra Database to help to create a good user segmentation. This object is optional and could be set up at any time.
+CrmUser class is a local representation of a user persisted to the Orchextra Database to help to create a good user segmentation. This object is optional and could be set up at any time.
 
 ```java
-Orchextra.setUser(new ORCUser(CRM_ID,
-                new GregorianCalendar(1990, Calendar.NOVEMBER, 29), //any Birth date as a calendar instance
-                ORCUser.Gender.ORCGenderMale); //ORCGenderMale or ORCGenderFemale Enum
+Orchextra.setUser(new CrmUser(CRM_ID,
+                new GregorianCalendar(1981, Calendar.MAY, 31),
+                CrmUser.Gender.GenderMale);
 ```
-At this time we are changing all related management *ORCUser* *keywords* and *tags* . In brief update this part with the new way to get and set these features
+At this time we are changing all related management *CrmUser* *keywords* and *tags* . In brief update this part with the new way to get and set these features.
 
-Is a good idea, always, put a unique key in *CRM_ID*, is the way for identificate your user in Orchextra.For example you can use the next snipped for generate key for device:
+Is a good idea, always, put a unique key in *CRM_ID*, is the way for identificate your user in Orchextra. For example you can use the next snipped for generate key for device:
 ```java
 private String getUniqueCRMID() {
         String secureAndroidId = Settings.Secure.getString(getApplicationContext().getContentResolver(),

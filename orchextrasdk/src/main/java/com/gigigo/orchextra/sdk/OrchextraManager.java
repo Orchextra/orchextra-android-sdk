@@ -177,7 +177,7 @@ public class OrchextraManager {
                 CrmUserDomainToCrmUserSdkConverter crmUserDomainToCrmUserSdkConverter = orchextraManager.crmUserDomainToCrmUserSdkConverter;
                 SaveCrmUserController saveCrmUserController = orchextraManager.saveCrmUserController;
 
-                com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = crmUserDomainToCrmUserSdkConverter.convertOrcUserToCrm(user);
+                com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = crmUserDomainToCrmUserSdkConverter.convertSdkUserToDomain(user);
 
                 if (orchextraManager.orchextraStatusAccessor.isStarted()) {
                     saveCrmUserController.saveUserAndReloadConfig(crmUser);

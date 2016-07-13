@@ -36,12 +36,10 @@ public class CrmUser {
      * @param birthdate user's birth date.
      * @param gender    user's male, using an enum
      */
-    @Deprecated
     public CrmUser(String crmId, GregorianCalendar birthdate, Gender gender) {
         this.crmId = crmId;
         this.birthdate = birthdate;
         this.gender = gender;
-
     }
 
     public String getCrmId() {
@@ -56,10 +54,10 @@ public class CrmUser {
         return gender;
     }
 
-    //todo REFACTOR this must be a GenderType and must to encapsulate el value of this field in server, ORCGenderMale-->"male"
+    //todo REFACTOR this must be a GenderType and must to encapsulate el value of this field in server, GenderMale-->"male"
     //CrmUserGenderConverter must be inside GenderType, i'm think
     public enum Gender {
-        ORCGenderMale,
-        ORCGenderFemale
+        GenderMale,
+        GenderFemale
     }
 }

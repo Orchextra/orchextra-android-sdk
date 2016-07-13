@@ -25,9 +25,9 @@ public class CrmUserGenderConverter {
 
     public GenderType convertGender(CrmUser.Gender gender) {
         switch (gender) {
-            case ORCGenderMale:
+            case GenderMale:
                 return GenderType.MALE;
-            case ORCGenderFemale:
+            case GenderFemale:
                 return GenderType.FEMALE;
             default:
                 return GenderType.ND;

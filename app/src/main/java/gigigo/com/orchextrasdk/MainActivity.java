@@ -14,7 +14,6 @@ import com.appoxee.AppoxeeObserver;
 import com.appoxee.asyncs.initAsync;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.CrmUser;
-import com.gigigo.orchextra.CrmUserTag;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
@@ -226,10 +225,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //todo neverused
     public void setCrmUser() {
         String myCrmId = getApplicationContext().getPackageName();
-        GregorianCalendar ORCBirthDay = new GregorianCalendar(1990, Calendar.MAY, 29);
+        GregorianCalendar  BirthDay = new GregorianCalendar(1981, Calendar.MAY, 31);
         CrmUser crmUser = new CrmUser(myCrmId
-                , ORCBirthDay
-                , CrmUser.Gender.ORCGenderMale
+                , BirthDay
+                , CrmUser.Gender.GenderMale
         );
         Orchextra.setUser(crmUser);
     }
