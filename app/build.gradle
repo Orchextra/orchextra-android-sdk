@@ -98,7 +98,7 @@ dependencies {
 
     //flavour depencies from maven aar
 /*
-    compile('com.github.nuborisar.orchextra-android-sdk:orchextrasdk:2.4.1RC:play8Release@aar')
+    compile('com.github.nuborisar.orchextra-android-sdk:orchextrasdk:2.4.3RC:play8Release@aar')
             {
                 transitive = true
             }
