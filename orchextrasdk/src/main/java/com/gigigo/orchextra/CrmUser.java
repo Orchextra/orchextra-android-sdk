@@ -18,20 +18,15 @@
 
 package com.gigigo.orchextra;
 
-import java.util.Arrays;
-import java.util.Collections;
+
 import java.util.GregorianCalendar;
-import java.util.List;
+
 
 public class CrmUser {
 
     private final String crmId;
     private final GregorianCalendar birthdate;
     private final Gender gender;
-    @Deprecated
-    private List<String> keywords;
-    @Deprecated
-    private final List<CrmUserTag> tags;
 
     /**
      * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
@@ -40,30 +35,13 @@ public class CrmUser {
      * @param crmId     CrmUser ID, can be the user name of your app
      * @param birthdate user's birth date.
      * @param gender    user's male, using an enum
-     * @param keywords  important words in order to segment specific actions
      */
     @Deprecated
-    public CrmUser(String crmId, GregorianCalendar birthdate, Gender gender, List<String> keywords) {
-        this(crmId, birthdate, gender);
-        this.keywords = keywords;
-    }
-
-    /**
-     * Creates an orchextra user, this user will be useful for segmentation purposes and statistic
-     * tracking in dashboard
-     *
-     * @param crmId     CrmUser ID, can be the user name of your app
-     * @param birthdate user's birth date.
-     * @param gender    user's male, using an enum
-     * @param tags      important Tags in order to segment specific actions
-     */
-    @Deprecated
-    public CrmUser(String crmId, GregorianCalendar birthdate, Gender gender, CrmUserTag... tags) {
+    public CrmUser(String crmId, GregorianCalendar birthdate, Gender gender) {
         this.crmId = crmId;
         this.birthdate = birthdate;
         this.gender = gender;
-        this.tags = Arrays.asList(tags);
-        this.keywords = Collections.EMPTY_LIST;
+
     }
 
     public String getCrmId() {
@@ -78,17 +56,8 @@ public class CrmUser {
         return gender;
     }
 
-    @Deprecated
-    public List<String> getKeywords() {
-        return keywords;
-    }
-
-    @Deprecated
-    public List<CrmUserTag> getTags() {
-        return tags;
-    }
     //todo REFACTOR this must be a GenderType and must to encapsulate el value of this field in server, ORCGenderMale-->"male"
-    //OrcGenderConverter must be inside GenderType, i'm think
+    //CrmUserGenderConverter must be inside GenderType, i'm think
     public enum Gender {
         ORCGenderMale,
         ORCGenderFemale

@@ -43,20 +43,7 @@ public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper
       apiCrmUser.setGender(crmUser.getGender().getStringValue());
     }
 
-
-    if (crmUser.getTags()!=null) {
-      apiCrmUser.setTags(getTags(crmUser));
-    }
-
     return apiCrmUser;
   }
-  @Deprecated
-  private List<String> getTags(CrmUser crmUser) {
-    List<String> tags = new ArrayList<>();
 
-    for (CrmTag crmTag: crmUser.getTags()){
-      tags.add(crmTag.toString());
-    }
-    return tags;
-  }
 }

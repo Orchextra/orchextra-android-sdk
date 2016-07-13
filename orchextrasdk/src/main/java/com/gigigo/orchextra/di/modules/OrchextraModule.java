@@ -43,8 +43,8 @@ import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListener
 import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraContextProvider;
-import com.gigigo.orchextra.sdk.model.OrcGenderConverter;
-import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
+import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
+import com.gigigo.orchextra.sdk.model.CrmUserGenderConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
 import orchextra.javax.inject.Singleton;
@@ -142,12 +142,14 @@ public class OrchextraModule {
     return this;
   }
 
-  @Singleton @Provides OrcGenderConverter provideOrcGenderConverter() {
-    return new OrcGenderConverter();
+  @Singleton @Provides
+  CrmUserGenderConverter provideOrcGenderConverter() {
+    return new CrmUserGenderConverter();
   }
 
-  @Singleton @Provides OrcUserToCrmConverter provideOrcUserToCrmConverter(OrcGenderConverter orcGenderConverter) {
-    return new OrcUserToCrmConverter(orcGenderConverter);
+  @Singleton @Provides
+  CrmUserDomainToCrmUserSdkConverter provideOrcUserToCrmConverter(CrmUserGenderConverter crmUserGenderConverter) {
+    return new CrmUserDomainToCrmUserSdkConverter(crmUserGenderConverter);
   }
 
   @Singleton @Provides

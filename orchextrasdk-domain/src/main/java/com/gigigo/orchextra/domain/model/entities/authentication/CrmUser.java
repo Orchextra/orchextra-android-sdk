@@ -19,67 +19,55 @@
 package com.gigigo.orchextra.domain.model.entities.authentication;
 
 import com.gigigo.orchextra.domain.model.GenderType;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+
 
 public class CrmUser {
 
-  private String crmId;
-  private GenderType gender;
-  private Date birthDate;
-  @Deprecated
-  private List<CrmTag> tags;
+    private String crmId;
+    private GenderType gender;
+    private Date birthDate;
 
-  public CrmUser() {
-  }
-
-  public CrmUser(String crmId, GenderType gender, Date birthDate) {
-    this.crmId = crmId;
-    this.gender = gender;
-    this.birthDate = birthDate;
-
-  }
-
-  public String getCrmId() {
-    return crmId;
-  }
-
-  public void setCrmId(String crmId) {
-    this.crmId = crmId;
-  }
-
-  public GenderType getGender() {
-    return gender;
-  }
-
-  public void setGender(GenderType gender) {
-    this.gender = gender;
-  }
-
-  public Date getBirthDate() {
-    return birthDate;
-  }
-
-  public void setBirthDate(Date birthDate) {
-    this.birthDate = birthDate;
-  }
-
-  @Deprecated
-  public List<CrmTag> getTags() {
-    return tags;
-  }
-  @Deprecated
-  public void setTags(List<CrmTag> tags) {
-    this.tags = tags;
-  }
-
-  public boolean isEquals(String crmId) {
-    if (this.crmId == null) {
-      return crmId == null;
-    } else {
-      return this.crmId.equals(crmId);
+    public CrmUser() {
     }
-  }
+
+    public CrmUser(String crmId, GenderType gender, Date birthDate) {
+        this.crmId = crmId;
+        this.gender = gender;
+        this.birthDate = birthDate;
+
+    }
+
+    public String getCrmId() {
+        return crmId;
+    }
+
+    public void setCrmId(String crmId) {
+        this.crmId = crmId;
+    }
+
+    public GenderType getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderType gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public boolean isEquals(String crmId) {
+        if (this.crmId == null) {
+            return crmId == null;
+        } else {
+            return this.crmId.equals(crmId);
+        }
+    }
 
 }

@@ -18,22 +18,14 @@
 
 package com.gigigo.orchextra.sdk.model;
 
-import android.text.TextUtils;
-
 import com.gigigo.orchextra.CrmUser;
-import com.gigigo.orchextra.CrmUserTag;
 
-import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+public class CrmUserDomainToCrmUserSdkConverter {
 
-public class OrcUserToCrmConverter {
+    private final CrmUserGenderConverter genderConverter;
 
-    private final OrcGenderConverter genderConverter;
-
-    public OrcUserToCrmConverter(OrcGenderConverter genderConverter) {
+    public CrmUserDomainToCrmUserSdkConverter(CrmUserGenderConverter genderConverter) {
         this.genderConverter = genderConverter;
     }
 
@@ -47,23 +39,10 @@ public class OrcUserToCrmConverter {
             if (user.getBirthdate() != null) {
                 crmUser.setBirthDate(user.getBirthdate().getTime());
             }
-            crmUser.setTags(obtainUserTags(user));
+
         }
         return crmUser;
     }
 
-    @Deprecated
-    private List<CrmTag> obtainUserTags(CrmUser user) {
 
-        if (user.getTags() != null) {
-            List<CrmTag> tags = new ArrayList<>();
-            for (CrmUserTag orcTag : user.getTags()) {
-                    tags.add(new CrmTag(orcTag.getPrefix(), orcTag.getValue()));
-            }
-            return tags;
-        } else {
-            return Collections.EMPTY_LIST;
-        }
-
-    }
 }

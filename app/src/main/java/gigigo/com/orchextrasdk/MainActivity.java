@@ -223,32 +223,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
     }
 
-    /*not used*/
+    //todo neverused
     public void setCrmUser() {
-     /*new method setuser for tags*/
-        CrmUserTag[] crmUserTagArray = new CrmUserTag[]{
-                new CrmUserTag("Pais", "Colombia")
-//                ,
-//                new CrmUserTag("::macheo", "espacio espacio"),
-//                new CrmUserTag("or 1=1", "and 0=0"),
-//                new CrmUserTag("||  1=1", "&& 0=0"),
-//                new CrmUserTag("JiYgIDE9MQ==", "JiYgIDE9MQ=="),
-//                new CrmUserTag("genero", "macho ta"),
-//                new CrmUserTag("GEneRo", "/7uijk''=2"),
-//                new CrmUserTag("yeah 41", "palabro 34 "),
-//                new CrmUserTag("12 :3432 dasa", "uoyo"),
-//                new CrmUserTag("fasa", "teg tags a"),
-//                new CrmUserTag("fasa", "yanosaleel:nullen el 105")
-        };
-
         String myCrmId = getApplicationContext().getPackageName();
-
         GregorianCalendar ORCBirthDay = new GregorianCalendar(1990, Calendar.MAY, 29);
-
         CrmUser crmUser = new CrmUser(myCrmId
                 , ORCBirthDay
-                , CrmUser.Gender.ORCGenderMale,
-                crmUserTagArray);
+                , CrmUser.Gender.ORCGenderMale
+        );
         Orchextra.setUser(crmUser);
     }
     //endregion

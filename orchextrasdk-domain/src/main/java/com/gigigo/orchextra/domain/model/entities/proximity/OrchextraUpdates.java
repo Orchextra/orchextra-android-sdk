@@ -31,8 +31,8 @@ public class OrchextraUpdates implements Updates {
 
     @Deprecated
     public OrchextraUpdates(OrchextraRegionUpdates orchextraRegionUpdates,
-                             OrchextraGeofenceUpdates orchextraGeofenceChanges,
-                            VuforiaCredentials vuforiaCredentialsChanges ) {
+                            OrchextraGeofenceUpdates orchextraGeofenceChanges,
+                            VuforiaCredentials vuforiaCredentialsChanges) {
 
         setOrchextraRegionUpdates(orchextraRegionUpdates);
         setOrchextraGeofenceUpdates(orchextraGeofenceChanges);
@@ -52,7 +52,7 @@ public class OrchextraUpdates implements Updates {
         this.orchextraRegionUpdates = orchextraRegionUpdates;
     }
 
-    public  OrchextraGeofenceUpdates getOrchextraGeofenceUpdates() {
+    public OrchextraGeofenceUpdates getOrchextraGeofenceUpdates() {
         return orchextraGeofenceUpdates;
     }
 
@@ -73,7 +73,6 @@ public class OrchextraUpdates implements Updates {
     public boolean hasChanges() {
         return (orchextraRegionUpdates != null && orchextraRegionUpdates.hasChanges())
                 || (orchextraGeofenceUpdates != null && orchextraGeofenceUpdates.hasChanges())
-                || vuforiaCredentialsUpdates != null
-                 ;
+                || vuforiaCredentialsUpdates != null;
     }
 }

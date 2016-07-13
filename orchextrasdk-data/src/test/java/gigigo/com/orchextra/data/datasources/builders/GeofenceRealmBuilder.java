@@ -57,13 +57,6 @@ public class GeofenceRealmBuilder {
         geofence.setUpdatedAt(updated);
         geofence.setStayTime(stay);
 
-        RealmList<KeyWordRealm> list = new RealmList<>();
-        KeyWordRealm keyWordRealm = new KeyWordRealm();
-        keyWordRealm.setKeyword(tag);
-        list.add(keyWordRealm);
-
-        geofence.setTags(list);
-
         return geofence;
     }
 }

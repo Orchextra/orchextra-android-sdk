@@ -26,7 +26,7 @@ public class CrmUserRequestMapperTest {
     public void testModelToDataMaleWithKeywords() throws Exception {
         List<String> keywords = new ArrayList<>();
         keywords.add("palabra");
-        CrmUser crmUser = new CrmUser("1234", GenderType.MALE, getCalendar(2012, 9, 21, 11, 22, 34), keywords);
+        CrmUser crmUser = new CrmUser("1234", GenderType.MALE, getCalendar(2012, 9, 21, 11, 22, 34));
 
         CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
         ApiCrmUser apiCrmUser = mapper.modelToExternalClass(crmUser);
@@ -34,13 +34,12 @@ public class CrmUserRequestMapperTest {
         assertEquals("1234", apiCrmUser.getCrmId());
         assertEquals("m", apiCrmUser.getGender());
         assertEquals("2012-10-21", apiCrmUser.getBirthDate());
-        assertEquals(1, apiCrmUser.getKeywords().size());
-        assertEquals("palabra", apiCrmUser.getKeywords().get(0));
+
     }
 
     @Test
     public void testModelToDataFeMaleWithoutKeywords() throws Exception {
-        CrmUser crmUser = new CrmUser("1234", GenderType.FEMALE, getCalendar(2012, 9, 21, 11, 22, 34), new ArrayList<String>());
+        CrmUser crmUser = new CrmUser("1234", GenderType.FEMALE, getCalendar(2012, 9, 21, 11, 22, 34));
 
         CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
         ApiCrmUser apiCrmUser = mapper.modelToExternalClass(crmUser);
@@ -48,12 +47,11 @@ public class CrmUserRequestMapperTest {
         assertEquals("1234", apiCrmUser.getCrmId());
         assertEquals("f", apiCrmUser.getGender());
         assertEquals("2012-10-21", apiCrmUser.getBirthDate());
-        assertEquals(0, apiCrmUser.getKeywords().size());
     }
 
     @Test
     public void testModelToDataNDAndNullKeywords() throws Exception {
-        CrmUser crmUser = new CrmUser("1234", GenderType.ND, getCalendar(1970, 0, 01, 01, 00, 00), null);
+        CrmUser crmUser = new CrmUser("1234", GenderType.ND, getCalendar(1970, 0, 01, 01, 00, 00));
 
         CrmModelToExternalClassMapper mapper = new CrmModelToExternalClassMapper();
         ApiCrmUser apiCrmUser = mapper.modelToExternalClass(crmUser);
@@ -61,6 +59,5 @@ public class CrmUserRequestMapperTest {
         assertEquals("1234", apiCrmUser.getCrmId());
         assertEquals("n", apiCrmUser.getGender());
         assertEquals("1970-01-01", apiCrmUser.getBirthDate());
-        assertNull(apiCrmUser.getKeywords());
     }
 }

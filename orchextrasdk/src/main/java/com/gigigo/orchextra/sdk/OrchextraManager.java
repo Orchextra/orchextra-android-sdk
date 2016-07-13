@@ -52,7 +52,7 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
-import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
+import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
 import orchextra.javax.inject.Inject;
@@ -75,7 +75,7 @@ public class OrchextraManager {
     @Inject
     OrchextraTasksManager orchextraTasksManager;
     @Inject
-    OrcUserToCrmConverter orcUserToCrmConverter;
+    CrmUserDomainToCrmUserSdkConverter crmUserDomainToCrmUserSdkConverter;
     @Inject
     OrchextraStatusAccessor orchextraStatusAccessor;
     @Inject
@@ -174,10 +174,10 @@ public class OrchextraManager {
         if (AndroidSdkVersion.hasJellyBean18()) {
             if (orchextraManager != null) {
 
-                OrcUserToCrmConverter orcUserToCrmConverter = orchextraManager.orcUserToCrmConverter;
+                CrmUserDomainToCrmUserSdkConverter crmUserDomainToCrmUserSdkConverter = orchextraManager.crmUserDomainToCrmUserSdkConverter;
                 SaveCrmUserController saveCrmUserController = orchextraManager.saveCrmUserController;
 
-                com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = orcUserToCrmConverter.convertOrcUserToCrm(user);
+                com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = crmUserDomainToCrmUserSdkConverter.convertOrcUserToCrm(user);
 
                 if (orchextraManager.orchextraStatusAccessor.isStarted()) {
                     saveCrmUserController.saveUserAndReloadConfig(crmUser);

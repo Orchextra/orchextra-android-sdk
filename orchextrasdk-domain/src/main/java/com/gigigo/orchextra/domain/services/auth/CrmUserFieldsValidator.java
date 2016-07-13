@@ -41,7 +41,7 @@ public class CrmUserFieldsValidator implements Validator<CrmUser> {
 
     @Override
     public void doValidate(CrmUser crmUser) {
-        filterCrmTags(crmUser.getTags());
+      //  filterCrmTags(crmUser.getTags());
     }
 
 

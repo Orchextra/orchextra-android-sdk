@@ -24,19 +24,15 @@ import static org.junit.Assert.assertEquals;
 public class ConfigRequestApiResponseMapperTest {
 
     @Mock
-    ApiTheme apiTheme;
-
-    @Mock
     ApiVuforiaCredentials apiVuforiaCredentials;
 
-    @Mock VuforiaExternalClassToModelMapper vuforiaResponseMapper;
-
-    @Mock ThemeExternalClassToModelMapper themeResponseMapper;
+    @Mock
+    VuforiaExternalClassToModelMapper vuforiaResponseMapper;
 
     BeaconExternalClassToModelMapper beaconResponseMapper = new BeaconExternalClassToModelMapper();
 
     GeofenceExternalClassToModelMapper
-        geofenceResponseMapper = new GeofenceExternalClassToModelMapper(new PointMapper());
+            geofenceResponseMapper = new GeofenceExternalClassToModelMapper(new PointMapper());
 
     @Test
     public void testDataToModelOk() throws Exception {
@@ -51,12 +47,12 @@ public class ConfigRequestApiResponseMapperTest {
 
         apiConfigData.setGeoMarketing(apiGeofencesList);
         apiConfigData.setProximity(apiRegionList);
-        apiConfigData.setTheme(apiTheme);
         apiConfigData.setVuforia(apiVuforiaCredentials);
         apiConfigData.setRequestWaitTime(120);
 
-        ConfigApiExternalClassToModelMapper mapper = new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper, themeResponseMapper,
-                beaconResponseMapper, geofenceResponseMapper);
+        ConfigApiExternalClassToModelMapper mapper =
+                new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper,
+                        beaconResponseMapper, geofenceResponseMapper);
 
         ConfigurationInfoResult configurationInfoResult = mapper.externalClassToModel(apiConfigData);
 

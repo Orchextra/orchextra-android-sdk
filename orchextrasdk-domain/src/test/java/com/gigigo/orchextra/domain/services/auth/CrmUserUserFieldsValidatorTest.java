@@ -17,29 +17,25 @@
  */
 
 package com.gigigo.orchextra.domain.services.auth;
-
+/*
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmTag;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
+*/
 /**
  * Created by Sergio Martinez Rodriguez
  * Date 26/5/16.
- */
-@RunWith(MockitoJUnitRunner.class) public class CrmUserUserFieldsValidatorTest {
 
+@RunWith(MockitoJUnitRunner.class)*/
+public class CrmUserUserFieldsValidatorTest {
+/*
   @Mock ErrorLogger errorLogger;
 
   CrmUser crmUser;
@@ -49,43 +45,6 @@ import static org.junit.Assert.assertTrue;
     crmUserFieldsValidator = new CrmUserFieldsValidator(errorLogger);
     crmUser = new CrmUser();
   }
-  @Deprecated
-  @Test public void shouldvalidateAllTags() {
-    int size = validTagsArrayList().size();
-    crmUser.setTags(validTagsArrayList());
-
-    crmUserFieldsValidator.doValidate(crmUser);
-
-    assertEquals(crmUser.getTags().size(), size);
-  }
-  @Deprecated
-  @Test public void shouldnotValidateAllTags() {
-    int size = notValidTagsArrayList().size();
-    crmUser.setTags(notValidTagsArrayList());
-
-    crmUserFieldsValidator.doValidate(crmUser);
-
-    assertTrue(crmUser.getTags().size() < size);
-  }
-  @Deprecated
-  @Test public void shoulValidateAllStrangeTags() {
-    int size = allValidStrangeTagsArrayList().size();
-    crmUser.setTags(allValidStrangeTagsArrayList());
-
-    crmUserFieldsValidator.doValidate(crmUser);
-
-    assertTrue(crmUser.getTags().size() == size);
-  }
-  @Deprecated
-  @Test public void shouldnotValidateAnyTag() {
-    crmUser.setTags(allNotValidTagsArrayList());
-
-    crmUserFieldsValidator.doValidate(crmUser);
-
-    assertTrue(crmUser.getTags().size() == 0);
-  }
-
-
 
   @Deprecated
   private List<CrmTag> validTagsArrayList() {
@@ -131,5 +90,5 @@ import static org.junit.Assert.assertTrue;
     return tags;
   }
 
-
+*/
 }
