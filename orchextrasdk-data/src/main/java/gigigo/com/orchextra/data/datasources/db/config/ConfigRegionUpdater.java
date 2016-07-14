@@ -82,7 +82,7 @@ public class ConfigRegionUpdater {
       RealmResults<RegionRealm> regionRealm =
           realm.where(RegionRealm.class).equalTo("code", code).findAll();
       if (regionRealm.size() > 0) {
-        regionRealm.first().deleteFromRealm();
+        regionRealm.first().removeFromRealm();
       }
     }
 
@@ -104,7 +104,7 @@ public class ConfigRegionUpdater {
 
   public void removeRegions(Realm realm) {
     if (realm != null) {
-      realm.delete(RegionRealm.class);
+      realm.clear(RegionRealm.class);
     }
   }
 }

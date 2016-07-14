@@ -212,7 +212,7 @@ public class ProximityEventsUpdater {
 
   private void purgeResults(Realm realm, RealmResults resultsToPurge) {
     realm.beginTransaction();
-    resultsToPurge.deleteAllFromRealm();
+    resultsToPurge.clear();//.deleteAllFromRealm();
     realm.commitTransaction();
   }
 }

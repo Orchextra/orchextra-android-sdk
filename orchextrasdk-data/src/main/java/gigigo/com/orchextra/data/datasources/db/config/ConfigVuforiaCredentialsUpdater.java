@@ -39,7 +39,7 @@ public class ConfigVuforiaCredentialsUpdater {
     if (vuforiaCredentials != null) {
       hasChangedVuforia = checkIfChangedVuforia(realm, vuforiaCredentials);
     } else {
-      realm.delete(VuforiaCredentialsRealm.class);
+      realm.clear(VuforiaCredentialsRealm.class);
     }
 
     if (hasChangedVuforia) {
@@ -88,7 +88,7 @@ public class ConfigVuforiaCredentialsUpdater {
 
   public void removeVuforia(Realm realm) {
     if (realm != null) {
-      realm.delete(VuforiaCredentialsRealm.class);
+      realm.clear(VuforiaCredentialsRealm.class);
     }
   }
 }

@@ -27,7 +27,7 @@ android {
         applicationId "gigigo.com.orchextrasdk"
         minSdkVersion 11
 //parent.ext.androidMinSdkVersion //you can change that, but you need API >=10 for fabmenu
-        targetSdkVersion parent.ext.androidTargetSdkVersion
+        targetSdkVersion  parent.ext.androidTargetSdkVersion
         versionCode parent.ext.androidVersionCode
         versionName parent.ext.androidVersionName
         //for VuforiaCredentials,VuforiaCredentials Only work with armv7 lib.so, in this case we exclude all
@@ -86,19 +86,19 @@ configurations {
 dependencies {
     /*  compile project(':orchextrasdk')*/
 
-//flavour dependencies from project, for test
+//flavour dependencies from project, for test(necesary for generate builtsvariants aars)
 
-  play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
-  play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
-  play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
+    play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
+    play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
+    play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
 
-  play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
-  play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
-  play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
+    play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
+    play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
+    play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
 
     //flavour depencies from maven aar
 /*
-    compile('com.github.nuborisar.orchextra-android-sdk:orchextrasdk:2.4.3RC:play8Release@aar')
+    compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.3RC:play8Release@aar')
             {
                 transitive = true
             }
@@ -114,6 +114,7 @@ dependencies {
     compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
 
     testCompile parent.ext.testDependencies.junit
+
 
 
 }

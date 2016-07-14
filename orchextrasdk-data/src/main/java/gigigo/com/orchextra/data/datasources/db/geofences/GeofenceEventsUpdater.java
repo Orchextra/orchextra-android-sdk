@@ -79,7 +79,7 @@ public class GeofenceEventsUpdater {
 
   private void purgeResults(Realm realm, RealmResults resultsToPurge) {
     realm.beginTransaction();
-    resultsToPurge.deleteAllFromRealm();
+    resultsToPurge.clear(); //deleteAllFromRealm
     realm.commitTransaction();
   }
 

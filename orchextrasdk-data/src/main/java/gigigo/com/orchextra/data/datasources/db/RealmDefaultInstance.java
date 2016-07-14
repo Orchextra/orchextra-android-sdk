@@ -29,7 +29,7 @@ public class RealmDefaultInstance {
         new RealmConfiguration.Builder(context)
                 .deleteRealmIfMigrationNeeded()
                 .name("orchextra.realm")
-                .modules(new OrchextraRealmModule())
+                .setModules(new OrchextraRealmModule())
                 .build();
 
     return Realm.getInstance(config);

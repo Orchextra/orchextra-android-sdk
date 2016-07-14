@@ -19,7 +19,6 @@
 apply plugin: 'com.android.library'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'realm-android'
 
 
 
@@ -73,6 +72,7 @@ dependencies {
   androidTestCompile(parent.ext.testDependencies.dexMakerMockito) {
     exclude group: 'org.hamcrest', module: 'hamcrest-core'
   }
+  compile 'io.realm:realm-android:0.87.0'
 }
 
 tasks.withType(Test) {
