@@ -25,13 +25,14 @@ import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
 import com.gigigo.orchextra.OrchextraLogLevel;
+import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
     //projectid-->575e81a7893ba72f448b467f pro
-    public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
-    public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
+    public static final String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
+    public static final String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
     public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive
 
     @Override
@@ -46,16 +47,16 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
         OrchextraBuilder builder = new OrchextraBuilder(this)
                 .setApiKeyAndSecret(API_KEY, API_SECRET)
-                .setLogLevel(OrchextraLogLevel.NETWORK)
+                .setLogLevel(OrchextraLogLevel.ALL)
                 .setOrchextraCompletionCallback(this)
                 .setGcmSenderId(SENDER_ID)
                 .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
 
         Orchextra.initialize(builder);
 
+        Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.MODERATE);
+
         Orchextra.setCustomSchemeReceiver(this);
-
-
     }
 
     @Override

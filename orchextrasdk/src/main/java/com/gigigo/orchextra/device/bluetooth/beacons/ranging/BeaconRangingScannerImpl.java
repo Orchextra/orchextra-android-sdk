@@ -31,6 +31,7 @@ import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
@@ -194,7 +195,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
               BuildConfig.BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME);
     }else{
       updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
-              BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+              OrchextraManager.getBackgroundPeriodBetweenScan());
     }
   }
 
@@ -254,7 +255,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         e.printStackTrace();
       }
     }
-    updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD, BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+    updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+            OrchextraManager.getBackgroundPeriodBetweenScan());
     ranging = false;
     orchextraLogger.log("Ranging stop");
   }
@@ -282,7 +284,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     regions.remove(region);
     if (regions.isEmpty()) {
       updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
-          BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+              OrchextraManager.getBackgroundPeriodBetweenScan());
     }
   }
 
@@ -300,18 +302,16 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   private void updateBackgroudScanTimes(long scanPeriod, long beetweenScanPeriod) {
 
     try {
-      if (beaconManager.isAnyConsumerBound()){
+//      if (beaconManager.isAnyConsumerBound()){
         beaconManager.setBackgroundScanPeriod(scanPeriod);
         beaconManager.setBackgroundBetweenScanPeriod(beetweenScanPeriod);
         beaconManager.updateScanPeriods();
-      }
+//      }
       orchextraLogger.log("Update cycled Scan times");
     } catch (RemoteException e) {
       e.printStackTrace();
       orchextraLogger.log("Unable to update cycled Scan times", OrchextraSDKLogLevel.ERROR);
     }
-
-
   }
 
   private void checkAvailableRegions() {

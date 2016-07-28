@@ -17,6 +17,7 @@
  */
 package com.gigigo.orchextra;
 
+import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
@@ -136,4 +137,22 @@ public final class Orchextra {
     }
 
 
+    /**
+     * You can change the period between scanning beacons.<br/>
+     * For default, the period between scanning is 5 minutes(LIGHT).<p/>
+     *
+     * You can use this other intensities:<br/>
+     * WEAK - 10 minutes<br/>
+     * LIGHT - 5 minutes<br/>
+     * MODERATE - 2 minutes<br/>
+     * STRONG - 1 minute<br/>
+     * SEVERE - 30 seconds<br/>
+     * EXTREME - 10 seconds
+     * <p/>
+     * NOTE: We have to change this value when the app is in foreground. <p/>
+     * NOTE 2: The beacon scanning period is defined in 10 seconds which is appropiated to discover all beacons nearby.
+     */
+    public static void updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan intensity) {
+        OrchextraManager.updateBackgroundPeriodBetweenScan(intensity.getIntensity());
+    }
 }

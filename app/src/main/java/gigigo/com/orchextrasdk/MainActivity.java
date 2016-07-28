@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.appoxee.Appoxee;
 import com.appoxee.AppoxeeObserver;
 import com.appoxee.asyncs.initAsync;
-import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.CrmUser;
+import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
