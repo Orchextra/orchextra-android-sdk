@@ -191,10 +191,10 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
   private void manageGeneralBackgroundScanTimes(BackgroundBeaconsRangingTimeType time) {
     if (time == BackgroundBeaconsRangingTimeType.MAX){
-      updateBackgroudScanTimes(BuildConfig.BACKGROUND_BEACONS_SCAN_TIME,
+      updateBackgroundScanTimes(BuildConfig.BACKGROUND_BEACONS_SCAN_TIME,
               BuildConfig.BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME);
     }else{
-      updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+      updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
               OrchextraManager.getBackgroundPeriodBetweenScan());
     }
   }
@@ -255,7 +255,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         e.printStackTrace();
       }
     }
-    updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+    updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
             OrchextraManager.getBackgroundPeriodBetweenScan());
     ranging = false;
     orchextraLogger.log("Ranging stop");
@@ -283,7 +283,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     removeScheduledEndOfRanging(region);
     regions.remove(region);
     if (regions.isEmpty()) {
-      updateBackgroudScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+      updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
               OrchextraManager.getBackgroundPeriodBetweenScan());
     }
   }
@@ -299,14 +299,24 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     }
   }
 
-  private void updateBackgroudScanTimes(long scanPeriod, long beetweenScanPeriod) {
+  @Override
+  public void updateBackgroundScanPeriodBetweenScans(long beetweenScanPeriod) {
+    updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+            OrchextraManager.getBackgroundPeriodBetweenScan());
+  }
+
+  private void updateBackgroundScanTimes(long scanPeriod, long beetweenScanPeriod) {
+
+//    scanPeriod = 10000L;
 
     try {
-//      if (beaconManager.isAnyConsumerBound()){
-        beaconManager.setBackgroundScanPeriod(scanPeriod);
-        beaconManager.setBackgroundBetweenScanPeriod(beetweenScanPeriod);
+      beaconManager.setBackgroundScanPeriod(scanPeriod);
+      beaconManager.setBackgroundBetweenScanPeriod(beetweenScanPeriod);
+
+      if (beaconManager.isAnyConsumerBound()){
         beaconManager.updateScanPeriods();
-//      }
+      }
+
       orchextraLogger.log("Update cycled Scan times");
     } catch (RemoteException e) {
       e.printStackTrace();

@@ -39,6 +39,7 @@ import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedExceptio
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
+import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionManager;
 import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
@@ -94,6 +95,8 @@ public class OrchextraManager {
     ImageRecognitionManager imageRecognitionManager;
     @Inject
     OrchextraLogger orchextraLogger;
+    @Inject
+    BeaconRangingScanner beaconRangingScanner;
 
     /**
      * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -461,6 +464,7 @@ public class OrchextraManager {
     public static void updateBackgroundPeriodBetweenScan(long intensity) {
         if (OrchextraManager.instance != null) {
             OrchextraManager.instance.backgroundPeriodBetweenScan = intensity;
+            OrchextraManager.instance.beaconRangingScanner.updateBackgroundScanPeriodBetweenScans(intensity);
         } else {
             GGGLogImpl.log("Orchextra is not initialized when background period between scan was updated", LogLevel.ERROR);
         }

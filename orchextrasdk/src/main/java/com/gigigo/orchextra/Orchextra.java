@@ -138,7 +138,7 @@ public final class Orchextra {
 
 
     /**
-     * You can change the period between scanning beacons.<br/>
+     * You can change the period between scanning beacons. The lower scanning period, the bigger battery consumption<br/>
      * For default, the period between scanning is 5 minutes(LIGHT).<p/>
      *
      * You can use this other intensities:<br/>
@@ -149,7 +149,7 @@ public final class Orchextra {
      * SEVERE - 30 seconds<br/>
      * EXTREME - 10 seconds
      * <p/>
-     * NOTE: We have to change this value when the app is in foreground. <p/>
+     * NOTE: We have to change this value when the app is in foreground.<p/>
      * NOTE 2: The beacon scanning period is defined in 10 seconds which is appropiated to discover all beacons nearby.
      */
     public static void updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan intensity) {

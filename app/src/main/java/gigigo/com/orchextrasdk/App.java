@@ -44,7 +44,6 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     }
 
     private void initOrchextra() {
-
         OrchextraBuilder builder = new OrchextraBuilder(this)
                 .setApiKeyAndSecret(API_KEY, API_SECRET)
                 .setLogLevel(OrchextraLogLevel.ALL)
@@ -54,7 +53,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
         Orchextra.initialize(builder);
 
-        Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.MODERATE);
+        Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.SEVERE);
 
         Orchextra.setCustomSchemeReceiver(this);
     }
