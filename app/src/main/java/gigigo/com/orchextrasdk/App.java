@@ -53,7 +53,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
         Orchextra.initialize(builder);
 
-        Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.SEVERE);
+        Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.LIGHT);
 
         Orchextra.setCustomSchemeReceiver(this);
     }

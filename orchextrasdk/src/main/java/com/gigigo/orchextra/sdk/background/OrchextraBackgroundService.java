@@ -21,6 +21,8 @@ package com.gigigo.orchextra.sdk.background;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+
+import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraManager;
@@ -73,7 +75,10 @@ public class OrchextraBackgroundService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		OrchextraManager.getInjector().injectServiceComponent(this);
+		InjectorImpl injector = OrchextraManager.getInjector();
+		if (injector != null) {
+			injector.injectServiceComponent(this);
+		}
 		orchextraLogger.log("Service method :: onCreate");
 	}
 
