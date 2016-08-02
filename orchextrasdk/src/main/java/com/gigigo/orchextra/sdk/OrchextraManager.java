@@ -214,7 +214,10 @@ public class OrchextraManager {
      */
     public static synchronized void sdkStop() {
         OrchextraManager orchextraManager = OrchextraManager.instance;
-        if (orchextraManager != null && orchextraManager.orchextraStatusAccessor.isStarted()) {
+        if (orchextraManager != null &&
+                orchextraManager.orchextraStatusAccessor != null &&
+                orchextraManager.orchextraStatusAccessor.isStarted()) {
+
             orchextraManager.orchextraStatusAccessor.setStoppedStatus();
             instance.stopOrchextraTasks();
         }
@@ -443,6 +446,7 @@ public class OrchextraManager {
      * //because you must to declare always in the manifest file, you can not do it with code. Beacause that we
      * //keep the service OrchextraGcmListenerService and the intent filter in manifest, but weenabled or disabled
      * the service if the sender ID in Orchextra are not setted
+     *
      * @param application
      * @param gcmSenderId
      */
