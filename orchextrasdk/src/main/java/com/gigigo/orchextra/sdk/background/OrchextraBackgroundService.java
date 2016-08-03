@@ -75,6 +75,7 @@ public class OrchextraBackgroundService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
 		InjectorImpl injector = OrchextraManager.getInjector();
 		if (injector != null) {
 			injector.injectServiceComponent(this);
