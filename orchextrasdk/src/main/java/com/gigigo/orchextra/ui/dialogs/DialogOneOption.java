@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 
 import com.gigigo.orchextra.R;
 
@@ -42,7 +43,7 @@ public class DialogOneOption {
     }
 
     public Dialog onCreateDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AlertDialogCustom));
         AlertDialog dialog = builder.setIcon(R.drawable.ox_notification_large_icon)
                 .setTitle(title)
                 .setMessage(message)
