@@ -21,7 +21,6 @@ import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
@@ -39,8 +38,8 @@ import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
@@ -292,8 +291,9 @@ public class OrchextraManager {
     }
 
     private static OrchextraModule getOrchextraModule() {
-        if (getInjector() != null) {
-            OrchextraComponent orchextraComponent = getInjector().getOrchextraComponent();
+        InjectorImpl injector = getInjector();
+        if (injector != null) {
+            OrchextraComponent orchextraComponent = injector.getOrchextraComponent();
             return orchextraComponent.getOrchextraModule();
         } else {
             return null;

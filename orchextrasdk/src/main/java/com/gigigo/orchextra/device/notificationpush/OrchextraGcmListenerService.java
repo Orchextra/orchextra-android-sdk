@@ -19,19 +19,21 @@
 package com.gigigo.orchextra.device.notificationpush;
 
 import android.os.Bundle;
-
 import android.support.annotation.NonNull;
-import com.gigigo.ggglogger.GGGLogImpl;
+
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidNotification;
+import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.google.android.gms.gcm.GcmListenerService;
-import orchextra.javax.inject.Inject;
+
 import org.json.JSONObject;
+
+import orchextra.javax.inject.Inject;
 
 public class OrchextraGcmListenerService extends GcmListenerService {
 
@@ -42,7 +44,11 @@ public class OrchextraGcmListenerService extends GcmListenerService {
   @Override
   public void onCreate() {
     super.onCreate();
-    OrchextraManager.getInjector().injectGcmListenerServiceComponent(this);
+
+    InjectorImpl injector = OrchextraManager.getInjector();
+    if (injector != null) {
+      injector.injectGcmListenerServiceComponent(this);
+    }
   }
 
   @Override
