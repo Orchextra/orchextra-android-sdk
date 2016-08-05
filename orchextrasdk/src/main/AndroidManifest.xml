@@ -101,6 +101,12 @@
       </intent-filter>
     </receiver>
 
+      <receiver android:name=".device.notifications.NotificationReceiver" android:enabled="true" >
+          <intent-filter>
+              <action android:name="com.gigigo.imagerecognition.intent.action.NOTIFICATION_BROADCAST" />
+          </intent-filter>
+      </receiver>
+
     </application>
 
 </manifest>

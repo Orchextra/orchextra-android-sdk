@@ -22,7 +22,6 @@ import android.content.Context;
 
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.device.OrchextraLoggerImpl;
-import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
@@ -47,9 +46,9 @@ import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.model.CrmUserGenderConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
-import orchextra.javax.inject.Singleton;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
 /**
  * module refers dagger module object
@@ -73,11 +72,10 @@ public class OrchextraModule {
           AppRunningMode appRunningMode,
           OrchextraContextProvider contextProvider,
           AppStatusEventsListener appStatusEventsListener,
-          NotificationDispatcher notificationDispatcher,
           OrchextraLogger orchextraLogger) {
 
     OrchextraActivityLifecycle orchextraActivityLifecycle =
-            new OrchextraActivityLifecycle(appStatusEventsListener, notificationDispatcher,
+            new OrchextraActivityLifecycle(appStatusEventsListener,
                 orchextraLogger);
     contextProvider.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
     appRunningMode.setOrchextraActivityLifecycle(orchextraActivityLifecycle);

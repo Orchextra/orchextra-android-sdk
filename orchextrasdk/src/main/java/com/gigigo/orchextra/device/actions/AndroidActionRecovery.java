@@ -18,21 +18,30 @@
 
 package com.gigigo.orchextra.device.actions;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
+import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 
 
 public class AndroidActionRecovery implements ActionRecovery {
 
+  private final Context context;
   private final ActionDispatcher actionDispatcher;
   private final AndroidBasicActionMapper androidBasicActionMapper;
   private final ThreadSpec mainThreadSpec;
 
-  public AndroidActionRecovery(ActionDispatcher actionDispatcher,
-      AndroidBasicActionMapper androidBasicActionMapper, ThreadSpec mainThreadSpec) {
+  public AndroidActionRecovery(Context context,
+                               ActionDispatcher actionDispatcher,
+                               AndroidBasicActionMapper androidBasicActionMapper,
+                               ThreadSpec mainThreadSpec) {
+    this.context = context;
     this.actionDispatcher = actionDispatcher;
     this.androidBasicActionMapper = androidBasicActionMapper;
     this.mainThreadSpec = mainThreadSpec;
@@ -40,10 +49,22 @@ public class AndroidActionRecovery implements ActionRecovery {
 
   @Override public void recoverAction(AndroidBasicAction androidBasicAction) {
     final BasicAction basicAction = androidBasicActionMapper.externalClassToModel(androidBasicAction);
+
+    checkTypeActionToStartLaucherActivity(basicAction);
+
     mainThreadSpec.execute(new Runnable() {
       @Override public void run() {
         basicAction.performAction(actionDispatcher);
       }
     });
+  }
+
+  private void checkTypeActionToStartLaucherActivity(BasicAction basicAction) {
+    if (basicAction.getActionType() != ActionType.CUSTOM_SCHEME) {
+      PackageManager pm = context.getPackageManager();
+      Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
+      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+      context.startActivity(intent);
+    }
   }
 }

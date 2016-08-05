@@ -20,11 +20,18 @@ package com.gigigo.orchextra.device.actions;
 
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecutor;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
 public class ScanActionExecutor implements ActionExecutor {
 
+    private final ScannerManager scannerManager;
+
+    public ScanActionExecutor(ScannerManager scannerManager) {
+        this.scannerManager = scannerManager;
+    }
+
     @Override
     public void execute(BasicAction action) {
-
+        scannerManager.open();
     }
 }

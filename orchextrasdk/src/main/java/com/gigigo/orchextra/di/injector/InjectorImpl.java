@@ -22,10 +22,12 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
 import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionReceiver;
 import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
+import com.gigigo.orchextra.device.notifications.NotificationReceiver;
 import com.gigigo.orchextra.di.components.DaggerGcmListenerServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerGeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerOrchextraBootBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.DaggerOrchextraIrBroadcastReceiverComponent;
+import com.gigigo.orchextra.di.components.DaggerOrchextraNotificationReceiverComponent;
 import com.gigigo.orchextra.di.components.DaggerServiceComponent;
 import com.gigigo.orchextra.di.components.DaggerTaskServiceComponent;
 import com.gigigo.orchextra.di.components.GcmListenerServiceComponent;
@@ -34,6 +36,7 @@ import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.components.OrchextraBootBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraIrBroadcastReceiverComponent;
+import com.gigigo.orchextra.di.components.OrchextraNotificationReceiverComponent;
 import com.gigigo.orchextra.di.components.ServiceComponent;
 import com.gigigo.orchextra.di.components.TaskServiceComponent;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
@@ -188,6 +191,14 @@ public class InjectorImpl implements Injector {
                 orchextraComponent(orchextraComponent).build();
         oibrc.injectOrchextraIrBroadcastReceiver(imageRecognitionReceiver);
         return oibrc;
+    }
+
+    @Override
+    public OrchextraNotificationReceiverComponent injectNotificationBroadcastComponent(NotificationReceiver notificationReceiver) {
+        OrchextraNotificationReceiverComponent component = DaggerOrchextraNotificationReceiverComponent.builder().
+                orchextraComponent(orchextraComponent).build();
+        component.injectNotificationBroadcastReceiverComponent(notificationReceiver);
+        return component;
     }
 
     public InteractorExecutionComponent injectClearStorageInteractorExecution(InteractorExecution interactorExecution) {
