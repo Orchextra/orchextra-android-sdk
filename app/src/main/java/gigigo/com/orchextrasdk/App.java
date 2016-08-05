@@ -22,10 +22,14 @@ import android.util.Log;
 
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
+//import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
+//import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
+
+import orchextra.javax.inject.Qualifier;
 
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
@@ -42,19 +46,30 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
         Log.d("APP", "Hello Application, end onCreate");
     }
 
-    private void initOrchextra() {
+    public void initOrchextra() {
 
         OrchextraBuilder builder = new OrchextraBuilder(this)
                 .setApiKeyAndSecret(API_KEY, API_SECRET)
                 .setLogLevel(OrchextraLogLevel.NETWORK)
                 .setOrchextraCompletionCallback(this)
                 .setGcmSenderId(SENDER_ID)
-                .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
-
+            .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
         Orchextra.initialize(builder);
 
         Orchextra.setCustomSchemeReceiver(this);
 
+        /*
+
+        Orchextra.init(this, new OrchextraCompletionCallback() {
+            @Override
+            public void onSuccess() { }
+            @Override
+            public void onError(String s) { }
+            @Override
+            public void onInit(String s) { }
+        });
+ Orchextra.start("aaf3e003bdeb2ca5c657dc3fdec161c7c11928b7", "d62ae5a993af5eda9e48fe06c4acc525a335f632");
+        */
 
     }
 

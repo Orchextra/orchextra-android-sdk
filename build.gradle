@@ -26,7 +26,7 @@ buildscript {
     maven {
       url "https://plugins.gradle.org/m2/"
     }
-    jcenter()
+   // jcenter()
     mavenCentral()
   }
 
@@ -56,9 +56,9 @@ allprojects {
     androidCompileSdkVersion = 23
     androidApplicationId = 'com.gigigo.orchextra.sdk'
 
-    versionMajor = 2
-    versionMinor = 4
-    versionPatch = 3
+    versionMajor = 3
+    versionMinor = 0
+    versionPatch = 0
 
     androidVersionCode = versionMajor * 1000 + versionMinor * 100 + versionPatch
     androidVersionName = versionMajor + "." + versionMinor + "." + versionPatch

@@ -22,9 +22,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary"
+    android:background="?attr/colorPrimary_ox"
     android:elevation="4dp"
-    android:minHeight="?attr/actionBarSize"
+    android:minHeight="?attr/actionBarSize_ox"
     android:orientation="horizontal"
 
     >

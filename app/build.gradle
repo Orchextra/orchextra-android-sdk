@@ -21,8 +21,8 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 
 android {
     compileSdkVersion parent.ext.androidCompileSdkVersion
-    buildToolsVersion parent.ext.androidBuildToolsVersion
-
+  //  buildToolsVersion parent.ext.androidBuildToolsVersion
+    buildToolsVersion = "24.0.1" //java8
     defaultConfig {
         applicationId "gigigo.com.orchextrasdk"
         minSdkVersion 11
@@ -34,6 +34,10 @@ android {
         //less than armv7, but not with exclude, wit Ndk { abifilters
         ndk {
             abiFilters "armeabi-v7a"
+        }
+        //java8
+        jackOptions {
+            enabled true
         }
     }
 
@@ -63,8 +67,8 @@ android {
   }
 */
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8 //java8
+        targetCompatibility JavaVersion.VERSION_1_8 //java8
     }
 
     productFlavors {
@@ -84,7 +88,12 @@ configurations {
 }
 
 dependencies {
-    /*  compile project(':orchextrasdk')*/
+
+    /*  compile  'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.4'
+
+    compile 'com.google.android.gms:play-services-location:9.0.0'
+    compile 'com.google.android.gms:play-services-gcm:9.0.0'
+  compile project(':orchextrasdk')*/
 
 //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
 
@@ -105,9 +114,19 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.4.0'
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
     */
-
-
+    /*
+    compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.3RC:play8Release@aar')
+            {
+                transitive = true
+                exclude module: 'support-v4'
+            }*/
+  /*  compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+*/
+  compile 'com.android.support:appcompat-v7:23.0.1'
+//    compile 'com.android.support:design:23.0.1'
     compile(name: 'appoxee_sdk_2.7.0', ext: 'aar') //appoxee, u can test double pushnotification
+    //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin tontas de support
     compile parent.ext.dependencies.imageRecognitionImpl //vuforia
 
     //webview

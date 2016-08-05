@@ -13,7 +13,7 @@ import com.appoxee.Appoxee;
 import com.appoxee.AppoxeeObserver;
 import com.appoxee.asyncs.initAsync;
 import com.gigigo.orchextra.CustomSchemeReceiver;
-import com.gigigo.orchextra.CrmUser;
+//import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         //region orchextraWebview
+
         if (v.getId() == R.id.button4) {
             OxWebViewActivity.open(this, TEST_STREAM_URL, false);
             Orchextra.setCustomSchemeReceiver(new CustomSchemeReceiver() {
@@ -202,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 Orchextra.start();
+            //   Orchextra.start("aaf3e003bdeb2ca5c657dc3fdec161c7c11928b7", "d62ae5a993af5eda9e48fe06c4acc525a335f632");
             }
         });
 
@@ -223,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //todo neverused
+    /*
     public void setCrmUser() {
         String myCrmId = getApplicationContext().getPackageName();
         GregorianCalendar  BirthDay = new GregorianCalendar(1981, Calendar.MAY, 31);
@@ -232,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
         Orchextra.setUser(crmUser);
     }
+    */
     //endregion
 
 

@@ -20,11 +20,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="OxAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
-    </style>
+    <style name="OxAppTheme"/>
+    <!--parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--<item name="colorPrimary_ox">@color/color_primary_ox</item>-->
+        <!--<item name="colorPrimaryDark_ox">@color/color_primary_dark_ox</item>-->
+        <!--<item name="colorAccent_ox">@color/color_accent_ox</item>-->
+    <!--</style>-->
 
     <!-- VuforiaCredentials Module customization -->
     <style name="irCustomizationScanWaterMark" >

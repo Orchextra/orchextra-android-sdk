@@ -17,36 +17,39 @@
  */
 
 allprojects {
-  ext {
-    dependencies = [
-        loggingInterceptor         : 'com.squareup.okhttp3:logging-interceptor:3.2.0',
+    ext {
+        dependencies = [
+                loggingInterceptor       : 'com.squareup.okhttp3:logging-interceptor:3.2.0',
+//
+                daggerCompiler           : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.2',
+                dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
 
-        daggerCompiler             : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.2',
-        dagger                     : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
+//                playServicesLocation     : 'com.google.android.gms:play-services-location:8.4.0',
+//                playServicesGcm          : 'com.google.android.gms:play-services-gcm:8.4.0',
 
-        playServicesLocation       : 'com.google.android.gms:play-services-location:8.4.0',
-        playServicesGcm            : 'com.google.android.gms:play-services-gcm:8.4.0',
+                altBeacon                : 'org.altbeacon:android-beacon-library:2+',
+                barcodescanner           : 'me.dm7.barcodescanner:zbar:1.8.4',
+//gggJavaLib               : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.7',
+//gggLogger                : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.7',
+//gggLib                   : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.7',
+                gggJavaLib               : 'com.github.nuborisar.gigigo-utils-suite:ggg-java-lib:5.2',
+                gggLogger                : 'com.github.nuborisar.gigigo-utils-suite:ggglogger:5.2',
+                gggLib                   : 'com.github.nuborisar.gigigo-utils-suite:ggglib:5.2',
+                //Image Recognition
+//imageRecognitionInterface: 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:1.0',
+//imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.2',
+                imageRecognitionInterface: 'com.github.nuborisar.imgRecognition:imagerecognitioninterface:2.0',
+                imageRecognitionImpl     : 'com.github.nuborisar.imgRecognition:vuforiaimplementation:2.0'
+        ]
 
-        altBeacon                  : 'org.altbeacon:android-beacon-library:2+',
-        barcodescanner             : 'me.dm7.barcodescanner:zbar:1.8.4',
-
-        gggJavaLib                 : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.7',
-        gggLogger                  : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.7',
-        gggLib                     : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.7',
-
-        //Image Recognition
-        imageRecognitionInterface  : 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:1.0',
-        imageRecognitionImpl       : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.2',
-    ]
-
-    testDependencies = [
-                        mockito         : 'org.mockito:mockito-core:1.10.19',
-                        junit           : 'junit:junit:4.12',
-                        testRunner      : 'com.android.support.test:runner:0.4.1',
-                        testRules       : 'com.android.support.test:rules:0.4.1',
-                        dexMaker        : 'com.google.dexmaker:dexmaker:1.2',
-                        dexMakerMockito : 'com.google.dexmaker:dexmaker-mockito:1.2',
-                        espresso        : 'com.android.support.test.espresso:espresso-core:2.2.1',
-                        mockWebServer   : 'com.squareup.okhttp:mockwebserver:2.6.0']
-  }
+        testDependencies = [
+                mockito        : 'org.mockito:mockito-core:1.10.19',
+                junit          : 'junit:junit:4.12',
+                testRunner     : 'com.android.support.test:runner:0.4.1',
+                testRules      : 'com.android.support.test:rules:0.4.1',
+                dexMaker       : 'com.google.dexmaker:dexmaker:1.2',
+                dexMakerMockito: 'com.google.dexmaker:dexmaker-mockito:1.2',
+                espresso       : 'com.android.support.test.espresso:espresso-core:2.2.1',
+                mockWebServer  : 'com.squareup.okhttp:mockwebserver:2.6.0']
+    }
 }
