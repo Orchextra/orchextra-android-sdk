@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.ui;
 
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7ox.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

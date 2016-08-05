@@ -22,17 +22,20 @@ import android.util.Log;
 
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
+//import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
+//import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.OrchextraLogLevel;
-import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
+
+import orchextra.javax.inject.Qualifier;
 
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
     //projectid-->575e81a7893ba72f448b467f pro
-    public static final String API_KEY = "42cb4ba46f86bdc276940cd9cf2cdf8b7f7f579d";
-    public static final String API_SECRET = "16163c4041f2f317ac300e582c3fb663982a6e9e";
+    public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
+    public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
     public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive
 
     @Override
@@ -43,19 +46,31 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
         Log.d("APP", "Hello Application, end onCreate");
     }
 
-    private void initOrchextra() {
+    public void initOrchextra() {
+
         OrchextraBuilder builder = new OrchextraBuilder(this)
                 .setApiKeyAndSecret(API_KEY, API_SECRET)
-                .setLogLevel(OrchextraLogLevel.ALL)
+                .setLogLevel(OrchextraLogLevel.NETWORK)
                 .setOrchextraCompletionCallback(this)
                 .setGcmSenderId(SENDER_ID)
-                .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
-
+            .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
         Orchextra.initialize(builder);
 
-        Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.WEAK);
-
         Orchextra.setCustomSchemeReceiver(this);
+
+        /*
+
+        Orchextra.init(this, new OrchextraCompletionCallback() {
+            @Override
+            public void onSuccess() { }
+            @Override
+            public void onError(String s) { }
+            @Override
+            public void onInit(String s) { }
+        });
+ Orchextra.start("aaf3e003bdeb2ca5c657dc3fdec161c7c11928b7", "d62ae5a993af5eda9e48fe06c4acc525a335f632");
+        */
+
     }
 
     @Override

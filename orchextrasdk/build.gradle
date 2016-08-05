@@ -112,7 +112,7 @@ android {
   // true to publish all flavour artifacts
   publishNonDefault true
   // default build flavour
-  defaultPublishConfig "play8Release"
+  defaultPublishConfig "play9Release"
 }
 
 configurations {
@@ -167,8 +167,14 @@ dependencies {
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')
 
-  compile parent.ext.dependencies.gggLib
-  compile parent.ext.dependencies.gggLogger
+ /* compile( parent.ext.dependencies.gggLib)
+          {
+            //transitive = true
+            changing = true
+          }
+*/
+//compile 'com.github.nuborisar.gigigo-utils-suite:ggglib:5.0'
+ // compile parent.ext.dependencies.gggLogger
 
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito

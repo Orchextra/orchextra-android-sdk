@@ -60,7 +60,12 @@ dependencies {
   }
 
   compile project(':orchextrasdk-dataprovision')
-  compile parent.ext.dependencies.gggLib
+
+  compile( parent.ext.dependencies.gggLib)
+          {
+            //transitive = true
+            changing = true
+          }
 
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito
