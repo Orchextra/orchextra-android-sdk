@@ -27,6 +27,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
+import com.gigigo.ggglogger.GGGLogImpl;
+import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.CrmUser;
@@ -36,6 +38,8 @@ import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserContro
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
+import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
+import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionManager;
 import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
 import com.gigigo.orchextra.di.components.DaggerOrchextraComponent;
@@ -69,6 +73,7 @@ public class OrchextraManager {
     private InjectorImpl injector;
     private OrchextraManagerCompletionCallback orchextraCompletionCallback;
     private String gcmSenderId;
+    private long backgroundPeriodBetweenScan = BeaconBackgroundPeriodBetweenScan.LIGHT.getIntensity();
 
     @Inject
     OrchextraActivityLifecycle orchextraActivityLifecycle;
@@ -90,6 +95,8 @@ public class OrchextraManager {
     ImageRecognitionManager imageRecognitionManager;
     @Inject
     OrchextraLogger orchextraLogger;
+    @Inject
+    BeaconRangingScanner beaconRangingScanner;
 
     /**
      * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -207,7 +214,10 @@ public class OrchextraManager {
      */
     public static synchronized void sdkStop() {
         OrchextraManager orchextraManager = OrchextraManager.instance;
-        if (orchextraManager != null && orchextraManager.orchextraStatusAccessor.isStarted()) {
+        if (orchextraManager != null &&
+                orchextraManager.orchextraStatusAccessor != null &&
+                orchextraManager.orchextraStatusAccessor.isStarted()) {
+
             orchextraManager.orchextraStatusAccessor.setStoppedStatus();
             instance.stopOrchextraTasks();
         }
@@ -350,7 +360,6 @@ public class OrchextraManager {
 
             if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS) {
                 start();
-                //TODO restart or call any service???
             }
 
         } catch (SdkAlreadyStartedException alreadyStartedException) {
@@ -387,8 +396,9 @@ public class OrchextraManager {
     }
 
     private static OrchextraModule getOrchextraModule() {
-        if (getInjector() != null) {
-            OrchextraComponent orchextraComponent = getInjector().getOrchextraComponent();
+        InjectorImpl injector = getInjector();
+        if (injector != null) {
+            OrchextraComponent orchextraComponent = injector.getOrchextraComponent();
             return orchextraComponent.getOrchextraModule();
         } else {
             return null;
@@ -398,13 +408,16 @@ public class OrchextraManager {
     public static void setImageRecognition(ImageRecognition imageRecognition) {
         if (OrchextraManager.instance != null && imageRecognition != null) {
             OrchextraManager.instance.imageRecognitionManager.setImplementation(imageRecognition);
+        } else {
+            GGGLogImpl.log("Orchextra is not initialized when image recognition was setted", LogLevel.ERROR);
         }
-
     }
 
     public static void startImageRecognition() {
         if (OrchextraManager.instance != null) {
             OrchextraManager.instance.imageRecognitionManager.startImageRecognition();
+        } else {
+            GGGLogImpl.log("Orchextra is not initialized when image recognition was started", LogLevel.ERROR);
         }
     }
 
@@ -421,8 +434,12 @@ public class OrchextraManager {
     }
 
     public static void setGcmSendId(Application application, String gcmSenderId) {
-        OrchextraManager.instance.gcmSenderId = gcmSenderId;
-        enabledOrchextraNotificationPush(application, gcmSenderId);
+        if (OrchextraManager.instance != null) {
+            OrchextraManager.instance.gcmSenderId = gcmSenderId;
+            enabledOrchextraNotificationPush(application, gcmSenderId);
+        } else {
+            GGGLogImpl.log("Orchextra is not initialized when GCM Sender Id was setted", LogLevel.ERROR);
+        }
     }
 
     /**
@@ -430,6 +447,7 @@ public class OrchextraManager {
      * //because you must to declare always in the manifest file, you can not do it with code. Beacause that we
      * //keep the service OrchextraGcmListenerService and the intent filter in manifest, but weenabled or disabled
      * the service if the sender ID in Orchextra are not setted
+     *
      * @param application
      * @param gcmSenderId
      */
@@ -446,5 +464,18 @@ public class OrchextraManager {
 
     public static String getGcmSenderId() {
         return OrchextraManager.instance.gcmSenderId;
+    }
+
+    public static void updateBackgroundPeriodBetweenScan(long intensity) {
+        if (OrchextraManager.instance != null) {
+            OrchextraManager.instance.backgroundPeriodBetweenScan = intensity;
+            OrchextraManager.instance.beaconRangingScanner.updateBackgroundScanPeriodBetweenScans(intensity);
+        } else {
+            GGGLogImpl.log("Orchextra is not initialized when background period between scan was updated", LogLevel.ERROR);
+        }
+    }
+
+    public static long getBackgroundPeriodBetweenScan() {
+        return OrchextraManager.instance.backgroundPeriodBetweenScan;
     }
 }

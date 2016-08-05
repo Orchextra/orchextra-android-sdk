@@ -68,7 +68,7 @@ android {
 
   buildTypes {
     debug{
-      buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
+      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
     }
     release {
       buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
