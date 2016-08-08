@@ -20,9 +20,12 @@ package com.gigigo.orchextra.device.actions;
 
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecutor;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 
 public class VuforiaActionExecutor implements ActionExecutor {
-    @Override public void execute(BasicAction action) {
 
+    @Override public void execute(BasicAction action) {
+        //Cycle dependency exists if constructor params is ImageRecognitionManager
+        OrchextraManager.startImageRecognition();
     }
 }

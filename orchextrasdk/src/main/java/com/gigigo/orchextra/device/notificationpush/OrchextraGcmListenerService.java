@@ -47,7 +47,7 @@ public class OrchextraGcmListenerService extends GcmListenerService {
 
     InjectorImpl injector = OrchextraManager.getInjector();
     if (injector != null) {
-    injector.injectGcmListenerServiceComponent(this);
+      injector.injectGcmListenerServiceComponent(this);
     }
   }
 

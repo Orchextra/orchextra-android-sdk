@@ -23,7 +23,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
@@ -94,14 +93,24 @@ public class AndroidNotificationBuilder {
     }
 
     public PendingIntent getPendingIntent(AndroidBasicAction androidBasicAction) {
-        PackageManager pm = context.getPackageManager();
+        Intent intent = new Intent(context , NotificationReceiver.class)
+                .setAction(NotificationReceiver.ACTION_NOTIFICATION_BROADCAST_RECEIVER)
+                .putExtra(NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER, NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER)
+                .putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction)
+                .setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
-        Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setAction(String.valueOf(System.currentTimeMillis()));
-        intent.putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction);
+        return PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        return PendingIntent.getActivity(context, 1, intent, 0);
+//        PackageManager pm = context.getPackageManager();
+//
+//        Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
+//        if (intent != null) {
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.setAction(String.valueOf(System.currentTimeMillis()));
+//            intent.putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction);
+//        }
+//
+//        return PendingIntent.getActivity(context, 1, intent, 0);
     }
 
     private int getSmallIconResourceId() {
