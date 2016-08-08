@@ -57,7 +57,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
         Orchextra.initialize(builder);
 
         Orchextra.setCustomSchemeReceiver(this);
-
+        Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
         /*
 
         Orchextra.init(this, new OrchextraCompletionCallback() {

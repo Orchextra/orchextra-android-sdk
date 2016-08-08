@@ -19,7 +19,7 @@ import com.gigigo.orchextra.ui.webview.OxWebView;
 
 public class WebViewActivity extends AppCompatActivity {
     private OxWebView mWebView;
-    private static final String GIGIGO_RESEARCH_URL = "http://research.gigigo.com ";
+    private static final String GIGIGO_RESEARCH_URL = "http://research.gigigo.com";
     private static final String CUSTOM_SCHEME = "webview://";
     FrameLayout frmContent;
 
@@ -27,7 +27,7 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-/*
+
         if (Build.VERSION.SDK_INT > 17) {
             mWebView = new OxWebView(this);
             mWebView.loadUrl(GIGIGO_RESEARCH_URL);
@@ -54,7 +54,7 @@ public class WebViewActivity extends AppCompatActivity {
                     }
                 }
             });
-        }*/
+        }
     }
 
 }

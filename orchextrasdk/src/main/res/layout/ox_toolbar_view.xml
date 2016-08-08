@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Created by Orchextra
   ~
   ~ Copyright (C) 2016 Gigigo Mobile Services SL
@@ -15,37 +14,31 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary_ox"
-    android:elevation="4dp"
-    android:minHeight="?attr/actionBarSize_ox"
-    android:orientation="horizontal"
+    android:background="@color/color_primary"
+    android:minHeight="@dimen/actionbar_size_ox"
+    android:orientation="horizontal">
 
-    >
-
-  <ImageView
-      android:id="@+id/closeToolbarButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:layout_margin="@dimen/spacing_8"
-      tools:src="@drawable/ox_close"/>
-
-  <TextView
-      android:id="@+id/titleToolbar"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:textColor="@color/color_accent"
-      android:textSize="@dimen/text_21"
-      android:textStyle="bold"
-      tools:text="@string/ox_app_name"
-      />
+    <ImageView
+        android:id="@+id/closeToolbarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/spacing_6"
+        android:src="@drawable/ox_close_button"
+          />
+    <TextView
+        android:id="@+id/titleToolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spacing_2"
+        android:layout_gravity="center"
+        android:text="@string/ox_app_name"
+        android:textColor="@color/color_accent"
+        android:textSize="@dimen/text_21"
+        android:textStyle="bold" />
 
 </LinearLayout>

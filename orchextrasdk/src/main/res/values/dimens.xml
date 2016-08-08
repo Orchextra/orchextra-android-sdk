@@ -18,7 +18,7 @@
   -->
 
 <resources>
-
+  <dimen name="actionbar_size_ox">54dp</dimen>
   <!-- Tamaños de espacios -->
   <dimen name="spacing_2">2dp</dimen>
   <dimen name="spacing_4">4dp</dimen>
@@ -34,15 +34,15 @@
   <dimen name="spacing_128">128dp</dimen>
 
   <!-- Tamaños de letra -->
-  <dimen name="text_6">6dp</dimen>
-  <dimen name="text_9">9dp</dimen>
-  <dimen name="text_11">11dp</dimen>
-  <dimen name="text_14">14dp</dimen>
-  <dimen name="text_15">15dp</dimen>
-  <dimen name="text_17">17dp</dimen>
-  <dimen name="text_19">19dp</dimen>
-  <dimen name="text_21">21dp</dimen>
-  <dimen name="text_24">24dp</dimen>
-  <dimen name="text_30">30dp</dimen>
+  <dimen name="text_6">6sp</dimen>
+  <dimen name="text_9">9sp</dimen>
+  <dimen name="text_11">11sp</dimen>
+  <dimen name="text_14">14sp</dimen>
+  <dimen name="text_15">15sp</dimen>
+  <dimen name="text_17">17sp</dimen>
+  <dimen name="text_19">19sp</dimen>
+  <dimen name="text_21">21sp</dimen>
+  <dimen name="text_24">24sp</dimen>
+  <dimen name="text_30">30sp</dimen>
 
 </resources>

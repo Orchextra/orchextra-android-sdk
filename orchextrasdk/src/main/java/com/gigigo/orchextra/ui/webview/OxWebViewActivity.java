@@ -94,6 +94,7 @@ public class OxWebViewActivity extends OxToolbarActivity {
 
         String url = getIntent().getStringExtra(EXTRA_URL);
         boolean showToolBar = getIntent().getBooleanExtra(EXTRA_SHOWTOOLBAR, true);
+
         if (!showToolBar) {
             if (Build.VERSION.SDK_INT > 17) {
                 LinearLayout actionBar = (LinearLayout) findViewById(R.id.lytToolBar);

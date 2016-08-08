@@ -20,6 +20,8 @@ package com.gigigo.orchextra.ui.webview;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;

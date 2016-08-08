@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getViews();
         setListeners();
 
-        startOrchextra();
-
         //appoxeeSDK
         startAppoxee();
     }
@@ -155,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        final String TEST_STREAM_URL = "http://research.gigigo.com ";
+        final String TEST_STREAM_URL = "http://research.gigigo.com";
         final String CUSTOM_SCHEME = "webview://";
 
         if (v.getId() == R.id.button) {
@@ -203,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 Orchextra.start();
-            //   Orchextra.start("aaf3e003bdeb2ca5c657dc3fdec161c7c11928b7", "d62ae5a993af5eda9e48fe06c4acc525a335f632");
+            //old version Orchextra.start("aaf3e003bdeb2ca5c657dc3fdec161c7c11928b7", "d62ae5a993af5eda9e48fe06c4acc525a335f632");
             }
         });
 

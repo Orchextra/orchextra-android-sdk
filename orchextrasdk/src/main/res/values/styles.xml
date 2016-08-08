@@ -20,13 +20,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="OxAppTheme"/>
-    <!--parent="Theme.AppCompat.Light.NoActionBar">-->
-        <!--<item name="colorPrimary_ox">@color/color_primary_ox</item>-->
-        <!--<item name="colorPrimaryDark_ox">@color/color_primary_dark_ox</item>-->
-        <!--<item name="colorAccent_ox">@color/color_accent_ox</item>-->
-    <!--</style>-->
+    <style name="OxAppTheme"
+    parent="Theme.AppCompat.Light.NoActionBar">
+        <!--<item name="colorPrimary_ox">color_primary_ox</item>-->
+        <!--<item name="colorPrimaryDark_ox"> color_primary_dark_ox</item>-->
+        <!--<item name="colorAccent_ox">color_accent_ox</item>-->
+    </style>
 
+    <style name="OxAppThemeNoBar"
+        parent="@android:style/Theme.Black.NoTitleBar">
+    </style>
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert"/>
 
     <!-- VuforiaCredentials Module customization -->

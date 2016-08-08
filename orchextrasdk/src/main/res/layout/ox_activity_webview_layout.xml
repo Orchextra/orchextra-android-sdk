@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Created by Orchextra
   ~
   ~ Copyright (C) 2016 Gigigo Mobile Services SL
@@ -16,23 +15,19 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lytOrchextraWebView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include android:id="@+id/lytToolBar"
+    <include
+        android:id="@+id/lytToolBar"
+        layout="@layout/ox_toolbar_view" />
 
-        layout="@layout/ox_toolbar_view"/>
-
-    <com.gigigo.orchextra.ui.webview.OxWebView
+    <com.gigigo.orchextra.ui.webview.OxWebView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ox_orchextraWebView"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

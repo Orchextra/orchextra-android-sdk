@@ -39,13 +39,13 @@
 
       <activity
           android:name=".ui.webview.OxWebViewActivity"
-          android:theme="@style/OxAppTheme"
+          android:theme="@style/OxAppThemeNoBar"
           android:screenOrientation="portrait"/>
 
       <activity
           android:name=".ui.scanner.OxScannerActivity"
           android:screenOrientation="portrait"
-          android:theme="@style/OxAppTheme"/>
+          android:theme="@style/OxAppThemeNoBar"/>
 
       <receiver android:name=".sdk.background.OrchextraBootBroadcastReceiver">
         <intent-filter>
