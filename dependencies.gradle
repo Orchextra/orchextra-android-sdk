@@ -36,10 +36,10 @@ allprojects {
                 gggLogger                : 'com.github.nuborisar.gigigo-utils-suite:ggglogger:5.2',
                 gggLib                   : 'com.github.nuborisar.gigigo-utils-suite:ggglib:5.2',
                 //Image Recognition
-//imageRecognitionInterface: 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:1.0',
-//imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.2',
-                imageRecognitionInterface: 'com.github.nuborisar.imgRecognition:imagerecognitioninterface:2.0',
-                imageRecognitionImpl     : 'com.github.nuborisar.imgRecognition:vuforiaimplementation:2.0'
+                //imageRecognitionInterface: 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:1.0',
+                //imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.2',
+                imageRecognitionInterface: 'com.github.nuborisar.imgRecognition:imagerecognitioninterface:2.4',
+                imageRecognitionImpl     : 'com.github.nuborisar.imgRecognition:vuforiaimplementation:2.4'
         ]
 
         testDependencies = [

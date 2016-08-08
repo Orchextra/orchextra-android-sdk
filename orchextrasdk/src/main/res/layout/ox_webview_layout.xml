@@ -29,7 +29,6 @@
         android:id="@+id/ox_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-android:backgroundTintMode="multiply"
         android:backgroundTint="@color/color_primary_dark"
         android:layout_centerInParent="true"
         />
