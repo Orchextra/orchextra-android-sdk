@@ -48,7 +48,7 @@ public class FeatureList implements FeatureListener,
   private void checkAllFeaturesAdded() {
     if (areAllFeaturesReady() && orchextraCompletionCallback != null) {
       if (areSuccess()) {
-        orchextraCompletionCallback.onSuccess();
+        orchextraCompletionCallback.onSuccess(); //THIS NEVER USED
       } else {
         orchextraCompletionCallback.onError(formatErrorsAsString());
       }
