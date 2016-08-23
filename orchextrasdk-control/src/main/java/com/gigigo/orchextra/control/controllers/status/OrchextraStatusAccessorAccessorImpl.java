@@ -144,7 +144,7 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
 
     @Override
     public boolean isStarted() throws NullPointerException {
-        return orchextraStatusManager.isStarted();
+        return orchextraStatusManager != null && orchextraStatusManager.isStarted();
     }
 
     @Override
