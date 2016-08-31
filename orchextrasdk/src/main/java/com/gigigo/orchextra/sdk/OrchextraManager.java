@@ -21,7 +21,6 @@ import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
@@ -39,8 +38,8 @@ import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
@@ -150,7 +149,9 @@ public class OrchextraManager {
      */
     public static synchronized void sdkStop() {
         OrchextraManager orchextraManager = OrchextraManager.instance;
-        if (orchextraManager != null && orchextraManager.orchextraStatusAccessor.isStarted()) {
+        if (orchextraManager != null &&
+                orchextraManager.orchextraStatusAccessor != null &&
+                orchextraManager.orchextraStatusAccessor.isStarted()) {
             orchextraManager.orchextraStatusAccessor.setStoppedStatus();
             orchextraManager.instance.stopOrchextraTasks();
         }
@@ -230,12 +231,14 @@ public class OrchextraManager {
     }
 
     private void startSDK() {
-        if (appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND) {
-            appStatusEventsListener.onForegroundStart();
-        } else if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND) {
-            appStatusEventsListener.onBackgroundStart();
+        if (OrchextraManager.instance != null) {
+            if (appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND) {
+                appStatusEventsListener.onForegroundStart();
+            } else if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND) {
+                appStatusEventsListener.onBackgroundStart();
+            }
+            orchextraCompletionCallback.onSuccess();
         }
-        orchextraCompletionCallback.onSuccess();
     }
 
     /**
@@ -246,33 +249,35 @@ public class OrchextraManager {
      * @param apiSecret
      */
     private void start(String apiKey, String apiSecret) {
-        Exception exception = null;
-        try {
-            StartStatusType status = orchextraStatusAccessor.setStartedStatus(apiKey, apiSecret);
+        if (OrchextraManager.instance != null) {
+            Exception exception = null;
+            try {
+                StartStatusType status = orchextraStatusAccessor.setStartedStatus(apiKey, apiSecret);
 
-            if (status == StartStatusType.SDK_READY_FOR_START) {
-                start();
-            }
+                if (status == StartStatusType.SDK_READY_FOR_START) {
+                    start();
+                }
 
-            if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS) {
-                //TODO restart or call any service???
-            }
+                if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS) {
+                    //TODO restart or call any service???
+                }
 
-        } catch (SdkAlreadyStartedException alreadyStartedException) {
-            orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
-            orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());
+            } catch (SdkAlreadyStartedException alreadyStartedException) {
+                orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
+                orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());
 
-        } catch (SdkNotInitializedException notInitializedException) {
-            exception = notInitializedException;
+            } catch (SdkNotInitializedException notInitializedException) {
+                exception = notInitializedException;
 
-        } catch (SdkInitializationException initializationException) {
-            exception = initializationException;
-            exception.printStackTrace();
+            } catch (SdkInitializationException initializationException) {
+                exception = initializationException;
+                exception.printStackTrace();
 
-        } finally {
-            if (exception != null) {
-                orchextraLogger.log(exception.getMessage(), OrchextraSDKLogLevel.ERROR);
-                orchextraCompletionCallback.onError(exception.getMessage());
+            } finally {
+                if (exception != null) {
+                    orchextraLogger.log(exception.getMessage(), OrchextraSDKLogLevel.ERROR);
+                    orchextraCompletionCallback.onError(exception.getMessage());
+                }
             }
         }
     }
@@ -285,7 +290,7 @@ public class OrchextraManager {
     public static void openScannerView() {
         OrchextraManager orchextraManager = OrchextraManager.instance;
         OrchextraModule orchextraModule = getOrchextraModule();
-        if (orchextraModule != null) {
+        if (orchextraManager != null && orchextraModule != null) {
             ScannerManager scannerManager = orchextraManager.scannerManager;
             scannerManager.open();
         }
