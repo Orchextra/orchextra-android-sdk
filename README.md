@@ -44,7 +44,7 @@ allprojects {
 ```
 and we add the Orchextra dependency in our **app** module like this:
 ```java
-    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.5'
+    compile 'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.7'
 ```
 
 The previous dependency has to be added into this file:
