@@ -223,7 +223,7 @@ As you can see image recognition Activity is using Orchextra like ascpect, but d
  - `ox_ir_scan_activity_name`: Name of image recognition _Activity_, appearing in _Toolbar_
 
 ## Log level
-Now you can configure log level using the level you consider to get debug info from Orchextra SDK. In order to set the level, you MUST call `rchextra.setLogLevel(LOGLEVEL)` where _LOGLEVEL_ is an enum providing following info:
+Now you can configure log level using the level you consider to get debug info from Orchextra SDK. In order to set the level, you MUST call `Orchextra.setLogLevel(LOGLEVEL)` where _LOGLEVEL_ is an enum providing following info:
 
 - `OrchextraLogLevel.ALL`: All info, even altbeacon lib logs
 - `OrchextraLogLevel.NETWORK`: all debug from Orchextra plus network info 
