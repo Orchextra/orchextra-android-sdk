@@ -297,8 +297,9 @@ public class OrchextraManager {
     }
 
     private static OrchextraModule getOrchextraModule() {
-        if (getInjector() != null) {
-            OrchextraComponent orchextraComponent = getInjector().getOrchextraComponent();
+        InjectorImpl injector = getInjector();
+        if ( injector!= null) {
+            OrchextraComponent orchextraComponent = injector.getOrchextraComponent();
             return orchextraComponent.getOrchextraModule();
         } else {
             return null;

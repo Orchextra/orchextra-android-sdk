@@ -20,10 +20,11 @@ package com.gigigo.orchextra.device.imagerecognition;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+
 import com.gigigo.imagerecognitioninterface.ImageRecognitionConstants;
+import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.sdk.OrchextraManager;
+
 import orchextra.javax.inject.Inject;
 
 public class ImageRecognitionReceiver extends BroadcastReceiver {
@@ -44,11 +45,16 @@ public class ImageRecognitionReceiver extends BroadcastReceiver {
   }
 
   private void initDependencies() {
-    OrchextraManager.getInjector().injectImageBroadcastComponent(this);
+    InjectorImpl injector = OrchextraManager.getInjector();
+    if (injector != null) {
+      injector.injectImageBroadcastComponent(this);
+    }
   }
 
 
   public void vuforiaPatternRecognized(String stringExtra){
-    imageRecognitionManager.recognizedPattern(stringExtra);
+    if (imageRecognitionManager != null) {
+      imageRecognitionManager.recognizedPattern(stringExtra);
+    }
   }
 }

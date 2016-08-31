@@ -21,13 +21,14 @@ package com.gigigo.orchextra.device.geolocation.geofencing.pendingintent;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceIntentServiceHandler;
 import com.gigigo.orchextra.device.geolocation.geofencing.GeofenceEventException;
+import com.gigigo.orchextra.di.injector.InjectorImpl;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
@@ -54,7 +55,10 @@ public class GeofenceIntentService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        OrchextraManager.getInjector().injectGeofenceIntentServiceComponent(this);
+        InjectorImpl injector = OrchextraManager.getInjector();
+        if (injector != null) {
+            injector.injectGeofenceIntentServiceComponent(this);
+        }
     }
 
     @Override
@@ -63,17 +67,21 @@ public class GeofenceIntentService extends IntentService {
     }
 
     public void processGeofenceIntentPending(Intent intent) {
-        try {
-            GeofencingEvent geofencingEvent = geofenceHandler.getGeofencingEvent(intent);
+        if (geofenceHandler != null &&
+                controller != null &&
+                orchextraLogger != null) {
+            try {
+                GeofencingEvent geofencingEvent = geofenceHandler.getGeofencingEvent(intent);
 
-            List<String> geofenceIds = geofenceHandler.getTriggeringGeofenceIds(geofencingEvent);
-            GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
-            orchextraLogger.log("Localizado: " + transition.getStringValue());
-            if (geofenceIds != null && !geofenceIds.isEmpty()) {
-                controller.processTriggers(geofenceIds, transition);
+                List<String> geofenceIds = geofenceHandler.getTriggeringGeofenceIds(geofencingEvent);
+                GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
+                orchextraLogger.log("Localizado: " + transition.getStringValue());
+                if (geofenceIds != null && !geofenceIds.isEmpty()) {
+                    controller.processTriggers(geofenceIds, transition);
+                }
+            } catch (GeofenceEventException geofenceEventException) {
+                orchextraLogger.log(geofenceEventException.getMessage(), OrchextraSDKLogLevel.ERROR);
             }
-        } catch (GeofenceEventException geofenceEventException) {
-            orchextraLogger.log(geofenceEventException.getMessage(), OrchextraSDKLogLevel.ERROR);
         }
     }
 
