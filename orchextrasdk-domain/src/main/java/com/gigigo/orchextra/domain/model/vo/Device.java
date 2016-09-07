@@ -18,6 +18,8 @@
 
 package com.gigigo.orchextra.domain.model.vo;
 
+import java.util.List;
+
 public class Device {
 
   private String handset;
@@ -29,6 +31,8 @@ public class Device {
   private String serialNumber;
   private String bluetoothMacAddress;
   private String wifiMacAddress;
+  private List<String> tags;
+  private List<String> businessUnits;
 
   public String getHandset() {
     return handset;
@@ -100,5 +104,21 @@ public class Device {
 
   public void setWifiMacAddress(String wifiMacAddress) {
     this.wifiMacAddress = wifiMacAddress;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
+  public void setBusinessUnits(List<String> businessUnits) {
+    this.businessUnits = businessUnits;
+  }
+
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public List<String> getBusinessUnits() {
+    return businessUnits;
   }
 }

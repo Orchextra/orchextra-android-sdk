@@ -44,12 +44,11 @@ public class ConfigDomainService implements DomainService {
   private final GcmInstanceIdRegister gcmInstanceIdRegister;
 
   private final SdkVersionAppInfo sdkVersionAppInfo;
-  private final Device device;
   private final ObtainGeoLocationTask obtainGeoLocationTask;
 
   public ConfigDomainService(ConfigDataProvider configDataProvider,
                              AuthenticationDataProvider authenticationDataProvider,
-                             ServiceErrorChecker serviceErrorChecker, SdkVersionAppInfo sdkVersionAppInfo, Device device,
+                             ServiceErrorChecker serviceErrorChecker, SdkVersionAppInfo sdkVersionAppInfo,
                              ObtainGeoLocationTask obtainGeoLocationTask,
                              GcmInstanceIdRegister gcmInstanceIdRegister) {
 
@@ -58,7 +57,6 @@ public class ConfigDomainService implements DomainService {
     this.serviceErrorChecker = serviceErrorChecker;
 
 
-    this.device = device;
     this.sdkVersionAppInfo = sdkVersionAppInfo;
     this.obtainGeoLocationTask = obtainGeoLocationTask;
     this.gcmInstanceIdRegister = gcmInstanceIdRegister;
@@ -68,10 +66,12 @@ public class ConfigDomainService implements DomainService {
   public InteractorResponse<OrchextraUpdates> refreshConfig() {
     CrmUser crmUser = getCrm();
 
+    Device device = getDevice();
+
     GeoLocation geolocation = obtainGeoLocationTask.getGeolocation();
 
     NotificationPush notificationPush = gcmInstanceIdRegister.getGcmNotification();
-    ConfigRequest configRequest = generateConfig(geolocation, crmUser, notificationPush);
+    ConfigRequest configRequest = generateConfig(geolocation, device, crmUser, notificationPush);
 
     BusinessObject<OrchextraUpdates> boOrchextraUpdates = configDataProvider.sendConfigInfo(configRequest);
 
@@ -91,6 +91,15 @@ public class ConfigDomainService implements DomainService {
     }
   }
 
+  private Device getDevice() {
+    BusinessObject<Device> boDevice = authenticationDataProvider.retrieveDevice();
+    if (boDevice.isSuccess()) {
+      return boDevice.getData();
+    } else {
+      return null;
+    }
+  }
+
   private InteractorResponse<OrchextraUpdates> processError(BusinessError businessError) {
     InteractorResponse interactorResponse = serviceErrorChecker.checkErrors(businessError);
     if (interactorResponse.hasError()) {
@@ -100,7 +109,7 @@ public class ConfigDomainService implements DomainService {
     }
   }
 
-  private ConfigRequest generateConfig(GeoLocation geoLocation, CrmUser crmUser, NotificationPush notificationPush) {
+  private ConfigRequest generateConfig(GeoLocation geoLocation, Device device, CrmUser crmUser, NotificationPush notificationPush) {
     ConfigRequest configRequest = new ConfigRequest();
     configRequest.setSdkAppInfo(sdkVersionAppInfo);
     configRequest.setDevice(device);

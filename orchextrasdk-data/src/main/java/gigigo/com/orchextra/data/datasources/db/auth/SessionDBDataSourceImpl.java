@@ -28,9 +28,12 @@ import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
+import com.gigigo.orchextra.domain.model.vo.Device;
 
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
+import gigigo.com.orchextra.data.datasources.db.config.CrmCustomFieldsReader;
+import gigigo.com.orchextra.data.datasources.db.config.DeviceCustomFieldsReader;
 import gigigo.com.orchextra.data.datasources.db.model.ClientAuthRealm;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthCredentialsRealm;
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthRealm;
@@ -44,14 +47,25 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
   private final SessionUpdater sessionUpdater;
   private final SessionReader sessionReader;
   private final RealmDefaultInstance realmDefaultInstance;
+  private final CrmCustomFieldsReader crmCustomFieldsReader;
+  private final DeviceCustomFieldsReader deviceCustomFieldsReader;
+  private final Device device;
 
-  public SessionDBDataSourceImpl(Context context, SessionUpdater sessionUpdater,
-      SessionReader sessionReader, RealmDefaultInstance realmDefaultInstance) {
+  public SessionDBDataSourceImpl(Context context,
+                                 Device device,
+                                 SessionUpdater sessionUpdater,
+                                 SessionReader sessionReader,
+                                 RealmDefaultInstance realmDefaultInstance,
+                                 CrmCustomFieldsReader crmCustomFieldsReader,
+                                 DeviceCustomFieldsReader deviceCustomFieldsReader) {
 
     this.context = context;
+    this.device = device;
     this.sessionUpdater = sessionUpdater;
     this.sessionReader = sessionReader;
     this.realmDefaultInstance = realmDefaultInstance;
+    this.crmCustomFieldsReader = crmCustomFieldsReader;
+    this.deviceCustomFieldsReader = deviceCustomFieldsReader;
   }
 
   @Override public boolean saveSdkAuthCredentials(SdkAuthCredentials sdkAuthCredentials) {
@@ -174,11 +188,34 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     }
   }
 
+  @Override
+  public BusinessObject<Device> retrieveDevice() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      device.setTags(deviceCustomFieldsReader.readDeviceTags(realm));
+      device.setBusinessUnits(deviceCustomFieldsReader.readBusinessUnits(realm));
+
+      return new BusinessObject(device, BusinessError.createOKInstance());
+    } catch (RealmException re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+
   @Override public BusinessObject<CrmUser> getCrm() {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
       CrmUser crmUser = sessionReader.readCrm(realm);
+
+      crmUser.setTags(crmCustomFieldsReader.readCrmTags(realm));
+      crmUser.setBusinessUnits(crmCustomFieldsReader.readBusinessUnits(realm));
+      crmUser.setCustomFields(crmCustomFieldsReader.readCustomFields(realm));
+
       return new BusinessObject(crmUser, BusinessError.createOKInstance());
     } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));

@@ -20,8 +20,8 @@ package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegionUpdates;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegionUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
@@ -33,14 +33,23 @@ public class ConfigInfoResultUpdater {
   private final ConfigRegionUpdater beaconUpdater;
   private final ConfigGeofenceUpdater geofenceUpdater;
   private final ConfigVuforiaCredentialsUpdater vuforiaUpdater;
+  private final AvailableCustomFieldUpdater availableCustomFieldUpdater;
+  private final CrmCustomFieldsUpdater crmCustomFieldsUpdater;
+  private final DeviceCustomFieldsUpdater deviceCustomFieldsUpdater;
 
 
   public ConfigInfoResultUpdater(ConfigRegionUpdater beaconUpdater,
-      ConfigGeofenceUpdater geofenceUpdater, ConfigVuforiaCredentialsUpdater vuforiaUpdater) {
+                                 ConfigGeofenceUpdater geofenceUpdater,
+                                 ConfigVuforiaCredentialsUpdater vuforiaUpdater,
+                                 AvailableCustomFieldUpdater availableCustomFieldUpdater,
+                                 CrmCustomFieldsUpdater crmCustomFieldsUpdater,
+                                 DeviceCustomFieldsUpdater deviceCustomFieldsUpdater) {
     this.beaconUpdater = beaconUpdater;
     this.geofenceUpdater = geofenceUpdater;
     this.vuforiaUpdater = vuforiaUpdater;
-
+    this.availableCustomFieldUpdater = availableCustomFieldUpdater;
+    this.crmCustomFieldsUpdater = crmCustomFieldsUpdater;
+    this.deviceCustomFieldsUpdater = deviceCustomFieldsUpdater;
   }
 
   public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigurationInfoResult config) {
@@ -55,7 +64,9 @@ public class ConfigInfoResultUpdater {
 
     VuforiaCredentials vuforiaCredentialsChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
 
-
+    availableCustomFieldUpdater.saveAvailablCustomFields(realm, config.getAvailableCustomFieldList());
+    crmCustomFieldsUpdater.saveCrmCustomFields(realm, config.getCrmCustomFields());
+    deviceCustomFieldsUpdater.saveDeviceCustomFields(realm, config.getDeviceCustomFields());
 
     return new OrchextraUpdates(orchextraRegionUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges);
   }

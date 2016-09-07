@@ -48,7 +48,7 @@ public class DefaultRetryOnErrorPolicyImpl
   private boolean retryPolicy(int tries, int errorCode) {
     if (errorCode == OrchextraBusinessErrors.NO_AUTH_EXPIRED.getValue()
         || errorCode == OrchextraBusinessErrors.NO_AUTH_CREDENTIALS.getValue()
-      //            || errorCode == OrchextraBusinessErrors.INTERNAL_SERVER_ERROR.getValue()
+      //            || errorCode == OrchextraBusinessErrors.INTERNAL_SERVER_ERROR.getTag()
         ) {
 
       return false;

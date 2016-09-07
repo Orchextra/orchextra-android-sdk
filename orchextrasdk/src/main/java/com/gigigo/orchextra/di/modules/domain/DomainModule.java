@@ -38,6 +38,12 @@ import com.gigigo.orchextra.domain.Validator;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
+import com.gigigo.orchextra.domain.dataprovider.CrmDeviceDataProvider;
+import com.gigigo.orchextra.domain.dataprovider.CrmUserDataProvider;
+import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmUserTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmDeviceTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmDeviceTagsInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserTagsInteractor;
 import com.gigigo.orchextra.domain.invoker.InteractorInvokerImp;
 import com.gigigo.orchextra.domain.invoker.InteractorOutputThreadFactory;
 import com.gigigo.orchextra.domain.invoker.InteractorPriorityBlockingQueue;
@@ -48,6 +54,8 @@ import com.gigigo.orchextra.domain.services.auth.CrmUserFieldsValidator;
 import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsDomainService;
 import com.gigigo.orchextra.domain.services.status.LoadOrchextraDomainServiceStatus;
 import com.gigigo.orchextra.domain.services.status.UpdateOrchextraDomainServiceStatus;
+import com.gigigo.orchextra.domain.services.user.CrmDeviceUserService;
+import com.gigigo.orchextra.domain.services.user.CrmUserService;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import java.util.concurrent.BlockingQueue;
@@ -168,8 +176,6 @@ public class DomainModule {
         return interactorExecution;
     }
 
-
-
     @GetIrCredentialsInteractorExecution
     @Provides
     InteractorExecution provideObtainIrCredentialsInteractorExecution() {
@@ -207,5 +213,40 @@ public class DomainModule {
     @Singleton
     Validator provideCrmValidator(ErrorLogger errorLogger) {
         return new CrmUserFieldsValidator(errorLogger);
+    }
+
+    @Provides
+    @Singleton
+    CrmUserService provideCrmUserService(CrmUserDataProvider crmUserDataProvider) {
+        return new CrmUserService(crmUserDataProvider);
+    }
+
+    @Provides
+    @Singleton
+    RetrieveCrmUserTagsSyncTask provideRetrieveUserTagsSyncTask(CrmUserService crmUserService) {
+        return new RetrieveCrmUserTagsSyncTask(crmUserService);
+    }
+
+    @Provides
+    @Singleton CrmDeviceUserService provideCrmDeviceUserService(CrmDeviceDataProvider crmDeviceDataProvider) {
+        return new CrmDeviceUserService(crmDeviceDataProvider);
+    }
+
+    @Provides
+    @Singleton
+    RetrieveCrmDeviceTagsSyncTask provideRetrieveDeviceTagsSyncTask(CrmDeviceUserService crmDeviceUserService) {
+        return new RetrieveCrmDeviceTagsSyncTask(crmDeviceUserService);
+    }
+
+    @Provides
+    @Singleton
+    SaveCrmUserTagsInteractor provideSaveCrmUserTagsInteractor(CrmUserService crmUserService) {
+        return new SaveCrmUserTagsInteractor(crmUserService);
+    }
+
+    @Provides
+    @Singleton
+    SaveCrmDeviceTagsInteractor provideSaveCrmDeviceTagsInteractor(CrmDeviceUserService crmDeviceUserService) {
+        return new SaveCrmDeviceTagsInteractor(crmDeviceUserService);
     }
 }

@@ -131,6 +131,21 @@ private String getUniqueCRMID() {
         return deviceToken;
     }
  ```
+## Add user to Orchextra
+You can identify an specific user or device adding a custom tag for them.
+- Set your own custom tags for device or user with those methods:
+  ```java
+  Orchextra.setDeviceTags(deviceTagList);
+
+  Orchextra.setUserTags(userTagList);
+  ```
+- If you want to retrieve the custom tags defined by the server o in the app, you can list using those methods:
+  ```java
+  List<String> deviceTagList = Orchextra.getDeviceTags();
+
+  List<String> userTagList = Orchextra.getUserTags();
+  ```
+
 ##  Start Actions
 Orchextra SDK let you invoke a couple of action within your own application to start a new user journey
 

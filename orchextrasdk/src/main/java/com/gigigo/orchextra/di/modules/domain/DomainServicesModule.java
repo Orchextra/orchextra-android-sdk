@@ -20,7 +20,6 @@ package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.device.information.AndroidSdkVersionAppInfo;
-import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.notificationpush.GcmInstanceIdRegisterImpl;
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
@@ -49,11 +48,11 @@ import com.gigigo.orchextra.domain.services.auth.AuthenticationServiceImpl;
 import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
 import com.gigigo.orchextra.domain.services.config.LocalStorageService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
+import com.gigigo.orchextra.domain.services.geofences.FutureGeolocation;
+import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainService;
 import com.gigigo.orchextra.domain.services.geofences.ObtainGeofencesDomainService;
 import com.gigigo.orchextra.domain.services.imagerecognition.GetImageRecognitionCredentialsService;
 import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerDomainService;
-import com.gigigo.orchextra.domain.services.geofences.FutureGeolocation;
-import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainService;
 import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsDomainService;
 import com.gigigo.orchextra.domain.services.proximity.RegionCheckerDomainService;
 import com.gigigo.orchextra.domain.services.triggers.TriggerDomainService;
@@ -135,10 +134,10 @@ public class DomainServicesModule {
     ConfigDomainService provideConfigService(ConfigDataProvider configDataProvider,
                                              AuthenticationDataProvider authenticationDataProvider,
                                              @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidSdkVersionAppInfo androidSdkVersionAppInfo,
-                                             AndroidDevice androidDevice, ObtainGeoLocationTask obtainGeoLocationTask,
+                                             ObtainGeoLocationTask obtainGeoLocationTask,
                                              GcmInstanceIdRegister gcmInstanceIdRegister) {
         return new ConfigDomainService(configDataProvider, authenticationDataProvider, errorChecker,
-                androidSdkVersionAppInfo.getAndroidAppInfo(), androidDevice.getAndroidDeviceInfo(), obtainGeoLocationTask,
+                androidSdkVersionAppInfo.getAndroidAppInfo(), obtainGeoLocationTask,
                 gcmInstanceIdRegister);
     }
 

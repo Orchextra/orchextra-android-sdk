@@ -20,6 +20,7 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.domain.model.vo.Device;
+
 import gigigo.com.orchextra.data.datasources.api.model.requests.ApiDevice;
 
 
@@ -38,6 +39,13 @@ public class DeviceModelToExternalClassMapper
     apiDevice.setWifiMacAddress(device.getWifiMacAddress());
     apiDevice.setHandset(device.getHandset());
     apiDevice.setBluetoothMacAddress(device.getBluetoothMacAddress());
+
+    if (device.getTags() != null && device.getTags().size() > 0 &&
+            device.getBusinessUnits() != null && device.getBusinessUnits().size() > 0) {
+
+      apiDevice.setTags(device.getTags());
+      apiDevice.setBusinessUnits(device.getBusinessUnits());
+    }
 
     return apiDevice;
   }

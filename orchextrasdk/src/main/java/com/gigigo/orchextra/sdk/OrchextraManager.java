@@ -34,7 +34,7 @@ import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.R;
-import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserController;
+import com.gigigo.orchextra.control.controllers.authentication.CrmUserController;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
@@ -58,6 +58,8 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
+
+import java.util.List;
 
 import orchextra.javax.inject.Inject;
 
@@ -84,7 +86,7 @@ public class OrchextraManager {
     @Inject
     OrchextraStatusAccessor orchextraStatusAccessor;
     @Inject
-    SaveCrmUserController saveCrmUserController;
+    CrmUserController crmUserController;
     @Inject
     AppRunningMode appRunningMode;
     @Inject
@@ -182,7 +184,7 @@ public class OrchextraManager {
             if (orchextraManager != null) {
 
                 CrmUserDomainToCrmUserSdkConverter crmUserDomainToCrmUserSdkConverter = orchextraManager.crmUserDomainToCrmUserSdkConverter;
-                SaveCrmUserController saveCrmUserController = orchextraManager.saveCrmUserController;
+                CrmUserController saveCrmUserController = orchextraManager.crmUserController;
 
                 com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = crmUserDomainToCrmUserSdkConverter.convertSdkUserToDomain(user);
 
@@ -477,5 +479,31 @@ public class OrchextraManager {
 
     public static long getBackgroundPeriodBetweenScan() {
         return OrchextraManager.instance.backgroundPeriodBetweenScan;
+    }
+
+    public static List<String> getDeviceTags() {
+        if (OrchextraManager.instance != null) {
+            return OrchextraManager.instance.crmUserController.getDeviceTags();
+        }
+        return null;
+    }
+
+    public static void setDeviceTags(List<String> deviceTagList) {
+        if (OrchextraManager.instance != null) {
+            OrchextraManager.instance.crmUserController.setDeviceTags(deviceTagList);
+        }
+    }
+
+    public static List<String> getUserTags() {
+        if (OrchextraManager.instance != null) {
+            return OrchextraManager.instance.crmUserController.getUserTags();
+        }
+        return null;
+    }
+
+    public static void setUserTags(List<String> userTagList) {
+        if (OrchextraManager.instance != null) {
+            OrchextraManager.instance.crmUserController.setUserTags(userTagList);
+        }
     }
 }

@@ -26,11 +26,14 @@ import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
 import com.gigigo.orchextra.di.qualifiers.ActionScheduleResponse;
 import com.gigigo.orchextra.di.qualifiers.ActionsResponse;
 import com.gigigo.orchextra.di.qualifiers.AppRequest;
+import com.gigigo.orchextra.di.qualifiers.AvailableCustomFieldResponse;
 import com.gigigo.orchextra.di.qualifiers.BeaconResponse;
 import com.gigigo.orchextra.di.qualifiers.ClientDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.ConfigRequest;
 import com.gigigo.orchextra.di.qualifiers.ConfigResponseMapper;
+import com.gigigo.orchextra.di.qualifiers.CrmCustomFieldsResponse;
 import com.gigigo.orchextra.di.qualifiers.CrmRequest;
+import com.gigigo.orchextra.di.qualifiers.DeviceCustomFieldsResponse;
 import com.gigigo.orchextra.di.qualifiers.DeviceRequest;
 import com.gigigo.orchextra.di.qualifiers.GeoLocationRequest;
 import com.gigigo.orchextra.di.qualifiers.GeofenceResponse;
@@ -39,11 +42,6 @@ import com.gigigo.orchextra.di.qualifiers.PushNotificationRequest;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
 import com.gigigo.orchextra.di.qualifiers.VuforiaResponse;
 
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionScheduledExternalClassToModelMapper;
-import orchextra.javax.inject.Singleton;
-
-import orchextra.dagger.Module;
-import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.ActionQueryModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.AppModelToExternalClassMapper;
@@ -53,14 +51,21 @@ import gigigo.com.orchextra.data.datasources.api.model.mappers.request.DeviceMod
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.GeoLocationModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.request.PushNotificationModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionNotificationExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionScheduledExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionsApiExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.AvailableCustomFieldExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.BeaconExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ClientApiExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ConfigApiExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.CrmCustomFieldsExternalClassToModelMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.response.DeviceCustomFieldsExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.GeofenceExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.OrchextraGenericResponseMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.VuforiaExternalClassToModelMapper;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
 
 @Module
@@ -140,11 +145,16 @@ public class ApiMappersModule {
     ConfigApiExternalClassToModelMapper provideConfigApiResponseMapper(
             @BeaconResponse BeaconExternalClassToModelMapper beaconResponse,
             @GeofenceResponse GeofenceExternalClassToModelMapper geofenceResponseMapper,
-
-            @VuforiaResponse VuforiaExternalClassToModelMapper vuforiaResponseMapper) {
+            @VuforiaResponse VuforiaExternalClassToModelMapper vuforiaResponseMapper,
+            @AvailableCustomFieldResponse AvailableCustomFieldExternalClassToModelMapper availableCustomFieldResponseMapper,
+            @CrmCustomFieldsResponse CrmCustomFieldsExternalClassToModelMapper crmCustomFieldsResponseMapper,
+            @DeviceCustomFieldsResponse DeviceCustomFieldsExternalClassToModelMapper deviceCustomFieldsResponseMapper) {
 
         return new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper,
-                beaconResponse, geofenceResponseMapper);
+                beaconResponse, geofenceResponseMapper,
+                availableCustomFieldResponseMapper,
+                crmCustomFieldsResponseMapper,
+                deviceCustomFieldsResponseMapper);
     }
 
     @Provides
@@ -152,6 +162,24 @@ public class ApiMappersModule {
     @VuforiaResponse
     VuforiaExternalClassToModelMapper provideVuforiaResponseMapper() {
         return new VuforiaExternalClassToModelMapper();
+    }
+
+    @Provides
+    @Singleton
+    @AvailableCustomFieldResponse AvailableCustomFieldExternalClassToModelMapper provideAvailableCustomFieldExternalClassToModelMapper() {
+        return new AvailableCustomFieldExternalClassToModelMapper();
+    }
+
+    @Provides
+    @Singleton
+    @CrmCustomFieldsResponse CrmCustomFieldsExternalClassToModelMapper provideCrmCustomFieldsExternalClassToModelMapper() {
+        return new CrmCustomFieldsExternalClassToModelMapper();
+    }
+
+    @Provides
+    @Singleton
+    @DeviceCustomFieldsResponse DeviceCustomFieldsExternalClassToModelMapper provideDeviceCustomFieldsExternalClassToModelMapper() {
+        return new DeviceCustomFieldsExternalClassToModelMapper();
     }
 
 

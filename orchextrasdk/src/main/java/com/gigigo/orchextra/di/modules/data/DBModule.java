@@ -22,40 +22,45 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 
-import gigigo.com.orchextra.data.datasources.db.proximity.ProximityEventsUpdater;
-import gigigo.com.orchextra.data.datasources.db.config.ConfigRegionUpdater;
-import gigigo.com.orchextra.data.datasources.db.config.ConfigVuforiaCredentialsUpdater;
-import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
-import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
-import gigigo.com.orchextra.data.datasources.db.model.VuforiaCredentialsRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmUserRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusReader;
-import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusUpdater;
-import orchextra.javax.inject.Singleton;
-
-import orchextra.dagger.Module;
-import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
-import gigigo.com.orchextra.data.datasources.db.proximity.RegionEventsReader;
+import gigigo.com.orchextra.data.datasources.db.config.AvailableCustomFieldUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigGeofenceUpdater;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultReader;
 import gigigo.com.orchextra.data.datasources.db.config.ConfigInfoResultUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.ConfigRegionUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.ConfigVuforiaCredentialsUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.CrmCustomFieldsReader;
+import gigigo.com.orchextra.data.datasources.db.config.CrmCustomFieldsUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.DeviceCustomFieldsReader;
+import gigigo.com.orchextra.data.datasources.db.config.DeviceCustomFieldsUpdater;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsReader;
 import gigigo.com.orchextra.data.datasources.db.geofences.GeofenceEventsUpdater;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
+import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
+import gigigo.com.orchextra.data.datasources.db.model.VuforiaCredentialsRealm;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.AvailableCustomFieldRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmUserRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthReamlMapper;
+import gigigo.com.orchextra.data.datasources.db.proximity.ProximityEventsUpdater;
+import gigigo.com.orchextra.data.datasources.db.proximity.RegionEventsReader;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusReader;
+import gigigo.com.orchextra.data.datasources.db.status.OrchextraStatusUpdater;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
 
 @Module(includes = DBMapperModule.class)
@@ -103,14 +108,34 @@ public class DBModule {
         return new ConfigVuforiaCredentialsUpdater(vuforiaRealmMapper);
     }
 
+    @Singleton
+    @Provides
+    AvailableCustomFieldUpdater provideAvailableCustomFieldUpdater(AvailableCustomFieldRealmMapper availableCustomFieldRealmMapper) {
+        return new AvailableCustomFieldUpdater(availableCustomFieldRealmMapper);
+    }
+
+    @Singleton
+    @Provides
+    CrmCustomFieldsUpdater provideCrmCustomFieldsUpdater() {
+        return new CrmCustomFieldsUpdater();
+    }
+
+    @Singleton
+    @Provides DeviceCustomFieldsUpdater provideDeviceCustomFieldsUpdater() {
+        return new DeviceCustomFieldsUpdater();
+    }
 
     @Singleton
     @Provides
     ConfigInfoResultUpdater provideConfigInfoResultUpdater(ConfigRegionUpdater configRegionUpdater,
                                                            ConfigGeofenceUpdater configGeofenceUpdater,
-                                                           ConfigVuforiaCredentialsUpdater configVuforiaCredentialsUpdater
+                                                           ConfigVuforiaCredentialsUpdater configVuforiaCredentialsUpdater,
+                                                           AvailableCustomFieldUpdater availableCustomFieldUpdater,
+                                                           CrmCustomFieldsUpdater crmCustomFieldsUpdater,
+                                                           DeviceCustomFieldsUpdater deviceCustomFieldsUpdater
                                                           ) {
-        return new ConfigInfoResultUpdater(configRegionUpdater, configGeofenceUpdater, configVuforiaCredentialsUpdater);
+        return new ConfigInfoResultUpdater(configRegionUpdater, configGeofenceUpdater, configVuforiaCredentialsUpdater,
+                availableCustomFieldUpdater, crmCustomFieldsUpdater, deviceCustomFieldsUpdater);
     }
 
     @Singleton
@@ -118,8 +143,9 @@ public class DBModule {
     ConfigInfoResultReader provideConfigInfoResultReader(@RealmMapperBeaconRegion Mapper<OrchextraRegion, RegionRealm> regionRealmMapper,
                                                          Mapper<OrchextraGeofence, GeofenceRealm> geofenceRealmMapper,
                                                          Mapper<VuforiaCredentials, VuforiaCredentialsRealm> vuforiaRealmMapper,
+                                                         AvailableCustomFieldRealmMapper availableCustomFieldRealmMapper,
                                                           OrchextraLogger orchextraLogger) {
-        return new ConfigInfoResultReader(regionRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, orchextraLogger);
+        return new ConfigInfoResultReader(regionRealmMapper, geofenceRealmMapper, vuforiaRealmMapper, availableCustomFieldRealmMapper, orchextraLogger);
     }
 
     @Singleton
@@ -169,5 +195,17 @@ public class DBModule {
             Mapper<OrchextraStatus, OrchextraStatusRealm> orchextraStatusRealmMapper,
             OrchextraLogger orchextraLogger) {
         return new OrchextraStatusReader(orchextraStatusRealmMapper, orchextraLogger);
+    }
+
+    @Singleton
+    @Provides
+    CrmCustomFieldsReader provideCrmCustomFieldsReader() {
+        return new CrmCustomFieldsReader();
+    }
+
+    @Singleton
+    @Provides
+    DeviceCustomFieldsReader provideDeviceCustomFieldsReader() {
+        return new DeviceCustomFieldsReader();
     }
 }

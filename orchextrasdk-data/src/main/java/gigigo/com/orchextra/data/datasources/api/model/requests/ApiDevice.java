@@ -21,6 +21,8 @@ package gigigo.com.orchextra.data.datasources.api.model.requests;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 
 public class ApiDevice {
 
@@ -41,6 +43,10 @@ public class ApiDevice {
   @Expose @SerializedName("bluetoothMacAddress") private String bluetoothMacAddress;
 
   @Expose @SerializedName("wifiMacAddress") private String wifiMacAddress;
+
+  @Expose @SerializedName("tags") private List<String> tags;
+
+  @Expose @SerializedName("businessUnits") private List<String> businessUnits;
 
   public String getHandset() {
     return handset;
@@ -112,5 +118,21 @@ public class ApiDevice {
 
   public void setWifiMacAddress(String wifiMacAddress) {
     this.wifiMacAddress = wifiMacAddress;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
+  public void setBusinessUnits(List<String> businessUnits) {
+    this.businessUnits = businessUnits;
+  }
+
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public List<String> getBusinessUnits() {
+    return businessUnits;
   }
 }
