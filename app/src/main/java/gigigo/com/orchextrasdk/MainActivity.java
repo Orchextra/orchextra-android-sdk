@@ -13,14 +13,11 @@ import com.appoxee.Appoxee;
 import com.appoxee.AppoxeeObserver;
 import com.appoxee.asyncs.initAsync;
 import com.gigigo.orchextra.CustomSchemeReceiver;
-//import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d("APP", "Hello MainActivity, start onCreate");
+
         //orchextraSDK
         getViews();
         setListeners();
@@ -221,20 +219,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button3.setText(R.string.ox_start_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
     }
-
-    //todo neverused
-    /*
-    public void setCrmUser() {
-        String myCrmId = getApplicationContext().getPackageName();
-        GregorianCalendar  BirthDay = new GregorianCalendar(1981, Calendar.MAY, 31);
-        CrmUser crmUser = new CrmUser(myCrmId
-                , BirthDay
-                , CrmUser.Gender.GenderMale
-        );
-        Orchextra.setUser(crmUser);
-    }
-    */
-    //endregion
-
-
 }
