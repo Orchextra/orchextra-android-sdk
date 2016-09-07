@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.di.modules.control;
 
-import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserController;
+import com.gigigo.orchextra.control.controllers.authentication.CrmUserController;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
@@ -39,6 +39,10 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAc
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
+import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmDeviceTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmUserTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmDeviceTagsInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserTagsInteractor;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
 
@@ -75,13 +79,17 @@ public class ControlModule {
   }
 
   @Provides @Singleton
-  SaveCrmUserController provideAuthenticationController(
-      InteractorInvoker interactorInvoker,
-      @SaveUserInteractorExecution Provider<InteractorExecution> interactorExecutionProvider,
-      @MainThread ThreadSpec backThreadSpec, ConfigObservable configObservable, ErrorLogger errorLogger){
+  CrmUserController provideAuthenticationController(
+          InteractorInvoker interactorInvoker,
+          @SaveUserInteractorExecution Provider<InteractorExecution> interactorExecutionProvider,
+          ConfigObservable configObservable, ErrorLogger errorLogger,
+          RetrieveCrmUserTagsSyncTask retrieveUserTagsSyncTask,
+          RetrieveCrmDeviceTagsSyncTask retrieveDeviceTagsSyncTask,
+          SaveCrmUserTagsInteractor saveCrmUserTagsInteractor,
+          SaveCrmDeviceTagsInteractor saveCrmDeviceTagsInteractor){
 
-    return new SaveCrmUserController(interactorInvoker, interactorExecutionProvider, backThreadSpec, configObservable,
-        errorLogger);
+    return new CrmUserController(interactorInvoker, interactorExecutionProvider, configObservable,
+        errorLogger, retrieveUserTagsSyncTask, retrieveDeviceTagsSyncTask, saveCrmUserTagsInteractor, saveCrmDeviceTagsInteractor);
   }
 
   @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(OrchextraStatusManager orchextraStatusManager){

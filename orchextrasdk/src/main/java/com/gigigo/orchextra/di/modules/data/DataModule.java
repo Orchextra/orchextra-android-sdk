@@ -30,6 +30,7 @@ import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfiguratio
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
+import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.information.AndroidInstanceIdProvider;
 import com.gigigo.orchextra.di.qualifiers.ActionQueryRequest;
 import com.gigigo.orchextra.di.qualifiers.ActionsResponse;
@@ -49,6 +50,8 @@ import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionReader;
 import gigigo.com.orchextra.data.datasources.db.auth.SessionUpdater;
+import gigigo.com.orchextra.data.datasources.db.config.CrmCustomFieldsReader;
+import gigigo.com.orchextra.data.datasources.db.config.DeviceCustomFieldsReader;
 import gigigo.com.orchextra.data.datasources.db.config.TriggersConfigurationDBDataSourceImpl;
 import gigigo.com.orchextra.data.datasources.db.proximity.RegionEventsReader;
 import gigigo.com.orchextra.data.datasources.db.proximity.ProximityEventsUpdater;
@@ -108,11 +111,15 @@ public class DataModule {
 
 
 
-  @Provides @Singleton SessionDBDataSource provideSessionDBDataSource(
-      ContextProvider contextProvider, SessionUpdater sessionUpdater, SessionReader sessionReader,
-      RealmDefaultInstance realmDefaultInstance){
-    return new SessionDBDataSourceImpl(contextProvider.getApplicationContext(),
-        sessionUpdater, sessionReader, realmDefaultInstance);
+  @Provides @Singleton SessionDBDataSource provideSessionDBDataSource(ContextProvider contextProvider,
+                                                                      AndroidDevice androidDevice,
+                                                                      SessionUpdater sessionUpdater,
+                                                                      SessionReader sessionReader,
+                                                                      RealmDefaultInstance realmDefaultInstance,
+                                                                      CrmCustomFieldsReader crmCustomFieldsReader,
+                                                                      DeviceCustomFieldsReader deviceCustomFieldsReader){
+    return new SessionDBDataSourceImpl(contextProvider.getApplicationContext(), androidDevice.getAndroidDeviceInfo(),
+        sessionUpdater, sessionReader, realmDefaultInstance, crmCustomFieldsReader, deviceCustomFieldsReader);
   }
 
   @Provides @Singleton

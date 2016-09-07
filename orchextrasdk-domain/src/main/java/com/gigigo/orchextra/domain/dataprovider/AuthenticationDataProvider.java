@@ -23,6 +23,7 @@ import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
+import com.gigigo.orchextra.domain.model.vo.Device;
 
 public interface AuthenticationDataProvider {
 
@@ -39,4 +40,6 @@ public interface AuthenticationDataProvider {
   BusinessObject<CrmUser> retrieveCrm();
 
   boolean storeCrmId(CrmUser crmUser);
+
+  BusinessObject<Device> retrieveDevice();
 }

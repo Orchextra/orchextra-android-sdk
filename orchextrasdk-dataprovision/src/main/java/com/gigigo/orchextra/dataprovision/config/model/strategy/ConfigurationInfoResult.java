@@ -21,6 +21,9 @@ package com.gigigo.orchextra.dataprovision.config.model.strategy;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
+import com.gigigo.orchextra.domain.model.entities.tags.AvailableCustomField;
+import com.gigigo.orchextra.domain.model.entities.tags.CrmCustomFields;
+import com.gigigo.orchextra.domain.model.entities.tags.DeviceCustomFields;
 
 import java.util.List;
 
@@ -31,6 +34,9 @@ public class ConfigurationInfoResult {
   private GeofenceListSupported geofences;
   private VuforiaCredentialsSupported vuforia;
   private int requestWaitTime;
+  private AvailableCustomFieldListSupportedImp availableCustomFieldList;
+  private CrmCustomFieldsSupportedImp crmCustomFields;
+  private DeviceCustomFieldsSupportedImp deviceCustomFields;
 
   public List<OrchextraGeofence> getGeofences() {
     return geofences.getGeofences();
@@ -76,21 +82,67 @@ public class ConfigurationInfoResult {
     this.vuforia = vuforia;
   }
 
+  public void setAvailableCustomFieldList(AvailableCustomFieldListSupportedImp availableCustomFieldList) {
+    this.availableCustomFieldList = availableCustomFieldList;
+  }
+
+  public void setCrmCustomFields(CrmCustomFieldsSupportedImp crmCustomFields) {
+    this.crmCustomFields = crmCustomFields;
+  }
+
+  public void setDeviceCustomFields(DeviceCustomFieldsSupportedImp deviceCustomFields) {
+    this.deviceCustomFields = deviceCustomFields;
+  }
+
+  public List<AvailableCustomField> getAvailableCustomFieldList() {
+    return availableCustomFieldList.getAvailableCustomFieldList();
+  }
+
+  public boolean supportsAvailableCustomFieldList() {
+    return availableCustomFieldList.isSupported();
+  }
+
+  public CrmCustomFields getCrmCustomFields() {
+    return crmCustomFields.getCrmCustomFields();
+  }
+
+  public boolean supportsCrmCustomFields() {
+    return crmCustomFields.isSupported();
+  }
+
+  public DeviceCustomFields getDeviceCustomFields() {
+    return deviceCustomFields.getDeviceCustomFields();
+  }
+
+  public boolean supportsDeviceCustomFields() {
+    return deviceCustomFields.isSupported();
+  }
+
   public static class Builder {
 
-    private List<OrchextraGeofence> geoMarketing;
-    private List<OrchextraRegion> proximity;
-    private int requestWaitTime;
-    private VuforiaCredentials vuforiaCredentials;
+    private final List<OrchextraGeofence> geoMarketing;
+    private final List<OrchextraRegion> proximity;
+    private final int requestWaitTime;
+    private final VuforiaCredentials vuforiaCredentials;
+    private final List<AvailableCustomField> availableCustomFieldTypeList;
+    private final CrmCustomFields crmCustomFields;
+    private final DeviceCustomFields deviceCustomFields;
 
-    public Builder(int requestWaitTime, List<OrchextraGeofence> geoMarketing,
-        List<OrchextraRegion> proximity,
-        VuforiaCredentials vuforiaCredentials) {
+    public Builder(int requestWaitTime,
+                   List<OrchextraGeofence> geoMarketing,
+                   List<OrchextraRegion> proximity,
+                   VuforiaCredentials vuforiaCredentials,
+                   List<AvailableCustomField> availableCustomFieldTypeList,
+                   CrmCustomFields crmCustomFields,
+                   DeviceCustomFields deviceCustomFields) {
 
       this.geoMarketing = geoMarketing;
       this.proximity = proximity;
       this.requestWaitTime = requestWaitTime;
       this.vuforiaCredentials = vuforiaCredentials;
+      this.availableCustomFieldTypeList = availableCustomFieldTypeList;
+      this.crmCustomFields = crmCustomFields;
+      this.deviceCustomFields = deviceCustomFields;
     }
 
     public ConfigurationInfoResult build() {
@@ -101,6 +153,9 @@ public class ConfigurationInfoResult {
       configurationInfoResult.setRegions(new RealRegionListSupportedImpl(proximity));
       configurationInfoResult.setGeofences(new RealGeofenceListSupportedImpl(geoMarketing));
       configurationInfoResult.setVuforia(new VuforiaCredentialsSupportedImpl(vuforiaCredentials));
+      configurationInfoResult.setAvailableCustomFieldList(new AvailableCustomFieldListSupportedImp(availableCustomFieldTypeList));
+      configurationInfoResult.setCrmCustomFields(new CrmCustomFieldsSupportedImp(crmCustomFields));
+      configurationInfoResult.setDeviceCustomFields(new DeviceCustomFieldsSupportedImp(deviceCustomFields));
 
       return configurationInfoResult;
     }

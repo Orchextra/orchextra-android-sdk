@@ -29,6 +29,7 @@ import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
+import com.gigigo.orchextra.domain.model.vo.Device;
 
 public class AuthenticationDataProviderImpl implements AuthenticationDataProvider {
 
@@ -108,5 +109,10 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
 
   @Override public boolean storeCrmId(CrmUser crmUser) {
     return sessionDBDataSource.storeCrm(crmUser);
+  }
+
+  @Override
+  public BusinessObject<Device> retrieveDevice() {
+    return sessionDBDataSource.retrieveDevice();
   }
 }

@@ -22,6 +22,8 @@ import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeRec
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
+import java.util.List;
+
 public final class Orchextra {
 
     private Orchextra() {
@@ -154,5 +156,21 @@ public final class Orchextra {
      */
     public static void updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan intensity) {
         OrchextraManager.updateBackgroundPeriodBetweenScan(intensity.getIntensity());
+    }
+
+    public static List<String> getDeviceTags() {
+        return OrchextraManager.getDeviceTags();
+    }
+
+    public static void setDeviceTags(List<String> deviceTagList) {
+        OrchextraManager.setDeviceTags(deviceTagList);
+    }
+
+    public static List<String> getUserTags() {
+        return OrchextraManager.getUserTags();
+    }
+
+    public static void setUserTags(List<String> userTagList) {
+        OrchextraManager.setUserTags(userTagList);
     }
 }

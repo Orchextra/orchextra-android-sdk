@@ -22,6 +22,7 @@ import com.gigigo.ggglib.network.converters.ErrorConverter;
 import com.gigigo.ggglib.network.defaultelements.RetryOnErrorPolicy;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.executors.RetrofitApiServiceExcecutor;
+import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.di.modules.data.qualifiers.AcceptLanguage;
 import com.gigigo.orchextra.di.modules.data.qualifiers.ApiVersion;
 import com.gigigo.orchextra.di.modules.data.qualifiers.Endpoint;
@@ -30,22 +31,19 @@ import com.gigigo.orchextra.di.modules.data.qualifiers.XAppSdk;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
-import gigigo.com.orchextra.data.datasources.api.model.responses.base.GenericErrorOrchextraApiResponse;
 import java.util.Locale;
 
-import orchextra.javax.inject.Singleton;
-
-import orchextra.dagger.Module;
-import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.api.interceptors.Headers;
+import gigigo.com.orchextra.data.datasources.api.model.responses.base.GenericErrorOrchextraApiResponse;
 import gigigo.com.orchextra.data.datasources.api.service.DefatultErrorConverterImpl;
 import gigigo.com.orchextra.data.datasources.api.service.DefaultRetryOnErrorPolicyImpl;
 import gigigo.com.orchextra.data.datasources.api.service.OrchextraApiService;
-
-import com.gigigo.orchextra.BuildConfig;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

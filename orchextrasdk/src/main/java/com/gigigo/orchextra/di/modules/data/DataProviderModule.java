@@ -25,25 +25,28 @@ import com.gigigo.orchextra.dataprovision.authentication.datasource.Authenticati
 import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraStatusDBDataSource;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.ConfigDataProviderImpl;
-import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.datasource.ConfigDataSource;
+import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
 import com.gigigo.orchextra.dataprovision.imagerecognition.ImageRecognitionLocalDataProviderImp;
 import com.gigigo.orchextra.dataprovision.proximity.ProximityAndGeofencesLocalDataProviderImp;
-import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
+import com.gigigo.orchextra.dataprovision.proximity.datasource.ProximityDBDataSource;
 import com.gigigo.orchextra.dataprovision.status.OrchextraStatusDataProviderImpl;
+import com.gigigo.orchextra.dataprovision.user.CrmDeviceDataProviderImp;
+import com.gigigo.orchextra.dataprovision.user.CrmUserDataProviderImp;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ConfigDataProvider;
+import com.gigigo.orchextra.domain.dataprovider.CrmDeviceDataProvider;
+import com.gigigo.orchextra.domain.dataprovider.CrmUserDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ImageRecognitionLocalDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.ProximityAndGeofencesLocalDataProvider;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
-import orchextra.javax.inject.Singleton;
-
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
 
 @Module(includes = DataModule.class)
@@ -82,6 +85,18 @@ public class DataProviderModule {
   @Provides @Singleton ImageRecognitionLocalDataProvider provideImageRecognitionLocalDataProvider(
       TriggersConfigurationDBDataSource triggersConfigurationDBDataSource) {
     return new ImageRecognitionLocalDataProviderImp(triggersConfigurationDBDataSource);
+  }
+
+  @Provides
+  @Singleton
+  CrmUserDataProvider provideCrmUserDataProvider(TriggersConfigurationDBDataSource triggersConfigurationDBDataSource) {
+    return new CrmUserDataProviderImp(triggersConfigurationDBDataSource);
+  }
+
+  @Provides
+  @Singleton
+  CrmDeviceDataProvider provideCrmDeviceDataProvider(TriggersConfigurationDBDataSource triggersConfigurationDBDataSource) {
+    return new CrmDeviceDataProviderImp(triggersConfigurationDBDataSource);
   }
 
 }

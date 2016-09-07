@@ -19,7 +19,10 @@
 package com.gigigo.orchextra.domain.model.entities.authentication;
 
 import com.gigigo.orchextra.domain.model.GenderType;
+import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
+
 import java.util.Date;
+import java.util.List;
 
 
 public class CrmUser {
@@ -27,6 +30,9 @@ public class CrmUser {
     private String crmId;
     private GenderType gender;
     private Date birthDate;
+    private List<String> tags;
+    private List<String> businessUnits;
+    private List<CustomField> customFields;
 
     public CrmUser() {
     }
@@ -70,4 +76,27 @@ public class CrmUser {
         }
     }
 
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setBusinessUnits(List<String> businessUnits) {
+        this.businessUnits = businessUnits;
+    }
+
+    public void setCustomFields(List<CustomField> customFields) {
+        this.customFields = customFields;
+    }
+
+    public List<String> getBusinessUnits() {
+        return businessUnits;
+    }
+
+    public List<CustomField> getCustomFields() {
+        return customFields;
+    }
 }

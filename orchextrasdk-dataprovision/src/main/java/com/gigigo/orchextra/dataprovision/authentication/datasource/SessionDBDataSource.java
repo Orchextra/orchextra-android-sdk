@@ -24,6 +24,7 @@ import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredenti
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
+import com.gigigo.orchextra.domain.model.vo.Device;
 
 
 public interface SessionDBDataSource {
@@ -49,4 +50,6 @@ public interface SessionDBDataSource {
   void clearAuthenticatedUser();
 
   void clearAuthenticatedSdk();
+
+  BusinessObject<Device> retrieveDevice();
 }

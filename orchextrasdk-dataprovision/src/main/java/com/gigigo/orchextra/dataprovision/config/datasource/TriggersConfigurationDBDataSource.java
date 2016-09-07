@@ -39,4 +39,12 @@ public interface TriggersConfigurationDBDataSource {
   BusinessObject<List<OrchextraGeofence>> obtainGeofencesForRegister();
 
   BusinessObject removeLocalStorage();
+
+  BusinessObject<List<String>> retrieveCrmUserTags();
+
+  BusinessObject<List<String>> retrieveCrmDeviceTags();
+
+  void saveCrmUserTags(List<String> userTagList);
+
+  void saveCrmDeviceUserTags(List<String> deviceTags);
 }

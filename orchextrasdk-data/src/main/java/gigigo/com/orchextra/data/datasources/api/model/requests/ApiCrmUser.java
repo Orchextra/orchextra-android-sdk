@@ -22,6 +22,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class ApiCrmUser {
@@ -40,8 +41,15 @@ public class ApiCrmUser {
 
     @Expose
     @SerializedName("tags")
-    @Deprecated
     private List<String> tags;
+
+    @Expose
+    @SerializedName("businessUnits")
+    private List<String> businessUnit;
+
+    @Expose
+    @SerializedName("customFields")
+    private Map<String, String> customFields;
 
     public String getGender() {
         return gender;
@@ -67,13 +75,19 @@ public class ApiCrmUser {
         this.crmId = crmId;
     }
 
-    @Deprecated
     public List<String> getTags() {
         return tags;
     }
 
-    @Deprecated
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public void setBusinessUnits(List<String> businessUnit) {
+        this.businessUnit = businessUnit;
+    }
+
+    public void setCustomFields(Map<String, String> customFields) {
+        this.customFields = customFields;
     }
 }

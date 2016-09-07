@@ -22,42 +22,57 @@ import com.gigigo.orchextra.control.InteractorResult;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
-import com.gigigo.orchextra.control.presenters.base.Presenter;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
-import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.config.ValidationError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
+import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmDeviceTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmUserTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmDeviceTagsInteractor;
 import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserTagsInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+
+import java.util.List;
 
 import orchextra.javax.inject.Provider;
 
 
-public class SaveCrmUserController extends Presenter<SaveCrmUserDelegate> {
+public class CrmUserController {
 
   private final InteractorInvoker interactorInvoker;
-  private final Provider<InteractorExecution> interactorExecutionProvider;
+  private final Provider<InteractorExecution> saveCrmUserInteractorExecutionProvider;
   private final ConfigObservable configObservable;
   private final ErrorLogger errorLogger;
+  private final RetrieveCrmUserTagsSyncTask retrieveUserTagsSyncTask;
+  private final RetrieveCrmDeviceTagsSyncTask retrieveDeviceTagsSyncTask;
+  private final SaveCrmUserTagsInteractor saveCrmUserTagsInteractor;
+  private final SaveCrmDeviceTagsInteractor saveCrmDeviceTagsInteractor;
 
-  public SaveCrmUserController(InteractorInvoker interactorInvoker,
-                               Provider<InteractorExecution> interactorExecutionProvider, ThreadSpec mainThreadSpec,
-                               ConfigObservable configObservable, ErrorLogger errorLogger) {
+
+  public CrmUserController(InteractorInvoker interactorInvoker,
+                           Provider<InteractorExecution> saveCrmUserInteractorExecutionProvider,
+                           ConfigObservable configObservable,
+                           ErrorLogger errorLogger,
+                           RetrieveCrmUserTagsSyncTask retrieveUserTagsSyncTask,
+                           RetrieveCrmDeviceTagsSyncTask retrieveDeviceTagsSyncTask,
+                           SaveCrmUserTagsInteractor saveCrmUserTagsInteractor,
+                           SaveCrmDeviceTagsInteractor saveCrmDeviceTagsInteractor) {
 
     super();
 
     this.interactorInvoker = interactorInvoker;
-    this.interactorExecutionProvider = interactorExecutionProvider;
+    this.saveCrmUserInteractorExecutionProvider = saveCrmUserInteractorExecutionProvider;
     this.configObservable = configObservable;
     this.errorLogger = errorLogger;
-  }
-
-  @Override public void onViewAttached() {
+    this.retrieveUserTagsSyncTask = retrieveUserTagsSyncTask;
+    this.retrieveDeviceTagsSyncTask = retrieveDeviceTagsSyncTask;
+    this.saveCrmUserTagsInteractor = saveCrmUserTagsInteractor;
+    this.saveCrmDeviceTagsInteractor = saveCrmDeviceTagsInteractor;
   }
 
   public void saveUserAndReloadConfig(CrmUser crmUser) {
-    InteractorExecution interactorExecution = interactorExecutionProvider.get();
+    InteractorExecution interactorExecution = saveCrmUserInteractorExecutionProvider.get();
     SaveCrmUserInteractor saveCrmUserInteractor =
         (SaveCrmUserInteractor) interactorExecution.getInteractor();
     saveCrmUserInteractor.setCrmUser(crmUser);
@@ -79,7 +94,7 @@ public class SaveCrmUserController extends Presenter<SaveCrmUserDelegate> {
   }
 
   public void saveUserOnly(CrmUser crmUser) {
-    InteractorExecution interactorExecution = interactorExecutionProvider.get();
+    InteractorExecution interactorExecution = saveCrmUserInteractorExecutionProvider.get();
     SaveCrmUserInteractor saveCrmUserInteractor =
             (SaveCrmUserInteractor) interactorExecution.getInteractor();
     saveCrmUserInteractor.setCrmUser(crmUser);
@@ -109,5 +124,23 @@ public class SaveCrmUserController extends Presenter<SaveCrmUserDelegate> {
     if (result.hasChanges()) {
       configObservable.notifyObservers(result);
     }
+  }
+
+  public List<String> getUserTags() {
+    return retrieveUserTagsSyncTask.retrieveCrmUserTags();
+  }
+
+  public void setUserTags(List<String> userTagList) {
+    saveCrmUserTagsInteractor.setCrmUserTags(userTagList);
+    new InteractorExecution<>(saveCrmUserTagsInteractor).execute(interactorInvoker);
+  }
+
+  public List<String> getDeviceTags() {
+    return retrieveDeviceTagsSyncTask.retrieveCrmUserTags();
+  }
+
+  public void setDeviceTags(List<String> deviceTags) {
+    saveCrmDeviceTagsInteractor.setCrmDeviceTags(deviceTags);
+    new InteractorExecution<>(saveCrmDeviceTagsInteractor).execute(interactorInvoker);
   }
 }

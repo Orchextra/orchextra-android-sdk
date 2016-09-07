@@ -21,37 +21,37 @@ package com.gigigo.orchextra.di.modules.data;
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.di.qualifiers.RealmMapperBeaconRegion;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 
-import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmUserRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.OrchextraStatusRealmMapper;
-import orchextra.javax.inject.Singleton;
-
-import orchextra.dagger.Module;
-import orchextra.dagger.Provides;
 import gigigo.com.orchextra.data.datasources.db.model.BeaconEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
-import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
+import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
+import gigigo.com.orchextra.data.datasources.db.model.RegionEventRealm;
+import gigigo.com.orchextra.data.datasources.db.model.RegionRealm;
 import gigigo.com.orchextra.data.datasources.db.model.VuforiaCredentialsRealm;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.AvailableCustomFieldRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.BeaconEventRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.RegionEventRealmMapper;
-import gigigo.com.orchextra.data.datasources.db.model.mappers.RegionRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.ClientAuthRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.CrmUserRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.GeofenceEventRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.GeofenceRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.OrchextraStatusRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.RealmPointMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.RegionEventRealmMapper;
+import gigigo.com.orchextra.data.datasources.db.model.mappers.RegionRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthCredentialsRealmMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.SdkAuthReamlMapper;
 import gigigo.com.orchextra.data.datasources.db.model.mappers.VuforiaCredentialsRealmMapper;
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
 
 @Module
@@ -142,5 +142,11 @@ public class DBMapperModule {
     @Provides
     Mapper<OrchextraStatus, OrchextraStatusRealm> provideOrchextraStatusRealm() {
         return new OrchextraStatusRealmMapper();
+    }
+
+    @Singleton
+    @Provides
+    AvailableCustomFieldRealmMapper availableCustomFieldRealmMapper() {
+        return new AvailableCustomFieldRealmMapper();
     }
 }

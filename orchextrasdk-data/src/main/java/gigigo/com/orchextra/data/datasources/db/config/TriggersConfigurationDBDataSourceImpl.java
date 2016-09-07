@@ -128,6 +128,78 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
     }
   }
 
+  @Override
+  public BusinessObject<List<String>> retrieveCrmUserTags() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      return new BusinessObject<>(configurationInfoResult.getCrmCustomFields().getTags(), BusinessError.createOKInstance());
+    } catch (Exception re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public BusinessObject<List<String>> retrieveCrmDeviceTags() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      return new BusinessObject<>(configurationInfoResult.getDeviceCustomFields().getTags(), BusinessError.createOKInstance());
+    } catch (Exception re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public void saveCrmUserTags(List<String> userTagList) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      realm.beginTransaction();
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      configurationInfoResult.getCrmCustomFields().setTags(userTagList);
+
+      configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
+    } catch (Exception re) {
+      re.printStackTrace();
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public void saveCrmDeviceUserTags(List<String> deviceTags) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      realm.beginTransaction();
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      configurationInfoResult.getDeviceCustomFields().setTags(deviceTags);
+
+      configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
+    } catch (Exception re) {
+      re.printStackTrace();
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+    }
+  }
+
   @Override public BusinessObject<OrchextraGeofence> obtainGeofenceById(String geofenceId) {
 
     Realm realm = realmDefaultInstance.createRealmInstance(context);
