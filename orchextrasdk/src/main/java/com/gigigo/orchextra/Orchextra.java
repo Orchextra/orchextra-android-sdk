@@ -23,6 +23,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerC
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import java.util.List;
+import java.util.Map;
 
 public final class Orchextra {
 
@@ -166,11 +167,35 @@ public final class Orchextra {
         OrchextraManager.setDeviceTags(deviceTagList);
     }
 
+    public static List<String> getDeviceBusinessUnits() {
+        return OrchextraManager.getDeviceBusinessUnits();
+    }
+
+    public static void setDeviceBusinessUnits(List<String> deviceBusinessUnits) {
+        OrchextraManager.setDeviceBusinessUnits(deviceBusinessUnits);
+    }
+
     public static List<String> getUserTags() {
         return OrchextraManager.getUserTags();
     }
 
     public static void setUserTags(List<String> userTagList) {
         OrchextraManager.setUserTags(userTagList);
+    }
+
+    public static List<String> getUserBusinessUnits() {
+        return OrchextraManager.getUserBusinessUnits();
+    }
+
+    public static void setUserBusinessUnits(List<String> userBusinessUnits) {
+        OrchextraManager.setUserBusinessUnits(userBusinessUnits);
+    }
+
+    public static Map<String, String> getUserCustomFields() {
+        return OrchextraManager.getUserCustomFields();
+    }
+
+    public static void setUserCustomFields(Map<String, String> userCustomFields) {
+        OrchextraManager.setUserCustomFields(userCustomFields);
     }
 }

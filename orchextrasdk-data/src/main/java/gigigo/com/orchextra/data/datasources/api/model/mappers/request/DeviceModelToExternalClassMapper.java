@@ -25,28 +25,30 @@ import gigigo.com.orchextra.data.datasources.api.model.requests.ApiDevice;
 
 
 public class DeviceModelToExternalClassMapper
-    implements ModelToExternalClassMapper<Device, ApiDevice> {
+        implements ModelToExternalClassMapper<Device, ApiDevice> {
 
-  @Override public ApiDevice modelToExternalClass(Device device) {
-    ApiDevice apiDevice = new ApiDevice();
+    @Override
+    public ApiDevice modelToExternalClass(Device device) {
+        ApiDevice apiDevice = new ApiDevice();
 
-    apiDevice.setInstanceId(device.getInstanceId());
-    apiDevice.setLanguage(device.getLanguage());
-    apiDevice.setOsVersion(device.getOsVersion());
-    apiDevice.setSecureId(device.getSecureId());
-    apiDevice.setSerialNumber(device.getSerialNumber());
-    apiDevice.setTimeZone(device.getTimeZone());
-    apiDevice.setWifiMacAddress(device.getWifiMacAddress());
-    apiDevice.setHandset(device.getHandset());
-    apiDevice.setBluetoothMacAddress(device.getBluetoothMacAddress());
+        apiDevice.setInstanceId(device.getInstanceId());
+        apiDevice.setLanguage(device.getLanguage());
+        apiDevice.setOsVersion(device.getOsVersion());
+        apiDevice.setSecureId(device.getSecureId());
+        apiDevice.setSerialNumber(device.getSerialNumber());
+        apiDevice.setTimeZone(device.getTimeZone());
+        apiDevice.setWifiMacAddress(device.getWifiMacAddress());
+        apiDevice.setHandset(device.getHandset());
+        apiDevice.setBluetoothMacAddress(device.getBluetoothMacAddress());
 
-    if (device.getTags() != null && device.getTags().size() > 0 &&
-            device.getBusinessUnits() != null && device.getBusinessUnits().size() > 0) {
+        if (device.getTags() != null && device.getTags().size() > 0) {
+            apiDevice.setTags(device.getTags());
+        }
 
-      apiDevice.setTags(device.getTags());
-      apiDevice.setBusinessUnits(device.getBusinessUnits());
+        if (device.getBusinessUnits() != null && device.getBusinessUnits().size() > 0) {
+            apiDevice.setBusinessUnits(device.getBusinessUnits());
+        }
+
+        return apiDevice;
     }
-
-    return apiDevice;
-  }
 }

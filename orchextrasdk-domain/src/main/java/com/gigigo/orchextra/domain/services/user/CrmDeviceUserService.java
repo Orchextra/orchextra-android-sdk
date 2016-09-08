@@ -20,4 +20,12 @@ public class CrmDeviceUserService {
     public void saveCrmDeviceUserTags(List<String> deviceTags) {
         crmDeviceDataProvider.saveCrmDeviceUserTags(deviceTags);
     }
+
+    public BusinessObject<List<String>> retrieveCrmDeviceBusinessUnits() {
+        return crmDeviceDataProvider.retrieveCrmDeviceBusinessUnits();
+    }
+
+    public void saveCrmDeviceBusinessUnits(List<String> deviceBusinessUnits) {
+        crmDeviceDataProvider.saveCrmDeviceBusinessUnits(deviceBusinessUnits);
+    }
 }

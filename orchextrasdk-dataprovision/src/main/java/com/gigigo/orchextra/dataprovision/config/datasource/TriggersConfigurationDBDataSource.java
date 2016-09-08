@@ -23,6 +23,7 @@ import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInf
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 
 import java.util.List;
 
@@ -47,4 +48,16 @@ public interface TriggersConfigurationDBDataSource {
   void saveCrmUserTags(List<String> userTagList);
 
   void saveCrmDeviceUserTags(List<String> deviceTags);
+
+  BusinessObject<List<String>> retrieveCrmDeviceBusinessUnits();
+
+  void saveCrmDeviceBusinessUnits(List<String> deviceBusinessUnits);
+
+  BusinessObject<List<String>> retrieveCrmUserBusinessUnits();
+
+  void saveUserBusinessUnits(List<String> userBusinessUnits);
+
+  BusinessObject<List<CustomField>> retrieveCrmUserCustomFields();
+
+  void saveUserCustomFields(List<CustomField> customFieldList);
 }

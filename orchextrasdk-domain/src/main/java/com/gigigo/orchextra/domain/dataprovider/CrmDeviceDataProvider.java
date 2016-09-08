@@ -8,4 +8,8 @@ public interface CrmDeviceDataProvider {
     BusinessObject<List<String>> retrieveCrmDeviceTags();
 
     void saveCrmDeviceUserTags(List<String> deviceTags);
+
+    BusinessObject<List<String>> retrieveCrmDeviceBusinessUnits();
+
+    void saveCrmDeviceBusinessUnits(List<String> deviceBusinessUnits);
 }
