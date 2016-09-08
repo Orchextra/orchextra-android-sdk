@@ -33,6 +33,7 @@ import com.gigigo.orchextra.domain.model.vo.Device;
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.model.vo.NotificationPush;
 import com.gigigo.orchextra.domain.services.DomainService;
+
 /**
  *
  */

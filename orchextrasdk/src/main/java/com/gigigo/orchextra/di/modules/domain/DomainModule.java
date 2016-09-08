@@ -40,10 +40,8 @@ import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.dataprovider.CrmDeviceDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.CrmUserDataProvider;
-import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmUserTagsSyncTask;
-import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmDeviceTagsSyncTask;
-import com.gigigo.orchextra.domain.interactors.user.SaveCrmDeviceTagsInteractor;
-import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserTagsInteractor;
+import com.gigigo.orchextra.domain.interactors.user.CrmDeviceTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.CrmUserTagsSyncTask;
 import com.gigigo.orchextra.domain.invoker.InteractorInvokerImp;
 import com.gigigo.orchextra.domain.invoker.InteractorOutputThreadFactory;
 import com.gigigo.orchextra.domain.invoker.InteractorPriorityBlockingQueue;
@@ -223,8 +221,8 @@ public class DomainModule {
 
     @Provides
     @Singleton
-    RetrieveCrmUserTagsSyncTask provideRetrieveUserTagsSyncTask(CrmUserService crmUserService) {
-        return new RetrieveCrmUserTagsSyncTask(crmUserService);
+    CrmUserTagsSyncTask provideRetrieveUserTagsSyncTask(CrmUserService crmUserService) {
+        return new CrmUserTagsSyncTask(crmUserService);
     }
 
     @Provides
@@ -234,19 +232,7 @@ public class DomainModule {
 
     @Provides
     @Singleton
-    RetrieveCrmDeviceTagsSyncTask provideRetrieveDeviceTagsSyncTask(CrmDeviceUserService crmDeviceUserService) {
-        return new RetrieveCrmDeviceTagsSyncTask(crmDeviceUserService);
-    }
-
-    @Provides
-    @Singleton
-    SaveCrmUserTagsInteractor provideSaveCrmUserTagsInteractor(CrmUserService crmUserService) {
-        return new SaveCrmUserTagsInteractor(crmUserService);
-    }
-
-    @Provides
-    @Singleton
-    SaveCrmDeviceTagsInteractor provideSaveCrmDeviceTagsInteractor(CrmDeviceUserService crmDeviceUserService) {
-        return new SaveCrmDeviceTagsInteractor(crmDeviceUserService);
+    CrmDeviceTagsSyncTask provideRetrieveDeviceTagsSyncTask(CrmDeviceUserService crmDeviceUserService) {
+        return new CrmDeviceTagsSyncTask(crmDeviceUserService);
     }
 }

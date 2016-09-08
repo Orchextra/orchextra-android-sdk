@@ -47,29 +47,20 @@ public class CrmModelToExternalClassMapper implements ModelToExternalClassMapper
             apiCrmUser.setGender(crmUser.getGender().getStringValue());
         }
 
-        //Si una esta rellena, hay que enviar las dos
-        if (crmUser.getTags() != null && crmUser.getTags().size() > 0 &&
-                crmUser.getBusinessUnits() != null && crmUser.getBusinessUnits().size() > 0) {
-
-            if (crmUser.getTags() != null) {
-                List<String> apiTagList = new ArrayList<>();
-                for (String tag : crmUser.getTags()) {
-                    apiTagList.add(tag);
-                }
-                apiCrmUser.setTags(apiTagList);
-            } else {
-                apiCrmUser.setTags(new ArrayList<String>());
+        if (crmUser.getTags() != null && crmUser.getTags().size() > 0) {
+            List<String> apiTagList = new ArrayList<>();
+            for (String tag : crmUser.getTags()) {
+                apiTagList.add(tag);
             }
+            apiCrmUser.setTags(apiTagList);
+        }
 
-            if (crmUser.getBusinessUnits() != null) {
-                List<String> apiBUList = new ArrayList<>();
-                for (String bu : crmUser.getBusinessUnits()) {
-                    apiBUList.add(bu);
-                }
-                apiCrmUser.setBusinessUnits(apiBUList);
-            } else {
-                apiCrmUser.setBusinessUnits(new ArrayList<String>());
+        if (crmUser.getBusinessUnits() != null && crmUser.getBusinessUnits().size() > 0) {
+            List<String> apiBUList = new ArrayList<>();
+            for (String bu : crmUser.getBusinessUnits()) {
+                apiBUList.add(bu);
             }
+            apiCrmUser.setBusinessUnits(apiBUList);
         }
 
         if (crmUser.getCustomFields() != null && crmUser.getCustomFields().size() > 0) {

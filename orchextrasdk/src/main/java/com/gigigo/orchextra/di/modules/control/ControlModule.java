@@ -39,10 +39,8 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAc
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmDeviceTagsSyncTask;
-import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmUserTagsSyncTask;
-import com.gigigo.orchextra.domain.interactors.user.SaveCrmDeviceTagsInteractor;
-import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserTagsInteractor;
+import com.gigigo.orchextra.domain.interactors.user.CrmUserTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.CrmDeviceTagsSyncTask;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
 
@@ -83,13 +81,11 @@ public class ControlModule {
           InteractorInvoker interactorInvoker,
           @SaveUserInteractorExecution Provider<InteractorExecution> interactorExecutionProvider,
           ConfigObservable configObservable, ErrorLogger errorLogger,
-          RetrieveCrmUserTagsSyncTask retrieveUserTagsSyncTask,
-          RetrieveCrmDeviceTagsSyncTask retrieveDeviceTagsSyncTask,
-          SaveCrmUserTagsInteractor saveCrmUserTagsInteractor,
-          SaveCrmDeviceTagsInteractor saveCrmDeviceTagsInteractor){
+          CrmUserTagsSyncTask userTagsSyncTask,
+          CrmDeviceTagsSyncTask deviceTagsSyncTask){
 
     return new CrmUserController(interactorInvoker, interactorExecutionProvider, configObservable,
-        errorLogger, retrieveUserTagsSyncTask, retrieveDeviceTagsSyncTask, saveCrmUserTagsInteractor, saveCrmDeviceTagsInteractor);
+        errorLogger, userTagsSyncTask, deviceTagsSyncTask);
   }
 
   @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(OrchextraStatusManager orchextraStatusManager){

@@ -54,12 +54,16 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAc
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
+import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import orchextra.javax.inject.Inject;
 
@@ -494,6 +498,19 @@ public class OrchextraManager {
         }
     }
 
+    public static List<String> getDeviceBusinessUnits() {
+        if (OrchextraManager.instance != null) {
+            return OrchextraManager.instance.crmUserController.getDeviceBusinessUnits();
+        }
+        return null;
+    }
+
+    public static void setDeviceBusinessUnits(List<String> deviceBusinessUnits) {
+        if (OrchextraManager.instance != null) {
+            OrchextraManager.instance.crmUserController.setDeviceBusinessUnits(deviceBusinessUnits);
+        }
+    }
+
     public static List<String> getUserTags() {
         if (OrchextraManager.instance != null) {
             return OrchextraManager.instance.crmUserController.getUserTags();
@@ -504,6 +521,51 @@ public class OrchextraManager {
     public static void setUserTags(List<String> userTagList) {
         if (OrchextraManager.instance != null) {
             OrchextraManager.instance.crmUserController.setUserTags(userTagList);
+        }
+    }
+
+    public static List<String> getUserBusinessUnits() {
+        if (OrchextraManager.instance != null) {
+            return OrchextraManager.instance.crmUserController.getUserBusinessUnits();
+        }
+        return null;
+    }
+
+    public static void setUserBusinessUnits(List<String> userBusinessUnits) {
+        if (OrchextraManager.instance != null) {
+            OrchextraManager.instance.crmUserController.setUserBusinessUnits(userBusinessUnits);
+        }
+    }
+
+    public static Map<String, String> getUserCustomFields() {
+        if (OrchextraManager.instance != null) {
+
+            List<CustomField> userCustomFieldList = OrchextraManager.instance.crmUserController.getUserCustomFields();
+
+            Map<String, String> customFieldMap = new HashMap<>();
+
+            for (CustomField customField : userCustomFieldList) {
+                customFieldMap.put(customField.getKey(), customField.getValue());
+            }
+
+            return customFieldMap;
+        }
+        return null;
+    }
+
+    public static void setUserCustomFields(Map<String, String> userCustomFields) {
+        if (OrchextraManager.instance != null) {
+
+            List<CustomField> customFieldList = new ArrayList<>();
+
+            for (String key : userCustomFields.keySet()) {
+                CustomField customField = new CustomField();
+                customField.setKey(key);
+                customField.setValue(userCustomFields.get(key));
+                customFieldList.add(customField);
+            }
+
+            OrchextraManager.instance.crmUserController.setUserCustomFields(customFieldList);
         }
     }
 }

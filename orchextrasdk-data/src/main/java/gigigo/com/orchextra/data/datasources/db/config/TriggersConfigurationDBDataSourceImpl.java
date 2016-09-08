@@ -28,6 +28,7 @@ import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInf
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 
 import java.util.List;
 
@@ -119,7 +120,7 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
       configInfoResultUpdater.removeConfigInfo(realm);
       return new BusinessObject<>(null, BusinessError.createOKInstance());
     } catch (Exception re) {
-      GGGLogImpl.log("No se ha eliminado correctamente la bas de datos: " + re.getMessage());
+      GGGLogImpl.log("No se ha eliminado correctamente la base de datos: " + re.getMessage());
       return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     } finally {
       if (realm != null) {
@@ -161,6 +162,22 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
   }
 
   @Override
+  public BusinessObject<List<String>> retrieveCrmDeviceBusinessUnits() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      return new BusinessObject<>(configurationInfoResult.getDeviceCustomFields().getBusinessUnits(), BusinessError.createOKInstance());
+    } catch (Exception re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+
+  @Override
   public void saveCrmUserTags(List<String> userTagList) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
@@ -181,6 +198,78 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
   }
 
   @Override
+  public BusinessObject<List<String>> retrieveCrmUserBusinessUnits() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      return new BusinessObject<>(configurationInfoResult.getCrmCustomFields().getBusinessUnits(), BusinessError.createOKInstance());
+    } catch (Exception re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public void saveUserBusinessUnits(List<String> userBusinessUnits) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      realm.beginTransaction();
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      configurationInfoResult.getCrmCustomFields().setBusinessUnits(userBusinessUnits);
+
+      configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
+    } catch (Exception re) {
+      re.printStackTrace();
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public BusinessObject<List<CustomField>> retrieveCrmUserCustomFields() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      return new BusinessObject<>(configurationInfoResult.getCrmCustomFields().getCustomFieldList(), BusinessError.createOKInstance());
+    } catch (Exception re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public void saveUserCustomFields(List<CustomField> customFieldList) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      realm.beginTransaction();
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      configurationInfoResult.getCrmCustomFields().setCustomFieldList(customFieldList);
+
+      configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
+    } catch (Exception re) {
+      re.printStackTrace();
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+    }
+  }
+
+  @Override
   public void saveCrmDeviceUserTags(List<String> deviceTags) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
@@ -188,6 +277,26 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
       realm.beginTransaction();
       ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
       configurationInfoResult.getDeviceCustomFields().setTags(deviceTags);
+
+      configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
+    } catch (Exception re) {
+      re.printStackTrace();
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+    }
+  }
+
+  @Override
+  public void saveCrmDeviceBusinessUnits(List<String> deviceBusinessUnits) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      realm.beginTransaction();
+      ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
+      configurationInfoResult.getDeviceCustomFields().setBusinessUnits(deviceBusinessUnits);
 
       configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
     } catch (Exception re) {

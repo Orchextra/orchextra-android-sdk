@@ -25,13 +25,12 @@ import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.interactors.config.ValidationError;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
-import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmDeviceTagsSyncTask;
-import com.gigigo.orchextra.domain.interactors.user.RetrieveCrmUserTagsSyncTask;
-import com.gigigo.orchextra.domain.interactors.user.SaveCrmDeviceTagsInteractor;
+import com.gigigo.orchextra.domain.interactors.user.CrmDeviceTagsSyncTask;
+import com.gigigo.orchextra.domain.interactors.user.CrmUserTagsSyncTask;
 import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserInteractor;
-import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserTagsInteractor;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
+import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 
 import java.util.List;
 
@@ -44,20 +43,16 @@ public class CrmUserController {
   private final Provider<InteractorExecution> saveCrmUserInteractorExecutionProvider;
   private final ConfigObservable configObservable;
   private final ErrorLogger errorLogger;
-  private final RetrieveCrmUserTagsSyncTask retrieveUserTagsSyncTask;
-  private final RetrieveCrmDeviceTagsSyncTask retrieveDeviceTagsSyncTask;
-  private final SaveCrmUserTagsInteractor saveCrmUserTagsInteractor;
-  private final SaveCrmDeviceTagsInteractor saveCrmDeviceTagsInteractor;
+  private final CrmUserTagsSyncTask userTagsSyncTask;
+  private final CrmDeviceTagsSyncTask deviceTagsSyncTask;
 
 
   public CrmUserController(InteractorInvoker interactorInvoker,
                            Provider<InteractorExecution> saveCrmUserInteractorExecutionProvider,
                            ConfigObservable configObservable,
                            ErrorLogger errorLogger,
-                           RetrieveCrmUserTagsSyncTask retrieveUserTagsSyncTask,
-                           RetrieveCrmDeviceTagsSyncTask retrieveDeviceTagsSyncTask,
-                           SaveCrmUserTagsInteractor saveCrmUserTagsInteractor,
-                           SaveCrmDeviceTagsInteractor saveCrmDeviceTagsInteractor) {
+                           CrmUserTagsSyncTask userTagsSyncTask,
+                           CrmDeviceTagsSyncTask deviceTagsSyncTask) {
 
     super();
 
@@ -65,10 +60,8 @@ public class CrmUserController {
     this.saveCrmUserInteractorExecutionProvider = saveCrmUserInteractorExecutionProvider;
     this.configObservable = configObservable;
     this.errorLogger = errorLogger;
-    this.retrieveUserTagsSyncTask = retrieveUserTagsSyncTask;
-    this.retrieveDeviceTagsSyncTask = retrieveDeviceTagsSyncTask;
-    this.saveCrmUserTagsInteractor = saveCrmUserTagsInteractor;
-    this.saveCrmDeviceTagsInteractor = saveCrmDeviceTagsInteractor;
+    this.userTagsSyncTask = userTagsSyncTask;
+    this.deviceTagsSyncTask = deviceTagsSyncTask;
   }
 
   public void saveUserAndReloadConfig(CrmUser crmUser) {
@@ -127,20 +120,42 @@ public class CrmUserController {
   }
 
   public List<String> getUserTags() {
-    return retrieveUserTagsSyncTask.retrieveCrmUserTags();
+    return userTagsSyncTask.retrieveCrmUserTags();
   }
 
   public void setUserTags(List<String> userTagList) {
-    saveCrmUserTagsInteractor.setCrmUserTags(userTagList);
-    new InteractorExecution<>(saveCrmUserTagsInteractor).execute(interactorInvoker);
+    userTagsSyncTask.saveUserTags(userTagList);
+  }
+
+  public List<String> getUserBusinessUnits() {
+    return userTagsSyncTask.retrieveCrmUserBusinessUnits();
+  }
+
+  public void setUserBusinessUnits(List<String> userBusinessUnits) {
+    userTagsSyncTask.saveUserBusinessUnits(userBusinessUnits);
+  }
+
+  public List<CustomField> getUserCustomFields() {
+    return userTagsSyncTask.retrieveCrmUserCustomFields();
+  }
+
+  public void setUserCustomFields(List<CustomField> customFieldList) {
+    userTagsSyncTask.saveUserCustomFields(customFieldList);
   }
 
   public List<String> getDeviceTags() {
-    return retrieveDeviceTagsSyncTask.retrieveCrmUserTags();
+    return deviceTagsSyncTask.retrieveCrmUserTags();
   }
 
   public void setDeviceTags(List<String> deviceTags) {
-    saveCrmDeviceTagsInteractor.setCrmDeviceTags(deviceTags);
-    new InteractorExecution<>(saveCrmDeviceTagsInteractor).execute(interactorInvoker);
+    deviceTagsSyncTask.saveDeviceTags(deviceTags);
+  }
+
+  public List<String> getDeviceBusinessUnits() {
+    return deviceTagsSyncTask.retrieveDeviceBusinessUnits();
+  }
+
+  public void setDeviceBusinessUnits(List<String> deviceBusinessUnits) {
+    deviceTagsSyncTask.saveDeviceBusinessUnits(deviceBusinessUnits);
   }
 }

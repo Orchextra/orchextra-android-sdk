@@ -20,16 +20,18 @@ public class CrmCustomFieldsExternalClassToModelMapper
         crmCustomFields.setBusinessUnits(apiCrmCustomFields.getBusinessUnits());
         crmCustomFields.setTags(apiCrmCustomFields.getTags());
 
-        List<CustomField> customFieldList = new ArrayList<>();
-        for (String key : apiCrmCustomFields.getCustomFields().keySet()) {
+        if (apiCrmCustomFields.getCustomFields() != null) {
+            List<CustomField> customFieldList = new ArrayList<>();
+            for (String key : apiCrmCustomFields.getCustomFields().keySet()) {
 
-            CustomField customField = new CustomField();
-            customField.setKey(key);
-            customField.setValue(apiCrmCustomFields.getCustomFields().get(key));
+                CustomField customField = new CustomField();
+                customField.setKey(key);
+                customField.setValue(apiCrmCustomFields.getCustomFields().get(key));
 
-            customFieldList.add(customField);
+                customFieldList.add(customField);
+            }
+            crmCustomFields.setCustomFieldList(customFieldList);
         }
-        crmCustomFields.setCustomFieldList(customFieldList);
 
         return crmCustomFields;
     }
