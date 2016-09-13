@@ -78,7 +78,7 @@ public class GoogleApiClientConnectorImpl
   }
 
   @Override
-  public GoogleApiClient getGoogleApiClient() {
+  public Object getGoogleApiClient() {
     return client;
   }
 

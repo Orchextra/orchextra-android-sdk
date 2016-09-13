@@ -21,13 +21,13 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 
 android {
     compileSdkVersion parent.ext.androidCompileSdkVersion
-  //  buildToolsVersion parent.ext.androidBuildToolsVersion
+    //  buildToolsVersion parent.ext.androidBuildToolsVersion
     buildToolsVersion = "24.0.1" //java8
     defaultConfig {
         applicationId "gigigo.com.orchextrasdk"
         minSdkVersion 11
-//parent.ext.androidMinSdkVersion //you can change that, but you need API >=10 for fabmenu
-        targetSdkVersion  parent.ext.androidTargetSdkVersion
+        //parent.ext.androidMinSdkVersion //you can change that, but you need API >=10 for fabmenu
+        targetSdkVersion parent.ext.androidTargetSdkVersion
         versionCode parent.ext.androidVersionCode
         versionName parent.ext.androidVersionName
         //for VuforiaCredentials,VuforiaCredentials Only work with armv7 lib.so, in this case we exclude all
@@ -75,6 +75,7 @@ android {
         play7 {}
         play8 {}
         play9 {}
+        playno {}
     }
 }
 
@@ -82,58 +83,53 @@ configurations {
     play7DebugCompile
     play8DebugCompile
     play9DebugCompile
+    playnoDebugCompile
     play7ReleaseCompile
     play8ReleaseCompile
     play9ReleaseCompile
+    playnoReleaseCompile
 }
 
 dependencies {
 
-    /*  compile  'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.4'
+// compile(name: 'appoxee_sdk_2.7.0', ext: 'aar') //appoxee, u can test double pushnotification
 
-    compile 'com.google.android.gms:play-services-location:9.0.0'
-    compile 'com.google.android.gms:play-services-gcm:9.0.0'
-  compile project(':orchextrasdk')*/
+//webview fab menu
+    //  compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
+
+    /*
+
+
+  compile  'com.github.Orchextra.orchextra-android-sdk:orchextrasdk:2.3.4'
+  compile project(':orchextrasdk')
+  //flavour depencies from maven aar
+    /*
+      compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.3RC:play8Release@aar')
+              {
+                  transitive = true
+              }
+      */
 
 //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
 
-    play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
-    play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
-    play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
+    //play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
+    //play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
+    //play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
+    //test noplay, without play services, not work geofeing, segmentacion spatial, schedulable actions
+    playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
 
-    play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
-    play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
-    play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
+    //play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
+    //play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
+    //play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
+    //test noplay, without play services, not work geofeing, segmentacion spatial, schedulable actions
+    //playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
 
-    //flavour depencies from maven aar
-/*
-    compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.3RC:play8Release@aar')
-            {
-                transitive = true
-            }
-    compile 'com.google.android.gms:play-services-location:8.4.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
-    */
-    /*
-    compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.3RC:play8Release@aar')
-            {
-                transitive = true
-                exclude module: 'support-v4'
-            }*/
-  /*  compile 'com.google.android.gms:play-services-location:8.4.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
-*/
-  compile 'com.android.support:appcompat-v7:23.0.1'
-//    compile 'com.android.support:design:23.0.1'
-    compile(name: 'appoxee_sdk_2.7.0', ext: 'aar') //appoxee, u can test double pushnotification
+
     //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin tontas de support
     compile parent.ext.dependencies.imageRecognitionImpl //vuforia
-
-    //webview
-    compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
-
     testCompile parent.ext.testDependencies.junit
 
-
-
+    //AppCompatActivity
+      compile 'com.android.support:appcompat-v7:22.1.0'
+    // compile 'com.android.support:support-v4:22.1.0'
 }

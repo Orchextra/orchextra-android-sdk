@@ -22,7 +22,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.support.annotation.Nullable;
+import android.support.annotationox.Nullable;
 
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;

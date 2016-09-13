@@ -20,52 +20,52 @@
 
     </RelativeLayout>
 
-    <gigigo.com.fabmenu.FloatingActionsMenu
-        android:id="@+id/menuFAB"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+    <!--<gigigo.com.fabmenu.FloatingActionsMenu-->
+        <!--android:id="@+id/menuFAB"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentEnd="true"-->
 
-        ggg:fab_labelsPosition="left"
-        ggg:fab_labelStyle="@style/menu_labels_style"
-        ggg:ggg_fontFamily="Thin"
-        ggg:fab_addButtonColorNormal="@color/transparent"
-        ggg:fab_addButtonColorPressed="@color/transparent"
-        ggg:fab_addButtonPlusIconColor="@color/transparent"
-        ggg:fab_colorNormal="@color/transparent"
-        ggg:fab_colorPressed="@color/transparent"
-        ggg:ggg_icono="@drawable/create"
-        >
+        <!--ggg:fab_labelsPosition="left"-->
+        <!--ggg:fab_labelStyle="@style/menu_labels_style"-->
+        <!--ggg:ggg_fontFamily="Thin"-->
+        <!--ggg:fab_addButtonColorNormal="@color/transparent"-->
+        <!--ggg:fab_addButtonColorPressed="@color/transparent"-->
+        <!--ggg:fab_addButtonPlusIconColor="@color/transparent"-->
+        <!--ggg:fab_colorNormal="@color/transparent"-->
+        <!--ggg:fab_colorPressed="@color/transparent"-->
+        <!--ggg:ggg_icono="@drawable/create"-->
+        <!--&gt;-->
 
-        <gigigo.com.fabmenu.FloatingActionButton
-            android:id="@+id/btnQR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            ggg:fab_colorNormal="@color/grey2"
-            ggg:fab_colorPressed="@color/grey7"
-            ggg:fab_icon="@drawable/qr"
-            ggg:fab_title=""
-            />
-        <gigigo.com.fabmenu.FloatingActionButton
-            android:id="@+id/btnBarcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            ggg:fab_colorNormal="@color/grey2"
-            ggg:fab_colorPressed="@color/grey7"
-            ggg:fab_icon="@drawable/barcode"
-            ggg:fab_title=""
-            />
-        <gigigo.com.fabmenu.FloatingActionButton
-            android:id="@+id/btnPhoto"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            ggg:fab_colorNormal="@color/grey2"
-            ggg:fab_colorPressed="@color/grey7"
-            ggg:fab_icon="@drawable/fullscreen"
-            ggg:fab_title=""
-            />
-    </gigigo.com.fabmenu.FloatingActionsMenu>
+        <!--<gigigo.com.fabmenu.FloatingActionButton-->
+            <!--android:id="@+id/btnQR"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--ggg:fab_colorNormal="@color/grey2"-->
+            <!--ggg:fab_colorPressed="@color/grey7"-->
+            <!--ggg:fab_icon="@drawable/qr"-->
+            <!--ggg:fab_title=""-->
+            <!--/>-->
+        <!--<gigigo.com.fabmenu.FloatingActionButton-->
+            <!--android:id="@+id/btnBarcode"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--ggg:fab_colorNormal="@color/grey2"-->
+            <!--ggg:fab_colorPressed="@color/grey7"-->
+            <!--ggg:fab_icon="@drawable/barcode"-->
+            <!--ggg:fab_title=""-->
+            <!--/>-->
+        <!--<gigigo.com.fabmenu.FloatingActionButton-->
+            <!--android:id="@+id/btnPhoto"-->
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="60dp"-->
+            <!--ggg:fab_colorNormal="@color/grey2"-->
+            <!--ggg:fab_colorPressed="@color/grey7"-->
+            <!--ggg:fab_icon="@drawable/fullscreen"-->
+            <!--ggg:fab_title=""-->
+            <!--/>-->
+    <!--</gigigo.com.fabmenu.FloatingActionsMenu>-->
 
     <FrameLayout
         android:id="@+id/frmOverMenuButton"
