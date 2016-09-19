@@ -19,20 +19,16 @@ import com.gigigo.orchextra.ui.webview.OxWebView;
 
 public class WebViewActivity extends AppCompatActivity {
     private OxWebView mWebView;
-
-    //https://web.destapp.com/orchextra
-    private static final String GIGIGO_RESEARCH_URL = "https://web.destapp.com/orchextra"; // "http://research.gigigo.com";
-    private static final String CUSTOM_SCHEME = "webview://";
     FrameLayout frmContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          setContentView(R.layout.activity_web_view);
-
+        //webview with customscheme for renavigate
         if (Build.VERSION.SDK_INT > 17) {
             mWebView = new OxWebView(this);
-            mWebView.loadUrl(GIGIGO_RESEARCH_URL);
+            mWebView.loadUrl(App.GIGIGO_URL);
             mWebView.setOnKeyListener(new View.OnKeyListener() {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -50,8 +46,8 @@ public class WebViewActivity extends AppCompatActivity {
             Orchextra.setCustomSchemeReceiver(new CustomSchemeReceiver() {
                 @Override
                 public void onReceive(String scheme) {
-                    if (scheme.contains(CUSTOM_SCHEME)) {
-                        String url = scheme.replace(CUSTOM_SCHEME, "");
+                    if (scheme.contains(App.CUSTOM_SCHEME)) {
+                        String url = scheme.replace(App.CUSTOM_SCHEME, "");
                         mWebView.loadUrl(url);
                     }
                 }

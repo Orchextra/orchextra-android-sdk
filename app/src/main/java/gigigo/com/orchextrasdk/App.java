@@ -35,34 +35,21 @@ import java.util.GregorianCalendar;
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
 
-    //nuevo proyecto test en Pr0
-    public static final String API_KEY = "f61bb44ba4059fbe1b043f0c1e990b49a1844c01";
-    public static final String API_SECRET = "a503f662b16a70a255b7c6bca16daf57c1c14918";
+    //testdoublepush en Pr0
+    public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
+    public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
 
-    // es el proyecto:      [PRO][CSE] - Spark Bratislava -->Quality
-    // apikey: af8717703f0d90aed93df28899e44854bd98e244
-    // apiSecret: 17e109d3847f5aa3ce48fd61de47106RET = "17e109d3847f5aa3ce48fd61de47106dd4fb44a2";
-    //public static final String API_KEY = "af8717703f0d90aed93df28899e44854bd98e244";
-    //public static final String API_SECRET = "17e109d3847f5aa3ce48fd61de47106dd4fb44a2";
+    public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
 
-
-    //android test de Staging
-    //public static final String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
-    //public static final String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
-
-    //[PROD][MX] - COCA-COLA DESTAPP
-    // public static final String API_KEY = "deae9ac7e9db14414074d4103a42379c76f6cf58";
-    //public static final String API_SECRET = "9ef0cc1bd0347223c8328a8f28f695e681a4c831";
-
-
-    public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive
+    public static final String GIGIGO_URL = "http://research.gigigo.com";
+    public static final String CUSTOM_SCHEME = "webview://";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("APP", "Hello Application, start onCreate");
+
         initOrchextra();
-        Log.d("APP", "Hello Application, end onCreate");
+
     }
 
     public void initOrchextra() {
@@ -73,18 +60,21 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
                 .setOrchextraCompletionCallback(this)
                 .setGcmSenderId(SENDER_ID)
                 .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
+
+        //init Orchextra with builder configuration
         Orchextra.initialize(builder);
 
+        //your can re set custom Scheme in other places(activities,services..)
         Orchextra.setCustomSchemeReceiver(this);
-        /**/
+
+        // CRM User
         String CRM_ID = getUniqueCRMID();
 
         Orchextra.bindUser(new CrmUser(CRM_ID,
                 new GregorianCalendar(1981, Calendar.MAY, 31),
                 CrmUser.Gender.GenderMale));
 
-        //for reset the user
-        //Orchextra.unBindUser();
+        //start Orchextra running, you can call stop() if you need
         Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
     }
 

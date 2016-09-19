@@ -76,9 +76,9 @@ android {
     }
 
     productFlavors {
-        play7 {   }
-        play8 {  }
-        play9 {  }
+        play7 {}
+        play8 {}
+        play9 {}
         playno {}
     }
 }
@@ -96,53 +96,28 @@ configurations {
 
 dependencies {
 
-    //compile(name: 'appoxee_sdk_2.7.0', ext: 'aar') //appoxee, u can test double pushnotification
-    //if add appoxee is mandatory add com.google.android.gms.version to manifest
-
-//webview fab menu
+//fab menu webview
     compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
 
-    //flavour depencies from maven aar
-    //App sample dependencies
-  /*  compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.4.3RC:play8Release@aar')
-            {
-                transitive = true
-            }
-    compile 'com.google.android.gms:play-services-location:8.4.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
-//vuforia old with apptheme
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.android.support:design:23.1.0'
-
-    compile 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.2'
-
-
-   */
-
-    //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin tontas de support
+    //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin support
     compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
+
 //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
 
-    //play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
-   // play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
-    // play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
+    play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
+    play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
+    play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
     //test noplay, without play services, not work geofeing, segmentacion spatial, schedulable actions
-      playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
+    playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
 
-    //play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
-    //play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
-    //play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
+    play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
+    play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
+    play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
     //test noplay, without play services, not work geofeing, segmentacion spatial, schedulable actions
-    //playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
-
-    //  compile ('com.github.orchextra.orchextra-android-sdk:orchextrasdk:2.3.4')
-
+    playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
 
     testCompile parent.ext.testDependencies.junit
 
     //AppCompatActivity
-     compile 'com.android.support:appcompat-v7:22.1.0'
-    // compile 'com.android.support:support-v4:22.1.0'
-
-
+    compile 'com.android.support:appcompat-v7:22.1.0'
 }

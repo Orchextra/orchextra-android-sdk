@@ -22,8 +22,8 @@
   <string name="ox_stop_orchextra">Stop Orchextra</string>
   <string name="ox_webview_orchextra">open webviewOX</string>
   <string name="ox_webview_builtin">open App Activity With webviewOX</string>
-  <string name="ox_tags_bu_cf">get tags/bu/cf device/crm</string>
-  <string name="ox_set_tags_bu_cf_for_all">set tags/bu/cf device and crm</string>
+  <string name="ox_tags_bu_cf"> Segmentation </string>
+  <string name="ox_unbind">unBindCrmUser </string>
   <string name="status_running">running</string>
   <string name="status_text">Orchextra status: %s</string>
   <string name="status_stoped">stopped</string>
