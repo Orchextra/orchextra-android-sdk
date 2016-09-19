@@ -20,13 +20,12 @@
     package="com.gigigo.orchextra">
 
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-  <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
-  <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
   <uses-permission android:name="android.permission.CAMERA"/>
 
   <!-- Notification Push -->
   <uses-permission android:name="android.permission.WAKE_LOCK" />
-
   <permission android:name="${applicationId}.permission.C2D_MESSAGE"       android:protectionLevel="signature" />
   <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
   <!-- Notification Push End -->
@@ -57,46 +56,40 @@
           android:icon="@drawable/ox_notification_large_icon"
           android:label="@string/ox_app_name"/>
 
-      <!--<service-->
-          <!--android:name=".sdk.background.OrchextraGcmTaskService"-->
-          <!--android:exported="true"-->
-          <!--android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">-->
-        <!--<intent-filter>-->
-          <!--<action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />-->
-        <!--</intent-filter>-->
-      <!--</service>-->
+      <!-- Notification Push -->
+      <service
+          android:name=".sdk.background.OrchextraGcmTaskService"
+          android:exported="true"
+          android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+          <intent-filter>
+              <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+          </intent-filter>
+      </service>
 
-      <!--<service android:name=".device.geolocation.geofencing.pendingintent.GeofenceIntentService"/>-->
+      <service android:name=".device.geolocation.geofencing.pendingintent.GeofenceIntentService"/>
 
-    <!-- Notification Push -->
+      <receiver
+          android:name="com.google.android.gms.gcm.GcmReceiver"
+          android:exported="true"
+          android:permission="com.google.android.c2dm.permission.SEND" >
+          <intent-filter>
+              <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+              <category android:name="com.example.gcm" />
+          </intent-filter>
+      </receiver>
 
-    <!--<receiver-->
-        <!--android:name="com.google.android.gms.gcm.GcmReceiver"-->
-        <!--android:exported="true"-->
-        <!--android:permission="com.google.android.c2dm.permission.SEND" >-->
-      <!--<intent-filter>-->
-        <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
-        <!--<category android:name="com.example.gcm" />-->
-      <!--</intent-filter>-->
-    <!--</receiver>-->
-
-    <!--<service-->
-        <!--android:name=".device.notificationpush.OrchextraGcmListenerService"-->
-        <!--android:exported="false" >-->
-        <!--<intent-filter>-->
-            <!--<action android:name="com.google.android.c2dm.intent.RECEIVE" />-->
-        <!--</intent-filter>-->
-    <!--</service>-->
-
-    <!-- Notification Push End -->
-
-    <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-         SdkVersionAppInfo Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-      <!--<meta-data android:name="com.google.android.gms.version" android:value="0"/>-->
+      <service
+          android:name=".device.notificationpush.OrchextraGcmListenerService"
+          android:exported="false" >
+          <intent-filter>
+              <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+          </intent-filter>
+      </service>
+      <!-- Notification Push End -->
 
     <receiver android:name=".device.imagerecognition.ImageRecognitionReceiver" >
       <intent-filter>
-        <action android:name="com.gigigo.imagerecognition.intent.action.RECOGNIZED_IMAGE"></action>
+        <action android:name="com.gigigo.imagerecognition.intent.action.RECOGNIZED_IMAGE"/>
       </intent-filter>
     </receiver>
 

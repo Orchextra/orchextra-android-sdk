@@ -83,11 +83,19 @@ public class ApiCrmUser {
         this.tags = tags;
     }
 
+    public List<String> getBusinessUnits() {
+        return businessUnit;
+    }
+
     public void setBusinessUnits(List<String> businessUnit) {
         this.businessUnit = businessUnit;
     }
 
     public void setCustomFields(Map<String, String> customFields) {
         this.customFields = customFields;
+    }
+
+    public Map<String, String> getCustomFields() {
+        return customFields;
     }
 }

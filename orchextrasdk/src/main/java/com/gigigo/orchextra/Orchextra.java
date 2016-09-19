@@ -22,6 +22,10 @@ import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeRec
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,9 +36,9 @@ public final class Orchextra {
 
     /**
      * Initialize Orchextra library.
-     * <p/>
+     * <p>
      * You MUST call this method inside of the onCreate method in your Application.
-     * <p/>
+     * <p>
      * It the FIRST Orchextra method you MUST call.
      */
     public static void initialize(final OrchextraBuilder orchextraBuilder) {
@@ -74,11 +78,9 @@ public final class Orchextra {
     }
 
 
-
-
     /**
      * Start the Orchextra library. Calling this method Orchextra start to send and receive events.
-     * <p/>
+     * <p>
      * You can call this method in any moment after the calling of the initialize method.
      */
     public static void start() {
@@ -88,7 +90,7 @@ public final class Orchextra {
 
     /**
      * Change the api key and secret defined in the initialization call in any moment.
-     * <p/>
+     * <p>
      * If the credentials are the same, it doesn't have effects. You don't have to use it, except you have almost 2 different credentials.
      */
     public static synchronized void changeCredentials(String apiKey, String apiSecret) {
@@ -97,7 +99,7 @@ public final class Orchextra {
 
     /**
      * Start a new recognition view to scanner a image.
-     * <p/>
+     * <p>
      * You have to include Orchextra image recognition module in Gradle dependencies and initializate the module.
      */
     public static synchronized void startImageRecognition() {
@@ -128,8 +130,17 @@ public final class Orchextra {
     /**
      * You can define a specific user to associate Orchextra events.
      */
-    public static synchronized void setUser(CrmUser crmUser) {
-        OrchextraManager.setUser(crmUser);
+    public static synchronized void bindUser(CrmUser crmUser) {
+        OrchextraManager.bindUser(crmUser);
+    }
+
+    public static synchronized void unBindUser() {
+        CrmUser crmUser = new CrmUser(null,null,null);
+        OrchextraManager.bindUser(crmUser);
+    }
+
+    public static void commitConfiguration() {
+        OrchextraManager.sdkStart();
     }
 
     /**
@@ -143,7 +154,7 @@ public final class Orchextra {
     /**
      * You can change the period between scanning beacons. The lower scanning period, the bigger battery consumption<br/>
      * For default, the period between scanning is 5 minutes(LIGHT).<p/>
-     *
+     * <p>
      * You can use this other intensities:<br/>
      * WEAK - 10 minutes<br/>
      * LIGHT - 5 minutes<br/>
@@ -151,7 +162,7 @@ public final class Orchextra {
      * STRONG - 1 minute<br/>
      * SEVERE - 30 seconds<br/>
      * EXTREME - 10 seconds
-     * <p/>
+     * <p>
      * NOTE: We have to change this value when the app is in foreground.<p/>
      * NOTE 2: The beacon scanning period is defined in 10 seconds which is appropiated to discover all beacons nearby.
      */
@@ -167,12 +178,20 @@ public final class Orchextra {
         OrchextraManager.setDeviceTags(deviceTagList);
     }
 
+    public static void clearDeviceTags() {
+        OrchextraManager.setDeviceTags(Arrays.asList(""));
+    }
+
     public static List<String> getDeviceBusinessUnits() {
         return OrchextraManager.getDeviceBusinessUnits();
     }
 
     public static void setDeviceBusinessUnits(List<String> deviceBusinessUnits) {
         OrchextraManager.setDeviceBusinessUnits(deviceBusinessUnits);
+    }
+
+    public static void clearDeviceBusinessUnits() {
+        OrchextraManager.setDeviceBusinessUnits(Arrays.asList(""));
     }
 
     public static List<String> getUserTags() {
@@ -183,12 +202,20 @@ public final class Orchextra {
         OrchextraManager.setUserTags(userTagList);
     }
 
+    public static void clearUserTags() {
+        OrchextraManager.setUserTags(Arrays.asList(""));
+    }
+
     public static List<String> getUserBusinessUnits() {
         return OrchextraManager.getUserBusinessUnits();
     }
 
     public static void setUserBusinessUnits(List<String> userBusinessUnits) {
         OrchextraManager.setUserBusinessUnits(userBusinessUnits);
+    }
+
+    public static void clearUserBusinessUnits() {
+        OrchextraManager.setUserBusinessUnits(Arrays.asList(""));
     }
 
     public static Map<String, String> getUserCustomFields() {
@@ -198,4 +225,11 @@ public final class Orchextra {
     public static void setUserCustomFields(Map<String, String> userCustomFields) {
         OrchextraManager.setUserCustomFields(userCustomFields);
     }
+
+    public static void clearUserCustomFields() {
+        Map<String, String> EmptyMap = new HashMap<String, String>();
+        EmptyMap.put("", "");
+        OrchextraManager.setUserCustomFields(EmptyMap);
+    }
+
 }

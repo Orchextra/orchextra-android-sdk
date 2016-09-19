@@ -26,113 +26,136 @@ import java.util.List;
 
 public class ApiDevice {
 
-  @Expose @SerializedName("handset") private String handset;
+    @Expose
+    @SerializedName("handset")
+    private String handset;
 
-  @Expose @SerializedName("language") private String language;
+    @Expose
+    @SerializedName("language")
+    private String language;
 
-  @Expose @SerializedName("osVersion") private String osVersion;
+    @Expose
+    @SerializedName("osVersion")
+    private String osVersion;
 
-  @Expose @SerializedName("timeZone") private String timeZone;
+    @Expose
+    @SerializedName("timeZone")
+    private String timeZone;
 
-  @Expose @SerializedName("instanceId") private String instanceId;
+    @Expose
+    @SerializedName("instanceId")
+    private String instanceId;
 
-  @Expose @SerializedName("secureId") private String secureId;
+    @Expose
+    @SerializedName("secureId")
+    private String secureId;
 
-  @Expose @SerializedName("serialNumber") private String serialNumber;
+    @Expose
+    @SerializedName("serialNumber")
+    private String serialNumber;
 
-  @Expose @SerializedName("bluetoothMacAddress") private String bluetoothMacAddress;
+    @Expose
+    @SerializedName("bluetoothMacAddress")
+    private String bluetoothMacAddress;
 
-  @Expose @SerializedName("wifiMacAddress") private String wifiMacAddress;
+    @Expose
+    @SerializedName("wifiMacAddress")
+    private String wifiMacAddress;
 
-  @Expose @SerializedName("tags") private List<String> tags;
+    @Expose
+    @SerializedName("tags")
+    private List<String> tags;
 
-  @Expose @SerializedName("businessUnits") private List<String> businessUnits;
+    @Expose
+    @SerializedName("businessUnits")
+    private List<String> businessUnits;
 
-  public String getHandset() {
-    return handset;
-  }
+    public String getHandset() {
+        return handset;
+    }
 
-  public void setHandset(String handset) {
-    this.handset = handset;
-  }
+    public void setHandset(String handset) {
+        this.handset = handset;
+    }
 
-  public String getLanguage() {
-    return language;
-  }
+    public String getLanguage() {
+        return language;
+    }
 
-  public void setLanguage(String language) {
-    this.language = language;
-  }
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
-  public String getOsVersion() {
-    return osVersion;
-  }
+    public String getOsVersion() {
+        return osVersion;
+    }
 
-  public void setOsVersion(String osVersion) {
-    this.osVersion = osVersion;
-  }
+    public void setOsVersion(String osVersion) {
+        this.osVersion = osVersion;
+    }
 
-  public String getTimeZone() {
-    return timeZone;
-  }
+    public String getTimeZone() {
+        return timeZone;
+    }
 
-  public void setTimeZone(String timeZone) {
-    this.timeZone = timeZone;
-  }
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
 
-  public String getInstanceId() {
-    return instanceId;
-  }
+    public String getInstanceId() {
+        return instanceId;
+    }
 
-  public void setInstanceId(String instanceId) {
-    this.instanceId = instanceId;
-  }
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
 
-  public String getSecureId() {
-    return secureId;
-  }
+    public String getSecureId() {
+        return secureId;
+    }
 
-  public void setSecureId(String secureId) {
-    this.secureId = secureId;
-  }
+    public void setSecureId(String secureId) {
+        this.secureId = secureId;
+    }
 
-  public String getSerialNumber() {
-    return serialNumber;
-  }
+    public String getSerialNumber() {
+        return serialNumber;
+    }
 
-  public void setSerialNumber(String serialNumber) {
-    this.serialNumber = serialNumber;
-  }
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
 
-  public String getBluetoothMacAddress() {
-    return bluetoothMacAddress;
-  }
+    public String getBluetoothMacAddress() {
+        return bluetoothMacAddress;
+    }
 
-  public void setBluetoothMacAddress(String bluetoothMacAddress) {
-    this.bluetoothMacAddress = bluetoothMacAddress;
-  }
+    public void setBluetoothMacAddress(String bluetoothMacAddress) {
+        this.bluetoothMacAddress = bluetoothMacAddress;
+    }
 
-  public String getWifiMacAddress() {
-    return wifiMacAddress;
-  }
+    public String getWifiMacAddress() {
+        return wifiMacAddress;
+    }
 
-  public void setWifiMacAddress(String wifiMacAddress) {
-    this.wifiMacAddress = wifiMacAddress;
-  }
+    public void setWifiMacAddress(String wifiMacAddress) {
+        this.wifiMacAddress = wifiMacAddress;
+    }
 
-  public void setTags(List<String> tags) {
-    this.tags = tags;
-  }
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 
-  public void setBusinessUnits(List<String> businessUnits) {
-    this.businessUnits = businessUnits;
-  }
+    public void setBusinessUnits(List<String> businessUnits) {
+        this.businessUnits = businessUnits;
+    }
 
-  public List<String> getTags() {
-    return tags;
-  }
+    public List<String> getBusinessUnits() {
+        return businessUnits;
+    }
 
-  public List<String> getBusinessUnits() {
-    return businessUnits;
-  }
+    public List<String> getTags() {
+        return tags;
+    }
+
 }

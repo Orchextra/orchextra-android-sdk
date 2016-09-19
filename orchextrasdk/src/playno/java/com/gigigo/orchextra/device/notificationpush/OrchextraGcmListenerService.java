@@ -39,7 +39,7 @@ import org.json.JSONObject;
 
 import orchextra.javax.inject.Inject;
 
-public class OrchextraGcmListenerService extends Service //extends GcmListenerService {
+public class OrchextraGcmListenerService extends Service
 {
   @Inject ActionRecovery actionRecovery;
 

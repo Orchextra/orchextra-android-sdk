@@ -58,6 +58,8 @@ public class CrmUser {
     //CrmUserGenderConverter must be inside GenderType, i'm think
     public enum Gender {
         GenderMale,
-        GenderFemale
+        GenderFemale,
+        GenderND
+
     }
 }

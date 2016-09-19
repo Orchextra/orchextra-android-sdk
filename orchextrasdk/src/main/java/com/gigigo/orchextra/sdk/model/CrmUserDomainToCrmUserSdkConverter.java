@@ -32,10 +32,11 @@ public class CrmUserDomainToCrmUserSdkConverter {
     public com.gigigo.orchextra.domain.model.entities.authentication.CrmUser convertSdkUserToDomain(CrmUser user) {
         com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = new com.gigigo.orchextra.domain.model.entities.authentication.CrmUser();
 
-        if (user != null) {
+        if (user != null && user.getCrmId()!=null) {
             crmUser.setCrmId(user.getCrmId());
-            crmUser.setGender(genderConverter.convertGender(user.getGender()));
-
+            if (user.getGender() != null) {
+                crmUser.setGender(genderConverter.convertGender(user.getGender()));
+            }
             if (user.getBirthdate() != null) {
                 crmUser.setBirthDate(user.getBirthdate().getTime());
             }

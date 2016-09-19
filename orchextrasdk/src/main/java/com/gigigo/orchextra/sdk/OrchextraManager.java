@@ -182,7 +182,7 @@ public class OrchextraManager {
      *
      * @param user information about client app user
      */
-    public static synchronized void setUser(CrmUser user) {
+    public static synchronized void bindUser(CrmUser user) {
         OrchextraManager orchextraManager = OrchextraManager.instance;
         if (AndroidSdkVersion.hasJellyBean18()) {
             if (orchextraManager != null) {

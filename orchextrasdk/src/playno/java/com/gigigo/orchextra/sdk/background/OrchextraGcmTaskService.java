@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.sdk.background;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.gigigo.orchextra.di.injector.InjectorImpl;
@@ -30,11 +31,16 @@ import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
 //import com.google.android.gms.gcm.GcmNetworkManager;
 //import com.google.android.gms.gcm.GcmTaskService;
 //import com.google.android.gms.gcm.TaskParams;
+
+import android.app.Service;
+import android.os.IBinder;
+import android.support.annotationox.Nullable;
+
 import com.google.gson.Gson;
 
 import orchextra.javax.inject.Inject;
 
-public class OrchextraGcmTaskService {//} extends GcmTaskService {
+public class OrchextraGcmTaskService extends Service {
 
     @Inject
     ActionRecovery actionRecovery;
@@ -46,9 +52,13 @@ public class OrchextraGcmTaskService {//} extends GcmTaskService {
     //@Override
     public void onCreate() {
         //  super.onCreate();
-
         injectTaskServiceComponent();
+    }
 
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     private void injectTaskServiceComponent() {
@@ -59,7 +69,6 @@ public class OrchextraGcmTaskService {//} extends GcmTaskService {
     }
 
     public int onRunTask(Object taskParams) {
-
         orchextraLogger.log("Executing Scheduled action FAKE");
         return 0;
     }

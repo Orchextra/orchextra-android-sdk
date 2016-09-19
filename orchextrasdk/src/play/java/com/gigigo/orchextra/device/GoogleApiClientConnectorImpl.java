@@ -36,7 +36,7 @@ public class GoogleApiClientConnectorImpl
   private final GoogleApiPermissionChecker googleApiPermissionChecker;
   private final OrchextraLogger orchextraLogger;
 
-  private GoogleApiClient client;
+   private GoogleApiClient client;
   private OnConnectedListener onConnectedListener;
 
   public GoogleApiClientConnectorImpl(ContextProvider contextProvider,
@@ -78,7 +78,7 @@ public class GoogleApiClientConnectorImpl
   }
 
   @Override
-  public Object getGoogleApiClient() {
+  public GoogleApiClient getGoogleApiClient() {
     return client;
   }
 

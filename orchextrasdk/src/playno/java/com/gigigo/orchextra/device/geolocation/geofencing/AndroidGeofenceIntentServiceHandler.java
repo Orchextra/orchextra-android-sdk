@@ -45,8 +45,8 @@ public class AndroidGeofenceIntentServiceHandler {
 
     public OrchextraLocationPoint getTriggeringPoint(Object geofencingEvent) {
         Location triggeringLocation = new Location("FakeOxProvider");
-        triggeringLocation.setLatitude(-3.6281036);
-        triggeringLocation.setLongitude(40.4458426);
+        triggeringLocation.setLatitude(0.0);//lat gggOfi -3.6281036
+        triggeringLocation.setLongitude(0.0);//long gggOfi 40.4458426
 
         return locationMapper.externalClassToModel(triggeringLocation);
     }
