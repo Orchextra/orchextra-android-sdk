@@ -1,25 +1,27 @@
 package gigigo.com.orchextrasdk;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-/*import com.appoxee.Appoxee;
-import com.appoxee.AppoxeeObserver;
-import com.appoxee.asyncs.initAsync;*/
+
+import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.domain.model.StringValueEnum;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
-//import com.karumi.dexter.asv.MyActivityCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //region Orchextra
     private boolean isRunning = false;
-    private Button button, button2, button3, button4, button5, button6, button7;
+    private Button button, button2, button3, button4, button5, button6, button7,button8;
     private TextView statusText;
 
     //region getViews/Buttons onClick
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button5 = (Button) findViewById(R.id.button5);
         button6 = (Button) findViewById(R.id.button6);
         button7 = (Button) findViewById(R.id.button7);
+        button8 = (Button) findViewById(R.id.button8);
+
         statusText = (TextView) findViewById(R.id.statusText);
     }
 
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button5.setOnClickListener(this);
         button6.setOnClickListener(this);
         button7.setOnClickListener(this);
+        button8.setOnClickListener(this);
     }
 
     @Override
@@ -153,10 +158,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.button7) {
             //for reset the CRMUser
             Orchextra.unBindUser();
+            //rin?
+            Orchextra.commitConfiguration();
+        }
+        //endregion
+
+        //region BindUser
+        if (v.getId() == R.id.button8) {
+
+            // CRM User
+            String CRM_ID = getUniqueCRMID();
+            Orchextra.bindUser(new CrmUser(CRM_ID,
+                    new GregorianCalendar(1981, Calendar.MAY, 31),
+                    CrmUser.Gender.GenderMale));
+
+            Orchextra.commitConfiguration();
         }
         //endregion
     }
-
+    private String getUniqueCRMID() {
+        String secureAndroidId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        String serialNumber = Build.SERIAL;
+        String deviceToken = secureAndroidId + BuildConfig.APPLICATION_ID + serialNumber;
+        return deviceToken;
+    }
 
     //endregion
     private void startOrchextra() {
@@ -183,9 +209,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button3.setText(R.string.ox_start_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
     }
-
     //endregion
-
-
-
 }

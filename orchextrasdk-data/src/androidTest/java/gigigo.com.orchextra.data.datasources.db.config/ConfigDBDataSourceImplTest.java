@@ -77,7 +77,7 @@ public class ConfigDBDataSourceImplTest {
     @After
     public void tearDown() throws Exception {
         realm.beginTransaction();
-        realm.clear(VuforiaCredentialsRealm.class);
+        realm.delete(VuforiaCredentialsRealm.class);
         realm.commitTransaction();
     }
 }

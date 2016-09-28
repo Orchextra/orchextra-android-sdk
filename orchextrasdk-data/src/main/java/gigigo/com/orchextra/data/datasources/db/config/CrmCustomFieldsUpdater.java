@@ -23,7 +23,7 @@ public class CrmCustomFieldsUpdater {
     }
 
     private void copyCrmTagsToRealm(Realm realm, List<String> tags) {
-        realm.clear(CrmTagRealm.class);
+        realm.delete(CrmTagRealm.class);
         if (tags != null) {
             RealmList<CrmTagRealm> realmTagList = new RealmList<>();
             for (String tag : tags) {
@@ -36,7 +36,7 @@ public class CrmCustomFieldsUpdater {
     }
 
     private void copyCrmBusinessUnits(Realm realm, List<String> businessUnits) {
-        realm.clear(CrmBusinessUnitRealm.class);
+        realm.delete(CrmBusinessUnitRealm.class);
         if (businessUnits != null) {
             RealmList<CrmBusinessUnitRealm> realmBusinessUnitList = new RealmList<>();
             for (String tag : businessUnits) {
@@ -49,7 +49,7 @@ public class CrmCustomFieldsUpdater {
     }
 
     private void copyCrmCustomFieldList(Realm realm, List<CustomField> customFieldList) {
-        realm.clear(CrmCustomFieldRealm.class);
+        realm.delete(CrmCustomFieldRealm.class);
         if (customFieldList != null) {
             RealmList<CrmCustomFieldRealm> crmCustomFieldRealmList = new RealmList<>();
             for (CustomField customField : customFieldList) {

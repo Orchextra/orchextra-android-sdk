@@ -24,6 +24,7 @@
   <string name="ox_webview_builtin">open App Activity With webviewOX</string>
   <string name="ox_tags_bu_cf"> Segmentation </string>
   <string name="ox_unbind">unBindCrmUser </string>
+  <string name="ox_bind">BindCrmUser </string>
   <string name="status_running">running</string>
   <string name="status_text">Orchextra status: %s</string>
   <string name="status_stoped">stopped</string>

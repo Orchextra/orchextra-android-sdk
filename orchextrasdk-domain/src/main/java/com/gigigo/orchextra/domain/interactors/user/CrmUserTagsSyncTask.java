@@ -13,6 +13,8 @@ public class CrmUserTagsSyncTask {
 
     public CrmUserTagsSyncTask(CrmUserService crmUserService)  {
         this.crmUserService = crmUserService;
+
+
     }
 
     public List<String> retrieveCrmUserTags() {

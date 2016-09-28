@@ -18,7 +18,7 @@ public class AvailableCustomFieldUpdater {
     }
 
     public void saveAvailablCustomFields(Realm realm, List<AvailableCustomField> availableCustomFieldList) {
-        realm.clear(AvailableCustomFieldRealm.class);
+        realm.delete(AvailableCustomFieldRealm.class);
 
         if (availableCustomFieldList != null) {
 

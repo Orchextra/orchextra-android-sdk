@@ -56,13 +56,11 @@ public class GcmInstanceIdRegisterImpl implements GcmInstanceIdRegister {
     String gcmSenderId = OrchextraManager.getGcmSenderId();
 
     if (gcmSenderId == null){
-
       orchextraLogger.log("Push Notifications won't work "
           + "ox_notifications_GCM_sender_id string value not found", OrchextraSDKLogLevel.ERROR);
 
       throw new IllegalArgumentException("Push Notifications won't work "
           + "ox_notifications_GCM_sender_id string value not found");
-
     }
       return gcmSenderId;
 

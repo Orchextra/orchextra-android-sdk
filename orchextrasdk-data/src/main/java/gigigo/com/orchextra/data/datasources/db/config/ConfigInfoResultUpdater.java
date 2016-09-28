@@ -30,60 +30,61 @@ import io.realm.Realm;
 
 public class ConfigInfoResultUpdater {
 
-  private final ConfigRegionUpdater beaconUpdater;
-  private final ConfigGeofenceUpdater geofenceUpdater;
-  private final ConfigVuforiaCredentialsUpdater vuforiaUpdater;
-  private final AvailableCustomFieldUpdater availableCustomFieldUpdater;
-  private final CrmCustomFieldsUpdater crmCustomFieldsUpdater;
-  private final DeviceCustomFieldsUpdater deviceCustomFieldsUpdater;
+    private final ConfigRegionUpdater beaconUpdater;
+    private final ConfigGeofenceUpdater geofenceUpdater;
+    private final ConfigVuforiaCredentialsUpdater vuforiaUpdater;
+    private final AvailableCustomFieldUpdater availableCustomFieldUpdater;
+    private final CrmCustomFieldsUpdater crmCustomFieldsUpdater;
+    private final DeviceCustomFieldsUpdater deviceCustomFieldsUpdater;
 
 
-  public ConfigInfoResultUpdater(ConfigRegionUpdater beaconUpdater,
-                                 ConfigGeofenceUpdater geofenceUpdater,
-                                 ConfigVuforiaCredentialsUpdater vuforiaUpdater,
-                                 AvailableCustomFieldUpdater availableCustomFieldUpdater,
-                                 CrmCustomFieldsUpdater crmCustomFieldsUpdater,
-                                 DeviceCustomFieldsUpdater deviceCustomFieldsUpdater) {
-    this.beaconUpdater = beaconUpdater;
-    this.geofenceUpdater = geofenceUpdater;
-    this.vuforiaUpdater = vuforiaUpdater;
-    this.availableCustomFieldUpdater = availableCustomFieldUpdater;
-    this.crmCustomFieldsUpdater = crmCustomFieldsUpdater;
-    this.deviceCustomFieldsUpdater = deviceCustomFieldsUpdater;
-  }
+    public ConfigInfoResultUpdater(ConfigRegionUpdater beaconUpdater,
+                                   ConfigGeofenceUpdater geofenceUpdater,
+                                   ConfigVuforiaCredentialsUpdater vuforiaUpdater,
+                                   AvailableCustomFieldUpdater availableCustomFieldUpdater,
+                                   CrmCustomFieldsUpdater crmCustomFieldsUpdater,
+                                   DeviceCustomFieldsUpdater deviceCustomFieldsUpdater) {
+        this.beaconUpdater = beaconUpdater;
+        this.geofenceUpdater = geofenceUpdater;
+        this.vuforiaUpdater = vuforiaUpdater;
+        this.availableCustomFieldUpdater = availableCustomFieldUpdater;
+        this.crmCustomFieldsUpdater = crmCustomFieldsUpdater;
+        this.deviceCustomFieldsUpdater = deviceCustomFieldsUpdater;
+    }
 
-  public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigurationInfoResult config) {
+    public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigurationInfoResult config) {
 
-    saveRequestWaitTime(realm, config);
+        saveRequestWaitTime(realm, config);
 
-    OrchextraRegionUpdates orchextraRegionUpdates =
-        beaconUpdater.saveRegions(realm, config.getRegions());
+        OrchextraRegionUpdates orchextraRegionUpdates =
+                beaconUpdater.saveRegions(realm, config.getRegions());
 
-    OrchextraGeofenceUpdates orchextraGeofenceChanges =
-        geofenceUpdater.saveGeofences(realm, config.getGeofences());
+        OrchextraGeofenceUpdates orchextraGeofenceChanges =
+                geofenceUpdater.saveGeofences(realm, config.getGeofences());
 
-    VuforiaCredentials vuforiaCredentialsChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
+        VuforiaCredentials vuforiaCredentialsChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
 
-    availableCustomFieldUpdater.saveAvailablCustomFields(realm, config.getAvailableCustomFieldList());
-    crmCustomFieldsUpdater.saveCrmCustomFields(realm, config.getCrmCustomFields());
-    deviceCustomFieldsUpdater.saveDeviceCustomFields(realm, config.getDeviceCustomFields());
+        availableCustomFieldUpdater.saveAvailablCustomFields(realm, config.getAvailableCustomFieldList());
+        crmCustomFieldsUpdater.saveCrmCustomFields(realm, config.getCrmCustomFields());
+        deviceCustomFieldsUpdater.saveDeviceCustomFields(realm, config.getDeviceCustomFields());
 
-    return new OrchextraUpdates(orchextraRegionUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges);
-  }
+        return new OrchextraUpdates(orchextraRegionUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges);
+    }
 
-  public void saveRequestWaitTime(Realm realm, ConfigurationInfoResult config) {
-    ConfigInfoResultRealm configInfoResultRealm = new ConfigInfoResultRealm();
-    configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
-    realm.clear(ConfigInfoResultRealm.class);
-    realm.copyToRealm(configInfoResultRealm);
-  }
+    public void saveRequestWaitTime(Realm realm, ConfigurationInfoResult config) {
+        ConfigInfoResultRealm configInfoResultRealm = new ConfigInfoResultRealm();
+        configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
+        realm.delete(ConfigInfoResultRealm.class);
+        realm.copyToRealm(configInfoResultRealm);
+    }
 
-  public void removeConfigInfo(Realm realm) {
-    realm.beginTransaction();
-    beaconUpdater.removeRegions(realm);
-    geofenceUpdater.removeGeofences(realm);
-    vuforiaUpdater.removeVuforia(realm);
+    public void removeConfigInfo(Realm realm) {
+        realm.beginTransaction();
+        beaconUpdater.removeRegions(realm);
+        geofenceUpdater.removeGeofences(realm);
+        vuforiaUpdater.removeVuforia(realm);
+        //todo asv more?
 
-    realm.commitTransaction();
-  }
+        realm.commitTransaction();
+    }
 }

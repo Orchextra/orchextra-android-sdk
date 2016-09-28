@@ -24,17 +24,12 @@ allprojects {
                 dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
                 altBeacon                : 'org.altbeacon:android-beacon-library:2+',
                 barcodescanner           : 'me.dm7.barcodescanner:zbar:1.8.4',
-                //gggJavaLib               : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggg-java-lib:1.0.7',
-                //gggLogger                : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglogger:1.0.7',
-                //gggLib                   : 'com.github.Gigigo-Android-Devs.gigigo-utils-suite:ggglib:1.0.7',
                 gggJavaLib               : 'com.github.nuborisar.gigigo-utils-suite:ggg-java-lib:5.2',
                 gggLogger                : 'com.github.nuborisar.gigigo-utils-suite:ggglogger:5.2',
                 gggLib                   : 'com.github.nuborisar.gigigo-utils-suite:ggglib:5.2',
                 //Image Recognition
-                //imageRecognitionInterface: 'com.github.GigigoGreenLabs.imgRecognition:imagerecognitioninterface:1.0',
-                //imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecognition:vuforiaimplementation:1.0.2',
-                imageRecognitionInterface: 'com.github.nuborisar.imgRecognition:imagerecognitioninterface:2.4',
-                imageRecognitionImpl     : 'com.github.nuborisar.imgRecognition:vuforiaimplementation:2.4'
+                imageRecognitionInterface: 'com.github.nuborisar.imgRecognition:imagerecognitioninterface:2.7',
+                imageRecognitionImpl     : 'com.github.nuborisar.imgRecognition:vuforiaimplementation:2.7'
         ]
 
         testDependencies = [

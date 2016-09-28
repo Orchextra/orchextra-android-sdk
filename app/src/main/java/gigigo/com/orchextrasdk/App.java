@@ -18,11 +18,7 @@
 package gigigo.com.orchextrasdk;
 
 import android.app.Application;
-import android.os.Build;
-import android.provider.Settings;
 import android.util.Log;
-
-import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraBuilder;
@@ -30,17 +26,18 @@ import com.gigigo.orchextra.OrchextraCompletionCallback;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
 
     //testdoublepush en Pr0
     public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
     public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
 
-    public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
+    //test con blas
+    //quality [PRO][CSE] - Spark Bratislava
+    //public static final String API_KEY = "deae9ac7e9db14414074d4103a42379c76f6cf58";
+    //public static final String API_SECRET = "17e109d3847f5aa3ce48fd61de47106dd4fb44a2";
 
+    public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
     public static final String GIGIGO_URL = "http://research.gigigo.com";
     public static final String CUSTOM_SCHEME = "webview://";
 
@@ -67,30 +64,14 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
         //your can re set custom Scheme in other places(activities,services..)
         Orchextra.setCustomSchemeReceiver(this);
 
-        // CRM User
-        String CRM_ID = getUniqueCRMID();
-
-        Orchextra.bindUser(new CrmUser(CRM_ID,
-                new GregorianCalendar(1981, Calendar.MAY, 31),
-                CrmUser.Gender.GenderMale));
-
         //start Orchextra running, you can call stop() if you need
         Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
     }
 
-    private String getUniqueCRMID() {
-        String secureAndroidId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        String serialNumber = Build.SERIAL;
-        String deviceToken = secureAndroidId + BuildConfig.APPLICATION_ID + serialNumber;
-        return deviceToken;
-    }
 
     @Override
     public void onSuccess() {
         Log.d("APP", "onSuccess");
-
-
     }
 
     @Override

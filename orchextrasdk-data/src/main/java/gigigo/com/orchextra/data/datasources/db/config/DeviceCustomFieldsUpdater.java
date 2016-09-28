@@ -20,7 +20,7 @@ public class DeviceCustomFieldsUpdater {
     }
 
     private void copyDeviceTagsToRealm(Realm realm, List<String> tags) {
-        realm.clear(DeviceTagRealm.class);
+        realm.delete(DeviceTagRealm.class);
         if (tags != null) {
             RealmList<DeviceTagRealm> realmTagList = new RealmList<>();
             for (String tag : tags) {
@@ -33,7 +33,7 @@ public class DeviceCustomFieldsUpdater {
     }
 
     private void copyDeviceBusinessUnits(Realm realm, List<String> businessUnits) {
-        realm.clear(DeviceBusinessUnitRealm.class);
+        realm.delete(DeviceBusinessUnitRealm.class);
         if (businessUnits != null) {
             RealmList<DeviceBusinessUnitRealm> realmBusinessUnitList = new RealmList<>();
             for (String tag : businessUnits) {

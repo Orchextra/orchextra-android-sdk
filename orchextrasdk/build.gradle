@@ -68,7 +68,7 @@ android {
 
   buildTypes {
     debug{
-      buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
+      buildConfigField STRING, "API_URL", '"https://sdk.q.orchextra.io/"'
       debuggable true
     }
     release {
@@ -100,15 +100,7 @@ android {
   flavorDimensions "play"
 
   productFlavors {
-    /*play9 {
-      dimension "play"
-    }
-    play8 {
-      dimension "play"
-    }
-    play7 {
-      dimension "play"
-    }*/
+
     play9 {dimension "play"}
     play8 {dimension "play"}
     play7 {dimension "play"}
@@ -128,13 +120,12 @@ android {
     }
     playno {
       java.srcDirs = ['src/playno/java', 'src/playno/java/']
-     // manifest.srcFile "playno/AndroidManifest.xml"
     }
   }
   // true to publish all flavour artifacts
   publishNonDefault true
   // default build flavour
- // defaultPublishConfig "play7Debug"
+   defaultPublishConfig "play7Debug"
 }
 
 configurations {
@@ -153,6 +144,8 @@ configurations {
 
 dependencies {
 
+  sourceCompatibility = 1.7
+  targetCompatibility = 1.7
   compile(parent.ext.dependencies.dagger) {
     transitive = false
     exclude group: 'com.google.dagger', module: 'dagger'
@@ -173,7 +166,7 @@ dependencies {
           }
 
 
-  compile parent.ext.dependencies.imageRecognitionInterface
+   compile parent.ext.dependencies.imageRecognitionInterface
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')

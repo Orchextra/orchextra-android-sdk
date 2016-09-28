@@ -136,6 +136,7 @@ public final class Orchextra {
 
     public static synchronized void unBindUser() {
         CrmUser crmUser = new CrmUser(null,null,null);
+        //crm:{} deletes in local, but the server keep the data(4 delete in server you need to set tags,bu,cf to blank or null
         OrchextraManager.bindUser(crmUser);
     }
 

@@ -187,10 +187,13 @@ public class OrchextraManager {
         if (AndroidSdkVersion.hasJellyBean18()) {
             if (orchextraManager != null) {
 
-                CrmUserDomainToCrmUserSdkConverter crmUserDomainToCrmUserSdkConverter = orchextraManager.crmUserDomainToCrmUserSdkConverter;
+                CrmUserDomainToCrmUserSdkConverter crmUserDomainToCrmUserSdkConverter
+                        = orchextraManager.crmUserDomainToCrmUserSdkConverter;
                 CrmUserController saveCrmUserController = orchextraManager.crmUserController;
 
                 com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = crmUserDomainToCrmUserSdkConverter.convertSdkUserToDomain(user);
+
+
 
                 if (orchextraManager.orchextraStatusAccessor.isStarted()) {
                     saveCrmUserController.saveUserAndReloadConfig(crmUser);

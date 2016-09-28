@@ -19,12 +19,12 @@
 package com.gigigo.orchextra.device.information;
 
 import android.content.Context;
-
-//import com.google.android.gms.iid.InstanceID;
+import android.os.Build;
 
 public class AndroidInstanceIdProvider {
 
     public String provideAndroidInstanceId(Context context) {
-        return "fake GCM InstanceID";
+        String serialNumber = Build.SERIAL; //emulate a instanceId
+        return serialNumber;
     }
 }

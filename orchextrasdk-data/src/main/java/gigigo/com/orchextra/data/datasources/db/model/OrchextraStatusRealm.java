@@ -22,31 +22,37 @@ import io.realm.annotations.PrimaryKey;
 
 public class OrchextraStatusRealm extends RealmObject {
 
-  @PrimaryKey private int id;
-  private boolean initialized;
-  private boolean started;
+    @PrimaryKey
+    private int id;
 
-  public void setInitialized(boolean initialized) {
-    this.initialized = initialized;
-  }
+    private boolean initialized = false;
+    private boolean started = false;
 
-  public void setStarted(boolean started) {
-    this.started = started;
-  }
+    public OrchextraStatusRealm() {
 
-  public boolean isInitialized() {
-    return initialized;
-  }
+    }
 
-  public boolean isStarted() {
-    return started;
-  }
+    public void setInitialized(boolean initialized) {
+        this.initialized = initialized;
+    }
 
-  public int getId() {
-    return id;
-  }
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

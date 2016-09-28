@@ -22,7 +22,7 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 android {
     compileSdkVersion parent.ext.androidCompileSdkVersion
     //  buildToolsVersion parent.ext.androidBuildToolsVersion
-    buildToolsVersion = "24.0.1" //java8
+    buildToolsVersion = "23.0.1"
     defaultConfig {
         applicationId "gigigo.com.orchextrasdk"
         minSdkVersion 11
@@ -36,9 +36,9 @@ android {
             abiFilters "armeabi-v7a"
         }
         //java8
-        jackOptions {
-            enabled true
-        }
+//        jackOptions {
+//            enabled true
+//        }
     }
 
     lintOptions {
@@ -68,11 +68,8 @@ android {
   }
 */
     compileOptions {
-        //  sourceCompatibility JavaVersion.VERSION_1_7 //java7
-        //  targetCompatibility JavaVersion.VERSION_1_7 //java7
-
-        sourceCompatibility JavaVersion.VERSION_1_8 //java8
-        targetCompatibility JavaVersion.VERSION_1_8 //java8
+        sourceCompatibility JavaVersion.VERSION_1_7 //java7
+        targetCompatibility JavaVersion.VERSION_1_7 //java7
     }
 
     productFlavors {
@@ -102,22 +99,23 @@ dependencies {
     //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin support
     compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
 
-//flavour dependencies from project, for test(necesary for generate builtsvariants aars)
-
+    //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
     play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
     play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
     play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
-    //test noplay, without play services, not work geofeing, segmentacion spatial, schedulable actions
+    //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
     playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
 
     play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
     play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
     play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
-    //test noplay, without play services, not work geofeing, segmentacion spatial, schedulable actions
+    //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
     playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
 
     testCompile parent.ext.testDependencies.junit
 
     //AppCompatActivity
     compile 'com.android.support:appcompat-v7:22.1.0'
+
+
 }

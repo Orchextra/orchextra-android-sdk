@@ -248,8 +248,8 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
     try {
       realm.beginTransaction();
-      realm.clear(ClientAuthRealm.class);
-     // realm.delete(ClientAuthRealm.class);
+      realm.delete(ClientAuthRealm.class);
+
     } catch (RealmException re) {
 
     } finally {
@@ -265,8 +265,9 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
     try {
       realm.beginTransaction();
-      realm.clear(SdkAuthCredentialsRealm.class);
-      realm.clear(SdkAuthRealm.class);
+
+      realm.delete(SdkAuthCredentialsRealm.class);
+      realm.delete(SdkAuthRealm.class);
     } catch (RealmException re) {
 
     } finally {

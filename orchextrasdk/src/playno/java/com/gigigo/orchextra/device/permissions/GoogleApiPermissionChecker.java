@@ -35,7 +35,6 @@ public class GoogleApiPermissionChecker {
     }
     //TODO gcmtest
     public int checkPlayServicesStatus() {
-
         return 0; //SUCCESS
     }
 }

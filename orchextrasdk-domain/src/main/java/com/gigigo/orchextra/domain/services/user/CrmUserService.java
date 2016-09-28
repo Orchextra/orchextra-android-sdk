@@ -12,6 +12,7 @@ public class CrmUserService {
 
     public CrmUserService(CrmUserDataProvider crmUserDataProvider) {
         this.crmUserDataProvider = crmUserDataProvider;
+
     }
 
     public BusinessObject<List<String>> retrieveCrmUserTags() {

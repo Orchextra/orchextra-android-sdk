@@ -87,8 +87,8 @@ public class RetrieveLastKnownLocation {
 
          */
         Location lastLocation = new Location("OxFakeProviderGGGMadLocation");
-        lastLocation.setLatitude(-3.6281034);
-        lastLocation.setLongitude(40.4458428);
+        lastLocation.setLatitude(0.0);//-3.6281034
+        lastLocation.setLongitude(0.0);//40.4458428
         if (onLastKnownLocationListener != null) {
             onLastKnownLocationListener.onLastKnownLocation(lastLocation);
         }

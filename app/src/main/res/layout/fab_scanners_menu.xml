@@ -16,8 +16,6 @@
         android:layout_alignParentBottom="true"
         android:background="@color/transparent"
         android:visibility="invisible">
-
-
     </RelativeLayout>
 
     <gigigo.com.fabmenu.FloatingActionsMenu
