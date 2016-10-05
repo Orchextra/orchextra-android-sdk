@@ -280,6 +280,7 @@ public class OrchextraManager {
             initLifecyle(app);
             //initialize();
             orchextraStatusAccessor.initialize();
+            completionCallback.onInit(app.getString(R.string.ox_initialize_android_sdk));
         } else {
             completionCallback.onInit(app.getString(R.string.ox_not_supported_android_sdk));
         }
@@ -327,7 +328,7 @@ public class OrchextraManager {
                 if (status == StartStatusType.SDK_READY_FOR_START) {
                     start();
                 }
-
+                orchextraCompletionCallback.onSuccess();
             } catch (SdkAlreadyStartedException alreadyStartedException) {
                 orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
                 orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());

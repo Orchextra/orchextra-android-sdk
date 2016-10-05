@@ -18,8 +18,8 @@
 
 package com.gigigo.orchextra.sdk.features;
 
-import com.gigigo.orchextra.domain.initalization.features.Feature;
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType;
+import com.gigigo.orchextra.domain.initalization.features.Feature;
 
 
 public class GooglePlayServicesFeature extends Feature {
@@ -29,6 +29,7 @@ public class GooglePlayServicesFeature extends Feature {
   }
 
   @Override public boolean isSuccess() {
+    //without googleplayservices this feature are always disabled
     return false;
   }
 }
