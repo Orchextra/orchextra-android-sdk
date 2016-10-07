@@ -48,7 +48,6 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
                 .setApiKeyAndSecret(API_KEY, API_SECRET)
                 .setLogLevel(OrchextraLogLevel.NETWORK)
                 .setOrchextraCompletionCallback(this)
-                .setGcmSenderId(SENDER_ID)
                 .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
 
         //init Orchextra with builder configuration

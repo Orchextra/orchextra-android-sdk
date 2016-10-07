@@ -18,4 +18,3 @@
 include':orchextrasdk', ':orchextrasdk-control',
 ':orchextrasdk-domain', ':orchextrasdk-dataprovision',
 ':orchextrasdk-data',':app'
-//,':imagerecognitioninterface'

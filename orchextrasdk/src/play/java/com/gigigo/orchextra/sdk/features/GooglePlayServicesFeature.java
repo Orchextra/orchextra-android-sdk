@@ -30,6 +30,6 @@ public class GooglePlayServicesFeature extends Feature {
 
   @Override public boolean isSuccess() {
     //todo if with status
-    return true;
+    return false;
   }
 }
