@@ -20,7 +20,7 @@ package com.gigigo.orchextra.domain.abstractions.initialization.features;
 
 import com.gigigo.orchextra.domain.initalization.features.Feature;
 import java.util.List;
-
+//todo notcomplete
 public interface FeatureStatus {
 
   List<Feature> getFeatures();

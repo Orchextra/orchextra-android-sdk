@@ -22,7 +22,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class ApiGeofence extends ApiProximityPoint {
+public class ApiGeofence extends ApiProximityItem {
 
   @Expose @SerializedName("point") private ApiPoint point;
 

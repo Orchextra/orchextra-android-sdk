@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.domain.abstractions.geofences;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 
 public interface GeofenceRegister {
   void registerGeofences(OrchextraGeofenceUpdates geofenceUpdates);

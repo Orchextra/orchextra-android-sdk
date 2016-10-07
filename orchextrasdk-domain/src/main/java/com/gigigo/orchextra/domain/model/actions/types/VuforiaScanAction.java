@@ -36,6 +36,6 @@ public class VuforiaScanAction extends BasicAction {
   }
 
   @Override protected void performNotifAction(ActionDispatcher actionDispatcher) {
-    actionDispatcher.dispatchAction(this, notifFunctionality.getNotification());
+    actionDispatcher.dispatchAction(this, notificationBehavior.getNotification());
   }
 }

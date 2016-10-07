@@ -20,18 +20,18 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.ggglib.mappers.MapperUtils;
-import com.gigigo.orchextra.domain.model.ProximityPointType;
-import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelated;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.ProximityItemType;
+import com.gigigo.orchextra.domain.model.entities.proximity.ActionRelatedWithRegionAndGeofences;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceEventRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 
 public class GeofenceEventRealmMapper implements Mapper<OrchextraGeofence, GeofenceEventRealm> {
 
-  private final Mapper<OrchextraPoint, RealmPoint> realmPointMapper;
+  private final Mapper<OrchextraLocationPoint, RealmPoint> realmPointMapper;
 
-  public GeofenceEventRealmMapper(Mapper<OrchextraPoint, RealmPoint> realmPointMapper) {
+  public GeofenceEventRealmMapper(Mapper<OrchextraLocationPoint, RealmPoint> realmPointMapper) {
     this.realmPointMapper = realmPointMapper;
   }
 
@@ -46,9 +46,9 @@ public class GeofenceEventRealmMapper implements Mapper<OrchextraGeofence, Geofe
     geofence.setNotifyOnEntry(geofenceEventRealm.isNotifyOnEntry());
     geofence.setNotifyOnExit(geofenceEventRealm.isNotifyOnExit());
     geofence.setStayTime(geofenceEventRealm.getStayTime());
-    geofence.setType(ProximityPointType.getProximityPointTypeValue(geofenceEventRealm.getType()));
+    geofence.setType(ProximityItemType.getProximityPointTypeValue(geofenceEventRealm.getType()));
 
-    geofence.setActionRelated(new ActionRelated(geofenceEventRealm.getActionRelated(),
+    geofence.setActionRelatedWithRegionAndGeofences(new ActionRelatedWithRegionAndGeofences(geofenceEventRealm.getActionRelated(),
         geofenceEventRealm.isActionRelatedCancelable()));
 
     return geofence;

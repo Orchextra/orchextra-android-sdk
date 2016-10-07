@@ -20,6 +20,10 @@ package com.gigigo.orchextra.sdk.background;
 
 import android.os.Bundle;
 
+import com.gigigo.orchextra.di.injector.InjectorImpl;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.actions.scheduler.ActionsSchedulerGcmImpl;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
@@ -51,11 +55,10 @@ public class OrchextraGcmTaskService extends GcmTaskService {
 
     }
 
-    private void injectTaskServiceComponent() {
-        InjectorImpl injector = OrchextraManager.getInjector();
-        if (injector != null) {
-            injector.injectTaskServiceComponent(this);
-        }
+  private void injectTaskServiceComponent() {
+    InjectorImpl injector = OrchextraManager.getInjector();
+    if (injector != null) {
+      injector.injectTaskServiceComponent(this);
     }
 
     @Override

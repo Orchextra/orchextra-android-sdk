@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.domain.outputs;
 
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 
 public class SameThreadSpec implements ThreadSpec {
 

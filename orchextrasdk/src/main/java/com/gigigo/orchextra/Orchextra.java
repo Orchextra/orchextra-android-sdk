@@ -17,23 +17,27 @@
  */
 package com.gigigo.orchextra;
 
-import android.app.Application;
-
-import com.gigigo.imagerecognitioninterface.ImageRecognition;
+import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
-public class Orchextra {
+public final class Orchextra {
+
+    private Orchextra() {
+    }
 
     /**
-     *
-     * @param application
-     * @param orchextraCompletionCallback
+     * Initialize Orchextra library.
+     * <p/>
+     * You MUST call this method inside of the onCreate method in your Application.
+     * <p/>
+     * It the FIRST Orchextra method you MUST call.
      */
-    public static synchronized void init(Application application,
-        final OrchextraCompletionCallback orchextraCompletionCallback){
-        OrchextraManager.sdkInit(application, new OrchextraManagerCompletionCallback() {
+    public static void initialize(final OrchextraBuilder orchextraBuilder) {
+
+        final OrchextraCompletionCallback orchextraCompletionCallback = orchextraBuilder.getOrchextraCompletionCallback();
+        OrchextraManagerCompletionCallback orchextraManagerCompletionCallback = new OrchextraManagerCompletionCallback() {
             @Override
             public void onSuccess() {
                 if (orchextraCompletionCallback != null) {
@@ -48,40 +52,64 @@ public class Orchextra {
                 }
             }
 
-            @Override public void onInit(String s) {
+            @Override
+            public void onInit(String s) {
                 if (orchextraCompletionCallback != null) {
                     orchextraCompletionCallback.onInit(s);
                 }
             }
-        });
+        };
+
+        OrchextraManager.checkInitMethodCall(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
+        if (orchextraBuilder.getOrchextraLogLevel() != null) {
+            OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
+        }
+        OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
+        OrchextraManager.setGcmSendId(orchextraBuilder.getApplication(), orchextraBuilder.getGcmSenderId());
+        OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
+        OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
+    }
 
 
+
+
+    /**
+     * Start the Orchextra library. Calling this method Orchextra start to send and receive events.
+     * <p/>
+     * You can call this method in any moment after the calling of the initialize method.
+     */
+    public static void start() {
+        OrchextraManager.sdkStart();
+    }
+
+
+    /**
+     * Change the api key and secret defined in the initialization call in any moment.
+     * <p/>
+     * If the credentials are the same, it doesn't have effects. You don't have to use it, except you have almost 2 different credentials.
+     */
+    public static synchronized void changeCredentials(String apiKey, String apiSecret) {
+        OrchextraManager.changeCredentials(apiKey, apiSecret);
     }
 
     /**
-     *
-     * @param apiKey
-     * @param apiSecret
+     * Start a new recognition view to scanner a image.
+     * <p/>
+     * You have to include Orchextra image recognition module in Gradle dependencies and initializate the module.
      */
-    public static synchronized void start(String apiKey, String apiSecret) {
-        OrchextraManager.sdkStart(apiKey, apiSecret);
-    }
-
-    public static synchronized void setImageRecognitionModule(ImageRecognition imageRecognitionModule) {
-        OrchextraManager.setImageRecognition(imageRecognitionModule);
-    }
-
     public static synchronized void startImageRecognition() {
         OrchextraManager.startImageRecognition();
     }
 
+    /**
+     * Orchextra stop to send and receive events. You can restart Orchextra calling start method.
+     */
     public static synchronized void stop() {
         OrchextraManager.sdkStop();
     }
 
     /**
-     *
-     * @param customSchemeReceiver
+     * If it is definied in the dashboard a custom scheme action, all the events trigger, which match with of this type, are sending at this callback
      */
     public static synchronized void setCustomSchemeReceiver(final CustomSchemeReceiver customSchemeReceiver) {
         if (customSchemeReceiver != null) {
@@ -95,23 +123,36 @@ public class Orchextra {
     }
 
     /**
-     *
-     * @param orcUser
+     * You can define a specific user to associate Orchextra events.
      */
-    public static synchronized void setUser(ORCUser orcUser) {
-        OrchextraManager.setUser(orcUser);
+    public static synchronized void setUser(CrmUser crmUser) {
+        OrchextraManager.setUser(crmUser);
     }
 
+    /**
+     * Open scanner view to scan QR's and barcodes
+     */
     public static void startScannerActivity() {
         OrchextraManager.openScannerView();
     }
 
-  /**
-   *
-   * @param orchextraLogLevel
-   */
-  public static void setLogLevel(OrchextraLogLevel orchextraLogLevel) {
-        OrchextraManager.setLogLevel(orchextraLogLevel);
-    }
 
+    /**
+     * You can change the period between scanning beacons. The lower scanning period, the bigger battery consumption<br/>
+     * For default, the period between scanning is 5 minutes(LIGHT).<p/>
+     *
+     * You can use this other intensities:<br/>
+     * WEAK - 10 minutes<br/>
+     * LIGHT - 5 minutes<br/>
+     * MODERATE - 2 minutes<br/>
+     * STRONG - 1 minute<br/>
+     * SEVERE - 30 seconds<br/>
+     * EXTREME - 10 seconds
+     * <p/>
+     * NOTE: We have to change this value when the app is in foreground.<p/>
+     * NOTE 2: The beacon scanning period is defined in 10 seconds which is appropiated to discover all beacons nearby.
+     */
+    public static void updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan intensity) {
+        OrchextraManager.updateBackgroundPeriodBetweenScan(intensity.getIntensity());
+    }
 }

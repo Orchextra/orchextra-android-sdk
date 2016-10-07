@@ -21,15 +21,15 @@ package com.gigigo.orchextra.di.modules.device;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.notifications.AndroidNotificationBuilder;
-import com.gigigo.orchextra.device.notifications.BackgroundNotificationBuilderImp;
-import com.gigigo.orchextra.device.notifications.ForegroundNotificationBuilderImp;
+import com.gigigo.orchextra.device.notifications.BackgroundNotificationBuilderImpl;
+import com.gigigo.orchextra.device.notifications.ForegroundNotificationBuilderImpl;
 import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.device.notifications.NotificationDispatcherImpl;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidBasicActionMapper;
 import com.gigigo.orchextra.device.notifications.dtos.mapper.AndroidNotificationMapper;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
-import com.gigigo.orchextra.device.notifications.NotificationBehaviorImp;
+import com.gigigo.orchextra.device.notifications.NotificationBehaviorImpl;
 
 import orchextra.javax.inject.Singleton;
 
@@ -42,17 +42,17 @@ public class NotificationsModule {
 
   @Provides
   @Singleton
-  ForegroundNotificationBuilderImp provideForegroundNotificationBuilderImp(ContextProvider contextProvider) {
-    return new ForegroundNotificationBuilderImp(contextProvider);
+  ForegroundNotificationBuilderImpl provideForegroundNotificationBuilderImp(ContextProvider contextProvider) {
+    return new ForegroundNotificationBuilderImpl(contextProvider);
   }
 
   @Provides
   @Singleton NotificationBehavior provideNotificationBehavior(AppRunningMode appRunningMode,
-      ForegroundNotificationBuilderImp foregroundNotificationBuilderImp,
-      BackgroundNotificationBuilderImp backgroundNotificationBuilderImp,
+      ForegroundNotificationBuilderImpl foregroundNotificationBuilderImpl,
+      BackgroundNotificationBuilderImpl backgroundNotificationBuilderImpl,
       ContextProvider contextProvider) {
-    return new NotificationBehaviorImp(appRunningMode, foregroundNotificationBuilderImp,
-            backgroundNotificationBuilderImp, contextProvider);
+    return new NotificationBehaviorImpl(appRunningMode, foregroundNotificationBuilderImpl,
+            backgroundNotificationBuilderImpl, contextProvider);
   }
 
   @Provides
@@ -67,9 +67,9 @@ public class NotificationsModule {
 
   @Provides
   @Singleton
-  BackgroundNotificationBuilderImp provideBackgroundNotificationBuilderImp(AndroidNotificationBuilder androidNotificationBuilder,
-      AndroidBasicActionMapper androidBasicActionMapper) {
-    return new BackgroundNotificationBuilderImp(androidNotificationBuilder, androidBasicActionMapper);
+  BackgroundNotificationBuilderImpl provideBackgroundNotificationBuilderImp(AndroidNotificationBuilder androidNotificationBuilder,
+                                                                            AndroidBasicActionMapper androidBasicActionMapper) {
+    return new BackgroundNotificationBuilderImpl(androidNotificationBuilder, androidBasicActionMapper);
   }
 
   @Provides @Singleton NotificationDispatcher provideNotificationDispatcherImpl(ActionRecovery actionRecovery){

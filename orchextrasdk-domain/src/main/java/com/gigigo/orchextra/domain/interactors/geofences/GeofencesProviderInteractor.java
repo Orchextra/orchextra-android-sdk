@@ -19,20 +19,21 @@ package com.gigigo.orchextra.domain.interactors.geofences;
 
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
-import com.gigigo.orchextra.domain.services.proximity.ObtainGeofencesService;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
+import com.gigigo.orchextra.domain.services.geofences.ObtainGeofencesDomainService;
+
 import java.util.List;
 
 public class GeofencesProviderInteractor implements
     Interactor<InteractorResponse<List<OrchextraGeofence>>> {
 
-  private final ObtainGeofencesService obtainGeofencesService;
+  private final ObtainGeofencesDomainService obtainGeofencesDomainService;
 
-  public GeofencesProviderInteractor(ObtainGeofencesService obtainGeofencesService) {
-    this.obtainGeofencesService = obtainGeofencesService;
+  public GeofencesProviderInteractor(ObtainGeofencesDomainService obtainGeofencesDomainService) {
+    this.obtainGeofencesDomainService = obtainGeofencesDomainService;
   }
 
   @Override public InteractorResponse<List<OrchextraGeofence>> call() throws Exception {
-    return obtainGeofencesService.obtainGeofencesFromLocalStorage();
+    return obtainGeofencesDomainService.obtainGeofencesFromLocalStorage();
   }
 }

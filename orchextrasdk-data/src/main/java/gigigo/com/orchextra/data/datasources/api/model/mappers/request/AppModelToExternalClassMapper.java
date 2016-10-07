@@ -19,19 +19,19 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
-import com.gigigo.orchextra.domain.model.entities.App;
-import gigigo.com.orchextra.data.datasources.api.model.requests.ApiApp;
+import com.gigigo.orchextra.domain.model.entities.SdkVersionAppInfo;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiSdkVersionAppInfo;
 
 
-public class AppModelToExternalClassMapper implements ModelToExternalClassMapper<App, ApiApp> {
+public class AppModelToExternalClassMapper implements ModelToExternalClassMapper<SdkVersionAppInfo, ApiSdkVersionAppInfo> {
 
-  @Override public ApiApp modelToExternalClass(App app) {
-    ApiApp apiApp = new ApiApp();
+  @Override public ApiSdkVersionAppInfo modelToExternalClass(SdkVersionAppInfo sdkVersionAppInfo) {
+    ApiSdkVersionAppInfo apiSdkVersionAppInfo = new ApiSdkVersionAppInfo();
 
-    apiApp.setAppVersion(app.getAppVersion());
-    apiApp.setBuildVersion(app.getBuildVersion());
-    apiApp.setBundleId(app.getBundleId());
+    apiSdkVersionAppInfo.setAppVersion(sdkVersionAppInfo.getAppVersion());
+    apiSdkVersionAppInfo.setBuildVersion(sdkVersionAppInfo.getBuildVersion());
+    apiSdkVersionAppInfo.setBundleId(sdkVersionAppInfo.getBundleId());
 
-    return apiApp;
+    return apiSdkVersionAppInfo;
   }
 }

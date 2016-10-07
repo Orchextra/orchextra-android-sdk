@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
-import com.gigigo.orchextra.delegates.ConfigDelegateImp;
+import com.gigigo.orchextra.delegates.ConfigDelegateImpl;
 
 import orchextra.javax.inject.Singleton;
 
@@ -30,7 +30,8 @@ import orchextra.dagger.Provides;
 @Module
 public class DelegateModule {
 
-  @Provides @Singleton ConfigDelegateImp provideConfigDelegateImp(ConfigController configController){
-    return new ConfigDelegateImp(configController);
+  @Provides @Singleton
+  ConfigDelegateImpl provideConfigDelegateImp(ConfigController configController){
+    return new ConfigDelegateImpl(configController);
   }
 }

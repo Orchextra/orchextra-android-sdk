@@ -21,39 +21,40 @@ package com.gigigo.orchextra.di.modules.device;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
+import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconScannerImpl;
+import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconAndroidMapper;
+import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconRegionAndroidMapper;
+import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.MonitoringListener;
+import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.MonitoringListenerImpl;
+import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScanner;
+import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScannerImpl;
+import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
+import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScannerImpl;
 import com.gigigo.orchextra.di.qualifiers.BeaconEventsInteractorExecution;
 import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.RegionsProviderInteractorExecution;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusInfo;
-import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.MonitoringListenerImpl;
-import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconAndroidMapper;
-import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconRegionAndroidMapper;
-import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
-import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.MonitoringListener;
-import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScanner;
-import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScannerImpl;
-import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
-import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScannerImpl;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import orchextra.dagger.Module;
-import orchextra.dagger.Provides;
 
-import orchextra.javax.inject.Provider;
-import orchextra.javax.inject.Singleton;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.logging.LogManager;
 import org.altbeacon.beacon.logging.Loggers;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
+
+import orchextra.dagger.Module;
+import orchextra.dagger.Provides;
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 
 
 @Module

@@ -41,10 +41,4 @@ public class ScannerResult {
     return type;
   }
 
-  public static ScannerResult createImageRecognitionResult(String patternId) {
-    ScannerResult scannerResult = new ScannerResult();
-    scannerResult.setType(ScannerType.IMAGE_RECOGNITION);
-    scannerResult.setContent(patternId);
-    return scannerResult;
-  }
 }

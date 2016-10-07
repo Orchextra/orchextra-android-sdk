@@ -19,5 +19,9 @@
 package com.gigigo.orchextra.di.modules.device;
 
 
+import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
+
 public interface NotificationsModuleProvider {
+
+    NotificationDispatcher provideNotificationDispatcherImpl();
 }

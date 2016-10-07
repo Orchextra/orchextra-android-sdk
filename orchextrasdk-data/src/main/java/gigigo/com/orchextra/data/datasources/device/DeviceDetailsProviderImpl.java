@@ -25,14 +25,16 @@ import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 
 public class DeviceDetailsProviderImpl implements DeviceDetailsProvider {
 
-  private Context context;
+  private final Context context;
+  private final String androidInstanceIdProvider;
 
-  public DeviceDetailsProviderImpl(Context context) {
+  public DeviceDetailsProviderImpl(Context context, String androidInstanceIdProvider) {
     this.context = context;
+    this.androidInstanceIdProvider = androidInstanceIdProvider;
   }
 
   @Override public String getAndroidInstanceId() {
-    return DeviceInfoProvider.getAndroidInstanceId(context);
+    return androidInstanceIdProvider;
   }
 
   @Override public String getAndroidSecureId() {

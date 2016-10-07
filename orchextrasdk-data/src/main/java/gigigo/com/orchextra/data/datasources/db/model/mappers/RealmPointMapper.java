@@ -19,21 +19,21 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 
 
-public class RealmPointMapper implements Mapper<OrchextraPoint, RealmPoint> {
+public class RealmPointMapper implements Mapper<OrchextraLocationPoint, RealmPoint> {
 
-  @Override public RealmPoint modelToExternalClass(OrchextraPoint point) {
+  @Override public RealmPoint modelToExternalClass(OrchextraLocationPoint point) {
     RealmPoint realmPoint = new RealmPoint();
     realmPoint.setLat(point.getLat());
     realmPoint.setLng(point.getLng());
     return realmPoint;
   }
 
-  @Override public OrchextraPoint externalClassToModel(RealmPoint realmPoint) {
-    OrchextraPoint point = new OrchextraPoint();
+  @Override public OrchextraLocationPoint externalClassToModel(RealmPoint realmPoint) {
+    OrchextraLocationPoint point = new OrchextraLocationPoint();
     point.setLat(realmPoint.getLat());
     point.setLng(realmPoint.getLng());
     return point;

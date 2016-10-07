@@ -32,7 +32,7 @@ import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegionUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
@@ -99,7 +99,8 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
       throw new RangingScanInBackgroundException(
           "Infinite Ranging Scan in Background Mode is not allowed");
     }
-
+//wen need to reeboot ranging process, beacuse the transition between background to foreground,
+// change the rangin time from 10sg in background to infinite time if you are inside region and the app in foreground
     if (beaconRangingScanner.isRanging()){
       beaconRangingScanner.stopAllCurrentRangingScannedRegions();
     }
@@ -162,7 +163,7 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
 
     if (observable instanceof ConfigObservable){
 
-      OrchextraBeaconUpdates beaconUpdates = ((OrchextraUpdates)data).getOrchextraBeaconUpdates();
+      OrchextraRegionUpdates beaconUpdates = ((OrchextraUpdates)data).getOrchextraRegionUpdates();
 
       if (beaconUpdates.hasChanges()){
         regionMonitoringScanner.updateRegions(beaconUpdates.getDeleteRegions(), beaconUpdates.getNewRegions());

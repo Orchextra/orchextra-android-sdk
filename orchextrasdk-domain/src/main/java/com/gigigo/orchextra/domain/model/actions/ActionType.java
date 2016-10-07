@@ -18,48 +18,51 @@
 
 package com.gigigo.orchextra.domain.model.actions;
 
-public enum ActionType {
-  BROWSER("browser"),
-  WEBVIEW("webview"),
-  CUSTOM_SCHEME("custom_scheme"),
-  SCAN("scan"),
-  VUFORIA_SCAN("scan_vuforia"),
-  NOTIFICATION("notification"),
-  NOTIFICATION_PUSH("notification_push"),
-  NOT_DEFINED("do_nothing");
+import com.gigigo.orchextra.domain.model.StringValueEnum;
 
-  private final String action;
+public enum ActionType implements StringValueEnum {
+    BROWSER("browser"),
+    WEBVIEW("webview"),
+    CUSTOM_SCHEME("custom_scheme"),
+    SCAN("scan"),
+    VUFORIA_SCAN("scan_vuforia"),
+    NOTIFICATION("notification"),
+    NOTIFICATION_PUSH("notification_push"),
+    NOT_DEFINED("do_nothing");
 
-  ActionType(final String text) {
-    this.action = text;
-  }
+    private final String action;
 
-  public String getStringValue() {
-    return action;
-  }
-
-  public static ActionType getActionTypeValue(String type) {
-
-    if (type == null) {
-      return NOT_DEFINED;
-    } else {
-      if (type.equals(BROWSER.getStringValue())) {
-        return BROWSER;
-      } else if (type.equals(WEBVIEW.getStringValue())) {
-        return WEBVIEW;
-      } else if (type.equals(CUSTOM_SCHEME.getStringValue())) {
-        return CUSTOM_SCHEME;
-      } else if (type.equals(SCAN.getStringValue())) {
-        return SCAN;
-      } else if (type.equals(VUFORIA_SCAN.getStringValue())) {
-        return VUFORIA_SCAN;
-      } else if (type.equals(NOTIFICATION.getStringValue())) {
-        return NOTIFICATION;
-      } else if (type.equals(NOTIFICATION_PUSH.getStringValue())) {
-        return NOTIFICATION_PUSH;
-      } else {
-        return NOT_DEFINED;
-      }
+    ActionType(final String text) {
+        this.action = text;
     }
-  }
+
+    @Override
+    public String getStringValue() {
+        return action;
+    }
+
+    public static ActionType getActionTypeValue(String type) {
+
+        if (type == null) {
+            return NOT_DEFINED;
+        } else {
+            if (type.equals(BROWSER.getStringValue())) {
+                return BROWSER;
+            } else if (type.equals(WEBVIEW.getStringValue())) {
+                return WEBVIEW;
+            } else if (type.equals(CUSTOM_SCHEME.getStringValue())) {
+                return CUSTOM_SCHEME;
+            } else if (type.equals(SCAN.getStringValue())) {
+                return SCAN;
+            } else if (type.equals(VUFORIA_SCAN.getStringValue())) {
+                return VUFORIA_SCAN;
+            } else if (type.equals(NOTIFICATION.getStringValue())) {
+                return NOTIFICATION;
+            } else if (type.equals(NOTIFICATION_PUSH.getStringValue())) {
+                return NOTIFICATION_PUSH;
+            } else {
+                return NOT_DEFINED;
+            }
+        }
+    }
 }

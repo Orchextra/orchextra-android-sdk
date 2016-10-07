@@ -25,9 +25,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
-import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.LifeCycleAccessor;
 
@@ -37,16 +36,13 @@ import java.util.Stack;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) public class OrchextraActivityLifecycle
     implements Application.ActivityLifecycleCallbacks, LifeCycleAccessor {
 
-  private final NotificationDispatcher notificationDispatcher;
   private final AppStatusEventsListener appStatusEventsListener;
   private final OrchextraLogger orchextraLogger;
 
   private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
 
-  public OrchextraActivityLifecycle(AppStatusEventsListener listener,
-      NotificationDispatcher notificationDispatcher, OrchextraLogger orchextraLogger) {
+  public OrchextraActivityLifecycle(AppStatusEventsListener listener, OrchextraLogger orchextraLogger) {
     this.appStatusEventsListener = listener;
-    this.notificationDispatcher = notificationDispatcher;
     this.orchextraLogger = orchextraLogger;
   }
 
@@ -58,15 +54,13 @@ import java.util.Stack;
   }
 
   @Override public void onActivityStarted(Activity activity) {
-
     boolean wasInBackground = activityStack.empty();
     if (wasInBackground) {
       appStatusEventsListener.onBackgroundEnd();
     }
 
     this.activityStack.push(new ActivityLifecyleWrapper(activity, true, false));
-    notificationDispatcher.manageBackgroundNotification(activity);
-    
+
     if (wasInBackground) {
       startForegroundMode();
     }
@@ -155,7 +149,7 @@ import java.util.Stack;
   private void startForegroundMode() {
     appStatusEventsListener.onForegroundStart();
   }
-
+  //todo notcomplete
   private void prinStatusOfStack(String s) {
     orchextraLogger.log("STACK Status :: " + s);
     orchextraLogger.log("STACK Status :: Elements in Stack :" + activityStack.size());

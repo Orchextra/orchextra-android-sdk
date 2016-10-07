@@ -26,8 +26,11 @@ public class RealmDefaultInstance {
 
   public synchronized Realm createRealmInstance(Context context) {
     RealmConfiguration config =
-        new RealmConfiguration.Builder(context).deleteRealmIfMigrationNeeded().build();
-
+        new RealmConfiguration.Builder(context)
+                .deleteRealmIfMigrationNeeded()
+                .name("orchextraDB.realm")
+                .setModules(new OrchextraRealmModule())
+                .build();
     return Realm.getInstance(config);
   }
 

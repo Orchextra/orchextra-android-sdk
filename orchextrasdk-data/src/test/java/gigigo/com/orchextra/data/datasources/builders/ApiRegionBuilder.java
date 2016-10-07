@@ -3,7 +3,7 @@ package gigigo.com.orchextra.data.datasources.builders;
 import java.util.ArrayList;
 import java.util.List;
 
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiRegion;
 
 public class ApiRegionBuilder {
 
@@ -15,11 +15,13 @@ public class ApiRegionBuilder {
     public static final String CREATED_AT = "2015-10-21T11:46:13Z";
     public static final String UPDATED_AT = "2015-10-21T18:41:39Z";
 
+    //todo clear never used
     private int minor = MINOR;
     private int major = MAJOR;
     private String uuid = UUID;
     private boolean active = true;
     private String code = CODE;
+    @Deprecated
     private List<String> tags;
     private String createdAt = CREATED_AT;
     private String updatedAt = UPDATED_AT;
@@ -30,24 +32,24 @@ public class ApiRegionBuilder {
         return new ApiRegionBuilder();
     }
 
-    public ApiBeaconRegion build() {
-        ApiBeaconRegion apiBeaconRegion = new ApiBeaconRegion();
-        apiBeaconRegion.setActive(true);
-        apiBeaconRegion.setMajor(MAJOR);
-        apiBeaconRegion.setMinor(MINOR);
-        apiBeaconRegion.setUuid(UUID);
+    public ApiRegion build() {
+        ApiRegion apiRegion = new ApiRegion();
+        apiRegion.setActive(true);
+        apiRegion.setMajor(MAJOR);
+        apiRegion.setMinor(MINOR);
+        apiRegion.setUuid(UUID);
 
-        apiBeaconRegion.setCode(CODE);
-        apiBeaconRegion.setNotifyOnEntry(true);
-        apiBeaconRegion.setNotifyOnExit(true);
+        apiRegion.setCode(CODE);
+        apiRegion.setNotifyOnEntry(true);
+        apiRegion.setNotifyOnExit(true);
 
         List<String> tags = new ArrayList<>();
         tags.add(BEACON_TAG_NAME);
-        apiBeaconRegion.setTags(tags);
+        apiRegion.setTags(tags);
 
-        apiBeaconRegion.setCreatedAt(CREATED_AT);
-        apiBeaconRegion.setUpdatedAt(UPDATED_AT);
+        apiRegion.setCreatedAt(CREATED_AT);
+        apiRegion.setUpdatedAt(UPDATED_AT);
 
-        return apiBeaconRegion;
+        return apiRegion;
     }
 }

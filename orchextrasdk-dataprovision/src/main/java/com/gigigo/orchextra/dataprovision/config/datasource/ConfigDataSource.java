@@ -19,11 +19,11 @@
 package com.gigigo.orchextra.dataprovision.config.datasource;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.model.config.Config;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
+import com.gigigo.orchextra.domain.model.config.ConfigRequest;
 
 
 public interface ConfigDataSource {
 
-  BusinessObject<ConfigInfoResult> sendConfigInfo(Config config);
+  BusinessObject<ConfigurationInfoResult> sendConfigInfo(ConfigRequest configRequest);
 }

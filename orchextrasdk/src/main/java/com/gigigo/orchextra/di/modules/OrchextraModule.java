@@ -22,7 +22,6 @@ import android.content.Context;
 
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.device.OrchextraLoggerImpl;
-import com.gigigo.orchextra.device.notifications.NotificationDispatcher;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
@@ -38,19 +37,22 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.initalization.features.FeatureList;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
-import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImp;
+import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListenerImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.ContextProviderImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraContextProvider;
-import com.gigigo.orchextra.sdk.model.OrcGenderConverter;
-import com.gigigo.orchextra.sdk.model.OrcUserToCrmConverter;
+import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
+import com.gigigo.orchextra.sdk.model.CrmUserGenderConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
-import orchextra.javax.inject.Singleton;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
+import orchextra.javax.inject.Singleton;
 
+/**
+ * module refers dagger module object
+ */
 @Module(includes = { ControlModule.class, DeviceModule.class, DelegateModule.class, UiModule.class})
 public class OrchextraModule {
 
@@ -67,13 +69,13 @@ public class OrchextraModule {
   @Provides
   @Singleton
   OrchextraActivityLifecycle provideOrchextraActivityLifecycle(
-          AppRunningMode appRunningMode, OrchextraContextProvider contextProvider,
+          AppRunningMode appRunningMode,
+          OrchextraContextProvider contextProvider,
           AppStatusEventsListener appStatusEventsListener,
-          NotificationDispatcher notificationDispatcher,
           OrchextraLogger orchextraLogger) {
 
     OrchextraActivityLifecycle orchextraActivityLifecycle =
-            new OrchextraActivityLifecycle(appStatusEventsListener, notificationDispatcher,
+            new OrchextraActivityLifecycle(appStatusEventsListener,
                 orchextraLogger);
     contextProvider.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
     appRunningMode.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
@@ -106,7 +108,7 @@ public class OrchextraModule {
   @Provides
   @Singleton
   AppRunningMode provideAppRunningMode() {
-    return new AppRunningModeImp();
+    return new AppRunningModeImpl();
   }
 
   @Singleton
@@ -138,12 +140,14 @@ public class OrchextraModule {
     return this;
   }
 
-  @Singleton @Provides OrcGenderConverter provideOrcGenderConverter() {
-    return new OrcGenderConverter();
+  @Singleton @Provides
+  CrmUserGenderConverter provideCrmGenderConverter() {
+    return new CrmUserGenderConverter();
   }
 
-  @Singleton @Provides OrcUserToCrmConverter provideOrcUserToCrmConverter(OrcGenderConverter orcGenderConverter) {
-    return new OrcUserToCrmConverter(orcGenderConverter);
+  @Singleton @Provides
+  CrmUserDomainToCrmUserSdkConverter provideSdkUserToDomainConverter(CrmUserGenderConverter crmUserGenderConverter) {
+    return new CrmUserDomainToCrmUserSdkConverter(crmUserGenderConverter);
   }
 
   @Singleton @Provides

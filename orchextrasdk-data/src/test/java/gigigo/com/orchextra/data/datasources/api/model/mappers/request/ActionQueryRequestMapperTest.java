@@ -6,7 +6,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class ActionQueryRequestMapperTest {
     @Test
     public void testCreateGeofenceTrigger() throws Exception {
-        OrchextraPoint point = new OrchextraPoint();
+        OrchextraLocationPoint point = new OrchextraLocationPoint();
         point.setLat(23.45);
         point.setLng(74.32);
         Trigger trigger = Trigger.createGeofenceTrigger("1234", point, AppRunningModeType.BACKGROUND, 300, GeoPointEventType.ENTER);
@@ -48,7 +48,7 @@ public class ActionQueryRequestMapperTest {
 
     @Test
     public void testCreateQrScanTrigger() throws Exception {
-        OrchextraPoint point = new OrchextraPoint();
+        OrchextraLocationPoint point = new OrchextraLocationPoint();
         point.setLat(23.45);
         point.setLng(74.32);
 
@@ -66,7 +66,7 @@ public class ActionQueryRequestMapperTest {
 
     @Test
      public void testCreateBarcodeScanTrigger() throws Exception {
-        OrchextraPoint point = new OrchextraPoint();
+        OrchextraLocationPoint point = new OrchextraLocationPoint();
         point.setLat(23.45);
         point.setLng(74.32);
 
@@ -84,7 +84,7 @@ public class ActionQueryRequestMapperTest {
 
     @Test
     public void testCreateVuforiaScanTrigger() throws Exception {
-        OrchextraPoint point = new OrchextraPoint();
+        OrchextraLocationPoint point = new OrchextraLocationPoint();
         point.setLat(23.45);
         point.setLng(74.32);
 

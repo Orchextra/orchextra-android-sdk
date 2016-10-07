@@ -22,21 +22,22 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
 import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionReceiver;
 import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
+import com.gigigo.orchextra.device.notifications.NotificationReceiver;
 import com.gigigo.orchextra.di.components.GcmListenerServiceComponent;
 import com.gigigo.orchextra.di.components.GeofenceIntentServiceComponent;
 import com.gigigo.orchextra.di.components.InteractorExecutionComponent;
 import com.gigigo.orchextra.di.components.OrchextraBootBroadcastReceiverComponent;
 import com.gigigo.orchextra.di.components.OrchextraComponent;
 import com.gigigo.orchextra.di.components.OrchextraIrBroadcastReceiverComponent;
+import com.gigigo.orchextra.di.components.OrchextraNotificationReceiverComponent;
 import com.gigigo.orchextra.di.components.ServiceComponent;
 import com.gigigo.orchextra.di.components.TaskServiceComponent;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.sdk.background.OrchextraBootBroadcastReceiver;
 import com.gigigo.orchextra.sdk.background.OrchextraGcmTaskService;
@@ -57,13 +58,12 @@ public interface Injector {
   InteractorExecutionComponent injectGeofenceInteractorExecution(InteractorExecution<List<BasicAction>> interactorExecution);
   InteractorExecutionComponent injectGeofenceProviderInteractorExecution(InteractorExecution<List<OrchextraGeofence>> interactorExecution);
   GcmListenerServiceComponent injectGcmListenerServiceComponent(OrchextraGcmListenerService orchextraGcmListenerService);
-
-  InteractorExecutionComponent injectObtainThemeInteractorExecution(InteractorExecution<Theme> interactorExecution);
-  InteractorExecutionComponent injectObtainIrCredentialsInteractorExecution(InteractorExecution<Vuforia> interactorExecution);
+  InteractorExecutionComponent injectObtainIrCredentialsInteractorExecution(InteractorExecution<VuforiaCredentials> interactorExecution);
 
   InteractorExecutionComponent injectScannerInteractorExecution(InteractorExecution<BasicAction> interactorExecution);
 
   OrchextraComponent injectCodeScannerActivity(OxScannerActivity oxCodeScannerActivity);
 
   OrchextraIrBroadcastReceiverComponent injectImageBroadcastComponent(ImageRecognitionReceiver imageRecognitionReceiver);
+  OrchextraNotificationReceiverComponent injectNotificationBroadcastComponent(NotificationReceiver notificationReceiver);
 }

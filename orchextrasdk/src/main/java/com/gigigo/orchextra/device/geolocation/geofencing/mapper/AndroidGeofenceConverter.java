@@ -20,7 +20,7 @@ package com.gigigo.orchextra.device.geolocation.geofencing.mapper;
 
 import com.gigigo.orchextra.device.geolocation.geofencing.utils.ConstantsAndroidGeofence;
 import com.gigigo.orchextra.device.geolocation.geofencing.utils.GeofenceUtils;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
 

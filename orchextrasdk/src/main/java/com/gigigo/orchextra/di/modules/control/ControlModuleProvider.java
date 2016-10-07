@@ -22,11 +22,12 @@ import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
 import com.gigigo.orchextra.di.modules.domain.DomainModuleProvider;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 
 
 public interface ControlModuleProvider extends DomainModuleProvider{
   ConfigObservable provideConfigObservable();
   GeofenceController provideProximityItemController();
-  @BackThread ThreadSpec provideThreadSpec();
+  @BackThread
+  ThreadSpec provideThreadSpec();
 }

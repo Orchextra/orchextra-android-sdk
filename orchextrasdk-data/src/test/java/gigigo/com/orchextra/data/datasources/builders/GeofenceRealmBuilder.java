@@ -1,27 +1,27 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
-import com.gigigo.orchextra.domain.model.ProximityPointType;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
+import com.gigigo.orchextra.domain.model.ProximityItemType;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
-import gigigo.com.orchextra.data.datasources.db.model.KeyWordRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 import io.realm.RealmList;
 
 public class GeofenceRealmBuilder {
 
-    public static final OrchextraPoint POINT = PointBuilder.Builder().build();
+    public static final OrchextraLocationPoint POINT = PointBuilder.Builder().build();
     public static final int RADIUS = 30;
     public static final String ID = "1234";
     public static final String CODE = "999";
     public static final String NAME = "GEOFENCE";
-    public static final String TYPE = ProximityPointType.GEOFENCE.getStringValue();
+    public static final String TYPE = ProximityItemType.GEOFENCE.getStringValue();
     public static final int STAY = 3000;
     public static final Date CREATED = DateBuilder.getCalendar(2013, Calendar.SEPTEMBER, 29, 18, 46, 19);
     public static final Date UPDATED = DateBuilder.getCalendar(2014, Calendar.SEPTEMBER, 29, 18, 46, 19);
+    @Deprecated
     public static final String TAG_NAME = "tagName";
 
     public static final String CREATEDS = "2013-09-29T18:46:19Z";
@@ -36,6 +36,7 @@ public class GeofenceRealmBuilder {
     private int stay = STAY;
     private String created = CREATEDS;
     private String updated = UPDATEDS;
+    @Deprecated
     private String tag = TAG_NAME;
 
     public static GeofenceRealmBuilder Builder() {
@@ -55,13 +56,6 @@ public class GeofenceRealmBuilder {
         geofence.setCreatedAt(created);
         geofence.setUpdatedAt(updated);
         geofence.setStayTime(stay);
-
-        RealmList<KeyWordRealm> list = new RealmList<>();
-        KeyWordRealm keyWordRealm = new KeyWordRealm();
-        keyWordRealm.setKeyword(tag);
-        list.add(keyWordRealm);
-
-        geofence.setTags(list);
 
         return geofence;
     }

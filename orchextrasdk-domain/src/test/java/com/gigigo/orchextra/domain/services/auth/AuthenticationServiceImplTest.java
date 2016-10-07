@@ -25,10 +25,10 @@ import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorError;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
-import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 import com.gigigo.orchextra.domain.services.auth.errors.AuthenticationError;
 import com.gigigo.orchextra.domain.services.auth.errors.SdkAuthError;
 import org.junit.Before;
@@ -52,21 +52,23 @@ import static org.mockito.Mockito.when;
   @Mock AuthenticationDataProvider authDataProvider;
   @Mock DeviceDetailsProvider deviceDetailsProvider;
   @Mock Session session;
-  @Mock BusinessObject<Crm> crmBusinessObject;
-  @Mock Crm crm;
+  @Mock BusinessObject<CrmUser> crmBusinessObject;
+  @Mock
+  CrmUser crmUser;
   @Mock BusinessObject<SdkAuthData> sdk;
   @Mock SdkAuthData sdkAuthData;
   @Mock InteractorError interactorError;
   @Mock BusinessError businessError;
   @Mock BusinessObject<ClientAuthData> clietAuth;
   @Mock ClientAuthData clietAuthData;
-  @Mock CrmValidator crmValidator;
+  @Mock
+  CrmUserFieldsValidator crmUserFieldsValidator;
 
   AuthenticationServiceImpl authenticationService;
 
   @Before public void setUp() {
     authenticationService =
-        new AuthenticationServiceImpl(authDataProvider, deviceDetailsProvider, session, crmValidator);
+        new AuthenticationServiceImpl(authDataProvider, deviceDetailsProvider, session, crmUserFieldsValidator);
     mockshareArrangements();
   }
 
@@ -74,8 +76,8 @@ import static org.mockito.Mockito.when;
     when(session.getApiKey()).thenReturn("API_KEY");
     when(session.getApiSecret()).thenReturn("API_SECRET");
 
-    when(authDataProvider.authenticateSdk(any(Credentials.class))).thenReturn(sdk);
-    when(authDataProvider.authenticateUser(any(Credentials.class), anyString())).thenReturn(
+    when(authDataProvider.authenticateSdk(any(AuthCredentials.class))).thenReturn(sdk);
+    when(authDataProvider.authenticateUser(any(AuthCredentials.class), anyString())).thenReturn(
         clietAuth);
   }
 
@@ -83,8 +85,8 @@ import static org.mockito.Mockito.when;
 
     arrangeGetCrmID();
     when(crmBusinessObject.isSuccess()).thenReturn(true);
-    when(crmBusinessObject.getData()).thenReturn(crm);
-    when(crm.getCrmId()).thenReturn("ID");
+    when(crmBusinessObject.getData()).thenReturn(crmUser);
+    when(crmUser.getCrmId()).thenReturn("ID");
 
     mockshareArrangements();
     arrangeAuthSuccess();
@@ -101,7 +103,7 @@ import static org.mockito.Mockito.when;
 
   private void arrangeGetCrmID() {
     when(authDataProvider.retrieveCrm()).thenReturn(crmBusinessObject);
-    when(crmBusinessObject.getData()).thenReturn(crm);
+    when(crmBusinessObject.getData()).thenReturn(crmUser);
   }
 
   @Test public void shouldAuthenticateWithCrmIDSuccess() throws Exception {
@@ -151,7 +153,7 @@ import static org.mockito.Mockito.when;
 
     when(sdk.isSuccess()).thenReturn(false);
     when(sdk.getBusinessError()).thenReturn(businessError);
-    when(crmBusinessObject.getData()).thenReturn(crm);
+    when(crmBusinessObject.getData()).thenReturn(crmUser);
 
     InteractorResponse interactorResponse = authenticationService.authenticate();
 
@@ -173,7 +175,7 @@ import static org.mockito.Mockito.when;
     arrangeDeviceDetailsProvider();
 
     when(
-        authDataProvider.authenticateUser(any(Credentials.class), isNull(String.class))).thenReturn(
+        authDataProvider.authenticateUser(any(AuthCredentials.class), isNull(String.class))).thenReturn(
         clietAuth);
 
     when(clietAuth.isSuccess()).thenReturn(false);

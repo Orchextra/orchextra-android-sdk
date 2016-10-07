@@ -34,6 +34,8 @@ public interface BeaconRangingScanner extends RegionsProviderListener {
   void stopAllCurrentRangingScannedRegions();
   void stopRangingScanForDetectedRegion(Region region);
 
+  void updateBackgroundScanPeriodBetweenScans(long beetweenScanPeriod);
+
   BackgroundBeaconsRangingTimeType getBackgroundBeaconsRangingTimeType();
 
   boolean isRanging();

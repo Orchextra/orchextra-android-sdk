@@ -18,8 +18,8 @@
 package com.gigigo.orchextra.domain.dataprovider;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public interface ImageRecognitionLocalDataProvider {
-  BusinessObject<Vuforia> obtainVuforiaInfo();
+  BusinessObject<VuforiaCredentials> obtainVuforiaInfo();
 }

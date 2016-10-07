@@ -18,14 +18,17 @@
 
 package com.gigigo.orchextra.domain.model.vo;
 
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 
+/**
+ * This class represent the sdk status, store session and CrmUser
+ */
 public class OrchextraStatus {
 
   private boolean initialized;
   private boolean started;
-  private Crm crm;
+  private CrmUser crmUser;
   private Session session;
 
   public boolean isInitialized() {
@@ -44,12 +47,12 @@ public class OrchextraStatus {
     this.started = started;
   }
 
-  public Crm getCrm() {
-    return crm;
+  public CrmUser getCrmUser() {
+    return crmUser;
   }
 
-  public void setCrm(Crm crm) {
-    this.crm = crm;
+  public void setCrmUser(CrmUser crmUser) {
+    this.crmUser = crmUser;
   }
 
   public Session getSession() {

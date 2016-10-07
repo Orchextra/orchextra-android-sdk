@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
 import com.gigigo.orchextra.domain.model.vo.GeoLocation;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class GeoLocationRequestMapperTest {
 
     @Test
     public void testModelToDataOk() throws Exception {
-        OrchextraPoint point = new OrchextraPoint();
+        OrchextraLocationPoint point = new OrchextraLocationPoint();
         point.setLat(3.45);
         point.setLng(5.67);
 

@@ -18,62 +18,61 @@
 
 package com.gigigo.orchextra.domain.model.entities.proximity;
 
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
-import com.gigigo.orchextra.domain.model.vo.Theme;
+import com.gigigo.orchextra.domain.model.entities.Updates;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 
-public class OrchextraUpdates {
+public class OrchextraUpdates implements Updates {
 
-  private OrchextraBeaconUpdates orchextraBeaconUpdates;
-  private OrchextraGeofenceUpdates orchextraGeofenceUpdates;
-  private Vuforia vuforiaUpdates;
-  private Theme themeUpdates;
+    private OrchextraRegionUpdates orchextraRegionUpdates;
+    private OrchextraGeofenceUpdates orchextraGeofenceUpdates;
+    private VuforiaCredentials vuforiaCredentialsUpdates;
 
-  public OrchextraUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates,
-      OrchextraGeofenceUpdates orchextraGeofenceChanges, Vuforia vuforiaChanges,
-      Theme themeChanges) {
 
-    setOrchextraBeaconUpdates(orchextraBeaconUpdates);
-    setOrchextraGeofenceUpdates(orchextraGeofenceChanges);
-    setVuforiaUpdates(vuforiaChanges);
-    setThemeUpdates(themeChanges);
-  }
+    @Deprecated
+    public OrchextraUpdates(OrchextraRegionUpdates orchextraRegionUpdates,
+                            OrchextraGeofenceUpdates orchextraGeofenceChanges,
+                            VuforiaCredentials vuforiaCredentialsChanges) {
 
-  public OrchextraBeaconUpdates getOrchextraBeaconUpdates() {
-    return orchextraBeaconUpdates;
-  }
+        setOrchextraRegionUpdates(orchextraRegionUpdates);
+        setOrchextraGeofenceUpdates(orchextraGeofenceChanges);
+        setVuforiaCredentialsUpdates(vuforiaCredentialsChanges);
 
-  public void setOrchextraBeaconUpdates(OrchextraBeaconUpdates orchextraBeaconUpdates) {
-    this.orchextraBeaconUpdates = orchextraBeaconUpdates;
-  }
+    }
 
-  public OrchextraGeofenceUpdates getOrchextraGeofenceUpdates() {
-    return orchextraGeofenceUpdates;
-  }
+    public OrchextraUpdates() {
 
-  public void setOrchextraGeofenceUpdates(OrchextraGeofenceUpdates orchextraGeofenceUpdates) {
-    this.orchextraGeofenceUpdates = orchextraGeofenceUpdates;
-  }
+    }
 
-  public Vuforia getVuforiaUpdates() {
-    return vuforiaUpdates;
-  }
+    public OrchextraRegionUpdates getOrchextraRegionUpdates() {
+        return orchextraRegionUpdates;
+    }
 
-  public void setVuforiaUpdates(Vuforia vuforiaUpdates) {
-    this.vuforiaUpdates = vuforiaUpdates;
-  }
+    public void setOrchextraRegionUpdates(OrchextraRegionUpdates orchextraRegionUpdates) {
+        this.orchextraRegionUpdates = orchextraRegionUpdates;
+    }
 
-  public Theme getThemeUpdates() {
-    return themeUpdates;
-  }
+    public OrchextraGeofenceUpdates getOrchextraGeofenceUpdates() {
+        return orchextraGeofenceUpdates;
+    }
 
-  public void setThemeUpdates(Theme themeUpdates) {
-    this.themeUpdates = themeUpdates;
-  }
+    public void setOrchextraGeofenceUpdates(OrchextraGeofenceUpdates orchextraGeofenceUpdates) {
+        this.orchextraGeofenceUpdates = orchextraGeofenceUpdates;
+    }
 
-  public boolean hasChanges() {
-    return orchextraBeaconUpdates.hasChanges()
-        || orchextraGeofenceUpdates.hasChanges()
-        || vuforiaUpdates != null
-        || themeUpdates != null;
-  }
+    public VuforiaCredentials getVuforiaCredentialsUpdates() {
+        return vuforiaCredentialsUpdates;
+    }
+
+    public void setVuforiaCredentialsUpdates(VuforiaCredentials vuforiaCredentialsUpdates) {
+        this.vuforiaCredentialsUpdates = vuforiaCredentialsUpdates;
+    }
+
+
+    @Override
+    public boolean hasChanges() {
+        return (orchextraRegionUpdates != null && orchextraRegionUpdates.hasChanges())
+                || (orchextraGeofenceUpdates != null && orchextraGeofenceUpdates.hasChanges())
+                || vuforiaCredentialsUpdates != null;
+    }
 }

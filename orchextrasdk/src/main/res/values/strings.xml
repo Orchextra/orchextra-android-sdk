@@ -37,10 +37,8 @@
   <string name="ox_webview_toolbar_title">Web View</string>
 
   <string name="ox_notification_push_title">Orchextra</string>
-  <string name="ox_notifications_GCM_sender_id">ox_notifications_demo_GCM_sender_id</string>
-  <string name="ox_notifications_demo_GCM_sender_id">ox_notifications_demo_GCM_sender_id</string>
 
-  <!-- Vuforia Module customization -->
+  <!-- VuforiaCredentials Module customization -->
   <string name="ox_ir_scan_activity_name">Vuforia scanner</string>
   <string name="ox_loading_indicator_message">Loading image recognition module...</string>
   <!-- ****************************** -->
@@ -49,6 +47,6 @@
   <string name="ir_permission_denied_camera">@string/ox_permission_denied_camera</string>
   <string name="ir_permission_rationale_title_camera">@string/ox_permission_rationale_title_camera</string>
   <string name="ir_permission_rationale_message_camera">@string/ox_permission_rationale_message_camera</string>
-  <!-- Vuforia Module customization -->
+  <!-- VuforiaCredentials Module customization -->
 
 </resources>

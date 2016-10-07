@@ -18,9 +18,10 @@
 
 package com.gigigo.orchextra.device.notifications;
 
-import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 
 
 public interface NotificationDispatcher {
-  void manageBackgroundNotification(Activity activity);
+  void manageBackgroundNotification(Intent bundle);
 }

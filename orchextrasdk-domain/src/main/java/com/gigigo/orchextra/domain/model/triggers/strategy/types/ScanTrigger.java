@@ -23,11 +23,11 @@ import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 public class ScanTrigger extends Trigger {
 
-  public ScanTrigger(TriggerType triggerType, String id, OrchextraPoint point,
+  public ScanTrigger(TriggerType triggerType, String id, OrchextraLocationPoint point,
       AppRunningModeType appRunningModeType) {
     super(triggerType, id, point, appRunningModeType);
     this.isTriggerable = true;

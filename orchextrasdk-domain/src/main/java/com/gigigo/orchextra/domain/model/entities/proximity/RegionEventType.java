@@ -22,26 +22,27 @@ import com.gigigo.orchextra.domain.model.StringValueEnum;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 
 public enum RegionEventType implements StringValueEnum {
-  ENTER(GeoPointEventType.ENTER.getStringValue()),
-  EXIT(GeoPointEventType.EXIT.getStringValue());
+    ENTER(GeoPointEventType.ENTER.getStringValue()),
+    EXIT(GeoPointEventType.EXIT.getStringValue());
 
-  private final String type;
+    private final String type;
 
-  RegionEventType(final String type) {
-    this.type = type;
-  }
-
-  public String getStringValue() {
-    return type;
-  }
-
-  public static RegionEventType getTypeFromString(String eventType) {
-
-    for (RegionEventType regionEventType : RegionEventType.values()) {
-      if (regionEventType.getStringValue().equals(eventType)) {
-        return regionEventType;
-      }
+    RegionEventType(final String type) {
+        this.type = type;
     }
-    return ENTER;
-  }
+
+    @Override
+    public String getStringValue() {
+        return type;
+    }
+
+    public static RegionEventType getTypeFromString(String eventType) {
+
+        for (RegionEventType regionEventType : RegionEventType.values()) {
+            if (regionEventType.getStringValue().equals(eventType)) {
+                return regionEventType;
+            }
+        }
+        return ENTER;
+    }
 }

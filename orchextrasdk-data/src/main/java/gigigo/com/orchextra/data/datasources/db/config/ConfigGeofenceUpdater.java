@@ -20,8 +20,8 @@ package gigigo.com.orchextra.data.datasources.db.config;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +87,7 @@ public class ConfigGeofenceUpdater {
       RealmResults<GeofenceRealm> geofenceRealms =
           realm.where(GeofenceRealm.class).equalTo("code", code).findAll();
       if (geofenceRealms.size() > 0) {
-        geofenceRealms.first().deleteFromRealm();
+        geofenceRealms.first().removeFromRealm();
       }
       orchextraLogger.log("Eliminada geofence de la base de datos: " + code);
     }
@@ -112,7 +112,7 @@ public class ConfigGeofenceUpdater {
 
   public void removeGeofences(Realm realm) {
     if (realm != null) {
-      realm.delete(GeofenceRealm.class);
+      realm.clear(GeofenceRealm.class);
     }
   }
 }

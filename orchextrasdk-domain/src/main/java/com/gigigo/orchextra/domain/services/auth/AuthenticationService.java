@@ -20,7 +20,7 @@ package com.gigigo.orchextra.domain.services.auth;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 
 public interface AuthenticationService {
 
@@ -28,5 +28,5 @@ public interface AuthenticationService {
 
   InteractorResponse authenticateUserWithCrmId(String crmId);
 
-  BusinessObject<Crm> saveUser(Crm crm);
+  BusinessObject<CrmUser> saveUser(CrmUser crmUser);
 }

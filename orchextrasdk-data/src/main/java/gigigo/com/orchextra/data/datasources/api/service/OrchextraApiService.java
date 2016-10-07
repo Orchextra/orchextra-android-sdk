@@ -21,8 +21,8 @@ package gigigo.com.orchextra.data.datasources.api.service;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionConfirmationResponse;
 import java.util.Map;
 
-import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiAuthRequest;
-import gigigo.com.orchextra.data.datasources.api.model.requests.OrchextraApiConfigRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiAuthRequest;
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiConfigRequest;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiClientAuthResponse;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigResponse;
@@ -37,13 +37,13 @@ import retrofit2.http.Path;
 public interface OrchextraApiService {
 
   @POST("security/token") Call<ApiSdkAuthResponse> sdkAuthentication(
-      @Body OrchextraApiAuthRequest authRequest);
+      @Body ApiAuthRequest authRequest);
 
   @POST("security/token") Call<ApiClientAuthResponse> clientAuthentication(
-      @Body OrchextraApiAuthRequest authRequest);
+      @Body ApiAuthRequest authRequest);
 
   @POST("configuration") Call<ApiConfigResponse> sendSdkConfig(
-      @Body OrchextraApiConfigRequest configRequest);
+      @Body ApiConfigRequest configRequest);
 
   @FormUrlEncoded @POST("action") Call<ApiActionResponse> obtainAction(
       @FieldMap Map<String, String> parameters);

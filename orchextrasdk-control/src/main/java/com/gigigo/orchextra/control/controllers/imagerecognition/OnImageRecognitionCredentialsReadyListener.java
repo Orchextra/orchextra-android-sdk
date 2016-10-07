@@ -17,10 +17,10 @@
  */
 package com.gigigo.orchextra.control.controllers.imagerecognition;
 
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public interface OnImageRecognitionCredentialsReadyListener {
-  void onCredentialsReady(Vuforia vuforia);
+  void onCredentialsReady(VuforiaCredentials vuforiaCredentials);
 
   void onCredentialsError(String message);
 }

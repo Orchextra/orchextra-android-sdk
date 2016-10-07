@@ -20,7 +20,7 @@ package com.gigigo.orchextra.di.modules.device;
 
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
-import com.gigigo.orchextra.device.information.AndroidApp;
+import com.gigigo.orchextra.device.information.AndroidSdkVersionAppInfo;
 import com.gigigo.orchextra.device.information.AndroidDevice;
 import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
@@ -34,7 +34,7 @@ public interface DeviceModuleProvider extends
     GeolocationModuleProvider,
     ImageRecognitionModuleProvider{
 
-    AndroidApp provideAndroidApp();
+    AndroidSdkVersionAppInfo provideAndroidApp();
     AndroidDevice provideAndroidDevice();
     OrchextraLogger provideOrchextraLogger();
     GoogleApiClientConnector provideGoogleApiClientConnector();

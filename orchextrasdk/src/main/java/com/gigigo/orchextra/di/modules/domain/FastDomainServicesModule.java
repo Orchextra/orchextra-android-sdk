@@ -17,9 +17,12 @@
  */
 package com.gigigo.orchextra.di.modules.domain;
 
+import com.gigigo.orchextra.domain.dataprovider.AuthenticationDataProvider;
 import com.gigigo.orchextra.domain.dataprovider.OrchextraStatusDataProvider;
-import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
-import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
+import com.gigigo.orchextra.domain.services.status.ClearOrchextraCredentialsDomainService;
+import com.gigigo.orchextra.domain.services.status.LoadOrchextraDomainServiceStatus;
+import com.gigigo.orchextra.domain.services.status.UpdateOrchextraDomainServiceStatus;
+
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 import orchextra.javax.inject.Singleton;
@@ -27,14 +30,22 @@ import orchextra.javax.inject.Singleton;
 @Module
 public class FastDomainServicesModule {
 
-  @Provides @Singleton LoadOrchextraServiceStatus provideLoadOrchextraServiceStatus(
+  @Provides @Singleton
+  LoadOrchextraDomainServiceStatus provideLoadOrchextraServiceStatus(
       OrchextraStatusDataProvider orchextraStatusDataProvider){
-    return new LoadOrchextraServiceStatus(orchextraStatusDataProvider);
+    return new LoadOrchextraDomainServiceStatus(orchextraStatusDataProvider);
   }
 
 
-  @Provides @Singleton UpdateOrchextraServiceStatus provideUpdateOrchextraServiceStatus(
+  @Provides @Singleton
+  UpdateOrchextraDomainServiceStatus provideUpdateOrchextraServiceStatus(
       OrchextraStatusDataProvider orchextraStatusDataProvider){
-    return new UpdateOrchextraServiceStatus(orchextraStatusDataProvider);
+    return new UpdateOrchextraDomainServiceStatus(orchextraStatusDataProvider);
+  }
+
+  @Provides @Singleton
+  ClearOrchextraCredentialsDomainService provideClearOrchextraCredentialsService(
+          AuthenticationDataProvider authenticationDataProvider) {
+    return new ClearOrchextraCredentialsDomainService(authenticationDataProvider);
   }
 }

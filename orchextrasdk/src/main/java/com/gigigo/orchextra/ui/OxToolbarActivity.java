@@ -18,37 +18,29 @@
 
 package com.gigigo.orchextra.ui;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.support.v4ox.app.FragmentActivity;
+import android.support.v7ox.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gigigo.orchextra.R;
 
-public abstract class OxToolbarActivity extends AppCompatActivity {
+public abstract class OxToolbarActivity extends android.support.v4ox.app.FragmentActivity{// AppCompatActivity android.support.v4ox.app.FragmentActivity {
 
     private ImageView closeToolbarButton;
     private TextView titleToolbar;
 
     public void initMainViews() {
         initMainUi();
-        setMainTheme();
     }
-
     public void initMainUi() {
-        closeToolbarButton = (ImageView) findViewById(R.id.closeToolbarButton);
-        titleToolbar = (TextView) findViewById(R.id.titleToolbar);
-    }
-
-    public void setMainTheme() {
-        titleToolbar.setText(getResources().getString(getToolbarTitle()));
-        titleToolbar.setTextColor(getResources().getColor(R.color.ox_toolbar_title_color));
-        closeToolbarButton.setImageResource(R.drawable.ox_close);
+         closeToolbarButton = (ImageView) findViewById(R.id.closeToolbarButton);
+         titleToolbar = (TextView) findViewById(R.id.titleToolbar);
         closeToolbarButton.setOnClickListener(onCloseToolbarButtonListener);
     }
-
     protected abstract int getToolbarTitle();
-
     private View.OnClickListener onCloseToolbarButtonListener =
         new View.OnClickListener() {
             @Override

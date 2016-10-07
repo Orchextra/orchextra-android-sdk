@@ -21,7 +21,7 @@ package com.gigigo.orchextra.domain.model.entities.credentials;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 
-public class ClientAuthCredentials implements Credentials {
+public class ClientAuthCredentials implements AuthCredentials {
 
   private final String clientToken;
   private final String instanceId;
@@ -38,7 +38,7 @@ public class ClientAuthCredentials implements Credentials {
   }
 
   public ClientAuthCredentials(SdkAuthData data, DeviceDetailsProvider deviceDetailsProvider,
-      String crmId) {
+                               String crmId) {
     this(data.getValue(), deviceDetailsProvider.getAndroidInstanceId());
     this.secureId = deviceDetailsProvider.getAndroidSecureId();
     this.serialNumber = deviceDetailsProvider.getAndroidSerialNumber();

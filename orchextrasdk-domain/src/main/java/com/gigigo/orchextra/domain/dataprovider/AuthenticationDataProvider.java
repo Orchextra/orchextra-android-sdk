@@ -20,21 +20,23 @@ package com.gigigo.orchextra.domain.dataprovider;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.Crm;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
-import com.gigigo.orchextra.domain.model.entities.credentials.Credentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.AuthCredentials;
 
 public interface AuthenticationDataProvider {
 
-  BusinessObject<SdkAuthData> authenticateSdk(Credentials credentials);
+  BusinessObject<SdkAuthData> authenticateSdk(AuthCredentials authCredentials);
 
-  BusinessObject<ClientAuthData> authenticateUser(Credentials credentials, String crmId);
+  BusinessObject<ClientAuthData> authenticateUser(AuthCredentials authCredentials, String crmId);
+
+  void clearAuthenticatedSdk();
 
   void clearAuthenticatedUser();
 
   BusinessObject<ClientAuthData> getCredentials();
 
-  BusinessObject<Crm> retrieveCrm();
+  BusinessObject<CrmUser> retrieveCrm();
 
-  boolean storeCrmId(Crm crm);
+  boolean storeCrmId(CrmUser crmUser);
 }

@@ -19,23 +19,24 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
+
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 
 
 public class ConfigInfoResultRealmMapper
-    implements Mapper<ConfigInfoResult, ConfigInfoResultRealm> {
+    implements Mapper<ConfigurationInfoResult, ConfigInfoResultRealm> {
 
-  @Override public ConfigInfoResultRealm modelToExternalClass(ConfigInfoResult configInfoResult) {
+  @Override public ConfigInfoResultRealm modelToExternalClass(ConfigurationInfoResult configurationInfoResult) {
 
-    if (configInfoResult.supportsBeacons()) {
+    if (configurationInfoResult.supportsBeacons()) {
 
     }
     return null;
   }
 
   @Override
-  public ConfigInfoResult externalClassToModel(ConfigInfoResultRealm configInfoResultRealm) {
+  public ConfigurationInfoResult externalClassToModel(ConfigInfoResultRealm configInfoResultRealm) {
     return null;
   }
 }

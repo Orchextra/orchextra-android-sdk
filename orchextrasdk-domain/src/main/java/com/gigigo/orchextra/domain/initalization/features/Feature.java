@@ -20,8 +20,8 @@ package com.gigigo.orchextra.domain.initalization.features;
 
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType;
 import com.gigigo.orchextra.domain.model.StringValueEnum;
-
-public abstract class Feature {
+//todo notcomplete
+public abstract class Feature  {
 
   private FeatureType featureType;
   private StringValueEnum status;

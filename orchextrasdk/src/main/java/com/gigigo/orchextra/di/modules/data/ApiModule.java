@@ -68,6 +68,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
+   
     @XAppSdk
     String provideXAppSdk() {
         return BuildConfig.X_APP_SDK + "_" + BuildConfig.VERSION_NAME;
@@ -122,6 +123,9 @@ public class ApiModule {
 
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
         okHttpClientBuilder.addInterceptor(headersInterceptor);
+
+
+
 
         if (orchextraLogger.isNetworkLoggingLevelEnabled()){
             okHttpClientBuilder.addInterceptor(loggingInterceptor);

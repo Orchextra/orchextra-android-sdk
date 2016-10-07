@@ -37,7 +37,6 @@ import com.gigigo.orchextra.di.qualifiers.GeofenceResponse;
 import com.gigigo.orchextra.di.qualifiers.PointReqResMapper;
 import com.gigigo.orchextra.di.qualifiers.PushNotificationRequest;
 import com.gigigo.orchextra.di.qualifiers.SdkDataResponseMapper;
-import com.gigigo.orchextra.di.qualifiers.ThemeResponse;
 import com.gigigo.orchextra.di.qualifiers.VuforiaResponse;
 
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ActionScheduledExternalClassToModelMapper;
@@ -61,139 +60,188 @@ import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ConfigAp
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.GeofenceExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.OrchextraGenericResponseMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.SdkApiExternalClassToModelMapper;
-import gigigo.com.orchextra.data.datasources.api.model.mappers.response.ThemeExternalClassToModelMapper;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.response.VuforiaExternalClassToModelMapper;
 
 
 @Module
 public class ApiMappersModule {
 
-  //region Response Mappers
+    //region Response Mappers
 
-  @Provides @Singleton @SdkDataResponseMapper ApiGenericResponseMapper
-  provideSdkDataResponseMapper(SdkApiExternalClassToModelMapper sdkMapper){
-    return createResponseMapper(sdkMapper);
-  }
+    @Provides
+    @Singleton
+    @SdkDataResponseMapper
+    ApiGenericResponseMapper
+    provideSdkDataResponseMapper(SdkApiExternalClassToModelMapper sdkMapper) {
+        return createResponseMapper(sdkMapper);
+    }
 
-  @Provides @Singleton @ClientDataResponseMapper ApiGenericResponseMapper
-  provideClientDataResponseMapper(ClientApiExternalClassToModelMapper clientMapper){
-    return createResponseMapper(clientMapper);
-  }
+    @Provides
+    @Singleton
+    @ClientDataResponseMapper
+    ApiGenericResponseMapper
+    provideClientDataResponseMapper(ClientApiExternalClassToModelMapper clientMapper) {
+        return createResponseMapper(clientMapper);
+    }
 
-  @Provides @Singleton @ConfigResponseMapper ApiGenericResponseMapper
-  provideConfigResponseMapper(ConfigApiExternalClassToModelMapper configApiResponseMapper) {
-    return createResponseMapper(configApiResponseMapper);
-  }
+    @Provides
+    @Singleton
+    @ConfigResponseMapper
+    ApiGenericResponseMapper
+    provideConfigResponseMapper(ConfigApiExternalClassToModelMapper configApiResponseMapper) {
+        return createResponseMapper(configApiResponseMapper);
+    }
 
-  @Provides @Singleton SdkApiExternalClassToModelMapper provideSdkMapper(){
-   return new SdkApiExternalClassToModelMapper();
-  }
+    @Provides
+    @Singleton
+    SdkApiExternalClassToModelMapper provideSdkMapper() {
+        return new SdkApiExternalClassToModelMapper();
+    }
 
-  @Provides @Singleton ClientApiExternalClassToModelMapper provideClientMapper(){
-    return new ClientApiExternalClassToModelMapper();
-  }
+    @Provides
+    @Singleton
+    ClientApiExternalClassToModelMapper provideClientMapper() {
+        return new ClientApiExternalClassToModelMapper();
+    }
 
-  @Provides @Singleton @ActionsResponse   ApiGenericResponseMapper provideActionsResMapper(
-      @ActionsResponse ExternalClassToModelMapper actionsApiResponseMapper){
-    return createResponseMapper(actionsApiResponseMapper);
-  }
+    @Provides
+    @Singleton
+    @ActionsResponse
+    ApiGenericResponseMapper provideActionsResMapper(
+            @ActionsResponse ExternalClassToModelMapper actionsApiResponseMapper) {
+        return createResponseMapper(actionsApiResponseMapper);
+    }
 
-  @Provides @Singleton @ActionsResponse ExternalClassToModelMapper provideActionsApiResponseMapper(
-      @ActionNotificationResponse ExternalClassToModelMapper actionNotifResponseMapper,
-      @ActionScheduleResponse ExternalClassToModelMapper actionScheduleResponseMapper){
-    return new ActionsApiExternalClassToModelMapper(actionNotifResponseMapper, actionScheduleResponseMapper);
-  }
+    @Provides
+    @Singleton
+    @ActionsResponse
+    ExternalClassToModelMapper provideActionsApiResponseMapper(
+            @ActionNotificationResponse ExternalClassToModelMapper actionNotifResponseMapper,
+            @ActionScheduleResponse ExternalClassToModelMapper actionScheduleResponseMapper) {
+        return new ActionsApiExternalClassToModelMapper(actionNotifResponseMapper, actionScheduleResponseMapper);
+    }
 
-  @Provides @Singleton @ActionNotificationResponse
-  ExternalClassToModelMapper provideActionNotificationResponseMapper(){
-    return new ActionNotificationExternalClassToModelMapper();
-  }
+    @Provides
+    @Singleton
+    @ActionNotificationResponse
+    ExternalClassToModelMapper provideActionNotificationResponseMapper() {
+        return new ActionNotificationExternalClassToModelMapper();
+    }
 
-  @Provides @Singleton @ActionScheduleResponse
-  ExternalClassToModelMapper provideActionScheduleResponseMapper(){
-    return new ActionScheduledExternalClassToModelMapper();
-  }
+    @Provides
+    @Singleton
+    @ActionScheduleResponse
+    ExternalClassToModelMapper provideActionScheduleResponseMapper() {
+        return new ActionScheduledExternalClassToModelMapper();
+    }
 
-  @Provides @Singleton ConfigApiExternalClassToModelMapper provideConfigApiResponseMapper(
-      @BeaconResponse BeaconExternalClassToModelMapper beaconResponse,
-      @GeofenceResponse GeofenceExternalClassToModelMapper geofenceResponseMapper,
-      @ThemeResponse ThemeExternalClassToModelMapper themeResponseMapper,
-      @VuforiaResponse VuforiaExternalClassToModelMapper vuforiaResponseMapper){
+    @Provides
+    @Singleton
+    ConfigApiExternalClassToModelMapper provideConfigApiResponseMapper(
+            @BeaconResponse BeaconExternalClassToModelMapper beaconResponse,
+            @GeofenceResponse GeofenceExternalClassToModelMapper geofenceResponseMapper,
 
-    return new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper, themeResponseMapper,
-        beaconResponse , geofenceResponseMapper);
-  }
+            @VuforiaResponse VuforiaExternalClassToModelMapper vuforiaResponseMapper) {
 
-  @Provides @Singleton @VuforiaResponse
-  VuforiaExternalClassToModelMapper provideVuforiaResponseMapper(){
-    return new VuforiaExternalClassToModelMapper();
-  }
+        return new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper,
+                beaconResponse, geofenceResponseMapper);
+    }
 
-  @Provides @Singleton @ThemeResponse ThemeExternalClassToModelMapper provideThemeResponseMapper(){
-    return new ThemeExternalClassToModelMapper();
-  }
+    @Provides
+    @Singleton
+    @VuforiaResponse
+    VuforiaExternalClassToModelMapper provideVuforiaResponseMapper() {
+        return new VuforiaExternalClassToModelMapper();
+    }
 
-  @Provides @Singleton @GeofenceResponse
-  GeofenceExternalClassToModelMapper provideGeofenceResponseMapper(
-          @PointReqResMapper PointMapper pointMapper){
-    return new GeofenceExternalClassToModelMapper(pointMapper);
-  }
 
-  @Provides @Singleton @BeaconResponse BeaconExternalClassToModelMapper provideBeaconResponseMapper(){
-    return new BeaconExternalClassToModelMapper();
-  }
+    @Provides
+    @Singleton
+    @GeofenceResponse
+    GeofenceExternalClassToModelMapper provideGeofenceResponseMapper(
+            @PointReqResMapper PointMapper pointMapper) {
+        return new GeofenceExternalClassToModelMapper(pointMapper);
+    }
 
-  private ApiGenericResponseMapper createResponseMapper(ExternalClassToModelMapper mapper) {
-    return new OrchextraGenericResponseMapper(mapper);
-  }
+    @Provides
+    @Singleton
+    @BeaconResponse
+    BeaconExternalClassToModelMapper provideBeaconResponseMapper() {
+        return new BeaconExternalClassToModelMapper();
+    }
 
-  //endregion
+    private ApiGenericResponseMapper createResponseMapper(ExternalClassToModelMapper mapper) {
+        return new OrchextraGenericResponseMapper(mapper);
+    }
 
-  @Provides @Singleton @PointReqResMapper PointMapper providePointMapper(){
-    return new PointMapper();
-  }
+    //endregion
 
-  //region Request Mappers
+    @Provides
+    @Singleton
+    @PointReqResMapper
+    PointMapper providePointMapper() {
+        return new PointMapper();
+    }
 
-  @Provides @Singleton @ActionQueryRequest
-  ModelToExternalClassMapper provideActionQueryRequestMapper(){
-    return new ActionQueryModelToExternalClassMapper();
-  }
+    //region Request Mappers
 
-  @Provides @Singleton @AppRequest AppModelToExternalClassMapper provideAppRequestMapper(){
-    return new AppModelToExternalClassMapper();
-  }
+    @Provides
+    @Singleton
+    @ActionQueryRequest
+    ModelToExternalClassMapper provideActionQueryRequestMapper() {
+        return new ActionQueryModelToExternalClassMapper();
+    }
 
-  @Provides @Singleton @CrmRequest CrmModelToExternalClassMapper provideCrmRequestMapper(){
-    return new CrmModelToExternalClassMapper();
-  }
+    @Provides
+    @Singleton
+    @AppRequest
+    AppModelToExternalClassMapper provideAppRequestMapper() {
+        return new AppModelToExternalClassMapper();
+    }
 
-  @Provides @Singleton @PushNotificationRequest
-  PushNotificationModelToExternalClassMapper providePushNotifRequestMapper(){
-    return new PushNotificationModelToExternalClassMapper();
-  }
+    @Provides
+    @Singleton
+    @CrmRequest
+    CrmModelToExternalClassMapper provideCrmRequestMapper() {
+        return new CrmModelToExternalClassMapper();
+    }
 
-  @Provides @Singleton @DeviceRequest DeviceModelToExternalClassMapper provideDeviceRequestMapper(){
-    return new DeviceModelToExternalClassMapper();
-  }
+    @Provides
+    @Singleton
+    @PushNotificationRequest
+    PushNotificationModelToExternalClassMapper providePushNotifRequestMapper() {
+        return new PushNotificationModelToExternalClassMapper();
+    }
 
-  @Provides @Singleton @GeoLocationRequest
-  GeoLocationModelToExternalClassMapper provideGeoLocationRequestMapper(
-      @PointReqResMapper PointMapper pointMapper){
-    return new GeoLocationModelToExternalClassMapper(pointMapper);
-  }
+    @Provides
+    @Singleton
+    @DeviceRequest
+    DeviceModelToExternalClassMapper provideDeviceRequestMapper() {
+        return new DeviceModelToExternalClassMapper();
+    }
 
-  @Provides @Singleton @ConfigRequest ModelToExternalClassMapper provideConfigRequestMapper(
-      @PushNotificationRequest
-      PushNotificationModelToExternalClassMapper pushNotificationRequestMapper,
-      @GeoLocationRequest GeoLocationModelToExternalClassMapper geoLocationRequestMapper,
-      @DeviceRequest DeviceModelToExternalClassMapper deviceRequestMapper,
-      @CrmRequest CrmModelToExternalClassMapper crmRequestMapper,
-      @AppRequest AppModelToExternalClassMapper appRequestMapper){
+    @Provides
+    @Singleton
+    @GeoLocationRequest
+    GeoLocationModelToExternalClassMapper provideGeoLocationRequestMapper(
+            @PointReqResMapper PointMapper pointMapper) {
+        return new GeoLocationModelToExternalClassMapper(pointMapper);
+    }
 
-    return new ConfigModelToExternalClassMapper(pushNotificationRequestMapper, geoLocationRequestMapper,
-        deviceRequestMapper, crmRequestMapper, appRequestMapper);
-  }
+    @Provides
+    @Singleton
+    @ConfigRequest
+    ModelToExternalClassMapper provideConfigRequestMapper(
+            @PushNotificationRequest
+            PushNotificationModelToExternalClassMapper pushNotificationRequestMapper,
+            @GeoLocationRequest GeoLocationModelToExternalClassMapper geoLocationRequestMapper,
+            @DeviceRequest DeviceModelToExternalClassMapper deviceRequestMapper,
+            @CrmRequest CrmModelToExternalClassMapper crmRequestMapper,
+            @AppRequest AppModelToExternalClassMapper appRequestMapper) {
 
-  //endregion
+        return new ConfigModelToExternalClassMapper(pushNotificationRequestMapper, geoLocationRequestMapper,
+                deviceRequestMapper, crmRequestMapper, appRequestMapper);
+    }
+
+    //endregion
 }

@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.di.modules.control;
 
-import com.gigigo.orchextra.control.controllers.authentication.SaveUserController;
+import com.gigigo.orchextra.control.controllers.authentication.SaveCrmUserController;
 import com.gigigo.orchextra.control.controllers.config.ConfigController;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.proximity.geofence.GeofenceController;
@@ -36,14 +36,12 @@ import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.SaveUserInteractorExecution;
 import com.gigigo.orchextra.domain.abstractions.error.ErrorLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.outputs.BackThreadSpec;
 import com.gigigo.orchextra.domain.outputs.MainThreadSpec;
-import com.gigigo.orchextra.domain.services.status.LoadOrchextraServiceStatus;
-import com.gigigo.orchextra.domain.services.status.UpdateOrchextraServiceStatus;
 
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 import orchextra.javax.inject.Provider;
@@ -77,22 +75,18 @@ public class ControlModule {
   }
 
   @Provides @Singleton
-  SaveUserController provideAuthenticationController(
+  SaveCrmUserController provideAuthenticationController(
       InteractorInvoker interactorInvoker,
       @SaveUserInteractorExecution Provider<InteractorExecution> interactorExecutionProvider,
       @MainThread ThreadSpec backThreadSpec, ConfigObservable configObservable, ErrorLogger errorLogger){
 
-    return new SaveUserController(interactorInvoker, interactorExecutionProvider, backThreadSpec, configObservable,
+    return new SaveCrmUserController(interactorInvoker, interactorExecutionProvider, backThreadSpec, configObservable,
         errorLogger);
   }
 
-  @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(
-      Session session, LoadOrchextraServiceStatus loadOrchextraServiceStatus,
-      UpdateOrchextraServiceStatus updateOrchextraServiceStatus,
-      ErrorLogger errorLogger){
+  @Provides @Singleton OrchextraStatusAccessor provideOrchextraStatusAccessor(OrchextraStatusManager orchextraStatusManager){
 
-    return new OrchextraStatusAccessorAccessorImpl(session, loadOrchextraServiceStatus,
-        updateOrchextraServiceStatus, errorLogger);
+    return new OrchextraStatusAccessorAccessorImpl(orchextraStatusManager);
   }
 
   @Singleton @Provides @MainThread ThreadSpec provideMainThread(){

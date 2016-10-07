@@ -19,29 +19,29 @@
 package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.di.scopes.PerExecution;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.config.ClearLocalStorageInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.GeofenceEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofencesProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.imagerecognition.GetImageRecognitionCredentialsInteractor;
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
-import com.gigigo.orchextra.domain.interactors.themes.ObtainThemeInteractor;
-import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
-import com.gigigo.orchextra.domain.services.actions.EventUpdaterService;
-import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeService;
+
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserInteractor;
+import com.gigigo.orchextra.domain.services.actions.EventUpdaterDomainService;
+import com.gigigo.orchextra.domain.services.actions.TriggerActionsFacadeDomainService;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
-import com.gigigo.orchextra.domain.services.config.ConfigService;
+import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
 import com.gigigo.orchextra.domain.services.config.LocalStorageService;
 import com.gigigo.orchextra.domain.services.config.ObtainGeoLocationTask;
 import com.gigigo.orchextra.domain.services.imagerecognition.GetImageRecognitionCredentialsService;
-import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerService;
-import com.gigigo.orchextra.domain.services.proximity.GeofenceCheckerService;
-import com.gigigo.orchextra.domain.services.proximity.ObtainGeofencesService;
-import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
-import com.gigigo.orchextra.domain.services.proximity.RegionCheckerService;
-import com.gigigo.orchextra.domain.services.themes.ThemeService;
+import com.gigigo.orchextra.domain.services.proximity.BeaconCheckerDomainService;
+import com.gigigo.orchextra.domain.services.geofences.GeofenceCheckerDomainService;
+import com.gigigo.orchextra.domain.services.geofences.ObtainGeofencesDomainService;
+import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsDomainService;
+import com.gigigo.orchextra.domain.services.proximity.RegionCheckerDomainService;
 
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
@@ -50,57 +50,74 @@ import orchextra.dagger.Provides;
 @Module(includes = {DomainServicesModule.class})
 public class InteractorsModule {
 
-  @Provides @PerExecution SaveUserInteractor provideSaveUserInteractor(
-      AuthenticationService authenticationService, ConfigService configService){
-    return new SaveUserInteractor(authenticationService, configService);
-  }
-
-  @Provides @PerExecution SendConfigInteractor provideSendConfigInteractor(ConfigService configService){
-    return new SendConfigInteractor(configService);
-  }
-
-  @Provides @PerExecution RegionsProviderInteractor provideRegionsProviderInteractor (
-      ObtainRegionsService obtainRegionsService){
-    return new RegionsProviderInteractor(obtainRegionsService);
-  }
-
-  @Provides @PerExecution BeaconEventsInteractor provideRegionCheckerInteractor (
-      BeaconCheckerService beaconCheckerService, RegionCheckerService regionCheckerService,
-      TriggerActionsFacadeService triggerActionsFacadeService,
-      EventUpdaterService eventUpdaterService){
-
-    return new BeaconEventsInteractor(beaconCheckerService, regionCheckerService,
-        triggerActionsFacadeService, eventUpdaterService);
-  }
-
-    @Provides @PerExecution GeofenceInteractor provideGeofenceInteractor(
-        TriggerActionsFacadeService triggerActionsFacadeService,
-        GeofenceCheckerService geofenceCheckerService,
-        EventUpdaterService eventUpdaterService) {
-
-      return new GeofenceInteractor(triggerActionsFacadeService, geofenceCheckerService, eventUpdaterService);
+    @Provides
+    @PerExecution
+    SaveCrmUserInteractor provideSaveUserInteractor(
+            AuthenticationService authenticationService,
+            ConfigDomainService configDomainService,
+            OrchextraStatusManager orchextraStatusManager) {
+        return new SaveCrmUserInteractor(authenticationService, configDomainService, orchextraStatusManager);
     }
 
-  @Provides @PerExecution GeofencesProviderInteractor provideGeofencesProviderInteractor(
-      ObtainGeofencesService obtainGeofencesService) {
-    return new GeofencesProviderInteractor(obtainGeofencesService);
-  }
+    @Provides
+    @PerExecution
+    SendConfigInteractor provideSendConfigInteractor(ConfigDomainService configDomainService) {
+        return new SendConfigInteractor(configDomainService);
+    }
 
-    @Provides @PerExecution ObtainThemeInteractor provideObtainThemeInteractor(ThemeService themeService){
-        return new ObtainThemeInteractor(themeService);
+    @Provides
+    @PerExecution
+    RegionsProviderInteractor provideRegionsProviderInteractor(
+            ObtainRegionsDomainService obtainRegionsDomainService) {
+        return new RegionsProviderInteractor(obtainRegionsDomainService);
+    }
+
+    @Provides
+    @PerExecution
+    BeaconEventsInteractor provideRegionCheckerInteractor(
+            BeaconCheckerDomainService beaconCheckerDomainService, RegionCheckerDomainService regionCheckerDomainService,
+            TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
+            EventUpdaterDomainService eventUpdaterDomainService) {
+
+        return new BeaconEventsInteractor(beaconCheckerDomainService, regionCheckerDomainService,
+                triggerActionsFacadeDomainService, eventUpdaterDomainService);
+    }
+
+    @Provides
+    @PerExecution
+    GeofenceEventsInteractor provideGeofenceInteractor(
+            TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
+            GeofenceCheckerDomainService geofenceCheckerDomainService,
+            EventUpdaterDomainService eventUpdaterDomainService) {
+
+        return new GeofenceEventsInteractor(triggerActionsFacadeDomainService, geofenceCheckerDomainService, eventUpdaterDomainService);
+    }
+
+    @Provides
+    @PerExecution
+    GeofencesProviderInteractor provideGeofencesProviderInteractor(
+            ObtainGeofencesDomainService obtainGeofencesDomainService) {
+        return new GeofencesProviderInteractor(obtainGeofencesDomainService);
     }
 
 
-  @Provides @PerExecution GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor(GetImageRecognitionCredentialsService imageRecognitionCredentialsService){
-    return new GetImageRecognitionCredentialsInteractor(imageRecognitionCredentialsService);
-  }
 
-  @Provides @PerExecution ScannerInteractor provideScannerInteractor(TriggerActionsFacadeService triggerActionsFacadeService,
-                                                                       ObtainGeoLocationTask obtainGeoLocationTask){
-        return new ScannerInteractor(triggerActionsFacadeService, obtainGeoLocationTask);
+    @Provides
+    @PerExecution
+    GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor(GetImageRecognitionCredentialsService imageRecognitionCredentialsService) {
+        return new GetImageRecognitionCredentialsInteractor(imageRecognitionCredentialsService);
     }
 
-  @Provides @PerExecution ClearLocalStorageInteractor provideClearLocalStorageInteractor(LocalStorageService localStorageService) {
-    return new ClearLocalStorageInteractor(localStorageService);
-  }
+    @Provides
+    @PerExecution
+    ScannerInteractor provideScannerInteractor(TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
+                                               ObtainGeoLocationTask obtainGeoLocationTask) {
+        return new ScannerInteractor(triggerActionsFacadeDomainService, obtainGeoLocationTask);
+    }
+
+    @Provides
+    @PerExecution
+    ClearLocalStorageInteractor provideClearLocalStorageInteractor(LocalStorageService localStorageService) {
+        return new ClearLocalStorageInteractor(localStorageService);
+    }
 }

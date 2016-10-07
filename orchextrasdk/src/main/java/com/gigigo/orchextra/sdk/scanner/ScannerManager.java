@@ -21,11 +21,16 @@ package com.gigigo.orchextra.sdk.scanner;
 import android.content.Context;
 import android.content.Intent;
 
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.ui.scanner.OxScannerActivity;
+
+import orchextra.javax.inject.Inject;
 
 public class ScannerManager {
 
     private final Context context;
+    @Inject
+    OrchextraLogger orchextraLogger;
 
     public ScannerManager(Context context) {
         this.context = context;

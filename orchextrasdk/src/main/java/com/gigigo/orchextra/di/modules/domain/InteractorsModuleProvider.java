@@ -22,21 +22,20 @@ import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.config.ClearLocalStorageInteractor;
 import com.gigigo.orchextra.domain.interactors.config.SendConfigInteractor;
-import com.gigigo.orchextra.domain.interactors.geofences.GeofenceInteractor;
+import com.gigigo.orchextra.domain.interactors.geofences.GeofenceEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.geofences.GeofencesProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.imagerecognition.GetImageRecognitionCredentialsInteractor;
 import com.gigigo.orchextra.domain.interactors.scanner.ScannerInteractor;
-import com.gigigo.orchextra.domain.interactors.themes.ObtainThemeInteractor;
-import com.gigigo.orchextra.domain.interactors.user.SaveUserInteractor;
+import com.gigigo.orchextra.domain.interactors.user.SaveCrmUserInteractor;
 
 public interface InteractorsModuleProvider {
-  SaveUserInteractor provideSaveUserInteractor();
+  SaveCrmUserInteractor provideSaveUserInteractor();
   RegionsProviderInteractor provideRegionsProviderInteractor();
   SendConfigInteractor provideSendConfigInteractor();
   BeaconEventsInteractor provideBeaconEventsInteractor();
-  GeofenceInteractor provideGeofenceInteractor();
+  GeofenceEventsInteractor provideGeofenceInteractor();
   GeofencesProviderInteractor provideGeofenceProviderInteractor();
-  ObtainThemeInteractor provideObtainThemeInteractor();
+
   GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor();
   ScannerInteractor provideScannerInteractor();
   ClearLocalStorageInteractor provideClearLocalStorageInteractor();

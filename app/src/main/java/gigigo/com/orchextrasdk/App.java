@@ -18,44 +18,81 @@
 package gigigo.com.orchextrasdk;
 
 import android.app.Application;
-import android.os.Handler;
 import android.util.Log;
 
+import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
+//import com.gigigo.orchextra.OrchextraBuilder;
+import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
+//import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.OrchextraLogLevel;
+import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
-public class App extends Application implements OrchextraCompletionCallback {
-//internal demo
-  public static final String API_KEY = "338d65a6572be208f25a9a5815861543adaa4abb";
-  public static final String API_SECRET = "b29dac01598f9d8e2102aef73ac816c0786843ef";
+import orchextra.javax.inject.Qualifier;
 
-  @Override public void onCreate() {
-    super.onCreate();
-    Orchextra.setLogLevel(OrchextraLogLevel.ALL);
-    Log.d("APP", "Hello Application, start onCreate");
-    Orchextra.init(App.this, App.this);
-    Log.d("APP", "Hello Application, end onCreate");
-  }
 
-  @Override public void onSuccess() {
-    Log.d("APP", "Hello Application, end onCreate");
-  }
+public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
+    //projectid-->575e81a7893ba72f448b467f pro
+    public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
+    public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
+    public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive
 
-  @Override public void onError(String s) {
-    Log.d("APP", "onError"+ s);
-  }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d("APP", "Hello Application, start onCreate");
+        initOrchextra();
+        Log.d("APP", "Hello Application, end onCreate");
+    }
 
-  @Override public void onInit(String s) {
-    callStart();
-    Log.d("APP", "onInit"+ s);
-  }
+    public void initOrchextra() {
 
-  private void callStart() {
-    new Handler().post(new Runnable() {
-      @Override public void run() {
-        Orchextra.start(API_KEY, API_SECRET);
-      }
-    });
-  }
+        OrchextraBuilder builder = new OrchextraBuilder(this)
+                .setApiKeyAndSecret(API_KEY, API_SECRET)
+                .setLogLevel(OrchextraLogLevel.NETWORK)
+                .setOrchextraCompletionCallback(this)
+                .setGcmSenderId(SENDER_ID)
+            .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
+        Orchextra.initialize(builder);
+
+        Orchextra.setCustomSchemeReceiver(this);
+        Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
+        /*
+
+        Orchextra.init(this, new OrchextraCompletionCallback() {
+            @Override
+            public void onSuccess() { }
+            @Override
+            public void onError(String s) { }
+            @Override
+            public void onInit(String s) { }
+        });
+ Orchextra.start("aaf3e003bdeb2ca5c657dc3fdec161c7c11928b7", "d62ae5a993af5eda9e48fe06c4acc525a335f632");
+        */
+
+    }
+
+    @Override
+    public void onSuccess() {
+        Log.d("APP", "onSuccess");
+    }
+
+    @Override
+    public void onError(String s) {
+        Log.d("APP", "onError: " + s);
+    }
+
+    @Override
+    public void onInit(String s) {
+        Log.d("APP", "onInit: " + s);
+    }
+
+    @Override
+    public void onReceive(String scheme) {
+        Log.d("APP", "Scheme: " + scheme);
+    }
 }
+
+
+

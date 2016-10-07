@@ -19,13 +19,13 @@
 package gigigo.com.orchextra.data.datasources.api.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiPoint;
 
 
-public class PointMapper implements Mapper<OrchextraPoint, ApiPoint> {
+public class PointMapper implements Mapper<OrchextraLocationPoint, ApiPoint> {
 
-  @Override public ApiPoint modelToExternalClass(OrchextraPoint point) {
+  @Override public ApiPoint modelToExternalClass(OrchextraLocationPoint point) {
     ApiPoint apiPoint = new ApiPoint();
 
     apiPoint.setLat(String.valueOf(point.getLat()));
@@ -34,8 +34,8 @@ public class PointMapper implements Mapper<OrchextraPoint, ApiPoint> {
     return apiPoint;
   }
 
-  @Override public OrchextraPoint externalClassToModel(ApiPoint apiPoint) {
-    OrchextraPoint point = new OrchextraPoint();
+  @Override public OrchextraLocationPoint externalClassToModel(ApiPoint apiPoint) {
+    OrchextraLocationPoint point = new OrchextraLocationPoint();
 
     Double lat, lon;
 

@@ -58,10 +58,6 @@ public class DefaultRetryOnErrorPolicyImpl
   }
 
   private boolean defaultRetryPolicy(int tries) {
-    if (tries < 3) {
-      return true;
-    } else {
-      return false;
-    }
+    return tries < 3;
   }
 }

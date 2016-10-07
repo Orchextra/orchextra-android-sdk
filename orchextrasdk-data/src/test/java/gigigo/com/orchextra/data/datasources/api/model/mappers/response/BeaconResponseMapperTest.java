@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import gigigo.com.orchextra.data.datasources.builders.ApiRegionBuilder;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiRegion;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -24,10 +24,10 @@ public class BeaconResponseMapperTest {
 
     @Test
     public void testDataToModelOk() throws Exception {
-        ApiBeaconRegion apiBeaconRegion = ApiRegionBuilder.Builder().build();
+        ApiRegion apiRegion = ApiRegionBuilder.Builder().build();
 
         BeaconExternalClassToModelMapper mapper = new BeaconExternalClassToModelMapper();
-        OrchextraRegion region = mapper.externalClassToModel(apiBeaconRegion);
+        OrchextraRegion region = mapper.externalClassToModel(apiRegion);
 
         assertEquals(ApiRegionBuilder.MAJOR, region.getMajor());
         assertEquals(ApiRegionBuilder.MINOR, region.getMinor());
@@ -41,10 +41,10 @@ public class BeaconResponseMapperTest {
 
     @Test
     public void testDataToModelEmptyValues() throws Exception {
-        ApiBeaconRegion apiBeaconRegion = new ApiBeaconRegion();
+        ApiRegion apiRegion = new ApiRegion();
 
         BeaconExternalClassToModelMapper mapper = new BeaconExternalClassToModelMapper();
-        OrchextraRegion region = mapper.externalClassToModel(apiBeaconRegion);
+        OrchextraRegion region = mapper.externalClassToModel(apiRegion);
 
         assertEquals(-1, region.getMajor());
         assertEquals(-1, region.getMinor());

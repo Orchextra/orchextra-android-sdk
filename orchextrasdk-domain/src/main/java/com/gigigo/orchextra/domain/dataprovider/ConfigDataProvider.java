@@ -19,16 +19,13 @@
 package com.gigigo.orchextra.domain.dataprovider;
 
 import com.gigigo.gggjavalib.business.model.BusinessObject;
-import com.gigigo.orchextra.domain.model.config.Config;
-import com.gigigo.orchextra.domain.model.vo.Theme;
+import com.gigigo.orchextra.domain.model.config.ConfigRequest;
 
 public interface ConfigDataProvider {
 
-  BusinessObject sendConfigInfo(Config config);
+  BusinessObject sendConfigInfo(ConfigRequest configRequest);
 
   int obtainRequestTime();
-
-  BusinessObject<Theme> obtainTheme();
 
   BusinessObject<Boolean> removeLocalStorage();
 }

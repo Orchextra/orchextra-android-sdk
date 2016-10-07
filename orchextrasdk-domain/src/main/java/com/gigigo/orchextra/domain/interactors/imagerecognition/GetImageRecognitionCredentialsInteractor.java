@@ -19,11 +19,11 @@ package com.gigigo.orchextra.domain.interactors.imagerecognition;
 
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.services.imagerecognition.GetImageRecognitionCredentialsService;
 
 public class GetImageRecognitionCredentialsInteractor
-    implements Interactor<InteractorResponse<Vuforia>> {
+    implements Interactor<InteractorResponse<VuforiaCredentials>> {
   private final GetImageRecognitionCredentialsService credentialsService;
 
   public GetImageRecognitionCredentialsInteractor(
@@ -31,7 +31,7 @@ public class GetImageRecognitionCredentialsInteractor
     this.credentialsService = credentialsService;
   }
 
-  @Override public InteractorResponse<Vuforia> call() throws Exception {
+  @Override public InteractorResponse<VuforiaCredentials> call() throws Exception {
     return credentialsService.obtainImageRecognitionCredentials();
   }
 }

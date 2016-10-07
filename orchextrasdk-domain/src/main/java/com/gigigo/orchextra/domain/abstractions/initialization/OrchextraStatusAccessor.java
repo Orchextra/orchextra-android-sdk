@@ -34,7 +34,11 @@ public interface OrchextraStatusAccessor {
    * again authentication.
    * @throws RuntimeException
    */
-  StartStatusType setStartedStatus(String apiKey, String apiSecret) throws RuntimeException;
+  StartStatusType getOrchextraStatusWhenReinitMode(String apiKey, String apiSecret) throws RuntimeException;
+
+  StartStatusType getOrchextraStatusWhenStartMode() throws RuntimeException;
+
+  boolean hasCredentials();
 
   /**
    * Checks if sdk status is already started
@@ -48,12 +52,14 @@ public interface OrchextraStatusAccessor {
    */
   void setStoppedStatus();
 
-  //region TODO
+  void saveCredentials(String apiKey, String apiSecret);
+
+  //region TODO check com.gigigo.orchextra.domain.model.vo.OrchextraStatus
   //TODO move CRM and Session management here
   //Session getSession();
   //void updateSession(Session session);
 
-  //Crm getCrm();
-  //void updateCrm(Crm crm);
+  //CrmUser getCrmUser();
+  //void updateCrm(CrmUser crm);
   //endregion
 }

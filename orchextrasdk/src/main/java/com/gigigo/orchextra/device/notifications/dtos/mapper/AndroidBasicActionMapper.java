@@ -41,7 +41,7 @@ public class AndroidBasicActionMapper implements Mapper<BasicAction, AndroidBasi
         androidBasicAction.setUrl(basicAction.getUrl());
 
         androidBasicAction.setNotification(androidNotificationMapper.modelToExternalClass(
-            basicAction.getNotifFunctionality()));
+            basicAction.getNotificationBehavior()));
 
         return androidBasicAction;
     }

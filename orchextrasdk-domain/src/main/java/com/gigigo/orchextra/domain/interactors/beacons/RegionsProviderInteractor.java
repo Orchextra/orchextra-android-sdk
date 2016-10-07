@@ -21,19 +21,19 @@ package com.gigigo.orchextra.domain.interactors.beacons;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsService;
+import com.gigigo.orchextra.domain.services.proximity.ObtainRegionsDomainService;
 import java.util.List;
 
 public class RegionsProviderInteractor
     implements Interactor<InteractorResponse<List<OrchextraRegion>>> {
 
-  private final ObtainRegionsService obtainRegionsService;
+  private final ObtainRegionsDomainService obtainRegionsDomainService;
 
-  public RegionsProviderInteractor(ObtainRegionsService obtainRegionsService) {
-    this.obtainRegionsService = obtainRegionsService;
+  public RegionsProviderInteractor(ObtainRegionsDomainService obtainRegionsDomainService) {
+    this.obtainRegionsDomainService = obtainRegionsDomainService;
   }
 
   @Override public InteractorResponse<List<OrchextraRegion>> call() throws Exception {
-    return obtainRegionsService.obtainRegionsFromLocalStorage();
+    return obtainRegionsDomainService.obtainRegionsFromLocalStorage();
   }
 }

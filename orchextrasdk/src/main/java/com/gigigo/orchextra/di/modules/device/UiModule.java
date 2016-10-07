@@ -22,25 +22,33 @@ import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.control.invoker.InteractorInvoker;
 import com.gigigo.orchextra.control.presenters.scanner.OxCodeScannerPresenter;
 import com.gigigo.orchextra.control.presenters.scanner.entities.mapper.ScannerResultMapper;
+import com.gigigo.orchextra.device.OrchextraLoggerImpl;
 import com.gigigo.orchextra.di.qualifiers.BackThread;
 import com.gigigo.orchextra.di.qualifiers.MainThread;
 import com.gigigo.orchextra.di.qualifiers.ScannerInteractorExecution;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
-
-import orchextra.javax.inject.Provider;
-import orchextra.javax.inject.Singleton;
 
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import orchextra.javax.inject.Provider;
+import orchextra.javax.inject.Singleton;
 
 @Module
 public class UiModule {
 
-    @Singleton
-    @Provides ScannerResultMapper provideScannerResultMapper() {
-        return new ScannerResultMapper();
-    }
+//    @Provides
+//    @Singleton
+//    OrchextraLogger provideOrchextraLogger() {
+//        return new OrchextraLoggerImpl();
+//    }
+
+//    @Singleton
+//    @Provides
+//    ScannerResultMapper provideScannerResultMapper() {
+//        return new ScannerResultMapper();
+//    }
 
     @Singleton
     @Provides
@@ -49,9 +57,10 @@ public class UiModule {
                                                          @ScannerInteractorExecution Provider<InteractorExecution> scannerProvider,
                                                          ScannerResultMapper scannerResultMapper,
                                                          ActionDispatcher actionDispatcher,
-                                                         @MainThread ThreadSpec mainThreadSpec) {
+                                                         @MainThread ThreadSpec mainThreadSpec,
+                                                         OrchextraLogger errorLogger) {
 
         return new OxCodeScannerPresenter(threadSpec, interactorInvoker, scannerProvider, scannerResultMapper,
-                actionDispatcher, mainThreadSpec);
+                actionDispatcher, mainThreadSpec, errorLogger);
     }
 }

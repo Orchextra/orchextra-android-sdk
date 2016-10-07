@@ -21,18 +21,19 @@ package com.gigigo.orchextra.domain.abstractions.beacons;
 import com.gigigo.orchextra.domain.model.StringValueEnum;
 
 public enum BluetoothStatus implements StringValueEnum {
-  NO_BLTE_SUPPORTED("Bluetooth LE Not Supported"),
-  NO_PERMISSIONS("Bluetooth permissions not granted"),
-  NOT_ENABLED("Bluetooth Not Enabled, But Beacons are OK"),
-  READY_FOR_SCAN("Bluetooth ON and Beacons ready to scan");
+    NO_BLTE_SUPPORTED("Bluetooth LE Not Supported"),
+    NO_PERMISSIONS("Bluetooth permissions not granted"),
+    NOT_ENABLED("Bluetooth Not Enabled, But Beacons are OK"),
+    READY_FOR_SCAN("Bluetooth ON and Beacons ready to scan");
 
-  private final String type;
+    private final String type;
 
-  BluetoothStatus(final String type) {
-    this.type = type;
-  }
+    BluetoothStatus(final String type) {
+        this.type = type;
+    }
 
-  public String getStringValue() {
-    return type;
-  }
+    @Override
+    public String getStringValue() {
+        return type;
+    }
 }

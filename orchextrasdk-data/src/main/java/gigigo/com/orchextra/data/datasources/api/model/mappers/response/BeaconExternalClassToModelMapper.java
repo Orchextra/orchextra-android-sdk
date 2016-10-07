@@ -20,24 +20,24 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.response;
 
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
-import gigigo.com.orchextra.data.datasources.api.model.responses.ApiBeaconRegion;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiRegion;
 
 
 public class BeaconExternalClassToModelMapper
-    implements ExternalClassToModelMapper<ApiBeaconRegion, OrchextraRegion> {
+    implements ExternalClassToModelMapper<ApiRegion, OrchextraRegion> {
 
-  @Override public OrchextraRegion externalClassToModel(ApiBeaconRegion apiBeaconRegion) {
+  @Override public OrchextraRegion externalClassToModel(ApiRegion apiRegion) {
 
     OrchextraRegion region =
-        new OrchextraRegion(apiBeaconRegion.getCode(), apiBeaconRegion.getUuid(),
-            (apiBeaconRegion.getMajor() != null) ? apiBeaconRegion.getMajor() : -1,
-            (apiBeaconRegion.getMinor() != null) ? apiBeaconRegion.getMinor() : -1,
-            apiBeaconRegion.getActive());
+        new OrchextraRegion(apiRegion.getCode(), apiRegion.getUuid(),
+            (apiRegion.getMajor() != null) ? apiRegion.getMajor() : -1,
+            (apiRegion.getMinor() != null) ? apiRegion.getMinor() : -1,
+            apiRegion.getActive());
 
     //Set supper fields
-    region.setNotifyOnEntry(apiBeaconRegion.getNotifyOnEntry());
-    region.setNotifyOnExit(apiBeaconRegion.getNotifyOnExit());
-    region.setTags(apiBeaconRegion.getTags());
+    region.setNotifyOnEntry(apiRegion.getNotifyOnEntry());
+    region.setNotifyOnExit(apiRegion.getNotifyOnExit());
+    region.setTags(apiRegion.getTags());
 
     return region;
   }

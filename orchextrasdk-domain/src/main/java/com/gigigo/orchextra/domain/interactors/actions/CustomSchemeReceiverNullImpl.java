@@ -23,5 +23,6 @@ import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeRec
 public class CustomSchemeReceiverNullImpl implements CustomOrchextraSchemeReceiver {
 
   @Override public void onReceive(String scheme) {
+    //todo log the scheme
   }
 }

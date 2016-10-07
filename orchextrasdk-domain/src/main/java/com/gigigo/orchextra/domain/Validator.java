@@ -5,5 +5,5 @@ package com.gigigo.orchextra.domain;
  * Date 26/5/16.
  */
 public interface Validator<T> {
-  void validate(T object);
+  void doValidate(T object);
 }

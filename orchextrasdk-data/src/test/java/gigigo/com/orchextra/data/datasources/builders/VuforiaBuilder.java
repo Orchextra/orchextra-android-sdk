@@ -1,6 +1,6 @@
 package gigigo.com.orchextra.data.datasources.builders;
 
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 
 public class VuforiaBuilder {
 
@@ -16,12 +16,12 @@ public class VuforiaBuilder {
         return new VuforiaBuilder();
     }
 
-    public Vuforia build() {
-        Vuforia vuforia = new Vuforia();
-        vuforia.setClientAccessKey(clientAccessKey);
-        vuforia.setClientSecretKey(clientSecretKey);
-        vuforia.setLicenseKey(licenseKey);
+    public VuforiaCredentials build() {
+        VuforiaCredentials vuforiaCredentials = new VuforiaCredentials();
+        vuforiaCredentials.setClientAccessKey(clientAccessKey);
+        vuforiaCredentials.setClientSecretKey(clientSecretKey);
+        vuforiaCredentials.setLicenseKey(licenseKey);
 
-        return vuforia;
+        return vuforiaCredentials;
     }
 }

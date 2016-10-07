@@ -18,54 +18,52 @@
 
 package gigigo.com.orchextra.data.datasources.db.config;
 
-import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigInfoResult;
-import com.gigigo.orchextra.domain.model.entities.Vuforia;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeaconUpdates;
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofenceUpdates;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
+import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
+import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegionUpdates;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofenceUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
-import com.gigigo.orchextra.domain.model.vo.Theme;
+
 import gigigo.com.orchextra.data.datasources.db.model.ConfigInfoResultRealm;
 import io.realm.Realm;
 
 
 public class ConfigInfoResultUpdater {
 
-  private final ConfigBeaconUpdater beaconUpdater;
+  private final ConfigRegionUpdater beaconUpdater;
   private final ConfigGeofenceUpdater geofenceUpdater;
-  private final ConfigVuforiaUpdater vuforiaUpdater;
-  private final ConfigThemeUpdater themeUpdater;
+  private final ConfigVuforiaCredentialsUpdater vuforiaUpdater;
 
-  public ConfigInfoResultUpdater(ConfigBeaconUpdater beaconUpdater,
-      ConfigGeofenceUpdater geofenceUpdater, ConfigVuforiaUpdater vuforiaUpdater,
-      ConfigThemeUpdater themeUpdater) {
+
+  public ConfigInfoResultUpdater(ConfigRegionUpdater beaconUpdater,
+      ConfigGeofenceUpdater geofenceUpdater, ConfigVuforiaCredentialsUpdater vuforiaUpdater) {
     this.beaconUpdater = beaconUpdater;
     this.geofenceUpdater = geofenceUpdater;
     this.vuforiaUpdater = vuforiaUpdater;
-    this.themeUpdater = themeUpdater;
+
   }
 
-  public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigInfoResult config) {
+  public OrchextraUpdates updateConfigInfoV2(Realm realm, ConfigurationInfoResult config) {
 
     saveRequestWaitTime(realm, config);
 
-    OrchextraBeaconUpdates orchextraBeaconUpdates =
+    OrchextraRegionUpdates orchextraRegionUpdates =
         beaconUpdater.saveRegions(realm, config.getRegions());
 
     OrchextraGeofenceUpdates orchextraGeofenceChanges =
         geofenceUpdater.saveGeofences(realm, config.getGeofences());
 
-    Vuforia vuforiaChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
+    VuforiaCredentials vuforiaCredentialsChanges = vuforiaUpdater.saveVuforia(realm, config.getVuforia());
 
-    Theme themeChanges = themeUpdater.saveTheme(realm, config.getTheme());
 
-    return new OrchextraUpdates(orchextraBeaconUpdates, orchextraGeofenceChanges, vuforiaChanges,
-        themeChanges);
+
+    return new OrchextraUpdates(orchextraRegionUpdates, orchextraGeofenceChanges, vuforiaCredentialsChanges);
   }
 
-  public void saveRequestWaitTime(Realm realm, ConfigInfoResult config) {
+  public void saveRequestWaitTime(Realm realm, ConfigurationInfoResult config) {
     ConfigInfoResultRealm configInfoResultRealm = new ConfigInfoResultRealm();
     configInfoResultRealm.setRequestWaitTime(config.getRequestWaitTime());
-    realm.delete(ConfigInfoResultRealm.class);
+    realm.clear(ConfigInfoResultRealm.class);
     realm.copyToRealm(configInfoResultRealm);
   }
 
@@ -74,7 +72,7 @@ public class ConfigInfoResultUpdater {
     beaconUpdater.removeRegions(realm);
     geofenceUpdater.removeGeofences(realm);
     vuforiaUpdater.removeVuforia(realm);
-    themeUpdater.removeTheme(realm);
+
     realm.commitTransaction();
   }
 }

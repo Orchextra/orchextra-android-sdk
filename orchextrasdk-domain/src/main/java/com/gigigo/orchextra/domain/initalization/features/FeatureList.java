@@ -23,7 +23,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureL
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType;
 import java.util.ArrayList;
 import java.util.List;
-
+//todo notcomplete
 public class FeatureList implements FeatureListener,
     com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureStatus {
 

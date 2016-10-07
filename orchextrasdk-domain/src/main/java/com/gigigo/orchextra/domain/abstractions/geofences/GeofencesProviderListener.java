@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.domain.abstractions.geofences;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import java.util.List;
 
 public interface GeofencesProviderListener {

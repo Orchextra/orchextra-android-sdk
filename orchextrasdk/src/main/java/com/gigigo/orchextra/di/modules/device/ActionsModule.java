@@ -42,17 +42,17 @@ import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerPersisto
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.notifications.NotificationBehavior;
 import com.gigigo.orchextra.domain.abstractions.stats.StatsDispatcher;
+import com.gigigo.orchextra.domain.abstractions.threads.ThreadSpec;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcher;
 import com.gigigo.orchextra.domain.interactors.actions.ActionDispatcherImpl;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
+import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 import com.google.gson.Gson;
 
-import orchextra.javax.inject.Singleton;
-
+import gigigo.com.orchextra.data.datasources.api.stats.StatsDataSourceImp;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
-import gigigo.com.orchextra.data.datasources.api.stats.StatsDataSourceImp;
-import me.panavtec.threaddecoratedview.views.ThreadSpec;
+import orchextra.javax.inject.Singleton;
 
 
 @Module
@@ -69,8 +69,8 @@ public class ActionsModule {
   }
 
   @Provides
-  @Singleton ScanActionExecutor provideScanActionExecutor() {
-    return new ScanActionExecutor();
+  @Singleton ScanActionExecutor provideScanActionExecutor(ScannerManager scannerManager) {
+    return new ScanActionExecutor(scannerManager);
   }
 
   @Provides
@@ -128,9 +128,11 @@ public class ActionsModule {
   }
 
   @Provides
-  @Singleton ActionRecovery providesActionRecovery(AndroidBasicActionMapper androidBasicActionMapper,
-      ActionDispatcher actionDispatcher, @MainThread ThreadSpec mainThreadSpec){
-    return new AndroidActionRecovery(actionDispatcher, androidBasicActionMapper, mainThreadSpec);
+  @Singleton ActionRecovery providesActionRecovery(ContextProvider contextProvider,
+                                                   AndroidBasicActionMapper androidBasicActionMapper,
+                                                   ActionDispatcher actionDispatcher,
+                                                   @MainThread ThreadSpec mainThreadSpec){
+    return new AndroidActionRecovery(contextProvider.getApplicationContext(), actionDispatcher, androidBasicActionMapper, mainThreadSpec);
   }
 
     @Provides

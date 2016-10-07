@@ -1,7 +1,7 @@
 package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
-import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraGeofence;
-import com.gigigo.orchextra.domain.model.vo.OrchextraPoint;
+import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,6 @@ import gigigo.com.orchextra.data.datasources.builders.GeofenceRealmBuilder;
 import gigigo.com.orchextra.data.datasources.builders.PointBuilder;
 import gigigo.com.orchextra.data.datasources.builders.PointRealmBuilder;
 import gigigo.com.orchextra.data.datasources.db.model.GeofenceRealm;
-import gigigo.com.orchextra.data.datasources.db.model.KeyWordRealm;
 import gigigo.com.orchextra.data.datasources.db.model.RealmPoint;
 import io.realm.RealmList;
 
@@ -29,9 +28,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class GeofenceRealmMapperTest {
 
-    @Mock RealmPointMapper realmPointMapper;
-
-    @Mock KeyWordRealmMapper keyWordRealmMapper;
+    @Mock
+    RealmPointMapper realmPointMapper;
 
     @Test
     public void shouldMapModelToData() throws Exception {
@@ -40,15 +38,9 @@ public class GeofenceRealmMapperTest {
         RealmPoint realmPoint = new RealmPoint();
         realmPoint.setLat(PointBuilder.LAT);
         realmPoint.setLng(PointBuilder.LNG);
-        when(realmPointMapper.modelToExternalClass(any(OrchextraPoint.class))).thenReturn(realmPoint);
+        when(realmPointMapper.modelToExternalClass(any(OrchextraLocationPoint.class))).thenReturn(realmPoint);
 
-        RealmList<KeyWordRealm> keyWordRealmList = new RealmList<>();
-        KeyWordRealm keyWordRealm = new KeyWordRealm();
-        keyWordRealm.setKeyword(GeofenceBuilder.TAG_NAME);
-        keyWordRealmList.add(keyWordRealm);
-        when(keyWordRealmMapper.stringKeyWordsToRealmList(geofence.getTags())).thenReturn(keyWordRealmList);
-
-        GeofenceRealmMapper mapper = new GeofenceRealmMapper(realmPointMapper, keyWordRealmMapper);
+        GeofenceRealmMapper mapper = new GeofenceRealmMapper(realmPointMapper);
         GeofenceRealm geofenceRealm = mapper.modelToExternalClass(geofence);
 
         assertEquals(PointBuilder.LAT, geofenceRealm.getPoint().getLat(), 0.0001);
@@ -61,24 +53,20 @@ public class GeofenceRealmMapperTest {
         assertEquals(GeofenceBuilder.TYPE.getStringValue(), geofenceRealm.getType());
         assertEquals(GeofenceBuilder.CREATEDS, geofenceRealm.getCreatedAt());
         assertEquals(GeofenceBuilder.UPDATEDS, geofenceRealm.getUpdatedAt());
-        assertEquals(1, geofenceRealm.getTags().size());
-        assertEquals(GeofenceBuilder.TAG_NAME, geofenceRealm.getTags().get(0).getKeyword());
+
     }
 
     @Test
     public void shouldMapDataToModel() throws Exception {
         GeofenceRealm geofenceRealm = GeofenceRealmBuilder.Builder().build();
 
-        OrchextraPoint realmPoint = new OrchextraPoint();
+        OrchextraLocationPoint realmPoint = new OrchextraLocationPoint();
         realmPoint.setLat(PointRealmBuilder.LAT);
         realmPoint.setLng(PointRealmBuilder.LNG);
         when(realmPointMapper.externalClassToModel(any(RealmPoint.class))).thenReturn(realmPoint);
 
-        List<String> keyWordList = new ArrayList<>();
-        keyWordList.add(GeofenceRealmBuilder.TAG_NAME);
-        when(keyWordRealmMapper.realmKeyWordsToStringList(geofenceRealm.getTags())).thenReturn(keyWordList);
 
-        GeofenceRealmMapper mapper = new GeofenceRealmMapper(realmPointMapper, keyWordRealmMapper);
+        GeofenceRealmMapper mapper = new GeofenceRealmMapper(realmPointMapper);
         OrchextraGeofence geofence = mapper.externalClassToModel(geofenceRealm);
 
         assertEquals(PointRealmBuilder.LAT, geofence.getPoint().getLat(), 0.0001);
@@ -91,8 +79,6 @@ public class GeofenceRealmMapperTest {
         assertEquals(GeofenceRealmBuilder.TYPE, geofenceRealm.getType());
         assertThat(GeofenceRealmBuilder.CREATED, isDateEqualTo(geofence.getCreatedAt()));
         assertThat(GeofenceRealmBuilder.UPDATED, isDateEqualTo(geofence.getUpdatedAt()));
-        assertEquals(1, geofence.getTags().size());
-        assertEquals(GeofenceRealmBuilder.TAG_NAME, geofence.getTags().get(0));
 
     }
 }
