@@ -28,14 +28,9 @@ import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
 
-    //testdoublepush en Pr0
+    //testdoublepush en Pr0/vuforia setted
     public static final String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
     public static final String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
-
-    //test con blas
-    //quality [PRO][CSE] - Spark Bratislava
-    //public static final String API_KEY = "deae9ac7e9db14414074d4103a42379c76f6cf58";
-    //public static final String API_SECRET = "17e109d3847f5aa3ce48fd61de47106dd4fb44a2";
 
     public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
     public static final String GIGIGO_URL = "http://research.gigigo.com";
@@ -44,9 +39,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     @Override
     public void onCreate() {
         super.onCreate();
-
         initOrchextra();
-
     }
 
     public void initOrchextra() {
