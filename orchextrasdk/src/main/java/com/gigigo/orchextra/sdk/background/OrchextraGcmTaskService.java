@@ -56,11 +56,11 @@ public class OrchextraGcmTaskService extends GcmTaskService {
     }
 
   private void injectTaskServiceComponent() {
-    InjectorImpl injector = OrchextraManager.getInjector();
-    if (injector != null) {
-      injector.injectTaskServiceComponent(this);
-    }
-
+      InjectorImpl injector = OrchextraManager.getInjector();
+      if (injector != null) {
+          injector.injectTaskServiceComponent(this);
+      }
+  }
     @Override
     public int onRunTask(TaskParams taskParams) {
         if (actionRecovery != null &&

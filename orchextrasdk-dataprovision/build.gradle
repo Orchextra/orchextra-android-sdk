@@ -20,6 +20,9 @@ apply plugin: 'java'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'maven'
 
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
+
 dependencies {
 
     compile project(':orchextrasdk-domain')

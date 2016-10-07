@@ -383,7 +383,7 @@ public class OrchextraManager {
                 }
             }
         }
-    }
+
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private void initLifecyle(Application app) {
