@@ -243,7 +243,8 @@ public class OrchextraManager {
         } else {
             showInitializationError();
         }
-        return null;
+
+        return null;//todo maybe -> InjectorFakeNullImpl, for avoid nullpointerexception
     }
 
     public static void setLogLevel(OrchextraLogLevel logLevel) {
