@@ -272,6 +272,9 @@ public class OrchextraManager {
             //initialize();
             orchextraStatusAccessor.initialize();
         } else {
+            //is necesary check submanager if instance have notnull object but no inject submodules
+            //this check not exits, but if we null the instance all check are
+            instance = null;
             completionCallback.onInit(app.getString(R.string.ox_not_supported_android_sdk));
         }
     }
