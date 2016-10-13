@@ -70,6 +70,10 @@ import orchextra.javax.inject.Inject;
 public class OrchextraManager {
 
     public static final String ON_CREATE_METHOD = "onCreate";
+    //for SDkVersionAppInfo
+    public static String mApplicationID = "";
+    public static String mApplicationVersion = "";
+    public static int mApplicationVersionCode = 0;
 
     private static OrchextraSDKLogLevel orchextraSDKLogLevel =
             (BuildConfig.DEBUG) ? OrchextraSDKLogLevel.ALL : OrchextraSDKLogLevel.NONE;
@@ -113,8 +117,32 @@ public class OrchextraManager {
     public static void sdkInit(Application application, OrchextraManagerCompletionCallback orchextraCompletionCallback) {
         OrchextraManager.instance = new OrchextraManager();
         OrchextraManager.instance.initOrchextra(application, orchextraCompletionCallback);
+        try {
+            mApplicationID = application.getPackageName();
+            mApplicationVersion = application.getApplicationContext().getPackageManager().getPackageInfo(mApplicationID, 0).versionName;
+            mApplicationVersionCode = application.getApplicationContext().getPackageManager().getPackageInfo(mApplicationID, 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+        }
+
+
+    }
+    //region feed app json node
+
+    public static String getApplicationId() {
+
+        return mApplicationID;
     }
 
+    public static String getApplicationVersion() {
+        return mApplicationVersion;
+    }
+
+    public static int getApplicationVersionCode() {
+        return mApplicationVersionCode;
+    }
+
+    //endregion
     public static boolean checkInitMethodCall(Application application, OrchextraManagerCompletionCallback orchextraCompletionCallback) {
         boolean found = false;
 
@@ -192,7 +220,6 @@ public class OrchextraManager {
                 CrmUserController saveCrmUserController = orchextraManager.crmUserController;
 
                 com.gigigo.orchextra.domain.model.entities.authentication.CrmUser crmUser = crmUserDomainToCrmUserSdkConverter.convertSdkUserToDomain(user);
-
 
 
                 if (orchextraManager.orchextraStatusAccessor.isStarted()) {
@@ -283,6 +310,9 @@ public class OrchextraManager {
             orchextraStatusAccessor.initialize();
             completionCallback.onInit(app.getString(R.string.ox_initialize_android_sdk));
         } else {
+            //is necesary check submanager if instance have notnull object but no inject submodules
+            //this check not exits, but if we null the instance all check are
+            instance = null;
             completionCallback.onInit(app.getString(R.string.ox_not_supported_android_sdk));
         }
     }
@@ -417,6 +447,7 @@ public class OrchextraManager {
     }
 
     public static void setImageRecognition(ImageRecognition imageRecognition) {
+
         if (OrchextraManager.instance != null && imageRecognition != null) {
             OrchextraManager.instance.imageRecognitionManager.setImplementation(imageRecognition);
         } else {
@@ -425,7 +456,7 @@ public class OrchextraManager {
     }
 
     public static void startImageRecognition() {
-        if (OrchextraManager.instance != null) {
+        if (OrchextraManager.instance != null && OrchextraManager.instance.imageRecognitionManager != null) {
             OrchextraManager.instance.imageRecognitionManager.startImageRecognition();
         } else {
             GGGLogImpl.log("Orchextra is not initialized when image recognition was started", LogLevel.ERROR);

@@ -32,7 +32,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     }
 
     private void checkExtras(Context context, Intent intent) {
-        if (intent != null &&
+        if (OrchextraManager.getInjector() != null && intent != null &&
                 intent.getExtras() != null &&
                 intent.getExtras().containsKey(NOTIFICATION_BROADCAST_RECEIVER)) {
 

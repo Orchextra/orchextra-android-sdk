@@ -83,8 +83,10 @@ public class ActionsModule {
       WebViewActionExecutor webViewActionExecutor,
       ScanActionExecutor scanActionExecutor,
       VuforiaActionExecutor vuforiaActionExecutor) {
-    return new ActionExecutionImp(browserActionExecutor, webViewActionExecutor, scanActionExecutor,
-        vuforiaActionExecutor);
+
+    ActionExecution aux =new ActionExecutionImp(browserActionExecutor, webViewActionExecutor, scanActionExecutor,
+            vuforiaActionExecutor);
+    return aux;
   }
 
   @Provides

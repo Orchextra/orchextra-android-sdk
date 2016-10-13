@@ -58,8 +58,9 @@ public class ImageRecognitionModule {
     ImageRecognitionManager provideImageRecognitionManager(
             ImageRecognitionController imageRecognitionController,
             ContextProvider contextProvider, OrchextraLogger orchextraLogger) {
-        return new ImageRecognitionManagerImpl(imageRecognitionController, contextProvider,
+        ImageRecognitionManager imageRecognitionManagerReturn=new ImageRecognitionManagerImpl(imageRecognitionController, contextProvider,
                 orchextraLogger);
+        return imageRecognitionManagerReturn;
     }
 
     @Singleton

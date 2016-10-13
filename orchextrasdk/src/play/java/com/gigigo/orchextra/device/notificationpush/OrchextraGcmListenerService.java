@@ -37,51 +37,56 @@ import orchextra.javax.inject.Inject;
 
 public class OrchextraGcmListenerService extends GcmListenerService {
 
-  @Inject ActionRecovery actionRecovery;
+    @Inject
+    ActionRecovery actionRecovery;
 
-  @Inject OrchextraLogger orchextraLogger;
+    @Inject
+    OrchextraLogger orchextraLogger;
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-    InjectorImpl injector = OrchextraManager.getInjector();
-    if (injector != null) {
-      injector.injectGcmListenerServiceComponent(this);
+        InjectorImpl injector = OrchextraManager.getInjector();
+        if (injector != null) {
+            injector.injectGcmListenerServiceComponent(this);
+        }
     }
-  }
 
-  @Override
-  public void onMessageReceived(String from, Bundle data) {
-    orchextraLogger.log("Notification Push From: " + from);
-    orchextraLogger.log("Notification Push Message: " + data.toString());
+    @Override
+    public void onMessageReceived(String from, Bundle data) {
 
-    String message = getMessageFromBundle(data);
+        if (OrchextraManager.getInjector() != null) {
+            orchextraLogger.log("Notification Push From: " + from);
+            orchextraLogger.log("Notification Push Message: " + data.toString());
 
-    AndroidBasicAction androidBasicAction = generateAndroidNotification(message);
+            String message = getMessageFromBundle(data);
 
-    actionRecovery.recoverAction(androidBasicAction);
-  }
+            AndroidBasicAction androidBasicAction = generateAndroidNotification(message);
 
-  private String getMessageFromBundle(Bundle data) {
-    try {
-      return new JSONObject(data.getString("data")).getString("alert");
-    } catch (Exception e) {
-      return "";
+            actionRecovery.recoverAction(androidBasicAction);
+        }
     }
-  }
 
-  @NonNull
-  private AndroidBasicAction generateAndroidNotification(String message) {
-    AndroidNotification androidNotification = new AndroidNotification();
-    androidNotification.setTitle(getString(R.string.ox_notification_push_title));
-    androidNotification.setBody(message);
-    androidNotification.setShown(false);
-    AndroidBasicAction androidBasicAction = new AndroidBasicAction();
-    androidBasicAction.setNotification(androidNotification);
-    androidBasicAction.setAction(ActionType.NOTIFICATION_PUSH.getStringValue());
-    return androidBasicAction;
-  }
+    private String getMessageFromBundle(Bundle data) {
+        try {
+            return new JSONObject(data.getString("data")).getString("alert");
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    @NonNull
+    private AndroidBasicAction generateAndroidNotification(String message) {
+        AndroidNotification androidNotification = new AndroidNotification();
+        androidNotification.setTitle(getString(R.string.ox_notification_push_title));
+        androidNotification.setBody(message);
+        androidNotification.setShown(false);
+        AndroidBasicAction androidBasicAction = new AndroidBasicAction();
+        androidBasicAction.setNotification(androidNotification);
+        androidBasicAction.setAction(ActionType.NOTIFICATION_PUSH.getStringValue());
+        return androidBasicAction;
+    }
 
 
 }

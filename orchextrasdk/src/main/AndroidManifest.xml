@@ -95,7 +95,7 @@
 
       <receiver android:name=".device.notifications.NotificationReceiver" android:enabled="true" >
           <intent-filter>
-              <action android:name="com.gigigo.imagerecognition.intent.action.NOTIFICATION_BROADCAST" />
+              <action android:name="com.gigigo.imagerecognition.intent.action.NOTIFICATION_BROADCAST" /> //todo this action schema not c00l, not 4 all
           </intent-filter>
       </receiver>
 

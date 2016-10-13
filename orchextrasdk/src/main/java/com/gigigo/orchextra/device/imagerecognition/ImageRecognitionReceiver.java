@@ -29,30 +29,34 @@ import orchextra.javax.inject.Inject;
 
 public class ImageRecognitionReceiver extends BroadcastReceiver {
 
-  @Inject ImageRecognitionManager imageRecognitionManager;
+    @Inject
+    ImageRecognitionManager imageRecognitionManager;
 
-  @Override public void onReceive(Context context, Intent intent) {
+    @Override
+    public void onReceive(Context context, Intent intent) {
 
-    initDependencies();
+        initDependencies();
 
-    if (intent.getExtras().containsKey(context.getPackageName())
-        && intent.getExtras().containsKey(ImageRecognitionConstants.VUFORIA_PATTERN_ID)){
+        if (OrchextraManager.getInjector() != null) {
+            if (intent!=null && intent.getExtras().containsKey(context.getPackageName())
+                    && intent.getExtras().containsKey(ImageRecognitionConstants.VUFORIA_PATTERN_ID)) {
 
-      vuforiaPatternRecognized(intent.getStringExtra(ImageRecognitionConstants.VUFORIA_PATTERN_ID));
+                vuforiaPatternRecognized(intent.getStringExtra(ImageRecognitionConstants.VUFORIA_PATTERN_ID));
+
+            }
+        }
 
     }
 
-  }
-
-  private void initDependencies() {
-    InjectorImpl injector = OrchextraManager.getInjector();
-    if (injector != null) {
-      injector.injectImageBroadcastComponent(this);
+    private void initDependencies() {
+        InjectorImpl injector = OrchextraManager.getInjector();
+        if (injector != null) {
+            injector.injectImageBroadcastComponent(this);
+        }
     }
-  }
 
 
-  public void vuforiaPatternRecognized(String stringExtra){
-    imageRecognitionManager.recognizedPattern(stringExtra);
-  }
+    public void vuforiaPatternRecognized(String stringExtra) {
+        imageRecognitionManager.recognizedPattern(stringExtra);
+    }
 }

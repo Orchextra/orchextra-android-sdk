@@ -10,6 +10,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import gigigo.com.orchextra.data.datasources.api.model.mappers.request.CrmModelToExternalClassMapper;
+import gigigo.com.orchextra.data.datasources.api.model.mappers.request.DeviceModelToExternalClassMapper;
 import gigigo.com.orchextra.data.datasources.builders.ApiRegionBuilder;
 import gigigo.com.orchextra.data.datasources.builders.ApiGeofenceBuilder;
 import gigigo.com.orchextra.data.datasources.api.model.mappers.PointMapper;
@@ -34,6 +36,11 @@ public class ConfigRequestApiResponseMapperTest {
     GeofenceExternalClassToModelMapper
             geofenceResponseMapper = new GeofenceExternalClassToModelMapper(new PointMapper());
 
+    AvailableCustomFieldExternalClassToModelMapper availableCustomFieldResponseMapper= new AvailableCustomFieldExternalClassToModelMapper();
+    CrmCustomFieldsExternalClassToModelMapper crmCustomFieldsResponseMapper= new CrmCustomFieldsExternalClassToModelMapper();
+    DeviceCustomFieldsExternalClassToModelMapper deviceCustomFieldsResponseMapper = new DeviceCustomFieldsExternalClassToModelMapper();
+
+
     @Test
     public void testDataToModelOk() throws Exception {
         List<ApiGeofence> apiGeofencesList = new ArrayList<>();
@@ -52,7 +59,10 @@ public class ConfigRequestApiResponseMapperTest {
 
         ConfigApiExternalClassToModelMapper mapper =
                 new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper,
-                        beaconResponseMapper, geofenceResponseMapper);
+                        beaconResponseMapper, geofenceResponseMapper,
+                        availableCustomFieldResponseMapper,
+                        crmCustomFieldsResponseMapper,
+                        deviceCustomFieldsResponseMapper);
 
         ConfigurationInfoResult configurationInfoResult = mapper.externalClassToModel(apiConfigData);
 

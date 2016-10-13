@@ -66,7 +66,7 @@ public class FabMenuForWebView  extends RelativeLayout {
 
     private void init() {
         initViews();
-        setListeners();
+
     }
 
     private void initViews() {
@@ -86,6 +86,7 @@ public class FabMenuForWebView  extends RelativeLayout {
 
             mnuBack.setVisibility(View.INVISIBLE);
             mnuFAB.collapse();
+            setListeners();
         }
     }
     private void setListeners() {

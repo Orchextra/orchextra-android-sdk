@@ -110,7 +110,6 @@ android {
   sourceSets {
     play7 {
       java.srcDirs = ['src/play/java', 'src/play/java/']
-
     }
     play8 {
       java.srcDirs = ['src/play/java', 'src/play/java/']
