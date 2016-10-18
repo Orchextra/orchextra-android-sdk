@@ -29,7 +29,7 @@ allprojects {
                 gggLib                   : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:1.0',
                 //Image Recognition
                 imageRecognitionInterface: 'com.github.GigigoGreenLabs.imgRecogModule:imagerecognitioninterface:1.0',
-                imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:1.1'
+                imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:1.3'
         ]
 
         testDependencies = [

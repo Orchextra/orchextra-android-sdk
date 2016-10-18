@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-3.0.1-blue.svg)
+![Version](https://img.shields.io/badge/Version-3.0.3-blue.svg)
 [![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
 
@@ -48,28 +48,28 @@ and we add the Orchextra dependency in our **sdkVersionAppInfo** module:
 
 with GCM 7.8
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:3.0.1RC:play7Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:3.0.3RC:play7Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:7.8.0'
    compile 'com.google.android.gms:play-services-gcm:7.8.0'
 ```
 or with GCM 8.4
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:3.0.1RC:play8Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:3.0.3RC:play8Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:8.4.0'
    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 ```
 or with GCM 9.0
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:3.0.1RC:play9Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:3.0.3RC:play9Release@aar')
      {transitive true}
    compile 'com.google.android.gms:play-services-location:9.0.0'
    compile 'com.google.android.gms:play-services-gcm:9.0.0'
 ```
 or without Google Play Services
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:3.0.1RC:playnoRelease@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:3.0.3RC:playnoRelease@aar')
      {transitive true}
 ```
 If you use playnoRelease, some orchextraSDK features will not be available, geofences, notification push, scheduled Actions

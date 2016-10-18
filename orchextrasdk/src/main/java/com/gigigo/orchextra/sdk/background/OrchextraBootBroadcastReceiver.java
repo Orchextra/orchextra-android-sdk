@@ -42,6 +42,7 @@ public class OrchextraBootBroadcastReceiver extends BroadcastReceiver {
 
       initDependencies();
 
+
       if (orchextraStatusAccessor!=null && orchextraStatusAccessor.isStarted()){
         String action = intent.getAction();
         initTasksForBoot(context, action);
