@@ -20,6 +20,7 @@ package com.gigigo.orchextra;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
+import com.gigigo.orchextra.sdk.OrchextraCredentialCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import java.util.Arrays;
@@ -82,8 +83,10 @@ public final class Orchextra {
      * Start the Orchextra library. Calling this method Orchextra start to send and receive events.
      * <p>
      * You can call this method in any moment after the calling of the initialize method.
+     * @param orchextraCredentialCallback
      */
-    public static void start() {
+    public static void start(OrchextraCredentialCallback orchextraCredentialCallback) {
+        OrchextraManager.setCredentialCallback(orchextraCredentialCallback);
         OrchextraManager.sdkStart();
     }
 

@@ -95,6 +95,7 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
 
   @Override public void initAvailableRegionsRangingScanner() {
 
+    //OXBEASEN
     if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND){
       throw new RangingScanInBackgroundException(
           "Infinite Ranging Scan in Background Mode is not allowed");

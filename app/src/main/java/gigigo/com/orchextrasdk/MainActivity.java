@@ -1,13 +1,11 @@
 package gigigo.com.orchextrasdk;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,18 +14,15 @@ import android.widget.TextView;
 import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.sdk.OrchextraCredentialCallback;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -188,7 +183,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                Orchextra.start();
+                Orchextra.start(new OrchextraCredentialCallback() {
+                    @Override public void onCredentialReceiver(String accessToken) {
+                    }
+                });
             }
         });
 

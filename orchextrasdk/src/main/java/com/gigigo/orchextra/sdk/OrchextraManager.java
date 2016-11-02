@@ -32,9 +32,11 @@ import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.CrmUser;
+import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.CrmUserController;
+import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
@@ -54,12 +56,16 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAc
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
+import com.gigigo.orchextra.domain.abstractions.observer.Observer;
+import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
+import gigigo.com.orchextra.data.datasources.api.interceptors.Headers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +73,7 @@ import java.util.Map;
 
 import orchextra.javax.inject.Inject;
 
-public class OrchextraManager {
+public class OrchextraManager implements Observer {
 
     public static final String ON_CREATE_METHOD = "onCreate";
     //for SDkVersionAppInfo
@@ -107,6 +113,12 @@ public class OrchextraManager {
     OrchextraLogger orchextraLogger;
     @Inject
     BeaconRangingScanner beaconRangingScanner;
+
+    @Inject Session session;
+
+    @Inject ConfigObservable configObservable;
+
+    private static OrchextraCredentialCallback credentialCallback;
 
     /**
      * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -282,6 +294,14 @@ public class OrchextraManager {
 
     public static OrchextraSDKLogLevel getLogLevel() {
         return orchextraSDKLogLevel;
+    }
+
+    public static void setCredentialCallback(OrchextraCredentialCallback credentialCallback) {
+        OrchextraManager.credentialCallback = credentialCallback;
+
+        if (OrchextraManager.instance != null) {
+            OrchextraManager.instance.configObservable.registerObserver(OrchextraManager.instance);
+        }
     }
 
     private void stopOrchextraTasks() {
@@ -602,6 +622,14 @@ public class OrchextraManager {
             }
 
             OrchextraManager.instance.crmUserController.setUserCustomFields(customFieldList);
+        }
+    }
+
+    @Override public void update(OrchextraChanges observable, Object data) {
+        String accessToken = OrchextraManager.instance.session.getTokenString();
+
+        if (OrchextraManager.instance != null && OrchextraManager.instance.credentialCallback != null) {
+            OrchextraManager.instance.credentialCallback.onCredentialReceiver(accessToken);
         }
     }
 }
