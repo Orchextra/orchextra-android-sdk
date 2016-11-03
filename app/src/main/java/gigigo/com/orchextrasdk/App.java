@@ -39,7 +39,12 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
     public static final String GIGIGO_URL = "http://research.gigigo.com";
     public static final String CUSTOM_SCHEME = "webview://";
-
+    public static OrchextraCredentialCallback mOrchextraCredentialCallback = new OrchextraCredentialCallback() {
+        @Override
+        public void onCredentialReceiver(String s) {
+            Log.i("", "Access Token:" + s);
+        }
+    };
     @Override
     public void onCreate() {
         super.onCreate();
@@ -53,21 +58,16 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
                 .setLogLevel(OrchextraLogLevel.NETWORK)
                 .setOrchextraCompletionCallback(this)
                 .setImageRecognitionModule(new ImageRecognitionVuforiaImpl());
-
         //init Orchextra with builder configuration
         Orchextra.initialize(builder);
 
         //your can re set custom Scheme in other places(activities,services..)
         Orchextra.setCustomSchemeReceiver(this);
-
+        Orchextra.setCredentialCallback(mOrchextraCredentialCallback);
         Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.EXTREME);
 
         //start Orchextra running, you can call stop() if you need
-        Orchextra.start(new OrchextraCredentialCallback() {
-            @Override public void onCredentialReceiver(String accessToken) {
-                GGGLogImpl.log("accessToken: " + accessToken);
-            }
-        }); //for only one time, each time you start Orchextra get orchextra project configuration is call
+        Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
     }
 
 

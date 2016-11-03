@@ -183,10 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                Orchextra.start(new OrchextraCredentialCallback() {
-                    @Override public void onCredentialReceiver(String accessToken) {
-                    }
-                });
+                Orchextra.start();
             }
         });
 

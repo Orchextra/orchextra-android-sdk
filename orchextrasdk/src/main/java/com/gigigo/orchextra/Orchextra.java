@@ -85,11 +85,13 @@ public final class Orchextra {
      * You can call this method in any moment after the calling of the initialize method.
      * @param orchextraCredentialCallback
      */
-    public static void start(OrchextraCredentialCallback orchextraCredentialCallback) {
+    public static void setCredentialCallback(OrchextraCredentialCallback orchextraCredentialCallback) {
         OrchextraManager.setCredentialCallback(orchextraCredentialCallback);
-        OrchextraManager.sdkStart();
     }
 
+    public static void start() {
+        OrchextraManager.sdkStart();
+    }
 
     /**
      * Change the api key and secret defined in the initialization call in any moment.
