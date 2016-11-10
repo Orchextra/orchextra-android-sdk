@@ -18,114 +18,92 @@
 
 package com.gigigo.orchextra.device.geolocation.location;
 
-import android.content.Context;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.Bundle;
-
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.location.LocationServices;
 
 public class RetrieveLastKnownLocation {
 
-    private final ContextProvider contextProvider;
-    private final GoogleApiClientConnector googleApiClientConnector;
-    private final PermissionChecker permissionChecker;
-    private final PermissionLocationImp accessFineLocationPermissionImp;
-    private final OrchextraLogger orchextraLogger;
+  private final ContextProvider contextProvider;
+  private final GoogleApiClientConnector googleApiClientConnector;
+  private final RetrieveLocationByGpsOrNetworkProvider retrieveLocationByGpsOrNetworkProvider;
+  private final PermissionChecker permissionChecker;
+  private final PermissionLocationImp accessFineLocationPermissionImp;
 
-    private OnLastKnownLocationListener onLastKnownLocationListener;
+  private OnLastKnownLocationListener onLastKnownLocationListener;
 
-    public RetrieveLastKnownLocation(ContextProvider contextProvider,
-                                     GoogleApiClientConnector googleApiClientConnector,
-                                     PermissionChecker permissionChecker,
-                                     PermissionLocationImp accessFineLocationPermissionImp,
-                                     OrchextraLogger orchextraLogger) {
+  public RetrieveLastKnownLocation(ContextProvider contextProvider,
+      GoogleApiClientConnector googleApiClientConnector,
+      RetrieveLocationByGpsOrNetworkProvider retrieveLocationByGpsOrNetworkProvider,
+      PermissionChecker permissionChecker, PermissionLocationImp accessFineLocationPermissionImp) {
 
-        this.contextProvider = contextProvider;
-        this.googleApiClientConnector = googleApiClientConnector;
-        this.permissionChecker = permissionChecker;
-        this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
-        this.orchextraLogger = orchextraLogger;
+    this.contextProvider = contextProvider;
+    this.googleApiClientConnector = googleApiClientConnector;
+    this.retrieveLocationByGpsOrNetworkProvider = retrieveLocationByGpsOrNetworkProvider;
+    this.permissionChecker = permissionChecker;
+    this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
+  }
+
+  public void getLastKnownLocation(OnLastKnownLocationListener onLastKnownLocationListener) {
+    this.onLastKnownLocationListener = onLastKnownLocationListener;
+    googleApiClientConnector.setOnConnectedListener(onConnectedListener);
+    googleApiClientConnector.connect();
+  }
+
+  private GoogleApiClientConnector.OnConnectedListener onConnectedListener =
+      new GoogleApiClientConnector.OnConnectedListener() {
+        @Override public void onConnected() {
+          askPermissionAndGetLastKnownLocation();
+        }
+
+        @Override public void onConnectionFailed() {
+          boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
+          if (isGranted) {
+            getNetworkGpsLocation();
+          }
+        }
+      };
+
+  public void askPermissionAndGetLastKnownLocation() {
+    boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
+    if (isGranted) {
+      getLastKnownLocation();
+    } else {
+      if (contextProvider.getCurrentActivity() != null) {
+        permissionChecker.askForPermission(accessFineLocationPermissionImp,
+            userPermissionResponseListener, contextProvider.getCurrentActivity());
+      }
     }
+  }
 
-    public void getLastKnownLocation(OnLastKnownLocationListener onLastKnownLocationListener) {
-        this.onLastKnownLocationListener = onLastKnownLocationListener;
-        googleApiClientConnector.setOnConnectedListener(onConnectedListener);
-        googleApiClientConnector.connect();
+  @SuppressWarnings("ResourceType") private void getLastKnownLocation() {
+    Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+        googleApiClientConnector.getGoogleApiClient());
+    if (onLastKnownLocationListener != null) {
+      onLastKnownLocationListener.onLastKnownLocation(lastLocation);
     }
+  }
 
-    private GoogleApiClientConnector.OnConnectedListener onConnectedListener = new GoogleApiClientConnector.OnConnectedListener() {
-        @Override
-        public void onConnected(Bundle bundle) {
-            askPermissionAndGetLastKnownLocation();
+  private UserPermissionRequestResponseListener userPermissionResponseListener =
+      new UserPermissionRequestResponseListener() {
+        @Override public void onPermissionAllowed(boolean permissionAllowed) {
+          getLastKnownLocation();
         }
+      };
 
-        @Override
-        public void onConnectionFailed(ConnectionResult connectionResult) {
-            boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
-            if (isGranted) {
-                getNetworkGpsLocation();
-            }
-        }
-    };
+  @SuppressWarnings("ResourceType") private void getNetworkGpsLocation() {
+    Location location = retrieveLocationByGpsOrNetworkProvider.retrieveLocation();
 
-    public void askPermissionAndGetLastKnownLocation() {
-        boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
-        if (isGranted) {
-            getLastKnownLocation();
-        } else {
-            if (contextProvider.getCurrentActivity() != null) {
-                permissionChecker.askForPermission(accessFineLocationPermissionImp, userPermissionResponseListener, contextProvider.getCurrentActivity());
-            }
-        }
+    if (onLastKnownLocationListener != null) {
+      onLastKnownLocationListener.onLastKnownLocation(location);
     }
+  }
 
-    @SuppressWarnings("ResourceType")
-    private void getLastKnownLocation() {
-        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClientConnector.getGoogleApiClient());
-        if (onLastKnownLocationListener != null) {
-            onLastKnownLocationListener.onLastKnownLocation(lastLocation);
-        }
-    }
-
-    private UserPermissionRequestResponseListener userPermissionResponseListener =
-            new UserPermissionRequestResponseListener() {
-        @Override
-        public void onPermissionAllowed(boolean permissionAllowed) {
-            getLastKnownLocation();
-        }
-    };
-
-    @SuppressWarnings("ResourceType")
-    private void getNetworkGpsLocation() {
-        Context context = contextProvider.getApplicationContext();
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
-        String locationProvider;
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locationProvider = LocationManager.GPS_PROVIDER;
-        } else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locationProvider = LocationManager.NETWORK_PROVIDER;
-        } else {
-            orchextraLogger.log("Connection failed: Location not Available");
-            return;
-        }
-
-        Location location = locationManager.getLastKnownLocation(locationProvider);
-
-        if (onLastKnownLocationListener != null) {
-            onLastKnownLocationListener.onLastKnownLocation(location);
-        }
-    }
-
-    public interface OnLastKnownLocationListener {
-        void onLastKnownLocation(Location location);
-    }
+  public interface OnLastKnownLocationListener {
+    void onLastKnownLocation(Location location);
+  }
 }

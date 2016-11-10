@@ -114,12 +114,12 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     private GoogleApiClientConnector.OnConnectedListener onConnectedRegisterGeofenceListener =
             new GoogleApiClientConnector.OnConnectedListener() {
                 @Override
-                public void onConnected(Bundle bundle) {
+                public void onConnected() {
                     registerGeofencesOnDevice();
                 }
 
                 @Override
-                public void onConnectionFailed(ConnectionResult connectionResult) {
+                public void onConnectionFailed() {
                     orchextraLogger.log("No se ha podido conectar GoogleApiClientConnector en las peticion de las geofences");
                 }
             };
@@ -178,12 +178,12 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
     private GoogleApiClientConnector.OnConnectedListener onConnectedRemoveGeofenceListener =
             new GoogleApiClientConnector.OnConnectedListener() {
                 @Override
-                public void onConnected(Bundle bundle) {
+                public void onConnected() {
                     clearGeofences();
                 }
 
                 @Override
-                public void onConnectionFailed(ConnectionResult connectionResult) {
+                public void onConnectionFailed() {
                     orchextraLogger.log("No se ha podido conectar GoogleApiClientConnector en las peticion de las geofences");
                 }
             };

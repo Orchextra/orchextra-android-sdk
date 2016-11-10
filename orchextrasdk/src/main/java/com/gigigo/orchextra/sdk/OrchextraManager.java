@@ -65,7 +65,6 @@ import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecy
 import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
 
-import gigigo.com.orchextra.data.datasources.api.interceptors.Headers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

@@ -63,7 +63,7 @@ public class GoogleApiClientConnectorImpl
     orchextraLogger.log("onConnected");
 
     if (onConnectedListener != null) {
-      onConnectedListener.onConnected(bundle);
+      onConnectedListener.onConnected();
     }
   }
 
@@ -75,6 +75,10 @@ public class GoogleApiClientConnectorImpl
   @Override public void onConnectionFailed(ConnectionResult connectionResult) {
     orchextraLogger.log("onConnectionFailed");
     orchextraLogger.log(connectionResult.toString());
+
+    if (onConnectedListener != null) {
+      onConnectedListener.onConnectionFailed();
+    }
   }
 
   @Override
