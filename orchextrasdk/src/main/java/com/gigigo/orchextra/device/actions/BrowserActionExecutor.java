@@ -41,6 +41,8 @@ public class BrowserActionExecutor implements ActionExecutor {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(uriUrl);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
         context.startActivity(intent);
     }
