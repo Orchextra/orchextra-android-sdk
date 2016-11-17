@@ -49,6 +49,9 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     public void onCreate() {
         super.onCreate();
         initOrchextra();
+
+        //todo al lurila, esto debe ir SIEMPRE DESPUES DEL PRIMER orchextra.START(), tb es importante que es responsabilidad de
+        //la app el pedir los permisos(de gps y coarse location)
     }
 
     public void initOrchextra() {
@@ -68,6 +71,8 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
         //start Orchextra running, you can call stop() if you need
         Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
+
+
     }
 
 

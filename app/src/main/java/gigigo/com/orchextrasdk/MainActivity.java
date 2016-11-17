@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getViews();
         setListeners();
 
+        //UpdateConfigWrapper
+        UpdateConfigWrapper updater = new UpdateConfigWrapper(this);
+        updater.createUpdateConfigurationByTime(1000,10000);
     }
 
 
