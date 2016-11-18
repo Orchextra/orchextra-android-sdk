@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.domain.interactors.config;
 
+import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
 import com.gigigo.orchextra.domain.interactors.base.Interactor;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
@@ -26,12 +27,20 @@ import com.gigigo.orchextra.domain.services.config.ConfigDomainService;
 public class SendConfigInteractor implements Interactor<InteractorResponse<OrchextraUpdates>> {
 
   private final ConfigDomainService configDomainService;
+  private final ConfigChangeObservable observable;
 
-  public SendConfigInteractor(ConfigDomainService configDomainService) {
+  public SendConfigInteractor(ConfigDomainService configDomainService, ConfigChangeObservable observable) {
     this.configDomainService = configDomainService;
+    this.observable = observable;
   }
 
   @Override public InteractorResponse<OrchextraUpdates> call() throws Exception {
-    return configDomainService.refreshConfig();
+    InteractorResponse<OrchextraUpdates> interactorResponse = configDomainService.refreshConfig();
+
+    if (!interactorResponse.hasError()) {
+      observable.notifyObservers(null);
+    }
+
+    return interactorResponse;
   }
 }

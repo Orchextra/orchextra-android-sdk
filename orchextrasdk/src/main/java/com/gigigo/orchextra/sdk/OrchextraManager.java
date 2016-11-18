@@ -58,6 +58,7 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
+import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
@@ -115,7 +116,8 @@ public class OrchextraManager implements Observer {
 
     @Inject Session session;
 
-    @Inject ConfigObservable configObservable;
+    @Inject
+    ConfigChangeObservable configObservable;
 
     private static OrchextraCredentialCallback credentialCallback;
 
@@ -627,8 +629,8 @@ public class OrchextraManager implements Observer {
     @Override public void update(OrchextraChanges observable, Object data) {
         String accessToken = OrchextraManager.instance.session.getTokenString();
 
-        if (OrchextraManager.instance != null && OrchextraManager.instance.credentialCallback != null) {
-            OrchextraManager.instance.credentialCallback.onCredentialReceiver(accessToken);
+        if (OrchextraManager.instance != null && credentialCallback != null) {
+            credentialCallback.onCredentialReceiver(accessToken);
         }
     }
 }

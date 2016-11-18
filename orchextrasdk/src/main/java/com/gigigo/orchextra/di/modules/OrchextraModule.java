@@ -36,6 +36,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureS
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.initalization.features.FeatureList;
+import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
 import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListenerImpl;
@@ -163,4 +164,8 @@ public class OrchextraModule {
     return new OrchextraLoggerImpl();
   }
 
+  @Provides @Singleton
+  ConfigChangeObservable provideConfigChangeObservable() {
+    return new ConfigChangeObservable();
+  }
 }

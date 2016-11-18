@@ -20,6 +20,7 @@ package com.gigigo.orchextra.di.modules.domain;
 
 import com.gigigo.orchextra.di.scopes.PerExecution;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
+import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
 import com.gigigo.orchextra.domain.interactors.beacons.RegionsProviderInteractor;
 import com.gigigo.orchextra.domain.interactors.config.ClearLocalStorageInteractor;
@@ -61,8 +62,8 @@ public class InteractorsModule {
 
     @Provides
     @PerExecution
-    SendConfigInteractor provideSendConfigInteractor(ConfigDomainService configDomainService) {
-        return new SendConfigInteractor(configDomainService);
+    SendConfigInteractor provideSendConfigInteractor(ConfigDomainService configDomainService, ConfigChangeObservable configChangeObservable) {
+        return new SendConfigInteractor(configDomainService, configChangeObservable);
     }
 
     @Provides
@@ -99,7 +100,6 @@ public class InteractorsModule {
             ObtainGeofencesDomainService obtainGeofencesDomainService) {
         return new GeofencesProviderInteractor(obtainGeofencesDomainService);
     }
-
 
 
     @Provides
