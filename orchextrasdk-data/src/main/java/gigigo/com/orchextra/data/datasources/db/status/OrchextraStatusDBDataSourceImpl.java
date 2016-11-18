@@ -47,6 +47,10 @@ public class OrchextraStatusDBDataSourceImpl implements OrchextraStatusDBDataSou
     this.orchextraStatusReader = orchextraStatusReader;
     this.realmDefaultInstance = realmDefaultInstance;
     this.orchextraLogger = orchextraLogger;
+
+    //fixmeREALM
+      //saveStatus(new OrchextraStatus());
+
   }
 
   @Override public BusinessObject<OrchextraStatus> saveStatus(OrchextraStatus orchextraStatus) {

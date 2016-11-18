@@ -20,6 +20,7 @@ package gigigo.com.orchextra.data.datasources.db.status;
 import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
+
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.model.OrchextraStatusRealm;
 import io.realm.Realm;
@@ -27,25 +28,27 @@ import io.realm.RealmResults;
 
 public class OrchextraStatusReader {
 
-  private final ExternalClassToModelMapper<OrchextraStatusRealm, OrchextraStatus> statusRealmMapper;
-  private final OrchextraLogger orchextraLogger;
+    private final ExternalClassToModelMapper<OrchextraStatusRealm, OrchextraStatus> statusRealmMapper;
+    private final OrchextraLogger orchextraLogger;
 
-  public OrchextraStatusReader(
-      ExternalClassToModelMapper<OrchextraStatusRealm, OrchextraStatus> statusRealmMapper,
-      OrchextraLogger orchextraLogger) {
-    this.statusRealmMapper = statusRealmMapper;
-    this.orchextraLogger = orchextraLogger;
-  }
+    public OrchextraStatusReader(
+            ExternalClassToModelMapper<OrchextraStatusRealm, OrchextraStatus> statusRealmMapper,
+            OrchextraLogger orchextraLogger) {
+        this.statusRealmMapper = statusRealmMapper;
+        this.orchextraLogger = orchextraLogger;
 
-  public OrchextraStatus readStatus(Realm realm) {
 
-    RealmResults<OrchextraStatusRealm> orchextraStatusRealms = realm.where(OrchextraStatusRealm.class).findAll();
-    if (orchextraStatusRealms.size() > 0) {
-      orchextraLogger.log("OrchextraStatus found");
-      return statusRealmMapper.externalClassToModel(orchextraStatusRealms.first());
-    } else {
-      orchextraLogger.log("OrchextraStatus not found");
-      throw new NotFountRealmObjectException("OrchextraStatusRealm object not found");
     }
-  }
+
+    public OrchextraStatus readStatus(Realm realm) {
+
+        RealmResults<OrchextraStatusRealm> orchextraStatusRealms = realm.where(OrchextraStatusRealm.class).findAll();
+        if (orchextraStatusRealms.size() > 0) {
+            orchextraLogger.log("OrchextraStatus found");
+            return statusRealmMapper.externalClassToModel(orchextraStatusRealms.first());
+        } else {
+            orchextraLogger.log("OrchextraStatus not found");
+            throw new NotFountRealmObjectException("OrchextraStatusRealm object not found");
+        }
+    }
 }
