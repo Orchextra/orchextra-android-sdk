@@ -77,11 +77,14 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
         boolean bIsSessionInitialized = prefs.getBoolean(strBIsSessionInitialized, false);
         if (!bIsSessionInitialized) {
             //fixme quizás mejor q dar de alta un registro con defaultvalues, sea mejor borrar lo q haia
-            saveSdkAuthCredentials(new SdkAuthCredentials("", ""));
-            saveSdkAuthResponse(new SdkAuthData("", 0, ""));
-            saveClientAuthCredentials(new ClientAuthCredentials("", ""));
-            saveClientAuthResponse(new ClientAuthData("", "", "", 0));
-            saveUser(new CrmUser("", GenderType.ND, null));
+            clearAuthenticatedUser();
+            clearAuthenticatedSdk();
+
+//            saveSdkAuthCredentials(new SdkAuthCredentials("", ""));
+//            saveSdkAuthResponse(new SdkAuthData("", 0, ""));
+//            saveClientAuthCredentials(new ClientAuthCredentials("", ""));
+//            saveClientAuthResponse(new ClientAuthData("", "", "", 0));
+//            saveUser(new CrmUser("", GenderType.ND, null));
             prefs.edit().putBoolean(strBIsSessionInitialized, true);
         }
 

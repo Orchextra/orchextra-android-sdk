@@ -1,6 +1,9 @@
 package gigigo.com.orchextrasdk;
 
+import android.app.Application;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +17,9 @@ import android.widget.TextView;
 import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
+import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
 import com.gigigo.orchextra.sdk.OrchextraCredentialCallback;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
 import java.util.Arrays;
@@ -34,15 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getViews();
         setListeners();
 
-        //UpdateConfigWrapper
-        UpdateConfigWrapper updater = new UpdateConfigWrapper(this);
-        updater.createUpdateConfigurationByTime(1000,10000);
     }
 
 
     //region Orchextra
     private boolean isRunning = false;
-    private Button button, button2, button3, button4, button5, button6, button7,button8;
+    private Button button, button2, button3, button4, button5, button6, button7, button8;
     private TextView statusText;
 
     //region getViews/Buttons onClick
@@ -173,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         //endregion
     }
+
     private String getUniqueCRMID() {
         String secureAndroidId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -193,6 +196,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isRunning = true;
         button3.setText(R.string.ox_stop_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_running)));
+        //UpdateConfigWrapper ONly when Start
+        UpdateConfigWrapper updater = new UpdateConfigWrapper(this);
+        updater.createUpdateConfigurationByTime(1000, 10000);
+        enablerUpdateConfigReBootService(this.getApplication(), true);
+
     }
 
     private void stopOrchextra() {
@@ -205,6 +213,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isRunning = false;
         button3.setText(R.string.ox_start_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
+        enablerUpdateConfigReBootService(this.getApplication(), true);
     }
+
+
+    private void enablerUpdateConfigReBootService(Application application, boolean bState) {
+        int componentEnabledState;
+        if (!bState) {
+            componentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+        } else {
+            componentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+        }
+        ComponentName component = new ComponentName(application, UpdateConfigReceiver.class);
+        application.getPackageManager().setComponentEnabledSetting(component, componentEnabledState, PackageManager.DONT_KILL_APP);
+    }
+
     //endregion
 }

@@ -38,7 +38,7 @@ public class UpdateConfigWrapper {
             PendingIntent BroadCastPending = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(mContext, "PROBLEMA CON LOS PERMISOS!!, NO ESTÄ HABILITADO", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "PROBLEMA CON LOS PERMISOS!!, NO ESTÁN HABILITADOS, QUIZÁS NUNCA SE HIZO UN START", Toast.LENGTH_SHORT).show();
                 return;
             }
             Toast.makeText(mContext, "BROADCAST SUSCRITO!! fuck yeah", Toast.LENGTH_SHORT).show();

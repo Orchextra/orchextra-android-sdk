@@ -66,13 +66,13 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
         //your can re set custom Scheme in other places(activities,services..)
         Orchextra.setCustomSchemeReceiver(this);
-        Orchextra.setCredentialCallback(mOrchextraCredentialCallback);
-        Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.EXTREME);
+//        Orchextra.setCredentialCallback(mOrchextraCredentialCallback);
+//        Orchextra.updateBackgroundPeriodBetweenScan(BeaconBackgroundPeriodBetweenScan.EXTREME);
+//
+//        //start Orchextra running, you can call stop() if you need
+//        Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
 
-        //start Orchextra running, you can call stop() if you need
-        Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
-
-
+    //Update now only start from button
     }
 
 
