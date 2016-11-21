@@ -19,24 +19,32 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
+import com.gigigo.orchextra.domain.model.GenderType;
+import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
+import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
+import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
+import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
-
+//fixme refactor, avoid obtain/retrieve -->get remove/dlete save/store..
 
 public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurationDBDataSource {
 
@@ -52,27 +60,26 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
     this.configInfoResultUpdater = configInfoResultUpdater;
     this.configInfoResultReader = configInfoResultReader;
     this.realmDefaultInstance = realmDefaultInstance;
-  }
 
-  public OrchextraUpdates saveConfigData(ConfigurationInfoResult configurationInfoResult) {
 
-    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    //fixme REALM
+    SharedPreferences prefs = this.context.getSharedPreferences("com.gigigo.orchextra", Context.MODE_PRIVATE);
+    String strBIsSessionInitialized = "com.gigigo.orchextra:bIsSessionInitialized";
+    boolean bIsSessionInitialized = prefs.getBoolean(strBIsSessionInitialized, false);
+    if (!bIsSessionInitialized) {
+      //fixme quizás mejor q dar de alta un registro con defaultvalues, sea mejor borrar lo q haia
+      saveConfigData(new ConfigurationInfoResult());
+      saveUserBusinessUnits(new ArrayList<String>());
+      saveCrmDeviceBusinessUnits(new ArrayList<String>());
+      saveCrmDeviceUserTags(new ArrayList<String>());
+      saveCrmUserTags(new ArrayList<String>());
+      saveUserCustomFields(new ArrayList<CustomField>());
 
-    try {
-      realm.beginTransaction();
-      OrchextraUpdates orchextraUpdates =
-          configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
-      return orchextraUpdates;
-    } catch (Exception re) {
-      re.printStackTrace();
-      return null;
-    } finally {
-      realm.commitTransaction();
-      if (realm != null) {
-        realm.close();
-      }
+      prefs.edit().putBoolean(strBIsSessionInitialized, true);
     }
   }
+
+
 
   public BusinessObject<ConfigurationInfoResult> obtainConfigData() {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
@@ -178,20 +185,16 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
   }
 
   @Override
-  public void saveCrmUserTags(List<String> userTagList) {
+  public BusinessObject<List<CustomField>> retrieveCrmUserCustomFields() {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
-      realm.beginTransaction();
       ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
-      configurationInfoResult.getCrmCustomFields().setTags(userTagList);
-
-      configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
+      return new BusinessObject<>(configurationInfoResult.getCrmCustomFields().getCustomFieldList(), BusinessError.createOKInstance());
     } catch (Exception re) {
-      re.printStackTrace();
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
     } finally {
       if (realm != null) {
-        realm.commitTransaction();
         realm.close();
       }
     }
@@ -214,6 +217,22 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
   }
 
   @Override
+  public BusinessObject<OrchextraGeofence> obtainGeofenceById(String geofenceId) {
+
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+
+    try {
+      OrchextraGeofence geofence = configInfoResultReader.getGeofenceById(realm, geofenceId);
+      return new BusinessObject<>(geofence, BusinessError.createOKInstance());
+    } catch (NotFountRealmObjectException | RealmException re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+    }
+  }
+  @Override
   public void saveUserBusinessUnits(List<String> userBusinessUnits) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
@@ -234,21 +253,24 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
   }
 
   @Override
-  public BusinessObject<List<CustomField>> retrieveCrmUserCustomFields() {
+  public void saveCrmUserTags(List<String> userTagList) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
+      realm.beginTransaction();
       ConfigurationInfoResult configurationInfoResult = configInfoResultReader.readConfigInfo(realm);
-      return new BusinessObject<>(configurationInfoResult.getCrmCustomFields().getCustomFieldList(), BusinessError.createOKInstance());
+      configurationInfoResult.getCrmCustomFields().setTags(userTagList);
+
+      configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
     } catch (Exception re) {
-      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+      re.printStackTrace();
     } finally {
       if (realm != null) {
+        realm.commitTransaction();
         realm.close();
       }
     }
   }
-
   @Override
   public void saveUserCustomFields(List<CustomField> customFieldList) {
     Realm realm = realmDefaultInstance.createRealmInstance(context);
@@ -309,16 +331,20 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
     }
   }
 
-  @Override public BusinessObject<OrchextraGeofence> obtainGeofenceById(String geofenceId) {
+  public OrchextraUpdates saveConfigData(ConfigurationInfoResult configurationInfoResult) {
 
     Realm realm = realmDefaultInstance.createRealmInstance(context);
 
     try {
-      OrchextraGeofence geofence = configInfoResultReader.getGeofenceById(realm, geofenceId);
-      return new BusinessObject<>(geofence, BusinessError.createOKInstance());
-    } catch (NotFountRealmObjectException | RealmException re) {
-      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+      realm.beginTransaction();
+      OrchextraUpdates orchextraUpdates =
+              configInfoResultUpdater.updateConfigInfoV2(realm, configurationInfoResult);
+      return orchextraUpdates;
+    } catch (Exception re) {
+      re.printStackTrace();
+      return null;
     } finally {
+      realm.commitTransaction();
       if (realm != null) {
         realm.close();
       }
