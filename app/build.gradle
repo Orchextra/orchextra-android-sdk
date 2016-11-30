@@ -46,6 +46,11 @@ android {
     }
 
     buildTypes {
+        staging {
+            signingConfig signingConfigs.debug
+            testCoverageEnabled = true
+            debuggable true
+        }
         debug {
             testCoverageEnabled = true
             debuggable true
@@ -81,10 +86,16 @@ android {
 }
 
 configurations {
+    play7StagingCompile
+    play8StagingCompile
+    play9StagingCompile
+    playnoStagingCompile
+
     play7DebugCompile
     play8DebugCompile
     play9DebugCompile
     playnoDebugCompile
+
     play7ReleaseCompile
     play8ReleaseCompile
     play9ReleaseCompile
@@ -100,6 +111,12 @@ dependencies {
     compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
 
     //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
+    play7StagingCompile project(path: ':orchextrasdk', configuration: 'play7Staging')
+    play8StagingCompile project(path: ':orchextrasdk', configuration: 'play8Staging')
+    play9StagingCompile project(path: ':orchextrasdk', configuration: 'play9Staging')
+    //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
+    playnoStagingCompile project(path: ':orchextrasdk', configuration: 'playnoStaging')
+
     play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
     play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
     play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
@@ -116,7 +133,4 @@ dependencies {
 
     //AppCompatActivity
     compile 'com.android.support:appcompat-v7:22.1.0'
-
-
-
 }
