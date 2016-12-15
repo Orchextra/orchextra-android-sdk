@@ -26,7 +26,7 @@ import okhttp3.Response;
 
 public class Headers implements Interceptor {
 
-  private final String X_APP_SDK = "X-app-sdk";
+  private final String X_APP_SDK = "X-orx-version";
   private final String ACCEPT_LANGUAGE = "Accept-Language";
   private final String CONTENT_TYPE = "Content-Type";
   private final String CONTENT_TYPE_JSON = "application/json";
