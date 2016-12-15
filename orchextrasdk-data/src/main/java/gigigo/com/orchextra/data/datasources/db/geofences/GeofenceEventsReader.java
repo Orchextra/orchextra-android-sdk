@@ -69,7 +69,7 @@ public class GeofenceEventsReader {
         .findAll();
 
     if (results.size() > 1) {
-      orchextraLogger.log("More than one region Event with same Code stored", OrchextraSDKLogLevel.ERROR);
+      orchextraLogger.log("More than one geofence Event with same Code stored", OrchextraSDKLogLevel.ERROR);
     } else if (results.size() == 0) {
 
       orchextraLogger.log("No geofence events found with code"
