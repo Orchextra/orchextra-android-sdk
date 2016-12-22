@@ -73,13 +73,13 @@ public abstract class BasicAction {
     }
 
     //todo get this values from resources or calculate that
-    private final String str_Fake_Notification_Title = "Orchextra";
-    private final String str_Fake_Notification_Body = "Click to open your App";
+    private final String strfakenotificationtitle = "Orchextra";
+    private final String strfakenotificationbody = "Click to open your App";
 
     public void createFakeNotification() {
         OrchextraNotification fakeNotification = new OrchextraNotification();
-        fakeNotification.setTitle(str_Fake_Notification_Title);
-        fakeNotification.setBody(str_Fake_Notification_Body);
+        fakeNotification.setTitle(strfakenotificationtitle);
+        fakeNotification.setBody(strfakenotificationbody);
         fakeNotification.setShown(false);
         this.notificationBehavior = new NotificationBehaviorImpl(fakeNotification);
     }
@@ -90,13 +90,14 @@ public abstract class BasicAction {
 
     public boolean getisFakeNotification() {
         if (getHasNotification()) {
-            if (this.getNotificationBehavior() != null
-                    && this.getNotificationBehavior().getTitle().equals(str_Fake_Notification_Title))
+            if (this.getNotificationBehavior() != null && this.getNotificationBehavior().getTitle().equals(strfakenotificationtitle)) {
                 return true;
-            else
+            } else {
                 return false;
-        } else
+            }
+        } else {
             return false;
+        }
     }
 
     public ActionType getActionType() {
@@ -112,8 +113,9 @@ public abstract class BasicAction {
     }
 
     public void performAction(ActionDispatcher actionDispatcher) {
-        if (this.getisFakeNotification())
+        if (this.getisFakeNotification()) {
             notificationBehavior.getNotification().setShown(true);//this now is only for avoid fake notification7need by app when is on background on ForegroundNotificationBuilderImpl.java buildNotification
+        }
         if (notificationBehavior.isSupported()) {
             performNotifAction(actionDispatcher);
         } else {
