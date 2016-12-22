@@ -98,6 +98,24 @@ OrchextraBuilder builder = new OrchextraBuilder(this)
 
 **IMPORTANT** if you are using Android Studio 2.1 or higher, and have "Instant Run" enabled, the first time you install the APK is installed in new device, the initialize() spends too much time, maybe a minute on older devices.The second time the problem disappears. To avoid this problem in Android Studio, disables the " Instant Run" from settings-> Build , Execution , Deployment- > Instant Run
 
+## Set Notification Activity
+Now you can choose the Activity that Orchextra uses for execute the action. This is very usefull when your application have SlashScreen Activity or your apllication only use Orchextra features if the user do login, for example. If you don't set this, the launcher Activity becomes the Notification Activity.
+
+For set the activity you must set in the OrchextraBuilder
+```java
+@Override
+public void onCreate() {
+OrchextraBuilder builder = new OrchextraBuilder(this)
+                .setApiKeyAndSecret(API_KEY, API_SECRET)
+                .setLogLevel(OrchextraLogLevel.NETWORK)
+
+                .setNotificationActivityClass(MainActivity.class.toString())
+
+                .setOrchextraCompletionCallback(this));
+        Orchextra.initialize(builder);
+        ...
+        }
+```
 ## Image Recognition Add-on
 If you choose a Google Play Services aar of Orchextra you can add to the OrchextraBuilder the project number from Google Console aka sender id
 ```java
