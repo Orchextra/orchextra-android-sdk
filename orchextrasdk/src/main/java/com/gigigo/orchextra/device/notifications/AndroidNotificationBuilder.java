@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4ox.app.NotificationCompat;
+import android.widget.RemoteViews;
 
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.orchextra.R;
@@ -35,8 +36,8 @@ import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 public class AndroidNotificationBuilder {
 
     public static final String EXTRA_NOTIFICATION_ACTION = "OX_EXTRA_NOTIFICATION_ACTION";
-    public static final String  NOTIFICATION_ACTION_OX = "NOTIFICATION_ACTION_OX";
-    public static final String   HAVE_ACTIVITY_NOTIFICATION_OX = "HAVE_ACTIVITY_NOTIFICATION_OX";
+    public static final String NOTIFICATION_ACTION_OX = "NOTIFICATION_ACTION_OX";
+    public static final String HAVE_ACTIVITY_NOTIFICATION_OX = "HAVE_ACTIVITY_NOTIFICATION_OX";
 
     private final Context context;
 
@@ -79,6 +80,23 @@ public class AndroidNotificationBuilder {
                         .setWhen(System.currentTimeMillis())
                         .setColor(context.getResources().getColor(R.color.ox_notification_background_color))
                         .setAutoCancel(true);
+        //region customnotification
+        RemoteViews mContentView = new RemoteViews(this.context.getPackageName(), R.layout.ox_custom_normal_local_notification);
+        mContentView.setImageViewResource(R.id.ox_notifimage_custom_local_notification, R.drawable.ox_notification_large_icon);
+        //fixme not exists for now  mContentView.setImageViewResource(R.id.notifimage_small_custom_local_notification,getSmallIconResourceId());
+        mContentView.setTextViewText(R.id.ox_notiftitle_custom_local_notification, orchextraNotification.getTitle());
+        mContentView.setTextViewText(R.id.ox_notiftext_custom_local_notification, orchextraNotification.getBody());
+        mContentView.setLong(R.id.time, "setTime", builder.build().when);
+        mContentView.setLong(R.id.ox_time_custom_local_notification, "setTime", builder.build().when);
+
+        builder.setContent(mContentView); //set content
+
+
+        final Notification notification = builder.build();
+
+        if (android.os.Build.VERSION.SDK_INT >= 16)
+            notification.bigContentView = mContentView;//fixme
+        //endregion
 
         if (pendingIntent != null) {
             builder.setContentIntent(pendingIntent);
