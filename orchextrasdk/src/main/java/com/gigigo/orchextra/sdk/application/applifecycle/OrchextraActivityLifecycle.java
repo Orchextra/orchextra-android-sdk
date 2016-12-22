@@ -21,10 +21,15 @@ package com.gigigo.orchextra.sdk.application.applifecycle;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
+import com.gigigo.orchextra.device.notifications.AndroidNotificationBuilder;
+import com.gigigo.orchextra.device.notifications.NotificationReceiver;
+import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
+import com.gigigo.orchextra.device.notifications.dtos.AndroidNotification;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
@@ -33,140 +38,189 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.LifeCycleAccessor;
 import java.util.Iterator;
 import java.util.Stack;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH) public class OrchextraActivityLifecycle
-    implements Application.ActivityLifecycleCallbacks, LifeCycleAccessor {
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+public class OrchextraActivityLifecycle
+        implements Application.ActivityLifecycleCallbacks, LifeCycleAccessor {
 
-  private final AppStatusEventsListener appStatusEventsListener;
-  private final OrchextraLogger orchextraLogger;
+    private final AppStatusEventsListener appStatusEventsListener;
+    private final OrchextraLogger orchextraLogger;
+    private final String notificationActivityClass;
 
-  private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
+    private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
 
-  public OrchextraActivityLifecycle(AppStatusEventsListener listener, OrchextraLogger orchextraLogger) {
-    this.appStatusEventsListener = listener;
-    this.orchextraLogger = orchextraLogger;
-  }
-
-  @Override public boolean isInBackground() {
-    return activityStack.isEmpty();
-  }
-
-  @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-  }
-
-  @Override public void onActivityStarted(Activity activity) {
-    boolean wasInBackground = activityStack.empty();
-    if (wasInBackground) {
-      appStatusEventsListener.onBackgroundEnd();
+    public OrchextraActivityLifecycle(AppStatusEventsListener listener, OrchextraLogger orchextraLogger, String notificationActivityClass) {
+        this.appStatusEventsListener = listener;
+        this.orchextraLogger = orchextraLogger;
+        this.notificationActivityClass = notificationActivityClass;
     }
 
-    this.activityStack.push(new ActivityLifecyleWrapper(activity, true, false));
-
-    if (wasInBackground) {
-      startForegroundMode();
-    }
-  }
-
-  @Override public void onActivityResumed(Activity activity) {
-    try {
-      ConsistencyUtils.checkNotEmpty(activityStack);
-      activityStack.peek().setIsPaused(false);
-    } catch (Exception e) {
-      orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
-    }
-  }
-
-  @Override public void onActivityPaused(Activity activity) {
-    try {
-      ConsistencyUtils.checkNotEmpty(activityStack);
-      activityStack.peek().setIsPaused(true);
-    } catch (Exception e) {
-      orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
-    }
-  }
-
-  @Override public void onActivityStopped(Activity activity) {
-    try {
-      ConsistencyUtils.checkNotEmpty(activityStack);
-
-      if (activityStack.size() == 1) {
-        appStatusEventsListener.onForegroundEnd();
-      }
-      removeActivityFromStack(activity);
-      setBackgroundModeIfNeeded();
-    } catch (Exception e) {
-      orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
-    }
-  }
-
-  @Override public void onActivityDestroyed(Activity activity) {
-  }
-
-  @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-  }
-
-  public boolean isActivityContextAvailable() {
-    return (getCurrentActivity() != null);
-  }
-
-  public AppStatusEventsListener getAppStatusEventsListener() {
-    return appStatusEventsListener;
-  }
-
-  public Activity getCurrentActivity() {
-
-    for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
-      if (!activityLifecyleWrapper.isPaused()) {
-        return activityLifecyleWrapper.getActivity();
-      }
+    @Override
+    public boolean isInBackground() {
+        return activityStack.isEmpty();
     }
 
-    for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
-      if (!activityLifecyleWrapper.isStopped()) {
-        return activityLifecyleWrapper.getActivity();
-      }
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     }
 
-    return null;
-  }
+    @Override
+    public void onActivityStarted(Activity activity) {
 
-  private void removeActivityFromStack(Activity activity) {
-    Iterator<ActivityLifecyleWrapper> iter = activityStack.iterator();
-    while (iter.hasNext()) {
-      ActivityLifecyleWrapper activityLifecyleWrapper = iter.next();
-      if (activityLifecyleWrapper.getActivity().equals(activity)) {
-        //activityStack.remove(activityLifecyleWrapper);
-        iter.remove();
-      }
-    }
-  }
+        boolean wasInBackground = activityStack.empty();
+        if (wasInBackground) {
+            appStatusEventsListener.onBackgroundEnd();
+        }
 
-  private void setBackgroundModeIfNeeded() {
-    if (activityStack.empty()) {
-      appStatusEventsListener.onBackgroundStart();
-    }
-  }
+        this.activityStack.push(new ActivityLifecyleWrapper(activity, true, false));
 
-  private void startForegroundMode() {
-    appStatusEventsListener.onForegroundStart();
-  }
-  //todo notcomplete
-  private void prinStatusOfStack(String s) {
-    orchextraLogger.log("STACK Status :: " + s);
-    orchextraLogger.log("STACK Status :: Elements in Stack :" + activityStack.size());
-    for (int i = 0; i < activityStack.size(); i++) {
-      orchextraLogger.log("STACK Status :: Activity " + i +
-          " Stopped: " + activityStack.get(i).isStopped() +
-          " Paused: " + activityStack.get(i).isPaused() +
-          " Has Context: " + (activityStack.get(i).getActivity() != null) +
-          " Activity Context: " + activityStack.get(i).getActivity());
+        if (wasInBackground) {
+            startForegroundMode();
+        }
+        //EVALUATE INTENT WHEN ACTIVITY "HOME" ARE REACHED, NOT BEFORE
+        if (notificationActivityClass.equals(activity.getClass().toString()) && NotificationReceiver.mIntent != null
+                && AndroidNotificationBuilder.NOTIFICATION_ACTION_OX.equals(NotificationReceiver.mIntent.getAction())) {
+            AndroidBasicAction androidBasicAction = getBasicActionChangeShownFromIntent();
+            generateIntentWhenNotificationActivityOpened(activity, androidBasicAction);
+        }
     }
 
-    orchextraLogger.log("STACK Status :: Lifecycle, Is app in Background: " + isInBackground());
+    private void generateIntentWhenNotificationActivityOpened(Activity activity, AndroidBasicAction androidBasicAction) {
+        Intent intent = new Intent(activity, NotificationReceiver.class)
+                .setAction(NotificationReceiver.ACTION_NOTIFICATION_BROADCAST_RECEIVER)
+                .putExtra(NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER,
+                        NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER)
+                .putExtra(AndroidNotificationBuilder.EXTRA_NOTIFICATION_ACTION, androidBasicAction)
+                .putExtra(AndroidNotificationBuilder.HAVE_ACTIVITY_NOTIFICATION_OX, true)
+                .setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
-    orchextraLogger.log("STACK Status :: isActivityContextAvailable: " + isActivityContextAvailable());
+        activity.sendBroadcast(intent);
 
-    orchextraLogger.log("STACK Status :: getCurrentActivity: " + getCurrentActivity());
+    }
 
-    orchextraLogger.log("------------- STACK Status ---------------");
-  }
+    private AndroidBasicAction getBasicActionChangeShownFromIntent() {
+        AndroidBasicAction androidBasicAction = new AndroidBasicAction();
+        try {
+            androidBasicAction = (AndroidBasicAction) NotificationReceiver.mIntent.getParcelableExtra(AndroidNotificationBuilder.EXTRA_NOTIFICATION_ACTION);
+            if (androidBasicAction != null && androidBasicAction.getNotification() != null) {
+                AndroidNotification androidNotification = androidBasicAction.getNotification();
+                if (androidNotification != null && androidNotification.getBody() != "" && androidNotification.getTitle() != "") {
+                    androidNotification.setShown(false);//we will to show the notification again when the activity home of app will be reached
+                   // androidNotification.setTitle("Yeah Jilou Mundo!");
+                    androidBasicAction.setNotification(androidNotification);
+                }
+            }
+        } catch (Throwable tr) {
+        }
+        return androidBasicAction;
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+        try {
+            ConsistencyUtils.checkNotEmpty(activityStack);
+            activityStack.peek().setIsPaused(false);
+        } catch (Exception e) {
+            orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
+        }
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+        try {
+            ConsistencyUtils.checkNotEmpty(activityStack);
+            activityStack.peek().setIsPaused(true);
+        } catch (Exception e) {
+            orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
+        }
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+        try {
+            ConsistencyUtils.checkNotEmpty(activityStack);
+
+            if (activityStack.size() == 1) {
+                appStatusEventsListener.onForegroundEnd();
+            }
+            removeActivityFromStack(activity);
+            setBackgroundModeIfNeeded();
+        } catch (Exception e) {
+            orchextraLogger.log("Exception :" + e.getMessage(), OrchextraSDKLogLevel.ERROR);
+        }
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+    }
+
+    public boolean isActivityContextAvailable() {
+        return (getCurrentActivity() != null);
+    }
+
+    public AppStatusEventsListener getAppStatusEventsListener() {
+        return appStatusEventsListener;
+    }
+
+    public Activity getCurrentActivity() {
+
+        for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
+            if (!activityLifecyleWrapper.isPaused()) {
+                return activityLifecyleWrapper.getActivity();
+            }
+        }
+
+        for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
+            if (!activityLifecyleWrapper.isStopped()) {
+                return activityLifecyleWrapper.getActivity();
+            }
+        }
+
+        return null;
+    }
+
+    private void removeActivityFromStack(Activity activity) {
+        Iterator<ActivityLifecyleWrapper> iter = activityStack.iterator();
+        while (iter.hasNext()) {
+            ActivityLifecyleWrapper activityLifecyleWrapper = iter.next();
+            if (activityLifecyleWrapper.getActivity().equals(activity)) {
+                //activityStack.remove(activityLifecyleWrapper);
+                iter.remove();
+            }
+        }
+    }
+
+    private void setBackgroundModeIfNeeded() {
+        if (activityStack.empty()) {
+            appStatusEventsListener.onBackgroundStart();
+        }
+    }
+
+    private void startForegroundMode() {
+        appStatusEventsListener.onForegroundStart();
+    }
+
+    //todo notcomplete
+    private void prinStatusOfStack(String s) {
+        orchextraLogger.log("STACK Status :: " + s);
+        orchextraLogger.log("STACK Status :: Elements in Stack :" + activityStack.size());
+        for (int i = 0; i < activityStack.size(); i++) {
+            orchextraLogger.log("STACK Status :: Activity " + i +
+                    " Stopped: " + activityStack.get(i).isStopped() +
+                    " Paused: " + activityStack.get(i).isPaused() +
+                    " Has Context: " + (activityStack.get(i).getActivity() != null) +
+                    " Activity Context: " + activityStack.get(i).getActivity());
+        }
+
+        orchextraLogger.log("STACK Status :: Lifecycle, Is app in Background: " + isInBackground());
+
+        orchextraLogger.log("STACK Status :: isActivityContextAvailable: " + isActivityContextAvailable());
+
+        orchextraLogger.log("STACK Status :: getCurrentActivity: " + getCurrentActivity());
+
+        orchextraLogger.log("------------- STACK Status ---------------");
+    }
 }

@@ -50,10 +50,12 @@ public class NotificationBehaviorImpl implements NotificationBehavior {
 
     @Override
     public void dispatchNotificationAction(BasicAction action, OrchextraNotification notification) {
+
         if (action.getActionType() != ActionType.NOTIFICATION_PUSH &&
                 contextProvider.getCurrentActivity() != null &&
                 !contextProvider.getCurrentActivity().isFinishing() &&
-                appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND) {
+                appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND)
+          {
             foregroundNotificationBuilder.setActionDispatcherListener(actionDispatcherListener);
             foregroundNotificationBuilder.buildNotification(action, notification);
         } else {

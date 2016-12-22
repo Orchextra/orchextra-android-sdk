@@ -35,6 +35,8 @@ import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 public class AndroidNotificationBuilder {
 
     public static final String EXTRA_NOTIFICATION_ACTION = "OX_EXTRA_NOTIFICATION_ACTION";
+    public static final String  NOTIFICATION_ACTION_OX = "NOTIFICATION_ACTION_OX";
+    public static final String   HAVE_ACTIVITY_NOTIFICATION_OX = "HAVE_ACTIVITY_NOTIFICATION_OX";
 
     private final Context context;
 
@@ -50,9 +52,7 @@ public class AndroidNotificationBuilder {
         } else {
             notification = createNormalNotification(orchextraNotification, pendingIntent);
         }
-
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         notificationManager.notify((int) (System.currentTimeMillis() % Integer.MAX_VALUE), notification);
     }
 
@@ -94,23 +94,13 @@ public class AndroidNotificationBuilder {
 
     public PendingIntent getPendingIntent(AndroidBasicAction androidBasicAction) {
         Intent intent = new Intent(context , NotificationReceiver.class)
-                .setAction(NotificationReceiver.ACTION_NOTIFICATION_BROADCAST_RECEIVER)
+                .setAction(NOTIFICATION_ACTION_OX)
                 .putExtra(NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER, NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER)
                 .putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction)
+                .putExtra(AndroidNotificationBuilder.HAVE_ACTIVITY_NOTIFICATION_OX, false)
                 .setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
         return PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-//        PackageManager pm = context.getPackageManager();
-//
-//        Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
-//        if (intent != null) {
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.setAction(String.valueOf(System.currentTimeMillis()));
-//            intent.putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction);
-//        }
-//
-//        return PendingIntent.getActivity(context, 1, intent, 0);
     }
 
     private int getSmallIconResourceId() {

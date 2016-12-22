@@ -49,7 +49,7 @@ public class GetActionDomainServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        getActionDomainService = new GetActionDomainService(mockActionsDataProvider, mocKServiceErrorChecker);
+        getActionDomainService = new GetActionDomainService(mockActionsDataProvider, mocKServiceErrorChecker, appRunningMode);
     }
 
     @Test

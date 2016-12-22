@@ -67,15 +67,14 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
         String strBIsConfigInitialized = "com.gigigo.orchextra:bIsConfigInitialized";
         boolean bIsSessionInitialized = prefs.getBoolean(strBIsConfigInitialized, false);
         if (!bIsSessionInitialized) {
-            //fixme quizás mejor q dar de alta un registro con defaultvalues, sea mejor borrar lo q haia
-     /* saveConfigData(new ConfigurationInfoResult());
-      saveUserBusinessUnits(new ArrayList<String>());
-      saveCrmDeviceBusinessUnits(new ArrayList<String>());
-      saveCrmDeviceUserTags(new ArrayList<String>());
-      saveCrmUserTags(new ArrayList<String>());
-      saveUserCustomFields(new ArrayList<CustomField>());*/
-
-            removeLocalStorage();
+            //todo check in devices with Realm problems
+            saveConfigData(new ConfigurationInfoResult());
+            saveUserBusinessUnits(new ArrayList<String>());
+            saveCrmDeviceBusinessUnits(new ArrayList<String>());
+            saveCrmDeviceUserTags(new ArrayList<String>());
+            saveCrmUserTags(new ArrayList<String>());
+            saveUserCustomFields(new ArrayList<CustomField>());
+           //removeLocalStorage();//this delete geofences and Beacons
 
             prefs.edit().putBoolean(strBIsConfigInitialized, true);
         }

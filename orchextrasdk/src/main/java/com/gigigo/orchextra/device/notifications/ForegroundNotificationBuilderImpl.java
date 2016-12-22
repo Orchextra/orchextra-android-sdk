@@ -44,7 +44,7 @@ public class ForegroundNotificationBuilderImpl implements ForegroundNotification
     @Override
     public void buildNotification(BasicAction action, OrchextraNotification notification) {
         this.action = action;
-
+        notification.setShown(true); //This prevent show and show again the dialog notification
         if (action.getActionType() == ActionType.NOTIFICATION) {
             buildAcceptDialog(notification);
         } else {

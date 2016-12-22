@@ -13,6 +13,7 @@ public class OrchextraBuilder {
     private ImageRecognition imageRecognitionModule;
     private OrchextraLogLevel orchextraLogLevel;
     private String gcmSenderId;
+    private String notificationActivityName = "";
 
     public OrchextraBuilder(Application application) {
         this.application = application;
@@ -43,7 +44,7 @@ public class OrchextraBuilder {
 
     /**
      * Include the image recognition module in Orchextra core.
-     *
+     * <p/>
      * <a href="https://github.com/Orchextra/orchextra-android-sdk#image-recognition-integration">For more info, visit this link</a>.
      */
     public OrchextraBuilder setImageRecognitionModule(ImageRecognition imageRecognitionModule) {
@@ -53,7 +54,7 @@ public class OrchextraBuilder {
 
     /**
      * Set the api key and secret of your project.
-     *
+     * <p/>
      * You can obtain this credentials from the Orchextra dashboard
      */
     public OrchextraBuilder setApiKeyAndSecret(String apiKey, String apiSecret) {
@@ -79,6 +80,7 @@ public class OrchextraBuilder {
         return apiSecret;
     }
 
+
     public OrchextraCompletionCallback getOrchextraCompletionCallback() {
         return orchextraCompletionCallback;
     }
@@ -93,5 +95,14 @@ public class OrchextraBuilder {
 
     public String getGcmSenderId() {
         return gcmSenderId;
+    }
+
+    public String getNotificationActivityName() {
+        return this.notificationActivityName;
+    }
+
+    public OrchextraBuilder setNotificationActivityClass(String mainActivityClass) {
+        this.notificationActivityName = mainActivityClass;
+        return this;
     }
 }

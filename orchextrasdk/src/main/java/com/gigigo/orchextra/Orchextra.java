@@ -72,10 +72,13 @@ public final class Orchextra {
         if (orchextraBuilder.getOrchextraLogLevel() != null) {
             OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
         }
+        OrchextraManager.setNotificationActivityClass(orchextraBuilder.getNotificationActivityName());
         OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
         OrchextraManager.setGcmSendId(orchextraBuilder.getApplication(), orchextraBuilder.getGcmSenderId());
         OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
         OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
+
+
     }
 
 

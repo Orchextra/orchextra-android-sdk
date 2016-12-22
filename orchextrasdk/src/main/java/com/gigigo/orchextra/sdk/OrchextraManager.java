@@ -114,12 +114,14 @@ public class OrchextraManager implements Observer {
     @Inject
     BeaconRangingScanner beaconRangingScanner;
 
-    @Inject Session session;
+    @Inject
+    Session session;
 
     @Inject
     ConfigChangeObservable configObservable;
 
     private static OrchextraCredentialCallback credentialCallback;
+    private static String notificationActivityClass = "";
 
     /**
      * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
@@ -305,6 +307,10 @@ public class OrchextraManager implements Observer {
         }
     }
 
+    public static void setNotificationActivityClass(String notificationActivityClass) {
+        OrchextraManager.notificationActivityClass = notificationActivityClass;
+    }
+
     private void stopOrchextraTasks() {
         orchextraTasksManager.stopAllTasks();
 
@@ -325,7 +331,7 @@ public class OrchextraManager implements Observer {
 //        enabledOrchextraNotificationPush(app);
 
         if (AndroidSdkVersion.hasJellyBean18()) {
-            initDependencyInjection(app.getApplicationContext(), completionCallback);
+            initDependencyInjection(app.getApplicationContext(), completionCallback, notificationActivityClass);
             initLifecyle(app);
             //initialize();
             orchextraStatusAccessor.initialize();
@@ -339,10 +345,10 @@ public class OrchextraManager implements Observer {
     }
 
     private void initDependencyInjection(Context applicationContext,
-                                         OrchextraManagerCompletionCallback orchextraCompletionCallback) {
+                                         OrchextraManagerCompletionCallback orchextraCompletionCallback, String notificationActivityClass) {
 
         OrchextraComponent orchextraComponent = DaggerOrchextraComponent.builder()
-                .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback))
+                .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback, notificationActivityClass))
                 .build();
 
         injector = new InjectorImpl(orchextraComponent);
@@ -626,7 +632,8 @@ public class OrchextraManager implements Observer {
         }
     }
 
-    @Override public void update(OrchextraChanges observable, Object data) {
+    @Override
+    public void update(OrchextraChanges observable, Object data) {
         String accessToken = OrchextraManager.instance.session.getTokenString();
 
         if (OrchextraManager.instance != null && credentialCallback != null) {
