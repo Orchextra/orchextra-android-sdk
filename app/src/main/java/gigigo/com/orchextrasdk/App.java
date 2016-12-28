@@ -92,6 +92,14 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     }
 
     @Override
+    public void onConfigurationReceive(String s) {
+
+        Log.i("", "Access Token:" + s);
+        Log.d("APP", "onInit: " + s);
+    }
+
+
+    @Override
     public void onReceive(String scheme) {
         Log.d("APP", "Scheme: " + scheme);
     }

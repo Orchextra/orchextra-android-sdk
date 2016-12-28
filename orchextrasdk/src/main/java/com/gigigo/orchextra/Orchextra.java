@@ -17,6 +17,8 @@
  */
 package com.gigigo.orchextra;
 
+import android.util.Log;
+
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
@@ -66,6 +68,13 @@ public final class Orchextra {
                     orchextraCompletionCallback.onInit(s);
                 }
             }
+            @Override
+            public void onConfigurationReceive(String s) {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onConfigurationReceive(s);
+                }
+            }
+
         };
 
         OrchextraManager.checkInitMethodCall(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
@@ -77,21 +86,19 @@ public final class Orchextra {
         OrchextraManager.setGcmSendId(orchextraBuilder.getApplication(), orchextraBuilder.getGcmSenderId());
         OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
         OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
-
+ 
 
     }
 
+    public static void setCredentialCallback(OrchextraCredentialCallback orchextraCredentialCallback) {
+        OrchextraManager.setCredentialCallback(orchextraCredentialCallback);
+    }
 
     /**
      * Start the Orchextra library. Calling this method Orchextra start to send and receive events.
      * <p>
      * You can call this method in any moment after the calling of the initialize method.
-     * @param orchextraCredentialCallback
      */
-    public static void setCredentialCallback(OrchextraCredentialCallback orchextraCredentialCallback) {
-        OrchextraManager.setCredentialCallback(orchextraCredentialCallback);
-    }
-
     public static void start() {
         OrchextraManager.sdkStart();
     }

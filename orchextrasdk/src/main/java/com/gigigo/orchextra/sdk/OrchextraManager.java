@@ -638,6 +638,7 @@ public class OrchextraManager implements Observer {
 
         if (OrchextraManager.instance != null && credentialCallback != null) {
             credentialCallback.onCredentialReceiver(accessToken);
+            orchextraCompletionCallback.onConfigurationReceive(accessToken);
         }
     }
 }
