@@ -120,7 +120,7 @@ public class OrchextraManager implements Observer {
     @Inject
     ConfigChangeObservable configObservable;
 
-    private static OrchextraCredentialCallback credentialCallback;
+
     private static String notificationActivityClass = "";
 
     /**
@@ -139,7 +139,6 @@ public class OrchextraManager implements Observer {
         } catch (PackageManager.NameNotFoundException e) {
             // TODO Auto-generated catch block
         }
-
 
     }
     //region feed app json node
@@ -299,13 +298,6 @@ public class OrchextraManager implements Observer {
         return orchextraSDKLogLevel;
     }
 
-    public static void setCredentialCallback(OrchextraCredentialCallback credentialCallback) {
-        OrchextraManager.credentialCallback = credentialCallback;
-
-        if (OrchextraManager.instance != null) {
-            OrchextraManager.instance.configObservable.registerObserver(OrchextraManager.instance);
-        }
-    }
 
     public static void setNotificationActivityClass(String notificationActivityClass) {
         OrchextraManager.notificationActivityClass = notificationActivityClass;
@@ -328,14 +320,23 @@ public class OrchextraManager implements Observer {
     private void initOrchextra(Application app, OrchextraManagerCompletionCallback completionCallback) {
 
         orchextraCompletionCallback = completionCallback;
-//        enabledOrchextraNotificationPush(app);
+
 
         if (AndroidSdkVersion.hasJellyBean18()) {
             initDependencyInjection(app.getApplicationContext(), completionCallback, notificationActivityClass);
             initLifecyle(app);
             //initialize();
+            if (orchextraCompletionCallback != null) {
+                if (OrchextraManager.instance != null && OrchextraManager.instance.configObservable!=null) {
+                    OrchextraManager.instance.configObservable.registerObserver(OrchextraManager.instance);
+                }
+            }
             orchextraStatusAccessor.initialize();
             completionCallback.onInit(app.getString(R.string.ox_initialize_android_sdk));
+
+
+
+
         } else {
             //is necesary check submanager if instance have notnull object but no inject submodules
             //this check not exits, but if we null the instance all check are
@@ -636,8 +637,7 @@ public class OrchextraManager implements Observer {
     public void update(OrchextraChanges observable, Object data) {
         String accessToken = OrchextraManager.instance.session.getTokenString();
 
-        if (OrchextraManager.instance != null && credentialCallback != null) {
-            credentialCallback.onCredentialReceiver(accessToken);
+        if (OrchextraManager.instance != null && orchextraCompletionCallback != null) {
             orchextraCompletionCallback.onConfigurationReceive(accessToken);
         }
     }

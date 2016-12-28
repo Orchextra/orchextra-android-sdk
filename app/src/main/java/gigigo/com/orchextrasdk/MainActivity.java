@@ -17,9 +17,6 @@ import android.widget.TextView;
 import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
-import com.gigigo.orchextra.sdk.OrchextraCredentialCallback;
-import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
 import java.util.Arrays;

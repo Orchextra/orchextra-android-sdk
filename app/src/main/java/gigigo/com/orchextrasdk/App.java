@@ -19,15 +19,12 @@ package gigigo.com.orchextrasdk;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
-import com.gigigo.ggglogger.GGGLogImpl;
+
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
 import com.gigigo.orchextra.OrchextraLogLevel;
-import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
-import com.gigigo.orchextra.sdk.OrchextraCredentialCallback;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
@@ -42,12 +39,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     public static final String SENDER_ID = "Your_Sender_ID";//if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
     public static final String GIGIGO_URL = "http://research.gigigo.com";
     public static final String CUSTOM_SCHEME = "webview://";
-    public static OrchextraCredentialCallback mOrchextraCredentialCallback = new OrchextraCredentialCallback() {
-        @Override
-        public void onCredentialReceiver(String s) {
-            Log.i("", "Access Token:" + s);
-        }
-    };
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -67,7 +59,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 //
         //your can re set custom Scheme in other places(activities,services..)
         Orchextra.setCustomSchemeReceiver(this);
-       Orchextra.setCredentialCallback(mOrchextraCredentialCallback);
+    //   Orchextra.setCredentialCallback(mOrchextraCredentialCallback);
 
         //start Orchextra running, you can call stop() if you need
         Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call

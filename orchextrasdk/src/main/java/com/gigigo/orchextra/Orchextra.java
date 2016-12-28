@@ -17,17 +17,12 @@
  */
 package com.gigigo.orchextra;
 
-import android.util.Log;
-
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
-import com.gigigo.orchextra.sdk.OrchextraCredentialCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,13 +81,11 @@ public final class Orchextra {
         OrchextraManager.setGcmSendId(orchextraBuilder.getApplication(), orchextraBuilder.getGcmSenderId());
         OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
         OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
- 
+
 
     }
 
-    public static void setCredentialCallback(OrchextraCredentialCallback orchextraCredentialCallback) {
-        OrchextraManager.setCredentialCallback(orchextraCredentialCallback);
-    }
+
 
     /**
      * Start the Orchextra library. Calling this method Orchextra start to send and receive events.
