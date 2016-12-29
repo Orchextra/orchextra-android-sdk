@@ -548,6 +548,24 @@ public class OrchextraManager implements Observer {
     public static long getBackgroundPeriodBetweenScan() {
         return OrchextraManager.instance.backgroundPeriodBetweenScan;
     }
+    private void pauseOrchextraTasks() {
+        orchextraTasksManager.pauseBackgroundTasks();
+    }
+
+    public static synchronized void sdkPause() {
+
+        OrchextraManager orchextraManager = OrchextraManager.instance;
+        if (orchextraManager != null &&
+                orchextraManager.orchextraStatusAccessor != null &&
+                orchextraManager.orchextraStatusAccessor.isStarted()) {
+            //fixme new pause status
+            //    orchextraManager.orchextraStatusAccessor.setStoppedStatus();
+            instance.pauseOrchextraTasks();
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\npauseOrchextraTasks");
+
+        }
+
+    }
 
     public static List<String> getDeviceTags() {
         if (OrchextraManager.instance != null) {

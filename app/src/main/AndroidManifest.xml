@@ -17,7 +17,10 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="gigigo.com.orchextrasdk">
-
+    <!--AdOnServices-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /><!--updater-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/> <!--motion-->
+    <uses-feature android:name="android.hardware.sensor.accelerometer" /><!--motion-->
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -42,14 +45,28 @@
 
         </activity>
 
-        <!--updateConfig-->
-        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-        <receiver android:name=".UpdateConfigReceiver">
+        <!--AdOnServices-->
+        <receiver android:name=".adonservices.UpdateConfigReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
+
+        <service
+            android:name=".adonservices.MotionService"
+            android:enabled="true"
+            android:exported="false">
+            <meta-data
+                android:name="background"
+                android:value="true" />
+        </service>
+
+        <receiver android:name=".adonservices.BluetoothResetReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.RESET_BT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

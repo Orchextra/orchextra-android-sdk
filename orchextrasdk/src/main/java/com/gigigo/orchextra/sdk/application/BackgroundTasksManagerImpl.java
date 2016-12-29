@@ -42,6 +42,16 @@ public class BackgroundTasksManagerImpl implements BackgroundTasksManager {
         orchextraTasksManager.initBackgroundTasks();
       }
   }
+  @Override public void reStartBackgroundTasks() {
+    if (permissionChecker.isGranted(permission)) {
+      orchextraTasksManager.reStartBackgroundTasks();
+    }
+  }
+
+  @Override
+  public void pauseBackgroundTasks() {
+    orchextraTasksManager.pauseBackgroundTasks();
+  }
 
   @Override public void finalizeBackgroundTasks() {
     orchextraTasksManager.stopBackgroundServices();

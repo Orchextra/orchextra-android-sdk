@@ -26,7 +26,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gigigo.com.orchextrasdk.adonservices.BluetoothResetUtility;
+import gigigo.com.orchextrasdk.adonservices.MotionServiceUtility;
+import gigigo.com.orchextrasdk.adonservices.UpdateConfigReceiver;
+import gigigo.com.orchextrasdk.adonservices.UpdateConfigUtility;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        App.mMotionServiceUtility.start(); //motion, only in background
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getViews();
         setListeners();
 
+        //Ad-Ons Motion and Bluetooth the UpdateConfig in on Mainactivity
+        App.mMotionServiceUtility.stop();//motion
     }
-
-
     //region Orchextra
     private boolean isRunning = false;
     private Button button, button2, button3, button4, button5, button6, button7, button8;
@@ -193,10 +203,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isRunning = true;
         button3.setText(R.string.ox_stop_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_running)));
-        //UpdateConfigWrapper ONly when Start
-        UpdateConfigWrapper updater = new UpdateConfigWrapper(this);
-        updater.createUpdateConfigurationByTime(1000, 10000);
-        enablerUpdateConfigReBootService(this.getApplication(), true);
 
     }
 
@@ -210,20 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isRunning = false;
         button3.setText(R.string.ox_start_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
-        enablerUpdateConfigReBootService(this.getApplication(), true);
+
     }
-
-
-    private void enablerUpdateConfigReBootService(Application application, boolean bState) {
-        int componentEnabledState;
-        if (!bState) {
-            componentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-        } else {
-            componentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-        }
-        ComponentName component = new ComponentName(application, UpdateConfigReceiver.class);
-        application.getPackageManager().setComponentEnabledSetting(component, componentEnabledState, PackageManager.DONT_KILL_APP);
-    }
-
     //endregion
 }
