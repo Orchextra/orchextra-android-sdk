@@ -364,9 +364,9 @@ For the local notifications:
 With this custom notification you can show the same kind notification style whitout depending on the android version of the device.
 
 This is the image using on the templates:
-1->ox_notification_alpha_small_icon.png
-2->ox_notification_large_icon.png
-3->ox_notification_color_small_icon.png
+- 1->ox_notification_alpha_small_icon.png
+- 2->ox_notification_large_icon.png
+- 3->ox_notification_color_small_icon.png
 
 ![images uses](https://nuborisar.github.io/resources_notification.png)
 This sample is from Big notification, push or local are equals.
