@@ -74,11 +74,11 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
         //bluetooth
         BluetoothResetUtility bluetoothResetUtility = new BluetoothResetUtility(this);
-        bluetoothResetUtility.createAlarmResetBluetoothEachTime(60 * 1000 * 5); //reset BT each 30min is a test
+        bluetoothResetUtility.createAlarmResetBluetoothEachTime(60 * 1000 * 65); //reset BT each 65min is a test, is not c00l
 
         //UpdateConfigWrapper ONly when Start
         UpdateConfigUtility updater = new UpdateConfigUtility(this);
-        updater.createUpdateConfigurationByTime(60 * 1000 * 3);
+        updater.createUpdateConfigurationByTime(60 * 1000 * 60);
         enablerUpdateConfigReBootService(this, true);
     }
 

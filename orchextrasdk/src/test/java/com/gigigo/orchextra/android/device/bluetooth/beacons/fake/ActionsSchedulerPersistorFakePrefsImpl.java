@@ -1,7 +1,10 @@
 package com.gigigo.orchextra.android.device.bluetooth.beacons.fake;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerPersistor;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.ScheduledAction;
@@ -16,21 +19,19 @@ import java.util.Set;
 
 
 public class ActionsSchedulerPersistorFakePrefsImpl implements ActionsSchedulerPersistor {
-
   private final SharedPreferences prefReader;
   private final SharedPreferences.Editor prefEditor;
-
   public ActionsSchedulerPersistorFakePrefsImpl(Context context) {
     prefReader = context.getSharedPreferences("actionsScheduler", Context.MODE_PRIVATE);
     prefEditor = prefReader.edit();
   }
-
-
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override public ScheduledAction getScheduledActionWithId(String id) {
      Set<String> actionData = prefReader.getStringSet(id, valuesForActionData(null));
     return prefActionToScheduledAction(actionData);
   }
 
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override public void addAction(final ScheduledAction action) {
     Set<String> values = valuesForActionData(action);
     prefEditor.putStringSet(action.getId(), values);

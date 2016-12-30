@@ -203,6 +203,7 @@ public final class Orchextra {
         OrchextraManager.updateBackgroundPeriodBetweenScan(intensity.getIntensity());
     }
 
+    //region TAGS/BU/CF DEVICE&USER
     public static List<String> getDeviceTags() {
         return OrchextraManager.getDeviceTags();
     }
@@ -264,5 +265,5 @@ public final class Orchextra {
         EmptyMap.put("", "");
         OrchextraManager.setUserCustomFields(EmptyMap);
     }
-
+//endregion
 }

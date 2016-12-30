@@ -1,5 +1,5 @@
 # Orchextra SDK for Android
-[![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
+[![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=ocm_integration)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
 ![Version](https://img.shields.io/badge/Version-3.0.3-blue.svg)
@@ -20,7 +20,7 @@ Orchextra SDK is composed of **Orchextra Core**, and add-ons
 - Push Notifications
 - Barcode/qr Scanner
 
-#### Image Recognition Add-on
+#### Image Recognition Ad-on
 - Image Recognition Scanner Module: Vuforia implementation
 
 ## Installation
@@ -81,7 +81,7 @@ The previous dependency has to be added into this file:
 and we must sync gradle project.
 
 ## Integrate Orchextra SDK
-We have to created a class which **extends from Application** (if we didn't do yet) and add the Orchextra init method is . We could implement OrchextraCompletionCallback interface in order to receive the orchextra status.
+We have to created a class which **extends from Application** (if we didn't do yet) and add the Orchextra init method is . We could implement OrchextraCompletionCallback interface in order to receive the orchextra status. This Callback have a new event, onConfigurationReceive, for know when the configuration request ends.
 
 ```java
 @Override
@@ -116,7 +116,7 @@ OrchextraBuilder builder = new OrchextraBuilder(this)
         ...
         }
 ```
-## Image Recognition Add-on
+## Image Recognition Ad-on
 If you choose a Google Play Services aar of Orchextra you can add to the OrchextraBuilder the project number from Google Console aka sender id
 ```java
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
@@ -140,6 +140,24 @@ Then, in any part of our application we should start the orchextra sdk.
 Orchextra.start();
 ```
 After calling start, you can call `Orchextra.stop()` if you need to stop all Orchextra features, so you can call again start or stop in order to fit your requirements.
+
+## New Methods Pause/ReStart services on Orchextra SDK
+We create new methods, for pause/restart geofencing and ranging  monitoring. You can call this methods anytime, after first Orchextra.start()
+```java
+Orchextra.pause(Context);
+```
+```java
+Orchextra.reStart(Context);
+```
+
+## New Method  refreshConfigurationInBackground on Orchextra SDK
+This new method is very usefull if your Orchextra Project require to much geofences or beacon regions and you want to update that by time or distance with background process.
+```java
+Orchextra.refreshConfigurationInBackground(Context);
+```
+
+In the :app project you can find in ad-on services how that use all these new Methods.
+
 
 ## Change project/authCredentials Orchextra SDK
 In the new version we set the Orchextra project authCredentials when we initialize the sdk, if we want to change the Ox Project, we can call it in any moment.
@@ -321,17 +339,38 @@ In your string.xml, you can include some customized strings
 ```
 In the same way, some color you can customize are
 ```xml
-<!-- Background color of the icon in the notification area -->
+<!-- Background color of the icon in the notification area API < 16 -->
 <color name="ox_notification_background_color">#EE524F</color>
 ​
 <!-- Toolbar title and icon color -->
 <color name="ox_toolbar_title_color">#FFF</color>
 ```
 Additionally, you should customize the Orchextra Sdk with your drawables.
- - ox_notification_large_icon: This image is used as large icon in notifications and as image in the dialogs inside the application.
- - ox_notification_alpha_small_icon: Icon is showed in the notification bar in Android version 21 o higher.
- - ox_notification_color_small_icon: Icon is showed in the notification bar in Android versions lower than 21.
+
+ - ox_notification_alpha_small_icon(1*): Icon is showed in the status bar.
+ - ox_notification_large_icon(2*): This image is used as large icon in notifications and as image in the dialogs inside the application.
+ - ox_notification_color_small_icon(3*): Icon is showed in the notifications big end-bottom.
  - ox_close: Icon which is locate in the upper left corner of a screen and is used to close the view.
+
+## New Custom Notifications Orchextra
+We change the notifications to become in Custom notifications. For this we have generated 4 templates that can be overwritten from the SDK integrator app. Below we describe the templates and in which case they will be used by the SDK.
+
+For notifications from Push:
+   - ox_custom_big_push_notification.xml
+   - ox_custom_normal_push_notification.xml
+For the local notifications:
+    - ox_custom_big_local_notification.xml
+    - ox_custom_normal_local_notification.xml
+With this custom notification you can show the same kind notification style whitout depending on the android version of the device.
+
+This is the image using on the templates:
+1->ox_notification_alpha_small_icon.png
+2->ox_notification_large_icon.png
+3->ox_notification_color_small_icon.png
+
+![images uses](https://nuborisar.github.io/resources_notification.png)
+This sample is from Big notification, push or local are equals.
+**IMPORTANT** you must respect the ids of the views inside the notification template, if you don´t want show any view, not remove, put visibility gone atributte instead.
 
 ## Push Notifications Orchextra
 

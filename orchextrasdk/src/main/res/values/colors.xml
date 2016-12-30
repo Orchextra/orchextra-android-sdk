@@ -24,6 +24,8 @@
   <color name="color_primary">#EE524F</color>
   <color name="color_primary_dark">#AC2A27</color>
   <color name="color_accent">#FFFFFF</color>
+  <color name="white">#FFFFFF</color>
+  <color name="black">#000</color>
 
   <!-- VuforiaCredentials Module customization -->
   <color name="ir_color_primary">@color/color_primary</color>

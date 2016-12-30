@@ -90,14 +90,13 @@ public abstract class BasicAction {
 
     public boolean getisFakeNotification() {
         if (getHasNotification()) {
-            if (this.getNotificationBehavior() != null && this.getNotificationBehavior().getTitle().equals(strfakenotificationtitle)) {
+            if (this.getNotificationBehavior() != null
+                    && this.getNotificationBehavior().getTitle().equals(strfakenotificationtitle)) {
                 return true;
-            } else {
-                return false;
             }
-        } else {
             return false;
         }
+            return false;
     }
 
     public ActionType getActionType() {
@@ -114,7 +113,8 @@ public abstract class BasicAction {
 
     public void performAction(ActionDispatcher actionDispatcher) {
         if (this.getisFakeNotification()) {
-            notificationBehavior.getNotification().setShown(true);//this now is only for avoid fake notification7need by app when is on background on ForegroundNotificationBuilderImpl.java buildNotification
+            //this now is only for avoid fake notification7need by app when is on background on ForegroundNotificationBuilderImpl.java buildNotification
+            notificationBehavior.getNotification().setShown(true);
         }
         if (notificationBehavior.isSupported()) {
             performNotifAction(actionDispatcher);
