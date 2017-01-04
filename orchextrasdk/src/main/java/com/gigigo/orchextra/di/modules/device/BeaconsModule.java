@@ -67,6 +67,18 @@ public class BeaconsModule {
 
     setBeaconsLogLevel(orchextraLogger);
     BeaconParser bp = new BeaconParser().setBeaconLayout(BuildConfig.IBEACON_LAYOUT_PARSING);
+    bp.addExtraDataParser(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
+    beaconManager.getBeaconParsers().add(bp);
+
+    bp = new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_UID_LAYOUT);
+    bp.addExtraDataParser(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
+    beaconManager.getBeaconParsers().add(bp);
+
+    bp = new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_URL_LAYOUT);
+    bp.addExtraDataParser(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
+    beaconManager.getBeaconParsers().add(bp);
+
+    bp = new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT);
     beaconManager.getBeaconParsers().add(bp);
     return beaconManager;
   }

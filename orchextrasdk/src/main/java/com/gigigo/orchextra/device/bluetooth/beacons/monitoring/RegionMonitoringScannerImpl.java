@@ -63,7 +63,7 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     this.regionMapper = regionMapper;
     this.orchextraLogger = orchextraLogger;
 
-    this.beaconManager.setMonitorNotifier(this);
+    this.beaconManager.addMonitorNotifier(this);
   }
 
   //region BeaconConsumer Interface
