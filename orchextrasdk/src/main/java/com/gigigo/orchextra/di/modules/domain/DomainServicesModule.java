@@ -103,9 +103,10 @@ public class DomainServicesModule {
     @PerExecution
     GetActionDomainService provideGetActionService(
             ActionsDataProvider actionsDataProvider,
-            @ActionsErrorChecker ServiceErrorChecker serviceErrorChecker) {
+            @ActionsErrorChecker ServiceErrorChecker serviceErrorChecker,
+            AppRunningMode appRunningMode) {
 
-        return new GetActionDomainService(actionsDataProvider, serviceErrorChecker);
+        return new GetActionDomainService(actionsDataProvider, serviceErrorChecker, appRunningMode);
     }
 
     @Provides

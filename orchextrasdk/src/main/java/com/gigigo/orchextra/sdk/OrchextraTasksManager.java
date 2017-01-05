@@ -20,6 +20,7 @@ package com.gigigo.orchextra.sdk;
 public interface OrchextraTasksManager {
 
   void initBackgroundTasks();
+
   void initForegroundTasks();
   void stopAllTasks();
   void stopBackgroundServices();
@@ -27,4 +28,7 @@ public interface OrchextraTasksManager {
   void stopForegroundTasks();
 
   void initBootTasks();
+
+  void reStartBackgroundTasks();
+  void pauseBackgroundTasks();
 }

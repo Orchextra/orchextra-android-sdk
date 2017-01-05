@@ -6,4 +6,6 @@ public interface OrchextraCompletionCallback {
     void onError(String s);
 
     void onInit(String s);
+
+    void onConfigurationReceive(String s);
 }

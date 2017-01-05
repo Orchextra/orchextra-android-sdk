@@ -17,14 +17,17 @@
  */
 package com.gigigo.orchextra;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundPeriodBetweenScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
+import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
+import com.gigigo.orchextra.sdk.background.OrchextraBootBroadcastReceiver;
 
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,17 +68,28 @@ public final class Orchextra {
                     orchextraCompletionCallback.onInit(s);
                 }
             }
+            @Override
+            public void onConfigurationReceive(String s) {
+                if (orchextraCompletionCallback != null) {
+                    orchextraCompletionCallback.onConfigurationReceive(s);
+                }
+            }
+
         };
 
         OrchextraManager.checkInitMethodCall(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
         if (orchextraBuilder.getOrchextraLogLevel() != null) {
             OrchextraManager.setLogLevel(orchextraBuilder.getOrchextraLogLevel());
         }
+        OrchextraManager.setNotificationActivityClass(orchextraBuilder.getNotificationActivityName());
         OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
         OrchextraManager.setGcmSendId(orchextraBuilder.getApplication(), orchextraBuilder.getGcmSenderId());
         OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(), orchextraBuilder.getApiSecret());
         OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
+
+
     }
+
 
 
     /**
@@ -86,7 +100,6 @@ public final class Orchextra {
     public static void start() {
         OrchextraManager.sdkStart();
     }
-
 
     /**
      * Change the api key and secret defined in the initialization call in any moment.
@@ -111,6 +124,25 @@ public final class Orchextra {
      */
     public static synchronized void stop() {
         OrchextraManager.sdkStop();
+    }
+
+
+    public static synchronized void pause(Context context) {
+        Intent i = new Intent(context, OrchextraBackgroundService.class);
+        i.putExtra(OrchextraBootBroadcastReceiver.BOOT_COMPLETED_ACTION, false);
+        i.putExtra(OrchextraBootBroadcastReceiver.PAUSE_SERVICES, true);
+        context.startService(i);
+    }
+    public static synchronized void reStart(Context context) {
+        Intent i = new Intent(context, OrchextraBackgroundService.class);
+        i.putExtra(OrchextraBootBroadcastReceiver.BOOT_COMPLETED_ACTION, false);
+        i.putExtra(OrchextraBootBroadcastReceiver.RESTART_SERVICES, true);
+        context.startService(i);
+    }
+    public static void refreshConfigurationInBackground(Context context) {
+        Intent i = new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
+        i.putExtra(OrchextraBootBroadcastReceiver.REFRESH_CONFIG_ACTION, true);
+        context.getApplicationContext().startService(i);
     }
 
     /**
@@ -171,6 +203,7 @@ public final class Orchextra {
         OrchextraManager.updateBackgroundPeriodBetweenScan(intensity.getIntensity());
     }
 
+    //region TAGS/BU/CF DEVICE&USER
     public static List<String> getDeviceTags() {
         return OrchextraManager.getDeviceTags();
     }
@@ -232,5 +265,5 @@ public final class Orchextra {
         EmptyMap.put("", "");
         OrchextraManager.setUserCustomFields(EmptyMap);
     }
-
+//endregion
 }

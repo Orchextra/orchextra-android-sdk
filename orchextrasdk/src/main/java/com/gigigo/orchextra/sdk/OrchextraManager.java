@@ -32,9 +32,11 @@ import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.CrmUser;
+import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.CrmUserController;
+import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
@@ -54,6 +56,10 @@ import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAc
 import com.gigigo.orchextra.domain.abstractions.initialization.StartStatusType;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
+import com.gigigo.orchextra.domain.abstractions.observer.Observer;
+import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
+import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
+import com.gigigo.orchextra.domain.model.entities.authentication.Session;
 import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
@@ -67,7 +73,7 @@ import java.util.Map;
 
 import orchextra.javax.inject.Inject;
 
-public class OrchextraManager {
+public class OrchextraManager implements Observer {
 
     public static final String ON_CREATE_METHOD = "onCreate";
     //for SDkVersionAppInfo
@@ -108,6 +114,15 @@ public class OrchextraManager {
     @Inject
     BeaconRangingScanner beaconRangingScanner;
 
+    @Inject
+    Session session;
+
+    @Inject
+    ConfigChangeObservable configObservable;
+
+
+    private static String notificationActivityClass = "";
+
     /**
      * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff
      *
@@ -124,7 +139,6 @@ public class OrchextraManager {
         } catch (PackageManager.NameNotFoundException e) {
             // TODO Auto-generated catch block
         }
-
 
     }
     //region feed app json node
@@ -284,6 +298,11 @@ public class OrchextraManager {
         return orchextraSDKLogLevel;
     }
 
+
+    public static void setNotificationActivityClass(String notificationActivityClass) {
+        OrchextraManager.notificationActivityClass = notificationActivityClass;
+    }
+
     private void stopOrchextraTasks() {
         orchextraTasksManager.stopAllTasks();
 
@@ -301,14 +320,23 @@ public class OrchextraManager {
     private void initOrchextra(Application app, OrchextraManagerCompletionCallback completionCallback) {
 
         orchextraCompletionCallback = completionCallback;
-//        enabledOrchextraNotificationPush(app);
+
 
         if (AndroidSdkVersion.hasJellyBean18()) {
-            initDependencyInjection(app.getApplicationContext(), completionCallback);
+            initDependencyInjection(app.getApplicationContext(), completionCallback, notificationActivityClass);
             initLifecyle(app);
             //initialize();
+            if (orchextraCompletionCallback != null) {
+                if (OrchextraManager.instance != null && OrchextraManager.instance.configObservable!=null) {
+                    OrchextraManager.instance.configObservable.registerObserver(OrchextraManager.instance);
+                }
+            }
             orchextraStatusAccessor.initialize();
             completionCallback.onInit(app.getString(R.string.ox_initialize_android_sdk));
+
+
+
+
         } else {
             //is necesary check submanager if instance have notnull object but no inject submodules
             //this check not exits, but if we null the instance all check are
@@ -318,10 +346,10 @@ public class OrchextraManager {
     }
 
     private void initDependencyInjection(Context applicationContext,
-                                         OrchextraManagerCompletionCallback orchextraCompletionCallback) {
+                                         OrchextraManagerCompletionCallback orchextraCompletionCallback, String notificationActivityClass) {
 
         OrchextraComponent orchextraComponent = DaggerOrchextraComponent.builder()
-                .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback))
+                .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback, notificationActivityClass))
                 .build();
 
         injector = new InjectorImpl(orchextraComponent);
@@ -520,6 +548,24 @@ public class OrchextraManager {
     public static long getBackgroundPeriodBetweenScan() {
         return OrchextraManager.instance.backgroundPeriodBetweenScan;
     }
+    private void pauseOrchextraTasks() {
+        orchextraTasksManager.pauseBackgroundTasks();
+    }
+
+    public static synchronized void sdkPause() {
+
+        OrchextraManager orchextraManager = OrchextraManager.instance;
+        if (orchextraManager != null &&
+                orchextraManager.orchextraStatusAccessor != null &&
+                orchextraManager.orchextraStatusAccessor.isStarted()) {
+            //fixme new pause status
+            //    orchextraManager.orchextraStatusAccessor.setStoppedStatus();
+            instance.pauseOrchextraTasks();
+            System.out.println("\n\n\n\n\n\n\n\n\n\n\n\npauseOrchextraTasks");
+
+        }
+
+    }
 
     public static List<String> getDeviceTags() {
         if (OrchextraManager.instance != null) {
@@ -602,6 +648,15 @@ public class OrchextraManager {
             }
 
             OrchextraManager.instance.crmUserController.setUserCustomFields(customFieldList);
+        }
+    }
+
+    @Override
+    public void update(OrchextraChanges observable, Object data) {
+        String accessToken = OrchextraManager.instance.session.getTokenString();
+
+        if (OrchextraManager.instance != null && orchextraCompletionCallback != null) {
+            orchextraCompletionCallback.onConfigurationReceive(accessToken);
         }
     }
 }

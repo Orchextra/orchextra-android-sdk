@@ -22,6 +22,9 @@ public interface BackgroundTasksManager {
 
   void startBackgroundTasks();
 
+  void reStartBackgroundTasks();
+  void pauseBackgroundTasks();
+
   void finalizeBackgroundTasks();
 
   void requestConfig();

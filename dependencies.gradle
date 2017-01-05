@@ -24,12 +24,12 @@ allprojects {
                 dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
                 altBeacon                : 'org.altbeacon:android-beacon-library:2+',
                 barcodescanner           : 'me.dm7.barcodescanner:zbar:1.8.4',
-                gggJavaLib               : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggg-java-lib:1.0',
-                gggLogger                : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglogger:1.0',
-                gggLib                   : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:1.0',
+                gggJavaLib               : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggg-java-lib:1.1',
+                gggLogger                : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglogger:1.1',
+                gggLib                   : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:1.1',
                 //Image Recognition
                 imageRecognitionInterface: 'com.github.GigigoGreenLabs.imgRecogModule:imagerecognitioninterface:1.0',
-                imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:1.3'
+                imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:1.9'
         ]
 
         testDependencies = [

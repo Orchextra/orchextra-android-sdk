@@ -73,7 +73,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     this.beaconRegionMapper = beaconRegionMapper;
     this.beaconAndroidMapper = beaconAndroidMapper;
     this.orchextraLogger = orchextraLogger;
-    beaconManager.setRangeNotifier(this);
+  //  beaconManager.setRangeNotifier(this);
+    beaconManager.addRangeNotifier(this);
   }
 
   // region RangeNotifier Interface
@@ -94,6 +95,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
     if (collection.size() > 0) {
       for (Beacon beacon : collection) {
+        //fixme this fail with eddystone, dont have all ids
         orchextraLogger.log("Beacon: " + beacon.getId1() + " major id:" + beacon.getId2()
                 + "  minor id: " + beacon.getId3());
       }
@@ -179,6 +181,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       @Override public void run() {
     for (Region region:regions){
       try {
+        //fixme asv if is eddystone beacon region, we must to ranging all beacons, for detect url/tlm/uid/ibeaocn frames
+
         manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
         beaconManager.startRangingBeaconsInRegion(region);
         ranging = true;

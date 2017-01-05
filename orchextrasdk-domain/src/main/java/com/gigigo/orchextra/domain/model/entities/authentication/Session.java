@@ -25,6 +25,7 @@ public class Session {
 
   private String tokenType;
   private String tokenString;
+  private String accessToken;
 
   public Session(String tokenType) {
     this.tokenType = tokenType;
@@ -44,10 +45,15 @@ public class Session {
   }
 
   public String getAuthToken() {
-    return tokenString;
+    return accessToken;
   }
 
   public void setTokenString(String tokenString) {
-    this.tokenString = tokenType + " " + tokenString;
+    this.tokenString = tokenString;
+    this.accessToken = tokenType + " " + tokenString;
+  }
+
+  public String getTokenString() {
+    return tokenString;
   }
 }

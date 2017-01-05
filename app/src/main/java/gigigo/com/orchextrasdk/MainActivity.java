@@ -1,13 +1,14 @@
 package gigigo.com.orchextrasdk;
 
+import android.app.Application;
+import android.content.ComponentName;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,18 +19,24 @@ import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import gigigo.com.orchextrasdk.adonservices.BluetoothResetUtility;
+import gigigo.com.orchextrasdk.adonservices.MotionServiceUtility;
+import gigigo.com.orchextrasdk.adonservices.UpdateConfigReceiver;
+import gigigo.com.orchextrasdk.adonservices.UpdateConfigUtility;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        App.mMotionServiceUtility.start(); //motion, only in background
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +46,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getViews();
         setListeners();
 
+        //Ad-Ons Motion and Bluetooth the UpdateConfig in on Mainactivity
+        App.mMotionServiceUtility.stop();//motion
     }
-
-
     //region Orchextra
     private boolean isRunning = false;
-    private Button button, button2, button3, button4, button5, button6, button7,button8;
+    private Button button, button2, button3, button4, button5, button6, button7, button8;
     private TextView statusText;
 
     //region getViews/Buttons onClick
@@ -175,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         //endregion
     }
+
     private String getUniqueCRMID() {
         String secureAndroidId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -195,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isRunning = true;
         button3.setText(R.string.ox_stop_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_running)));
+
     }
 
     private void stopOrchextra() {
@@ -207,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         isRunning = false;
         button3.setText(R.string.ox_start_orchextra);
         statusText.setText(getString(R.string.status_text, getString(R.string.status_stoped)));
+
     }
     //endregion
 }

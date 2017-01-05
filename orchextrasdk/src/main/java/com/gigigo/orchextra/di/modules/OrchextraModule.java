@@ -36,6 +36,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureS
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.initalization.features.FeatureList;
+import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
 import com.gigigo.orchextra.domain.interactors.actions.CustomSchemeReceiverContainer;
 import com.gigigo.orchextra.domain.lifecycle.AppRunningModeImpl;
 import com.gigigo.orchextra.sdk.application.applifecycle.AppStatusEventsListenerImpl;
@@ -53,114 +54,127 @@ import orchextra.javax.inject.Singleton;
 /**
  * module refers dagger module object
  */
-@Module(includes = { ControlModule.class, DeviceModule.class, DelegateModule.class, UiModule.class})
+@Module(includes = {ControlModule.class, DeviceModule.class, DelegateModule.class, UiModule.class})
 public class OrchextraModule {
 
-  private final Context context;
-  private final OrchextraManagerCompletionCallback orchextraCompletionCallback;
+    private final Context context;
+    private final OrchextraManagerCompletionCallback orchextraCompletionCallback;
+    private final String notificationActivityClass ;
+    private CustomSchemeReceiverContainer customSchemeReceiverContainer;
 
-  private CustomSchemeReceiverContainer customSchemeReceiverContainer;
+    public OrchextraModule(Context context, OrchextraManagerCompletionCallback orchextraCompletionCallback, String notificationActivityClass) {
+        this.context = context;
+        this.orchextraCompletionCallback = orchextraCompletionCallback;
+        this.notificationActivityClass = notificationActivityClass;
+    }
 
-  public OrchextraModule(Context context, OrchextraManagerCompletionCallback orchextraCompletionCallback) {
-    this.context = context;
-    this.orchextraCompletionCallback = orchextraCompletionCallback;
-  }
+    @Provides
+    @Singleton
+    OrchextraActivityLifecycle provideOrchextraActivityLifecycle(
+            AppRunningMode appRunningMode,
+            OrchextraContextProvider contextProvider,
+            AppStatusEventsListener appStatusEventsListener,
+            OrchextraLogger orchextraLogger) {
 
-  @Provides
-  @Singleton
-  OrchextraActivityLifecycle provideOrchextraActivityLifecycle(
-          AppRunningMode appRunningMode,
-          OrchextraContextProvider contextProvider,
-          AppStatusEventsListener appStatusEventsListener,
-          OrchextraLogger orchextraLogger) {
+        OrchextraActivityLifecycle orchextraActivityLifecycle =
+                new OrchextraActivityLifecycle(appStatusEventsListener,
+                        orchextraLogger,this.notificationActivityClass);
+        contextProvider.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
+        appRunningMode.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
+        return orchextraActivityLifecycle;
+    }
 
-    OrchextraActivityLifecycle orchextraActivityLifecycle =
-            new OrchextraActivityLifecycle(appStatusEventsListener,
+    @Provides
+    @Singleton
+    ContextProvider provideContextProvider(OrchextraLogger orchextraLogger) {
+        return new ContextProviderImpl(context.getApplicationContext(), orchextraLogger);
+    }
+
+    @Provides
+    @Singleton
+    OrchextraContextProvider provideOrchextraContextProvider(
+            ContextProvider contextProvider) {
+        return (OrchextraContextProvider) contextProvider;
+    }
+
+    @Provides
+    @Singleton
+    AppStatusEventsListener provideAppStatusEventsListener(
+            ForegroundTasksManager foregroundTasksManager,
+            OrchextraStatusAccessor orchextraStatusAccessor,
+            OrchextraLogger orchextraLogger) {
+        return new AppStatusEventsListenerImpl(context, foregroundTasksManager, orchextraStatusAccessor,
                 orchextraLogger);
-    contextProvider.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
-    appRunningMode.setOrchextraActivityLifecycle(orchextraActivityLifecycle);
-    return orchextraActivityLifecycle;
-  }
+    }
 
-  @Provides
-  @Singleton
-  ContextProvider provideContextProvider(OrchextraLogger orchextraLogger) {
-    return new ContextProviderImpl(context.getApplicationContext(), orchextraLogger);
-  }
+    @Provides
+    @Singleton
+    AppRunningMode provideAppRunningMode() {
+        return new AppRunningModeImpl();
+    }
 
-  @Provides
-  @Singleton
-  OrchextraContextProvider provideOrchextraContextProvider(
-          ContextProvider contextProvider) {
-    return (OrchextraContextProvider) contextProvider;
-  }
+    @Singleton
+    @Provides
+    FeatureList provideFeatureList() {
+        return new FeatureList(orchextraCompletionCallback);
+    }
 
-  @Provides
-  @Singleton
-  AppStatusEventsListener provideAppStatusEventsListener(
-          ForegroundTasksManager foregroundTasksManager,
-          OrchextraStatusAccessor orchextraStatusAccessor,
-          OrchextraLogger orchextraLogger) {
-    return new AppStatusEventsListenerImpl(context, foregroundTasksManager, orchextraStatusAccessor,
-        orchextraLogger);
-  }
+    @Singleton
+    @Provides
+    FeatureListener provideFeatureListener(FeatureList featureList) {
+        return featureList;
+    }
 
-  @Provides
-  @Singleton
-  AppRunningMode provideAppRunningMode() {
-    return new AppRunningModeImpl();
-  }
+    @Singleton
+    @Provides
+    FeatureStatus provideFeatureStatus(FeatureList featureList) {
+        return featureList;
+    }
 
-  @Singleton
-  @Provides
-  FeatureList provideFeatureList() {
-    return new FeatureList(orchextraCompletionCallback);
-  }
+    @Singleton
+    @Provides
+    CustomSchemeReceiverContainer provideCustomSchemeReceiverContainer() {
+        customSchemeReceiverContainer = new CustomSchemeReceiverContainer();
+        return customSchemeReceiverContainer;
+    }
 
-  @Singleton
-  @Provides
-  FeatureListener provideFeatureListener(FeatureList featureList) {
-    return featureList;
-  }
+    @Singleton
+    @Provides
+    OrchextraModule provideOrchextraModule() {
+        return this;
+    }
 
-  @Singleton
-  @Provides
-  FeatureStatus provideFeatureStatus(FeatureList featureList) {
-    return featureList;
-  }
+    @Singleton
+    @Provides
+    CrmUserGenderConverter provideCrmGenderConverter() {
+        return new CrmUserGenderConverter();
+    }
 
-  @Singleton
-  @Provides
-  CustomSchemeReceiverContainer provideCustomSchemeReceiverContainer() {
-    customSchemeReceiverContainer = new CustomSchemeReceiverContainer();
-    return customSchemeReceiverContainer;
-  }
+    @Singleton
+    @Provides
+    CrmUserDomainToCrmUserSdkConverter provideSdkUserToDomainConverter(CrmUserGenderConverter crmUserGenderConverter) {
+        return new CrmUserDomainToCrmUserSdkConverter(crmUserGenderConverter);
+    }
 
-  @Singleton @Provides OrchextraModule provideOrchextraModule(){
-    return this;
-  }
+    @Singleton
+    @Provides
+    ScannerManager provideScannerManager(ContextProvider contextProvider) {
+        return new ScannerManager(contextProvider.getApplicationContext());
+    }
 
-  @Singleton @Provides
-  CrmUserGenderConverter provideCrmGenderConverter() {
-    return new CrmUserGenderConverter();
-  }
+    public void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver) {
+        customSchemeReceiverContainer.setCustomSchemeReceiver(customSchemeReceiver);
+    }
 
-  @Singleton @Provides
-  CrmUserDomainToCrmUserSdkConverter provideSdkUserToDomainConverter(CrmUserGenderConverter crmUserGenderConverter) {
-    return new CrmUserDomainToCrmUserSdkConverter(crmUserGenderConverter);
-  }
+    @Provides
+    @Singleton
+    OrchextraLogger provideOrchextraLogger() {
+        return new OrchextraLoggerImpl();
+    }
 
-  @Singleton @Provides
-  ScannerManager provideScannerManager(ContextProvider contextProvider) {
-    return new ScannerManager(contextProvider.getApplicationContext());
-  }
-
-  public void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver) {
-    customSchemeReceiverContainer.setCustomSchemeReceiver(customSchemeReceiver);
-  }
-
-  @Provides @Singleton OrchextraLogger provideOrchextraLogger() {
-    return new OrchextraLoggerImpl();
-  }
-
+    @Provides
+    @Singleton
+    ConfigChangeObservable provideConfigChangeObservable() {
+        return new ConfigChangeObservable();
+    }
 }

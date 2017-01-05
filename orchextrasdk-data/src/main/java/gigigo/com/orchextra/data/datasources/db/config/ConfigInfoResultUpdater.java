@@ -83,7 +83,7 @@ public class ConfigInfoResultUpdater {
         beaconUpdater.removeRegions(realm);
         geofenceUpdater.removeGeofences(realm);
         vuforiaUpdater.removeVuforia(realm);
-        //todo asv more?
+
 
         realm.commitTransaction();
     }

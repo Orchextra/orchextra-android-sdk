@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--64dp-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ox_layout_custom_local_notification"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left|start"
+    android:paddingBottom="2dp"
+    android:paddingEnd="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="2dp">
+    <ImageView
+        android:id="@+id/ox_notifimage_custom_local_notification"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:padding="12dp"
+        android:src="@drawable/ox_notification_large_icon"
+        android:scaleType="centerCrop" />
+    <LinearLayout
+        android:id="@+id/ox_linear_title_custom_local_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/ox_notifimage_custom_local_notification"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+        <TextView
+            android:id="@+id/ox_notiftitle_custom_local_notification"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:text="Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum"
+            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Title"
+            android:textColor="#727272"
+            />
+        <DateTimeView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ox_time_custom_local_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Time"
+            android:textColor="#666666"
+             />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ox_linear_title_custom_local_notification"
+        android:layout_toRightOf="@id/ox_notifimage_custom_local_notification"
+        android:layout_toEndOf="@id/ox_notifimage_custom_local_notification"
+        >
+    <TextView
+        android:id="@+id/ox_notiftext_custom_local_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
+        android:text="Lorem ipsum Lorem m Lorem ipsum m ipsum Lorem m Lorem im ipsum Lorem m Lorem im ipsum Lorem m Lorem im ipsum Lorem m Lorem i"
+        android:textAppearance="@style/TextAppearance.StatusBar.EventContent"
+        android:textColor="#666666"
+        />
+
+    <ImageView
+        android:id="@+id/ox_notifimage_small_custom_local_notification"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="end"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:src="@drawable/ox_notification_color_small_icon"
+         />
+
+    </RelativeLayout>
+</RelativeLayout>

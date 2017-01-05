@@ -2,10 +2,13 @@ package com.gigigo.orchextra.domain.services.actions;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
+import com.gigigo.orchextra.domain.abstractions.lifecycle.LifeCycleAccessor;
 import com.gigigo.orchextra.domain.dataprovider.ActionsDataProvider;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
 
@@ -49,7 +52,17 @@ public class GetActionDomainServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        getActionDomainService = new GetActionDomainService(mockActionsDataProvider, mocKServiceErrorChecker);
+        getActionDomainService = new GetActionDomainService(mockActionsDataProvider, mocKServiceErrorChecker, new AppRunningMode() {
+            @Override
+            public AppRunningModeType getRunningModeType() {
+                return null;
+            }
+
+            @Override
+            public void setOrchextraActivityLifecycle(LifeCycleAccessor lifeCycleAccessor) {
+
+            }
+        });
     }
 
     @Test

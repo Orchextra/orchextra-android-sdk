@@ -19,11 +19,16 @@
 package gigigo.com.orchextra.data.datasources.db.geofences;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
+import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
 import com.gigigo.orchextra.dataprovision.proximity.datasource.GeofenceDBDataSource;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
+import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
+
+import java.util.ArrayList;
 
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
@@ -41,6 +46,10 @@ public class GeofenceDBDataSourceImpl implements GeofenceDBDataSource {
     this.geofenceEventsReader = geofenceEventsReader;
     this.geofenceEventsUpdater = geofenceEventsUpdater;
     this.realmDefaultInstance = realmDefaultInstance;
+
+    //fixme REALM
+
+
   }
 
   @Override

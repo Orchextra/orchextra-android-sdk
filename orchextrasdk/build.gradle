@@ -67,6 +67,11 @@ android {
   }
 
   buildTypes {
+    staging{
+      signingConfig android.signingConfigs.debug
+      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
+      debuggable true
+    }
     debug{
       buildConfigField STRING, "API_URL", '"https://sdk.q.orchextra.io/"'
       debuggable true
@@ -128,6 +133,11 @@ android {
 }
 
 configurations {
+  play7StagingCompile
+  play8StagingCompile
+  play9StagingCompile
+  playnoStagingCompile
+
   play7DebugCompile
   play8DebugCompile
   play9DebugCompile
@@ -171,6 +181,15 @@ dependencies {
   compile project(':orchextrasdk-data')
 
   /*GooglePlayServices*/
+  play9StagingCompile('com.google.android.gms:play-services-location:9.0.0')
+  play9StagingCompile('com.google.android.gms:play-services-gcm:9.0.0')
+
+  play8StagingCompile('com.google.android.gms:play-services-location:8.4.0')
+  play8StagingCompile('com.google.android.gms:play-services-gcm:8.4.0')
+
+  play7StagingCompile('com.google.android.gms:play-services-location:7.8.0')
+  play7StagingCompile('com.google.android.gms:play-services-gcm:7.8.0')
+
   play9DebugCompile('com.google.android.gms:play-services-location:9.0.0')
   play9DebugCompile('com.google.android.gms:play-services-gcm:9.0.0')
 

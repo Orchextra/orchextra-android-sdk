@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.di.components;
 
+import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.di.modules.OrchextraModule;
 
@@ -31,4 +32,5 @@ import orchextra.javax.inject.Singleton;
 public interface OrchextraComponent extends OrchextraModuleProvider {
     void injectOrchextra(OrchextraManager orchextra);
     InteractorExecutionComponent plus(InteractorsModule interactorsModule);
+    ConfigChangeObservable provideConfigChangeObservable();
 }

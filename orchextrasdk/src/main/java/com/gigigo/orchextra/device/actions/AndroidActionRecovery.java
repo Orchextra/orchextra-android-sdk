@@ -32,39 +32,45 @@ import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 
 public class AndroidActionRecovery implements ActionRecovery {
 
-  private final Context context;
-  private final ActionDispatcher actionDispatcher;
-  private final AndroidBasicActionMapper androidBasicActionMapper;
-  private final ThreadSpec mainThreadSpec;
+    private final Context context;
+    private final ActionDispatcher actionDispatcher;
+    private final AndroidBasicActionMapper androidBasicActionMapper;
+    private final ThreadSpec mainThreadSpec;
 
-  public AndroidActionRecovery(Context context,
-                               ActionDispatcher actionDispatcher,
-                               AndroidBasicActionMapper androidBasicActionMapper,
-                               ThreadSpec mainThreadSpec) {
-    this.context = context;
-    this.actionDispatcher = actionDispatcher;
-    this.androidBasicActionMapper = androidBasicActionMapper;
-    this.mainThreadSpec = mainThreadSpec;
-  }
-
-  @Override public void recoverAction(AndroidBasicAction androidBasicAction) {
-    final BasicAction basicAction = androidBasicActionMapper.externalClassToModel(androidBasicAction);
-
-    checkTypeActionToStartLaucherActivity(basicAction);
-
-    mainThreadSpec.execute(new Runnable() {
-      @Override public void run() {
-        basicAction.performAction(actionDispatcher);
-      }
-    });
-  }
-
-  private void checkTypeActionToStartLaucherActivity(BasicAction basicAction) {
-    if (basicAction.getActionType() != ActionType.CUSTOM_SCHEME) {
-      PackageManager pm = context.getPackageManager();
-      Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
-      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-      context.startActivity(intent);
+    public AndroidActionRecovery(Context context,
+                                 ActionDispatcher actionDispatcher,
+                                 AndroidBasicActionMapper androidBasicActionMapper,
+                                 ThreadSpec mainThreadSpec) {
+        this.context = context;
+        this.actionDispatcher = actionDispatcher;
+        this.androidBasicActionMapper = androidBasicActionMapper;
+        this.mainThreadSpec = mainThreadSpec;
     }
-  }
+
+    @Override
+    public void recoverAction(AndroidBasicAction androidBasicAction) {
+        final BasicAction basicAction = androidBasicActionMapper.externalClassToModel(androidBasicAction);
+        //this now is do it by LIfecycle, when the NotificationActivity reached
+        //checkTypeActionToStartLaucherActivity(basicAction); //this only if you ont have notification
+        mainThreadSpec.execute(new Runnable() {
+            @Override
+            public void run() {
+                basicAction.performAction(actionDispatcher);
+            }
+        });
+    }
+
+    /**
+     * THIS APP STARTER IS ON APPLIFECYCLE THIS NEVER AGAIN
+     */
+
+    @Deprecated
+    private void checkTypeActionToStartLaucherActivity(BasicAction basicAction) {
+        if (basicAction.getActionType() != ActionType.CUSTOM_SCHEME) {
+            PackageManager pm = context.getPackageManager();
+            Intent intent = pm.getLaunchIntentForPackage(context.getPackageName());
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            context.startActivity(intent);
+        }
+    }
 }

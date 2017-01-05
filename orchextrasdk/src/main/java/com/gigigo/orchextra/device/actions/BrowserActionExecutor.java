@@ -21,6 +21,7 @@ package com.gigigo.orchextra.device.actions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.gigigo.orchextra.domain.abstractions.actions.ActionExecutor;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
@@ -41,7 +42,11 @@ public class BrowserActionExecutor implements ActionExecutor {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(uriUrl);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT );
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        Bundle b = new Bundle();
+        b.putBoolean("new_window", true); //sets new window
+        intent.putExtras(b);
         context.startActivity(intent);
     }
 }

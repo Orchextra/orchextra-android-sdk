@@ -6,7 +6,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
 >
-
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
