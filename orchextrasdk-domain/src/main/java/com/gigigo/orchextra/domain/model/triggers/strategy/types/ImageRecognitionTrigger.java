@@ -21,6 +21,7 @@ package com.gigigo.orchextra.domain.model.triggers.strategy.types;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviourImpl;
+import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.EddyStoneTlmBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
@@ -31,10 +32,11 @@ public class ImageRecognitionTrigger extends Trigger {
     super(TriggerType.VUFORIA, id, point, runningMode);
     this.isTriggerable = true;
   }
-
+  //asv this method no-sense refactor
   @Override void setConcreteBehaviour() {
     this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(null);
     this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(null);
     this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
+    this.eddyStoneTlmBehaviour = new EddyStoneTlmBehaviourImpl(null);
   }
 }

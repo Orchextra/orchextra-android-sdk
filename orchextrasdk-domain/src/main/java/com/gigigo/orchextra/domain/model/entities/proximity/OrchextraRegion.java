@@ -25,11 +25,13 @@ public class OrchextraRegion extends ProximityItem implements ScheduledActionEve
 
   private final String code;
   private final String uuid;
-  private final int minor;
-  private final int major;
+  private final int minor; //asv fixme this will be string for support eddystoneregions
+  private final int major; //asv fixme this will be string for support eddystoneregions
   private RegionEventType regionEvent;
   private ActionRelatedWithRegionAndGeofences actionRelatedWithRegionAndGeofences;
   private final boolean active;
+/*asv fixme test for eddystoneregion, redefine UUID*/
+
 
   public OrchextraRegion(String code, String uuid, int major, int minor, boolean active) {
     this.code = code;

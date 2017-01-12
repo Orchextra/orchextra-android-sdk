@@ -22,6 +22,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviourImpl;
+import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.EddyStoneTlmBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
@@ -39,10 +40,11 @@ public class GeofenceTrigger extends Trigger {
     this.geoPointEventType = geoPointEventType;
     this.isTriggerable = true;
   }
-
+  //asv this method no-sense refactor
   @Override void setConcreteBehaviour() {
     this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(null);
     this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(geoPointEventType);
     this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(distance);
+    this.eddyStoneTlmBehaviour = new EddyStoneTlmBehaviourImpl(null);
   }
 }

@@ -60,7 +60,6 @@ public class BeaconEventsInteractor
   @Override public InteractorResponse<List<BasicAction>> call() throws Exception {
     switch (eventType) {
       case BEACONS_DETECTED:
-
         return beaconsEventResult();
       case REGION_ENTER:
       case REGION_EXIT:

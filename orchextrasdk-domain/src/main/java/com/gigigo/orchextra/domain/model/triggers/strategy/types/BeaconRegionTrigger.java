@@ -23,25 +23,29 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviourImpl;
+import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.EddyStoneTlmBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
 
 public class BeaconRegionTrigger extends Trigger {
 
-  private final GeoPointEventType geoPointEventType;
+    private final GeoPointEventType geoPointEventType;
 
-  public BeaconRegionTrigger(OrchextraRegion orchextraRegion, AppRunningModeType appRunningMode) {
-    super(TriggerType.REGION, orchextraRegion.getCode(), null, appRunningMode);
-    this.geoPointEventType =
-        GeoPointEventType.getTypeFromString(orchextraRegion.getRegionEvent().getStringValue());
-    this.isTriggerable = true;
+    public BeaconRegionTrigger(OrchextraRegion orchextraRegion, AppRunningModeType appRunningMode) {
+        super(TriggerType.REGION, orchextraRegion.getCode(), null, appRunningMode);
+        this.geoPointEventType =
+                GeoPointEventType.getTypeFromString(orchextraRegion.getRegionEvent().getStringValue());
+        this.isTriggerable = true;
 
 
-  }
+    }
 
-  @Override void setConcreteBehaviour() {
-    this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(null);
-    this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(geoPointEventType);
-    this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
-  }
+    //asv this method no-sense refactor
+    @Override
+    void setConcreteBehaviour() {
+        this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(null);
+        this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(geoPointEventType);
+        this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
+        this.eddyStoneTlmBehaviour = new EddyStoneTlmBehaviourImpl(null);
+    }
 }

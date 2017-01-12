@@ -26,8 +26,10 @@ public enum TriggerType implements StringValueEnum {
   GEOFENCE("geofence"),
   QR("qr"),
   BARCODE("barcode"),
-  VUFORIA("vuforia");
-
+  VUFORIA("vuforia"),
+  EDDYSTONE("eddystone"),
+  EDDYSTONE_REGION("eddystone_region");
+//asv maybe beacon_region && eddystone_region become to proximity_region and nomore
   private final String type;
 
   TriggerType(final String type) {

@@ -69,7 +69,8 @@ public class BeaconsController {
           }
         });
   }
-
+//fixme the region? for what? create somethign similr or eddystone
+  @Deprecated
   public void onBeaconsDetectedInRegion(List<OrchextraBeacon> beacons, OrchextraRegion region) {
     InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
     BeaconEventsInteractor beaconEventsInteractor =
@@ -79,6 +80,14 @@ public class BeaconsController {
     dispatchBeaconEvent(beacons, execution, beaconEventsInteractor);
   }
 
+  public void onBeaconsDetectedInRegion(List<OrchextraBeacon> beacons) {
+    InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
+    BeaconEventsInteractor beaconEventsInteractor =
+            (BeaconEventsInteractor) execution.getInteractor();
+
+    beaconEventsInteractor.setEventType(ProximityEventType.BEACONS_DETECTED);
+    dispatchBeaconEvent(beacons, execution, beaconEventsInteractor);
+  }
   public void onRegionEnter(OrchextraRegion region) {
     InteractorExecution execution = beaconsEventsInteractorExecutionProvider.get();
     BeaconEventsInteractor beaconEventsInteractor =
@@ -114,7 +123,7 @@ public class BeaconsController {
   }
 
   private void executeBeaconInteractor(InteractorExecution interactorExecution,
-      InteractorResult interactorResult) {
+                                       InteractorResult interactorResult) {
     interactorExecution.result(interactorResult)
         .error(BeaconsInteractorError.class, new InteractorResult<BeaconsInteractorError>() {
           @Override public void onResult(BeaconsInteractorError result) {

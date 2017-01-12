@@ -56,10 +56,13 @@ public class TriggerDomainService implements DomainService {
   private InteractorResponse createTriggersForBeacons(List<OrchextraBeacon> orchextraBeacons) {
 
     List<Trigger> triggers = new ArrayList<>();
-
+    Trigger trigger;
     for (OrchextraBeacon orchextraBeacon : orchextraBeacons) {
-      Trigger trigger =
-          Trigger.createBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
+      if(!orchextraBeacon.isEddyStone())
+       trigger = Trigger.createBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
+      else
+        trigger = Trigger.createEddyStoneBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
+
       triggers.add(trigger);
     }
 

@@ -18,6 +18,7 @@
 
 package gigigo.com.orchextra.data.datasources.api.service;
 
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiEddyStoneRequest;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiActionConfirmationResponse;
 import java.util.Map;
 
@@ -48,6 +49,8 @@ public interface OrchextraApiService {
   @FormUrlEncoded @POST("action") Call<ApiActionResponse> obtainAction(
       @FieldMap Map<String, String> parameters);
 
+  @FormUrlEncoded @POST("action") Call<ApiActionResponse> obtainAction(
+          @FieldMap Map<String, String> parameters, @Body ApiEddyStoneRequest eddyStoneTLMRequest);
   @POST("action/confirm/{trackId}")
     Call<ApiActionConfirmationResponse> sendCompletedAction(@Path("trackId") String trackId);
 }

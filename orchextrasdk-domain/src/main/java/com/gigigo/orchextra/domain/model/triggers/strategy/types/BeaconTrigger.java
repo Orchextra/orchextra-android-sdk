@@ -24,6 +24,7 @@ import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
 import com.gigigo.orchextra.domain.model.triggers.params.GeoPointEventType;
 import com.gigigo.orchextra.domain.model.triggers.params.TriggerType;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.BeaconDistanceTypeBehaviourImpl;
+import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.EddyStoneTlmBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoDistanceBehaviourImpl;
 import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEventTypeBehaviourImpl;
 import com.gigigo.orchextra.domain.model.vo.OrchextraLocationPoint;
@@ -44,10 +45,11 @@ public class BeaconTrigger extends Trigger {
     super(TriggerType.BEACON, orchextraBeacon.getCode(), null, appRunningMode);
     this.beaconDistanceType = orchextraBeacon.getBeaconDistance();
   }
-
+  //asv this method no-sense refactor
   @Override void setConcreteBehaviour() {
     this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(beaconDistanceType);
     this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(null);
     this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
+    this.eddyStoneTlmBehaviour = new EddyStoneTlmBehaviourImpl(null);
   }
 }

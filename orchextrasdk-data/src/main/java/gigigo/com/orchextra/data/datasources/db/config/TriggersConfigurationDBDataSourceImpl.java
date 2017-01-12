@@ -61,23 +61,24 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
         this.configInfoResultReader = configInfoResultReader;
         this.realmDefaultInstance = realmDefaultInstance;
 
-
-        //fixme REALM
+/*
+        //fixme REALM this causes other errors, wait for sqllite
         SharedPreferences prefs = this.context.getSharedPreferences("com.gigigo.orchextra", Context.MODE_PRIVATE);
         String strBIsConfigInitialized = "com.gigigo.orchextra:bIsConfigInitialized";
         boolean bIsSessionInitialized = prefs.getBoolean(strBIsConfigInitialized, false);
         if (!bIsSessionInitialized) {
             //todo check in devices with Realm problems
-            saveConfigData(new ConfigurationInfoResult());
+          /*  saveConfigData(new ConfigurationInfoResult());
             saveUserBusinessUnits(new ArrayList<String>());
             saveCrmDeviceBusinessUnits(new ArrayList<String>());
             saveCrmDeviceUserTags(new ArrayList<String>());
             saveCrmUserTags(new ArrayList<String>());
             saveUserCustomFields(new ArrayList<CustomField>());
-           //removeLocalStorage();//this delete geofences and Beacons
+            removeLocalStorage();//this delete geofences and Beacons
 
             prefs.edit().putBoolean(strBIsConfigInitialized, true);
         }
+    */
     }
 
 
@@ -129,7 +130,7 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
             configInfoResultUpdater.removeConfigInfo(realm);
             return new BusinessObject<>(null, BusinessError.createOKInstance());
         } catch (Exception re) {
-            GGGLogImpl.log("No se ha eliminado correctamente la base de datos: " + re.getMessage());
+            GGGLogImpl.log("D.B. deleting error: " + re.getMessage());
             return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
         } finally {
             if (realm != null) {

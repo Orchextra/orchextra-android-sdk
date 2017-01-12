@@ -20,68 +20,102 @@ package com.gigigo.orchextra.domain.model.entities.proximity;
 
 import com.gigigo.gggjavalib.general.utils.Hashing;
 import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 public class OrchextraBeacon {
 
-  private static final String BEACON_CODE_CONCAT_CHAR = "_";
+    private static final String BEACON_CODE_CONCAT_CHAR = "_";
 
-  private String code;
-  private final String uuid;
-  private final int mayor;
-  private final int minor;
-  private final BeaconDistanceType beaconDistance;
+    private String code;
+    private final String uuid;
+    private final int mayor;
+    private final int minor;
+    private final BeaconDistanceType beaconDistance;
 
-  public OrchextraBeacon(String uuid, int mayor, int minor, BeaconDistanceType beaconDistance) {
-    this.uuid = uuid;
-    this.mayor = mayor;
-    this.minor = minor;
-    this.beaconDistance = beaconDistance;
-    try {
-      this.code = Hashing.generateMd5(
-          (uuid + BEACON_CODE_CONCAT_CHAR + String.valueOf(mayor) + BEACON_CODE_CONCAT_CHAR + String
-              .valueOf(minor)).toUpperCase());
-    } catch (Exception e) {
-      this.code = e.getLocalizedMessage();
-    }
-  }
+    //region eddystone
+    private static final String BEACON_EDDYSTONE_CODE_CONCAT_CHAR = "";
+    private  String nameSpaceId;
+    private  String instanceId;
+    private boolean isEddyStone = false;
+    private OrchextraTLMEddyStoneBeacon TLMEddystone;
+    private String str_URL = "";//not use for now
 
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getUuid() {
-    return uuid;
-  }
-
-  public int getMayor() {
-    return mayor;
-  }
-
-  public int getMinor() {
-    return minor;
-  }
-
-  public BeaconDistanceType getBeaconDistance() {
-    return beaconDistance;
-  }
-
-  public static List<OrchextraBeacon> removeFromListElementsWithCodes(List<OrchextraBeacon> beacons,
-      List<String> codes) {
-    List<OrchextraBeacon> list = Collections.synchronizedList(beacons);
-    for (Iterator<OrchextraBeacon> iterator = list.iterator(); iterator.hasNext();) {
-      OrchextraBeacon orchextraBeacon = iterator.next();
-      if (codes.contains(orchextraBeacon.getCode())) {
-        iterator.remove();
-      }
+    public boolean isEddyStone() {
+        return isEddyStone;
     }
 
-    return list;
-  }
+    public OrchextraTLMEddyStoneBeacon getTLMEddystone() {
+        return TLMEddystone;
+    }
+
+    public OrchextraBeacon(String namespaceId, String instanceId, BeaconDistanceType beaconDistance, OrchextraTLMEddyStoneBeacon tlm) {
+
+        this.nameSpaceId = namespaceId;
+        this.instanceId = instanceId;
+        this.uuid = "";
+        this.mayor = 0;
+        this.minor = 0;
+        this.beaconDistance = beaconDistance;
+        this.code = this.nameSpaceId + BEACON_EDDYSTONE_CODE_CONCAT_CHAR + this.instanceId;
+        this.TLMEddystone = tlm;
+        this.isEddyStone=true;
+    }
+    //endregion
+
+    //BEACONS
+    public OrchextraBeacon(String uuid, int mayor, int minor, BeaconDistanceType beaconDistance) {
+        this.uuid = uuid;
+        this.mayor = mayor;
+        this.minor = minor;
+        this.beaconDistance = beaconDistance;
+        try {
+            this.code = Hashing.generateMd5(
+                    (uuid + BEACON_CODE_CONCAT_CHAR + String.valueOf(mayor) + BEACON_CODE_CONCAT_CHAR + String
+                            .valueOf(minor)).toUpperCase());
+        } catch (Exception e) {
+            this.code = e.getLocalizedMessage();
+        }
+    }
+
+    //fixme
+    public String getCode() {
+        // return aqui toca generar el value tal como dice el confluence si el Beacon es Eddystone, o Crear OxchextraEddystone =_=
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public int getMayor() {
+        return mayor;
+    }
+
+    public int getMinor() {
+        return minor;
+    }
+
+    public BeaconDistanceType getBeaconDistance() {
+        return beaconDistance;
+    }
+
+    public static List<OrchextraBeacon> removeFromListElementsWithCodes(List<OrchextraBeacon> beacons,
+                                                                        List<String> codes) {
+        List<OrchextraBeacon> list = Collections.synchronizedList(beacons);
+        for (Iterator<OrchextraBeacon> iterator = list.iterator(); iterator.hasNext(); ) {
+            OrchextraBeacon orchextraBeacon = iterator.next();
+            if (codes.contains(orchextraBeacon.getCode())) {
+                iterator.remove();
+            }
+        }
+
+        return list;
+    }
 }

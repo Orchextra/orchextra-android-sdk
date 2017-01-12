@@ -66,6 +66,8 @@ public class BeaconsModule {
         contextProvider.getApplicationContext());
 
     setBeaconsLogLevel(orchextraLogger);
+
+
     BeaconParser bp = new BeaconParser().setBeaconLayout(BuildConfig.IBEACON_LAYOUT_PARSING);
     bp.addExtraDataParser(new BeaconParser().setBeaconLayout(BeaconParser.EDDYSTONE_TLM_LAYOUT));
     beaconManager.getBeaconParsers().add(bp);
