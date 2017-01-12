@@ -133,9 +133,9 @@ public abstract class Trigger {
     public static Trigger createEddyStoneBeaconTrigger(AppRunningModeType appRunningMode,
                                                        OrchextraBeacon orchextraBeacon) {
         try {
-            EddyStoneBeaconTrigger EddyStoneBeaconTrigger = new EddyStoneBeaconTrigger(orchextraBeacon, appRunningMode);
-            EddyStoneBeaconTrigger.setConcreteBehaviour();
-            return EddyStoneBeaconTrigger;
+            EddyStoneBeaconTrigger eddyStoneBeaconTrigger = new EddyStoneBeaconTrigger(orchextraBeacon, appRunningMode);
+            eddyStoneBeaconTrigger.setConcreteBehaviour();
+            return eddyStoneBeaconTrigger;
         } catch (Exception e) {
             return Trigger.createEmptyTrigger();
         }

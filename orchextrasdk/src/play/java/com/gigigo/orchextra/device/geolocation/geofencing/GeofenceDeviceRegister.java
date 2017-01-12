@@ -135,29 +135,36 @@ public class GeofenceDeviceRegister implements ResultCallback<Status> {
 
     @SuppressWarnings("ResourceType")
     private void registerGeofence() {
-        orchextraLogger.log("Removing " + geofenceUpdates.getDeleteGeofences().size() + " geofences...");
-        orchextraLogger.log("Registering " + geofenceUpdates.getNewGeofences().size() + " geofences...");
+        try {
+            orchextraLogger.log("Removing " + geofenceUpdates.getDeleteGeofences().size() + " geofences...");
+            orchextraLogger.log("Registering " + geofenceUpdates.getNewGeofences().size() + " geofences...");
 
-        List<String> deleteCodeList = androidGeofenceConverter.getCodeList(geofenceUpdates.getDeleteGeofences());
+            List<String> deleteCodeList = androidGeofenceConverter.getCodeList(geofenceUpdates.getDeleteGeofences());
 
-        if (deleteCodeList.size() > 0) {
-            LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), deleteCodeList);
-        }
+            if (deleteCodeList.size() > 0) {
+                LocationServices.GeofencingApi.removeGeofences(googleApiClientConnector.getGoogleApiClient(), deleteCodeList);
+            }
 
-        if (geofenceUpdates.getNewGeofences().size() > 0) {
-            GeofencingRequest geofencingRequest =
-                androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
+            if (geofenceUpdates.getNewGeofences().size() > 0) {
+                GeofencingRequest geofencingRequest =
+                        androidGeofenceConverter.convertGeofencesToGeofencingRequest(geofenceUpdates.getNewGeofences());
 
-            if (googleApiClientConnector.isGoogleApiClientAvailable()) {
-                try {
-                    LocationServices.GeofencingApi.addGeofences(googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
-                        geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);
-                }catch (Exception e){
-                    orchextraLogger.log("Exception trying to add geofences: " + e.getMessage(),
-                        OrchextraSDKLogLevel.ERROR);
+                if (googleApiClientConnector.isGoogleApiClientAvailable()) {
+                    try {
+                        LocationServices.GeofencingApi.addGeofences(googleApiClientConnector.getGoogleApiClient(), geofencingRequest,
+                                geofencePendingIntentCreator.getGeofencingPendingIntent()).setResultCallback(this);
+                    } catch (Exception e) {
+                        orchextraLogger.log("Exception trying to add geofences: " + e.getMessage(),
+                                OrchextraSDKLogLevel.ERROR);
+                    }
                 }
             }
+        } catch (Throwable tr) {
+            if (orchextraLogger != null)
+                orchextraLogger.log("Error orch 593" + tr.getStackTrace());
         }
+
+
     }
 
     public void clean() {

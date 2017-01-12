@@ -35,72 +35,72 @@ import java.util.List;
 
 public class TriggerDomainService implements DomainService {
 
-  private final AppRunningMode appRunningMode;
+    private final AppRunningMode appRunningMode;
 
-  public TriggerDomainService(AppRunningMode appRunningMode) {
-    this.appRunningMode = appRunningMode;
-  }
-
-  public InteractorResponse getTrigger(OrchextraRegion orchextraRegion) {
-
-    List<Trigger> triggers = Arrays.asList(
-        Trigger.createBeaconRegionTrigger(appRunningMode.getRunningModeType(), orchextraRegion));
-
-    return new InteractorResponse(triggers);
-  }
-
-  public InteractorResponse getTrigger(List<OrchextraBeacon> orchextraBeacons) {
-    return createTriggersForBeacons(orchextraBeacons);
-  }
-
-  private InteractorResponse createTriggersForBeacons(List<OrchextraBeacon> orchextraBeacons) {
-
-    List<Trigger> triggers = new ArrayList<>();
-    Trigger trigger;
-    for (OrchextraBeacon orchextraBeacon : orchextraBeacons) {
-      if(!orchextraBeacon.isEddyStone())
-       trigger = Trigger.createBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
-      else
-        trigger = Trigger.createEddyStoneBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
-
-      triggers.add(trigger);
+    public TriggerDomainService(AppRunningMode appRunningMode) {
+        this.appRunningMode = appRunningMode;
     }
 
-    return new InteractorResponse(triggers);
-  }
+    public InteractorResponse getTrigger(OrchextraRegion orchextraRegion) {
 
-  public InteractorResponse getTrigger(List<OrchextraGeofence> geofences,
-      GeoPointEventType geofenceTransition) {
-    List<Trigger> triggers = new ArrayList<>();
+        List<Trigger> triggers = Arrays.asList(
+                Trigger.createBeaconRegionTrigger(appRunningMode.getRunningModeType(), orchextraRegion));
 
-    for (OrchextraGeofence orchextraGeofence : geofences) {
-
-      Trigger trigger =
-          Trigger.createGeofenceTrigger(orchextraGeofence.getCode(), orchextraGeofence.getPoint(),
-                  appRunningMode.getRunningModeType(), orchextraGeofence.getDistanceToDeviceInKm(),
-                  geofenceTransition);
-
-      triggers.add(trigger);
+        return new InteractorResponse(triggers);
     }
 
-    return new InteractorResponse(triggers);
-  }
-
-  public InteractorResponse getTrigger(ScannerResult scanner, OrchextraLocationPoint orchextraLocationPoint) {
-    List<Trigger> triggers = new ArrayList<>();
-
-    switch (scanner.getType()) {
-      case IMAGE_RECOGNITION:
-        triggers.add(Trigger.createImageRecognitionTrigger(scanner.getContent(), orchextraLocationPoint));
-        break;
-      case QRCODE:
-        triggers.add(Trigger.createQrScanTrigger(scanner.getContent(), orchextraLocationPoint));
-        break;
-      default:
-        triggers.add(Trigger.createBarcodeScanTrigger(scanner.getContent(), orchextraLocationPoint));
-        break;
+    public InteractorResponse getTrigger(List<OrchextraBeacon> orchextraBeacons) {
+        return createTriggersForBeacons(orchextraBeacons);
     }
 
-    return new InteractorResponse(triggers);
-  }
+    private InteractorResponse createTriggersForBeacons(List<OrchextraBeacon> orchextraBeacons) {
+
+        List<Trigger> triggers = new ArrayList<>();
+        Trigger trigger;
+        for (OrchextraBeacon orchextraBeacon : orchextraBeacons) {
+            if (!orchextraBeacon.isEddyStone()) {
+                trigger = Trigger.createBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
+            } else {
+                trigger = Trigger.createEddyStoneBeaconTrigger(appRunningMode.getRunningModeType(), orchextraBeacon);
+            }
+            triggers.add(trigger);
+        }
+
+        return new InteractorResponse(triggers);
+    }
+
+    public InteractorResponse getTrigger(List<OrchextraGeofence> geofences,
+                                         GeoPointEventType geofenceTransition) {
+        List<Trigger> triggers = new ArrayList<>();
+
+        for (OrchextraGeofence orchextraGeofence : geofences) {
+
+            Trigger trigger =
+                    Trigger.createGeofenceTrigger(orchextraGeofence.getCode(), orchextraGeofence.getPoint(),
+                            appRunningMode.getRunningModeType(), orchextraGeofence.getDistanceToDeviceInKm(),
+                            geofenceTransition);
+
+            triggers.add(trigger);
+        }
+
+        return new InteractorResponse(triggers);
+    }
+
+    public InteractorResponse getTrigger(ScannerResult scanner, OrchextraLocationPoint orchextraLocationPoint) {
+        List<Trigger> triggers = new ArrayList<>();
+
+        switch (scanner.getType()) {
+            case IMAGE_RECOGNITION:
+                triggers.add(Trigger.createImageRecognitionTrigger(scanner.getContent(), orchextraLocationPoint));
+                break;
+            case QRCODE:
+                triggers.add(Trigger.createQrScanTrigger(scanner.getContent(), orchextraLocationPoint));
+                break;
+            default:
+                triggers.add(Trigger.createBarcodeScanTrigger(scanner.getContent(), orchextraLocationPoint));
+                break;
+        }
+
+        return new InteractorResponse(triggers);
+    }
 }

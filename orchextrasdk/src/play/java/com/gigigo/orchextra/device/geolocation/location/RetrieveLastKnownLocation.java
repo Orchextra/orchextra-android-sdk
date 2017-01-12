@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.device.geolocation.location;
 
 import android.location.Location;
+
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
@@ -28,82 +29,91 @@ import com.google.android.gms.location.LocationServices;
 
 public class RetrieveLastKnownLocation {
 
-  private final ContextProvider contextProvider;
-  private final GoogleApiClientConnector googleApiClientConnector;
-  private final RetrieveLocationByGpsOrNetworkProvider retrieveLocationByGpsOrNetworkProvider;
-  private final PermissionChecker permissionChecker;
-  private final PermissionLocationImp accessFineLocationPermissionImp;
+    private final ContextProvider contextProvider;
+    private final GoogleApiClientConnector googleApiClientConnector;
+    private final RetrieveLocationByGpsOrNetworkProvider retrieveLocationByGpsOrNetworkProvider;
+    private final PermissionChecker permissionChecker;
+    private final PermissionLocationImp accessFineLocationPermissionImp;
 
-  private OnLastKnownLocationListener onLastKnownLocationListener;
+    private OnLastKnownLocationListener onLastKnownLocationListener;
 
-  public RetrieveLastKnownLocation(ContextProvider contextProvider,
-      GoogleApiClientConnector googleApiClientConnector,
-      RetrieveLocationByGpsOrNetworkProvider retrieveLocationByGpsOrNetworkProvider,
-      PermissionChecker permissionChecker, PermissionLocationImp accessFineLocationPermissionImp) {
+    public RetrieveLastKnownLocation(ContextProvider contextProvider,
+                                     GoogleApiClientConnector googleApiClientConnector,
+                                     RetrieveLocationByGpsOrNetworkProvider retrieveLocationByGpsOrNetworkProvider,
+                                     PermissionChecker permissionChecker, PermissionLocationImp accessFineLocationPermissionImp) {
 
-    this.contextProvider = contextProvider;
-    this.googleApiClientConnector = googleApiClientConnector;
-    this.retrieveLocationByGpsOrNetworkProvider = retrieveLocationByGpsOrNetworkProvider;
-    this.permissionChecker = permissionChecker;
-    this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
-  }
-
-  public void getLastKnownLocation(OnLastKnownLocationListener onLastKnownLocationListener) {
-    this.onLastKnownLocationListener = onLastKnownLocationListener;
-    googleApiClientConnector.setOnConnectedListener(onConnectedListener);
-    googleApiClientConnector.connect();
-  }
-
-  private GoogleApiClientConnector.OnConnectedListener onConnectedListener =
-      new GoogleApiClientConnector.OnConnectedListener() {
-        @Override public void onConnected() {
-          askPermissionAndGetLastKnownLocation();
-        }
-
-        @Override public void onConnectionFailed() {
-          boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
-          if (isGranted) {
-            getNetworkGpsLocation();
-          }
-        }
-      };
-
-  public void askPermissionAndGetLastKnownLocation() {
-    boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
-    if (isGranted) {
-      getLastKnownLocation();
-    } else {
-      if (contextProvider.getCurrentActivity() != null) {
-        permissionChecker.askForPermission(accessFineLocationPermissionImp,
-            userPermissionResponseListener, contextProvider.getCurrentActivity());
-      }
+        this.contextProvider = contextProvider;
+        this.googleApiClientConnector = googleApiClientConnector;
+        this.retrieveLocationByGpsOrNetworkProvider = retrieveLocationByGpsOrNetworkProvider;
+        this.permissionChecker = permissionChecker;
+        this.accessFineLocationPermissionImp = accessFineLocationPermissionImp;
     }
-  }
 
-  @SuppressWarnings("ResourceType") private void getLastKnownLocation() {
-    Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
-        googleApiClientConnector.getGoogleApiClient());
-    if (onLastKnownLocationListener != null) {
-      onLastKnownLocationListener.onLastKnownLocation(lastLocation);
-    }
-  }
-
-  private UserPermissionRequestResponseListener userPermissionResponseListener =
-      new UserPermissionRequestResponseListener() {
-        @Override public void onPermissionAllowed(boolean permissionAllowed) {
-          getLastKnownLocation();
+    public void getLastKnownLocation(OnLastKnownLocationListener onLastKnownLocationListener) {
+        this.onLastKnownLocationListener = onLastKnownLocationListener;
+        if (googleApiClientConnector != null) {
+            googleApiClientConnector.setOnConnectedListener(onConnectedListener);
+            googleApiClientConnector.connect();
         }
-      };
-
-  @SuppressWarnings("ResourceType") private void getNetworkGpsLocation() {
-    Location location = retrieveLocationByGpsOrNetworkProvider.retrieveLocation();
-
-    if (onLastKnownLocationListener != null) {
-      onLastKnownLocationListener.onLastKnownLocation(location);
     }
-  }
 
-  public interface OnLastKnownLocationListener {
-    void onLastKnownLocation(Location location);
-  }
+    private GoogleApiClientConnector.OnConnectedListener onConnectedListener =
+            new GoogleApiClientConnector.OnConnectedListener() {
+                @Override
+                public void onConnected() {
+                    askPermissionAndGetLastKnownLocation();
+                }
+
+                @Override
+                public void onConnectionFailed() {
+                    boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
+                    if (isGranted) {
+                        getNetworkGpsLocation();
+                    }
+                }
+            };
+
+    public void askPermissionAndGetLastKnownLocation() {
+        boolean isGranted = permissionChecker.isGranted(accessFineLocationPermissionImp);
+        if (isGranted) {
+            getLastKnownLocation();
+        } else {
+            if (contextProvider.getCurrentActivity() != null) {
+                permissionChecker.askForPermission(accessFineLocationPermissionImp,
+                        userPermissionResponseListener, contextProvider.getCurrentActivity());
+            }
+        }
+    }
+
+    @SuppressWarnings("ResourceType")
+    private void getLastKnownLocation() {
+        if (googleApiClientConnector != null && googleApiClientConnector.getGoogleApiClient() != null && googleApiClientConnector.isConnected()) {
+            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    googleApiClientConnector.getGoogleApiClient());
+            if (onLastKnownLocationListener != null) {
+                onLastKnownLocationListener.onLastKnownLocation(lastLocation);
+            }
+        }
+    }
+
+    private UserPermissionRequestResponseListener userPermissionResponseListener =
+            new UserPermissionRequestResponseListener() {
+                @Override
+                public void onPermissionAllowed(boolean permissionAllowed) {
+                    getLastKnownLocation();
+                }
+            };
+
+    @SuppressWarnings("ResourceType")
+    private void getNetworkGpsLocation() {
+        Location location = retrieveLocationByGpsOrNetworkProvider.retrieveLocation();
+
+        if (onLastKnownLocationListener != null) {
+            onLastKnownLocationListener.onLastKnownLocation(location);
+        }
+    }
+
+    public interface OnLastKnownLocationListener {
+        void onLastKnownLocation(Location location);
+    }
 }
