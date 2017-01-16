@@ -3,7 +3,7 @@
 // Build stage
 parallel sonarqube : {
   stage ('sonarqube') {
-    node ('"sonarqube') {
+    node ('sonarqube') {
       stage('SCM') {
         checkout scm
       }
