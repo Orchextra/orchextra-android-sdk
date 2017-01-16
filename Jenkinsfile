@@ -2,30 +2,23 @@
 
 // Build stage
 parallel sonarqube : {
-  stage ('sonarqube') {
+  stage ('Sonarqube Analysis') {
     node ('sonarqube') {
-      sh "export"
-      stage('SCM') {
-        checkout scm
-      }
-      stage('SonarQube analysis') {
-        // requires SonarQube Scanner 2.8+
-        def sonarHome = tool 'SonarQube Runner 2.8';
-        echo "${sonarHome}"
-        withSonarQubeEnv('SonarQube') {
-          sh "export"
-          sh "${sonarHome}/bin/sonar-scanner"
-        }
+      // Get source code
+      checkout scm
+      // requires SonarQube Scanner 2.8+
+      def sonarHome = tool 'SonarQube Runner 2.8';
+      withSonarQubeEnv('SonarQube') {
+        sh "${sonarHome}/bin/sonar-scanner"
       }
     }
   }
 },
 build: {
-  stage ('build') {
+  stage ('Gradle build') {
     node ('linux') {
-      stage('SCM') {
-        checkout scm
-      }
+      // Get source code
+      checkout scm
       // Execute gradlew
       sh './gradlew clean build jacocoTestReport jacocoFullReport --stacktrace'
     }
