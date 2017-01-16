@@ -1,8 +1,9 @@
 #!groovy
 
 // Build stage
-parallel sonarqube : {
+//parallel sonarqube : {
   stage ('sonarqube') {
+    sh 'export'
     node ('sonarqube') {
       stage('SCM') {
         checkout scm
@@ -16,7 +17,7 @@ parallel sonarqube : {
       }
     }
   }
-},
+/*},
 build: {
   stage ('build') {
     node ('linux') {
@@ -28,3 +29,4 @@ build: {
     }
   }
 }
+*/
