@@ -3,8 +3,8 @@
 // Build stage
 //parallel sonarqube : {
   stage ('sonarqube') {
-    sh 'export'
     node ('sonarqube') {
+      sh "export"
       stage('SCM') {
         checkout scm
       }
