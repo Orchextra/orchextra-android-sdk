@@ -1,7 +1,7 @@
 #!groovy
 
 // Build stage
-//parallel sonarqube : {
+parallel sonarqube : {
   stage ('sonarqube') {
     node ('sonarqube') {
       sh "export"
@@ -19,7 +19,7 @@
       }
     }
   }
-/*},
+},
 build: {
   stage ('build') {
     node ('linux') {
@@ -31,4 +31,3 @@ build: {
     }
   }
 }
-*/
