@@ -10,11 +10,11 @@
       }
       stage('SonarQube analysis') {
         // requires SonarQube Scanner 2.8+
-        //def sonarqubeScannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-        //echo "${scannerHome}"
+        def sonarHome = tool 'SonarQube Runner 2.8';
+        echo "${sonarHome}"
         withSonarQubeEnv('SonarQube') {
           sh "export"
-          sh "${scannerHome}/bin/sonar-scanner"
+          sh "${sonarHome}/bin/sonar-scanner"
         }
       }
     }
