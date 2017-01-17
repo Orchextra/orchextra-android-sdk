@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=ocm_integration)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-3.0.3-blue.svg)
+![Version](https://img.shields.io/badge/Version-4.0.1RC-blue.svg)
 [![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
 ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
 
@@ -48,28 +48,28 @@ and we add the Orchextra dependency in our **sdkVersionAppInfo** module:
 
 :bulb: with GCM 7.8
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.0RC:play7Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.1RC:play7Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:7.8.0'
    compile 'com.google.android.gms:play-services-gcm:7.8.0'
 ```
 :bulb: or with GCM 8.4
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.0RC:play8Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.1RC:play8Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:8.4.0'
    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 ```
 :bulb: or with GCM 9.0
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.0RC:play9Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.1RC:play9Release@aar')
      {transitive true}
    compile 'com.google.android.gms:play-services-location:9.0.0'
    compile 'com.google.android.gms:play-services-gcm:9.0.0'
 ```
 :bulb: or without Google Play Services
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.0RC:playnoRelease@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.1RC:playnoRelease@aar')
      {transitive true}
 ```
 If you use playnoRelease, some orchextraSDK features will not be available, geofences, notification push, scheduled Actions
@@ -104,7 +104,6 @@ Now you can choose the Activity that Orchextra uses for execute the action. This
 
 For set the activity you must set in the OrchextraBuilder
 ```java
-@Override
 public void onCreate() {
 OrchextraBuilder builder = new OrchextraBuilder(this)
                 .setApiKeyAndSecret(API_KEY, API_SECRET)
@@ -116,6 +115,21 @@ OrchextraBuilder builder = new OrchextraBuilder(this)
         Orchextra.initialize(builder);
         ...
         }
+```
+
+## Set background Beacons Scan Mode :bulb:
+ Now you can set mode background for beacons, for detect beacons very quickly when the app is closed. For now we have only two modes, NORMAL mode and HARDCORE, for increase scanner beacon activity. The battery consumption will be higher in Hardcore mode.
+```java
+public void onCreate() {
+ OrchextraBuilder builder = new OrchextraBuilder(this)
+                .setApiKeyAndSecret(API_KEY, API_SECRET)
+                .setLogLevel(OrchextraLogLevel.NETWORK)
+
+                .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);
+
+                .setOrchextraCompletionCallback(this));
+        Orchextra.initialize(builder);
+        ...
 ```
 ## Image Recognition Ad-on
 
@@ -348,6 +362,13 @@ In the same way, some color you can customize are
 <!-- Toolbar title and icon color -->
 <color name="ox_toolbar_title_color">#FFF</color>
 ```
+## New Notifications beahavior :bulb:
+ Now when a background action is triggered, which does not have a notification configured, a default local notification is generated so that the user can access the alert.
+ To change the default values for the title and the body of the notification there are two new resources in strings.xml
+ ```xml
+ <string name="ox_notification_default_title">Orchextra</string>
+ <string name="ox_notification_default_body">Click to open your App</string>
+  ```
 :bulb: Additionally, you should customize the Orchextra Sdk with your drawables.
 
  - ox_notification_alpha_small_icon(1*): Icon is showed in the status bar.

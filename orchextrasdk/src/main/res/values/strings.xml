@@ -43,7 +43,7 @@
 
   <string name="ox_notification_push_title">Orchextra</string>
 
-  <string name="ox_notification_default_title">Orchextra fake</string>
+  <string name="ox_notification_default_title">Orchextra</string>
   <string name="ox_notification_default_body">Click to open your App</string>
 
   <!-- VuforiaCredentials Module customization -->
