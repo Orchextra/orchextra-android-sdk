@@ -169,13 +169,20 @@ public class ProximityEventsUpdater {
 
       for (BeaconEventRealm beaconEventRealm : results) {
         codes.add(beaconEventRealm.getCode());
-
+/*
         orchextraLogger.log("B.UUID:"
             + beaconEventRealm.getUuid()
             + "_"
             + beaconEventRealm.getMayor()
             + "_"
             + beaconEventRealm.getMinor()
+            + ":"
+            + beaconEventRealm.getBeaconDistance()
+            +
+            "-->still under RWT");
+*/
+        orchextraLogger.log("B.UUID:"
+            + beaconEventRealm.getCode()
             + ":"
             + beaconEventRealm.getBeaconDistance()
             +

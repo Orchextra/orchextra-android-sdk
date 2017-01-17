@@ -35,6 +35,7 @@ import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegionUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 
 public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStatusListener {
 
@@ -60,14 +61,14 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
   }
 
   private void registerAsObserver() {
-    if (!isRegisteredAsObserver){
+    if (!isRegisteredAsObserver) {
       this.configObservable.registerObserver(this);
       isRegisteredAsObserver = true;
     }
   }
 
   private void unregisterAsObserver() {
-    if (isRegisteredAsObserver){
+    if (isRegisteredAsObserver) {
       this.configObservable.removeObserver(this);
       isRegisteredAsObserver = false;
     }
@@ -82,27 +83,34 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
 
   private void initMonitoring() {
     regionMonitoringScanner.setRunningMode(appRunningMode.getRunningModeType());
-    if (!regionMonitoringScanner.isMonitoring()){
+    if (!regionMonitoringScanner.isMonitoring()) {
       regionMonitoringScanner.initMonitoring();
     }
   }
 
   @Override public void startRangingScanner() {
-    if (!beaconRangingScanner.isRanging()){
+    if (!beaconRangingScanner.isRanging()) {
       beaconRangingScanner.initRangingScanForAllKnownRegions(appRunningMode.getRunningModeType());
     }
   }
 
   @Override public void initAvailableRegionsRangingScanner() {
-
-    //OXBEASEN
-    if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND){
-      throw new RangingScanInBackgroundException(
-          "Infinite Ranging Scan in Background Mode is not allowed");
+    //OXBEASEN feature 4 mcd
+    //test that, remenber the reset of the background times...
+    if (OrchextraManager.getBackgroundModeScan()
+        != BeaconBackgroundModeScan.HARDCORE.getIntensity()) {
+      if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND) {
+        throw new RangingScanInBackgroundException(
+            "Infinite Ranging Scan in Background Mode is only allowed if your app set BeaconBackgroundModeScan.HARDCORE");
+      }
+    } else {
+      System.out.println(
+          "BeaconBackgroundModeScan.HARDCORE, infinite Ranging in background allowed");
     }
-//wen need to reeboot ranging process, beacuse the transition between background to foreground,
-// change the rangin time from 10sg in background to infinite time if you are inside region and the app in foreground
-    if (beaconRangingScanner.isRanging()){
+    //wen need to reeboot ranging process, because the transition between background to foreground,
+    //change the rangin time from 10sg in background to infinite time
+    //if you are inside region and the app in foreground
+    if (beaconRangingScanner.isRanging()) {
       beaconRangingScanner.stopAllCurrentRangingScannedRegions();
     }
 
@@ -117,22 +125,23 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
   }
 
   @Override public void stopMonitoring() {
-    if (regionMonitoringScanner.isMonitoring()){
+    if (regionMonitoringScanner.isMonitoring()) {
       regionMonitoringScanner.stopMonitoring();
     }
     unregisterAsObserver();
   }
 
   @Override public void stopRangingScanner() {
-    if (beaconRangingScanner.isRanging()){
+    if (beaconRangingScanner.isRanging()) {
       beaconRangingScanner.stopAllCurrentRangingScannedRegions();
     }
   }
 
   @Override public void onBluetoothStatus(BluetoothStatus bluetoothStatus) {
-    switch (bluetoothStatus){
-      case NO_BLTE_SUPPORTED:orchextraLogger.log("CAUTION BLTE not supported, some features can not work as expected",
-          OrchextraSDKLogLevel.WARN);
+    switch (bluetoothStatus) {
+      case NO_BLTE_SUPPORTED:
+        orchextraLogger.log("CAUTION BLTE not supported, some features can not work as expected",
+            OrchextraSDKLogLevel.WARN);
         // would be great to do something with error? like show a toast...
         break;
       case NO_PERMISSIONS:
@@ -162,14 +171,14 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
 
   @Override public void update(OrchextraChanges observable, Object data) {
 
-    if (observable instanceof ConfigObservable){
+    if (observable instanceof ConfigObservable) {
 
-      OrchextraRegionUpdates beaconUpdates = ((OrchextraUpdates)data).getOrchextraRegionUpdates();
+      OrchextraRegionUpdates beaconUpdates = ((OrchextraUpdates) data).getOrchextraRegionUpdates();
 
-      if (beaconUpdates.hasChanges()){
-        regionMonitoringScanner.updateRegions(beaconUpdates.getDeleteRegions(), beaconUpdates.getNewRegions());
+      if (beaconUpdates.hasChanges()) {
+        regionMonitoringScanner.updateRegions(beaconUpdates.getDeleteRegions(),
+            beaconUpdates.getNewRegions());
       }
     }
   }
-
 }

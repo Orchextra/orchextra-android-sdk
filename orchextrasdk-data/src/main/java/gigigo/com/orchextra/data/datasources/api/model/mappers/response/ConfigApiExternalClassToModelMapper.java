@@ -39,43 +39,41 @@ import gigigo.com.orchextra.data.datasources.api.model.responses.ApiDeviceCustom
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiRegion;
 
-
 public class ConfigApiExternalClassToModelMapper
-        implements ExternalClassToModelMapper<ApiConfigData, ConfigurationInfoResult> {
+    implements ExternalClassToModelMapper<ApiConfigData, ConfigurationInfoResult> {
 
-    private static final int ONE_SECOND = 1000;
+  private static final int ONE_SECOND = 1000;
 
-    private final GeofenceExternalClassToModelMapper geofenceResponseMapper;
-    private final BeaconExternalClassToModelMapper beaconResponseMapper;
+  private final GeofenceExternalClassToModelMapper geofenceResponseMapper;
+  private final BeaconExternalClassToModelMapper beaconResponseMapper;
 
-    private final VuforiaExternalClassToModelMapper vuforiaResponseMapper;
-    private final AvailableCustomFieldExternalClassToModelMapper availableCustomFieldResponseMapper;
-    private final CrmCustomFieldsExternalClassToModelMapper crmResponseMapper;
-    private final DeviceCustomFieldsExternalClassToModelMapper deviceResponseMapper;
+  private final VuforiaExternalClassToModelMapper vuforiaResponseMapper;
+  private final AvailableCustomFieldExternalClassToModelMapper availableCustomFieldResponseMapper;
+  private final CrmCustomFieldsExternalClassToModelMapper crmResponseMapper;
+  private final DeviceCustomFieldsExternalClassToModelMapper deviceResponseMapper;
 
-    public ConfigApiExternalClassToModelMapper(
-            VuforiaExternalClassToModelMapper vuforiaResponseMapper,
-            BeaconExternalClassToModelMapper beaconResponseMapper,
-            GeofenceExternalClassToModelMapper geofenceResponseMapper,
-            AvailableCustomFieldExternalClassToModelMapper availableCustomFieldResponseMapper,
-            CrmCustomFieldsExternalClassToModelMapper crmResponseMapper,
-            DeviceCustomFieldsExternalClassToModelMapper deviceResponseMapper
-    ) {
-        this.vuforiaResponseMapper = vuforiaResponseMapper;
-        this.beaconResponseMapper = beaconResponseMapper;
-        this.geofenceResponseMapper = geofenceResponseMapper;
-        this.availableCustomFieldResponseMapper = availableCustomFieldResponseMapper;
-        this.crmResponseMapper = crmResponseMapper;
-        this.deviceResponseMapper = deviceResponseMapper;
-    }
+  public ConfigApiExternalClassToModelMapper(
+      VuforiaExternalClassToModelMapper vuforiaResponseMapper,
+      BeaconExternalClassToModelMapper beaconResponseMapper,
+      GeofenceExternalClassToModelMapper geofenceResponseMapper,
+      AvailableCustomFieldExternalClassToModelMapper availableCustomFieldResponseMapper,
+      CrmCustomFieldsExternalClassToModelMapper crmResponseMapper,
+      DeviceCustomFieldsExternalClassToModelMapper deviceResponseMapper) {
+    this.vuforiaResponseMapper = vuforiaResponseMapper;
+    this.beaconResponseMapper = beaconResponseMapper;
+    this.geofenceResponseMapper = geofenceResponseMapper;
+    this.availableCustomFieldResponseMapper = availableCustomFieldResponseMapper;
+    this.crmResponseMapper = crmResponseMapper;
+    this.deviceResponseMapper = deviceResponseMapper;
+  }
 
-    @Override
-    public ConfigurationInfoResult externalClassToModel(ApiConfigData apiConfigData) {
+  @Override public ConfigurationInfoResult externalClassToModel(ApiConfigData apiConfigData) {
 
-        List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
-    /*asv hardcodding this is for testing behavior with eddystonebeacons and eddystoneregions
-    80EE872C-9229-4552-A0A9-02969FEEF0B8
-            666*/
+    List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
+    /*//asv hardcodding this is for testing behavior with eddystonebeacons and eddystoneregions
+    //80EE872C-9229-4552-A0A9-02969FEEF0B8
+
+             //PART 1
         List<OrchextraRegion> beaconsTruched = new ArrayList<>();
         for (int i = 0; i < beacons.size(); i++) {
             if (beacons.get(i).getMajor() == 666) {
@@ -84,15 +82,16 @@ public class ConfigApiExternalClassToModelMapper
             } else
                 beaconsTruched.add(beacons.get(i));
         }
+        */
+    List<OrchextraGeofence> geofences = mapGeofences(apiConfigData.getGeoMarketing());
+    List<AvailableCustomField> availableCustomFieldTypeList =
+        mapAvailableCustomField(apiConfigData.getAvailableCustomFields());
+    CrmCustomFields crmCustomFields = mapCrm(apiConfigData.getCrm());
+    DeviceCustomFields deviceCustomFields = mapDevice(apiConfigData.getDevice());
 
-        List<OrchextraGeofence> geofences = mapGeofences(apiConfigData.getGeoMarketing());
-        List<AvailableCustomField> availableCustomFieldTypeList = mapAvailableCustomField(apiConfigData.getAvailableCustomFields());
-        CrmCustomFields crmCustomFields = mapCrm(apiConfigData.getCrm());
-        DeviceCustomFields deviceCustomFields = mapDevice(apiConfigData.getDevice());
-
-        VuforiaCredentials vuforiaCredentials =
-                MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
-
+    VuforiaCredentials vuforiaCredentials =
+        MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
+/*PART 2
         return new ConfigurationInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND,
                 geofences,
                 beaconsTruched,
@@ -100,57 +99,55 @@ public class ConfigApiExternalClassToModelMapper
                 availableCustomFieldTypeList,
                 crmCustomFields,
                 deviceCustomFields).build();
+*/
 
-/*
-        return new ConfigurationInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND,
-                geofences,
-                beacons,
-                vuforiaCredentials,
-                availableCustomFieldTypeList,
-                crmCustomFields,
-                deviceCustomFields).build();*/
+    return new ConfigurationInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND,
+        geofences, beacons, vuforiaCredentials, availableCustomFieldTypeList, crmCustomFields,
+        deviceCustomFields).build();
+  }
+
+  private List<OrchextraGeofence> mapGeofences(List<ApiGeofence> apiGeofences) {
+    List<OrchextraGeofence> geofences = new ArrayList<>();
+
+    if (apiGeofences != null) {
+      for (ApiGeofence apiGeofence : apiGeofences) {
+        geofences.add(MapperUtils.checkNullDataResponse(geofenceResponseMapper, apiGeofence));
+      }
     }
 
-    private List<OrchextraGeofence> mapGeofences(List<ApiGeofence> apiGeofences) {
-        List<OrchextraGeofence> geofences = new ArrayList<>();
+    return geofences;
+  }
 
-        if (apiGeofences != null) {
-            for (ApiGeofence apiGeofence : apiGeofences) {
-                geofences.add(MapperUtils.checkNullDataResponse(geofenceResponseMapper, apiGeofence));
-            }
-        }
+  private List<OrchextraRegion> mapBeacons(List<ApiRegion> apiRegions) {
+    List<OrchextraRegion> beacons = new ArrayList<>();
 
-        return geofences;
+    if (apiRegions != null) {
+      for (ApiRegion apiRegion : apiRegions) {
+        beacons.add(MapperUtils.checkNullDataResponse(beaconResponseMapper, apiRegion));
+      }
     }
 
-    private List<OrchextraRegion> mapBeacons(List<ApiRegion> apiRegions) {
-        List<OrchextraRegion> beacons = new ArrayList<>();
+    return beacons;
+  }
 
-        if (apiRegions != null) {
-            for (ApiRegion apiRegion : apiRegions) {
-                beacons.add(MapperUtils.checkNullDataResponse(beaconResponseMapper, apiRegion));
-            }
-        }
+  private List<AvailableCustomField> mapAvailableCustomField(
+      Map<String, ApiAvailableCustomFieldType> apiAvailableCustomFields) {
+    List<AvailableCustomField> availableCustomFieldList = new ArrayList<>();
 
-        return beacons;
+    if (apiAvailableCustomFields != null) {
+      availableCustomFieldList =
+          MapperUtils.checkNullDataResponse(availableCustomFieldResponseMapper,
+              apiAvailableCustomFields);
     }
 
-    private List<AvailableCustomField> mapAvailableCustomField(Map<String, ApiAvailableCustomFieldType> apiAvailableCustomFields) {
-        List<AvailableCustomField> availableCustomFieldList = new ArrayList<>();
+    return availableCustomFieldList;
+  }
 
-        if (apiAvailableCustomFields != null) {
-            availableCustomFieldList = MapperUtils.checkNullDataResponse(availableCustomFieldResponseMapper, apiAvailableCustomFields);
-        }
+  private CrmCustomFields mapCrm(ApiCrmCustomFields crm) {
+    return MapperUtils.checkNullDataResponse(crmResponseMapper, crm);
+  }
 
-        return availableCustomFieldList;
-    }
-
-    private CrmCustomFields mapCrm(ApiCrmCustomFields crm) {
-        return MapperUtils.checkNullDataResponse(crmResponseMapper, crm);
-
-    }
-
-    private DeviceCustomFields mapDevice(ApiDeviceCustomFields device) {
-        return MapperUtils.checkNullDataResponse(deviceResponseMapper, device);
-    }
+  private DeviceCustomFields mapDevice(ApiDeviceCustomFields device) {
+    return MapperUtils.checkNullDataResponse(deviceResponseMapper, device);
+  }
 }

@@ -30,6 +30,7 @@ public class ActionNotificationExternalClassToModelMapper
     OrchextraNotification notification = new OrchextraNotification();
     notification.setTitle(apiNotification.getTitle());
     notification.setBody(apiNotification.getBody());
+
     return notification;
   }
 }

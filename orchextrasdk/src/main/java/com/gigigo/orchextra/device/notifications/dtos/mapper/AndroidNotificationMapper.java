@@ -22,27 +22,29 @@ import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidNotification;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
-public class AndroidNotificationMapper implements Mapper<OrchextraNotification, AndroidNotification> {
+public class AndroidNotificationMapper
+    implements Mapper<OrchextraNotification, AndroidNotification> {
 
-    @Override
-    public AndroidNotification modelToExternalClass(OrchextraNotification notification) {
-        AndroidNotification androidNotification = new AndroidNotification();
+  @Override public AndroidNotification modelToExternalClass(OrchextraNotification notification) {
+    AndroidNotification androidNotification = new AndroidNotification();
 
-        androidNotification.setTitle(notification.getTitle());
-        androidNotification.setBody(notification.getBody());
-        androidNotification.setShown(notification.isShown());
+    androidNotification.setTitle(notification.getTitle());
+    androidNotification.setBody(notification.getBody());
+    androidNotification.setShown(notification.isShown());
+    androidNotification.setFake(notification.isFake());
 
-        return androidNotification;
-    }
+    return androidNotification;
+  }
 
-    @Override
-    public OrchextraNotification externalClassToModel(AndroidNotification androidNotification) {
-        OrchextraNotification notification = new OrchextraNotification();
+  @Override
+  public OrchextraNotification externalClassToModel(AndroidNotification androidNotification) {
+    OrchextraNotification notification = new OrchextraNotification();
 
-        notification.setTitle(androidNotification.getTitle());
-        notification.setBody(androidNotification.getBody());
-        notification.setShown(androidNotification.isShown());
+    notification.setTitle(androidNotification.getTitle());
+    notification.setBody(androidNotification.getBody());
+    notification.setShown(androidNotification.isShown());
+    notification.setFake(androidNotification.isFake());
 
-        return notification;
-    }
+    return notification;
+  }
 }

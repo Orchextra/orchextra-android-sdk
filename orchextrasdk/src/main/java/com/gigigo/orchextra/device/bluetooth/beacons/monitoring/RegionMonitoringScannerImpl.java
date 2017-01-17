@@ -24,12 +24,14 @@ import android.content.ServiceConnection;
 import android.os.RemoteException;
 
 import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import com.gigigo.orchextra.device.bluetooth.beacons.mapper.BeaconRegionAndroidMapper;
 import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -95,7 +97,7 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
 
     private void enterRegion(Region region) {
         //asv for now we dont change anythign, region is always beacon_region , no matter if eddystonregion or ibeaconregion
-        //for now, maybe in future all changes
+        //for now, maybe in future, changes
         OrchextraRegion orchextraRegion = regionMapper.externalClassToModel(region);
         beaconsController.onRegionEnter(orchextraRegion);
         monitoringListener.onRegionEnter(region);
@@ -130,9 +132,7 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
         if (state == MonitorNotifier.OUTSIDE)
             exitRegion(region);
     }
-
     // endregion
-
     //region RegionMonitoringScanner Interface
 
     @Override
@@ -159,7 +159,12 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
 
     @Override
     public void setRunningMode(AppRunningModeType appRunningModeType) {
-        beaconManager.setBackgroundMode(appRunningModeType == AppRunningModeType.BACKGROUND);
+        if (OrchextraManager.getBackgroundModeScan()
+            != BeaconBackgroundModeScan.HARDCORE.getIntensity()) {
+            beaconManager.setBackgroundMode(appRunningModeType == AppRunningModeType.BACKGROUND);
+        }
+        else
+            beaconManager.setBackgroundMode(false); //hardcore not background mode
     }
 
     @Override
@@ -191,6 +196,7 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
             public void run() {
                 for (Region region : altRegions) {
                     try {
+
                         beaconManager.startMonitoringBeaconsInRegion(region);
                         orchextraLogger.log("Start Beacons Monitoring for region " + region.getUniqueId());
                     } catch (RemoteException e) {
@@ -204,6 +210,7 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     }
 
     private void stopMonitoringRegions(List<Region> altRegions) {
+
         try {
             for (Region region : altRegions) {
                 beaconManager.stopMonitoringBeaconsInRegion(region);

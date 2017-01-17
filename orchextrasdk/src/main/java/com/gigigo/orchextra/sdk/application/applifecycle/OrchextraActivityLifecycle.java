@@ -105,7 +105,6 @@ public class OrchextraActivityLifecycle
                 AndroidNotification androidNotification = androidBasicAction.getNotification();
                 if (androidNotification != null && androidNotification.getBody() != "" && androidNotification.getTitle() != "") {
                     androidNotification.setShown(false);//we will to show the notification again when the activity home of app will be reached
-                   // androidNotification.setTitle("Yeah Jilou Mundo!");
                     androidBasicAction.setNotification(androidNotification);
                 }
             }

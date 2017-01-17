@@ -85,7 +85,6 @@ public class AndroidBasicAction implements Parcelable {
         }
         megaHash = megaHash + hashCodeObject(this.getAction());
         megaHash = megaHash + hashCodeObject(this.getUrl());
-
         return megaHash;
     }
 

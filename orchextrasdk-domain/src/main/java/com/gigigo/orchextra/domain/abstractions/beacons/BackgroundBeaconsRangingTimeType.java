@@ -22,7 +22,13 @@ public enum BackgroundBeaconsRangingTimeType {
   DISABLED(0),
   MIN(10000),
   MAX(180000),
-  INFINITE(-1);
+  INFINITE(-1),
+
+  WEAK(600000),
+  MODERATE(120000),
+  STRONG(60000),
+  SEVERE(30000),
+  EXTREME(10000);
 
   private final int backgroundTimeMilis;
 
@@ -31,6 +37,10 @@ public enum BackgroundBeaconsRangingTimeType {
   }
 
   public int getIntValue() {
+    return backgroundTimeMilis;
+  }
+
+  public long getLongValue() {
     return backgroundTimeMilis;
   }
 

@@ -23,6 +23,15 @@ public class OrchextraNotification {
   private String title;
   private String body;
   private boolean shown = false;
+  private boolean isFake = false;
+
+  public boolean isFake() {
+    return isFake;
+  }
+
+  public void setFake(boolean fake) {
+    isFake = fake;
+  }
 
   public String getTitle() {
     return title;

@@ -37,148 +37,187 @@ import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
 public class AndroidNotificationBuilder {
 
-    public static final String EXTRA_NOTIFICATION_ACTION = "OX_EXTRA_NOTIFICATION_ACTION";
-    public static final String NOTIFICATION_ACTION_OX = "NOTIFICATION_ACTION_OX";
-    public static final String HAVE_ACTIVITY_NOTIFICATION_OX = "HAVE_ACTIVITY_NOTIFICATION_OX";
+  public static final String EXTRA_NOTIFICATION_ACTION = "OX_EXTRA_NOTIFICATION_ACTION";
+  public static final String NOTIFICATION_ACTION_OX = "NOTIFICATION_ACTION_OX";
+  public static final String HAVE_ACTIVITY_NOTIFICATION_OX = "HAVE_ACTIVITY_NOTIFICATION_OX";
 
-    private final Context context;
+  private int notificationId = 0;
+  private final Context context;
 
-    public AndroidNotificationBuilder(Context context) {
-        this.context = context;
+  public AndroidNotificationBuilder(Context context) {
+    this.context = context;
+  }
+
+  public void createNotificationPush(OrchextraNotification orchextraNotification,
+      PendingIntent pendingIntent) {
+    createNotification(orchextraNotification, pendingIntent, true);
+  }
+
+  public void createNotification(OrchextraNotification orchextraNotification,
+      PendingIntent pendingIntent) {
+    createNotification(orchextraNotification, pendingIntent, false);
+  }
+
+  public PendingIntent getPendingIntent(AndroidBasicAction androidBasicAction) {
+    Intent intent =
+        new Intent(context, NotificationReceiver.class).setAction(NOTIFICATION_ACTION_OX)
+            .putExtra(NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER,
+                NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER)
+            .putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction)
+            .putExtra(AndroidNotificationBuilder.HAVE_ACTIVITY_NOTIFICATION_OX, false)
+            .setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
+    notificationId = androidBasicAction.hashCode();
+
+    return PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+  }
+
+  private void createNotification(OrchextraNotification orchextraNotification,
+      PendingIntent pendingIntent, boolean isPush) {
+    Notification notification;
+
+    if (orchextraNotification.isFake()) {
+      orchextraNotification.setTitle(
+          context.getResources().getString(R.string.ox_notification_default_title));
+      orchextraNotification.setBody(
+          context.getResources().getString(R.string.ox_notification_default_body));
     }
 
-    public void createNotificationPush(OrchextraNotification orchextraNotification, PendingIntent pendingIntent) {
-        createNotification(orchextraNotification, pendingIntent, true);
+    if (AndroidSdkVersion.hasJellyBean16()) {
+      notification = createBigNotification(orchextraNotification, pendingIntent, isPush);
+    } else {
+      notification = createNormalNotification(orchextraNotification, pendingIntent);
     }
 
-    public void createNotification(OrchextraNotification orchextraNotification, PendingIntent pendingIntent) {
-        createNotification(orchextraNotification, pendingIntent, false);
+    NotificationManager notificationManager =
+        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+    //only 1 notification entry, for the same action notificationManager.notify((int) notificationId, notification);
+    //one notification for action response, no care if the same notification, this is the first implementation
+     notificationManager.notify((int) (System.currentTimeMillis() % Integer.MAX_VALUE), notification);
+  }
+
+  @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+  private Notification createBigNotification(OrchextraNotification orchextraNotification,
+      PendingIntent pendingIntent, boolean isPush) {
+
+    Bitmap largeIcon =
+        BitmapFactory.decodeResource(context.getResources(), R.drawable.ox_notification_large_icon);
+    Notification.Builder mNotifyBuilder = new Notification.Builder(context);
+
+    RemoteViews mContentView;
+    if (isPush) {
+      mContentView = new RemoteViews(this.context.getPackageName(),
+          R.layout.ox_custom_normal_push_notification);
+    } else {
+      mContentView = new RemoteViews(this.context.getPackageName(),
+          R.layout.ox_custom_normal_local_notification);
+    }
+    try {
+      //images
+      mContentView.setImageViewResource(R.id.ox_notifimage_custom_local_notification,
+          R.drawable.ox_notification_large_icon);
+      mContentView.setImageViewResource(R.id.ox_notifimage_small_custom_local_notification,
+          R.drawable.ox_notification_color_small_icon);
+      //title & body
+      mContentView.setTextViewText(R.id.ox_notiftitle_custom_local_notification,
+          orchextraNotification.getTitle());
+      mContentView.setTextViewText(R.id.ox_notiftext_custom_local_notification,
+          orchextraNotification.getBody());
+      //time
+      mContentView.setLong(R.id.time, "setTime", mNotifyBuilder.build().when);
+      mContentView.setLong(R.id.ox_time_custom_local_notification, "setTime",
+          mNotifyBuilder.build().when);
+    } catch (Exception e) {
+      if (isPush) {
+        System.out.println("Something gone wrong with Notification. \n"
+            + "You can't delete/change id of Views, in R.layout.ox_custom_normal_push_notification, use visibility gone instead");
+      } else {
+        System.out.println("Something gone wrong with Notification. \n"
+            + "You can't delete/change id of Views, in R.layout.ox_custom_normal_local_notification, use visibility gone instead");
+      }
     }
 
-    public PendingIntent getPendingIntent(AndroidBasicAction androidBasicAction) {
-        Intent intent = new Intent(context, NotificationReceiver.class)
-                .setAction(NOTIFICATION_ACTION_OX)
-                .putExtra(NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER, NotificationReceiver.NOTIFICATION_BROADCAST_RECEIVER)
-                .putExtra(EXTRA_NOTIFICATION_ACTION, androidBasicAction)
-                .putExtra(AndroidNotificationBuilder.HAVE_ACTIVITY_NOTIFICATION_OX, false)
-                .setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+    Notification builder = mNotifyBuilder.setSmallIcon(R.drawable.ox_notification_alpha_small_icon)
+        .setLargeIcon(largeIcon)
+        .setContent(mContentView)
+        .setContentIntent(pendingIntent)
+        .setWhen(System.currentTimeMillis())
+        .setAutoCancel(true)
+        .build();
 
-        return PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    //region big notification
+    RemoteViews bigView;
+    if (isPush) {
+      bigView =
+          new RemoteViews(this.context.getPackageName(), R.layout.ox_custom_big_push_notification);
+    } else {
+      bigView =
+          new RemoteViews(this.context.getPackageName(), R.layout.ox_custom_big_local_notification);
     }
 
-    private void createNotification(OrchextraNotification orchextraNotification, PendingIntent pendingIntent, boolean isPush) {
-        Notification notification;
-
-        if (AndroidSdkVersion.hasJellyBean16())
-            notification = createBigNotification(orchextraNotification, pendingIntent, isPush);
-        else
-            notification = createNormalNotification(orchextraNotification, pendingIntent);
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify((int) (System.currentTimeMillis() % Integer.MAX_VALUE), notification);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private Notification createBigNotification(OrchextraNotification orchextraNotification,
-                                               PendingIntent pendingIntent,
-                                               boolean isPush) {
-
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ox_notification_large_icon);
-        Notification.Builder mNotifyBuilder = new Notification.Builder(context);
-
-        RemoteViews mContentView;
-        if (isPush)
-            mContentView = new RemoteViews(this.context.getPackageName(), R.layout.ox_custom_normal_push_notification);
-        else
-            mContentView = new RemoteViews(this.context.getPackageName(), R.layout.ox_custom_normal_local_notification);
-        try {
-            //images
-            mContentView.setImageViewResource(R.id.ox_notifimage_custom_local_notification, R.drawable.ox_notification_large_icon);
-            mContentView.setImageViewResource(R.id.ox_notifimage_small_custom_local_notification, R.drawable.ox_notification_color_small_icon);
-            //title & body
-            mContentView.setTextViewText(R.id.ox_notiftitle_custom_local_notification, orchextraNotification.getTitle());
-            mContentView.setTextViewText(R.id.ox_notiftext_custom_local_notification, orchextraNotification.getBody());
-            //time
-            mContentView.setLong(R.id.time, "setTime", mNotifyBuilder.build().when);
-            mContentView.setLong(R.id.ox_time_custom_local_notification, "setTime", mNotifyBuilder.build().when);
-        } catch (Exception e) {
-            if (isPush)
-                System.out.println("Something gone wrong with Notification. \n" +
-                        "You can't delete/change id of Views, in R.layout.ox_custom_normal_push_notification, use visibility gone instead");
-            else
-                System.out.println("Something gone wrong with Notification. \n" +
-                        "You can't delete/change id of Views, in R.layout.ox_custom_normal_local_notification, use visibility gone instead");
-        }
-
-        Notification builder = mNotifyBuilder
-                .setSmallIcon(R.drawable.ox_notification_alpha_small_icon)
-                .setLargeIcon(largeIcon)
-                .setContent(mContentView)
-                .setContentIntent(pendingIntent)
-                .build();
-
-        //region big notification
-        RemoteViews bigView;
-        if (isPush)
-            bigView = new RemoteViews(this.context.getPackageName(), R.layout.ox_custom_big_push_notification);
-        else
-            bigView = new RemoteViews(this.context.getPackageName(), R.layout.ox_custom_big_local_notification);
-
-        try {
-            //images
-            bigView.setImageViewResource(R.id.ox_notifimage_custom_local_notification, R.drawable.ox_notification_large_icon);
-            bigView.setImageViewResource(R.id.ox_notifimage_small_custom_local_notification, R.drawable.ox_notification_color_small_icon);
-            //title & body
-            bigView.setTextViewText(R.id.ox_notiftitle_custom_local_notification, orchextraNotification.getTitle());
-            bigView.setTextViewText(R.id.ox_notiftext_custom_local_notification, orchextraNotification.getBody());
-            //time
-            bigView.setLong(R.id.time, "setTime", mNotifyBuilder.build().when);
-            bigView.setLong(R.id.ox_time_custom_local_notification, "setTime", mNotifyBuilder.build().when);
-        } catch (Exception e) {
-            if (isPush)
-                System.out.println("Something gone wrong with Notification. \n" +
-                        "You can't delete/change id of Views, in R.layout.ox_custom_big_push_notification, use visibility gone instead");
-            else
-                System.out.println("Something gone wrong with Notification. \n" +
-                        "You can't delete/change id of Views, in R.layout.ox_custom_big_local_notification, use visibility gone instead");
-        }
-        //endregion
-
-        mNotifyBuilder.setContent(mContentView);
-        builder.bigContentView = bigView;
-
-        if (pendingIntent != null) {
-            mNotifyBuilder.setContentIntent(pendingIntent);
-        }
-
-
-        return builder;
-    }
-    //region show notifications when  <Build.VERSION_CODES.JELLY_BEAN) (not Custom)
-
-    private int getSmallIconResourceId() {
-        return AndroidSdkVersion.hasLollipop21() ? R.drawable.ox_notification_alpha_small_icon : R.drawable.ox_notification_color_small_icon;
-    }
-    private Notification createNormalNotification(OrchextraNotification
-                                                          orchextraNotification, PendingIntent pendingIntent) {
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ox_notification_large_icon);
-        Notification noti = new Notification();
-        NotificationCompat.Builder builder;
-        if (pendingIntent != null) {
-            builder = new NotificationCompat.Builder(context)
-                    .setLargeIcon(largeIcon)
-                    .setSmallIcon(getSmallIconResourceId())
-                    .setContentTitle(orchextraNotification.getTitle())
-                    .setContentText(orchextraNotification.getBody())
-                    .setTicker(orchextraNotification.getTitle())
-                    .setContentIntent(pendingIntent)
-                    .setWhen(System.currentTimeMillis())
-                    .setColor(context.getResources().getColor(R.color.ox_notification_background_color))
-                    .setAutoCancel(true);
-
-            noti = builder.build();
-        }
-        return noti;
+    try {
+      //images
+      bigView.setImageViewResource(R.id.ox_notifimage_custom_local_notification,
+          R.drawable.ox_notification_large_icon);
+      bigView.setImageViewResource(R.id.ox_notifimage_small_custom_local_notification,
+          R.drawable.ox_notification_color_small_icon);
+      //title & body
+      bigView.setTextViewText(R.id.ox_notiftitle_custom_local_notification,
+          orchextraNotification.getTitle());
+      bigView.setTextViewText(R.id.ox_notiftext_custom_local_notification,
+          orchextraNotification.getBody());
+      //time
+      bigView.setLong(R.id.time, "setTime", mNotifyBuilder.build().when);
+      bigView.setLong(R.id.ox_time_custom_local_notification, "setTime",
+          mNotifyBuilder.build().when);
+    } catch (Exception e) {
+      if (isPush) {
+        System.out.println("Something gone wrong with Notification. \n"
+            + "You can't delete/change id of Views, in R.layout.ox_custom_big_push_notification, use visibility gone instead");
+      } else {
+        System.out.println("Something gone wrong with Notification. \n"
+            + "You can't delete/change id of Views, in R.layout.ox_custom_big_local_notification, use visibility gone instead");
+      }
     }
     //endregion
+
+    mNotifyBuilder.setContent(mContentView);
+    builder.bigContentView = bigView;
+
+    if (pendingIntent != null) {
+      mNotifyBuilder.setContentIntent(pendingIntent);
+    }
+
+    return builder;
+  }
+  //region show notifications when  <Build.VERSION_CODES.JELLY_BEAN) (not Custom)
+
+  private int getSmallIconResourceId() {
+    return AndroidSdkVersion.hasLollipop21() ? R.drawable.ox_notification_alpha_small_icon
+        : R.drawable.ox_notification_color_small_icon;
+  }
+
+  private Notification createNormalNotification(OrchextraNotification orchextraNotification,
+      PendingIntent pendingIntent) {
+    Bitmap largeIcon =
+        BitmapFactory.decodeResource(context.getResources(), R.drawable.ox_notification_large_icon);
+    Notification noti = new Notification();
+    NotificationCompat.Builder builder;
+    if (pendingIntent != null) {
+      builder = new NotificationCompat.Builder(context).setLargeIcon(largeIcon)
+          .setSmallIcon(getSmallIconResourceId())
+          .setContentTitle(orchextraNotification.getTitle())
+          .setContentText(orchextraNotification.getBody())
+          .setTicker(orchextraNotification.getTitle())
+          .setContentIntent(pendingIntent)
+          .setWhen(System.currentTimeMillis())
+          .setColor(context.getResources().getColor(R.color.ox_notification_background_color))
+          .setAutoCancel(true);
+
+      noti = builder.build();
+    }
+    return noti;
+  }
+  //endregion
 }
