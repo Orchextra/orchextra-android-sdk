@@ -362,7 +362,7 @@ In the same way, some color you can customize are
 <!-- Toolbar title and icon color -->
 <color name="ox_toolbar_title_color">#FFF</color>
 ```
-## New Notifications beahavior :bulb:
+## New Notifications behavior :bulb:
  Now when a background action is triggered, which does not have a notification configured, a default local notification is generated so that the user can access the alert.
  To change the default values for the title and the body of the notification there are two new resources in strings.xml
  ```xml
