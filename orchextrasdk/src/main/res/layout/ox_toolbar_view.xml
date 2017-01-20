@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/spacing_2"
         android:layout_gravity="center"
-        android:text="@string/ox_app_name"
+        android:text="@string/ox_webview_toolbar_title"
         android:textColor="@color/color_accent"
         android:textSize="@dimen/text_21"
         android:textStyle="bold" />
