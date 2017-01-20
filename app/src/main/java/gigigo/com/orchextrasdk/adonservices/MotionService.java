@@ -102,7 +102,7 @@ public class MotionService extends Service implements SensorEventListener {
                         System.out.println("********************STARTING SERVICES");
                     }
                 } else {
-                    System.out.println("++NO MOVE" + speed + "No Moving times->" + noMoveCounter + "POWER " + senAccelerometer.getPower());
+                    //System.out.println("++NO MOVE" + speed + "No Moving times->" + noMoveCounter + "POWER " + senAccelerometer.getPower());
                     noMoveCounter = noMoveCounter + 1;
                     if (noMoveCounter > NO_MOVE_COUNTER_TO_STOP) {
                         if (!readIsStopped()) {
