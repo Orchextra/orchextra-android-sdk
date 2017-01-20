@@ -20,12 +20,15 @@ package com.gigigo.orchextra.ui.webview;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -124,6 +127,14 @@ public WebView getWebView()
         });
 
         webView.addJavascriptInterface(new PostMessage(), "OrchextraJSNativeAndroid");
+
+        webView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition,
+                String mimetype, long contentLength) {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            }
+        });
     }
 
     public void loadUrl(String url) {
