@@ -31,41 +31,42 @@ import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 
 public class NotificationBehaviorImpl implements NotificationBehavior {
 
-    private final AppRunningMode appRunningMode;
-    private final ForegroundNotificationBuilder foregroundNotificationBuilder;
-    private final NotificationBuilder backgroundNotificationBuilder;
-    private final ContextProvider contextProvider;
+  private final AppRunningMode appRunningMode;
+  private final ForegroundNotificationBuilder foregroundNotificationBuilder;
+  private final NotificationBuilder backgroundNotificationBuilder;
+  private final ContextProvider contextProvider;
 
-    private ActionDispatcherListener actionDispatcherListener;
+  private ActionDispatcherListener actionDispatcherListener;
 
-    public NotificationBehaviorImpl(AppRunningMode appRunningMode,
-                                    ForegroundNotificationBuilder foregroundNotificationBuilder,
-                                    NotificationBuilder backgroundNotificationBuilder,
-                                    ContextProvider contextProvider) {
-        this.appRunningMode = appRunningMode;
-        this.foregroundNotificationBuilder = foregroundNotificationBuilder;
-        this.backgroundNotificationBuilder = backgroundNotificationBuilder;
-        this.contextProvider = contextProvider;
+  public NotificationBehaviorImpl(AppRunningMode appRunningMode,
+      ForegroundNotificationBuilder foregroundNotificationBuilder,
+      NotificationBuilder backgroundNotificationBuilder, ContextProvider contextProvider) {
+    this.appRunningMode = appRunningMode;
+    this.foregroundNotificationBuilder = foregroundNotificationBuilder;
+    this.backgroundNotificationBuilder = backgroundNotificationBuilder;
+    this.contextProvider = contextProvider;
+  }
+
+  @Override
+  public void dispatchNotificationAction(BasicAction action, OrchextraNotification notification) {
+
+    if (action.getActionType() != ActionType.NOTIFICATION_PUSH
+        && appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND) {
+
+      if (contextProvider.getCurrentActivity() == null || contextProvider.getCurrentActivity()
+          .isFinishing()) {
+        //start activity transparent for show dialog, and finish it when dialog is close
+      }
+
+      foregroundNotificationBuilder.setActionDispatcherListener(actionDispatcherListener);
+      foregroundNotificationBuilder.buildNotification(action, notification);
+    } else {
+      backgroundNotificationBuilder.buildNotification(action, notification);
     }
+  }
 
-    @Override
-    public void dispatchNotificationAction(BasicAction action, OrchextraNotification notification) {
-
-        if (action.getActionType() != ActionType.NOTIFICATION_PUSH &&
-                contextProvider.getCurrentActivity() != null &&
-                !contextProvider.getCurrentActivity().isFinishing() &&
-                appRunningMode.getRunningModeType() == AppRunningModeType.FOREGROUND)
-          {
-            foregroundNotificationBuilder.setActionDispatcherListener(actionDispatcherListener);
-            foregroundNotificationBuilder.buildNotification(action, notification);
-        } else {
-            backgroundNotificationBuilder.buildNotification(action, notification);
-        }
-    }
-
-    @Override
-    public void setActionDispatcherListener(
-            ActionDispatcherListener actionDispatcherListener) {
-        this.actionDispatcherListener = actionDispatcherListener;
-    }
+  @Override
+  public void setActionDispatcherListener(ActionDispatcherListener actionDispatcherListener) {
+    this.actionDispatcherListener = actionDispatcherListener;
+  }
 }

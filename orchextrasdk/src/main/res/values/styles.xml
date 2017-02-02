@@ -19,31 +19,41 @@
 
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="OxAppTheme"
-    parent="Theme.AppCompat.Light.NoActionBar">
-        <!--<item name="colorPrimary_ox">color_primary_ox</item>-->
-        <!--<item name="colorPrimaryDark_ox"> color_primary_dark_ox</item>-->
-        <!--<item name="colorAccent_ox">color_accent_ox</item>-->
-    </style>
+  <!-- Base application theme. -->
+  <style name="OxAppTheme"
+      parent="Theme.AppCompat.Light.NoActionBar">
+    <!--<item name="colorPrimary_ox">color_primary_ox</item>-->
+    <!--<item name="colorPrimaryDark_ox"> color_primary_dark_ox</item>-->
+    <!--<item name="colorAccent_ox">color_accent_ox</item>-->
+  </style>
 
-    <style name="OxAppThemeNoBar"
-        parent="@android:style/Theme.Black.NoTitleBar">
-    </style>
-    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert"/>
+  <style name="OxAppThemeNoBar"
+      parent="@android:style/Theme.Black.NoTitleBar">
+  </style>
 
-    <!-- VuforiaCredentials Module customization -->
-    <style name="irCustomizationScanWaterMark" >
-        <item name="android:background">@drawable/ox_watermark_scanner</item>
-    </style>
+  <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert"/>
 
-    <style name="irCustomizationCloseScann" >
-        <item name="android:background">@drawable/ox_close_button</item>
-    </style>
+  <!-- VuforiaCredentials Module customization -->
+  <style name="irCustomizationScanWaterMark">
+    <item name="android:background">@drawable/ox_watermark_scanner</item>
+  </style>
 
-    <style name="vuforiaCustomizationLoadingMessage" >
-        <item name="android:text">@string/ox_loading_indicator_message</item>
-    </style>
-    <!-- VuforiaCredentials Module customization -->
+  <style name="irCustomizationCloseScann">
+    <item name="android:background">@drawable/ox_close_button</item>
+  </style>
 
+  <style name="vuforiaCustomizationLoadingMessage">
+    <item name="android:text">@string/ox_loading_indicator_message</item>
+  </style>
+  <!-- VuforiaCredentials Module customization -->
+
+  <!--transparent activity-->
+  <style name="Theme.Transparent" parent="android:Theme">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowIsFloating">true</item>
+    <item name="android:backgroundDimEnabled">false</item>
+  </style>
 </resources>
