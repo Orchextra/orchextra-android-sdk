@@ -38,8 +38,9 @@ public class BackgroundTasksManagerImpl implements BackgroundTasksManager {
   }
 
   @Override public void startBackgroundTasks() {
-      if (permissionChecker.isGranted(permission)) {
-        orchextraTasksManager.initBackgroundTasks();
+    boolean granted = permissionChecker.isGranted(permission);
+    if (granted) {
+        orchextraTasksManager.initBackgroundTasks(granted);
       }
   }
   @Override public void reStartBackgroundTasks() {
