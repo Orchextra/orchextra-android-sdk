@@ -44,8 +44,8 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager {
     this.orchextraLogger = orchextraLogger;
   }
 
-  @Override public void initBackgroundTasks() {
-    initTasks(BACKGROUND);
+  @Override public void initBackgroundTasks(boolean granted) {
+    initTasks(BACKGROUND, granted);
   }
 
   @Override public void reStartBackgroundTasks() {
@@ -72,25 +72,30 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager {
     }
   }
 
-  @Override public void initForegroundTasks() {
-    initTasks(FOREGROUND);
+  @Override public void initForegroundTasks(boolean permissionAllowed) {
+    initTasks(FOREGROUND, permissionAllowed);
   }
 
-  private void initTasks(int appRunningMode) {
+  private void initTasks(int appRunningMode, boolean permissionAllowed) {
     orchextraLogger.log("Generic tasks have been started: Monitoring and Geofences");
 
-    beaconScanner.startMonitoring();
-    geofenceRegister.startGeofenceRegister();
-    if (appRunningMode == BACKGROUND
-        && OrchextraManager.getBackgroundModeScan()
-        == BeaconBackgroundModeScan.HARDCORE.getIntensity()) {
-      beaconScanner.initAvailableRegionsRangingScanner();
-      //asv if you go from fore to back inside region, never detect proximities. becarefull with battery
-    }
+    if (permissionAllowed) {
+      beaconScanner.startMonitoring();
+      geofenceRegister.startGeofenceRegister();
 
-    if (appRunningMode == FOREGROUND) {
-      orchextraLogger.log("Foreground tasks have been started: Ranging and Request config");
-      beaconScanner.initAvailableRegionsRangingScanner();
+      if (appRunningMode == BACKGROUND
+          && OrchextraManager.getBackgroundModeScan()
+          == BeaconBackgroundModeScan.HARDCORE.getIntensity()) {
+        beaconScanner.initAvailableRegionsRangingScanner();
+        //asv if you go from fore to back inside region, never detect proximities. becarefull with battery
+      }
+
+      if (appRunningMode == FOREGROUND) {
+        orchextraLogger.log("Foreground tasks have been started: Ranging and Request config");
+        beaconScanner.initAvailableRegionsRangingScanner();
+        configDelegateImpl.sendConfiguration();
+      }
+    } else {
       configDelegateImpl.sendConfiguration();
     }
   }

@@ -114,7 +114,9 @@ public class ConfigDomainService implements DomainService {
     ConfigRequest configRequest = new ConfigRequest();
     configRequest.setSdkAppInfo(sdkVersionAppInfo);
     configRequest.setDevice(device);
-    configRequest.setGeoLocation(geoLocation);
+    if (geoLocation != null) {
+      configRequest.setGeoLocation(geoLocation);
+    }
     configRequest.setCrmUser(crmUser);
     configRequest.setNotificationPush(notificationPush);
 

@@ -61,7 +61,8 @@ public class RetrieveLastKnownLocation {
             new GoogleApiClientConnector.OnConnectedListener() {
                 @Override
                 public void onConnected() {
-                    askPermissionAndGetLastKnownLocation();
+                    //askPermissionAndGetLastKnownLocation();
+                    getLastKnownLocation();
                 }
 
                 @Override
@@ -93,6 +94,8 @@ public class RetrieveLastKnownLocation {
             if (onLastKnownLocationListener != null) {
                 onLastKnownLocationListener.onLastKnownLocation(lastLocation);
             }
+        } else {
+            onLastKnownLocationListener.onLastKnownLocation(null);
         }
     }
 

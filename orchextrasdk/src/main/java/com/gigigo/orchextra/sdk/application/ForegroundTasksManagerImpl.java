@@ -43,8 +43,9 @@ public class ForegroundTasksManagerImpl implements ForegroundTasksManager {
   }
 
   @Override public void startForegroundTasks() {
-      if (permissionChecker.isGranted(permission)){
-        orchextraTasksManager.initForegroundTasks();
+    boolean granted = permissionChecker.isGranted(permission);
+    if (granted){
+        orchextraTasksManager.initForegroundTasks(granted);
       }else{
         permissionChecker.askForPermission(permission, userPermissionRequestResponseListener, contextProvider.getCurrentActivity());
       }
@@ -56,9 +57,9 @@ public class ForegroundTasksManagerImpl implements ForegroundTasksManager {
 
   private UserPermissionRequestResponseListener userPermissionRequestResponseListener = new UserPermissionRequestResponseListener() {
     @Override public void onPermissionAllowed(boolean permissionAllowed) {
-      if (permissionAllowed){
-        orchextraTasksManager.initForegroundTasks();
-      }
+      //if (permissionAllowed){
+        orchextraTasksManager.initForegroundTasks(permissionAllowed);
+      //}
     }
   };
 }
