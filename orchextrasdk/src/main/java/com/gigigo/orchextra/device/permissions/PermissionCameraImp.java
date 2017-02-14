@@ -49,4 +49,8 @@ public class PermissionCameraImp implements Permission {
     public int getPermissionRationaleMessage() {
         return R.string.ox_permission_rationale_message_camera;
     }
+
+    @Override public int getNumRetry() {
+        return 0;
+    }
 }

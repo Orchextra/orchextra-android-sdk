@@ -48,4 +48,8 @@ public class CoarseLocationPermission implements Permission {
   public int getPermissionRationaleMessage() {
     return R.string.ox_permission_rationale_message_coarselocation;
   }
+
+  @Override public int getNumRetry() {
+    return 0;
+  }
 }

@@ -23,7 +23,7 @@ import android.Manifest;
 import com.gigigo.ggglib.permissions.Permission;
 import com.gigigo.orchextra.R;
 
-public class PermissionLocationImp implements Permission {
+public class PermissionLocationImp implements Permission  {
 
     @Override
     public String getAndroidPermissionStringType() {
@@ -48,5 +48,9 @@ public class PermissionLocationImp implements Permission {
     @Override
     public int getPermissionRationaleMessage() {
         return R.string.ox_permission_rationale_message_location;
+    }
+
+    @Override public int getNumRetry() {
+        return 0;
     }
 }
