@@ -36,16 +36,16 @@ public class CoarseLocationPermission implements Permission {
 
   @Override
   public int getPermissionDeniedFeedback() {
-    return R.string.ox_permission_denied_geolocation;
+    return R.string.ox_permission_denied_coarselocation;
   }
 
   @Override
   public int getPermissionRationaleTitle() {
-    return R.string.ox_permission_rationale_title_location;
+    return R.string.ox_permission_rationale_title_coarselocation;
   }
 
   @Override
   public int getPermissionRationaleMessage() {
-    return R.string.ox_permission_rationale_message_location;
+    return R.string.ox_permission_rationale_message_coarselocation;
   }
 }

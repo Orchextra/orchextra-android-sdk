@@ -24,6 +24,10 @@
   <string name="ox_permission_rationale_title_location">Location Permissions</string>
   <string name="ox_permission_rationale_message_location">App needs the device location</string>
 
+  <string name="ox_permission_denied_coarselocation">Denied Beacons Scanner</string>
+  <string name="ox_permission_rationale_title_coarselocation">Beacons Permissions</string>
+  <string name="ox_permission_rationale_message_coarselocation">App needs the coarse location for scan Beacons</string>
+
   <string name="ox_permission_denied_camera">Denied camera permission</string>
   <string name="ox_permission_rationale_title_camera">Camera Permission</string>
   <string name="ox_permission_rationale_message_camera">App needs the camera device access</string>
