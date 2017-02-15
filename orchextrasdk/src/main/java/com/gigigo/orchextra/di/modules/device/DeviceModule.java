@@ -54,7 +54,7 @@ public class DeviceModule {
     @Provides
     ForegroundTasksManager provideBackgroundTasksManager(OrchextraTasksManager orchextraTasksManager,
                                                          PermissionChecker permissionChecker, ContextProvider contextProvider) {
-        return new ForegroundTasksManagerImpl(orchextraTasksManager, permissionChecker, contextProvider);
+        return new ForegroundTasksManagerImpl(orchextraTasksManager, permissionChecker, contextProvider, new PermissionLocationImp(contextProvider.getApplicationContext()));
     }
 
     @Singleton
@@ -76,16 +76,16 @@ public class DeviceModule {
         return new AndroidPermissionCheckerImpl(contextProvider.getApplicationContext(), contextProvider);
     }
 
-    @Singleton
+  //  @Singleton
     @Provides
-    PermissionLocationImp providePermissionLocationImp() {
-        return new PermissionLocationImp();
+    PermissionLocationImp providePermissionLocationImp(ContextProvider contextProvider) {
+        return new PermissionLocationImp(contextProvider.getApplicationContext());
     }
 
-    @Singleton
+  //  @Singleton
     @Provides
-    PermissionCameraImp providePermissionCameraImp() {
-        return new PermissionCameraImp();
+    PermissionCameraImp providePermissionCameraImp(ContextProvider contextProvider) {
+        return new PermissionCameraImp(contextProvider.getApplicationContext());
     }
 
     @Singleton

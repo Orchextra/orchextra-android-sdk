@@ -40,8 +40,8 @@ import me.dm7.barcodescanner.zbar.Result;
 
 public class OxScannerActivity extends OxToolbarActivity implements OxCodeScannerView, OxZBarScannerView.ResultHandler {
 
-    @Inject PermissionChecker permissionChecker;
-    @Inject PermissionCameraImp cameraPermissionImp;
+    //@Inject PermissionChecker permissionChecker;
+    //@Inject PermissionCameraImp cameraPermissionImp;
     @Inject OxCodeScannerPresenter presenter;
     @Inject ActionDispatcher actionDispatcher;
     @Inject OrchextraLogger orchextraLogger;
@@ -69,7 +69,8 @@ public class OxScannerActivity extends OxToolbarActivity implements OxCodeScanne
     @Override
     public void initUi() {
         initViews();
-        initScannerCamera();
+        //initScannerCamera();
+        openScanner();
     }
 
     public void initViews() {
@@ -83,28 +84,28 @@ public class OxScannerActivity extends OxToolbarActivity implements OxCodeScanne
         return R.string.ox_scanner_toolbar_title;
     }
 
-    private void initScannerCamera() {
-        checkCameraPermission();
-    }
-
-    private void checkCameraPermission() {
-        boolean isGranted = permissionChecker.isGranted(cameraPermissionImp);
-        if (!isGranted) {
-            permissionChecker.askForPermission(cameraPermissionImp, cameraPermissionResponseListener, this);
-        } else {
-            openScanner();
-        }
-    }
-
-    private UserPermissionRequestResponseListener cameraPermissionResponseListener =
-            new UserPermissionRequestResponseListener() {
-        @Override
-        public void onPermissionAllowed(boolean permissionAllowed) {
-            if (permissionAllowed) {
-                openScanner();
-            }
-        }
-    };
+    //private void initScannerCamera() {
+    //    checkCameraPermission();
+    //}
+    //
+    //private void checkCameraPermission() {
+    //    boolean isGranted = permissionChecker.isGranted(cameraPermissionImp);
+    //    if (!isGranted) {
+    //        permissionChecker.askForPermission(cameraPermissionImp, cameraPermissionResponseListener, this);
+    //    } else {
+    //        openScanner();
+    //    }
+    //}
+    //
+    //private UserPermissionRequestResponseListener cameraPermissionResponseListener =
+    //    new UserPermissionRequestResponseListener() {
+    //        @Override
+    //        public void onPermissionAllowed(boolean permissionAllowed) {
+    //            if (permissionAllowed) {
+    //                openScanner();
+    //            }
+    //        }
+    //    };
 
     private void openScanner() {
         scannerView.setupScanner();

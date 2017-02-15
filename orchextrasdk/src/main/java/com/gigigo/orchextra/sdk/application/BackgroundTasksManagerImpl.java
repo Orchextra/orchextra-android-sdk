@@ -31,10 +31,11 @@ public class BackgroundTasksManagerImpl implements BackgroundTasksManager {
   private final Permission permission;
 
   public BackgroundTasksManagerImpl(OrchextraTasksManager orchextraTasksManager,
-      PermissionChecker permissionChecker) {
+      PermissionChecker permissionChecker,Permission permissionParam) {
     this.orchextraTasksManager = orchextraTasksManager;
     this.permissionChecker = permissionChecker;
-    this.permission = new PermissionLocationImp();
+
+    this.permission = permissionParam;//new PermissionLocationImp(null);
   }
 
   @Override public void startBackgroundTasks() {

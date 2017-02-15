@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        App.mMotionServiceUtility.start(); //motion, only in background
+       // App.mMotionServiceUtility.start(); //motion, only in background
     }
 
     @Override
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setListeners();
 
         //Ad-Ons Motion and Bluetooth the UpdateConfig in on Mainactivity
-        App.mMotionServiceUtility.stop();//motion
+      //  App.mMotionServiceUtility.stop();//motion
     }
     //region Orchextra
     private boolean isRunning = false;

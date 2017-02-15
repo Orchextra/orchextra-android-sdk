@@ -19,18 +19,25 @@
 <resources>
   <string name="ox_app_name">OrchextraSDK</string>
 
+
+  <integer name="ox_permission_retries_infinite">-1</integer>
+  <integer name="ox_permission_retries_noretry">0</integer>
+
   <string name="ox_permission_settings">Settings</string>
   <string name="ox_permission_denied_geolocation">Denied geolocation device</string>
   <string name="ox_permission_rationale_title_location">Location Permissions</string>
   <string name="ox_permission_rationale_message_location">App needs the device location</string>
+  <integer name="ox_permission_retries_location">1</integer>
 
   <string name="ox_permission_denied_coarselocation">Denied Beacons Scanner</string>
   <string name="ox_permission_rationale_title_coarselocation">Beacons Permissions</string>
   <string name="ox_permission_rationale_message_coarselocation">App needs the coarse location for scan Beacons</string>
+  <integer name="ox_permission_retries_coarselocation">0</integer>
 
   <string name="ox_permission_denied_camera">Denied camera permission</string>
   <string name="ox_permission_rationale_title_camera">Camera Permission</string>
   <string name="ox_permission_rationale_message_camera">App needs the camera device access</string>
+  <integer name="ox_permission_retries_camera">-1</integer>
 
   <string name="ox_accept_text">Aceptar</string>
   <string name="ox_cancel_text">Cancelar</string>

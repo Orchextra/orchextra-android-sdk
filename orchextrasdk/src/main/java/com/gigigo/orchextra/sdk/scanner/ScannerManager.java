@@ -18,9 +18,14 @@
 
 package com.gigigo.orchextra.sdk.scanner;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.ggglib.permissions.PermissionChecker;
+import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
+import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.ui.scanner.OxScannerActivity;
 
@@ -28,18 +33,49 @@ import orchextra.javax.inject.Inject;
 
 public class ScannerManager {
 
-    private final Context context;
-    @Inject
-    OrchextraLogger orchextraLogger;
+  private final ContextProvider context;
+  @Inject OrchextraLogger orchextraLogger;
+  PermissionChecker permissionChecker;
+  PermissionCameraImp cameraPermissionImp;
 
-    public ScannerManager(Context context) {
-        this.context = context;
+  public ScannerManager(ContextProvider context, PermissionChecker permissionChecker1,
+      PermissionCameraImp cameraPermissionImp1) {
+    this.context = context;
+    this.permissionChecker = permissionChecker1;
+    this.cameraPermissionImp = cameraPermissionImp1;
+  }
+
+  public void open() {
+    initScannerCamera();
+  }
+
+  private void initScannerCamera() {
+    checkCameraPermission();
+  }
+
+  private void checkCameraPermission() {
+    boolean isGranted = permissionChecker.isGranted(cameraPermissionImp);
+    if (!isGranted) {
+      permissionChecker.askForPermission(cameraPermissionImp, cameraPermissionResponseListener,
+          (Activity) context.getCurrentActivity());
+    } else {
+      openActivity();
     }
+  }
 
+  private UserPermissionRequestResponseListener cameraPermissionResponseListener =
+      new UserPermissionRequestResponseListener() {
+        @Override public void onPermissionAllowed(boolean permissionAllowed) {
+          if (permissionAllowed) {
+            openActivity();
+          }
+        }
+      };
 
-    public void open() {
-        Intent intent = new Intent(context, OxScannerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
+  private void openActivity() {
+
+    Intent intent = new Intent(context.getApplicationContext(), OxScannerActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    context.getApplicationContext().startActivity(intent);
+  }
 }

@@ -39,6 +39,7 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.List;
+import orchextra.javax.inject.Inject;
 
 public class GeofenceDeviceRegister implements ResultCallback<Status> {
 

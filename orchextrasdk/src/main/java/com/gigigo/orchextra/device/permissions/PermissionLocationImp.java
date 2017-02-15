@@ -20,37 +20,44 @@ package com.gigigo.orchextra.device.permissions;
 
 import android.Manifest;
 
+import android.content.Context;
+import android.widget.Toast;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.Permission;
 import com.gigigo.orchextra.R;
 
-public class PermissionLocationImp implements Permission  {
+public class PermissionLocationImp implements Permission {
+  Context mContext;
 
-    @Override
-    public String getAndroidPermissionStringType() {
-        return Manifest.permission.ACCESS_FINE_LOCATION;
-    }
+  public PermissionLocationImp(Context  context) {
+    mContext = context;
+  }
 
-    @Override
-    public int getPermissionSettingsDeniedFeedback() {
-        return R.string.ox_permission_settings;
-    }
+  @Override public String getAndroidPermissionStringType() {
+    return Manifest.permission.ACCESS_FINE_LOCATION;
+  }
 
-    @Override
-    public int getPermissionDeniedFeedback() {
-        return R.string.ox_permission_denied_geolocation;
-    }
+  @Override public int getPermissionSettingsDeniedFeedback() {
+    return R.string.ox_permission_settings;
+  }
 
-    @Override
-    public int getPermissionRationaleTitle() {
-        return R.string.ox_permission_rationale_title_location;
-    }
+  @Override public int getPermissionDeniedFeedback() {
+    return R.string.ox_permission_denied_geolocation;
+  }
 
-    @Override
-    public int getPermissionRationaleMessage() {
-        return R.string.ox_permission_rationale_message_location;
-    }
+  @Override public int getPermissionRationaleTitle() {
+    return R.string.ox_permission_rationale_title_location;
+  }
 
-    @Override public int getNumRetry() {
-        return 0;
+  @Override public int getPermissionRationaleMessage() {
+    return R.string.ox_permission_rationale_message_location;
+  }
+
+  @Override public int getNumRetry() {
+    if (mContext != null) {
+      return mContext.getResources().getInteger(R.integer.ox_permission_retries_location);
+    } else {
+      return 0;
     }
+  }
 }

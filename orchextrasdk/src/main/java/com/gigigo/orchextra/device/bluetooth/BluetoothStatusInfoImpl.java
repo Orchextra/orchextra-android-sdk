@@ -75,7 +75,7 @@ public class BluetoothStatusInfoImpl implements BluetoothStatusInfo {
   }
 
   private void hasBltePermissions() {
-    final Permission permission = new CoarseLocationPermission();
+    final Permission permission = new CoarseLocationPermission(this.contextProvider.getApplicationContext());
 
     boolean allowed = permissionChecker.isGranted(permission);
     if (allowed){

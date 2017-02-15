@@ -35,31 +35,34 @@ public class ForegroundTasksManagerImpl implements ForegroundTasksManager {
   private final Permission permission;
 
   public ForegroundTasksManagerImpl(OrchextraTasksManager orchextraTasksManager,
-      PermissionChecker permissionChecker, ContextProvider contextProvider) {
+      PermissionChecker permissionChecker, ContextProvider contextProvider,
+      Permission permission1) {
     this.orchextraTasksManager = orchextraTasksManager;
     this.permissionChecker = permissionChecker;
     this.contextProvider = contextProvider;
-    this.permission = new PermissionLocationImp();
+    this.permission = permission1;// new PermissionLocationImp(null);
   }
 
   @Override public void startForegroundTasks() {
     boolean granted = permissionChecker.isGranted(permission);
-    if (granted){
-        orchextraTasksManager.initForegroundTasks(granted);
-      }else{
-        permissionChecker.askForPermission(permission, userPermissionRequestResponseListener, contextProvider.getCurrentActivity());
-      }
+    if (granted) {
+      orchextraTasksManager.initForegroundTasks(granted);
+    } else {
+      permissionChecker.askForPermission(permission, userPermissionRequestResponseListener,
+          contextProvider.getCurrentActivity());
+    }
   }
 
   @Override public void finalizeForegroundTasks() {
     orchextraTasksManager.stopForegroundTasks();
   }
 
-  private UserPermissionRequestResponseListener userPermissionRequestResponseListener = new UserPermissionRequestResponseListener() {
-    @Override public void onPermissionAllowed(boolean permissionAllowed) {
-      //if (permissionAllowed){
-        orchextraTasksManager.initForegroundTasks(permissionAllowed);
-      //}
-    }
-  };
+  private UserPermissionRequestResponseListener userPermissionRequestResponseListener =
+      new UserPermissionRequestResponseListener() {
+        @Override public void onPermissionAllowed(boolean permissionAllowed) {
+          //if (permissionAllowed){
+          orchextraTasksManager.initForegroundTasks(permissionAllowed);
+          //}
+        }
+      };
 }

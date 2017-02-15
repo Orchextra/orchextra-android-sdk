@@ -21,7 +21,10 @@ package com.gigigo.orchextra.di.modules;
 import android.content.Context;
 
 import com.gigigo.ggglib.ContextProvider;
+import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
+import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.device.OrchextraLoggerImpl;
+import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.di.modules.control.ControlModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DeviceModule;
@@ -158,8 +161,9 @@ public class OrchextraModule {
 
     @Singleton
     @Provides
-    ScannerManager provideScannerManager(ContextProvider contextProvider) {
-        return new ScannerManager(contextProvider.getApplicationContext());
+    ScannerManager provideScannerManager(ContextProvider contextProvider, PermissionChecker androidPermission) {
+        return new ScannerManager(contextProvider,androidPermission,
+            new PermissionCameraImp(contextProvider.getApplicationContext()));
     }
 
     public void setCustomSchemeReceiver(CustomOrchextraSchemeReceiver customSchemeReceiver) {

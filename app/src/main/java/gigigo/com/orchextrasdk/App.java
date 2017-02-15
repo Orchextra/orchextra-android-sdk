@@ -49,7 +49,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   public static final String GIGIGO_URL = "http://research.gigigo.com";
   public static final String CUSTOM_SCHEME = "webview://";
 
-  public static MotionServiceUtility mMotionServiceUtility;
+ // public static MotionServiceUtility mMotionServiceUtility;
 
   @Override public void onCreate() {
     super.onCreate();
@@ -76,7 +76,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     //Orchextra.updateBackgroundPeriodBetweenScan(BackgroundBeaconsRangingTimeType.SEVERE.getLongValue());
 
     //region AdOns
-    mMotionServiceUtility = new MotionServiceUtility(this);
+   // mMotionServiceUtility = new MotionServiceUtility(this);
 
     //bluetooth //reset BT each 65min is a test, is not c00l, but prevents beaconsscan errors
     // BluetoothResetUtility bluetoothResetUtility = new BluetoothResetUtility(this);
@@ -103,6 +103,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
   @Override public void onSuccess() {
     Log.d("APP", "onSuccess");
+    //Orchextra.start();
   }
 
   @Override public void onError(String s) {
