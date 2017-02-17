@@ -34,121 +34,133 @@ import orchextra.javax.inject.Inject;
 
 public class OrchextraBackgroundService extends Service {
 
-    @Inject
-    BackgroundTasksManager backgroundTasksManager;
-    @Inject
-    OrchextraActivityLifecycle orchextraActivityLifecycle;
-    @Inject
-    OrchextraStatusAccessor orchextraStatusAccessor;
-    @Inject
-    OrchextraLogger orchextraLogger;
+  @Inject BackgroundTasksManager backgroundTasksManager;
+  @Inject OrchextraActivityLifecycle orchextraActivityLifecycle;
+  @Inject OrchextraStatusAccessor orchextraStatusAccessor;
+  @Inject OrchextraLogger orchextraLogger;
 
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
+  boolean mWasInjected = false;
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        orchextraLogger.log("Service method :: onStartCommand");
-        boolean requestConfig = shouldRequestConfig(intent);
-        //refresh
-        boolean refreshConfig = shouldRefreshConfig(intent);
-        //restart Services
-        boolean restartServices = shouldReStartServices(intent);
-        //pause Services
-        boolean pauseServices = shouldPauseServices(intent);
+  @Override public IBinder onBind(Intent arg0) {
+    return null;
+  }
 
-        if (pauseServices) {
-            pauseBackgroundTasks();
-            return START_STICKY;
+  @Override public int onStartCommand(Intent intent, int flags, int startId) {
+
+    if (mWasInjected) {
+      orchextraLogger.log("Service method :: onStartCommand");
+      boolean requestConfig = shouldRequestConfig(intent);
+      //refresh
+      boolean refreshConfig = shouldRefreshConfig(intent);
+      //restart Services
+      boolean restartServices = shouldReStartServices(intent);
+      //pause Services
+      boolean pauseServices = shouldPauseServices(intent);
+
+      if (pauseServices) {
+        pauseBackgroundTasks();
+        return START_STICKY;
+      } else {
+        if (restartServices) {
+          restartBackgroundTasks();
+          return START_STICKY;
         } else {
-            if (restartServices) {
-                restartBackgroundTasks();
-                return START_STICKY;
+          if (orchextraStatusAccessor != null && orchextraStatusAccessor.isStarted()
+              || refreshConfig) {
+            if (refreshConfig) {
+              startBackgroundTasks(refreshConfig);
             } else {
-                if (orchextraStatusAccessor != null && orchextraStatusAccessor.isStarted() || refreshConfig) {
-                    if (refreshConfig)
-                        startBackgroundTasks(refreshConfig);
-                    else
-                        startBackgroundTasks(requestConfig);
-                    return START_STICKY;
-                }
+              startBackgroundTasks(requestConfig);
             }
+            return START_STICKY;
+          }
         }
-        return START_NOT_STICKY;
+      }
+      return START_NOT_STICKY;
+    } else {
+      return START_NOT_STICKY;
     }
+  }
 
-    //region READ INTENT KIND OF ACTION
-    private boolean shouldRefreshConfig(Intent intent) {
-        if (intent != null) {
-            return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.REFRESH_CONFIG_ACTION, false);
-        } else {
-            return false;
-        }
+  //region READ INTENT KIND OF ACTION
+  private boolean shouldRefreshConfig(Intent intent) {
+    if (intent != null) {
+      return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.REFRESH_CONFIG_ACTION, false);
+    } else {
+      return false;
     }
+  }
 
-    private boolean shouldRequestConfig(Intent intent) {
-        if (intent != null) {
-            return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.BOOT_COMPLETED_ACTION, false);
-        } else {
-            return false;
-        }
+  private boolean shouldRequestConfig(Intent intent) {
+    if (intent != null) {
+      return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.BOOT_COMPLETED_ACTION, false);
+    } else {
+      return false;
     }
+  }
 
-    private boolean shouldReStartServices(Intent intent) {
-        if (intent != null) {
-            return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.RESTART_SERVICES, false);
-        } else {
-            return false;
-        }
+  private boolean shouldReStartServices(Intent intent) {
+    if (intent != null) {
+      return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.RESTART_SERVICES, false);
+    } else {
+      return false;
     }
+  }
 
-    private boolean shouldPauseServices(Intent intent) {
-        if (intent != null) {
-            return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.PAUSE_SERVICES, false);
-        } else {
-            return false;
-        }
+  private boolean shouldPauseServices(Intent intent) {
+    if (intent != null) {
+      return intent.getBooleanExtra(OrchextraBootBroadcastReceiver.PAUSE_SERVICES, false);
+    } else {
+      return false;
     }
-    //endregion
+  }
+  //endregion
 
-    private void startBackgroundTasks(boolean requestConfig) {
-        AppStatusEventsListener appStatusEventsListener = orchextraActivityLifecycle.getAppStatusEventsListener();
-        appStatusEventsListener.onServiceRecreated();
-        backgroundTasksManager.startBackgroundTasks();
+  private void startBackgroundTasks(boolean requestConfig) {
+    if (mWasInjected) {
+      AppStatusEventsListener appStatusEventsListener =
+          orchextraActivityLifecycle.getAppStatusEventsListener();
+      appStatusEventsListener.onServiceRecreated();
+      backgroundTasksManager.startBackgroundTasks();
 
-        if (requestConfig) {
-            backgroundTasksManager.requestConfig();
-        }
+      if (requestConfig) {
+        backgroundTasksManager.requestConfig();
+      }
     }
+  }
 
-    private void restartBackgroundTasks() {
-        AppStatusEventsListener appStatusEventsListener = orchextraActivityLifecycle.getAppStatusEventsListener();
-        appStatusEventsListener.onServiceRecreated();
-        backgroundTasksManager.reStartBackgroundTasks();
+  private void restartBackgroundTasks() {
+    if (mWasInjected) {
+      AppStatusEventsListener appStatusEventsListener =
+          orchextraActivityLifecycle.getAppStatusEventsListener();
+      appStatusEventsListener.onServiceRecreated();
+      backgroundTasksManager.reStartBackgroundTasks();
     }
+  }
 
-    private void pauseBackgroundTasks() {
-        backgroundTasksManager.pauseBackgroundTasks();
+  private void pauseBackgroundTasks() {
+
+    if (mWasInjected) backgroundTasksManager.pauseBackgroundTasks();
+  }
+
+  @Override public void onCreate() {
+    super.onCreate();
+
+    InjectorImpl injector = OrchextraManager.getInjector();
+    if (injector != null) {
+      injector.injectServiceComponent(this);
+      orchextraLogger.log("Service method :: onCreate");
+      mWasInjected = true;
+    } else {
+      mWasInjected = false;
     }
+  }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        InjectorImpl injector = OrchextraManager.getInjector();
-        if (injector != null) {
-            injector.injectServiceComponent(this);
-        }
-        orchextraLogger.log("Service method :: onCreate");
+  @Override public void onDestroy() {
+    if (mWasInjected) {
+      orchextraLogger.log("Service method :: onDestroy");
+      backgroundTasksManager.finalizeBackgroundTasks();
     }
-
-    @Override
-    public void onDestroy() {
-        orchextraLogger.log("Service method :: onDestroy");
-        backgroundTasksManager.finalizeBackgroundTasks();
-        super.onDestroy();
-    }
-
+    super.onDestroy();
+  }
 }
