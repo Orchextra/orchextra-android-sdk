@@ -2,9 +2,8 @@
 [![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=ocm_integration)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-4.0.1RC-blue.svg)
-[![](https://jitpack.io/v/Orchextra/orchextra-android-sdk.svg)](https://jitpack.io/#Orchextra/orchextra-android-sdk)
-![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
+![Version](https://img.shields.io/badge/Version-4.1.0RC-blue.svg)
+ ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
 
 A library that gives you access to Orchextra platform from your Android sdkVersionAppInfo.
 
@@ -48,32 +47,55 @@ and we add the Orchextra dependency in our **sdkVersionAppInfo** module:
 
 :bulb: with GCM 7.8
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.1RC:play7Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.0RC:play7Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:7.8.0'
    compile 'com.google.android.gms:play-services-gcm:7.8.0'
 ```
 :bulb: or with GCM 8.4
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.1RC:play8Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.0RC:play8Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:8.4.0'
    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 ```
 :bulb: or with GCM 9.0
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.1RC:play9Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.0RC:play9Release@aar')
      {transitive true}
    compile 'com.google.android.gms:play-services-location:9.0.0'
    compile 'com.google.android.gms:play-services-gcm:9.0.0'
 ```
 :bulb: or without Google Play Services
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.0.1RC:playnoRelease@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.0RC:playnoRelease@aar')
      {transitive true}
 ```
-If you use playnoRelease, some orchextraSDK features will not be available, geofences, notification push, scheduled Actions
-If you choose a Google Play Services aar of Orchextra you can add to the OrchextraBuilder the project number from Google Console aka sender id
+:bulb: Now Orchextra can retrieve configuration without Location Permission, without this permission some features can not work properly, you can check in the table of the link below:
+[Table Versions/Permissions Orchextra SDK](https://nuborisar.github.io/oxtable.html "Table Ox SDK")
+
+:bulb: You can reconfigurate literals, and retries for permissions, that SDK uses. Check the next strings/integers:
+```xml
+  <string name="ox_permission_settings">Settings</string>
+  <string name="ox_permission_denied_geolocation">Denied geolocation device</string>
+  <string name="ox_permission_rationale_title_location">Location Permissions</string>
+  <string name="ox_permission_rationale_message_location">App needs the device location</string>
+  <integer name="ox_permission_retries_location">1</integer>
+
+  <string name="ox_permission_denied_coarselocation">Denied Beacons Scanner</string>
+  <string name="ox_permission_rationale_title_coarselocation">Beacons Permissions</string>
+  <string name="ox_permission_rationale_message_coarselocation">App needs the coarse location for scan Beacons</string>
+  <integer name="ox_permission_retries_coarselocation">0</integer>
+
+  <string name="ox_permission_denied_camera">Denied camera permission</string>
+  <string name="ox_permission_rationale_title_camera">Camera Permission</string>
+  <string name="ox_permission_rationale_message_camera">App needs the camera device access</string>
+  <integer name="ox_permission_retries_camera">-1</integer>
+ ```
+In retries, you can put -1 for infinite retries(until user check "never ask Again"), 0 for noone retries, and n number for retry n times.
+
+Remenber set senderId for receive push notification.
+
 The previous dependency has to be added into this file:
 
 <img src="https://github.com/Orchextra/orchextra-android-sdk/blob/master/resources/appGradleScreenshot.png" width="300">
@@ -439,7 +461,7 @@ Image recognition is added as an add-on to Orchextra, by default SDK is not cont
 So, you can add the corresponding implementation as a gradle dependency to your project, at this moment the only available implementation is using Vuforia as image recognition engine. Here you have the gradle dependency:
 ```groovy
  //vuforia 6.0
-    compile 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:1.9'
+    compile 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.5'
 ```
 
 Once you have added this dependency you will be able to inform OrchextraBuilder SDK about it has to use this implementation. You can do it this way:
