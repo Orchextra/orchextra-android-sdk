@@ -61,7 +61,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     OrchextraBuilder builder = new OrchextraBuilder(this).setApiKeyAndSecret(API_KEY, API_SECRET)
         .setLogLevel(OrchextraLogLevel.NETWORK)
         .setOrchextraCompletionCallback(this)
-        .setNotificationActivityClass(WebViewActivity.class.toString())
+        .setNotificationActivityClass(MainActivity.class.toString())
         .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
         .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);
     //init Orchextra with builder configuration
@@ -82,7 +82,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     // BluetoothResetUtility bluetoothResetUtility = new BluetoothResetUtility(this);
     // bluetoothResetUtility.createAlarmResetBluetoothEachTime(60 * 1000 * 65);
 
-    //UpdateConfigWrapper ONly when Start
+    //UpdateConfigWrapper Only when Start
     UpdateConfigUtility updater = new UpdateConfigUtility(this);
     updater.createUpdateConfigurationByTime(60 * 1000 * 60);
     enablerUpdateConfigReBootService(this, true);
@@ -103,7 +103,6 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
   @Override public void onSuccess() {
     Log.d("APP", "onSuccess");
-    //Orchextra.start();
   }
 
   @Override public void onError(String s) {
