@@ -47,28 +47,28 @@ and we add the Orchextra dependency in our **sdkVersionAppInfo** module:
 
 :bulb: with GCM 7.8
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.0RC:play7Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.2RC:play7Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:7.8.0'
    compile 'com.google.android.gms:play-services-gcm:7.8.0'
 ```
 :bulb: or with GCM 8.4
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.0RC:play8Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.2RC:play8Release@aar')
    {transitive true}
    compile 'com.google.android.gms:play-services-location:8.4.0'
    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 ```
 :bulb: or with GCM 9.0
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.0RC:play9Release@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.2RC:play9Release@aar')
      {transitive true}
    compile 'com.google.android.gms:play-services-location:9.0.0'
    compile 'com.google.android.gms:play-services-gcm:9.0.0'
 ```
 :bulb: or without Google Play Services
 ```groovy
-   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.0RC:playnoRelease@aar')
+   compile('com.github.orchextra.orchextra-android-sdk:orchextrasdk:4.1.2RC:playnoRelease@aar')
      {transitive true}
 ```
 :bulb: Now Orchextra can retrieve configuration without Location Permission, without this permission some features can not work properly, you can check in the table of the link below:
