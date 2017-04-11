@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.domain.interactors.config;
 
 import com.gigigo.gggjavalib.business.model.BusinessError;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.interactors.error.GenericError;
 import com.gigigo.orchextra.domain.interactors.error.OrchextraBusinessErrors;
@@ -27,8 +28,8 @@ import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 
 public class ConfigServiceErrorChecker extends ServiceErrorChecker {
 
-  public ConfigServiceErrorChecker(AuthenticationService authenticationService) {
-    super(authenticationService);
+  public ConfigServiceErrorChecker(AuthenticationService authenticationService,OrchextraManagerCompletionCallback callback) {
+    super(authenticationService,callback);
   }
 
   @Override protected InteractorResponse checkConcreteException(BusinessError businessError) {

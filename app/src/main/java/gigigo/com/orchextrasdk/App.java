@@ -21,17 +21,13 @@ import android.app.Application;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.util.Log;
-
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraBuilder;
 import com.gigigo.orchextra.OrchextraCompletionCallback;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
-import com.gigigo.orchextra.domain.abstractions.beacons.BackgroundBeaconsRangingTimeType;
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl;
-
-import gigigo.com.orchextrasdk.adonservices.MotionServiceUtility;
 import gigigo.com.orchextrasdk.adonservices.UpdateConfigReceiver;
 import gigigo.com.orchextrasdk.adonservices.UpdateConfigUtility;
 
@@ -106,7 +102,20 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   }
 
   @Override public void onError(String s) {
+
+   // OrchextraBusinessErrors errorCode= (OrchextraBusinessErrors)s;
+
+
+    //OrchextraBusinessErrors {
+    //  NO_AUTH_EXPIRED(401),
+    //  NO_AUTH_CREDENTIALS(403),
+    //  VALIDATION_ERROR(11200),
+    //  INTERNAL_SERVER_ERROR(500),
+    //  GENERIC_UNKNOWN_ERROR(-999);
+
+
     Log.d("APP", "onError: " + s);
+    System.out.println("onError: " + s+"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
   }
 
   @Override public void onInit(String s) {

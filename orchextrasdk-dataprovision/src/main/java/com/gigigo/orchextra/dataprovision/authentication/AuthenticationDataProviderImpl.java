@@ -54,6 +54,11 @@ public class AuthenticationDataProviderImpl implements AuthenticationDataProvide
             SdkAuthCredentials.class);
         sessionDBDataSource.saveSdkAuthCredentials(sdkCredentials);
       }
+      else
+      {
+        System.out.println("ERROR  step1");
+      }
+
     }
 
     return deviceToken;

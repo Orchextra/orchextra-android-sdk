@@ -87,6 +87,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
           new ClientAuthCredentials(interactorResponse.getResult(), deviceDetailsProvider, crmId);
       interactorResponse = authenticateClient(authCredentials, crmId);
     }
+    else
+    {
+      System.out.println("ERROR step 2");
+    }
     return interactorResponse;
   }
 

@@ -73,6 +73,11 @@ public class GetActionDomainService implements DomainService {
             if (retry && numRetries <= 3) {
                 return getActions(triggers, numRetries + 1);
             }
+            else
+            {
+
+                System.out.println("ERROR asv");
+            }
         }
 
 

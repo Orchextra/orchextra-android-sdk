@@ -50,7 +50,7 @@ public class FeatureList implements FeatureListener,
       if (areSuccess()) {
         orchextraCompletionCallback.onSuccess(); //THIS NEVER USED
       } else {
-        orchextraCompletionCallback.onError(formatErrorsAsString());  //todo this line throw not correct error, when all features are added yet
+        //asv this have any sense-> orchextraCompletionCallback.onError(formatErrorsAsString());  //todo this line throw not correct error, when all features are added yet
       }
     }
   }

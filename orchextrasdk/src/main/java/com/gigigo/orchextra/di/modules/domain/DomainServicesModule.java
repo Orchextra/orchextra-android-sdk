@@ -134,7 +134,8 @@ public class DomainServicesModule {
     @PerExecution
     ConfigDomainService provideConfigService(ConfigDataProvider configDataProvider,
                                              AuthenticationDataProvider authenticationDataProvider,
-                                             @ConfigErrorChecker ServiceErrorChecker errorChecker, AndroidSdkVersionAppInfo androidSdkVersionAppInfo,
+                                             @ConfigErrorChecker ServiceErrorChecker errorChecker,
+                                                AndroidSdkVersionAppInfo androidSdkVersionAppInfo,
                                              ObtainGeoLocationTask obtainGeoLocationTask,
                                              GcmInstanceIdRegister gcmInstanceIdRegister) {
         return new ConfigDomainService(configDataProvider, authenticationDataProvider, errorChecker,

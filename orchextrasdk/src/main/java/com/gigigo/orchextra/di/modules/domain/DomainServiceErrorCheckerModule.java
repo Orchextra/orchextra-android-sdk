@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.di.modules.domain;
 
+import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
 import com.gigigo.orchextra.di.scopes.PerExecution;
@@ -27,6 +28,7 @@ import com.gigigo.orchextra.domain.interactors.error.ServiceErrorChecker;
 import com.gigigo.orchextra.domain.services.actions.ActionServiceErrorChecker;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 
@@ -36,13 +38,14 @@ public class DomainServiceErrorCheckerModule {
 
   @ConfigErrorChecker @Provides @PerExecution ServiceErrorChecker provideConfigServiceErrorChecker(
       AuthenticationService authenticationService){
-    return new ConfigServiceErrorChecker(authenticationService);
+
+    return new ConfigServiceErrorChecker(authenticationService,OrchextraManager.getOrchextraCompletionCallback());
   }
 
 
   @ActionsErrorChecker @Provides @PerExecution ServiceErrorChecker provideActionServiceErrorChecker(
       AuthenticationService authenticationService){
-    return new ActionServiceErrorChecker(authenticationService);
+    return new ActionServiceErrorChecker(authenticationService,OrchextraManager.getOrchextraCompletionCallback());
   }
 
 }

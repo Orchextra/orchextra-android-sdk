@@ -85,7 +85,7 @@ public class OrchextraManager implements Observer {
   private static OrchextraManager instance;
 
   private InjectorImpl injector;
-  private OrchextraManagerCompletionCallback orchextraCompletionCallback;
+  private static OrchextraManagerCompletionCallback orchextraCompletionCallback;
   private String gcmSenderId;
   private long backgroundModeScan = BeaconBackgroundModeScan.NORMAL.getIntensity();
 
@@ -106,6 +106,10 @@ public class OrchextraManager implements Observer {
   @Inject ConfigChangeObservable configObservable;
 
   private static String notificationActivityClass = "";
+
+  public static OrchextraManagerCompletionCallback getOrchextraCompletionCallback() {
+    return orchextraCompletionCallback;
+  }
 
   /**
    * Fist call to orchextra, it is compulsory call this for starting to do any sdk Stuff

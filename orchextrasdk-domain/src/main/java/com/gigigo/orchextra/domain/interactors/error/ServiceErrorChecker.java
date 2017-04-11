@@ -20,15 +20,19 @@ package com.gigigo.orchextra.domain.interactors.error;
 
 import com.gigigo.gggjavalib.business.model.BusinessContentType;
 import com.gigigo.gggjavalib.business.model.BusinessError;
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.domain.interactors.base.InteractorResponse;
 import com.gigigo.orchextra.domain.services.auth.AuthenticationService;
 
 public abstract class ServiceErrorChecker {
 
   private final AuthenticationService authenticationService;
+  private OrchextraManagerCompletionCallback orchextraCompletionCallback;
 
-  protected ServiceErrorChecker(AuthenticationService authenticationService) {
+  protected ServiceErrorChecker(AuthenticationService authenticationService,
+      OrchextraManagerCompletionCallback orchextraCompletionCallback) {
     this.authenticationService = authenticationService;
+    this.orchextraCompletionCallback = orchextraCompletionCallback;
   }
 
   public InteractorResponse checkErrors(BusinessError businessError) {
@@ -40,7 +44,9 @@ public abstract class ServiceErrorChecker {
       if (!response.hasError()) {
         return response;
       }
-
+      if (this.orchextraCompletionCallback != null) {
+        this.orchextraCompletionCallback.onError(businessError.getCode()+"");
+      }
       return checkConcreteBusinessErrors(businessError);
     } else {
 
@@ -49,6 +55,9 @@ public abstract class ServiceErrorChecker {
 
       if (!response.hasError()) {
         return response;
+      }
+      if (this.orchextraCompletionCallback != null) {
+        this.orchextraCompletionCallback.onError(businessError.getCode()+"");
       }
 
       return checkConcreteException(businessError);
@@ -75,6 +84,7 @@ public abstract class ServiceErrorChecker {
       }
     } catch (Exception e) {
       return new InteractorResponse(new GenericError(businessError));
+      //asv seguimos con el error step 3
     }
   }
 
