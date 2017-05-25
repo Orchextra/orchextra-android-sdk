@@ -24,9 +24,9 @@ allprojects {
                 dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
                 altBeacon                : 'org.altbeacon:android-beacon-library:2+',
                 barcodescanner           : 'me.dm7.barcodescanner:zbar:1.8.4',
-                gggJavaLib               : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggg-java-lib:3.9',
-                gggLogger                : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglogger:3.9',
-                gggLib                   : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:3.9',
+                gggJavaLib               : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggg-java-lib:2c184f2ed7',
+                gggLogger                : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglogger:2c184f2ed7',
+                gggLib                   : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggglib:2c184f2ed7',
                 //Image Recognition
                 imageRecognitionInterface: 'com.github.GigigoGreenLabs.imgRecogModule:imagerecognitioninterface:2.6',
                 imageRecognitionImpl     : 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
