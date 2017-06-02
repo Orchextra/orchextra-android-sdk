@@ -96,8 +96,9 @@ public class RegionMonitoringScannerImpl implements RegionMonitoringScanner,
     //region MonitorNotifier Interface
 
     private void enterRegion(Region region) {
-        //asv for now we dont change anythign, region is always beacon_region , no matter if eddystonregion or ibeaconregion
-        //for now, maybe in future, changes
+        //asv for now we dont change anythign, region is always beacon_region
+        // no matter if is eddystonregion or ibeaconregion
+        //for now, maybe in future change
         OrchextraRegion orchextraRegion = regionMapper.externalClassToModel(region);
         beaconsController.onRegionEnter(orchextraRegion);
         monitoringListener.onRegionEnter(region);

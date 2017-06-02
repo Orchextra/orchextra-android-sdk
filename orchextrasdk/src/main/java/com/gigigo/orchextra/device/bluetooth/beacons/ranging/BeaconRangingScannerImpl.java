@@ -90,10 +90,15 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     List beaconsList = new ArrayList<>(collection);
 
     if (regions.contains(region)) {
+      //asv if region is eddystone id1 size >=20  <=22
+      //we need to rescan with this region fro get url frame, this frame has no id, we only catch them if we rangin new Reginon null null
+      // we need to relacionate the new region with this regionParam, to put in correct eddystone frame
+      //we match by Bt Name, if beacon-mBluetoothName match url and uid
+      //we save the current beaconLIst for add the URL
       List<OrchextraBeacon> beacons = beaconAndroidMapper.externalClassListToModelList(beaconsList);
       beaconsController.onBeaconsDetectedInRegion(beacons);
     }
-
+    //region show beacon info by console
     if (collection.size() > 0) {
       for (Beacon beacon : collection) {
         //eddystone frames(uid2/eid2/url1), dont have all ids
@@ -106,6 +111,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         }
       }
     }
+    //endregion
   }
 
   //endregion
@@ -195,6 +201,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
             //check if the region is eddystone region(getid1 length 20-22 chars)
             //and create a null null null region, because, the eddytone frame URL/EID/IBeacon
             //dont have ids like UID frame, enjoy!
+
+            //maybe wecan create scanner only forparse url eddystone, we need to check
             manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
             beaconManager.startRangingBeaconsInRegion(region);
             ranging = true;
@@ -213,7 +221,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
           BuildConfig.BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME);
     } else {
       updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
-         BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+          BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
     }
   }
 
@@ -319,12 +327,10 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     }
   }
 
-
-  @Override
-  @Deprecated //asv this never used, the times not are the problem, for change time use BuildConfig
+  @Override @Deprecated
+  //asv this never used, the times not are the problem, for change time use BuildConfig
   public void updateBackgroundScanPeriodBetweenScans(long beetweenScanPeriod) {
-    updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
-        beetweenScanPeriod);
+    updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD, beetweenScanPeriod);
   }
 
   private void updateBackgroundScanTimes(long scanPeriod, long beetweenScanPeriod) {

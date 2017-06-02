@@ -107,6 +107,7 @@ android {
   productFlavors {
 
     play9 {dimension "play"}
+    play10 {dimension "play"}
     play8 {dimension "play"}
     play7 {dimension "play"}
     playno {dimension "play"}
@@ -120,6 +121,9 @@ android {
       java.srcDirs = ['src/play/java', 'src/play/java/']
     }
     play9 {
+      java.srcDirs = ['src/play/java', 'src/play/java/']
+    }
+    play10 {
       java.srcDirs = ['src/play/java', 'src/play/java/']
     }
     playno {
@@ -136,16 +140,19 @@ configurations {
   play7StagingCompile
   play8StagingCompile
   play9StagingCompile
+  play10StagingCompile
   playnoStagingCompile
 
   play7DebugCompile
   play8DebugCompile
   play9DebugCompile
+  play10DebugCompile
   playnoDebugCompile
 
   play7ReleaseCompile
   play8ReleaseCompile
   play9ReleaseCompile
+  play10ReleaseCompile
   playnoReleaseCompile
 
 }
@@ -181,6 +188,9 @@ dependencies {
   compile project(':orchextrasdk-data')
 
   /*GooglePlayServices*/
+  play10StagingCompile( 'com.google.android.gms:play-services-location:10.0.1')
+  play10StagingCompile('com.google.android.gms:play-services-gcm:10.0.1')
+
   play9StagingCompile('com.google.android.gms:play-services-location:9.0.0')
   play9StagingCompile('com.google.android.gms:play-services-gcm:9.0.0')
 
@@ -190,6 +200,9 @@ dependencies {
   play7StagingCompile('com.google.android.gms:play-services-location:7.8.0')
   play7StagingCompile('com.google.android.gms:play-services-gcm:7.8.0')
 
+  play10DebugCompile( 'com.google.android.gms:play-services-location:10.0.1')
+  play10DebugCompile('com.google.android.gms:play-services-gcm:10.0.1')
+
   play9DebugCompile('com.google.android.gms:play-services-location:9.0.0')
   play9DebugCompile('com.google.android.gms:play-services-gcm:9.0.0')
 
@@ -198,6 +211,10 @@ dependencies {
 
   play7DebugCompile('com.google.android.gms:play-services-location:7.8.0')
   play7DebugCompile('com.google.android.gms:play-services-gcm:7.8.0')
+
+
+  play10ReleaseCompile( 'com.google.android.gms:play-services-location:10.0.1')
+  play10ReleaseCompile('com.google.android.gms:play-services-gcm:10.0.1')
 
   play9ReleaseCompile('com.google.android.gms:play-services-location:9.0.0')
   play9ReleaseCompile('com.google.android.gms:play-services-gcm:9.0.0')
