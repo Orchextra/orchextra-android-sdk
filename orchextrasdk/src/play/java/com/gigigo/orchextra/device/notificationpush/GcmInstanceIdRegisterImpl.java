@@ -20,8 +20,6 @@ package com.gigigo.orchextra.device.notificationpush;
 
 import android.app.Application;
 import android.content.Context;
-
-import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.notificationpush.GcmInstanceIdRegister;
@@ -52,13 +50,15 @@ public class GcmInstanceIdRegisterImpl implements GcmInstanceIdRegister {
       orchextraLogger.log("GCM Registration Token: " + token);
 
       notificationPush.setToken(token);
+
       notificationPush.setSenderId(senderId);
 
       return notificationPush;
     } catch (Exception e) {
       //disabled gmc listener if the sender_id is invalid for get Device Token,mandatory for receive push
       OrchextraManager.setGcmSendId((Application)this.context.getApplicationContext(),null);
-      orchextraLogger.log("Failed GCM Registration");
+      orchextraLogger.log("FAILED GCM Registration" + e.toString());
+
       return null;
     }
   }

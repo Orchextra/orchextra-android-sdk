@@ -35,9 +35,6 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   //staging
   //public static final String API_KEY = "ee6d91068298fd04ef9ea609def0f516ebda97dc";
   //public static final String API_SECRET = "6efda2dc815af99c4e53b588e118ef76ae53fbfb";
-
-
-
   //staging androidSDK
   //public static final String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
   //public static final String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
@@ -59,9 +56,11 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
   public void initOrchextra() {
 
-    OrchextraBuilder builder = new OrchextraBuilder(this).setApiKeyAndSecret(API_KEY, API_SECRET)
+    OrchextraBuilder builder = new OrchextraBuilder(this)
+        .setApiKeyAndSecret(API_KEY, API_SECRET)
         .setLogLevel(OrchextraLogLevel.NETWORK)
         .setOrchextraCompletionCallback(this)
+        .setGcmSenderId("1096695472415")
         .setNotificationActivityClass(MainActivity.class.toString())
         .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
         .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);

@@ -188,7 +188,7 @@ dependencies {
   compile project(':orchextrasdk-data')
 
   /*GooglePlayServices*/
-  play10StagingCompile( 'com.google.android.gms:play-services-location:10.0.1')
+  play10StagingCompile('com.google.android.gms:play-services-location:10.0.1')
   play10StagingCompile('com.google.android.gms:play-services-gcm:10.0.1')
 
   play9StagingCompile('com.google.android.gms:play-services-location:9.0.0')
