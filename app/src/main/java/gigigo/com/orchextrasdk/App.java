@@ -60,7 +60,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
         .setApiKeyAndSecret(API_KEY, API_SECRET)
         .setLogLevel(OrchextraLogLevel.NETWORK)
         .setOrchextraCompletionCallback(this)
-        .setGcmSenderId("1096695472415")
+        .setGcmSenderId("117687721829")
         .setNotificationActivityClass(MainActivity.class.toString())
         .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
         .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);

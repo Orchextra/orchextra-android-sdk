@@ -39,9 +39,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 intent.getExtras().containsKey(NOTIFICATION_BROADCAST_RECEIVER)
                 ) {
             if (intent.getBooleanExtra(AndroidNotificationBuilder.HAVE_ACTIVITY_NOTIFICATION_OX, false)) {
-
                 notificationDispatcher.manageBackgroundNotification(intent);
-
                 intent.removeExtra(NOTIFICATION_BROADCAST_RECEIVER);
                 intent.removeExtra(AndroidNotificationBuilder.EXTRA_NOTIFICATION_ACTION);
                 this.mIntent = null;

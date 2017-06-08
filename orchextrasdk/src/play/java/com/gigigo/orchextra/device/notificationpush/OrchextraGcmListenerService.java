@@ -20,7 +20,6 @@ package com.gigigo.orchextra.device.notificationpush;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.device.actions.ActionRecovery;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
@@ -30,9 +29,6 @@ import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.google.android.gms.gcm.GcmListenerService;
-
-import org.json.JSONObject;
-
 import orchextra.javax.inject.Inject;
 
 public class OrchextraGcmListenerService extends GcmListenerService {
