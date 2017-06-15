@@ -24,8 +24,8 @@ allprojects {
 //                dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
 
 
-                daggerCompiler           : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.9',
-                dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.9',
+                daggerCompiler           : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:3.0',
+                dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:3.0',
                 altBeacon                : 'org.altbeacon:android-beacon-library:2.9.2',
                 barcodescanner           : 'me.dm7.barcodescanner:zbar:1.8.4',
                 gggJavaLib               : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggg-java-lib:2c184f2ed7', //update dependencies retrofit
