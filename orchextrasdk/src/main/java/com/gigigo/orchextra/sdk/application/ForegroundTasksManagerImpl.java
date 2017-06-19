@@ -22,9 +22,7 @@ import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.Permission;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
-import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraTasksManager;
 
 public class ForegroundTasksManagerImpl implements ForegroundTasksManager {
@@ -48,8 +46,12 @@ public class ForegroundTasksManagerImpl implements ForegroundTasksManager {
     if (granted) {
       orchextraTasksManager.initForegroundTasks(granted);
     } else {
-      permissionChecker.askForPermission(permission, userPermissionRequestResponseListener,
-          contextProvider.getCurrentActivity());
+    //hotfix repsol
+      if(contextProvider!=null && contextProvider.getCurrentActivity()!=null) {
+        permissionChecker.askForPermission(permission, userPermissionRequestResponseListener,
+            contextProvider.getCurrentActivity());
+      }else
+        orchextraTasksManager.initForegroundTasks(false);
     }
   }
 
