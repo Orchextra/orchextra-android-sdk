@@ -20,12 +20,12 @@ allprojects {
     ext {
         dependencies = [
                 loggingInterceptor       : 'com.squareup.okhttp3:logging-interceptor:3.8.0',
-                daggerCompiler           : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.2',
-                dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
+//                daggerCompiler           : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:2.2.2',
+//                dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:2.2.2',
 
 
-//                daggerCompiler           : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:3.2',
-//                dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:3.2',
+                daggerCompiler           : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:3.2',
+                dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:3.2',
                 altBeacon                : 'org.altbeacon:android-beacon-library:2.9.2',
                 barcodescanner           : 'me.dm7.barcodescanner:zbar:1.8.4',
                 gggJavaLib               : 'com.github.GigigoGreenLabs.gggUtilsSuite:ggg-java-lib:3.9', // 2c184f2ed7update dependencies retrofit

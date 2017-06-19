@@ -165,15 +165,15 @@ dependencies {
   compile(parent.ext.dependencies.dagger) {
     transitive = false
     exclude group: 'com.google.dagger', module: 'dagger'
-    exclude group: 'javax.inject'
+    exclude group: 'javax.inject', module: 'javax.inject'
   }
 
   apt(parent.ext.dependencies.daggerCompiler) {
     transitive = false
     exclude group: 'com.google.dagger', module: 'dagger'
-//    exclude group: 'com.google.dagger', module: 'dagger-producers'
-//    exclude group: 'com.google.guava', module: 'guava'
-    exclude group: 'javax.inject'
+    exclude group: 'javax.inject', module: 'javax.inject'
+    exclude group: 'com.google.dagger', module: 'dagger-producers'
+    exclude group: 'com.google.guava', module: 'guava'
   }
 
   compile parent.ext.dependencies.loggingInterceptor
