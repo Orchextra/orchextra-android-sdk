@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
+// Add plugin https://plugins.gradle.org/plugin/net.ltgt.apt
 plugins {
-    id "net.ltgt.apt" version "0.3"
+    id "net.ltgt.apt" version "0.10"
 }
 
 apply plugin: 'java'
@@ -30,14 +31,11 @@ targetCompatibility = JavaVersion.VERSION_1_7
 dependencies {
     compile project(':orchextrasdk-domain')
 
-    compile (parent.ext.dependencies.dagger){
-        transitive = false
-        exclude group:'com.google.dagger', module:'dagger'
-        exclude group:'javax.inject'
-    }
+    compile parent.ext.dependencies.dagger
+    apt parent.ext.dependencies.daggerCompiler
 
-//    compile rootProject.ext.dependencies.threaddecoratedview
-//    apt rootProject.ext.dependencies.threaddecoratedviewcompiler
+    //    compile rootProject.ext.dependencies.threaddecoratedview
+    //    apt rootProject.ext.dependencies.threaddecoratedviewcompiler
 
     testCompile rootProject.ext.testDependencies.junit
     testCompile rootProject.ext.testDependencies.mockito

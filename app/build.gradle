@@ -22,7 +22,7 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
   //  buildToolsVersion parent.ext.androidBuildToolsVersion
-  buildToolsVersion = "23.0.1"
+  buildToolsVersion = '25.0.0'
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
     minSdkVersion 11

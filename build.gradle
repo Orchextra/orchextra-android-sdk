@@ -31,9 +31,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'com.android.tools.build:gradle:2.3.2'
+        //classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.0.1"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -51,7 +50,7 @@ allprojects {
         preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
 
         // Android config
-        androidBuildToolsVersion = '23.0.1'
+        androidBuildToolsVersion = '25.0.0'
         androidMinSdkVersion = 10
         androidTargetSdkVersion = 23
         androidCompileSdkVersion = 23
@@ -78,16 +77,16 @@ allprojects {
         targetCompatibility = '1.7'
         sourceCompatibility = '1.7'
     }
-//  apply plugin:  checkstyle
-//
-//  task checkstyle(type: Checkstyle) {
-//    configFile file("${project.rootDir}/checkstyle.xml")
-//    source 'src'
-//    include '**/*.java'
-//    exclude '**/gen/**'
-//
-//    classpath = files()
-//  }
+    //  apply plugin:  checkstyle
+    //
+    //  task checkstyle(type: Checkstyle) {
+    //    configFile file("${project.rootDir}/checkstyle.xml")
+    //    source 'src'
+    //    include '**/*.java'
+    //    exclude '**/gen/**'
+    //
+    //    classpath = files()
+    //  }
 }
 apply plugin: "org.sonarqube"
 

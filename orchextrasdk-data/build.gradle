@@ -20,7 +20,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'realm-android'
 apply from: rootProject.file('gradle/checkstyle.gradle')
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 
 android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
@@ -49,23 +49,21 @@ android {
     unitTests.returnDefaultValues = true
   }
 
+  buildToolsVersion '25.0.0'
 }
 
 dependencies {
 
-  compile (parent.ext.dependencies.dagger){
-    transitive = false
-    exclude group:'com.google.dagger', module:'dagger'
-    exclude group:'javax.inject'
-  }
+  compile parent.ext.dependencies.dagger
+  annotationProcessor parent.ext.dependencies.daggerCompiler
 
   compile project(':orchextrasdk-dataprovision')
 
   compile( parent.ext.dependencies.gggLib)
-          {
-            //transitive = true
-            changing = true
-          }
+      {
+        //transitive = true
+        changing = true
+      }
 
   testCompile parent.ext.testDependencies.junit
   testCompile parent.ext.testDependencies.mockito
@@ -77,7 +75,7 @@ dependencies {
   androidTestCompile(parent.ext.testDependencies.dexMakerMockito) {
     exclude group: 'org.hamcrest', module: 'hamcrest-core'
   }
- // compile 'io.realm:realm-android:0.87.0'
+  // compile 'io.realm:realm-android:0.87.0'
 }
 
 tasks.withType(Test) {
