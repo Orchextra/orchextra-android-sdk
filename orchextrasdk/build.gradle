@@ -29,8 +29,7 @@ def BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME = '5000'
 
 apply plugin: 'com.android.library'
 apply from: rootProject.file('gradle/checkstyle.gradle')
-apply plugin: 'maven'
-//apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
 
