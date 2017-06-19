@@ -16,11 +16,6 @@
  * limitations under the License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
-apply from: rootProject.file('gradle/checkstyle.gradle')
-apply plugin: 'com.github.dcendents.android-maven'
-
 def STRING = "String"
 def BOOLEAN = "boolean"
 def INT = "int"
@@ -32,16 +27,9 @@ def MAX_RAGGING_TIME = '180000'
 def BACKGROUND_BEACONS_SCAN_TIME = '1100'
 def BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME = '5000'
 
-buildscript {
-  repositories {
-    mavenCentral()
-    jcenter()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.2'
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-  }
-}
+apply plugin: 'com.android.library'
+apply from: rootProject.file('gradle/checkstyle.gradle')
+//apply plugin: 'com.github.dcendents.android-maven'
 
 android {
 
@@ -133,7 +121,8 @@ android {
   // true to publish all flavour artifacts
   publishNonDefault true
   // default build flavour
-   defaultPublishConfig "play7Debug"
+  defaultPublishConfig "play7Debug"
+  buildToolsVersion '25.0.0'
 }
 
 configurations {
@@ -162,29 +151,19 @@ dependencies {
 
   sourceCompatibility = 1.7
   targetCompatibility = 1.7
-  compile(parent.ext.dependencies.dagger) {
-    transitive = false
-    exclude group: 'com.google.dagger', module: 'dagger'
-    exclude group: 'javax.inject', module: 'javax.inject'
-  }
 
-  apt(parent.ext.dependencies.daggerCompiler) {
-    transitive = false
-    exclude group: 'com.google.dagger', module: 'dagger'
-    exclude group: 'javax.inject', module: 'javax.inject'
-    exclude group: 'com.google.dagger', module: 'dagger-producers'
-    exclude group: 'com.google.guava', module: 'guava'
-  }
+  compile parent.ext.dependencies.dagger
+  annotationProcessor parent.ext.dependencies.daggerCompiler
 
   compile parent.ext.dependencies.loggingInterceptor
   compile parent.ext.dependencies.altBeacon
   compile(parent.ext.dependencies.barcodescanner)
-          { exclude module: 'support-v4'
-            // com.android.support:support-annotations:23.1.1
-          }
+      { exclude module: 'support-v4'
+        // com.android.support:support-annotations:23.1.1
+      }
 
 
-   compile parent.ext.dependencies.imageRecognitionInterface
+  compile parent.ext.dependencies.imageRecognitionInterface
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')

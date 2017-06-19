@@ -22,7 +22,7 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
   //  buildToolsVersion parent.ext.androidBuildToolsVersion
-  buildToolsVersion = "23.0.1"
+  buildToolsVersion = '25.0.0'
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
     minSdkVersion 11
@@ -112,8 +112,8 @@ dependencies {
   compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
 
   //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin support
-     compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
- // compile project(':vuforiaimplementation')
+  compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
+  // compile project(':vuforiaimplementation')
   //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
   play7StagingCompile project(path: ':orchextrasdk', configuration: 'play7Staging')
   play8StagingCompile project(path: ':orchextrasdk', configuration: 'play8Staging')
