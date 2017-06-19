@@ -220,8 +220,8 @@ dependencies {
 
 // build a jar with source files
 task sourcesJar(type: Jar) {
-  from android.sourceSets.main.java.srcDirs
   classifier = 'sources'
+  from android.sourceSets.main.java.sourceFiles
 }
 
 artifacts {
