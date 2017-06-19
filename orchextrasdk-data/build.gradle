@@ -20,6 +20,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'realm-android'
 apply from: rootProject.file('gradle/checkstyle.gradle')
+apply plugin: 'maven'
 //apply plugin: 'com.github.dcendents.android-maven'
 
 android {
