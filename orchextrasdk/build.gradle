@@ -149,8 +149,8 @@ configurations {
 
 dependencies {
 
-  sourceCompatibility = 1.8
-  targetCompatibility = 1.8
+  sourceCompatibility = 1.7
+  targetCompatibility = 1.7
 
   compile parent.ext.dependencies.dagger
   annotationProcessor parent.ext.dependencies.daggerCompiler
