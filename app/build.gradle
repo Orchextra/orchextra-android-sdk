@@ -25,7 +25,7 @@ android {
   buildToolsVersion = '25.0.0'
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
-    minSdkVersion 11
+    minSdkVersion 14
     //parent.ext.androidMinSdkVersion //you can change that, but you need API >=10 for fabmenu
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode

@@ -34,7 +34,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 android {
 
   compileSdkVersion parent.ext.androidCompileSdkVersion
-  buildToolsVersion parent.ext.androidBuildToolsVersion
+  buildToolsVersion '25.0.3'
 
   defaultConfig {
     minSdkVersion parent.ext.androidMinSdkVersion
@@ -121,8 +121,8 @@ android {
   // true to publish all flavour artifacts
   publishNonDefault true
   // default build flavour
-  defaultPublishConfig "play7Debug"
-  buildToolsVersion '25.0.0'
+  defaultPublishConfig "play10Release"
+
 }
 
 configurations {
@@ -148,10 +148,6 @@ configurations {
 
 
 dependencies {
-
-  sourceCompatibility = 1.7
-  targetCompatibility = 1.7
-
   compile parent.ext.dependencies.dagger
   annotationProcessor parent.ext.dependencies.daggerCompiler
 
@@ -169,8 +165,8 @@ dependencies {
   compile project(':orchextrasdk-data')
 
   /*GooglePlayServices*/
-  play10StagingCompile('com.google.android.gms:play-services-location:10.0.1')
-  play10StagingCompile('com.google.android.gms:play-services-gcm:10.0.1')
+  play10StagingCompile('com.google.android.gms:play-services-location:10.2.6')
+  play10StagingCompile('com.google.android.gms:play-services-gcm:10.2.6')
 
   play9StagingCompile('com.google.android.gms:play-services-location:9.0.0')
   play9StagingCompile('com.google.android.gms:play-services-gcm:9.0.0')
@@ -181,8 +177,8 @@ dependencies {
   play7StagingCompile('com.google.android.gms:play-services-location:7.8.0')
   play7StagingCompile('com.google.android.gms:play-services-gcm:7.8.0')
 
-  play10DebugCompile( 'com.google.android.gms:play-services-location:10.0.1')
-  play10DebugCompile('com.google.android.gms:play-services-gcm:10.0.1')
+  play10DebugCompile( 'com.google.android.gms:play-services-location:10.2.6')
+  play10DebugCompile('com.google.android.gms:play-services-gcm:10.2.6')
 
   play9DebugCompile('com.google.android.gms:play-services-location:9.0.0')
   play9DebugCompile('com.google.android.gms:play-services-gcm:9.0.0')
@@ -194,8 +190,8 @@ dependencies {
   play7DebugCompile('com.google.android.gms:play-services-gcm:7.8.0')
 
 
-  play10ReleaseCompile( 'com.google.android.gms:play-services-location:10.0.1')
-  play10ReleaseCompile('com.google.android.gms:play-services-gcm:10.0.1')
+  play10ReleaseCompile( 'com.google.android.gms:play-services-location:10.2.6')
+  play10ReleaseCompile('com.google.android.gms:play-services-gcm:10.2.6')
 
   play9ReleaseCompile('com.google.android.gms:play-services-location:9.0.0')
   play9ReleaseCompile('com.google.android.gms:play-services-gcm:9.0.0')
