@@ -19,7 +19,7 @@
 allprojects {
     ext {
         dependencies = [
-                loggingInterceptor       : 'com.squareup.okhttp3:logging-interceptor:3.8.0',
+                loggingInterceptor       : 'com.squareup.okhttp3:logging-interceptor:3.6.0',
                 daggerCompiler           : 'com.github.GigigoGreenLabs.repackagedLibs:dagger-compiler:3.2',
                 dagger                   : 'com.github.GigigoGreenLabs.repackagedLibs:dagger:3.2',
                 altBeacon                : 'org.altbeacon:android-beacon-library:2.9.2',
