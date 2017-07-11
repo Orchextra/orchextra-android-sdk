@@ -95,9 +95,7 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
         }
     }
 
-    private void changeSdkCredentials(String apiKey, String apiSecret) {
-        orchextraStatusManager.changeSdkCredentials(apiKey, apiSecret);
-    }
+
 
     private void setSDKstatusAsStarted() {
         orchextraStatusManager.setSDKstatusAsStarted();
@@ -121,8 +119,8 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
         }
     }
 
-    private StartStatusType checkStartedType(String startApiKey, String startApiSecret) {
-        if (orchextraStatusManager.areCredentialsEquals(startApiKey, startApiSecret)) {
+    private StartStatusType checkStartedType(String newApiKey, String newApiSecret) {
+        if (orchextraStatusManager.areCredentialsEquals(newApiKey, newApiSecret)) {
             return StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_SAME_CREDENTIALS;
         } else {
             return StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS;
@@ -155,5 +153,8 @@ public class OrchextraStatusAccessorAccessorImpl implements OrchextraStatusAcces
     @Override
     public void saveCredentials(String apiKey, String apiSecret) {
         changeSdkCredentials(apiKey, apiSecret);
+    }
+    private void changeSdkCredentials(String apiKey, String apiSecret) {
+        orchextraStatusManager.changeSdkCredentials(apiKey, apiSecret);
     }
 }

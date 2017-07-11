@@ -36,15 +36,13 @@ public class OrchextraStatusReader {
             OrchextraLogger orchextraLogger) {
         this.statusRealmMapper = statusRealmMapper;
         this.orchextraLogger = orchextraLogger;
-
-
     }
 
     public OrchextraStatus readStatus(Realm realm) {
-
+        orchextraLogger.log("REALM xxxxxxxx OrchextraStatusReader readStatus");
         RealmResults<OrchextraStatusRealm> orchextraStatusRealms = realm.where(OrchextraStatusRealm.class).findAll();
         if (orchextraStatusRealms.size() > 0) {
-            orchextraLogger.log("OrchextraStatus found");
+            orchextraLogger.log("OrchextraStatus found"+orchextraStatusRealms.size());
             return statusRealmMapper.externalClassToModel(orchextraStatusRealms.first());
         } else {
             orchextraLogger.log("OrchextraStatus not found");

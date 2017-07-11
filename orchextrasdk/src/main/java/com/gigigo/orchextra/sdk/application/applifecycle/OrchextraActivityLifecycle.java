@@ -63,10 +63,11 @@ import java.util.Stack;
   @Override public void onActivityStarted(Activity activity) {
 
     boolean wasInBackground = activityStack.empty();
+    orchextraLogger.log("WAS IN BACKGROUND"+ wasInBackground);
     if (wasInBackground) {
       appStatusEventsListener.onBackgroundEnd();
     }
-
+    orchextraLogger.log("ACTIVITY--->" + activity.toString());
     this.activityStack.push(new ActivityLifecyleWrapper(activity, true, false));
 
     if (wasInBackground) {
@@ -165,7 +166,7 @@ import java.util.Stack;
   }
 
   public Activity getCurrentActivity() {
-
+     if (activityStack != null) {
     for (ActivityLifecyleWrapper activityLifecyleWrapper : activityStack) {
       if (!activityLifecyleWrapper.isPaused()) {
         return activityLifecyleWrapper.getActivity();
@@ -177,7 +178,7 @@ import java.util.Stack;
         return activityLifecyleWrapper.getActivity();
       }
     }
-
+    }
     return null;
   }
 
@@ -194,6 +195,7 @@ import java.util.Stack;
 
   private void setBackgroundModeIfNeeded() {
     if (activityStack.empty()) {
+      orchextraLogger.log("Lifecycle setBackgroundModeIfNeeded");
       appStatusEventsListener.onBackgroundStart();
     }
   }

@@ -133,7 +133,7 @@ android {
   // true to publish all flavour artifacts
   publishNonDefault true
   // default build flavour
-   defaultPublishConfig "play10Debug"
+   defaultPublishConfig "play10Release"
 }
 
 configurations {
@@ -159,8 +159,6 @@ configurations {
 
 
 dependencies {
-
-
 
   compile(parent.ext.dependencies.dagger) {
     transitive = false

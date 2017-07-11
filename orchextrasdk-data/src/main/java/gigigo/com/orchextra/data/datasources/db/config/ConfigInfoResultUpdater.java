@@ -83,7 +83,7 @@ public class ConfigInfoResultUpdater {
         beaconUpdater.removeRegions(realm);
         geofenceUpdater.removeGeofences(realm);
         vuforiaUpdater.removeVuforia(realm);
-
+        //todo asv habria q borrar los otros updaters?? hayq  buscar cuando se hizo esto para tratar de ver q deberia hacer
 
         realm.commitTransaction();
     }

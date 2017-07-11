@@ -24,15 +24,30 @@ public class SdkAuthCredentials implements AuthCredentials {
   private final String apiSecret;
 
   public SdkAuthCredentials(String apiKey, String apiSecret) {
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxCREATE SdkAuthCredentialsxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxKEY:" + apiKey);
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxSecret:" + apiSecret);
+
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
   }
 
   public String getApiKey() {
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + apiKey);
+
     return apiKey;
   }
 
   public String getApiSecret() {
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + apiSecret);
     return apiSecret;
   }
 }

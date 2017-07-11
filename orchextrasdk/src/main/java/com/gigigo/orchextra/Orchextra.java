@@ -17,26 +17,30 @@
  */
 package com.gigigo.orchextra;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-
+import android.content.SharedPreferences;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
 import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 import com.gigigo.orchextra.sdk.background.OrchextraBootBroadcastReceiver;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan.HARDCORE;
 
 public final class Orchextra {
   private static BeaconBackgroundModeScan bckBeaconMode = BeaconBackgroundModeScan.NORMAL;
 
   private Orchextra() {
   }
+
+  static Application mApplication; //we need that for read preferences 4 the realm fix
 
   /**
    * Initialize Orchextra library.
@@ -46,6 +50,7 @@ public final class Orchextra {
    * It the FIRST Orchextra method you MUST call.
    */
   public static void initialize(final OrchextraBuilder orchextraBuilder) {
+    System.out.println("REALM ************ initialize INI:\n ");
 
     final OrchextraCompletionCallback orchextraCompletionCallback =
         orchextraBuilder.getOrchextraCompletionCallback();
@@ -85,11 +90,29 @@ public final class Orchextra {
     OrchextraManager.sdkInit(orchextraBuilder.getApplication(), orchextraManagerCompletionCallback);
     OrchextraManager.setGcmSendId(orchextraBuilder.getApplication(),
         orchextraBuilder.getGcmSenderId());
-    OrchextraManager.saveApiKeyAndSecret(orchextraBuilder.getApiKey(),
-        orchextraBuilder.getApiSecret());
+
+    //region SDK CREDENTIALS NEW
+    //if updateSDkcredentials called we need to use those credentials,
+    // intead of builder, the last credentials in app flow will be the current credentials
+    mApplication = orchextraBuilder.getApplication();
+    SharedPreferences prefs =
+        mApplication.getSharedPreferences("com.gigigo.orchextra:sdkcredentials",
+            Context.MODE_PRIVATE);
+
+    String myApiKey = prefs.getString("apikey", orchextraBuilder.getApiKey());
+    String myApiSecret = prefs.getString("apisecret", orchextraBuilder.getApiSecret());
+
+    OrchextraManager.saveApiKeyAndSecret(myApiKey, myApiSecret);
+    //endregion
     OrchextraManager.setImageRecognition(orchextraBuilder.getImageRecognitionModule());
 
     bckBeaconMode = orchextraBuilder.getBckBeaconMode();
+
+   //FIXME realm
+    //this prevent when the realm no work properly in some devices and set the status with initialize false,started false
+    OrchextraManager.resetoxStatusRealmFix();
+
+    System.out.println("REALM ************ initialize FIN:\n ");
   }
 
   /**
@@ -98,11 +121,13 @@ public final class Orchextra {
    * You can call this method in any moment after the calling of the initialize method.
    */
   public static void start() {
+    System.out.println("REALM ************ start INI:\n ");
     OrchextraManager.sdkStart();
 
     if (bckBeaconMode != BeaconBackgroundModeScan.NORMAL) {
       OrchextraManager.updateBackgroundModeScan(bckBeaconMode.getIntensity());
     }
+    System.out.println("REALM ************ start FIN:\n ");
   }
 
   /**
@@ -111,8 +136,27 @@ public final class Orchextra {
    * If the credentials are the same, it doesn't have effects. You don't have to use it, except you
    * have almost 2 different credentials.
    */
-  public static synchronized void changeCredentials(String apiKey, String apiSecret) {
-    OrchextraManager.changeCredentials(apiKey, apiSecret);
+  public static synchronized void updateSDKCredentials(String apiKey, String apiSecret) {
+    //todo hay q comprobar que más guardar
+    SharedPreferences prefs =
+        mApplication.getSharedPreferences("com.gigigo.orchextra:sdkcredentials",
+            Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = prefs.edit();
+
+    editor.putString("apikey", apiKey);
+    editor.putString("apisecret", apiSecret);
+    editor.commit();
+
+    OrchextraManager.updateSDKCredentials(apiKey, apiSecret);
+
+    //region reset all things like beaconmode, notificationactivity, check current value post update
+    System.out.println(
+        "REALM ************ updateSDKCredentials bckBeaconMode :\n " + bckBeaconMode);
+    bckBeaconMode = HARDCORE;
+    System.out.println("REALM ************ changeCredentials FIN:\n ");
+    System.out.println(
+        "REALM ************ updateSDKCredentials bckBeaconMode HARDCORE:\n " + bckBeaconMode);
+    //endregion
   }
 
   /**
@@ -212,8 +256,7 @@ public final class Orchextra {
    * all beacons nearby.
    */
   //asv better use the modescan, only keep that for avoid buildconfig set timing
-  @Deprecated
-  public static void updateBackgroundPeriodBetweenScan(long intensity) {
+  @Deprecated public static void updateBackgroundPeriodBetweenScan(long intensity) {
     OrchextraManager.updateBackgroundPeriodBetweenScan(intensity);
   }
 

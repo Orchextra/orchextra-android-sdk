@@ -45,6 +45,7 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   @Override public void onBackgroundStart() {
     orchextraLogger.log("SdkVersionAppInfo goes to background mode ");
     if (orchextraStatusAccessor.isStarted()){
+      orchextraLogger.log("Ox está iniciado  goes to background mode ");
       startServices();
     }
   }
@@ -63,6 +64,7 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
     //Stop Monitoring && startRanging
     orchextraLogger.log("SdkVersionAppInfo Come to Foreground mode");
     if (orchextraStatusAccessor.isStarted()){
+      orchextraLogger.log("Ox está iniciado Come to Foreground mode");
       startForegroundTasks();
     }
   }

@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.device.bluetooth.beacons.ranging;
 
 import android.os.RemoteException;
-
 import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.control.controllers.proximity.beacons.BeaconsController;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
@@ -33,12 +32,6 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
 import com.gigigo.orchextra.sdk.OrchextraManager;
-
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.RangeNotifier;
-import org.altbeacon.beacon.Region;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -47,6 +40,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
+
+import static org.altbeacon.beacon.utils.UrlBeaconUrlCompressor.uncompress;
 
 public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingScanner {
 
@@ -78,6 +77,10 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     beaconManager.addRangeNotifier(this);
   }
 
+  static HashMap<String, String> mEddyStoneUrlFrameMap;
+  // static HashMap<String, Long> mEddyStoneTimeStamp; guardar el nombre del eddystone y la hora, para deperminar si esta complete o no
+  static boolean mIslookingForUrlFrame = false;
+
   // region RangeNotifier Interface
 
   /**
@@ -95,8 +98,53 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       // we need to relacionate the new region with this regionParam, to put in correct eddystone frame
       //we match by Bt Name, if beacon-mBluetoothName match url and uid
       //we save the current beaconLIst for add the URL
-      List<OrchextraBeacon> beacons = beaconAndroidMapper.externalClassListToModelList(beaconsList);
-      beaconsController.onBeaconsDetectedInRegion(beacons);
+
+      if (isCompleteDataInside(beaconsList)) {
+        List<OrchextraBeacon> beacons =
+            beaconAndroidMapper.externalClassListToModelList(beaconsList, mEddyStoneUrlFrameMap);
+        beaconsController.onBeaconsDetectedInRegion(beacons);
+        mEddyStoneUrlFrameMap = new HashMap<String, String>();//resset urls
+      } else {
+        //asv si no están completos es xq hay algun eddystone, y debemos buscar el frame url
+        //para ello creamos una region nulla q no estará entre las regiones regions.cointauns..., con lo cul irá ç
+        //al else
+
+        //aqui deberia controlar si se ha lanzado este scanner, para evitar volver a lanzarlo y una
+        //vez q vuelva hacer el stoopranging, con lo cual lo mejor una booleana static
+        if (!mIslookingForUrlFrame) {
+          if (mEddyStoneUrlFrameMap == null) {
+            mEddyStoneUrlFrameMap = new HashMap<String, String>();
+          }
+          try {
+            beaconManager.startRangingBeaconsInRegion(new Region("",null, null, null));
+            mIslookingForUrlFrame = true;
+          } catch (RemoteException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    } else {
+      //asv aqui vendra la region new Region(null,null,null) es el else--> if (regions.contains(region))
+      //y sólo nos interesa meter en el hashMap de url el frame de url, lo cual va ser divertido
+      //ya q habría que setear un timeout por cada uid eddystone, y persistir el tiemstamp, x si hay cambios de
+      //back to fore
+      for (Beacon beacon : collection) {
+        //fixme el siguietne if mejor en un metodo(isURLFRAME)
+        if (beacon.getBeaconTypeCode() == 0x10) {
+          String currentUrl = "";
+          currentUrl = uncompress(beacon.getId1().toByteArray());
+          mEddyStoneUrlFrameMap.put(beacon.getBluetoothAddress(),
+              currentUrl); //tal vez utilizemos el btaddress
+          // desencodear la url del beacon
+          System.out.println("eddystone url: "+currentUrl);
+        }
+      }
+      try {
+        mIslookingForUrlFrame = false;
+        beaconManager.stopRangingBeaconsInRegion(region); //un scaneo y listo, si no encuentra la url no la envia y listo
+      } catch (RemoteException e) {
+        e.printStackTrace();
+      }
     }
     //region show beacon info by console
     if (collection.size() > 0) {
@@ -112,6 +160,32 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       }
     }
     //endregion
+  }
+
+  private boolean isEddyStone(Beacon beacon) {
+    return beacon.getServiceUuid() == 0xfeaa;
+  }
+
+  private boolean isCompleteDataInside(List<Beacon> beaconsList) {
+    //1º lee del static urlsHashMap, en la q va btNam|url, para añadirselas a los beacon? o simplemente para validar q todos
+    //los eddystone de la lista tiene url ne la statichashmap o bien tiene el id3 mayor de 10-20, whatever
+    //asv este método comprueba que si hay eddystone en la lista, y q estos
+    //lleven la url completa, si no le suma 1 al id3, si el id3 es por ejemplo 10 lo da por completo y a bailar
+
+    boolean isCompleteAllEddystone = true;
+
+    for (Beacon beacon : beaconsList) {
+      if (isEddyStone(beacon)) {
+        isCompleteAllEddystone = false;
+        String url = "";
+        if (mEddyStoneUrlFrameMap != null) {
+          url = mEddyStoneUrlFrameMap.get(beacon.getBluetoothAddress());
+          if (url==null || !url.equals("")) isCompleteAllEddystone = true;
+        }
+      }
+    }
+
+    return isCompleteAllEddystone;
   }
 
   //endregion
@@ -204,6 +278,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
             //maybe wecan create scanner only forparse url eddystone, we need to check
             manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
+            //asv hay q rescanear de region null
             beaconManager.startRangingBeaconsInRegion(region);
             ranging = true;
           } catch (RemoteException e) {

@@ -19,20 +19,15 @@
 package gigigo.com.orchextra.data.datasources.db.auth;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
-import com.gigigo.orchextra.domain.model.GenderType;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
 import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
 import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
 import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.model.vo.Device;
-import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
-
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import gigigo.com.orchextra.data.datasources.db.config.CrmCustomFieldsReader;
@@ -46,36 +41,36 @@ import io.realm.exceptions.RealmException;
 //fixme refactor, avoid obtain/retrieve -->get remove/dlete save/store..
 public class SessionDBDataSourceImpl implements SessionDBDataSource {
 
-    private final Context context;
-    private final SessionUpdater sessionUpdater;
-    private final SessionReader sessionReader;
-    private final RealmDefaultInstance realmDefaultInstance;
-    private final CrmCustomFieldsReader crmCustomFieldsReader;
-    private final DeviceCustomFieldsReader deviceCustomFieldsReader;
-    private final Device device;
+  private final Context context;
+  private final SessionUpdater sessionUpdater;
+  private final SessionReader sessionReader;
+  private final RealmDefaultInstance realmDefaultInstance;
+  private final CrmCustomFieldsReader crmCustomFieldsReader;
+  private final DeviceCustomFieldsReader deviceCustomFieldsReader;
+  private final Device device;
 
-    public SessionDBDataSourceImpl(Context context,
-                                   Device device,
-                                   SessionUpdater sessionUpdater,
-                                   SessionReader sessionReader,
-                                   RealmDefaultInstance realmDefaultInstance,
-                                   CrmCustomFieldsReader crmCustomFieldsReader,
-                                   DeviceCustomFieldsReader deviceCustomFieldsReader) {
+  public SessionDBDataSourceImpl(Context context, Device device, SessionUpdater sessionUpdater,
+      SessionReader sessionReader, RealmDefaultInstance realmDefaultInstance,
+      CrmCustomFieldsReader crmCustomFieldsReader,
+      DeviceCustomFieldsReader deviceCustomFieldsReader) {
 
-        this.context = context;
-        this.device = device;
-        this.sessionUpdater = sessionUpdater;
-        this.sessionReader = sessionReader;
-        this.realmDefaultInstance = realmDefaultInstance;
-        this.crmCustomFieldsReader = crmCustomFieldsReader;
-        this.deviceCustomFieldsReader = deviceCustomFieldsReader;
+    this.context = context;
+    this.device = device;
+    this.sessionUpdater = sessionUpdater;
+    this.sessionReader = sessionReader;
+    this.realmDefaultInstance = realmDefaultInstance;
+    this.crmCustomFieldsReader = crmCustomFieldsReader;
+    this.deviceCustomFieldsReader = deviceCustomFieldsReader;
 
-
+    System.out.println("REALM ************ SessionDBDataSourceImpl constructor ");
+        /*
         //fixme REALM
         SharedPreferences prefs = this.context.getSharedPreferences("com.gigigo.orchextra", Context.MODE_PRIVATE);
         String strBIsSessionInitialized = "com.gigigo.orchextra:bIsSessionInitialized";
         boolean bIsSessionInitialized = prefs.getBoolean(strBIsSessionInitialized, false);
         if (!bIsSessionInitialized) {
+
+            System.out.println("REALM ************ SessionDBDataSourceImpl A BORRAR!! ");
             //fixme quizás mejor q dar de alta un registro con defaultvalues, sea mejor borrar lo q haia
             clearAuthenticatedUser();
             clearAuthenticatedSdk();
@@ -85,228 +80,247 @@ public class SessionDBDataSourceImpl implements SessionDBDataSource {
 //            saveClientAuthCredentials(new ClientAuthCredentials("", ""));
 //            saveClientAuthResponse(new ClientAuthData("", "", "", 0));
 //            saveUser(new CrmUser("", GenderType.ND, null));
-            prefs.edit().putBoolean(strBIsSessionInitialized, true);
+           // prefs.edit().putBoolean(strBIsSessionInitialized, true).commit();
         }
+        else
+        {
+            System.out.println("REALM ************ SessionDBDataSourceImpl NO A BORRAR!! ");
+        }
+*/
 
+  }
 
+  @Override public boolean saveSdkAuthCredentials(SdkAuthCredentials sdkAuthCredentials) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl saveSdkAuthCredentials ");
+    try {
+      realm.beginTransaction();
+      sessionUpdater.updateSdkAuthCredentials(realm, sdkAuthCredentials);
+    } catch (RealmException re) {
+      return false;
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+        System.out.println("REALM ************ SessionDBDataSourceImpl saveSdkAuthCredentials OK");
+      }
     }
 
-    @Override
-    public boolean saveSdkAuthCredentials(SdkAuthCredentials sdkAuthCredentials) {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+    return true;
+  }
 
-        try {
-            realm.beginTransaction();
-            sessionUpdater.updateSdkAuthCredentials(realm, sdkAuthCredentials);
-        } catch (RealmException re) {
-            return false;
-        } finally {
-            if (realm != null) {
-                realm.commitTransaction();
-                realm.close();
-            }
-        }
+  @Override public boolean saveSdkAuthResponse(SdkAuthData sdkAuthData) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl saveSdkAuthResponse ");
+    try {
+      realm.beginTransaction();
+      sessionUpdater.updateSdkAuthResponse(realm, sdkAuthData);
+    } catch (RealmException re) {
+      System.out.println("REALM ************ SessionDBDataSourceImpl saveSdkAuthResponse ERROR ");
+      return false;
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+    }
+    System.out.println("REALM ************ SessionDBDataSourceImpl saveSdkAuthResponse OK ");
+    return true;
+  }
 
-        return true;
+  @Override public boolean saveClientAuthCredentials(ClientAuthCredentials clientAuthCredentials) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl saveClientAuthCredentials ");
+    try {
+      realm.beginTransaction();
+      sessionUpdater.updateClientAuthCredentials(realm, clientAuthCredentials);
+    } catch (RealmException re) {
+      System.out.println(
+          "REALM ************ SessionDBDataSourceImpl saveClientAuthCredentials ERROR "
+              + re.toString());
+      return false;
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+      System.out.println(
+          "REALM ************ SessionDBDataSourceImpl saveClientAuthCredentials OK ");
     }
 
-    @Override
-    public boolean saveSdkAuthResponse(SdkAuthData sdkAuthData) {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+    return true;
+  }
 
-        try {
-            realm.beginTransaction();
-            sessionUpdater.updateSdkAuthResponse(realm, sdkAuthData);
-        } catch (RealmException re) {
-            return false;
-        } finally {
-            if (realm != null) {
-                realm.commitTransaction();
-                realm.close();
-            }
-        }
-
-        return true;
+  @Override public boolean saveClientAuthResponse(ClientAuthData clientAuthData) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl saveClientAuthResponse ");
+    try {
+      realm.beginTransaction();
+      sessionUpdater.updateClientAuthResponse(realm, clientAuthData);
+    } catch (RealmException re) {
+      System.out.println("REALM ************ SessionDBDataSourceImpl saveClientAuthResponse ERROR"
+          + re.toString());
+      return false;
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+      System.out.println("REALM ************ SessionDBDataSourceImpl saveClientAuthResponse OK ");
     }
 
-    @Override
-    public boolean saveClientAuthCredentials(ClientAuthCredentials clientAuthCredentials) {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+    return true;
+  }
 
-        try {
-            realm.beginTransaction();
-            sessionUpdater.updateClientAuthCredentials(realm, clientAuthCredentials);
-        } catch (RealmException re) {
-            return false;
-        } finally {
-            if (realm != null) {
-                realm.commitTransaction();
-                realm.close();
-            }
-        }
+  @Override public boolean saveUser(CrmUser crmUser) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl saveUser ");
+    try {
+      realm.beginTransaction();
+      sessionUpdater.updateCrm(realm, crmUser);
+    } catch (RealmException re) {
+      System.out.println(
+          "REALM ************ SessionDBDataSourceImpl saveUser ERROR" + re.toString());
 
-        return true;
+      return false;
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+      System.out.println("REALM ************ SessionDBDataSourceImpl saveUser OK");
     }
 
-    @Override
-    public boolean saveClientAuthResponse(ClientAuthData clientAuthData) {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+    return true;
+  }
 
-        try {
-            realm.beginTransaction();
-            sessionUpdater.updateClientAuthResponse(realm, clientAuthData);
-        } catch (RealmException re) {
-            return false;
-        } finally {
-            if (realm != null) {
-                realm.commitTransaction();
-                realm.close();
-            }
-        }
+  @Override public BusinessObject<ClientAuthData> getSessionToken() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl getSessionToken ");
+    try {
+      ClientAuthData clientAuthData = sessionReader.readClientAuthData(realm);
+      System.out.println("REALM ************ SessionDBDataSourceImpl getSessionToken  "
+          + clientAuthData.toString());
 
-        return true;
+      return new BusinessObject(clientAuthData, BusinessError.createOKInstance());
+    } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
+      System.out.println("REALM ************ SessionDBDataSourceImpl saveUser ERROR");
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+      System.out.println("REALM ************ SessionDBDataSourceImpl saveUser OK");
     }
+  }
 
-    @Override
-    public boolean saveUser(CrmUser crmUser) {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+  @Override public BusinessObject<SdkAuthData> getDeviceToken() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl getDeviceToken ");
 
-        try {
-            realm.beginTransaction();
-            sessionUpdater.updateCrm(realm, crmUser);
-        } catch (RealmException re) {
-            return false;
-        } finally {
-            if (realm != null) {
-                realm.commitTransaction();
-                realm.close();
-            }
-        }
-
-        return true;
+    try {
+      SdkAuthData sdkAuthData = sessionReader.readSdkAuthData(realm);
+      System.out.println("REALM ************ SessionDBDataSourceImpl getDeviceToken sdkAuthData "
+          + sdkAuthData.toString());
+      return new BusinessObject(sdkAuthData, BusinessError.createOKInstance());
+    } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
+      System.out.println("REALM ************ SessionDBDataSourceImpl getDeviceToken ERROR");
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
+      System.out.println("REALM ************ SessionDBDataSourceImpl getDeviceToken OK");
     }
+  }
 
-    @Override
-    public BusinessObject<ClientAuthData> getSessionToken() {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+  @Override public BusinessObject<Device> retrieveDevice() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    try {
+      device.setTags(deviceCustomFieldsReader.readDeviceTags(realm));
+      device.setBusinessUnits(deviceCustomFieldsReader.readBusinessUnits(realm));
 
-        try {
-            ClientAuthData clientAuthData = sessionReader.readClientAuthData(realm);
-            return new BusinessObject(clientAuthData, BusinessError.createOKInstance());
-        } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
-            return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-        } finally {
-            if (realm != null) {
-                realm.close();
-            }
-        }
+      return new BusinessObject(device, BusinessError.createOKInstance());
+    } catch (RealmException re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
     }
+  }
 
-    @Override
-    public BusinessObject<SdkAuthData> getDeviceToken() {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+  @Override public BusinessObject<CrmUser> getCrm() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
-        try {
-            SdkAuthData sdkAuthData = sessionReader.readSdkAuthData(realm);
-            return new BusinessObject(sdkAuthData, BusinessError.createOKInstance());
-        } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
-            return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-        } finally {
-            if (realm != null) {
-                realm.close();
-            }
-        }
+    try {
+      CrmUser crmUser = sessionReader.readCrm(realm);
+
+      crmUser.setTags(crmCustomFieldsReader.readCrmTags(realm));
+      crmUser.setBusinessUnits(crmCustomFieldsReader.readBusinessUnits(realm));
+      crmUser.setCustomFields(crmCustomFieldsReader.readCustomFields(realm));
+
+      return new BusinessObject(crmUser, BusinessError.createOKInstance());
+    } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
+      return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
+    } finally {
+      if (realm != null) {
+        realm.close();
+      }
     }
+  }
 
-    @Override
-    public BusinessObject<Device> retrieveDevice() {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
-        try {
-            device.setTags(deviceCustomFieldsReader.readDeviceTags(realm));
-            device.setBusinessUnits(deviceCustomFieldsReader.readBusinessUnits(realm));
+  @Override public boolean storeCrm(CrmUser crmUser) {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
 
-            return new BusinessObject(device, BusinessError.createOKInstance());
-        } catch (RealmException re) {
-            return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-        } finally {
-            if (realm != null) {
-                realm.close();
-            }
-        }
+    try {
+      realm.beginTransaction();
+      sessionUpdater.updateCrm(realm, crmUser);
+    } catch (RealmException re) {
+      return false;
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
     }
+    return true;
+  }
 
-    @Override
-    public BusinessObject<CrmUser> getCrm() {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+  @Override public void clearAuthenticatedUser() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl clearAuthenticatedUser ");
 
-        try {
-            CrmUser crmUser = sessionReader.readCrm(realm);
-
-            crmUser.setTags(crmCustomFieldsReader.readCrmTags(realm));
-            crmUser.setBusinessUnits(crmCustomFieldsReader.readBusinessUnits(realm));
-            crmUser.setCustomFields(crmCustomFieldsReader.readCustomFields(realm));
-
-            return new BusinessObject(crmUser, BusinessError.createOKInstance());
-        } catch (NotFountRealmObjectException | RealmException | NullPointerException re) {
-            return new BusinessObject(null, BusinessError.createKoInstance(re.getMessage()));
-        } finally {
-            if (realm != null) {
-                realm.close();
-            }
-        }
+    try {
+      realm.beginTransaction();
+      realm.delete(ClientAuthRealm.class);
+    } catch (RealmException re) {
+      System.out.println("REALM ************ SessionDBDataSourceImpl clearAuthenticatedUser ERROR");
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+      System.out.println("REALM ************ SessionDBDataSourceImpl clearAuthenticatedUser OK");
     }
+  }
 
-    @Override
-    public boolean storeCrm(CrmUser crmUser) {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
+  @Override public void clearAuthenticatedSdk() {
+    Realm realm = realmDefaultInstance.createRealmInstance(context);
+    System.out.println("REALM ************ SessionDBDataSourceImpl clearAuthenticatedSdk ");
+    try {
+      realm.beginTransaction();
 
-        try {
-            realm.beginTransaction();
-            sessionUpdater.updateCrm(realm, crmUser);
-        } catch (RealmException re) {
-            return false;
-        } finally {
-            if (realm != null) {
-                realm.commitTransaction();
-                realm.close();
-            }
-        }
-        return true;
+      realm.delete(SdkAuthCredentialsRealm.class);
+      realm.delete(SdkAuthRealm.class);
+    } catch (RealmException re) {
+      System.out.println("REALM ************ SessionDBDataSourceImpl clearAuthenticatedSdk ERROR");
+    } finally {
+      if (realm != null) {
+        realm.commitTransaction();
+        realm.close();
+      }
+      System.out.println("REALM ************ SessionDBDataSourceImpl clearAuthenticatedSdk OK");
     }
-
-
-    @Override
-    public void clearAuthenticatedUser() {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
-        try {
-            realm.beginTransaction();
-            realm.delete(ClientAuthRealm.class);
-
-        } catch (RealmException re) {
-
-        } finally {
-            if (realm != null) {
-                realm.commitTransaction();
-                realm.close();
-            }
-        }
-    }
-
-    @Override
-    public void clearAuthenticatedSdk() {
-        Realm realm = realmDefaultInstance.createRealmInstance(context);
-        try {
-            realm.beginTransaction();
-
-            realm.delete(SdkAuthCredentialsRealm.class);
-            realm.delete(SdkAuthRealm.class);
-        } catch (RealmException re) {
-
-        } finally {
-            if (realm != null) {
-                realm.commitTransaction();
-                realm.close();
-            }
-        }
-    }
+  }
 }

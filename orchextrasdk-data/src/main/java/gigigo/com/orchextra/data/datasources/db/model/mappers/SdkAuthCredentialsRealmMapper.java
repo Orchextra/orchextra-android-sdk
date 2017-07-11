@@ -20,7 +20,6 @@ package gigigo.com.orchextra.data.datasources.db.model.mappers;
 
 import com.gigigo.ggglib.mappers.Mapper;
 import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
-
 import gigigo.com.orchextra.data.datasources.db.model.SdkAuthCredentialsRealm;
 
 
@@ -36,10 +35,8 @@ public class SdkAuthCredentialsRealmMapper
 
   @Override
   public SdkAuthCredentials externalClassToModel(SdkAuthCredentialsRealm sdkAuthCredentialsRealm) {
-
     String apiKey = sdkAuthCredentialsRealm.getApiKey();
     String apiSecret = sdkAuthCredentialsRealm.getApiSecret();
-
     return new SdkAuthCredentials(apiKey, apiSecret);
   }
 }

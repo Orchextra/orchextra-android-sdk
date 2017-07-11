@@ -31,18 +31,24 @@ public class OrchextraStatusUpdater {
   public OrchextraStatusUpdater(
       ModelToExternalClassMapper<OrchextraStatus, OrchextraStatusRealm> statusRealmMapper) {
     this.statusRealmMapper = statusRealmMapper;
-
   }
 
   public OrchextraStatus saveStatus(Realm realm, OrchextraStatus orchextraStatus) {
     OrchextraStatusRealm realmItem = getRealmItem(realm, OrchextraStatusRealm.class);
+    System.out.println("REALM ************ OrchextraStatusUpdater saveStatus ");
+    OrchextraStatusRealm orchextraStatusRealm =
+        statusRealmMapper.modelToExternalClass(orchextraStatus);
 
-    OrchextraStatusRealm orchextraStatusRealm = statusRealmMapper.modelToExternalClass(orchextraStatus);
+    System.out.println("REALM ************ OrchextraStatusUpdater saveStatus status:\n "
+        + orchextraStatusRealm.toString());
 
     if (realmItem == null) {
-      orchextraStatusRealm.setId(RealmDefaultInstance.getNextKey(realm, OrchextraStatusRealm.class));
+      orchextraStatusRealm.setId(
+          RealmDefaultInstance.getNextKey(realm, OrchextraStatusRealm.class));
+      System.out.println("REALM ************ OrchextraStatusUpdater saveStatus realmitem null");
     } else {
       orchextraStatusRealm.setId(realmItem.getId());
+      System.out.println("REALM ************ OrchextraStatusUpdater saveStatus realmitem!= null");
     }
 
     realm.copyToRealmOrUpdate(orchextraStatusRealm);

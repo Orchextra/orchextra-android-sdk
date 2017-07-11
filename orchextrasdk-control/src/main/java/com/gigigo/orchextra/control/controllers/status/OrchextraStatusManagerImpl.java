@@ -37,16 +37,17 @@ public class OrchextraStatusManagerImpl implements OrchextraStatusManager {
     @Override
     public void changeSdkCredentials(String apiKey, String apiSecret) {
         clearSdkCredentials();
-
         loadOrchextraStatus();
         session.setAppParams(apiKey, apiSecret);
         session.setTokenString(null);
+
         orchextraStatus.setSession(session);
         updateOrchextraStatus();
     }
 
     @Override
     public void setSDKstatusAsStarted() {
+        System.out.println("\n\n\n\nOrchextraStatusManagerImpl setSDKstatusAsStarted\n\n\n\n");
         loadOrchextraStatus();
         orchextraStatus.setStarted(true);
         updateOrchextraStatus();

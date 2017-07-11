@@ -1,9 +1,6 @@
 package gigigo.com.orchextrasdk;
 
-import android.app.Application;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,23 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
-
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import gigigo.com.orchextrasdk.adonservices.BluetoothResetUtility;
-import gigigo.com.orchextrasdk.adonservices.MotionServiceUtility;
-import gigigo.com.orchextrasdk.adonservices.UpdateConfigReceiver;
-import gigigo.com.orchextrasdk.adonservices.UpdateConfigUtility;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
   @Override protected void onStop() {
@@ -42,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //orchextraSDK
     getViews();
     setListeners();
-
+   // Orchextra.start();
     //Ad-Ons Motion and Bluetooth the UpdateConfig in on Mainactivity
     //App.mMotionServiceUtility.stop();//motion
   }
@@ -86,11 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       Orchextra.startScannerActivity();
     }
     if (v.getId() == R.id.button3) {
-      if (isRunning) {
-        stopOrchextra();
-      } else {
+      //if (isRunning) {
+      //  stopOrchextra();
+      //} else {
         startOrchextra();
-      }
+      //}
     }
     //region orchextraWebview
 
@@ -190,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   private void startOrchextra() {
     new Handler().post(new Runnable() {
       @Override public void run() {
-        Orchextra.start();
+        Orchextra.updateSDKCredentials(App.API_KEY,App.API_SECRET);
       }
     });
 

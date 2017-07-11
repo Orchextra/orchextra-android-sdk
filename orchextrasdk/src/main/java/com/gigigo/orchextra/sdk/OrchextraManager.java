@@ -25,19 +25,21 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.ggglogger.LogLevel;
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.BuildConfig;
 import com.gigigo.orchextra.CrmUser;
+import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraLogLevel;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.control.controllers.authentication.CrmUserController;
 import com.gigigo.orchextra.control.controllers.status.SdkAlreadyStartedException;
 import com.gigigo.orchextra.control.controllers.status.SdkInitializationException;
 import com.gigigo.orchextra.control.controllers.status.SdkNotInitializedException;
+import com.gigigo.orchextra.dataprovision.authentication.datasource.OrchextraStatusDBDataSource;
+import com.gigigo.orchextra.dataprovision.authentication.datasource.SessionDBDataSource;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
 import com.gigigo.orchextra.device.imagerecognition.ImageRecognitionManager;
@@ -58,17 +60,17 @@ import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
 import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
 import com.gigigo.orchextra.domain.model.entities.authentication.Session;
+import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
+import com.gigigo.orchextra.domain.model.vo.OrchextraStatus;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import orchextra.javax.inject.Inject;
 
 public class OrchextraManager implements Observer {
@@ -100,10 +102,13 @@ public class OrchextraManager implements Observer {
   @Inject ImageRecognitionManager imageRecognitionManager;
   @Inject OrchextraLogger orchextraLogger;
   @Inject BeaconRangingScanner beaconRangingScanner;
+  @Inject SessionDBDataSource sessionDBDataSource; //updatesdkcredentials
+  @Inject OrchextraStatusDBDataSource orchextraStatusDBDataSource;//updatesdkcredentials
 
   @Inject Session session;
 
   @Inject ConfigChangeObservable configObservable;
+
 
   private static String notificationActivityClass = "";
 
@@ -119,6 +124,9 @@ public class OrchextraManager implements Observer {
     OrchextraManager.instance = new OrchextraManager();
     OrchextraManager.instance.initOrchextra(application, orchextraCompletionCallback);
     try {
+
+
+
       mApplicationID = application.getPackageName();
       mApplicationVersion = application.getApplicationContext()
           .getPackageManager()
@@ -187,11 +195,14 @@ public class OrchextraManager implements Observer {
    * @param apiKey credentials
    * @param apiSecret credentials
    */
-  public static synchronized void changeCredentials(String apiKey, String apiSecret) {
+  public static synchronized void changeCredentials(String apiKey, String apiSecret,
+      boolean fromUser) {
     if (AndroidSdkVersion.hasJellyBean18()) {
       if (OrchextraManager.instance != null) {
-        OrchextraManager.instance.changeOrchextraCredentials(apiKey, apiSecret);
+        System.out.println("REALM ************ changeCredentials in manager call instance:\n ");
+        OrchextraManager.instance.changeOrchextraCredentials(apiKey, apiSecret, fromUser);
       } else {
+        System.out.println("REALM ************ changeCredentials in manager ERROR:\n ");
         showInitializationError();
       }
     }
@@ -260,9 +271,9 @@ public class OrchextraManager implements Observer {
    */
   public static synchronized void sdkStop() {
     OrchextraManager orchextraManager = OrchextraManager.instance;
-    if (orchextraManager != null &&
-        orchextraManager.orchextraStatusAccessor != null &&
-        orchextraManager.orchextraStatusAccessor.isStarted()) {
+    if (orchextraManager != null
+        && orchextraManager.orchextraStatusAccessor != null
+        && orchextraManager.orchextraStatusAccessor.isStarted()) {
 
       orchextraManager.orchextraStatusAccessor.setStoppedStatus();
       instance.stopOrchextraTasks();
@@ -398,31 +409,47 @@ public class OrchextraManager implements Observer {
     }
   }
 
+  private void changeOrchextraCredentials(String apiKey, String apiSecret) {
+    changeOrchextraCredentials(apiKey, apiSecret, false);
+  }
+
   /**
    * This method is called from client app in order to start application at one concrete moment,
    * this is not dependant on context neither app lifecycle, could be called in any moment.
    */
-  private void changeOrchextraCredentials(String apiKey, String apiSecret) {
+  private void changeOrchextraCredentials(String apiKey, String apiSecret, boolean fromUser) {
     Exception exception = null;
     try {
       StartStatusType status =
           orchextraStatusAccessor.getOrchextraStatusWhenReinitMode(apiKey, apiSecret);
 
+      if (fromUser) {
+        Orchextra.commitConfiguration();
+        System.out.println("FROM USER CHANGECERDENTIALS current Status:\n " + status.getStringValue());
+      }
+      System.out.println(
+          "REALM ************ changeCredentials current Status:\n " + status.getStringValue());
+
       if (status == StartStatusType.SDK_READY_FOR_START) {
         start();
+        orchextraLogger.log("changeOrchextraCredentials  StartStatusType.SDK_READY_FOR_START");
       }
 
       if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS) {
         start();
+        orchextraLogger.log("changeOrchextraCredentials  StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS");
       }
     } catch (SdkAlreadyStartedException alreadyStartedException) {
       orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
       orchextraCompletionCallback.onInit(alreadyStartedException.getMessage());
+      System.out.println("REALM ************ changeCredentials SdkAlreadyStartedException:\n ");
     } catch (SdkNotInitializedException notInitializedException) {
       exception = notInitializedException;
+      System.out.println("REALM ************ changeCredentials Sdk NOT InitializedException:\n ");
     } catch (SdkInitializationException initializationException) {
       exception = initializationException;
       exception.printStackTrace();
+      System.out.println("REALM ************ changeCredentials SdkInitializationException:\n ");
     } finally {
       if (exception != null) {
         orchextraLogger.log(exception.getMessage(), OrchextraSDKLogLevel.ERROR);
@@ -482,10 +509,38 @@ public class OrchextraManager implements Observer {
 
   private static void saveCredentials(String apiKey, String apiSecret) {
     if (!TextUtils.isEmpty(apiKey) && !TextUtils.isEmpty(apiSecret)) {
+      System.out.println(
+          "REALM ************ saveCredentials apikey:\n " + apiKey + "\n apisecret:\n" + apiSecret);
       OrchextraManager.instance.orchextraStatusAccessor.saveCredentials(apiKey, apiSecret);
     }
   }
 
+  public static void updateSDKCredentials(String apiKey, String apiSecret) {
+    if (!TextUtils.isEmpty(apiKey) && !TextUtils.isEmpty(apiSecret)) {
+      System.out.println(
+          "REALM ************ saveCredentials apikey:\n " + apiKey + "\n apisecret:\n" + apiSecret);
+
+
+      OrchextraStatus status = new OrchextraStatus();
+      status.setInitialized(true);
+      status.setStarted(true);
+      Session session = new Session(BuildConfig.TOKEN_TYPE_BEARER);
+      session.setAppParams(apiKey,apiSecret);
+      status.setSession(session);
+      OrchextraManager.instance.orchextraStatusDBDataSource.saveStatus(status);
+
+      OrchextraManager.instance.sessionDBDataSource.saveSdkAuthCredentials(new SdkAuthCredentials(apiKey, apiSecret));
+      OrchextraManager.instance.changeOrchextraCredentials(apiKey, apiSecret, true);//true 4 orchextra.start
+    }
+  }
+
+  public static void resetoxStatusRealmFix(){
+    OrchextraStatus status = new OrchextraStatus();
+    status.setInitialized(true);
+    status.setStarted(true);
+
+    OrchextraManager.instance.orchextraStatusDBDataSource.saveStatus(status);
+  }
   public static void setGcmSendId(Application application, String gcmSenderId) {
     if (OrchextraManager.instance != null) {
       OrchextraManager.instance.gcmSenderId = gcmSenderId;
@@ -522,7 +577,7 @@ public class OrchextraManager implements Observer {
     return OrchextraManager.instance.gcmSenderId;
   }
 
-   public static void updateBackgroundPeriodBetweenScan(long intensity) {
+  public static void updateBackgroundPeriodBetweenScan(long intensity) {
     if (OrchextraManager.instance != null) {
       OrchextraManager.instance.beaconRangingScanner.updateBackgroundScanPeriodBetweenScans(
           intensity);
@@ -553,9 +608,9 @@ public class OrchextraManager implements Observer {
   public static synchronized void sdkPause() {
 
     OrchextraManager orchextraManager = OrchextraManager.instance;
-    if (orchextraManager != null &&
-        orchextraManager.orchextraStatusAccessor != null &&
-        orchextraManager.orchextraStatusAccessor.isStarted()) {
+    if (orchextraManager != null
+        && orchextraManager.orchextraStatusAccessor != null
+        && orchextraManager.orchextraStatusAccessor.isStarted()) {
       //fixme new pause status
       //    orchextraManager.orchextraStatusAccessor.setStoppedStatus();
       instance.pauseOrchextraTasks();

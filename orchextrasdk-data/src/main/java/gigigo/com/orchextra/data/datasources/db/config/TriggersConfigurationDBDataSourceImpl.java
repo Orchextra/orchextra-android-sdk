@@ -19,31 +19,20 @@
 package gigigo.com.orchextra.data.datasources.db.config;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.gigigo.gggjavalib.business.model.BusinessError;
 import com.gigigo.gggjavalib.business.model.BusinessObject;
 import com.gigigo.ggglogger.GGGLogImpl;
 import com.gigigo.orchextra.dataprovision.config.datasource.TriggersConfigurationDBDataSource;
 import com.gigigo.orchextra.dataprovision.config.model.strategy.ConfigurationInfoResult;
-import com.gigigo.orchextra.domain.model.GenderType;
-import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
-import com.gigigo.orchextra.domain.model.entities.authentication.CrmUser;
-import com.gigigo.orchextra.domain.model.entities.authentication.SdkAuthData;
-import com.gigigo.orchextra.domain.model.entities.credentials.ClientAuthCredentials;
-import com.gigigo.orchextra.domain.model.entities.credentials.SdkAuthCredentials;
 import com.gigigo.orchextra.domain.model.entities.geofences.OrchextraGeofence;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.entities.tags.CustomField;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import gigigo.com.orchextra.data.datasources.db.NotFountRealmObjectException;
 import gigigo.com.orchextra.data.datasources.db.RealmDefaultInstance;
 import io.realm.Realm;
 import io.realm.exceptions.RealmException;
+import java.util.List;
 //fixme refactor, avoid obtain/retrieve -->get remove/dlete save/store..
 
 public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurationDBDataSource {
@@ -337,7 +326,7 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
     }
 
     public OrchextraUpdates saveConfigData(ConfigurationInfoResult configurationInfoResult) {
-
+        System.out.println("REALM ************ TriggersConfigurationDBDataSourceImpl saveConfigData ");
         Realm realm = realmDefaultInstance.createRealmInstance(context);
 
         try {
@@ -347,11 +336,15 @@ public class TriggersConfigurationDBDataSourceImpl implements TriggersConfigurat
             return orchextraUpdates;
         } catch (Exception re) {
             re.printStackTrace();
+            System.out.println("REALM ************ TriggersConfigurationDBDataSourceImpl saveConfigData ERROR ");
             return null;
+
         } finally {
-            realm.commitTransaction();
+
             if (realm != null) {
+                realm.commitTransaction();
                 realm.close();
+                System.out.println("REALM ************ TriggersConfigurationDBDataSourceImpl saveConfigData OK ");
             }
         }
     }

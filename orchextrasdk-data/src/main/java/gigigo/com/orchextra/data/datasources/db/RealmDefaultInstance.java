@@ -26,7 +26,7 @@ import io.realm.RealmConfiguration;
 public class RealmDefaultInstance {
 
     public synchronized Realm createRealmInstance(Context context) {
-
+        System.out.println("REALM ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ createRealmInstance");
         RealmConfiguration config =
                 new RealmConfiguration.Builder(context)
                         .deleteRealmIfMigrationNeeded()

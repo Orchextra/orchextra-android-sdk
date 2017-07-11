@@ -23,10 +23,9 @@ import com.gigigo.ggglib.mappers.ExternalClassToModelMapper;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraBeacon;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraTLMEddyStoneBeacon;
 import com.gigigo.orchextra.domain.model.triggers.params.BeaconDistanceType;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
 import org.altbeacon.beacon.Beacon;
 
 public class BeaconAndroidMapper
@@ -44,13 +43,32 @@ public class BeaconAndroidMapper
     return beaconList;
   }
 
+  public List<OrchextraBeacon> externalClassListToModelList(List<Beacon> beacons,
+      HashMap<String, String> eddyStoneUrlFrameMap) {
+    List<OrchextraBeacon> beaconList = new ArrayList<>();
+    for (Beacon beacon : beacons) {
+      String url="";
+     if(eddyStoneUrlFrameMap!=null && isEddyStone(beacon)){
+       url= eddyStoneUrlFrameMap.get((String)beacon.getBluetoothAddress());
+     }
+      beaconList.add(externalClassToModel(beacon,url));
+    }
+    return beaconList;
+  }
+
   @Override public OrchextraBeacon externalClassToModel(Beacon beacon) {
     if (isEddyStone(beacon))  //eddystone
     {
-      return createOrchextraEddyStoneBeacon(beacon);
+      return createOrchextraEddyStoneBeacon(beacon,"");
+    } else {
+      return createOrchextraIBeaconBeacon(beacon);
+    }
+  }
 
-
-
+   public OrchextraBeacon externalClassToModel(Beacon beacon,String url) {
+    if (isEddyStone(beacon))  //eddystone
+    {
+      return createOrchextraEddyStoneBeacon(beacon,url);
     } else {
       return createOrchextraIBeaconBeacon(beacon);
     }
@@ -66,7 +84,7 @@ public class BeaconAndroidMapper
     return beacon.getServiceUuid() == 0xfeaa;
   }
 
-  private OrchextraBeacon createOrchextraEddyStoneBeacon(Beacon beacon) {
+  private OrchextraBeacon createOrchextraEddyStoneBeacon(Beacon beacon, String url) {
     long telemetryVersion = 0l;
     long batteryMilliVolts = 0l;
     long temperature = 0l;
@@ -90,7 +108,7 @@ public class BeaconAndroidMapper
         convertToDecimalDegrees(temperature));
 
     return new OrchextraBeacon(beacon.getId1().toString(), beacon.getId2().toString(),
-        getEddyStoneDistance(beacon), tlm);
+        getEddyStoneDistance(beacon), tlm, url);
   }
 
   private BeaconDistanceType getEddyStoneDistance(Beacon beacon) {
@@ -128,7 +146,7 @@ public class BeaconAndroidMapper
       return -1.0; // if we cannot determine distance, return -1.
     }
 
-    double ratio = rssi * 1.0 / - 41;
+    double ratio = rssi * 1.0 / -41;
     if (ratio < 1.0) {
       return Math.pow(ratio, 10);
     } else {

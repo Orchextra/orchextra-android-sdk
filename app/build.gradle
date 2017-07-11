@@ -32,9 +32,9 @@ android {
     versionName "7.0.3" // parent.ext.androidVersionName
     //for VuforiaCredentials,VuforiaCredentials Only work with armv7 lib.so, in this case we exclude all
     //less than armv7, but not with exclude, wit Ndk { abifilters
-    ndk {
-      abiFilters "armeabi-v7a"
-    }
+//    ndk {
+//      abiFilters "armeabi-v7a"
+//    }
     //java8
     //        jackOptions {
     //            enabled true
@@ -112,7 +112,7 @@ dependencies {
   compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
 
   //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin support
-     compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
+    // compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
  // compile project(':vuforiaimplementation')
   //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
   play7StagingCompile project(path: ':orchextrasdk', configuration: 'play7Staging')

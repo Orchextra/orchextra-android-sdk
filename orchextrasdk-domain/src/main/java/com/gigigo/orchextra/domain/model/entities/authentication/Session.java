@@ -51,6 +51,7 @@ public class Session {
   public void setTokenString(String tokenString) {
     this.tokenString = tokenString;
     this.accessToken = tokenType + " " + tokenString;
+    System.out.println("REALM ************ setTokenString tokenstring: \n"+this.tokenString +"\naccesstoken:\n"+accessToken);
   }
 
   public String getTokenString() {

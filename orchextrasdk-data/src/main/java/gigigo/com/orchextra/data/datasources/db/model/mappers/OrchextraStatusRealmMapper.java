@@ -27,6 +27,8 @@ public class OrchextraStatusRealmMapper implements Mapper<OrchextraStatus, Orche
     OrchextraStatus orchextraStatus = new OrchextraStatus();
     orchextraStatus.setInitialized(data.isInitialized());
     orchextraStatus.setStarted(data.isStarted());
+
+    System.out.println("\n\n\n\nOrchextraStatusRealmMapper externalClassToModel\n\n\n\n"+data.isStarted());
     return orchextraStatus;
   }
 

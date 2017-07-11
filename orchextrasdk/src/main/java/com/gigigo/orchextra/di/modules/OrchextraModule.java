@@ -19,9 +19,7 @@
 package com.gigigo.orchextra.di.modules;
 
 import android.content.Context;
-
 import com.gigigo.ggglib.ContextProvider;
-import com.gigigo.ggglib.permissions.AndroidPermissionCheckerImpl;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.device.OrchextraLoggerImpl;
 import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
@@ -49,7 +47,6 @@ import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraContextProvide
 import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.model.CrmUserGenderConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
-
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 import orchextra.javax.inject.Singleton;

@@ -51,9 +51,13 @@ public class OrchextraBeacon {
     return tlmEddystone;
   }
 
-  public OrchextraBeacon(String namespaceId, String instanceId, BeaconDistanceType beaconDistance,
-      OrchextraTLMEddyStoneBeacon tlm) {
+  public String getUrl() {
+    return strUrl;
+  }
 
+  public OrchextraBeacon(String namespaceId, String instanceId, BeaconDistanceType beaconDistance,
+      OrchextraTLMEddyStoneBeacon tlm, String url) {
+    this.isEddyStone = true;
     this.nameSpaceId = namespaceId;
     this.instanceId = instanceId;
     this.uuid = "";
@@ -62,7 +66,9 @@ public class OrchextraBeacon {
     this.beaconDistance = beaconDistance;
     this.code = this.nameSpaceId + BEACON_EDDYSTONE_CODE_CONCAT_CHAR + this.instanceId;
     this.tlmEddystone = tlm;
-    this.isEddyStone = true;
+    this.strUrl = url;
+
+
   }
   //endregion
 

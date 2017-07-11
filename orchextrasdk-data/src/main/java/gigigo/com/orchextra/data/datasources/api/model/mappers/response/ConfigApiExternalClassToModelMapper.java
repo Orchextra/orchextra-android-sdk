@@ -72,17 +72,16 @@ public class ConfigApiExternalClassToModelMapper
     List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
     /*//asv hardcodding this is for testing behavior with eddystonebeacons and eddystoneregions
     //80EE872C-9229-4552-A0A9-02969FEEF0B8
-
-
     //PART 1
     List<OrchextraRegion> beaconsTruched = new ArrayList<>();
     for (int i = 0; i < beacons.size(); i++) {
       if (beacons.get(i).getMajor() == 666) {
         String code = beacons.get(i).getCode();
-        //eddystone blue beaconsTruched.add(new OrchextraRegion(code, "0xdee55ee72158449e9900", -1, -1, true));
+        //eddystone BlueVision beaconsTruched.add(new OrchextraRegion(code, "0xdee55ee72158449e9900", -1, -1, true));
         //new eddystonebeacon 4 c.c.
         //636f6b65634063656575
         //100000303975
+       //Eddystone ebest beaconsTruched.add(new OrchextraRegion(code, "636f6b65634063656575", -1, -1, true));
         beaconsTruched.add(new OrchextraRegion(code, "636f6b65634063656575", -1, -1, true));
       } else {
         beaconsTruched.add(beacons.get(i));
@@ -99,15 +98,6 @@ public class ConfigApiExternalClassToModelMapper
 
     VuforiaCredentials vuforiaCredentials =
         MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
-/*PART 2
-        return new ConfigurationInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND,
-                geofences,
-                beaconsTruched,
-                vuforiaCredentials,
-                availableCustomFieldTypeList,
-                crmCustomFields,
-                deviceCustomFields).build();
-*/
 
     return new ConfigurationInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND,
         geofences, beacons, vuforiaCredentials, availableCustomFieldTypeList, crmCustomFields,
