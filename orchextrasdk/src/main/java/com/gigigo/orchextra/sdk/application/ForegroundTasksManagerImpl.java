@@ -46,12 +46,18 @@ public class ForegroundTasksManagerImpl implements ForegroundTasksManager {
     if (granted) {
       orchextraTasksManager.initForegroundTasks(granted);
     } else {
-    //hotfix repsol
-      if(contextProvider!=null && contextProvider.getCurrentActivity()!=null) {
-        permissionChecker.askForPermission(permission, userPermissionRequestResponseListener,
-            contextProvider.getCurrentActivity());
-      }else
+      // orchextraTasksManager.initForegroundTasks(false);
+      //hotfix repsol
+      if (contextProvider != null && contextProvider.getCurrentActivity() != null) {
+        try {
+          permissionChecker.askForPermission(permission, userPermissionRequestResponseListener,
+              contextProvider.getCurrentActivity());
+        } catch (Throwable tr) {
+          orchextraTasksManager.initForegroundTasks(false);
+        }
+      } else {
         orchextraTasksManager.initForegroundTasks(false);
+      }
     }
   }
 

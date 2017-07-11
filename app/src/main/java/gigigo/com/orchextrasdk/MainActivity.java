@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //orchextraSDK
     getViews();
     setListeners();
-   // Orchextra.start();
+   Orchextra.start();//step 2 start with bad credentials for ask permission
     //Ad-Ons Motion and Bluetooth the UpdateConfig in on Mainactivity
     //App.mMotionServiceUtility.stop();//motion
   }

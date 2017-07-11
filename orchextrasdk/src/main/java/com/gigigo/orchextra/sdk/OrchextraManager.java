@@ -523,7 +523,7 @@ public class OrchextraManager implements Observer {
 
       OrchextraStatus status = new OrchextraStatus();
       status.setInitialized(true);
-      status.setStarted(true);
+      status.setStarted(false);
       Session session = new Session(BuildConfig.TOKEN_TYPE_BEARER);
       session.setAppParams(apiKey,apiSecret);
       status.setSession(session);

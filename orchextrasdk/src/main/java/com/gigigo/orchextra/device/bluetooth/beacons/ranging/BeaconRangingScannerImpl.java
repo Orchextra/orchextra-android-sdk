@@ -116,7 +116,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
             mEddyStoneUrlFrameMap = new HashMap<String, String>();
           }
           try {
-            beaconManager.startRangingBeaconsInRegion(new Region("",null, null, null));
+            beaconManager.startRangingBeaconsInRegion(new Region("", null, null, null));
             mIslookingForUrlFrame = true;
           } catch (RemoteException e) {
             e.printStackTrace();
@@ -136,12 +136,13 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
           mEddyStoneUrlFrameMap.put(beacon.getBluetoothAddress(),
               currentUrl); //tal vez utilizemos el btaddress
           // desencodear la url del beacon
-          System.out.println("eddystone url: "+currentUrl);
+          System.out.println("eddystone url: " + currentUrl);
         }
       }
       try {
         mIslookingForUrlFrame = false;
-        beaconManager.stopRangingBeaconsInRegion(region); //un scaneo y listo, si no encuentra la url no la envia y listo
+        beaconManager.stopRangingBeaconsInRegion(
+            region); //un scaneo y listo, si no encuentra la url no la envia y listo
       } catch (RemoteException e) {
         e.printStackTrace();
       }
@@ -180,7 +181,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         String url = "";
         if (mEddyStoneUrlFrameMap != null) {
           url = mEddyStoneUrlFrameMap.get(beacon.getBluetoothAddress());
-          if (url==null || !url.equals("")) isCompleteAllEddystone = true;
+          if (url == null || !url.equals("")) isCompleteAllEddystone = true;
         }
       }
     }
@@ -291,12 +292,21 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
   //asv ver con beni
   private void manageGeneralBackgroundScanTimes(BackgroundBeaconsRangingTimeType time) {
-    if (time == BackgroundBeaconsRangingTimeType.MAX) {
-      updateBackgroundScanTimes(BuildConfig.BACKGROUND_BEACONS_SCAN_TIME,
-          BuildConfig.BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME);
+
+    if (OrchextraManager.getBackgroundModeScan()
+        != BeaconBackgroundModeScan.HARDCORE.getIntensity()) {
+      if (time == BackgroundBeaconsRangingTimeType.MAX) {
+        updateBackgroundScanTimes(BuildConfig.BACKGROUND_BEACONS_SCAN_TIME,
+            BuildConfig.BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME);
+      } else {
+        updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
+            BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+      }
     } else {
+      //HARDCORE MODE, we need to wait some time between scanns, for preserve batt, but in hardcore we need
+      //very reactive notification
       updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
-          BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD);
+          BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD/3);
     }
   }
 

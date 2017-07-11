@@ -58,13 +58,16 @@ public class OrchextraBackgroundService extends Service {
       boolean pauseServices = shouldPauseServices(intent);
 
       if (pauseServices) {
+        System.out.println("pauseServices");
         pauseBackgroundTasks();
         return START_STICKY;
       } else {
         if (restartServices) {
+          System.out.println("restartServices");
           restartBackgroundTasks();
           return START_STICKY;
         } else {
+          System.out.println("orchextraStatusAccessor startBackgroundTasks refreshConfig");
           if (orchextraStatusAccessor != null && orchextraStatusAccessor.isStarted()
               || refreshConfig) {
             if (refreshConfig) {

@@ -71,18 +71,19 @@ public class DeviceModule {
         return new GoogleApiPermissionChecker(contextProvider.getApplicationContext(), featureListener);
     }
 
+    @Singleton
     @Provides
     PermissionChecker providePermissionChecker(ContextProvider contextProvider) {
         return new AndroidPermissionCheckerImpl(contextProvider.getApplicationContext(), contextProvider);
     }
 
-  //  @Singleton
+    @Singleton
     @Provides
     PermissionLocationImp providePermissionLocationImp(ContextProvider contextProvider) {
         return new PermissionLocationImp(contextProvider.getApplicationContext());
     }
 
-  //  @Singleton
+    @Singleton
     @Provides
     PermissionCameraImp providePermissionCameraImp(ContextProvider contextProvider) {
         return new PermissionCameraImp(contextProvider.getApplicationContext());
