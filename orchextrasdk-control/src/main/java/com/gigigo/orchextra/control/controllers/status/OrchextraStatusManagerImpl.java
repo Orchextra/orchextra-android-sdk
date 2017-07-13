@@ -10,88 +10,87 @@ import com.gigigo.orchextra.domain.services.status.UpdateOrchextraDomainServiceS
 
 public class OrchextraStatusManagerImpl implements OrchextraStatusManager {
 
-    private final Session session;
-    private final LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus;
-    private final UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus;
-    private final ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService;
+  private final Session session;
+  private final LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus;
+  private final UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus;
+  private final ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService;
 
-    private OrchextraStatus orchextraStatus = null;
+  private OrchextraStatus orchextraStatus = null;
 
-    public OrchextraStatusManagerImpl(Session session,
-                                      LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus,
-                                      UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus,
-                                      ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService) {
-        this.session = session;
-        this.loadOrchextraDomainServiceStatus = loadOrchextraDomainServiceStatus;
-        this.updateOrchextraDomainServiceStatus = updateOrchextraDomainServiceStatus;
-        this.clearOrchextraCredentialsDomainService = clearOrchextraCredentialsDomainService;
+  public OrchextraStatusManagerImpl(Session session,
+      LoadOrchextraDomainServiceStatus loadOrchextraDomainServiceStatus,
+      UpdateOrchextraDomainServiceStatus updateOrchextraDomainServiceStatus,
+      ClearOrchextraCredentialsDomainService clearOrchextraCredentialsDomainService) {
+    this.session = session;
+    this.loadOrchextraDomainServiceStatus = loadOrchextraDomainServiceStatus;
+    this.updateOrchextraDomainServiceStatus = updateOrchextraDomainServiceStatus;
+    this.clearOrchextraCredentialsDomainService = clearOrchextraCredentialsDomainService;
+  }
+
+  @Override public void setInitialized(boolean isInitialized) {
+    loadOrchextraStatus();
+    orchextraStatus.setInitialized(true);
+    updateOrchextraStatus();
+  }
+
+  @Override public void changeSdkCredentials(String apiKey, String apiSecret) {
+    clearSdkCredentials();
+    loadOrchextraStatus();
+    session.setAppParams(apiKey, apiSecret);
+    session.setTokenString(null);
+
+    orchextraStatus.setSession(session);
+    updateOrchextraStatus();
+  }
+
+  @Override public void setSDKstatusAsStarted() {
+    System.out.println("\n\n\n\nOrchextraStatusManagerImpl setSDKstatusAsStarted\n\n\n\n");
+    loadOrchextraStatus();
+    orchextraStatus.setStarted(true);
+    updateOrchextraStatus();
+  }
+
+  @Override public boolean isInitialized() {
+    loadOrchextraStatus();
+    return orchextraStatus.isInitialized();
+  }
+
+  @Override public boolean areCredentialsEquals(String startApiKey, String startApiSecret) {
+    loadOrchextraStatus();
+    String currentApiKey = "", currentApiSecret = "";
+
+    if (orchextraStatus != null && orchextraStatus.getSession() != null) {
+      currentApiKey = orchextraStatus.getSession().getApiKey();
+      currentApiSecret = orchextraStatus.getSession().getApiSecret();
+    }
+    return currentApiKey.equals(startApiKey) && currentApiSecret.equals(startApiSecret);
+  }
+
+  @Override public boolean isStarted() {
+    loadOrchextraStatus();
+    return orchextraStatus.isStarted();
+  }
+
+  @Override public boolean hasCredentials() {
+    loadOrchextraStatus();
+    String apiKey = "", apiSecret = "";
+    if (orchextraStatus != null && orchextraStatus.getSession() != null) {
+      apiKey = orchextraStatus.getSession().getApiKey();
+      apiSecret = orchextraStatus.getSession().getApiSecret();
     }
 
-    @Override
-    public void setInitialized(boolean isInitialized) {
-        loadOrchextraStatus();
-        orchextraStatus.setInitialized(true);
-        updateOrchextraStatus();
+    return (!apiKey.isEmpty() && !apiSecret.isEmpty());
+  }
+
+  @Override public void setStoppedStatus() {
+    loadOrchextraStatus();
+    if (orchextraStatus.isStarted()) {
+      orchextraStatus.setStarted(false);
+      updateOrchextraStatus();
     }
+  }
 
-    @Override
-    public void changeSdkCredentials(String apiKey, String apiSecret) {
-        clearSdkCredentials();
-        loadOrchextraStatus();
-        session.setAppParams(apiKey, apiSecret);
-        session.setTokenString(null);
-
-        orchextraStatus.setSession(session);
-        updateOrchextraStatus();
-    }
-
-    @Override
-    public void setSDKstatusAsStarted() {
-        System.out.println("\n\n\n\nOrchextraStatusManagerImpl setSDKstatusAsStarted\n\n\n\n");
-        loadOrchextraStatus();
-        orchextraStatus.setStarted(true);
-        updateOrchextraStatus();
-    }
-
-    @Override
-    public boolean isInitialized() {
-        loadOrchextraStatus();
-        return orchextraStatus.isInitialized();
-    }
-
-    @Override
-    public boolean areCredentialsEquals(String startApiKey, String startApiSecret) {
-        loadOrchextraStatus();
-        String currentApiKey = orchextraStatus.getSession().getApiKey();
-        String currentApiSecret = orchextraStatus.getSession().getApiSecret();
-        return currentApiKey.equals(startApiKey) && currentApiSecret.equals(startApiSecret);
-    }
-
-    @Override
-    public boolean isStarted() {
-        loadOrchextraStatus();
-        return orchextraStatus.isStarted();
-    }
-
-    @Override
-    public boolean hasCredentials() {
-        loadOrchextraStatus();
-        String apiKey = orchextraStatus.getSession().getApiKey();
-        String apiSecret = orchextraStatus.getSession().getApiSecret();
-        return (!apiKey.isEmpty() && !apiSecret.isEmpty());
-    }
-
-    @Override
-    public void setStoppedStatus() {
-        loadOrchextraStatus();
-        if (orchextraStatus.isStarted()) {
-            orchextraStatus.setStarted(false);
-            updateOrchextraStatus();
-        }
-    }
-
-
-    // region domain services
+  // region domain services
 
   /*
     The following two operations were thought at the beginning to be executed in a separate thread
@@ -104,49 +103,48 @@ public class OrchextraStatusManagerImpl implements OrchextraStatusManager {
     improvement if this operations become much more expensive.
    */
 
-    private OrchextraStatus loadOrchextraStatus() {
-        if (orchextraStatus == null) {
-            InteractorResponse<OrchextraStatus> response = loadOrchextraDomainServiceStatus.load();
-            if (!response.hasError()) {
-                this.orchextraStatus = response.getResult();
-            }
-        }
-        return orchextraStatus;
+  private OrchextraStatus loadOrchextraStatus() {
+    if (orchextraStatus == null) {
+      InteractorResponse<OrchextraStatus> response = loadOrchextraDomainServiceStatus.load();
+      if (!response.hasError()) {
+        this.orchextraStatus = response.getResult();
+      }
     }
+    return orchextraStatus;
+  }
 
-    private void updateOrchextraStatus() {
-        InteractorResponse<OrchextraStatus> response =
-                updateOrchextraDomainServiceStatus.update(orchextraStatus);
-        if (!response.hasError()) {
-            this.orchextraStatus = response.getResult();
-        }
+  private void updateOrchextraStatus() {
+    InteractorResponse<OrchextraStatus> response =
+        updateOrchextraDomainServiceStatus.update(orchextraStatus);
+    if (!response.hasError()) {
+      this.orchextraStatus = response.getResult();
     }
+  }
 
-    private void clearSdkCredentials() {
-        clearOrchextraCredentialsDomainService.clearSdkCredentials();
-    }
+  private void clearSdkCredentials() {
+    clearOrchextraCredentialsDomainService.clearSdkCredentials();
+  }
 
-    //endregion
+  //endregion
 
-
-    //region TODO
-    //TODO move CRM and Session management here
-    //@Override public Session getSession() {
-    //  //TODO
-    //  return null;
-    //}
-    //
-    //@Override public void updateSession(Session session) {
-    //  //TODO
-    //}
-    //
-    //@Override public CrmUser getCrmUser() {
-    //  //TODO
-    //  return null;
-    //}
-    //
-    //@Override public void updateCrm(CrmUser crm) {
-    //  //TODO
-    //}
-    // endregion
+  //region TODO
+  //TODO move CRM and Session management here
+  //@Override public Session getSession() {
+  //  //TODO
+  //  return null;
+  //}
+  //
+  //@Override public void updateSession(Session session) {
+  //  //TODO
+  //}
+  //
+  //@Override public CrmUser getCrmUser() {
+  //  //TODO
+  //  return null;
+  //}
+  //
+  //@Override public void updateCrm(CrmUser crm) {
+  //  //TODO
+  //}
+  // endregion
 }

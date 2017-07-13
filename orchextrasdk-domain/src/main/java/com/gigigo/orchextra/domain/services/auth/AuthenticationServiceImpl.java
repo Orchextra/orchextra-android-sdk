@@ -86,17 +86,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
       AuthCredentials authCredentials =
           new ClientAuthCredentials(interactorResponse.getResult(), deviceDetailsProvider, crmId);
       interactorResponse = authenticateClient(authCredentials, crmId);
-    }
-    else
-    {
+    } else {
       System.out.println("ERROR step 2");
     }
     return interactorResponse;
   }
 
   private InteractorResponse authenticateSDK() {
+    AuthCredentials authCredentials;
+    if (session != null) {
+      authCredentials = new SdkAuthCredentials(session.getApiKey(), session.getApiSecret());
+    } else
+    {
+      authCredentials = new SdkAuthCredentials("", "");
+    }
 
-    AuthCredentials authCredentials = new SdkAuthCredentials(session.getApiKey(), session.getApiSecret());
     BusinessObject<SdkAuthData> sdk = authDataProvider.authenticateSdk(authCredentials);
 
     if (!sdk.isSuccess()) {
