@@ -21,7 +21,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
@@ -152,12 +151,12 @@ public final class Orchextra {
       editor.commit();
 
       OrchextraManager.updateSDKCredentials(apiKey, apiSecret);
-      Toast.makeText(mApplication, "updateSDKCredentials:  primera vez", Toast.LENGTH_LONG).show();
+      //Toast.makeText(mApplication, "updateSDKCredentials:  primera vez", Toast.LENGTH_LONG).show();
     } else {
 
       System.out.println(
           "\n\n\n\n\n\n*\n\n\n\n\n\n*\n\n\n\n\n\n*\n\n\n\n\n\n*updateSDKCredentials:  reStart \n\n\n\n\n\n ");
-      Toast.makeText(mApplication, "updateSDKCredentials:  reStart", Toast.LENGTH_LONG).show();
+     // Toast.makeText(mApplication, "updateSDKCredentials:  reStart", Toast.LENGTH_LONG).show();
 
       // /refreshConfigurationInBackground
       Orchextra.refreshConfigurationInBackground(mApplication);
