@@ -64,7 +64,7 @@ public class FeatureList implements FeatureListener,
 
   private boolean areSuccess() {
     for (Feature feature : features) {
-      if (feature != null && !feature.isSuccess()) {
+       if (feature == null || !feature.isSuccess()) {
         return false;
       }
     }
