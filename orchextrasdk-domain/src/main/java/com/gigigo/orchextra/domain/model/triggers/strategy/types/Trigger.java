@@ -207,7 +207,6 @@ public abstract class Trigger {
                 this.eddyStoneTlmBehaviour = null;
             }
         };
-
         return trigger;
     }
 }

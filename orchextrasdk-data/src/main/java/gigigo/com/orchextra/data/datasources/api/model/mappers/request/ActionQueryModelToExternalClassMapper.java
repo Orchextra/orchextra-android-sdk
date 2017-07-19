@@ -20,13 +20,9 @@ package gigigo.com.orchextra.data.datasources.api.model.mappers.request;
 
 import com.gigigo.ggglib.mappers.ModelToExternalClassMapper;
 import com.gigigo.orchextra.domain.model.triggers.strategy.types.Trigger;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
+import gigigo.com.orchextra.data.datasources.api.model.requests.ApiEddyStoneRequest;
 import java.util.HashMap;
 import java.util.Map;
-
-import gigigo.com.orchextra.data.datasources.api.model.requests.ApiEddyStoneRequest;
 
 
 public class ActionQueryModelToExternalClassMapper
@@ -45,6 +41,7 @@ public class ActionQueryModelToExternalClassMapper
     private final static String TLM_UPTIME_QUERY_PARAM = "uptime";
     private final static String TLM_PDUCOUNT_QUERY_PARAM = "pducount";
     private final static String TLM_TLMVERSION_QUERY_PARAM = "tlmversion";
+    private final static String EDDYSTONE_URL_QUERY_PARAM = "url";
 
     @Override
     public Map<String, String> modelToExternalClass(Trigger trigger) {
@@ -80,6 +77,7 @@ public class ActionQueryModelToExternalClassMapper
             query.put(TLM_TEMPERATURE_QUERY_PARAM,String.valueOf(trigger.getEddyStoneTlmData().getTemperature()));
             query.put(TLM_TLMVERSION_QUERY_PARAM,String.valueOf(trigger.getEddyStoneTlmData().getTlmversion()));
             query.put(TLM_UPTIME_QUERY_PARAM,String.valueOf(trigger.getEddyStoneTlmData().getUptime()));
+            query.put(EDDYSTONE_URL_QUERY_PARAM,String.valueOf(trigger.getEddyStoneTlmData().getUrl()));
         }
         return query;
     }

@@ -23,6 +23,7 @@ import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureL
 import com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureType;
 import java.util.ArrayList;
 import java.util.List;
+
 //todo notcomplete
 public class FeatureList implements FeatureListener,
     com.gigigo.orchextra.domain.abstractions.initialization.features.FeatureStatus {
@@ -36,12 +37,14 @@ public class FeatureList implements FeatureListener,
 
   @Override public void onFeatureStatusChanged(Feature feature) {
 
-    if (features.contains(feature)) {
-      int index = features.indexOf(feature);
-      features.get(index).setStatus(feature.getStatus());
-    } else {
-      features.add(feature);
-      checkAllFeaturesAdded();
+    if (feature != null) {
+      if (features.contains(feature)) {
+        int index = features.indexOf(feature);
+        features.get(index).setStatus(feature.getStatus());
+      } else {
+        features.add(feature);
+        checkAllFeaturesAdded();
+      }
     }
   }
 
@@ -61,7 +64,7 @@ public class FeatureList implements FeatureListener,
 
   private boolean areSuccess() {
     for (Feature feature : features) {
-      if (!feature.isSuccess()) {
+      if (feature != null && !feature.isSuccess()) {
         return false;
       }
     }
@@ -79,7 +82,7 @@ public class FeatureList implements FeatureListener,
   @Override public String toString() {
     StringBuilder sb = new StringBuilder();
     for (Feature feature : features) {
-      sb.append(feature.toString() + "\n");
+      if (feature != null) sb.append(feature.toString() + "\n");
     }
     return sb.toString();
   }

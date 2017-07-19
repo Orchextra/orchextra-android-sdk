@@ -130,7 +130,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       //back to fore
       for (Beacon beacon : collection) {
         //fixme el siguietne if mejor en un metodo(isURLFRAME)
-        if (beacon.getBeaconTypeCode() == 0x10) {
+        if (isUrlFrame(beacon)) {
           String currentUrl = "";
           currentUrl = uncompress(beacon.getId1().toByteArray());
           mEddyStoneUrlFrameMap.put(beacon.getBluetoothAddress(),
@@ -161,6 +161,14 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       }
     }
     //endregion
+  }
+
+  private boolean isUrlFrame(Beacon beacon) {
+    if (beacon != null) {
+      return beacon.getBeaconTypeCode() == 0x10;
+    } else {
+      return false;
+    }
   }
 
   private boolean isEddyStone(Beacon beacon) {
@@ -306,7 +314,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       //HARDCORE MODE, we need to wait some time between scanns, for preserve batt, but in hardcore we need
       //very reactive notification
       updateBackgroundScanTimes(BeaconManager.DEFAULT_BACKGROUND_SCAN_PERIOD,
-          BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD/3);
+          BeaconManager.DEFAULT_BACKGROUND_BETWEEN_SCAN_PERIOD / 3);
     }
   }
 

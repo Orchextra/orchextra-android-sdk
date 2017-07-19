@@ -39,6 +39,9 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   public static final String CUSTOM_SCHEME = "webview://";
 
   // public static MotionServiceUtility mMotionServiceUtility;
+  //eddystone test
+  //public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
+  //public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
 
   @Override public void onCreate() {
     super.onCreate();
@@ -47,26 +50,25 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
   public void initOrchextra() {
 
-      System.out.println(
-          "REALM /////////////////////////////////////\n\n\n\n\n\n\n REALM se ejecuta el onCreate ");
-      String oxKey = "30a2d1032d623dadd345db6c7631fbaac704af45";
-      String oxSecret = "329e98d088e0cfaac1a190ee9fafb44cbea92b59";
-      //oxKey = "fake";
-      //oxSecret = "fake ";
-      OrchextraBuilder builder = new OrchextraBuilder(this)
-          .setApiKeyAndSecret(oxKey,oxSecret)
-          .setLogLevel(OrchextraLogLevel.NETWORK)
-          .setOrchextraCompletionCallback(this)
-          .setGcmSenderId(null)
-          .setNotificationActivityClass(MainActivity.class.toString())
+    System.out.println(
+        "REALM /////////////////////////////////////\n\n\n\n\n\n\n REALM se ejecuta el onCreate ");
+    String oxKey = "30a2d1032d623dadd345db6c7631fbaac704af45";
+    String oxSecret = "329e98d088e0cfaac1a190ee9fafb44cbea92b59";
+    //oxKey = "fake";
+    //oxSecret = "fake ";
+    OrchextraBuilder builder = new OrchextraBuilder(this).setApiKeyAndSecret(oxKey, oxSecret)
+        .setLogLevel(OrchextraLogLevel.NETWORK)
+        .setOrchextraCompletionCallback(this)
+        .setGcmSenderId(null)
+        .setNotificationActivityClass(MainActivity.class.toString())
         //  .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
-          .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);
-      //init Orchextra with builder configuration
-      Orchextra.initialize(builder);
-      //your can re set custom Scheme in other places(activities,services..)
-      Orchextra.setCustomSchemeReceiver(this);
-      //start Orchextra running, you can call stop() if you need
-       // Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
+        .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);
+    //init Orchextra with builder configuration
+    Orchextra.initialize(builder);
+    //your can re set custom Scheme in other places(activities,services..)
+    Orchextra.setCustomSchemeReceiver(this);
+    //start Orchextra running, you can call stop() if you need
+    // Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
 
     //region AdOns
     // mMotionServiceUtility = new MotionServiceUtility(this);
@@ -97,12 +99,16 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
   @Override public void onSuccess() {
     Log.d("APP", "onSuccess");
+
+    //new Handler(Looper.getMainLooper()).post(new Runnable() {
+    //  @Override public void run() {
+    //    Toast.makeText(App.this, "onSuccess:  app" , Toast.LENGTH_LONG).show();
+    //  }
+    //});
   }
 
-  @Override public void onError(String s) {
-
+  @Override public void onError(final String s) {
     // OrchextraBusinessErrors errorCode= (OrchextraBusinessErrors)s;
-
     //OrchextraBusinessErrors {
     //  NO_AUTH_EXPIRED(401),
     //  NO_AUTH_CREDENTIALS(403),
@@ -114,19 +120,40 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     System.out.println("onError: "
         + s
         + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    //new Handler(Looper.getMainLooper()).post(new Runnable() {
+    //  @Override public void run() {
+    //    Toast.makeText(App.this, "onError:  app" + s, Toast.LENGTH_LONG).show();
+    //  }
+    //});
   }
 
-  @Override public void onInit(String s) {
+  @Override public void onInit(final String s) {
     Log.d("APP", "onInit: " + s);
+    //new Handler(Looper.getMainLooper()).post(new Runnable() {
+    //  @Override public void run() {
+    //    Toast.makeText(App.this, "onInit:  app", Toast.LENGTH_LONG).show();
+    //  }
+    //});
   }
 
-  @Override public void onConfigurationReceive(String s) {
+  @Override public void onConfigurationReceive(final String s) {
     Log.i("", "Access Token:" + s);
     Log.d("APP", "onInit: " + s);
+System.out.println("Access Token:" + s);
+    //new Handler(Looper.getMainLooper()).post(new Runnable() {
+    //  @Override public void run() {
+    //    Toast.makeText(App.this, "onConfigurationReceive:  app" + s, Toast.LENGTH_LONG).show();
+    //  }
+    //});
   }
 
-  @Override public void onReceive(String scheme) {
+  @Override public void onReceive(final String scheme) {
     Log.d("APP", "Scheme: " + scheme);
+    //new Handler(Looper.getMainLooper()).post(new Runnable() {
+    //  @Override public void run() {
+    //    Toast.makeText(App.this, "onReceive:  app" + scheme, Toast.LENGTH_LONG).show();
+    //  }
+    //});
   }
 }
 

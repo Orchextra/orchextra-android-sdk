@@ -32,7 +32,6 @@ public class OrchextraRegion extends ProximityItem implements ScheduledActionEve
   private final boolean active;
 /*asv fixme test for eddystoneregion, redefine UUID*/
 
-
   public OrchextraRegion(String code, String uuid, int major, int minor, boolean active) {
     this.code = code;
     this.uuid = uuid;
@@ -46,7 +45,11 @@ public class OrchextraRegion extends ProximityItem implements ScheduledActionEve
   }
 
   public String getUuid() {
-    return uuid;
+    if (uuid != null) {
+      return uuid.replace("0x", ""); //this is for eddystone, avoid 0x(hex meaning)
+    } else {
+      return uuid;
+    }
   }
 
   public int getMinor() {
@@ -85,7 +88,8 @@ public class OrchextraRegion extends ProximityItem implements ScheduledActionEve
     }
   }
 
-  public void setActionRelatedWithRegionAndGeofences(ActionRelatedWithRegionAndGeofences actionRelatedWithRegionAndGeofences) {
+  public void setActionRelatedWithRegionAndGeofences(
+      ActionRelatedWithRegionAndGeofences actionRelatedWithRegionAndGeofences) {
     this.actionRelatedWithRegionAndGeofences = actionRelatedWithRegionAndGeofences;
   }
 

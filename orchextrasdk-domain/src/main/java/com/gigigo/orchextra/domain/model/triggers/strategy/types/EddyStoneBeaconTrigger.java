@@ -15,21 +15,25 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEv
  */
 public class EddyStoneBeaconTrigger extends Trigger {
 
-    private final BeaconDistanceType beaconDistanceType;
-    private final OrchextraTLMEddyStoneBeacon tlmData;
+  private final BeaconDistanceType beaconDistanceType;
+  private final OrchextraTLMEddyStoneBeacon tlmData;
 
-    public EddyStoneBeaconTrigger(OrchextraBeacon orchextraBeacon, AppRunningModeType appRunningMode) {
-        super(TriggerType.EDDYSTONE, orchextraBeacon.getCode(), null, appRunningMode);
-        this.beaconDistanceType = orchextraBeacon.getBeaconDistance();
-        this.tlmData = orchextraBeacon.getTlmEddystone();
-    }
 
-    //asv this method no-sense refactor
-    @Override
-    void setConcreteBehaviour() {
-        this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(beaconDistanceType);
-        this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(null);
-        this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
-        this.eddyStoneTlmBehaviour = new EddyStoneTlmBehaviourImpl(this.tlmData);
-    }
+  public EddyStoneBeaconTrigger(OrchextraBeacon orchextraBeacon,
+      AppRunningModeType appRunningMode) {
+    super(TriggerType.EDDYSTONE, orchextraBeacon.getCode(), null, appRunningMode);
+    this.beaconDistanceType = orchextraBeacon.getBeaconDistance();
+    this.tlmData = orchextraBeacon.getTlmEddystone();
+    this.tlmData.setUrl(orchextraBeacon.getUrl());
+
+  }
+
+  //asv this method no-sense refactor
+  @Override void setConcreteBehaviour() {
+    this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(beaconDistanceType);
+    this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(null);
+    this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
+    this.eddyStoneTlmBehaviour = new EddyStoneTlmBehaviourImpl(this.tlmData);
+  }
+
 }

@@ -171,11 +171,11 @@ public class ProximityEventsUpdater {
         codes.add(beaconEventRealm.getCode());
 /*
         orchextraLogger.log("B.UUID:"
-            + beaconEventRealm.getUuid()
+            + beaconEventRealm.getNamespace()
             + "_"
             + beaconEventRealm.getMayor()
             + "_"
-            + beaconEventRealm.getMinor()
+            + beaconEventRealm.getName()
             + ":"
             + beaconEventRealm.getBeaconDistance()
             +

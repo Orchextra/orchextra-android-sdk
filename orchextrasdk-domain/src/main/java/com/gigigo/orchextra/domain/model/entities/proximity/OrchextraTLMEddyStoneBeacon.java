@@ -10,11 +10,13 @@ public class OrchextraTLMEddyStoneBeacon {
     private long uptime;
     private long pducount;
     private long tlmversion;
+    private String url;
 
-    public OrchextraTLMEddyStoneBeacon(long uptime, long battery, double temperature) {
+    public OrchextraTLMEddyStoneBeacon(long uptime, long battery, double temperature,String url) {
         this.uptime = uptime;
         this.battery = battery;
         this.temperature = temperature;
+        this.url =url;
     }
 
     public double getTemperature() {
@@ -55,5 +57,13 @@ public class OrchextraTLMEddyStoneBeacon {
 
     public void setTlmversion(long tlmversion) {
         this.tlmversion = tlmversion;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

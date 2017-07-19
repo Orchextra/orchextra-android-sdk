@@ -27,17 +27,16 @@ import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegion;
 import com.gigigo.orchextra.domain.model.entities.tags.AvailableCustomField;
 import com.gigigo.orchextra.domain.model.entities.tags.CrmCustomFields;
 import com.gigigo.orchextra.domain.model.entities.tags.DeviceCustomFields;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiAvailableCustomFieldType;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiConfigData;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiCrmCustomFields;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiDeviceCustomFields;
+import gigigo.com.orchextra.data.datasources.api.model.responses.ApiEddyStoneRegion;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiGeofence;
 import gigigo.com.orchextra.data.datasources.api.model.responses.ApiRegion;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ConfigApiExternalClassToModelMapper
     implements ExternalClassToModelMapper<ApiConfigData, ConfigurationInfoResult> {
@@ -46,6 +45,7 @@ public class ConfigApiExternalClassToModelMapper
 
   private final GeofenceExternalClassToModelMapper geofenceResponseMapper;
   private final BeaconExternalClassToModelMapper beaconResponseMapper;
+  private final EddyStoneBeaconExternalClassToModelMapper eddyStoneBeaconResponseMapper;
 
   private final VuforiaExternalClassToModelMapper vuforiaResponseMapper;
   private final AvailableCustomFieldExternalClassToModelMapper availableCustomFieldResponseMapper;
@@ -55,6 +55,7 @@ public class ConfigApiExternalClassToModelMapper
   public ConfigApiExternalClassToModelMapper(
       VuforiaExternalClassToModelMapper vuforiaResponseMapper,
       BeaconExternalClassToModelMapper beaconResponseMapper,
+      EddyStoneBeaconExternalClassToModelMapper eddyStoneBeaconResponseMapper,
       GeofenceExternalClassToModelMapper geofenceResponseMapper,
       AvailableCustomFieldExternalClassToModelMapper availableCustomFieldResponseMapper,
       CrmCustomFieldsExternalClassToModelMapper crmResponseMapper,
@@ -65,11 +66,35 @@ public class ConfigApiExternalClassToModelMapper
     this.availableCustomFieldResponseMapper = availableCustomFieldResponseMapper;
     this.crmResponseMapper = crmResponseMapper;
     this.deviceResponseMapper = deviceResponseMapper;
+    this.eddyStoneBeaconResponseMapper = eddyStoneBeaconResponseMapper;
   }
 
   @Override public ConfigurationInfoResult externalClassToModel(ApiConfigData apiConfigData) {
 
     List<OrchextraRegion> beacons = mapBeacons(apiConfigData.getProximity());
+
+    //eddystone
+
+    //asv a nivel de monitoring sea una region de ibeacon o de eddystone son iguals
+    //lo q hacemos a continuación es crear una nueva lista de orcehxraBeacon y añadir de las dos fuentes
+    //regiones de beacon y regiones eddystone
+
+    List<OrchextraRegion> eddyStoneRegions =
+        mapEddyStoneLikeIBeacons(apiConfigData.getEddystoneRegions());
+
+    List<OrchextraRegion> regionsIBeaconsEddyStone = new ArrayList<>();
+
+    if (beacons != null) {
+      for (OrchextraRegion item : beacons) {
+        regionsIBeaconsEddyStone.add(item);
+      }
+    }
+    if (eddyStoneRegions != null) {
+      for (OrchextraRegion item : eddyStoneRegions) {
+        regionsIBeaconsEddyStone.add(item);
+      }
+    }
+
     /*//asv hardcodding this is for testing behavior with eddystonebeacons and eddystoneregions
     //80EE872C-9229-4552-A0A9-02969FEEF0B8
     //PART 1
@@ -100,7 +125,7 @@ public class ConfigApiExternalClassToModelMapper
         MapperUtils.checkNullDataResponse(vuforiaResponseMapper, apiConfigData.getVuforia());
 
     return new ConfigurationInfoResult.Builder(apiConfigData.getRequestWaitTime() * ONE_SECOND,
-        geofences, beacons, vuforiaCredentials, availableCustomFieldTypeList, crmCustomFields,
+        geofences, regionsIBeaconsEddyStone, vuforiaCredentials, availableCustomFieldTypeList, crmCustomFields,
         deviceCustomFields).build();
   }
 
@@ -122,6 +147,19 @@ public class ConfigApiExternalClassToModelMapper
     if (apiRegions != null) {
       for (ApiRegion apiRegion : apiRegions) {
         beacons.add(MapperUtils.checkNullDataResponse(beaconResponseMapper, apiRegion));
+      }
+    }
+
+    return beacons;
+  }
+
+  private List<OrchextraRegion> mapEddyStoneLikeIBeacons(
+      List<ApiEddyStoneRegion> apiEddyStoneRegions) {
+    List<OrchextraRegion> beacons = new ArrayList<>();
+
+    if (apiEddyStoneRegions != null) {
+      for (ApiEddyStoneRegion region : apiEddyStoneRegions) {
+        beacons.add(MapperUtils.checkNullDataResponse(eddyStoneBeaconResponseMapper, region));
       }
     }
 

@@ -29,23 +29,34 @@ import com.gigigo.orchextra.domain.model.triggers.strategy.behaviours.GeoPointEv
 
 public class BeaconRegionTrigger extends Trigger {
 
-    private final GeoPointEventType geoPointEventType;
+  private final GeoPointEventType geoPointEventType;
 
-    public BeaconRegionTrigger(OrchextraRegion orchextraRegion, AppRunningModeType appRunningMode) {
-        super(TriggerType.REGION, orchextraRegion.getCode(), null, appRunningMode);
-        this.geoPointEventType =
-                GeoPointEventType.getTypeFromString(orchextraRegion.getRegionEvent().getStringValue());
-        this.isTriggerable = true;
+  public BeaconRegionTrigger(OrchextraRegion orchextraRegion, AppRunningModeType appRunningMode) {
 
+    super(getTypeRegion(orchextraRegion.getUuid()), orchextraRegion.getCode(), null,
+        appRunningMode);
+    this.geoPointEventType =
+        GeoPointEventType.getTypeFromString(orchextraRegion.getRegionEvent().getStringValue());
 
+    this.isTriggerable = true;
+  }
+
+  private static TriggerType getTypeRegion(String code) {
+    TriggerType typeRegion;
+    if (code != null && code.length() == 20) {
+      typeRegion = TriggerType.EDDYSTONE_REGION;
+    } else {
+      typeRegion = TriggerType.REGION;
     }
 
-    //asv this method no-sense refactor
-    @Override
-    void setConcreteBehaviour() {
-        this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(null);
-        this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(geoPointEventType);
-        this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
-        this.eddyStoneTlmBehaviour = new EddyStoneTlmBehaviourImpl(null);
-    }
+    return typeRegion;
+  }
+
+  //asv this method no-sense refactor
+  @Override void setConcreteBehaviour() {
+    this.beaconDistanceTypeBehaviour = new BeaconDistanceTypeBehaviourImpl(null);
+    this.geoPointEventTypeBehaviour = new GeoPointEventTypeBehaviourImpl(geoPointEventType);
+    this.geoDistanceBehaviour = new GeoDistanceBehaviourImpl(0.0);
+    this.eddyStoneTlmBehaviour = new EddyStoneTlmBehaviourImpl(null);
+  }
 }

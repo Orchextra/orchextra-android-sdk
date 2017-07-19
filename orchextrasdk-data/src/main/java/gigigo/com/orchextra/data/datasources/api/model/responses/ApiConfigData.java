@@ -36,6 +36,10 @@ public class ApiConfigData {
     private List<ApiRegion> proximity;
 
     @Expose
+    @SerializedName("eddystoneRegions")
+    private List<ApiEddyStoneRegion> eddystoneRegions;
+
+    @Expose
     @SerializedName("vuforia")
     private ApiVuforiaCredentials vuforia;
 
@@ -97,5 +101,13 @@ public class ApiConfigData {
 
     public ApiDeviceCustomFields getDevice() {
         return device;
+    }
+
+    public List<ApiEddyStoneRegion> getEddystoneRegions() {
+        return eddystoneRegions;
+    }
+
+    public void setEddystoneRegions(List<ApiEddyStoneRegion> eddystoneRegions) {
+        this.eddystoneRegions = eddystoneRegions;
     }
 }

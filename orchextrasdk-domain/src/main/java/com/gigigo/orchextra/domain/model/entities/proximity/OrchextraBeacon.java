@@ -41,7 +41,7 @@ public class OrchextraBeacon {
   private String instanceId;
   private boolean isEddyStone = false;
   private OrchextraTLMEddyStoneBeacon tlmEddystone;
-  private String strUrl = ""; //not use for now
+  private String strUrl = ""; //not use for now, inside tlm
 
   public boolean isEddyStone() {
     return isEddyStone;
@@ -64,11 +64,11 @@ public class OrchextraBeacon {
     this.mayor = 0;
     this.minor = 0;
     this.beaconDistance = beaconDistance;
-    this.code = this.nameSpaceId + BEACON_EDDYSTONE_CODE_CONCAT_CHAR + this.instanceId;
+    //this.code = this.nameSpaceId + BEACON_EDDYSTONE_CODE_CONCAT_CHAR + this.instanceId;
+   if(namespaceId!=null && instanceId!=null)
+    this.code = this.nameSpaceId.replace("0x","") + BEACON_EDDYSTONE_CODE_CONCAT_CHAR + this.instanceId.replace("0x","");
     this.tlmEddystone = tlm;
     this.strUrl = url;
-
-
   }
   //endregion
 

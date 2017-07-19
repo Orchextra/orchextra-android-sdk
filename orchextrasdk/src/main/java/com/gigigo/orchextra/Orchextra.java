@@ -21,6 +21,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
@@ -108,7 +109,7 @@ public final class Orchextra {
 
     bckBeaconMode = orchextraBuilder.getBckBeaconMode();
 
-   //FIXME realm
+    //FIXME realm
     //this prevent when the realm no work properly in some devices and set the status with initialize false,started false
     OrchextraManager.resetoxStatusRealmFix();
 
@@ -143,12 +144,24 @@ public final class Orchextra {
             Context.MODE_PRIVATE);
     SharedPreferences.Editor editor = prefs.edit();
 
-    editor.putString("apikey", apiKey);
-    editor.putString("apisecret", apiSecret);
-    editor.commit();
+    String myApiKey = prefs.getString("apikey", "");
+    String myApiSecret = prefs.getString("apisecret", "");
+    if ((!myApiKey.equals(apiKey)) || (!myApiSecret.equals(apiSecret))) {
+      editor.putString("apikey", apiKey);
+      editor.putString("apisecret", apiSecret);
+      editor.commit();
 
-    OrchextraManager.updateSDKCredentials(apiKey, apiSecret);
+      OrchextraManager.updateSDKCredentials(apiKey, apiSecret);
+      Toast.makeText(mApplication, "updateSDKCredentials:  primera vez", Toast.LENGTH_LONG).show();
+    } else {
 
+      System.out.println(
+          "\n\n\n\n\n\n*\n\n\n\n\n\n*\n\n\n\n\n\n*\n\n\n\n\n\n*updateSDKCredentials:  reStart \n\n\n\n\n\n ");
+      Toast.makeText(mApplication, "updateSDKCredentials:  reStart", Toast.LENGTH_LONG).show();
+
+      // /refreshConfigurationInBackground
+      Orchextra.refreshConfigurationInBackground(mApplication);
+    }
     //region reset all things like beaconmode, notificationactivity, check current value post update
     System.out.println(
         "REALM ************ updateSDKCredentials bckBeaconMode :\n " + bckBeaconMode);

@@ -105,7 +105,7 @@ public class BeaconAndroidMapper
       }
     }
     OrchextraTLMEddyStoneBeacon tlm = new OrchextraTLMEddyStoneBeacon(uptime, batteryMilliVolts,
-        convertToDecimalDegrees(temperature));
+        convertToDecimalDegrees(temperature),url);
 
     return new OrchextraBeacon(beacon.getId1().toString(), beacon.getId2().toString(),
         getEddyStoneDistance(beacon), tlm, url);
@@ -160,7 +160,7 @@ public class BeaconAndroidMapper
   //endregion
   //eddystone Degrees
   private float convertToDecimalDegrees(long temperature) {
-    String temperatureSTR = "N/S";
+
     float tempF = 0.0f;
     if (temperature > 0) tempF = temperature / 256f;
 
