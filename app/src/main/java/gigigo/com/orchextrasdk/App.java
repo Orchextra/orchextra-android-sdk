@@ -30,8 +30,8 @@ import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import gigigo.com.orchextrasdk.adonservices.UpdateConfigReceiver;
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
-  public static String API_KEY = "338d65a6572be208f25a9a5815861543adaa4abb";
-  public static String API_SECRET = "b29dac01598f9d8e2102aef73ac816c0786843ef";
+  //public static String API_KEY = "338d65a6572be208f25a9a5815861543adaa4abb";
+  //public static String API_SECRET = "b29dac01598f9d8e2102aef73ac816c0786843ef";
 
   public static final String SENDER_ID = "Your_Sender_ID";
   //if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
@@ -40,8 +40,8 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
   // public static MotionServiceUtility mMotionServiceUtility;
   //eddystone test
-  //public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
-  //public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
+  public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
+  public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
 
   @Override public void onCreate() {
     super.onCreate();
@@ -56,7 +56,8 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     String oxSecret = "329e98d088e0cfaac1a190ee9fafb44cbea92b59";
     //oxKey = "fake";
     //oxSecret = "fake ";
-    OrchextraBuilder builder = new OrchextraBuilder(this).setApiKeyAndSecret(oxKey, oxSecret)
+    OrchextraBuilder builder = new OrchextraBuilder(this)
+        .setApiKeyAndSecret(oxKey, oxSecret)
         .setLogLevel(OrchextraLogLevel.NETWORK)
         .setOrchextraCompletionCallback(this)
         .setGcmSenderId(null)

@@ -69,8 +69,8 @@ android {
   buildTypes {
     staging{
       signingConfig android.signingConfigs.debug
-      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
-     // buildConfigField STRING, "API_URL", '"https://sdk-demo-1.s.orchextra.io/"'
+      //  buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
+     buildConfigField STRING, "API_URL", '"https://sdk-demo-1.s.orchextra.io/"'
       debuggable true
     }
     debug{

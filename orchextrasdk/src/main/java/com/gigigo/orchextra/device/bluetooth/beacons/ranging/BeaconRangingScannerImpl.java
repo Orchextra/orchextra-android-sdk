@@ -78,6 +78,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   }
 
   static HashMap<String, String> mEddyStoneUrlFrameMap;
+  static HashMap<String, Long> mEddyStoneUrlTimeStamp;
   // static HashMap<String, Long> mEddyStoneTimeStamp; guardar el nombre del eddystone y la hora, para deperminar si esta complete o no
   static boolean mIslookingForUrlFrame = false;
 
@@ -103,7 +104,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         List<OrchextraBeacon> beacons =
             beaconAndroidMapper.externalClassListToModelList(beaconsList, mEddyStoneUrlFrameMap);
         beaconsController.onBeaconsDetectedInRegion(beacons);
-        mEddyStoneUrlFrameMap = new HashMap<String, String>();//resset urls
+        mEddyStoneUrlFrameMap = new HashMap<String, String>();//resset
+        mEddyStoneUrlTimeStamp = null; //reset timestamp
       } else {
         //asv si no están completos es xq hay algun eddystone, y debemos buscar el frame url
         //para ello creamos una region nulla q no estará entre las regiones regions.cointauns..., con lo cul irá ç
@@ -116,7 +118,8 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
             mEddyStoneUrlFrameMap = new HashMap<String, String>();
           }
           try {
-            beaconManager.startRangingBeaconsInRegion(new Region("", null, null, null));
+
+            beaconManager.startRangingBeaconsInRegion(new Region("UrlEddyStone", null, null, null));
             mIslookingForUrlFrame = true;
           } catch (RemoteException e) {
             e.printStackTrace();
@@ -127,24 +130,26 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       //asv aqui vendra la region new Region(null,null,null) es el else--> if (regions.contains(region))
       //y sólo nos interesa meter en el hashMap de url el frame de url, lo cual va ser divertido
       //ya q habría que setear un timeout por cada uid eddystone, y persistir el tiemstamp, x si hay cambios de
-      //back to fore
+      //back to fore...
       for (Beacon beacon : collection) {
-        //fixme el siguietne if mejor en un metodo(isURLFRAME)
         if (isUrlFrame(beacon)) {
           String currentUrl = "";
-          currentUrl = uncompress(beacon.getId1().toByteArray());
-          mEddyStoneUrlFrameMap.put(beacon.getBluetoothAddress(),
-              currentUrl); //tal vez utilizemos el btaddress
-          // desencodear la url del beacon
+          currentUrl = uncompress(beacon.getId1().toByteArray());// desencodear la url del beacon
+          //asv 4 test if timeout works with eddystone, comment the next line
+          mEddyStoneUrlFrameMap.put(beacon.getBluetoothAddress(), currentUrl);
+
           System.out.println("eddystone url: " + currentUrl);
         }
       }
-      try {
-        mIslookingForUrlFrame = false;
-        beaconManager.stopRangingBeaconsInRegion(
-            region); //un scaneo y listo, si no encuentra la url no la envia y listo
-      } catch (RemoteException e) {
-        e.printStackTrace();
+      if (isCompleteDataInside(beaconsList)) {
+        try {
+
+          mIslookingForUrlFrame = false;
+          beaconManager.stopRangingBeaconsInRegion(
+              region); //un scaneo y listo, si no encuentra la url no la envia y listo
+        } catch (RemoteException e) {
+          e.printStackTrace();
+        }
       }
     }
     //region show beacon info by console
@@ -178,18 +183,54 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   private boolean isCompleteDataInside(List<Beacon> beaconsList) {
     //1º lee del static urlsHashMap, en la q va btNam|url, para añadirselas a los beacon? o simplemente para validar q todos
     //los eddystone de la lista tiene url ne la statichashmap o bien tiene el id3 mayor de 10-20, whatever
+
+    //TODO SOLUCION 1 al timestamp de URL NO IMPLEMENTADA
     //asv este método comprueba que si hay eddystone en la lista, y q estos
     //lleven la url completa, si no le suma 1 al id3, si el id3 es por ejemplo 10 lo da por completo y a bailar
 
     boolean isCompleteAllEddystone = true;
-
+    String url = "";
     for (Beacon beacon : beaconsList) {
       if (isEddyStone(beacon)) {
+        //se presupone incompleto
         isCompleteAllEddystone = false;
-        String url = "";
-        if (mEddyStoneUrlFrameMap != null) {
-          url = mEddyStoneUrlFrameMap.get(beacon.getBluetoothAddress());
-          if (url == null || !url.equals("")) isCompleteAllEddystone = true;
+        // timestamp for timeout url
+        if (mEddyStoneUrlTimeStamp == null) mEddyStoneUrlTimeStamp = new HashMap<>();
+        System.out.println("EddyStone: "
+            + beacon.getBluetoothName()
+            + " "
+            + beacon.getBluetoothAddress()
+            + "\n\n BUSCANDO URL... "
+            + url);
+        Long timeEddyStoneBeacon = mEddyStoneUrlTimeStamp.get(beacon.getBluetoothAddress());
+        //si el beacon no está, lo agrega y pone el current milis
+        if (timeEddyStoneBeacon == null) {
+          mEddyStoneUrlTimeStamp.put(beacon.getBluetoothAddress(), System.currentTimeMillis());
+        } else {
+          //si el beacon ya está con anterioridad, se comprueba que no esté expirado,
+          if (isBeaconUrlTimeOutExpired(timeEddyStoneBeacon)) {
+            System.out.println("EddyStone: "
+                + beacon.getBluetoothName()
+                + " "
+                + beacon.getBluetoothAddress()
+                + "\n\n EXPIRADO");
+            isCompleteAllEddystone = true;// Expirado-> se marca como completo
+          } else {
+            //NO Expirado-> se busca la url en el hashmap de urls para establecerlo completo
+            if (mEddyStoneUrlFrameMap != null) {
+              url = mEddyStoneUrlFrameMap.get(beacon.getBluetoothAddress());
+              //asv aquí está el truco para enviarlo sin esperar url, cambiar url != null && por  url == null ||
+              if (url != null && !url.equals("")) {
+                isCompleteAllEddystone = true;
+                System.out.println("EddyStone: "
+                    + beacon.getBluetoothName()
+                    + " "
+                    + beacon.getBluetoothAddress()
+                    + "\n\n URL ENCONTRADA "
+                    + url);
+              }
+            }
+          }
         }
       }
     }
@@ -271,6 +312,20 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     initRanging(backgroundBeaconsRangingTimeType);
   }
 
+  static final long IGNORE_URL_FRAME_TIMEOUT = 6000; //6sg
+
+  private boolean isBeaconUrlTimeOutExpired(Long timeEddyStoneBeacon) {
+    if (timeEddyStoneBeacon != null) {
+      if (timeEddyStoneBeacon + IGNORE_URL_FRAME_TIMEOUT > System.currentTimeMillis()) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  }
+
   private void initRanging(
       final BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType) {
 
@@ -287,7 +342,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
 
             //maybe wecan create scanner only forparse url eddystone, we need to check
             manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
-            //asv hay q rescanear de region null
+            //asv hay q rescanear de region null para detectar urls de eddystone(se hace en el didenter)
             beaconManager.startRangingBeaconsInRegion(region);
             ranging = true;
           } catch (RemoteException e) {
@@ -298,7 +353,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
     }).start();
   }
 
-  //asv ver con beni
+  //asv ver con beni, lo del upgrade de tiempos troleaba ya q nunca conserbaba los valores x esto:
   private void manageGeneralBackgroundScanTimes(BackgroundBeaconsRangingTimeType time) {
 
     if (OrchextraManager.getBackgroundModeScan()
