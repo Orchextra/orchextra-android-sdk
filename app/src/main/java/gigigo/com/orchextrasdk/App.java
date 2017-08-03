@@ -40,8 +40,8 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
   // public static MotionServiceUtility mMotionServiceUtility;
   //eddystone test
-  public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
-  public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
+  public static String API_KEY = "122f51a9f80a93270dfbd61b027155936031bba9";
+  public static String API_SECRET = "54b0294038ae8118db6d996d4db4e082aa8447df";
 
   @Override public void onCreate() {
     super.onCreate();
@@ -56,8 +56,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     String oxSecret = "329e98d088e0cfaac1a190ee9fafb44cbea92b59";
     //oxKey = "fake";
     //oxSecret = "fake ";
-    OrchextraBuilder builder = new OrchextraBuilder(this)
-        .setApiKeyAndSecret(oxKey, oxSecret)
+    OrchextraBuilder builder = new OrchextraBuilder(this).setApiKeyAndSecret(oxKey, oxSecret)
         .setLogLevel(OrchextraLogLevel.NETWORK)
         .setOrchextraCompletionCallback(this)
         .setGcmSenderId(null)
@@ -140,7 +139,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   @Override public void onConfigurationReceive(final String s) {
     Log.i("", "Access Token:" + s);
     Log.d("APP", "onInit: " + s);
-System.out.println("Access Token:" + s);
+    System.out.println("Access Token:" + s);
     //new Handler(Looper.getMainLooper()).post(new Runnable() {
     //  @Override public void run() {
     //    Toast.makeText(App.this, "onConfigurationReceive:  app" + s, Toast.LENGTH_LONG).show();
