@@ -20,12 +20,12 @@ apply plugin: 'com.android.application'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 
 android {
-  compileSdkVersion parent.ext.androidCompileSdkVersion
-  //  buildToolsVersion parent.ext.androidBuildToolsVersion
-  buildToolsVersion = "23.0.1"
+  compileSdkVersion 25
+  buildToolsVersion "24.0.3"
+
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
-    minSdkVersion 11
+    minSdkVersion 16
     //parent.ext.androidMinSdkVersion //you can change that, but you need API >=10 for fabmenu
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode
@@ -77,67 +77,69 @@ android {
     targetCompatibility JavaVersion.VERSION_1_7 //java7
   }
 
-  productFlavors {
-    play7 {}
-    play8 {}
-    play9 {}
-    play10 {}
-    playno {}
-  }
+//  productFlavors {
+//    play7 {}
+//    play8 {}
+//    play9 {}
+//    play10 {}
+//    playno {}
+//  }
 }
 
-configurations {
-  play7StagingCompile
-  play8StagingCompile
-  play9StagingCompile
-  play10StagingCompile
-  playnoStagingCompile
-
-  play7DebugCompile
-  play8DebugCompile
-  play9DebugCompile
-  play10DebugCompile
-  playnoDebugCompile
-
-  play7ReleaseCompile
-  play8ReleaseCompile
-  play9ReleaseCompile
-  play10ReleaseCompile
-  playnoReleaseCompile
-}
+//configurations {
+//  play7StagingCompile
+//  play8StagingCompile
+//  play9StagingCompile
+//  play10StagingCompile
+//  playnoStagingCompile
+//
+//  play7DebugCompile
+//  play8DebugCompile
+//  play9DebugCompile
+//  play10DebugCompile
+//  playnoDebugCompile
+//
+//  play7ReleaseCompile
+//  play8ReleaseCompile
+//  play9ReleaseCompile
+//  play10ReleaseCompile
+//  playnoReleaseCompile
+//}
 
 dependencies {
 
   //fab menu webview
   compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
 
+  compile project(':core')
+
   //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin support
     // compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
  // compile project(':vuforiaimplementation')
   //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
-  play7StagingCompile project(path: ':orchextrasdk', configuration: 'play7Staging')
-  play8StagingCompile project(path: ':orchextrasdk', configuration: 'play8Staging')
-  play9StagingCompile project(path: ':orchextrasdk', configuration: 'play9Staging')
-  play10StagingCompile project(path: ':orchextrasdk', configuration: 'play10Staging')
-  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-  playnoStagingCompile project(path: ':orchextrasdk', configuration: 'playnoStaging')
-
-  play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
-  play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
-  play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
-  play10DebugCompile project(path: ':orchextrasdk', configuration: 'play10Debug')
-  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-  playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
-
-  play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
-  play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
-  play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
-  play10ReleaseCompile project(path: ':orchextrasdk', configuration: 'play10Release')
-  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-  playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
+//  play7StagingCompile project(path: ':orchextrasdk', configuration: 'play7Staging')
+//  play8StagingCompile project(path: ':orchextrasdk', configuration: 'play8Staging')
+//  play9StagingCompile project(path: ':orchextrasdk', configuration: 'play9Staging')
+//  play10StagingCompile project(path: ':orchextrasdk', configuration: 'play10Staging')
+//  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
+//  playnoStagingCompile project(path: ':orchextrasdk', configuration: 'playnoStaging')
+//
+//  play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
+//  play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
+//  play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
+//  play10DebugCompile project(path: ':orchextrasdk', configuration: 'play10Debug')
+//  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
+//  playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
+//
+//  play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
+//  play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
+//  play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
+//  play10ReleaseCompile project(path: ':orchextrasdk', configuration: 'play10Release')
+//  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
+//  playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
 
   testCompile parent.ext.testDependencies.junit
 
   //AppCompatActivity
-  compile 'com.android.support:appcompat-v7:22.1.0'
+  compile 'com.android.support:appcompat-v7:25.3.1'
 }

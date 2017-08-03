@@ -20,16 +20,10 @@ package gigigo.com.orchextrasdk;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
-import android.util.Log;
-import com.gigigo.orchextra.CustomSchemeReceiver;
-import com.gigigo.orchextra.Orchextra;
-import com.gigigo.orchextra.OrchextraBuilder;
-import com.gigigo.orchextra.OrchextraCompletionCallback;
-import com.gigigo.orchextra.OrchextraLogLevel;
-import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import gigigo.com.orchextrasdk.adonservices.UpdateConfigReceiver;
 
-public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
+public class App
+    extends Application {//implements OrchextraCompletionCallback, CustomSchemeReceiver {
   //public static String API_KEY = "338d65a6572be208f25a9a5815861543adaa4abb";
   //public static String API_SECRET = "b29dac01598f9d8e2102aef73ac816c0786843ef";
 
@@ -56,17 +50,17 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     String oxSecret = "329e98d088e0cfaac1a190ee9fafb44cbea92b59";
     //oxKey = "fake";
     //oxSecret = "fake ";
-    OrchextraBuilder builder = new OrchextraBuilder(this).setApiKeyAndSecret(oxKey, oxSecret)
-        .setLogLevel(OrchextraLogLevel.NETWORK)
-        .setOrchextraCompletionCallback(this)
-        .setGcmSenderId(null)
-        .setNotificationActivityClass(MainActivity.class.toString())
-        //  .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
-        .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);
-    //init Orchextra with builder configuration
-    Orchextra.initialize(builder);
-    //your can re set custom Scheme in other places(activities,services..)
-    Orchextra.setCustomSchemeReceiver(this);
+    //OrchextraBuilder builder = new OrchextraBuilder(this).setApiKeyAndSecret(oxKey, oxSecret)
+    //    .setLogLevel(OrchextraLogLevel.NETWORK)
+    //    .setOrchextraCompletionCallback(this)
+    //    .setGcmSenderId(null)
+    //    .setNotificationActivityClass(MainActivity.class.toString())
+    //    //  .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
+    //    .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);
+    ////init Orchextra with builder configuration
+    //Orchextra.initialize(builder);
+    ////your can re set custom Scheme in other places(activities,services..)
+    //Orchextra.setCustomSchemeReceiver(this);
     //start Orchextra running, you can call stop() if you need
     // Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
 
@@ -97,64 +91,64 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
         .setComponentEnabledSetting(component, componentEnabledState, PackageManager.DONT_KILL_APP);
   }
 
-  @Override public void onSuccess() {
-    Log.d("APP", "onSuccess");
-
-    //new Handler(Looper.getMainLooper()).post(new Runnable() {
-    //  @Override public void run() {
-    //    Toast.makeText(App.this, "onSuccess:  app" , Toast.LENGTH_LONG).show();
-    //  }
-    //});
-  }
-
-  @Override public void onError(final String s) {
-    // OrchextraBusinessErrors errorCode= (OrchextraBusinessErrors)s;
-    //OrchextraBusinessErrors {
-    //  NO_AUTH_EXPIRED(401),
-    //  NO_AUTH_CREDENTIALS(403),
-    //  VALIDATION_ERROR(11200),
-    //  INTERNAL_SERVER_ERROR(500),
-    //  GENERIC_UNKNOWN_ERROR(-999);
-
-    Log.d("APP", "onError: " + s);
-    System.out.println("onError: "
-        + s
-        + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    //new Handler(Looper.getMainLooper()).post(new Runnable() {
-    //  @Override public void run() {
-    //    Toast.makeText(App.this, "onError:  app" + s, Toast.LENGTH_LONG).show();
-    //  }
-    //});
-  }
-
-  @Override public void onInit(final String s) {
-    Log.d("APP", "onInit: " + s);
-    //new Handler(Looper.getMainLooper()).post(new Runnable() {
-    //  @Override public void run() {
-    //    Toast.makeText(App.this, "onInit:  app", Toast.LENGTH_LONG).show();
-    //  }
-    //});
-  }
-
-  @Override public void onConfigurationReceive(final String s) {
-    Log.i("", "Access Token:" + s);
-    Log.d("APP", "onInit: " + s);
-    System.out.println("Access Token:" + s);
-    //new Handler(Looper.getMainLooper()).post(new Runnable() {
-    //  @Override public void run() {
-    //    Toast.makeText(App.this, "onConfigurationReceive:  app" + s, Toast.LENGTH_LONG).show();
-    //  }
-    //});
-  }
-
-  @Override public void onReceive(final String scheme) {
-    Log.d("APP", "Scheme: " + scheme);
-    //new Handler(Looper.getMainLooper()).post(new Runnable() {
-    //  @Override public void run() {
-    //    Toast.makeText(App.this, "onReceive:  app" + scheme, Toast.LENGTH_LONG).show();
-    //  }
-    //});
-  }
+  //@Override public void onSuccess() {
+  //  Log.d("APP", "onSuccess");
+  //
+  //  //new Handler(Looper.getMainLooper()).post(new Runnable() {
+  //  //  @Override public void run() {
+  //  //    Toast.makeText(App.this, "onSuccess:  app" , Toast.LENGTH_LONG).show();
+  //  //  }
+  //  //});
+  //}
+  //
+  //@Override public void onError(final String s) {
+  //  // OrchextraBusinessErrors errorCode= (OrchextraBusinessErrors)s;
+  //  //OrchextraBusinessErrors {
+  //  //  NO_AUTH_EXPIRED(401),
+  //  //  NO_AUTH_CREDENTIALS(403),
+  //  //  VALIDATION_ERROR(11200),
+  //  //  INTERNAL_SERVER_ERROR(500),
+  //  //  GENERIC_UNKNOWN_ERROR(-999);
+  //
+  //  Log.d("APP", "onError: " + s);
+  //  System.out.println("onError: "
+  //      + s
+  //      + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+  //  //new Handler(Looper.getMainLooper()).post(new Runnable() {
+  //  //  @Override public void run() {
+  //  //    Toast.makeText(App.this, "onError:  app" + s, Toast.LENGTH_LONG).show();
+  //  //  }
+  //  //});
+  //}
+  //
+  //@Override public void onInit(final String s) {
+  //  Log.d("APP", "onInit: " + s);
+  //  //new Handler(Looper.getMainLooper()).post(new Runnable() {
+  //  //  @Override public void run() {
+  //  //    Toast.makeText(App.this, "onInit:  app", Toast.LENGTH_LONG).show();
+  //  //  }
+  //  //});
+  //}
+  //
+  //@Override public void onConfigurationReceive(final String s) {
+  //  Log.i("", "Access Token:" + s);
+  //  Log.d("APP", "onInit: " + s);
+  //  System.out.println("Access Token:" + s);
+  //  //new Handler(Looper.getMainLooper()).post(new Runnable() {
+  //  //  @Override public void run() {
+  //  //    Toast.makeText(App.this, "onConfigurationReceive:  app" + s, Toast.LENGTH_LONG).show();
+  //  //  }
+  //  //});
+  //}
+  //
+  //@Override public void onReceive(final String scheme) {
+  //  Log.d("APP", "Scheme: " + scheme);
+  //  //new Handler(Looper.getMainLooper()).post(new Runnable() {
+  //  //  @Override public void run() {
+  //  //    Toast.makeText(App.this, "onReceive:  app" + scheme, Toast.LENGTH_LONG).show();
+  //  //  }
+  //  //});
+  //}
 }
 
 
