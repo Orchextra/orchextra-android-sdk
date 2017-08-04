@@ -18,4 +18,5 @@
 
 package com.gigigo.orchextra.core.domain.exceptions
 
-class GetAuthenticationException (val error: String) : Exception()
+class NetworkException(val code: Int, val error: String) : Exception()
+

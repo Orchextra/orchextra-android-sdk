@@ -24,6 +24,7 @@ import retrofit2.http.POST
 
 interface OrchextraApi {
 
-  @POST("security/token")
+
+  @POST("v1/security/token")
   fun getAuthentication(@Body apiAuthRequest: ApiAuthRequest): Call<Response<ApiToken>>
 }

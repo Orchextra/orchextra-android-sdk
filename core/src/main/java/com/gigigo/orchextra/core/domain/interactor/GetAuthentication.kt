@@ -20,7 +20,7 @@ package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Credentials
-import com.gigigo.orchextra.core.domain.exceptions.GetAuthenticationException
+import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 
@@ -40,9 +40,10 @@ class GetAuthentication : Runnable {
   override fun run() {
     try {
       val token = networkDataSource.getAuthentication(credentials as Credentials)
-      println(token.toString())
+
+      
       notifySuccess()
-    } catch (error: GetAuthenticationException) {
+    } catch (error: NetworkException) {
       notifyError(error)
     }
   }
@@ -51,7 +52,7 @@ class GetAuthentication : Runnable {
     PostExecutionThread.execute(Runnable { callback?.onSuccess() })
   }
 
-  private fun notifyError(error: GetAuthenticationException) {
+  private fun notifyError(error: NetworkException) {
     PostExecutionThread.execute(Runnable { callback?.onError(error) })
   }
 
@@ -59,7 +60,7 @@ class GetAuthentication : Runnable {
 
     fun onSuccess()
 
-    fun onError(error: GetAuthenticationException)
+    fun onError(error: NetworkException)
   }
 
   companion object Factory {

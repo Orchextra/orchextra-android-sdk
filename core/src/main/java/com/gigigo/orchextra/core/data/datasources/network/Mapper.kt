@@ -20,6 +20,10 @@ package com.gigigo.orchextra.core.data.datasources.network
 
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Token
+import com.gigigo.orchextra.core.domain.exceptions.NetworkException
+import com.google.gson.Gson
+import okhttp3.Response as OkResponse
+
 
 fun Credentials.toApiAuthRequest(grantType: String): ApiAuthRequest =
     with(this) {
@@ -29,4 +33,16 @@ fun Credentials.toApiAuthRequest(grantType: String): ApiAuthRequest =
 fun ApiToken.toToken(): Token =
     with(this) {
       Token(value ?: "", type ?: "", expiresIn ?: -1L, expiresAt ?: "", projectId ?: "")
+    }
+
+fun OkResponse.parseError(): ApiError =
+    with(this) {
+      val gson = Gson()
+      val response = gson.fromJson(body()?.string(), Response::class.java)
+      return response.error ?: ApiError(-1, "")
+    }
+
+fun ApiError.toNetworkException(): NetworkException =
+    with(this) {
+      return NetworkException(code ?: -1, message ?: "")
     }

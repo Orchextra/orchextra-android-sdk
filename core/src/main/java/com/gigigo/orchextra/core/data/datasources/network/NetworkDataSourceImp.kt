@@ -19,6 +19,8 @@
 package com.gigigo.orchextra.core.data.datasources.network
 
 import com.gigigo.orchextra.core.BuildConfig
+import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
+import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Token
@@ -31,10 +33,21 @@ import java.util.concurrent.TimeUnit
 
 class NetworkDataSourceImp : NetworkDataSource {
 
-  private val orchextraApi: OrchextraApi
+  private val orchextraApi: OrchextraApi = ApiImp.getOrchextraApi()
 
-  init {
+  override fun getAuthentication(credentials: Credentials): Token {
 
+    val apiCredintial = credentials.toApiAuthRequest("auth_sdk")
+
+    val apiResponse = orchextraApi.getAuthentication(apiCredintial).execute()
+
+    return apiResponse.body()?.data?.toToken() as Token
+  }
+}
+
+private object ApiImp {
+
+  fun getOrchextraApi(): OrchextraApi {
     val loggingInterceptor = HttpLoggingInterceptor()
     loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -42,6 +55,8 @@ class NetworkDataSourceImp : NetworkDataSource {
         .writeTimeout(10, TimeUnit.SECONDS)
         .readTimeout(10, TimeUnit.SECONDS)
         .connectTimeout(10, TimeUnit.SECONDS)
+    okHttpBuilder.addInterceptor(ErrorInterceptor())
+    okHttpBuilder.addInterceptor(SessionInterceptor())
 
     if (BuildConfig.NETWORK_LOG) {
       okHttpBuilder.addInterceptor(loggingInterceptor)
@@ -53,17 +68,6 @@ class NetworkDataSourceImp : NetworkDataSource {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    orchextraApi = retrofit.create(OrchextraApi::class.java)
-  }
-
-  override fun getAuthentication(credentials: Credentials): Token {
-
-    val apiCredintial = credentials.toApiAuthRequest("auth_sdk")
-
-    val apiResponse = orchextraApi.getAuthentication(apiCredintial).execute().body()
-
-    // TODO check response status
-
-    return apiResponse?.data?.toToken() as Token
+    return retrofit.create(OrchextraApi::class.java)
   }
 }

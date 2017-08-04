@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.core
 
 import com.gigigo.orchextra.core.domain.entities.Credentials
-import com.gigigo.orchextra.core.domain.exceptions.GetAuthenticationException
+import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 
 class Orchextra constructor(private val apiKey: String, private val apiSecret: String) {
@@ -32,11 +32,11 @@ class Orchextra constructor(private val apiKey: String, private val apiSecret: S
     getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
         object : GetAuthentication.Callback {
           override fun onSuccess() {
-            println("onSuccess")
+            println("getAuthentication onSuccess")
           }
 
-          override fun onError(error: GetAuthenticationException) {
-            println("onError")
+          override fun onError(error: NetworkException) {
+            println("getAuthentication onError: $error")
           }
         })
   }
