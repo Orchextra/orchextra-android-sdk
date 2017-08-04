@@ -18,6 +18,11 @@
 
 package com.gigigo.orchextra.core.data.datasources.network
 
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiAuthRequest
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiConfiguration
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiToken
+import com.gigigo.orchextra.core.data.datasources.network.models.Response
+import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -27,4 +32,7 @@ interface OrchextraApi {
 
   @POST("v1/security/token")
   fun getAuthentication(@Body apiAuthRequest: ApiAuthRequest): Call<Response<ApiToken>>
+
+  @POST("v1/configuration")
+  fun getConfiguration(loadConfiguration: LoadConfiguration): Call<Response<ApiConfiguration>>
 }

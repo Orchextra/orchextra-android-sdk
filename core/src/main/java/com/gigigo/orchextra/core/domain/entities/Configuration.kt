@@ -18,5 +18,18 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-class Configuration {
-}
+data class Configuration constructor(
+    val geoMarketing: List<GeoMarketing>)
+
+
+data class GeoMarketing constructor(
+    val code: String,
+    val point: Point,
+    val radius: Int,
+    val notifyOnEntry: Boolean,
+    val notifyOnExit: Boolean,
+    val stayTime: Int)
+
+data class Point constructor(
+    val lat: Double,
+    val lng: Double)

@@ -21,8 +21,13 @@ package com.gigigo.orchextra.core.data.datasources.network
 import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
+import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
+import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
+import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.Token
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -42,6 +47,13 @@ class NetworkDataSourceImp : NetworkDataSource {
     val apiResponse = orchextraApi.getAuthentication(apiCredintial).execute()
 
     return apiResponse.body()?.data?.toToken() as Token
+  }
+
+  override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
+
+    val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute()
+
+    return apiResponse.body()?.data?.toConfiguration() as Configuration
   }
 }
 

@@ -16,25 +16,21 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.data.datasources.network.interceptor
+package com.gigigo.orchextra.core.domain.datasources
 
-import com.gigigo.orchextra.core.data.datasources.network.models.parseError
-import com.gigigo.orchextra.core.data.datasources.network.models.toNetworkException
-import okhttp3.Interceptor
-import okhttp3.Interceptor.Chain
-import okhttp3.Response
+import com.gigigo.orchextra.core.data.datasources.session.SessionManagerImp
+import com.gigigo.orchextra.core.domain.entities.Token
 
+interface SessionManager {
 
-class ErrorInterceptor : Interceptor {
+  fun saveSession(token: Token)
 
-  override fun intercept(chain: Chain): Response {
+  fun getSession(): Token
 
-    val response = chain.proceed(chain.request())
+  fun clearSession()
 
-    if (!response.isSuccessful) {
-      throw response.parseError().toNetworkException()
-    }
+  companion object Factory {
 
-    return response
+    fun create(): SessionManager = SessionManagerImp()
   }
 }

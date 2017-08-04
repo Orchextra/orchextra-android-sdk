@@ -18,5 +18,58 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
-class GetConfiguration {
+import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.datasources.SessionManager
+import com.gigigo.orchextra.core.domain.entities.Configuration
+import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
+import com.gigigo.orchextra.core.domain.exceptions.NetworkException
+import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
+import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
+
+class GetConfiguration : Runnable {
+
+  private val networkDataSource = NetworkDataSource.create()
+  private val sessionManager = SessionManager.create()
+  private var credentials: Credentials? = null
+  private var callback: Callback? = null
+
+  fun getConfiguration(credentials: Credentials, callback: Callback) {
+    this.credentials = credentials
+    this.callback = callback
+
+    ThreadExecutor.execute(this)
+  }
+
+  override fun run() {
+    try {
+      val loadConfiguration = LoadConfiguration()
+
+      val configuration = networkDataSource.getConfiguration(loadConfiguration)
+
+      notifySuccess(configuration)
+    } catch (error: NetworkException) {
+      notifyError(error)
+    }
+  }
+
+  private fun notifySuccess(configuration: Configuration) {
+    PostExecutionThread.execute(Runnable { callback?.onSuccess(configuration) })
+  }
+
+  private fun notifyError(error: NetworkException) {
+    PostExecutionThread.execute(Runnable { callback?.onError(error) })
+  }
+
+  interface Callback {
+
+    fun onSuccess(configuration: Configuration)
+
+    fun onError(error: NetworkException)
+  }
+
+  companion object Factory {
+
+    fun create(): GetConfiguration = GetConfiguration()
+  }
 }

@@ -16,9 +16,12 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.data.datasources.network
+package com.gigigo.orchextra.core.data.datasources.network.models
 
+import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.google.gson.Gson
@@ -27,7 +30,9 @@ import okhttp3.Response as OkResponse
 
 fun Credentials.toApiAuthRequest(grantType: String): ApiAuthRequest =
     with(this) {
-      ApiAuthRequest(grantType, ApiCredentials(apiKey, apiSecret))
+      ApiAuthRequest(grantType,
+          ApiCredentials(apiKey,
+              apiSecret))
     }
 
 fun ApiToken.toToken(): Token =
@@ -39,10 +44,35 @@ fun OkResponse.parseError(): ApiError =
     with(this) {
       val gson = Gson()
       val response = gson.fromJson(body()?.string(), Response::class.java)
-      return response.error ?: ApiError(-1, "")
+      return response.error ?: ApiError(
+          -1, "")
     }
 
 fun ApiError.toNetworkException(): NetworkException =
     with(this) {
       return NetworkException(code ?: -1, message ?: "")
+    }
+
+fun ApiConfiguration.toConfiguration(): Configuration =
+    with(this) {
+      return Configuration(geoMarketing.toGeoMarketingList())
+    }
+
+fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {
+  it.toGeoMarketing()
+}
+
+fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing =
+    with(this) {
+      return GeoMarketing(code = code,
+          point = point.toPoint(),
+          radius = radius,
+          notifyOnEntry = notifyOnEntry,
+          notifyOnExit = notifyOnExit,
+          stayTime = stayTime)
+    }
+
+fun ApiPoint.toPoint(): Point =
+    with(this) {
+      return Point(lat, lng)
     }

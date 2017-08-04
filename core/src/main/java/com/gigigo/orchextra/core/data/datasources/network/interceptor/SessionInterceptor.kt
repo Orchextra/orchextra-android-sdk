@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.core.data.datasources.network.interceptor
 
 import com.gigigo.orchextra.core.BuildConfig
+import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Response
@@ -27,12 +28,18 @@ import java.util.Locale
 
 class SessionInterceptor : Interceptor {
 
+  private val sessionManager: SessionManager = SessionManager.create()
+
   override fun intercept(chain: Chain): Response {
 
     val requestBuilder = chain.request().newBuilder()
         .addHeader("X-orx-version", "ANDROID_" + BuildConfig.VERSION_NAME)
         .addHeader("Accept-Language", Locale.getDefault().toString())
         .addHeader("Content-Type", "application/json")
+
+    if (sessionManager.getSession().value.isNotEmpty()) {
+      requestBuilder.header("Authorization", sessionManager.getSession().value)
+    }
 
     val request = requestBuilder.build()
 

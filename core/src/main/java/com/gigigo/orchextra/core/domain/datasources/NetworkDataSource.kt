@@ -19,12 +19,16 @@
 package com.gigigo.orchextra.core.domain.datasources
 
 import com.gigigo.orchextra.core.data.datasources.network.NetworkDataSourceImp
+import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.Token
 
 interface NetworkDataSource {
 
   fun getAuthentication(credentials: Credentials): Token
+
+  fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration
 
   companion object Factory {
 

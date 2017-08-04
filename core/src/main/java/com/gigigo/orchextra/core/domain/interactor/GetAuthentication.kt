@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
@@ -27,6 +28,7 @@ import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 class GetAuthentication : Runnable {
 
   private val networkDataSource = NetworkDataSource.create()
+  private val sessionManager = SessionManager.create()
   private var credentials: Credentials? = null
   private var callback: Callback? = null
 
@@ -40,8 +42,7 @@ class GetAuthentication : Runnable {
   override fun run() {
     try {
       val token = networkDataSource.getAuthentication(credentials as Credentials)
-
-      
+      sessionManager.saveSession(token)
       notifySuccess()
     } catch (error: NetworkException) {
       notifyError(error)

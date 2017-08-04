@@ -16,36 +16,22 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.data.datasources.network
+package com.gigigo.orchextra.core.data.datasources.network.models
 
 import com.google.gson.annotations.Expose
 
-class Response<T>(
-    @Expose val status: Boolean?,
-    @Expose val data: T?,
-    @Expose val error: ApiError?
-)
+data class ApiConfiguration constructor(
+    @Expose val geoMarketing: List<ApiGeoMarketing>)
 
-class ApiError(
-    @Expose val code: Int?,
-    @Expose val message: String?
-)
 
-class ApiToken(
-    @Expose val value: String?,
-    @Expose val type: String?,
-    @Expose val expiresIn: Long?,
-    @Expose val expiresAt: String?,
-    @Expose val projectId: String?
-)
+data class ApiGeoMarketing constructor(
+    @Expose val code: String,
+    @Expose val point: ApiPoint,
+    @Expose val radius: Int,
+    @Expose val notifyOnEntry: Boolean,
+    @Expose val notifyOnExit: Boolean,
+    @Expose val stayTime: Int)
 
-class ApiAuthRequest(
-    @Expose val grantType: String,
-    @Expose val credentials: ApiCredentials
-)
-
-class ApiCredentials(
-    @Expose val apiKey: String,
-    @Expose val apiSecret: String
-)
-
+data class ApiPoint constructor(
+    @Expose val lat: Double,
+    @Expose val lng: Double)

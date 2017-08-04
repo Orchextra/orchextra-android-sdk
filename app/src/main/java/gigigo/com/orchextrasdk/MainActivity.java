@@ -64,8 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   @Override public void onClick(View v) {
 
     if (v.getId() == R.id.init_button) {
-      Orchextra orchextra = new Orchextra(API_KEY, API_SECRET);
-      orchextra.init();
+
+      Orchextra orchextra = Orchextra.INSTANCE;
+      orchextra.init(this, API_KEY, API_SECRET);
     }
 
     //if (v.getId() == R.id.button) {

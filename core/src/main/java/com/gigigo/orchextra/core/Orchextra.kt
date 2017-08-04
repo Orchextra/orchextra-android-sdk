@@ -18,16 +18,25 @@
 
 package com.gigigo.orchextra.core
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 
-class Orchextra constructor(private val apiKey: String, private val apiSecret: String) {
+object Orchextra {
 
   val getAuthentication = GetAuthentication.create()
+  private var context: Context? = null
+  private var apiKey: String? = null
+  private var apiSecret: String? = null
 
 
-  fun init() {
+  fun init(context: Context, apiKey: String, apiSecret: String) {
+
+    this.context = context
+    this.apiKey = apiKey
+    this.apiSecret = apiSecret
 
     getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
         object : GetAuthentication.Callback {
@@ -39,5 +48,15 @@ class Orchextra constructor(private val apiKey: String, private val apiSecret: S
             println("getAuthentication onError: $error")
           }
         })
+  }
+
+  fun finish() {
+    this.context = null
+    this.apiKey = null
+    this.apiSecret = null
+  }
+
+  fun getSharedPreferences(): SharedPreferences {
+    return context!!.getSharedPreferences("Orchextra", Context.MODE_PRIVATE)
   }
 }

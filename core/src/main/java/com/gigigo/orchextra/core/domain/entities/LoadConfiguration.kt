@@ -16,25 +16,13 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.data.datasources.network.interceptor
+package com.gigigo.orchextra.core.domain.entities
 
-import com.gigigo.orchextra.core.data.datasources.network.models.parseError
-import com.gigigo.orchextra.core.data.datasources.network.models.toNetworkException
-import okhttp3.Interceptor
-import okhttp3.Interceptor.Chain
-import okhttp3.Response
+data class LoadConfiguration constructor(
+    val app: AppData)
 
 
-class ErrorInterceptor : Interceptor {
-
-  override fun intercept(chain: Chain): Response {
-
-    val response = chain.proceed(chain.request())
-
-    if (!response.isSuccessful) {
-      throw response.parseError().toNetworkException()
-    }
-
-    return response
-  }
-}
+data class AppData constructor(
+    val appVersion: String,
+    val buildVersion: String,
+    val bundleId: String)
