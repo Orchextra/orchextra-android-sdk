@@ -18,5 +18,14 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-data class Token(val value: String, val type: String, val expiresIn: Long, val expiresAt: String,
-    val projectId: String)
+data class Token(
+    val value: String = "",
+    val type: String = "",
+    val expiresIn: Long = -1,
+    val expiresAt: String = "",
+    val projectId: String = "") {
+
+  fun isValid(): Boolean {
+    return value.isNotBlank()
+  }
+}
