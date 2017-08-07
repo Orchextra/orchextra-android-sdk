@@ -19,16 +19,16 @@
 package com.gigigo.orchextra.core.data.datasources.network.models
 
 data class ApiConfiguration constructor(
-    val geoMarketing: List<ApiGeoMarketing>)
+    val geoMarketing: List<ApiGeoMarketing>?)
 
 
 data class ApiGeoMarketing constructor(
-    val code: String,
-    val point: ApiPoint,
-    val radius: Int,
-    val notifyOnEntry: Boolean,
-    val notifyOnExit: Boolean,
-    val stayTime: Int)
+    val code: String?,
+    val point: ApiPoint?,
+    val radius: Int?,
+    val notifyOnEntry: Boolean?,
+    val notifyOnExit: Boolean?,
+    val stayTime: Int?)
 
 data class ApiPoint constructor(
     val lat: Double,

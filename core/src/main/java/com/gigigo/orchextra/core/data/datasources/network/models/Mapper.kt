@@ -56,7 +56,7 @@ fun ApiError.toNetworkException(): NetworkException =
 
 fun ApiConfiguration.toConfiguration(): Configuration =
     with(this) {
-      return Configuration(geoMarketing.toGeoMarketingList())
+      return Configuration(geoMarketing = geoMarketing?.toGeoMarketingList() ?: listOf())
     }
 
 fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {
@@ -65,12 +65,12 @@ fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {
 
 fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing =
     with(this) {
-      return GeoMarketing(code = code,
-          point = point.toPoint(),
-          radius = radius,
-          notifyOnEntry = notifyOnEntry,
-          notifyOnExit = notifyOnExit,
-          stayTime = stayTime)
+      return GeoMarketing(code = code ?: "",
+          point = point?.toPoint() ?: Point(-1.0, -1.0),
+          radius = radius ?: -1,
+          notifyOnEntry = notifyOnEntry ?: false,
+          notifyOnExit = notifyOnExit ?: false,
+          stayTime = stayTime ?: -1)
     }
 
 fun ApiPoint.toPoint(): Point =

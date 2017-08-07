@@ -66,17 +66,17 @@ class NetworkDataSourceImp : NetworkDataSource {
 
   override fun getAuthentication(credentials: Credentials): Token {
 
-    val apiCredintial = credentials.toApiAuthRequest("auth_sdk")
+    val apiCredential = credentials.toApiAuthRequest("auth_sdk")
 
-    val apiResponse = orchextraApi.getAuthentication(apiCredintial).execute().body()
+    val apiResponse = orchextraApi.getAuthentication(apiCredential).execute().body()
 
     return apiResponse?.data?.toToken() as Token
   }
 
   override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
 
-    val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute()
+    val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute().body()
 
-    return apiResponse.body()?.data?.toConfiguration() as Configuration
+    return apiResponse?.data?.toConfiguration() as Configuration
   }
 }

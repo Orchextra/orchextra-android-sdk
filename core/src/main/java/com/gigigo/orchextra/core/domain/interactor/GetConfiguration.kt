@@ -31,7 +31,7 @@ class GetConfiguration : Runnable {
   private var loadConfiguration: LoadConfiguration? = null
   private var callback: Callback? = null
 
-  fun getConfiguration(loadConfiguration: LoadConfiguration, callback: Callback) {
+  fun get(loadConfiguration: LoadConfiguration, callback: Callback) {
     this.loadConfiguration = loadConfiguration
     this.callback = callback
 

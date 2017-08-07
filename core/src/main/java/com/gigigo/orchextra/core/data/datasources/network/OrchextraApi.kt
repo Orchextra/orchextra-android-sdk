@@ -34,5 +34,5 @@ interface OrchextraApi {
   fun getAuthentication(@Body apiAuthRequest: ApiAuthRequest): Call<Response<ApiToken>>
 
   @POST("v1/configuration")
-  fun getConfiguration(loadConfiguration: LoadConfiguration): Call<Response<ApiConfiguration>>
+  fun getConfiguration(@Body loadConfiguration: LoadConfiguration): Call<Response<ApiConfiguration>>
 }

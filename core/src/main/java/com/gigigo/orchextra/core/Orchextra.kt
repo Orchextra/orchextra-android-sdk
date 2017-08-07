@@ -20,9 +20,14 @@ package com.gigigo.orchextra.core
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
+import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
+import com.gigigo.orchextra.core.utils.extensions.getAppData
+import com.gigigo.orchextra.core.utils.extensions.getDeviceData
 
 object Orchextra {
 
@@ -40,7 +45,28 @@ object Orchextra {
     getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
         object : GetAuthentication.Callback {
           override fun onSuccess() {
-            println("getAuthentication onSuccess")
+            getConfiguration()
+          }
+
+          override fun onError(error: NetworkException) {
+            println("getAuthentication onError: $error")
+          }
+        })
+  }
+
+  private fun getConfiguration() {
+
+    val getConfiguration = GetConfiguration.create()
+
+
+    val loadConfiguration = LoadConfiguration(
+        app = context?.getAppData(),
+        device = context?.getDeviceData())
+
+    getConfiguration.get(loadConfiguration,
+        object : GetConfiguration.Callback {
+          override fun onSuccess(configuration: Configuration) {
+            println("getConfiguration onSuccess")
           }
 
           override fun onError(error: NetworkException) {

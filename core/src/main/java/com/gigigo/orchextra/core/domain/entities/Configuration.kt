@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.core.domain.entities
 
 data class Configuration constructor(
-    val geoMarketing: List<GeoMarketing>)
+    val geoMarketing: List<GeoMarketing> = listOf())
 
 
 data class GeoMarketing constructor(

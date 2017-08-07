@@ -19,10 +19,23 @@
 package com.gigigo.orchextra.core.domain.entities
 
 data class LoadConfiguration constructor(
-    val app: AppData)
-
+    val app: AppData? = null,
+    val device: DeviceData? = null)
 
 data class AppData constructor(
     val appVersion: String,
     val buildVersion: String,
     val bundleId: String)
+
+data class DeviceData constructor(
+    var handset: String,
+    var osVersion: String,
+    var language: String,
+    var timeZone: String,
+    var instanceId: String,
+    var secureId: String,
+    var serialNumber: String,
+    var bluetoothMacAddress: String,
+    var wifiMacAddress: String,
+    var tags: List<String>,
+    var businessUnits: List<String>)
