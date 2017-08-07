@@ -26,11 +26,9 @@ import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 
 object Orchextra {
 
-  val getAuthentication = GetAuthentication.create()
   private var context: Context? = null
   private var apiKey: String? = null
   private var apiSecret: String? = null
-
 
   fun init(context: Context, apiKey: String, apiSecret: String) {
 
@@ -38,6 +36,7 @@ object Orchextra {
     this.apiKey = apiKey
     this.apiSecret = apiSecret
 
+    val getAuthentication = GetAuthentication.create()
     getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
         object : GetAuthentication.Callback {
           override fun onSuccess() {
@@ -57,6 +56,6 @@ object Orchextra {
   }
 
   fun getSharedPreferences(): SharedPreferences {
-    return context!!.getSharedPreferences("Orchextra", Context.MODE_PRIVATE)
+    return context!!.getSharedPreferences("orchextra", Context.MODE_PRIVATE)
   }
 }

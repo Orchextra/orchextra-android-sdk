@@ -18,34 +18,32 @@
 
 package com.gigigo.orchextra.core.data.datasources.network.models
 
-import com.google.gson.annotations.Expose
-
 class Response<T>(
-    @Expose val status: Boolean?,
-    @Expose val data: T?,
-    @Expose val error: ApiError?
+    val status: Boolean?,
+    val data: T?,
+    val error: ApiError?
 )
 
 class ApiError(
-    @Expose val code: Int?,
-    @Expose val message: String?
+    val code: Int?,
+    val message: String?
 )
 
 class ApiToken(
-    @Expose val value: String?,
-    @Expose val type: String?,
-    @Expose val expiresIn: Long?,
-    @Expose val expiresAt: String?,
-    @Expose val projectId: String?
+    val value: String?,
+    val type: String?,
+    val expiresIn: Long?,
+    val expiresAt: String?,
+    val projectId: String?
 )
 
 class ApiAuthRequest(
-    @Expose val grantType: String,
-    @Expose val credentials: ApiCredentials
+    val grantType: String,
+    val credentials: ApiCredentials
 )
 
 class ApiCredentials(
-    @Expose val apiKey: String,
-    @Expose val apiSecret: String
+    val apiKey: String,
+    val apiSecret: String
 )
 

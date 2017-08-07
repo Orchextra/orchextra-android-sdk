@@ -32,34 +32,15 @@ import com.gigigo.orchextra.core.domain.entities.Token
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 
 class NetworkDataSourceImp : NetworkDataSource {
 
-  private val orchextraApi: OrchextraApi = ApiImp.getOrchextraApi()
+  private val orchextraApi: OrchextraApi
 
-  override fun getAuthentication(credentials: Credentials): Token {
-
-    val apiCredintial = credentials.toApiAuthRequest("auth_sdk")
-
-    val apiResponse = orchextraApi.getAuthentication(apiCredintial).execute()
-
-    return apiResponse.body()?.data?.toToken() as Token
-  }
-
-  override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
-
-    val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute()
-
-    return apiResponse.body()?.data?.toConfiguration() as Configuration
-  }
-}
-
-private object ApiImp {
-
-  fun getOrchextraApi(): OrchextraApi {
+  init {
     val loggingInterceptor = HttpLoggingInterceptor()
     loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -77,9 +58,25 @@ private object ApiImp {
     val retrofit = Retrofit.Builder()
         .baseUrl(BuildConfig.API_URL)
         .client(okHttpBuilder.build())
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
-    return retrofit.create(OrchextraApi::class.java)
+    orchextraApi = retrofit.create(OrchextraApi::class.java)
+  }
+
+  override fun getAuthentication(credentials: Credentials): Token {
+
+    val apiCredintial = credentials.toApiAuthRequest("auth_sdk")
+
+    val apiResponse = orchextraApi.getAuthentication(apiCredintial).execute().body()
+
+    return apiResponse?.data?.toToken() as Token
+  }
+
+  override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
+
+    val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute()
+
+    return apiResponse.body()?.data?.toConfiguration() as Configuration
   }
 }

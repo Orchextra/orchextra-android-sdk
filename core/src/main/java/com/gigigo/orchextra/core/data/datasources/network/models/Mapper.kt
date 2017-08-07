@@ -24,7 +24,7 @@ import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 import okhttp3.Response as OkResponse
 
 
@@ -42,8 +42,9 @@ fun ApiToken.toToken(): Token =
 
 fun OkResponse.parseError(): ApiError =
     with(this) {
-      val gson = Gson()
-      val response = gson.fromJson(body()?.string(), Response::class.java)
+      val moshi = Moshi.Builder().build()
+      val errorJsonAdapter = moshi.adapter(Response::class.java)
+      val response = errorJsonAdapter.fromJson(body()?.string())
       return response.error ?: ApiError(
           -1, "")
     }

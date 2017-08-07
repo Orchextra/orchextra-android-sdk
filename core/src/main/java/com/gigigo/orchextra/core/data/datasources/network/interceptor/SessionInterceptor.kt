@@ -37,8 +37,8 @@ class SessionInterceptor : Interceptor {
         .addHeader("Accept-Language", Locale.getDefault().toString())
         .addHeader("Content-Type", "application/json")
 
-    if (sessionManager.getSession().value.isNotEmpty()) {
-      requestBuilder.header("Authorization", sessionManager.getSession().value)
+    if (sessionManager.hasSession()) {
+      requestBuilder.addHeader("Authorization", sessionManager.getSession().value)
     }
 
     val request = requestBuilder.build()

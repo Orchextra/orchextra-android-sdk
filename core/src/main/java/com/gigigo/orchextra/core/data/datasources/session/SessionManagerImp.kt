@@ -22,13 +22,14 @@ import android.annotation.SuppressLint
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Token
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 
 
 class SessionManagerImp : SessionManager {
 
   private val sharedPreferences = Orchextra.getSharedPreferences()
-  private val gson = Gson()
+  private var moshi = Moshi.Builder().build()
+  private var tokenJsonAdapter = moshi.adapter(Token::class.java)
   private val TOKEN_KEY = "token_key"
   private var token: Token? = null
 
@@ -36,7 +37,7 @@ class SessionManagerImp : SessionManager {
   override fun saveSession(token: Token) {
     this.token = token
     val editor = sharedPreferences.edit()
-    editor.putString(TOKEN_KEY, gson.toJson(token))
+    editor.putString(TOKEN_KEY, tokenJsonAdapter.toJson(token))
     editor.commit()
   }
 
@@ -47,8 +48,14 @@ class SessionManagerImp : SessionManager {
     } else {
 
       val tokenJson = sharedPreferences.getString(TOKEN_KEY, "")
-      return gson.fromJson(tokenJson, Token::class.java)
+      token = tokenJsonAdapter.fromJson(tokenJson) ?: Token("", "", -1, "", "")
+
+      return token as Token
     }
+  }
+
+  override fun hasSession(): Boolean {
+    return getSession().value.isNotBlank()
   }
 
   @SuppressLint("CommitPrefEdits")

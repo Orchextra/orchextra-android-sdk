@@ -27,6 +27,8 @@ interface SessionManager {
 
   fun getSession(): Token
 
+  fun hasSession(): Boolean
+
   fun clearSession()
 
   companion object Factory {

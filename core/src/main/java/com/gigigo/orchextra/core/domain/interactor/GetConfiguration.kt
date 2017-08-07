@@ -19,9 +19,7 @@
 package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
-import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Configuration
-import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
@@ -30,12 +28,11 @@ import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 class GetConfiguration : Runnable {
 
   private val networkDataSource = NetworkDataSource.create()
-  private val sessionManager = SessionManager.create()
-  private var credentials: Credentials? = null
+  private var loadConfiguration: LoadConfiguration? = null
   private var callback: Callback? = null
 
-  fun getConfiguration(credentials: Credentials, callback: Callback) {
-    this.credentials = credentials
+  fun getConfiguration(loadConfiguration: LoadConfiguration, callback: Callback) {
+    this.loadConfiguration = loadConfiguration
     this.callback = callback
 
     ThreadExecutor.execute(this)
@@ -43,9 +40,7 @@ class GetConfiguration : Runnable {
 
   override fun run() {
     try {
-      val loadConfiguration = LoadConfiguration()
-
-      val configuration = networkDataSource.getConfiguration(loadConfiguration)
+      val configuration = networkDataSource.getConfiguration(loadConfiguration as LoadConfiguration)
 
       notifySuccess(configuration)
     } catch (error: NetworkException) {

@@ -18,20 +18,18 @@
 
 package com.gigigo.orchextra.core.data.datasources.network.models
 
-import com.google.gson.annotations.Expose
-
 data class ApiConfiguration constructor(
-    @Expose val geoMarketing: List<ApiGeoMarketing>)
+    val geoMarketing: List<ApiGeoMarketing>)
 
 
 data class ApiGeoMarketing constructor(
-    @Expose val code: String,
-    @Expose val point: ApiPoint,
-    @Expose val radius: Int,
-    @Expose val notifyOnEntry: Boolean,
-    @Expose val notifyOnExit: Boolean,
-    @Expose val stayTime: Int)
+    val code: String,
+    val point: ApiPoint,
+    val radius: Int,
+    val notifyOnEntry: Boolean,
+    val notifyOnExit: Boolean,
+    val stayTime: Int)
 
 data class ApiPoint constructor(
-    @Expose val lat: Double,
-    @Expose val lng: Double)
+    val lat: Double,
+    val lng: Double)
