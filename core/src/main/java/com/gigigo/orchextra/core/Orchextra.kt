@@ -20,9 +20,13 @@ package com.gigigo.orchextra.core
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.gigigo.orchextra.core.actions.ActionManager
+import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
+import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
@@ -34,12 +38,15 @@ object Orchextra {
   private var context: Context? = null
   private var apiKey: String? = null
   private var apiSecret: String? = null
+  private lateinit var actionManager: ActionManager
 
   fun init(context: Context, apiKey: String, apiSecret: String) {
 
     this.context = context
     this.apiKey = apiKey
     this.apiSecret = apiSecret
+
+    actionManager = ActionManager.create()
 
     val getAuthentication = GetAuthentication.create()
     getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
@@ -52,6 +59,16 @@ object Orchextra {
             println("getAuthentication onError: $error")
           }
         })
+  }
+
+  fun openBrowser(url: String) {
+    checkInitialization()
+    actionManager.executeAction(
+        Action(trackId = "-1", type = BROWSER, url = url, notification = Notification()))
+  }
+
+  private fun checkInitialization() {
+    // TODO lanzar una excepción si el sdk no esta inicializado
   }
 
   private fun getConfiguration() {

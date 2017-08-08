@@ -34,7 +34,7 @@ class ActionManager constructor(
 
     getAction.get(trigger, object : Callback {
       override fun onSuccess(action: Action) {
-        actionDispatcher.executeAction(action)
+        executeAction(action)
       }
 
       override fun onError(error: NetworkException) {
@@ -42,6 +42,9 @@ class ActionManager constructor(
       }
     })
   }
+
+  fun executeAction(action: Action) =
+      actionDispatcher.executeAction(action)
 
   companion object Factory {
 

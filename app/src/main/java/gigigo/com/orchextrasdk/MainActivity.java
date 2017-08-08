@@ -28,12 +28,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   //region Orchextra
   private boolean isRunning = false;
-  private Button initButton, button, button2, button3, button4, button5, button6, button7, button8;
+  private Button initButton, browserButton, button, button2, button3, button4, button5, button6,
+      button7, button8;
   private TextView statusText;
 
   //region getViews/Buttons onClick
   private void getViews() {
     initButton = (Button) findViewById(R.id.init_button);
+    browserButton = (Button) findViewById(R.id.browser_button);
     button = (Button) findViewById(R.id.button);
     button2 = (Button) findViewById(R.id.button2);
     button3 = (Button) findViewById(R.id.button3);
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   private void setListeners() {
     initButton.setOnClickListener(this);
+    browserButton.setOnClickListener(this);
     button.setOnClickListener(this);
     button2.setOnClickListener(this);
     button3.setOnClickListener(this);
@@ -62,11 +65,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   public static String API_SECRET = "54b0294038ae8118db6d996d4db4e082aa8447df";
 
   @Override public void onClick(View v) {
+    Orchextra orchextra = Orchextra.INSTANCE;
 
     if (v.getId() == R.id.init_button) {
-
-      Orchextra orchextra = Orchextra.INSTANCE;
       orchextra.init(this, API_KEY, API_SECRET);
+    }
+
+    if (v.getId() == R.id.browser_button) {
+      orchextra.openBrowser("https://www.google.es");
     }
 
     //if (v.getId() == R.id.button) {
