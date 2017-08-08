@@ -16,18 +16,23 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core
+package com.gigigo.orchextra.core.actions.actionexecutors
 
-import com.gigigo.orchextra.core.domain.entities.Action
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import com.gigigo.orchextra.core.Orchextra
 
-class ActionDispatcher {
 
-  fun executeAction(action: Action) {
+class BrowserActionExecutor constructor(private val context: Context) {
 
+  fun open(url: String) {
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    context.startActivity(browserIntent)
   }
 
   companion object Factory {
 
-    fun create(): ActionDispatcher = ActionDispatcher()
+    fun create(): BrowserActionExecutor = BrowserActionExecutor(Orchextra.provideContext())
   }
 }

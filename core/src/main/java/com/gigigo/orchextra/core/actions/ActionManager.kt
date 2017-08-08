@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core
+package com.gigigo.orchextra.core.actions
 
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
@@ -45,6 +45,7 @@ class ActionManager constructor(
 
   companion object Factory {
 
-    fun create(): ActionManager = ActionManager(ActionDispatcher.create(), GetAction.create())
+    fun create(): ActionManager = ActionManager(
+        ActionDispatcher.create(), GetAction.create())
   }
 }

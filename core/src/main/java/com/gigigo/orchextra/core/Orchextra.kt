@@ -23,7 +23,6 @@ import android.content.SharedPreferences
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
-import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
@@ -59,9 +58,6 @@ object Orchextra {
 
     val getConfiguration = GetConfiguration.create()
 
-    BARCODE withValue "648529597704071325a138d355ddb27a"
-
-
     val loadConfiguration = LoadConfiguration(
         app = context?.getAppData(),
         device = context?.getDeviceData())
@@ -84,7 +80,11 @@ object Orchextra {
     this.apiSecret = null
   }
 
-  fun getSharedPreferences(): SharedPreferences {
-    return context!!.getSharedPreferences("orchextra", Context.MODE_PRIVATE)
+  fun provideContext(): Context {
+    return context as Context
+  }
+
+  fun provideSharedPreferences(): SharedPreferences {
+    return provideContext().getSharedPreferences("orchextra", Context.MODE_PRIVATE)
   }
 }

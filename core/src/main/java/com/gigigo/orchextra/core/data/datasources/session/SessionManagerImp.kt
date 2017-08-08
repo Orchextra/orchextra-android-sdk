@@ -27,7 +27,7 @@ import com.squareup.moshi.Moshi
 
 
 class SessionManagerImp constructor(
-    private val sharedPreferences: SharedPreferences = Orchextra.getSharedPreferences(),
+    private val sharedPreferences: SharedPreferences = Orchextra.provideSharedPreferences(),
     moshi: Moshi = Moshi.Builder().build())
   : SessionManager {
 

@@ -18,9 +18,14 @@
 
 package com.gigigo.orchextra.core
 
+import com.gigigo.orchextra.core.actions.ActionDispatcher
+import com.gigigo.orchextra.core.actions.ActionManager
+import com.gigigo.orchextra.core.actions.actionexecutors.BrowserActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
+import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.interactor.GetAction
@@ -35,27 +40,49 @@ import org.junit.Test
 
 class ActionManagerTest {
 
+  private val TEST_TRIGGER = QR withValue "test_123"
+
   @Test
   fun shouldExecuteBrowserAction() {
-    val actionDispatcher: ActionDispatcher = mock()
+    val browserActionExecutor: BrowserActionExecutor = mock()
     val action = Action(trackId = "test_123",
         type = BROWSER,
         url = "https://www.google.es",
         notification = Notification())
-    val actionManager = getActionManager(action, actionDispatcher)
+    val actionManager = getActionManager(action, browserActionExecutor = browserActionExecutor)
 
-    actionManager.onTriggerDetected(QR withValue "test_123")
+    actionManager.onTriggerDetected(TEST_TRIGGER)
 
-    verify(actionDispatcher).executeAction(action)
+    verify(browserActionExecutor).open(action.url)
   }
 
+  @Test
+  fun shouldExecuteWebViewAction() {
+    val webViewActionExecutor: WebViewActionExecutor = mock()
+    val action = Action(trackId = "test_123",
+        type = WEBVIEW,
+        url = "https://www.google.es",
+        notification = Notification())
+    val actionManager = getActionManager(action, webViewActionExecutor = webViewActionExecutor)
 
-  private fun getActionManager(action: Action, actionDispatcher: ActionDispatcher): ActionManager {
+    actionManager.onTriggerDetected(TEST_TRIGGER)
+
+    verify(webViewActionExecutor).open(action.url)
+  }
+
+  private fun getActionManager(action: Action,
+      browserActionExecutor: BrowserActionExecutor = mock(),
+      webViewActionExecutor: WebViewActionExecutor = mock()
+  ): ActionManager {
+
     val networkDataSource = mock<NetworkDataSource> {
       on { getAction(any()) } doReturn action
     }
+
+    val actionDispatcher = ActionDispatcher(browserActionExecutor, webViewActionExecutor)
     val getAction = GetAction(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSource)
 
-    return ActionManager(actionDispatcher = actionDispatcher, getAction = getAction)
+    return ActionManager(actionDispatcher = actionDispatcher,
+        getAction = getAction)
   }
 }
