@@ -23,25 +23,28 @@ import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
+import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
+import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class GetAuthentication : Runnable {
+class GetAuthentication constructor(private val threadExecutor: ThreadExecutor,
+    private val postExecutionThread: PostExecutionThread,
+    private val sessionManager: SessionManager,
+    private val networkDataSource: NetworkDataSource) : Runnable {
 
-  private val networkDataSource = NetworkDataSource.create()
-  private val sessionManager = SessionManager.create()
-  private var credentials: Credentials? = null
+  private lateinit var credentials: Credentials
   private var callback: Callback? = null
 
   fun getAuthentication(credentials: Credentials, callback: Callback) {
     this.credentials = credentials
     this.callback = callback
 
-    ThreadExecutor.execute(this)
+    threadExecutor.execute(this)
   }
 
   override fun run() {
     try {
-      val token = networkDataSource.getAuthentication(credentials as Credentials)
+      val token = networkDataSource.getAuthentication(credentials)
       sessionManager.saveSession(token)
       notifySuccess()
     } catch (error: NetworkException) {
@@ -50,11 +53,11 @@ class GetAuthentication : Runnable {
   }
 
   private fun notifySuccess() {
-    PostExecutionThread.execute(Runnable { callback?.onSuccess() })
+    postExecutionThread.execute(Runnable { callback?.onSuccess() })
   }
 
   private fun notifyError(error: NetworkException) {
-    PostExecutionThread.execute(Runnable { callback?.onError(error) })
+    postExecutionThread.execute(Runnable { callback?.onError(error) })
   }
 
   interface Callback {
@@ -66,6 +69,8 @@ class GetAuthentication : Runnable {
 
   companion object Factory {
 
-    fun create(): GetAuthentication = GetAuthentication()
+    fun create(): GetAuthentication = GetAuthentication(ThreadExecutorImp, PostExecutionThreadImp,
+        SessionManager.create(),
+        NetworkDataSource.create())
   }
 }

@@ -18,9 +18,12 @@
 
 package com.gigigo.orchextra.core.data.datasources.network.models
 
+import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.ActionType
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -76,4 +79,20 @@ fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing =
 fun ApiPoint.toPoint(): Point =
     with(this) {
       return Point(lat, lng)
+    }
+
+fun ApiAction.toAction(): Action =
+    with(this) {
+      return Action(
+          trackId = trackId ?: "",
+          type = ActionType.valueOf(type ?: "NOTHING"),
+          url = url ?: "",
+          notification = notification?.toNotification() ?: Notification())
+    }
+
+fun ApiNotification.toNotification(): Notification =
+    with(this) {
+      return Notification(
+          title = title ?: "",
+          body = body ?: "")
     }

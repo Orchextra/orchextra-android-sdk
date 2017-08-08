@@ -16,10 +16,16 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.executor
+package com.gigigo.orchextra.core.data.datasources.network.models
 
+class ApiAction(
+    val trackId: String?,
+    val type: String?,
+    val url: String?,
+    val notification: ApiNotification?
+)
 
-interface ThreadExecutor {
-
-  fun execute(runnable: Runnable)
-}
+class ApiNotification(
+    val title: String?,
+    val body: String?
+)

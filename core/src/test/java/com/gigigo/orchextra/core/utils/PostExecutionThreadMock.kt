@@ -16,10 +16,13 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.executor
+package com.gigigo.orchextra.core.utils
 
+import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 
-interface ThreadExecutor {
+class PostExecutionThreadMock : PostExecutionThread {
 
-  fun execute(runnable: Runnable)
+  override fun execute(runnable: Runnable) {
+    runnable.run()
+  }
 }

@@ -16,10 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.executor
+package com.gigigo.orchextra.core.triggers
 
-
-interface ThreadExecutor {
-
-  fun execute(runnable: Runnable)
+interface Scanner : Trigger {
 }

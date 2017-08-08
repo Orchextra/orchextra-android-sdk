@@ -21,14 +21,17 @@ package com.gigigo.orchextra.core.data.datasources.network
 import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
+import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.Token
+import com.gigigo.orchextra.core.domain.entities.Trigger
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -78,5 +81,12 @@ class NetworkDataSourceImp : NetworkDataSource {
     val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute().body()
 
     return apiResponse?.data?.toConfiguration() as Configuration
+  }
+
+  override fun getAction(trigger: Trigger): Action {
+
+    val apiResponse = orchextraApi.getAction(trigger.type.name, trigger.value).execute().body()
+
+    return apiResponse?.data?.toAction() as Action
   }
 }

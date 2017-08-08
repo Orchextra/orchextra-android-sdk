@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.data.datasources.network
 
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiAction
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiToken
@@ -25,7 +26,9 @@ import com.gigigo.orchextra.core.data.datasources.network.models.Response
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface OrchextraApi {
 
@@ -35,4 +38,8 @@ interface OrchextraApi {
 
   @POST("v1/configuration")
   fun getConfiguration(@Body loadConfiguration: LoadConfiguration): Call<Response<ApiConfiguration>>
+
+  @GET("v1/action")
+  fun getAction(@Query("type") type: String,
+      @Query("value") value: String): Call<Response<ApiAction>>
 }

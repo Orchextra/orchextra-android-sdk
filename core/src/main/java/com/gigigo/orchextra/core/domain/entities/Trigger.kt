@@ -18,5 +18,19 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-class Trigger {
+
+enum class TriggerType {
+  BEACON,
+  BEACON_REGION,
+  EDDYSTONE,
+  GEOFENCE,
+  QR,
+  BARCODE,
+  VUFORIA;
+
+  infix fun withValue(value: String) = Trigger(this, value)
 }
+
+data class Trigger constructor(
+    val type: TriggerType,
+    val value: String)

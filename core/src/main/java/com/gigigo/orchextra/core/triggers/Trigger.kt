@@ -16,10 +16,15 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.executor
+package com.gigigo.orchextra.core.triggers
 
+import com.gigigo.orchextra.core.domain.entities.Trigger
 
-interface ThreadExecutor {
+interface Trigger {
 
-  fun execute(runnable: Runnable)
+  fun setCallback(triggerCallback: TriggerCallback)
+}
+
+interface TriggerCallback {
+  fun onTriggerDetected(trigger: Trigger)
 }

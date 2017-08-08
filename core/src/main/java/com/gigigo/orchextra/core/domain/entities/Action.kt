@@ -18,5 +18,23 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-class Action {
+enum class ActionType {
+  BROWSER,
+  WEBVIEW,
+  CUSTOM_SCHEME,
+  SCANNER,
+  IMAGE_RECOGNITION,
+  NOTIFICATION,
+  NOTHING
+}
+
+data class Action constructor(
+    val trackId: String,
+    val type: ActionType,
+    val url: String,
+    val notification: Notification) {
+
+  fun hasNotification(): Boolean {
+    return notification.isNotEmpty()
+  }
 }

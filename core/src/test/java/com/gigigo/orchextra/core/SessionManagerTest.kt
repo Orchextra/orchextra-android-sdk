@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 
-
 package com.gigigo.orchextra.core
 
 import android.content.SharedPreferences

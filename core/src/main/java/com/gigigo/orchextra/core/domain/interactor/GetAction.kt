@@ -18,5 +18,57 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
-class GetAction {
+import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.exceptions.NetworkException
+import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
+import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
+import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
+import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
+
+class GetAction constructor(private val threadExecutor: ThreadExecutor,
+    private val postExecutionThread: PostExecutionThread,
+    private val networkDataSource: NetworkDataSource) : Runnable {
+
+  private lateinit var trigger: Trigger
+  private var callback: Callback? = null
+
+  fun get(trigger: Trigger, callback: Callback) {
+    this.trigger = trigger
+    this.callback = callback
+
+    threadExecutor.execute(this)
+  }
+
+  override fun run() {
+    try {
+      val action = networkDataSource.getAction(trigger)
+
+      notifySuccess(action)
+    } catch (error: NetworkException) {
+      notifyError(error)
+    }
+  }
+
+  private fun notifySuccess(action: Action) {
+    postExecutionThread.execute(Runnable { callback?.onSuccess(action) })
+  }
+
+  private fun notifyError(error: NetworkException) {
+    postExecutionThread.execute(Runnable { callback?.onError(error) })
+  }
+
+  interface Callback {
+
+    fun onSuccess(action: Action)
+
+    fun onError(error: NetworkException)
+  }
+
+  companion object Factory {
+
+    fun create(): GetAction = GetAction(ThreadExecutorImp, PostExecutionThreadImp,
+        NetworkDataSource.create())
+  }
 }

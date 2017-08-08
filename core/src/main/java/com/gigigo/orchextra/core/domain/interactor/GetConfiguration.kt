@@ -23,24 +23,27 @@ import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
+import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
+import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class GetConfiguration : Runnable {
+class GetConfiguration constructor(private val threadExecutor: ThreadExecutor,
+    private val postExecutionThread: PostExecutionThread,
+    private val networkDataSource: NetworkDataSource) : Runnable {
 
-  private val networkDataSource = NetworkDataSource.create()
-  private var loadConfiguration: LoadConfiguration? = null
+  private lateinit var loadConfiguration: LoadConfiguration
   private var callback: Callback? = null
 
   fun get(loadConfiguration: LoadConfiguration, callback: Callback) {
     this.loadConfiguration = loadConfiguration
     this.callback = callback
 
-    ThreadExecutor.execute(this)
+    threadExecutor.execute(this)
   }
 
   override fun run() {
     try {
-      val configuration = networkDataSource.getConfiguration(loadConfiguration as LoadConfiguration)
+      val configuration = networkDataSource.getConfiguration(loadConfiguration)
 
       notifySuccess(configuration)
     } catch (error: NetworkException) {
@@ -49,11 +52,11 @@ class GetConfiguration : Runnable {
   }
 
   private fun notifySuccess(configuration: Configuration) {
-    PostExecutionThread.execute(Runnable { callback?.onSuccess(configuration) })
+    postExecutionThread.execute(Runnable { callback?.onSuccess(configuration) })
   }
 
   private fun notifyError(error: NetworkException) {
-    PostExecutionThread.execute(Runnable { callback?.onError(error) })
+    postExecutionThread.execute(Runnable { callback?.onError(error) })
   }
 
   interface Callback {
@@ -65,6 +68,7 @@ class GetConfiguration : Runnable {
 
   companion object Factory {
 
-    fun create(): GetConfiguration = GetConfiguration()
+    fun create(): GetConfiguration = GetConfiguration(ThreadExecutorImp, PostExecutionThreadImp,
+        NetworkDataSource.create())
   }
 }

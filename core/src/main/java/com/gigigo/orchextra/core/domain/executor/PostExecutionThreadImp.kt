@@ -18,8 +18,14 @@
 
 package com.gigigo.orchextra.core.domain.executor
 
+import android.os.Handler
+import android.os.Looper
 
-interface ThreadExecutor {
+object PostExecutionThreadImp : PostExecutionThread {
 
-  fun execute(runnable: Runnable)
+  private val handler = Handler(Looper.getMainLooper())
+
+  override fun execute(runnable: Runnable) {
+    handler.post(runnable)
+  }
 }

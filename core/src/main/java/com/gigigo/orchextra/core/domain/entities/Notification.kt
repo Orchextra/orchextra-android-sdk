@@ -16,10 +16,17 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.executor
+package com.gigigo.orchextra.core.domain.entities
 
+data class Notification constructor(
+    val title: String = "",
+    val body: String = "") {
 
-interface ThreadExecutor {
+  fun isEmpty(): Boolean {
+    return title.isBlank() && body.isBlank()
+  }
 
-  fun execute(runnable: Runnable)
+  fun isNotEmpty(): Boolean {
+    return !isEmpty()
+  }
 }

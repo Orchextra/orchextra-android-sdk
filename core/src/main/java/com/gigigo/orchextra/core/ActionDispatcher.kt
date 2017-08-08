@@ -16,10 +16,18 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.executor
+package com.gigigo.orchextra.core
 
+import com.gigigo.orchextra.core.domain.entities.Action
 
-interface ThreadExecutor {
+class ActionDispatcher {
 
-  fun execute(runnable: Runnable)
+  fun executeAction(action: Action) {
+
+  }
+
+  companion object Factory {
+
+    fun create(): ActionDispatcher = ActionDispatcher()
+  }
 }
