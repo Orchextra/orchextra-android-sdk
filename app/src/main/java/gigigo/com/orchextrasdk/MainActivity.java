@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
+import com.gigigo.orchextra.core.OrchextraStatusListener;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
   @Override protected void onStop() {
@@ -63,16 +65,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   public static String API_KEY = "122f51a9f80a93270dfbd61b027155936031bba9";
   public static String API_SECRET = "54b0294038ae8118db6d996d4db4e082aa8447df";
+  private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
+    @Override public void onStatusChange(boolean isReady) {
+      if (isReady) {
+        Toast.makeText(MainActivity.this, "SDK ready", Toast.LENGTH_SHORT).show();
+      } else {
+        Toast.makeText(MainActivity.this, "SDK finished", Toast.LENGTH_SHORT).show();
+      }
+    }
+  };
 
   @Override public void onClick(View v) {
     Orchextra orchextra = Orchextra.INSTANCE;
 
     if (v.getId() == R.id.init_button) {
+      orchextra.setStatusListener(orchextraStatusListener);
       orchextra.init(this, API_KEY, API_SECRET);
-    }
-
-    if (v.getId() == R.id.browser_button) {
-      orchextra.openBrowser("https://www.google.es");
+    } else {
+      if (orchextra.isReady()) {
+        if (v.getId() == R.id.browser_button) {
+          orchextra.openBrowser("https://www.google.es");
+        }
+      } else {
+        Toast.makeText(this, "SDK sin inicializar", Toast.LENGTH_SHORT).show();
+      }
     }
 
     //if (v.getId() == R.id.button) {

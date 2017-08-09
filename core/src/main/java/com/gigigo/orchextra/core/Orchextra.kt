@@ -32,6 +32,7 @@ import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.utils.extensions.getAppData
 import com.gigigo.orchextra.core.utils.extensions.getDeviceData
+import java.lang.IllegalStateException
 
 object Orchextra {
 
@@ -39,6 +40,8 @@ object Orchextra {
   private var apiKey: String? = null
   private var apiSecret: String? = null
   private lateinit var actionManager: ActionManager
+  private var isReady = false
+  private var orchextraStatusListener: OrchextraStatusListener? = null
 
   fun init(context: Context, apiKey: String, apiSecret: String) {
 
@@ -61,16 +64,6 @@ object Orchextra {
         })
   }
 
-  fun openBrowser(url: String) {
-    checkInitialization()
-    actionManager.executeAction(
-        Action(trackId = "-1", type = BROWSER, url = url, notification = Notification()))
-  }
-
-  private fun checkInitialization() {
-    // TODO lanzar una excepción si el sdk no esta inicializado
-  }
-
   private fun getConfiguration() {
 
     val getConfiguration = GetConfiguration.create()
@@ -82,19 +75,47 @@ object Orchextra {
     getConfiguration.get(loadConfiguration,
         object : GetConfiguration.Callback {
           override fun onSuccess(configuration: Configuration) {
+            changeStatus(true)
             println("getConfiguration onSuccess")
           }
 
           override fun onError(error: NetworkException) {
+            changeStatus(false)
             println("getAuthentication onError: $error")
           }
         })
+  }
+
+  fun openBrowser(url: String) {
+    checkInitialization()
+    actionManager.executeAction(
+        Action(trackId = "-1", type = BROWSER, url = url, notification = Notification()))
+  }
+
+  private fun changeStatus(isReady: Boolean) {
+    Orchextra.isReady = isReady
+    orchextraStatusListener?.onStatusChange(isReady)
+  }
+
+  fun setStatusListener(orchextraStatusListener: OrchextraStatusListener) {
+    Orchextra.orchextraStatusListener = orchextraStatusListener
+  }
+
+  fun isReady(): Boolean {
+    return Orchextra.isReady
+  }
+
+  private fun checkInitialization() {
+    if (!isReady) {
+      throw IllegalStateException("You must call init()")
+    }
   }
 
   fun finish() {
     this.context = null
     this.apiKey = null
     this.apiSecret = null
+    changeStatus(false)
   }
 
   fun provideContext(): Context {

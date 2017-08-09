@@ -23,7 +23,6 @@ import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInter
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
-import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -78,9 +77,11 @@ class NetworkDataSourceImp : NetworkDataSource {
 
   override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
 
-    val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute().body()
+//    val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute().body()
 
-    return apiResponse?.data?.toConfiguration() as Configuration
+//    return apiResponse?.data?.toConfiguration() as Configuration
+
+    return Configuration()
   }
 
   override fun getAction(trigger: Trigger): Action {
