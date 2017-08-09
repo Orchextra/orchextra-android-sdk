@@ -16,16 +16,25 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.scanner
+package com.gigigo.orchextra.scanner
 
+import android.content.Context
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.triggers.Scanner
-import com.gigigo.orchextra.core.triggers.VoidScanner
+import com.gigigo.orchextra.core.triggers.TriggerCallback
 
-object ScannerActionExecutor {
+class OxScannerImp private constructor(private val context: Context) : Scanner {
 
-  var scanner: Scanner = VoidScanner()
+  override fun init() {
+    ScannerActivity.open(context)
+  }
 
-  fun open() {
-    scanner.init()
+  override fun setCallback(triggerCallback: TriggerCallback) {
+
+  }
+
+  companion object Factory {
+
+    fun create(): OxScannerImp = OxScannerImp(Orchextra.provideContext())
   }
 }

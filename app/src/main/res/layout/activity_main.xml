@@ -36,6 +36,15 @@
       />
 
   <Button
+      android:id="@+id/scanner_button"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_margin="20dp"
+      android:text="Open scanner"
+      />
+
+  <Button
       android:id="@+id/button"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

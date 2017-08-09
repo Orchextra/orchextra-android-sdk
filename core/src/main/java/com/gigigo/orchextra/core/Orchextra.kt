@@ -23,6 +23,7 @@ import android.content.SharedPreferences
 import com.gigigo.orchextra.core.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
+import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
@@ -43,10 +44,13 @@ object Orchextra {
   private var isReady = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
 
-  fun init(context: Context, apiKey: String, apiSecret: String) {
+  fun init(context: Context, apiKey: String, apiSecret: String,
+      orchextraStatusListener: OrchextraStatusListener? = null) {
 
     this.context = context
+    this.orchextraStatusListener = orchextraStatusListener
     this.triggerManager = TriggerManager.create()
+    this.actionDispatcher = ActionDispatcher.create()
 
     val getAuthentication = GetAuthentication.create()
     getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
@@ -95,13 +99,20 @@ object Orchextra {
         Action(type = WEBVIEW, url = url))
   }
 
+  fun openScanner() {
+    checkInitialization()
+    actionDispatcher.executeAction(
+        Action(type = SCANNER))
+  }
+
+  fun getTriggerManager(): TriggerManager {
+    checkInitialization()
+    return triggerManager
+  }
+
   private fun changeStatus(isReady: Boolean) {
     Orchextra.isReady = isReady
     orchextraStatusListener?.onStatusChange(isReady)
-  }
-
-  fun setStatusListener(orchextraStatusListener: OrchextraStatusListener) {
-    Orchextra.orchextraStatusListener = orchextraStatusListener
   }
 
   fun isReady(): Boolean {

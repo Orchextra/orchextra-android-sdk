@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
+import com.gigigo.orchextra.scanner.OxScannerImp;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
   @Override protected void onStop() {
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   //region Orchextra
   private boolean isRunning = false;
-  private Button initButton, browserButton, webviewButton, button, button2, button3, button4,
-      button5, button6, button7, button8;
+  private Button initButton, browserButton, webviewButton, scannerButton, button, button2, button3,
+      button4, button5, button6, button7, button8;
   private TextView statusText;
 
   //region getViews/Buttons onClick
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     initButton = (Button) findViewById(R.id.init_button);
     browserButton = (Button) findViewById(R.id.browser_button);
     webviewButton = (Button) findViewById(R.id.webview_button);
+    scannerButton = (Button) findViewById(R.id.scanner_button);
     button = (Button) findViewById(R.id.button);
     button2 = (Button) findViewById(R.id.button2);
     button3 = (Button) findViewById(R.id.button3);
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     initButton.setOnClickListener(this);
     browserButton.setOnClickListener(this);
     webviewButton.setOnClickListener(this);
+    scannerButton.setOnClickListener(this);
     button.setOnClickListener(this);
     button2.setOnClickListener(this);
     button3.setOnClickListener(this);
@@ -70,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
     @Override public void onStatusChange(boolean isReady) {
       if (isReady) {
+        Orchextra orchextra = Orchextra.INSTANCE;
+        orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create());
         Toast.makeText(MainActivity.this, "SDK ready", Toast.LENGTH_SHORT).show();
       } else {
         Toast.makeText(MainActivity.this, "SDK finished", Toast.LENGTH_SHORT).show();
@@ -81,15 +86,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Orchextra orchextra = Orchextra.INSTANCE;
 
     if (v.getId() == R.id.init_button) {
-      orchextra.setStatusListener(orchextraStatusListener);
-      orchextra.init(this, API_KEY, API_SECRET);
+      orchextra.init(this, API_KEY, API_SECRET, orchextraStatusListener);
     } else {
       if (orchextra.isReady()) {
         if (v.getId() == R.id.browser_button) {
           orchextra.openBrowser("https://www.google.es");
-
         } else if (v.getId() == R.id.webview_button) {
           orchextra.openWebView("https://www.google.es");
+        } else if (v.getId() == R.id.scanner_button) {
+          orchextra.openScanner();
         }
       } else {
         Toast.makeText(this, "SDK sin inicializar", Toast.LENGTH_SHORT).show();

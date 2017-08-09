@@ -19,14 +19,22 @@
 package com.gigigo.orchextra.core.triggers
 
 import com.gigigo.orchextra.core.actions.ActionDispatcher
+import com.gigigo.orchextra.core.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetAction.Callback
+import kotlin.properties.Delegates
 
 class TriggerManager(private val getAction: GetAction,
     private val actionDispatcher: ActionDispatcher) : TriggerCallback {
+
+  var scanner by Delegates.observable(VoidScanner() as Scanner)
+  { _, _, new ->
+    new.setCallback(this@TriggerManager)
+    ScannerActionExecutor.scanner = new
+  }
 
   override fun onTriggerDetected(trigger: Trigger) {
 

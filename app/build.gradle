@@ -32,9 +32,9 @@ android {
     versionName "7.0.3" // parent.ext.androidVersionName
     //for VuforiaCredentials,VuforiaCredentials Only work with armv7 lib.so, in this case we exclude all
     //less than armv7, but not with exclude, wit Ndk { abifilters
-//    ndk {
-//      abiFilters "armeabi-v7a"
-//    }
+    //    ndk {
+    //      abiFilters "armeabi-v7a"
+    //    }
     //java8
     //        jackOptions {
     //            enabled true
@@ -77,13 +77,13 @@ android {
     targetCompatibility JavaVersion.VERSION_1_7 //java7
   }
 
-//  productFlavors {
-//    play7 {}
-//    play8 {}
-//    play9 {}
-//    play10 {}
-//    playno {}
-//  }
+  //  productFlavors {
+  //    play7 {}
+  //    play8 {}
+  //    play9 {}
+  //    play10 {}
+  //    playno {}
+  //  }
 }
 
 //configurations {
@@ -112,31 +112,32 @@ dependencies {
   compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
 
   compile project(':core')
+  compile project(':scanner')
 
   //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin support
-    // compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
- // compile project(':vuforiaimplementation')
+  // compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
+  // compile project(':vuforiaimplementation')
   //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
-//  play7StagingCompile project(path: ':orchextrasdk', configuration: 'play7Staging')
-//  play8StagingCompile project(path: ':orchextrasdk', configuration: 'play8Staging')
-//  play9StagingCompile project(path: ':orchextrasdk', configuration: 'play9Staging')
-//  play10StagingCompile project(path: ':orchextrasdk', configuration: 'play10Staging')
-//  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-//  playnoStagingCompile project(path: ':orchextrasdk', configuration: 'playnoStaging')
-//
-//  play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
-//  play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
-//  play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
-//  play10DebugCompile project(path: ':orchextrasdk', configuration: 'play10Debug')
-//  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-//  playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
-//
-//  play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
-//  play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
-//  play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
-//  play10ReleaseCompile project(path: ':orchextrasdk', configuration: 'play10Release')
-//  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-//  playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
+  //  play7StagingCompile project(path: ':orchextrasdk', configuration: 'play7Staging')
+  //  play8StagingCompile project(path: ':orchextrasdk', configuration: 'play8Staging')
+  //  play9StagingCompile project(path: ':orchextrasdk', configuration: 'play9Staging')
+  //  play10StagingCompile project(path: ':orchextrasdk', configuration: 'play10Staging')
+  //  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
+  //  playnoStagingCompile project(path: ':orchextrasdk', configuration: 'playnoStaging')
+  //
+  //  play7DebugCompile project(path: ':orchextrasdk', configuration: 'play7Debug')
+  //  play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
+  //  play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
+  //  play10DebugCompile project(path: ':orchextrasdk', configuration: 'play10Debug')
+  //  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
+  //  playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
+  //
+  //  play7ReleaseCompile project(path: ':orchextrasdk', configuration: 'play7Release')
+  //  play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
+  //  play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
+  //  play10ReleaseCompile project(path: ':orchextrasdk', configuration: 'play10Release')
+  //  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
+  //  playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
 
   testCompile parent.ext.testDependencies.junit
 

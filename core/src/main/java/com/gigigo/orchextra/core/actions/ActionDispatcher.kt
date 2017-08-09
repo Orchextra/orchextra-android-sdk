@@ -59,7 +59,7 @@ class ActionDispatcher constructor(private val browserActionExecutor: BrowserAct
         BrowserActionExecutor.create(),
         WebViewActionExecutor.create(),
         CustomActionExecutor.create(),
-        ScannerActionExecutor.create(),
+        ScannerActionExecutor,
         ImageRecognitionActionExecutor.create(),
         NotificationActionExecutor.create())
   }

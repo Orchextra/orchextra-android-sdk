@@ -16,16 +16,26 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.scanner
+package com.gigigo.orchextra.scanner
 
-import com.gigigo.orchextra.core.triggers.Scanner
-import com.gigigo.orchextra.core.triggers.VoidScanner
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 
-object ScannerActionExecutor {
+class ScannerActivity : AppCompatActivity() {
 
-  var scanner: Scanner = VoidScanner()
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_scanner)
+  }
 
-  fun open() {
-    scanner.init()
+  companion object Navigator {
+
+    fun open(context: Context) {
+      val intent = Intent(context, ScannerActivity::class.java)
+      intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+      context.startActivity(intent)
+    }
   }
 }

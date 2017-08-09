@@ -31,7 +31,7 @@ enum class ActionType {
 data class Action constructor(
     val trackId: String = "-1",
     val type: ActionType,
-    val url: String,
+    val url: String = "",
     val notification: Notification = Notification()) {
 
   fun hasNotification(): Boolean {

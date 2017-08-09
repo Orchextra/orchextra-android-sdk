@@ -18,5 +18,15 @@
 
 package com.gigigo.orchextra.core.triggers
 
-interface Scanner : Trigger {
+interface Scanner : Trigger
+
+class VoidScanner : Scanner {
+
+  override fun init() {
+    TODO("not implemented")
+  }
+
+  override fun setCallback(triggerCallback: TriggerCallback) {
+    TODO("not implemented")
+  }
 }

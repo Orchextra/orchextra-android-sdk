@@ -1,13 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gigigo.orchextra.scanner">
 
-    package="com.gigigo.orchextra.scanner"
->
-
-  <application android:allowBackup="true"
+  <application
+      android:allowBackup="true"
       android:label="@string/app_name"
-      android:supportsRtl="true"
-  >
-
+      android:supportsRtl="true">
+    <activity
+        android:name=".ScannerActivity"
+        android:theme="@style/Theme.AppCompat.Light">
+    </activity>
   </application>
 
 </manifest>
