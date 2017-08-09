@@ -30,14 +30,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   //region Orchextra
   private boolean isRunning = false;
-  private Button initButton, browserButton, button, button2, button3, button4, button5, button6,
-      button7, button8;
+  private Button initButton, browserButton, webviewButton, button, button2, button3, button4,
+      button5, button6, button7, button8;
   private TextView statusText;
 
   //region getViews/Buttons onClick
   private void getViews() {
     initButton = (Button) findViewById(R.id.init_button);
     browserButton = (Button) findViewById(R.id.browser_button);
+    webviewButton = (Button) findViewById(R.id.webview_button);
     button = (Button) findViewById(R.id.button);
     button2 = (Button) findViewById(R.id.button2);
     button3 = (Button) findViewById(R.id.button3);
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   private void setListeners() {
     initButton.setOnClickListener(this);
     browserButton.setOnClickListener(this);
+    webviewButton.setOnClickListener(this);
     button.setOnClickListener(this);
     button2.setOnClickListener(this);
     button3.setOnClickListener(this);
@@ -85,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       if (orchextra.isReady()) {
         if (v.getId() == R.id.browser_button) {
           orchextra.openBrowser("https://www.google.es");
+
+        } else if (v.getId() == R.id.webview_button) {
+          orchextra.openWebView("https://www.google.es");
         }
       } else {
         Toast.makeText(this, "SDK sin inicializar", Toast.LENGTH_SHORT).show();

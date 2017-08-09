@@ -16,22 +16,20 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors
+package com.gigigo.orchextra.core.actions.actionexecutors.webview
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import com.gigigo.orchextra.core.Orchextra
 
 class WebViewActionExecutor constructor(private val context: Context) {
 
   fun open(url: String) {
-    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    context.startActivity(browserIntent)
+    WebViewActivity.open(context, url)
   }
 
   companion object Factory {
 
-    fun create(): WebViewActionExecutor = WebViewActionExecutor(Orchextra.provideContext())
+    fun create(): WebViewActionExecutor = WebViewActionExecutor(
+        Orchextra.provideContext())
   }
 }

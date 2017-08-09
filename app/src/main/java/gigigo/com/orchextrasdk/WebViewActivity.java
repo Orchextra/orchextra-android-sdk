@@ -11,7 +11,7 @@ public class WebViewActivity extends AppCompatActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_web_view);
+    setContentView(R.layout.ox_activity_web_view);
     //webview with customscheme for renavigate
     if (Build.VERSION.SDK_INT > 17) {
       //mWebView = new OxWebView(this);

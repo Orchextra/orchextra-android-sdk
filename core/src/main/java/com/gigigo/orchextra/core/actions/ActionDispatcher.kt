@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.core.actions
 
 import com.gigigo.orchextra.core.actions.actionexecutors.BrowserActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.WebViewActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.webview.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.CUSTOM_SCHEME

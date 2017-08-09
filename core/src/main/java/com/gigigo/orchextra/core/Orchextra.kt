@@ -23,10 +23,10 @@ import android.content.SharedPreferences
 import com.gigigo.orchextra.core.actions.ActionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
+import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
-import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
@@ -89,7 +89,13 @@ object Orchextra {
   fun openBrowser(url: String) {
     checkInitialization()
     actionManager.executeAction(
-        Action(trackId = "-1", type = BROWSER, url = url, notification = Notification()))
+        Action(trackId = "-1", type = BROWSER, url = url))
+  }
+
+  fun openWebView(url: String) {
+    checkInitialization()
+    actionManager.executeAction(
+        Action(trackId = "-1", type = WEBVIEW, url = url))
   }
 
   private fun changeStatus(isReady: Boolean) {

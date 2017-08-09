@@ -21,7 +21,7 @@ package com.gigigo.orchextra.core
 import com.gigigo.orchextra.core.actions.ActionDispatcher
 import com.gigigo.orchextra.core.actions.ActionManager
 import com.gigigo.orchextra.core.actions.actionexecutors.BrowserActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.WebViewActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.webview.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER

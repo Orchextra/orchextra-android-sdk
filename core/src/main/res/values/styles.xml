@@ -17,21 +17,6 @@
   ~ limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gigigo.orchextra.core">
+<resources>
 
-  <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-  <uses-permission android:name="android.permission.BLUETOOTH"/>
-
-  <application
-      android:allowBackup="true"
-      android:label="@string/app_name"
-      android:supportsRtl="true">
-
-    <activity
-        android:name=".actions.actionexecutors.webview.WebViewActivity"
-        android:theme="@style/Theme.AppCompat.Light">
-    </activity>
-  </application>
-</manifest>
+</resources>

@@ -32,7 +32,7 @@ data class Action constructor(
     val trackId: String,
     val type: ActionType,
     val url: String,
-    val notification: Notification) {
+    val notification: Notification = Notification()) {
 
   fun hasNotification(): Boolean {
     return notification.isNotEmpty()
