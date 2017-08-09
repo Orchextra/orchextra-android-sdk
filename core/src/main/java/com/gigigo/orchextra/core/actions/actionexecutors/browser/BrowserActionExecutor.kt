@@ -24,7 +24,7 @@ import android.net.Uri
 import com.gigigo.orchextra.core.Orchextra
 
 
-class BrowserActionExecutor constructor(private val context: Context) {
+class BrowserActionExecutor(private val context: Context) {
 
   fun open(url: String) {
     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))

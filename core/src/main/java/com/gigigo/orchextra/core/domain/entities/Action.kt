@@ -29,7 +29,7 @@ enum class ActionType {
 }
 
 data class Action constructor(
-    val trackId: String,
+    val trackId: String = "-1",
     val type: ActionType,
     val url: String,
     val notification: Notification = Notification()) {

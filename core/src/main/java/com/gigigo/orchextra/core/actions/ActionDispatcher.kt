@@ -33,22 +33,22 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 
 class ActionDispatcher constructor(private val browserActionExecutor: BrowserActionExecutor,
     private val webViewActionExecutor: WebViewActionExecutor,
-    val customActionExecutor: CustomActionExecutor,
-    val scannerActionExecutor: ScannerActionExecutor,
-    val imageRecognitionActionExecutor: ImageRecognitionActionExecutor,
-    val notificationActionExecutor: NotificationActionExecutor) {
+    private val customActionExecutor: CustomActionExecutor,
+    private val scannerActionExecutor: ScannerActionExecutor,
+    private val imageRecognitionActionExecutor: ImageRecognitionActionExecutor,
+    private val notificationActionExecutor: NotificationActionExecutor) {
 
   fun executeAction(action: Action) = with(action) {
 
     if (hasNotification()) {
-      notificationActionExecutor.open(url)
+      notificationActionExecutor.showNotification(notification)
     }
 
     when (type) {
       BROWSER -> browserActionExecutor.open(url)
       WEBVIEW -> webViewActionExecutor.open(url)
       CUSTOM_SCHEME -> customActionExecutor.open(url)
-      SCANNER -> scannerActionExecutor.open(url)
+      SCANNER -> scannerActionExecutor.open()
       IMAGE_RECOGNITION -> imageRecognitionActionExecutor.open(url)
     }
   }

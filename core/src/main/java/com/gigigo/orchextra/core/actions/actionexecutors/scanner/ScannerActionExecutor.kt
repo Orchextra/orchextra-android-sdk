@@ -18,14 +18,16 @@
 
 package com.gigigo.orchextra.core.actions.actionexecutors.scanner
 
-class ScannerActionExecutor {
+import com.gigigo.orchextra.core.triggers.Scanner
 
-  fun open(url: String) {
+class ScannerActionExecutor(private val scanner: Scanner?) {
 
+  fun open() {
+    scanner?.init()
   }
 
   companion object Factory {
 
-    fun create(): ScannerActionExecutor = ScannerActionExecutor()
+    fun create(): ScannerActionExecutor = ScannerActionExecutor(null)
   }
 }

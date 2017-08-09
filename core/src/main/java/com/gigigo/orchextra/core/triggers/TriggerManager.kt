@@ -16,25 +16,23 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions
+package com.gigigo.orchextra.core.triggers
 
+import com.gigigo.orchextra.core.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetAction.Callback
-import com.gigigo.orchextra.core.triggers.TriggerCallback
 
-class ActionManager constructor(
-    private val actionDispatcher: ActionDispatcher,
-    private val getAction: GetAction)
-  : TriggerCallback {
+class TriggerManager(private val getAction: GetAction,
+    private val actionDispatcher: ActionDispatcher) : TriggerCallback {
 
   override fun onTriggerDetected(trigger: Trigger) {
 
     getAction.get(trigger, object : Callback {
       override fun onSuccess(action: Action) {
-        executeAction(action)
+        actionDispatcher.executeAction(action)
       }
 
       override fun onError(error: NetworkException) {
@@ -43,12 +41,9 @@ class ActionManager constructor(
     })
   }
 
-  fun executeAction(action: Action) =
-      actionDispatcher.executeAction(action)
-
   companion object Factory {
 
-    fun create(): ActionManager = ActionManager(
-        ActionDispatcher.create(), GetAction.create())
+    fun create(): TriggerManager = TriggerManager(GetAction.create(),
+        ActionDispatcher.create())
   }
 }

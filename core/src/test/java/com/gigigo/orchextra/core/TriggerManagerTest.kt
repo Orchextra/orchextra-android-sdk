@@ -19,8 +19,11 @@
 package com.gigigo.orchextra.core
 
 import com.gigigo.orchextra.core.actions.ActionDispatcher
-import com.gigigo.orchextra.core.actions.ActionManager
 import com.gigigo.orchextra.core.actions.actionexecutors.browser.BrowserActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.customaction.CustomActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.notification.NotificationActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.actions.actionexecutors.webview.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -29,6 +32,7 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.interactor.GetAction
+import com.gigigo.orchextra.core.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.PostExecutionThreadMock
 import com.gigigo.orchextra.core.utils.ThreadExecutorMock
 import com.nhaarman.mockito_kotlin.any
@@ -38,7 +42,7 @@ import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
 
 
-class ActionManagerTest {
+class TriggerManagerTest {
 
   private val TEST_TRIGGER = QR withValue "test_123"
 
@@ -72,17 +76,22 @@ class ActionManagerTest {
 
   private fun getActionManager(action: Action,
       browserActionExecutor: BrowserActionExecutor = mock(),
-      webViewActionExecutor: WebViewActionExecutor = mock()
-  ): ActionManager {
+      webViewActionExecutor: WebViewActionExecutor = mock(),
+      customActionExecutor: CustomActionExecutor = mock(),
+      scannerActionExecutor: ScannerActionExecutor = mock(),
+      imageRecognitionActionExecutor: ImageRecognitionActionExecutor = mock(),
+      notificationActionExecutor: NotificationActionExecutor = mock()
+  ): TriggerManager {
 
     val networkDataSource = mock<NetworkDataSource> {
       on { getAction(any()) } doReturn action
     }
 
-    val actionDispatcher = ActionDispatcher(browserActionExecutor, webViewActionExecutor)
+    val actionDispatcher = ActionDispatcher(browserActionExecutor, webViewActionExecutor,
+        customActionExecutor, scannerActionExecutor, imageRecognitionActionExecutor,
+        notificationActionExecutor)
     val getAction = GetAction(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSource)
 
-    return ActionManager(actionDispatcher = actionDispatcher,
-        getAction = getAction)
+    return TriggerManager(getAction = getAction, actionDispatcher = actionDispatcher)
   }
 }

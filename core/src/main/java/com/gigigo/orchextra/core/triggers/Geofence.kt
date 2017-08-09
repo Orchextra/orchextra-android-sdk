@@ -18,15 +18,5 @@
 
 package com.gigigo.orchextra.core.triggers
 
-import com.gigigo.orchextra.core.domain.entities.Trigger
-
-interface Trigger {
-
-  fun init()
-
-  fun setCallback(triggerCallback: TriggerCallback)
-}
-
-interface TriggerCallback {
-  fun onTriggerDetected(trigger: Trigger)
+interface Geofence : Trigger {
 }

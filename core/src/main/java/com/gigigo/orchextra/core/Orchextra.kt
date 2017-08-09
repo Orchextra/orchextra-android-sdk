@@ -20,7 +20,7 @@ package com.gigigo.orchextra.core
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.gigigo.orchextra.core.actions.ActionManager
+import com.gigigo.orchextra.core.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
@@ -30,6 +30,7 @@ import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
+import com.gigigo.orchextra.core.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.extensions.getAppData
 import com.gigigo.orchextra.core.utils.extensions.getDeviceData
 import java.lang.IllegalStateException
@@ -37,19 +38,15 @@ import java.lang.IllegalStateException
 object Orchextra {
 
   private var context: Context? = null
-  private var apiKey: String? = null
-  private var apiSecret: String? = null
-  private lateinit var actionManager: ActionManager
+  private lateinit var actionDispatcher: ActionDispatcher
+  private lateinit var triggerManager: TriggerManager
   private var isReady = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
 
   fun init(context: Context, apiKey: String, apiSecret: String) {
 
     this.context = context
-    this.apiKey = apiKey
-    this.apiSecret = apiSecret
-
-    actionManager = ActionManager.create()
+    this.triggerManager = TriggerManager.create()
 
     val getAuthentication = GetAuthentication.create()
     getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
@@ -88,14 +85,14 @@ object Orchextra {
 
   fun openBrowser(url: String) {
     checkInitialization()
-    actionManager.executeAction(
-        Action(trackId = "-1", type = BROWSER, url = url))
+    actionDispatcher.executeAction(
+        Action(type = BROWSER, url = url))
   }
 
   fun openWebView(url: String) {
     checkInitialization()
-    actionManager.executeAction(
-        Action(trackId = "-1", type = WEBVIEW, url = url))
+    actionDispatcher.executeAction(
+        Action(type = WEBVIEW, url = url))
   }
 
   private fun changeStatus(isReady: Boolean) {
@@ -119,8 +116,6 @@ object Orchextra {
 
   fun finish() {
     this.context = null
-    this.apiKey = null
-    this.apiSecret = null
     changeStatus(false)
   }
 
