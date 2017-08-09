@@ -16,17 +16,17 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.customaction
+package com.gigigo.orchextra.core.domain.triggers
 
+import com.gigigo.orchextra.core.domain.entities.Trigger
 
-class CustomActionExecutor {
+interface Trigger {
 
-  fun open(url: String) {
+  fun init()
 
-  }
+  fun setListener(triggerListener: TriggerListener)
+}
 
-  companion object Factory {
-
-    fun create(): CustomActionExecutor = CustomActionExecutor()
-  }
+interface TriggerListener {
+  fun onTriggerDetected(trigger: Trigger)
 }

@@ -16,7 +16,16 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.triggers
+package com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition
 
-interface ImageRecognition : Trigger {
+class ImageRecognitionActionExecutor {
+
+  fun open(url: String) {
+
+  }
+
+  companion object Factory {
+
+    fun create(): ImageRecognitionActionExecutor = ImageRecognitionActionExecutor()
+  }
 }

@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions
+package com.gigigo.orchextra.core.domain.actions
 
-import com.gigigo.orchextra.core.actions.actionexecutors.browser.BrowserActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.customaction.CustomActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.notification.NotificationActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.scanner.ScannerActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.webview.WebViewActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.browser.BrowserActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.webview.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.CUSTOM_SCHEME

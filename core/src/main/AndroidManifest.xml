@@ -30,7 +30,7 @@
       android:supportsRtl="true">
 
     <activity
-        android:name=".actions.actionexecutors.webview.WebViewActivity"
+        android:name="com.gigigo.orchextra.core.domain.actions.actionexecutors.webview.WebViewActivity"
         android:theme="@style/Theme.AppCompat.Light">
     </activity>
   </application>

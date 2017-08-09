@@ -16,7 +16,17 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.triggers
+package com.gigigo.orchextra.core.domain.triggers
 
-interface Geofence : Trigger {
+interface Scanner : Trigger
+
+class VoidScanner : Scanner {
+
+  override fun init() {
+    TODO("not implemented")
+  }
+
+  override fun setListener(triggerListener: TriggerListener) {
+    TODO("not implemented")
+  }
 }

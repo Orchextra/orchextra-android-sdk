@@ -21,11 +21,11 @@ package com.gigigo.orchextra.core.data.datasources.network
 import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
-import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
@@ -86,8 +86,9 @@ class NetworkDataSourceImp : NetworkDataSource {
 
   override fun getAction(trigger: Trigger): Action {
 
-    val apiResponse = orchextraApi.getAction(trigger.type.name, trigger.value).execute().body()
-
-    return apiResponse?.data?.toAction() as Action
+//    val apiResponse = orchextraApi.getAction(trigger.type.name, trigger.value).execute().body()
+//
+//    return apiResponse?.data?.toAction() as Action
+    return Action(type = WEBVIEW, url = "https://www.google.es")
   }
 }

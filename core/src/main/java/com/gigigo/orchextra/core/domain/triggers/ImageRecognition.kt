@@ -16,17 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.triggers
+package com.gigigo.orchextra.core.domain.triggers
 
-import com.gigigo.orchextra.core.domain.entities.Trigger
-
-interface Trigger {
-
-  fun init()
-
-  fun setCallback(triggerCallback: TriggerCallback)
-}
-
-interface TriggerCallback {
-  fun onTriggerDetected(trigger: Trigger)
+interface ImageRecognition : Trigger {
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.triggers
+package com.gigigo.orchextra.core.domain.triggers
 
 interface IndoorPositioning : Trigger {
 }

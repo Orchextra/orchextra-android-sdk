@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.imagerecognition
+package com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction
 
-class ImageRecognitionActionExecutor {
+
+class CustomActionExecutor {
 
   fun open(url: String) {
 
@@ -26,6 +27,6 @@ class ImageRecognitionActionExecutor {
 
   companion object Factory {
 
-    fun create(): ImageRecognitionActionExecutor = ImageRecognitionActionExecutor()
+    fun create(): CustomActionExecutor = CustomActionExecutor()
   }
 }

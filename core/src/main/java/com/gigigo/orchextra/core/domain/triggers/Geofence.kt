@@ -16,20 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.webview
+package com.gigigo.orchextra.core.domain.triggers
 
-import android.content.Context
-import com.gigigo.orchextra.core.Orchextra
-
-class WebViewActionExecutor constructor(private val context: Context) {
-
-  fun open(url: String) {
-    WebViewActivity.open(context, url)
-  }
-
-  companion object Factory {
-
-    fun create(): WebViewActionExecutor = WebViewActionExecutor(
-        Orchextra.provideContext())
-  }
+interface Geofence : Trigger {
 }

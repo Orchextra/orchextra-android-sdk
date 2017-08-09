@@ -16,24 +16,32 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.browser
+package com.gigigo.orchextra.core.domain.actions.actionexecutors.notification
 
+import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
+import android.support.v4.app.NotificationCompat
 import com.gigigo.orchextra.core.Orchextra
+import com.gigigo.orchextra.core.domain.entities.Notification
 
 
-class BrowserActionExecutor(private val context: Context) {
+class NotificationActionExecutor(private val context: Context) {
 
-  fun open(url: String) {
-    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    context.startActivity(browserIntent)
+  fun showNotification(notification: Notification) = with(notification) {
+
+    val mBuilder = NotificationCompat.Builder(context)
+        .setContentTitle(title)
+        .setContentText(body)
+
+    val mNotificationManager = context.getSystemService(
+        Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    mNotificationManager.notify(0x213, mBuilder.build())
   }
 
   companion object Factory {
 
-    fun create(): BrowserActionExecutor = BrowserActionExecutor(
+    fun create(): NotificationActionExecutor = NotificationActionExecutor(
         Orchextra.provideContext())
   }
 }

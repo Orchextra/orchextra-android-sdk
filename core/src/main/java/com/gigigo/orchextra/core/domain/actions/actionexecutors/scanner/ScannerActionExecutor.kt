@@ -16,17 +16,16 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.triggers
+package com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner
 
-interface Scanner : Trigger
+import com.gigigo.orchextra.core.domain.triggers.Scanner
+import com.gigigo.orchextra.core.domain.triggers.VoidScanner
 
-class VoidScanner : Scanner {
+object ScannerActionExecutor {
 
-  override fun init() {
-    TODO("not implemented")
-  }
+  var scanner: Scanner = VoidScanner()
 
-  override fun setCallback(triggerCallback: TriggerCallback) {
-    TODO("not implemented")
+  fun open() {
+    scanner.init()
   }
 }

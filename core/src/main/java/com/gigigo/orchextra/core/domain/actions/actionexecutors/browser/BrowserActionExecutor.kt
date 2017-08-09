@@ -16,16 +16,24 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.scanner
+package com.gigigo.orchextra.core.domain.actions.actionexecutors.browser
 
-import com.gigigo.orchextra.core.triggers.Scanner
-import com.gigigo.orchextra.core.triggers.VoidScanner
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import com.gigigo.orchextra.core.Orchextra
 
-object ScannerActionExecutor {
 
-  var scanner: Scanner = VoidScanner()
+class BrowserActionExecutor(private val context: Context) {
 
-  fun open() {
-    scanner.init()
+  fun open(url: String) {
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    context.startActivity(browserIntent)
+  }
+
+  companion object Factory {
+
+    fun create(): BrowserActionExecutor = BrowserActionExecutor(
+        Orchextra.provideContext())
   }
 }

@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.triggers
+package com.gigigo.orchextra.core.domain.triggers
 
-import com.gigigo.orchextra.core.actions.ActionDispatcher
-import com.gigigo.orchextra.core.actions.actionexecutors.scanner.ScannerActionExecutor
+import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -28,11 +28,11 @@ import com.gigigo.orchextra.core.domain.interactor.GetAction.Callback
 import kotlin.properties.Delegates
 
 class TriggerManager(private val getAction: GetAction,
-    private val actionDispatcher: ActionDispatcher) : TriggerCallback {
+    private val actionDispatcher: ActionDispatcher) : TriggerListener {
 
   var scanner by Delegates.observable(VoidScanner() as Scanner)
   { _, _, new ->
-    new.setCallback(this@TriggerManager)
+    new.setListener(this@TriggerManager)
     ScannerActionExecutor.scanner = new
   }
 

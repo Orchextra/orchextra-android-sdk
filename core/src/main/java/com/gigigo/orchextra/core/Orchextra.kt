@@ -20,7 +20,7 @@ package com.gigigo.orchextra.core
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.gigigo.orchextra.core.actions.ActionDispatcher
+import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
@@ -31,7 +31,7 @@ import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
-import com.gigigo.orchextra.core.triggers.TriggerManager
+import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.extensions.getAppData
 import com.gigigo.orchextra.core.utils.extensions.getDeviceData
 import java.lang.IllegalStateException

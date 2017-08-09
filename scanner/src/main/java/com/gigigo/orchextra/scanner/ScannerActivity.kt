@@ -22,15 +22,27 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
+import com.gigigo.orchextra.core.domain.triggers.TriggerListener
+import kotlinx.android.synthetic.main.activity_scanner.button
 
 class ScannerActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_scanner)
+
+    button.setOnClickListener { triggerListener?.onTriggerDetected(QR withValue "123") }
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    triggerListener = null
   }
 
   companion object Navigator {
+
+    var triggerListener: TriggerListener? = null
 
     fun open(context: Context) {
       val intent = Intent(context, ScannerActivity::class.java)

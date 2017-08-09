@@ -16,32 +16,20 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.notification
+package com.gigigo.orchextra.core.domain.actions.actionexecutors.webview
 
-import android.app.NotificationManager
 import android.content.Context
-import android.support.v4.app.NotificationCompat
 import com.gigigo.orchextra.core.Orchextra
-import com.gigigo.orchextra.core.domain.entities.Notification
 
+class WebViewActionExecutor constructor(private val context: Context) {
 
-class NotificationActionExecutor(private val context: Context) {
-
-  fun showNotification(notification: Notification) = with(notification) {
-
-    val mBuilder = NotificationCompat.Builder(context)
-        .setContentTitle(title)
-        .setContentText(body)
-
-    val mNotificationManager = context.getSystemService(
-        Context.NOTIFICATION_SERVICE) as NotificationManager
-
-    mNotificationManager.notify(0x213, mBuilder.build())
+  fun open(url: String) {
+    WebViewActivity.open(context, url)
   }
 
   companion object Factory {
 
-    fun create(): NotificationActionExecutor = NotificationActionExecutor(
+    fun create(): WebViewActionExecutor = WebViewActionExecutor(
         Orchextra.provideContext())
   }
 }

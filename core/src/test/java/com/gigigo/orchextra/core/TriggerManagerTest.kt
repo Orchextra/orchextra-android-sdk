@@ -18,13 +18,13 @@
 
 package com.gigigo.orchextra.core
 
-import com.gigigo.orchextra.core.actions.ActionDispatcher
-import com.gigigo.orchextra.core.actions.actionexecutors.browser.BrowserActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.customaction.CustomActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.notification.NotificationActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.scanner.ScannerActionExecutor
-import com.gigigo.orchextra.core.actions.actionexecutors.webview.WebViewActionExecutor
+import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.browser.BrowserActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.webview.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
@@ -32,7 +32,7 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.interactor.GetAction
-import com.gigigo.orchextra.core.triggers.TriggerManager
+import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.PostExecutionThreadMock
 import com.gigigo.orchextra.core.utils.ThreadExecutorMock
 import com.nhaarman.mockito_kotlin.any

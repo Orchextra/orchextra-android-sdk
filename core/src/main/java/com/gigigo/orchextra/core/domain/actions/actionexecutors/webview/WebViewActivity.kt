@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.actions.actionexecutors.webview
+package com.gigigo.orchextra.core.domain.actions.actionexecutors.webview
 
 import android.content.Context
 import android.content.Intent
