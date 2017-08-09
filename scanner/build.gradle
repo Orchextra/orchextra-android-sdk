@@ -27,7 +27,12 @@ dependencies {
   compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
   compile 'com.android.support:appcompat-v7:25.3.1'
+  compile 'me.dm7.barcodescanner:zbar:1.8.4'
   compile project(':core')
+
+  compile('me.dm7.barcodescanner:zbar:1.8.4') {
+    exclude module: 'support-v4'
+  }
 
   testCompile 'junit:junit:4.12'
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

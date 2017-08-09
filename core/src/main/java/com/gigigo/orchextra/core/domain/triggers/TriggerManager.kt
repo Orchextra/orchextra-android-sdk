@@ -22,6 +22,8 @@ import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
+import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetAction.Callback
@@ -37,6 +39,10 @@ class TriggerManager(private val getAction: GetAction,
   }
 
   override fun onTriggerDetected(trigger: Trigger) {
+
+    if (trigger.type == QR || trigger.type == BARCODE) {
+      scanner.finish()
+    }
 
     getAction.get(trigger, object : Callback {
       override fun onSuccess(action: Action) {

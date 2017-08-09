@@ -29,6 +29,10 @@ class OxScannerImp private constructor(private val context: Context) : Scanner {
     ScannerActivity.open(context)
   }
 
+  override fun finish() {
+    ScannerActivity.finish()
+  }
+
   override fun setListener(triggerListener: TriggerListener) {
     ScannerActivity.triggerListener = triggerListener
   }

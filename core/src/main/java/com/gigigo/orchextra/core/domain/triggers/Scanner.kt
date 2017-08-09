@@ -23,10 +23,14 @@ interface Scanner : Trigger
 class VoidScanner : Scanner {
 
   override fun init() {
-    TODO("not implemented")
+    throw NotImplementedError("Operation is not implemented")
+  }
+
+  override fun finish() {
+    throw NotImplementedError("Operation is not implemented")
   }
 
   override fun setListener(triggerListener: TriggerListener) {
-    TODO("not implemented")
+    throw NotImplementedError("Operation is not implemented")
   }
 }
