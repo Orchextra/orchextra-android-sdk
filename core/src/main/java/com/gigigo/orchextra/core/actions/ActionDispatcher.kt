@@ -18,30 +18,38 @@
 
 package com.gigigo.orchextra.core.actions
 
-import com.gigigo.orchextra.core.actions.actionexecutors.BrowserActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.browser.BrowserActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.customaction.CustomActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.notification.NotificationActionExecutor
+import com.gigigo.orchextra.core.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.actions.actionexecutors.webview.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.CUSTOM_SCHEME
 import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
-import com.gigigo.orchextra.core.domain.entities.ActionType.NOTHING
-import com.gigigo.orchextra.core.domain.entities.ActionType.NOTIFICATION
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 
 class ActionDispatcher constructor(private val browserActionExecutor: BrowserActionExecutor,
-    private val webViewActionExecutor: WebViewActionExecutor) {
+    private val webViewActionExecutor: WebViewActionExecutor,
+    val customActionExecutor: CustomActionExecutor,
+    val scannerActionExecutor: ScannerActionExecutor,
+    val imageRecognitionActionExecutor: ImageRecognitionActionExecutor,
+    val notificationActionExecutor: NotificationActionExecutor) {
 
-  fun executeAction(action: Action) {
+  fun executeAction(action: Action) = with(action) {
 
-    when (action.type) {
-      BROWSER -> browserActionExecutor.open(action.url)
-      WEBVIEW -> webViewActionExecutor.open(action.url)
-      CUSTOM_SCHEME -> print("CUSTOM_SCHEME")
-      SCANNER -> print("SCANNER")
-      IMAGE_RECOGNITION -> print("IMAGE_RECOGNITION")
-      NOTIFICATION -> print("NOTIFICATION")
-      NOTHING -> print("NOTHING")
+    if (hasNotification()) {
+      notificationActionExecutor.open(url)
+    }
+
+    when (type) {
+      BROWSER -> browserActionExecutor.open(url)
+      WEBVIEW -> webViewActionExecutor.open(url)
+      CUSTOM_SCHEME -> customActionExecutor.open(url)
+      SCANNER -> scannerActionExecutor.open(url)
+      IMAGE_RECOGNITION -> imageRecognitionActionExecutor.open(url)
     }
   }
 
@@ -49,6 +57,10 @@ class ActionDispatcher constructor(private val browserActionExecutor: BrowserAct
 
     fun create(): ActionDispatcher = ActionDispatcher(
         BrowserActionExecutor.create(),
-        WebViewActionExecutor.create())
+        WebViewActionExecutor.create(),
+        CustomActionExecutor.create(),
+        ScannerActionExecutor.create(),
+        ImageRecognitionActionExecutor.create(),
+        NotificationActionExecutor.create())
   }
 }

@@ -6,10 +6,10 @@
     tools:context="com.gigigo.orchextra.core.actions.actionexecutors.webview.WebViewActivity"
     >
 
-  <TextView
+  <WebView
+      android:id="@+id/oxWebView"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Hola"
+      android:layout_height="match_parent"
       />
 
 </LinearLayout>
