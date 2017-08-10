@@ -18,9 +18,13 @@
 
 package com.gigigo.orchextra.core.data.datasources.network.models
 
-class Response<T>(
+class OxResponse<T>(
     val status: Boolean?,
-    val data: T?,
+    val data: T?
+)
+
+class OxErrorResponse(
+    val status: Boolean?,
     val error: ApiError?
 )
 

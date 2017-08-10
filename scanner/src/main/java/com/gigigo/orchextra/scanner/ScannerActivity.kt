@@ -45,8 +45,6 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_scanner)
 
-    scannerActivity = this
-
     mScannerView = ZBarScannerView(this)
     val contentFrame = findViewById(R.id.content_frame) as ViewGroup
     contentFrame.addView(mScannerView)
@@ -65,6 +63,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   public override fun onResume() {
     super.onResume()
+    scannerActivity = this
     mScannerView.setResultHandler(this)
 
     if (ContextCompat.checkSelfPermission(this,

@@ -27,6 +27,7 @@ import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
+import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
 import com.squareup.moshi.Moshi
 import okhttp3.Response as OkResponse
 
@@ -45,15 +46,19 @@ fun ApiToken.toToken(): Token =
 fun OkResponse.parseError(): ApiError =
     with(this) {
       val moshi = Moshi.Builder().build()
-      val errorJsonAdapter = moshi.adapter(Response::class.java)
+      val errorJsonAdapter = moshi.adapter(OxErrorResponse::class.java)
       val response = errorJsonAdapter.fromJson(body()?.string())
-      return response.error ?: ApiError(
-          -1, "")
+      return response.error ?: ApiError(-1, "")
     }
 
 fun ApiError.toNetworkException(): NetworkException =
     with(this) {
       return NetworkException(code ?: -1, message ?: "")
+    }
+
+fun ApiError.toUnauthorizedException(): UnauthorizedException =
+    with(this) {
+      return UnauthorizedException(code ?: -1, message ?: "")
     }
 
 fun ApiConfiguration.toConfiguration(): Configuration =

@@ -20,6 +20,7 @@ package com.gigigo.orchextra.core.data.datasources.network.interceptor
 
 import com.gigigo.orchextra.core.data.datasources.network.models.parseError
 import com.gigigo.orchextra.core.data.datasources.network.models.toNetworkException
+import com.gigigo.orchextra.core.data.datasources.network.models.toUnauthorizedException
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Response
@@ -32,7 +33,14 @@ class ErrorInterceptor : Interceptor {
     val response = chain.proceed(chain.request())
 
     if (!response.isSuccessful) {
-      throw response.parseError().toNetworkException()
+
+      val error = response.parseError()
+
+      if (error.code == 401) {
+        throw error.toUnauthorizedException()
+      } else {
+        throw error.toNetworkException()
+      }
     }
 
     return response

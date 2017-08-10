@@ -18,5 +18,4 @@
 
 package com.gigigo.orchextra.core.domain.exceptions
 
-open class NetworkException(val code: Int, val error: String) : Exception()
-
+class UnauthorizedException(code: Int, error: String) : NetworkException(code, error)

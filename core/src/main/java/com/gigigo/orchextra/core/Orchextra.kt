@@ -29,7 +29,6 @@ import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
-import com.gigigo.orchextra.core.domain.interactor.GetAuthentication
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.extensions.getAppData
@@ -41,6 +40,7 @@ object Orchextra {
   private var context: Context? = null
   private lateinit var actionDispatcher: ActionDispatcher
   private lateinit var triggerManager: TriggerManager
+  private var credentials: Credentials? = null
   private var isReady = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
 
@@ -51,18 +51,21 @@ object Orchextra {
     this.orchextraStatusListener = orchextraStatusListener
     this.triggerManager = TriggerManager.create()
     this.actionDispatcher = ActionDispatcher.create()
+    this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
 
-    val getAuthentication = GetAuthentication.create()
-    getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
-        object : GetAuthentication.Callback {
-          override fun onSuccess() {
-            getConfiguration()
-          }
+//    val getAuthentication = GetAuthentication.create()
+//    getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
+//        object : GetAuthentication.Callback {
+//          override fun onSuccess() {
+//            getConfiguration()
+//          }
+//
+//          override fun onError(error: NetworkException) {
+//            println("getAuthentication onError: $error")
+//          }
+//        })
 
-          override fun onError(error: NetworkException) {
-            println("getAuthentication onError: $error")
-          }
-        })
+    getConfiguration()
   }
 
   private fun getConfiguration() {
@@ -113,6 +116,11 @@ object Orchextra {
   private fun changeStatus(isReady: Boolean) {
     Orchextra.isReady = isReady
     orchextraStatusListener?.onStatusChange(isReady)
+  }
+
+  fun getCredentials(): Credentials {
+    checkInitialization()
+    return credentials as Credentials
   }
 
   fun isReady(): Boolean {

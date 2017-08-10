@@ -19,19 +19,22 @@
 package com.gigigo.orchextra.core.data.datasources.network
 
 import com.gigigo.orchextra.core.BuildConfig
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
+import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
+import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
-import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
-import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -39,7 +42,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-class NetworkDataSourceImp : NetworkDataSource {
+class NetworkDataSourceImp(val orchextra: Orchextra,
+    val sessionManager: SessionManager) : NetworkDataSource {
 
   private val orchextraApi: OrchextraApi
 
@@ -87,14 +91,37 @@ class NetworkDataSourceImp : NetworkDataSource {
 
   override fun getAction(trigger: Trigger): Action {
 
-//    val apiResponse = orchextraApi.getAction(trigger.type.name, trigger.value).execute().body()
-//
-//    return apiResponse?.data?.toAction() as Action
-    return Action(
-        type = WEBVIEW,
-        url = "https://www.google.es",
-        notification = Notification(
-            title = "Hola",
-            body = "Lorem fistrum se calle ustée amatomaa caballo blanco caballo negroorl ahorarr la caidita jarl llevame al sircoo no te digo trigo por no llamarte Rodrigor ahorarr."))
+    val apiResponse = makeCallWithRetry({ ->
+      orchextraApi.getAction(trigger.type.name, trigger.value).execute().body()
+    })
+
+    return apiResponse?.data?.toAction() as Action
+
+
+//    return Action(
+//        type = WEBVIEW,
+//        url = "https://www.google.es",
+//        notification = Notification(
+//            title = "Hola",
+//            body = "Lorem fistrum se calle ustée amatomaa caballo blanco caballo negroorl ahorarr la caidita jarl llevame al sircoo no te digo trigo por no llamarte Rodrigor ahorarr."))
+  }
+
+
+  private fun <T> makeCallWithRetry(call: () -> OxResponse<T>?): OxResponse<T>? {
+    if (sessionManager.hasSession()) {
+      return makeCallWithRetryOnSessionFailed(call)
+    } else {
+      sessionManager.saveSession(getAuthentication(orchextra.getCredentials()))
+      return makeCallWithRetryOnSessionFailed(call)
+    }
+  }
+
+  private fun <T> makeCallWithRetryOnSessionFailed(call: () -> OxResponse<T>?): OxResponse<T>? {
+    try {
+      return call()
+    } catch (exception: UnauthorizedException) {
+      sessionManager.saveSession(getAuthentication(orchextra.getCredentials()))
+      return call()
+    }
   }
 }

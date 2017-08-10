@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.datasources
 
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.NetworkDataSourceImp
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
@@ -36,6 +37,6 @@ interface NetworkDataSource {
 
   companion object Factory {
 
-    fun create(): NetworkDataSource = NetworkDataSourceImp()
+    fun create(): NetworkDataSource = NetworkDataSourceImp(Orchextra, SessionManager.create())
   }
 }
