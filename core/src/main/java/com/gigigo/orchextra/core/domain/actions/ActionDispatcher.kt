@@ -38,12 +38,17 @@ class ActionDispatcher constructor(private val browserActionExecutor: BrowserAct
     private val imageRecognitionActionExecutor: ImageRecognitionActionExecutor,
     private val notificationActionExecutor: NotificationActionExecutor) {
 
-  fun executeAction(action: Action) = with(action) {
+  fun executeAction(action: Action) {
 
-    if (hasNotification()) {
-      notificationActionExecutor.showNotification(notification)
+    if (action.hasNotification()) {
+      notificationActionExecutor.showNotification(action.notification,
+          { -> openActionView(action) })
+    } else {
+      openActionView(action)
     }
+  }
 
+  fun openActionView(action: Action) = with(action) {
     when (type) {
       BROWSER -> browserActionExecutor.open(url)
       WEBVIEW -> webViewActionExecutor.open(url)

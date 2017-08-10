@@ -18,25 +18,27 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.notification
 
-import android.app.NotificationManager
+import android.app.AlertDialog
 import android.content.Context
-import android.support.v4.app.NotificationCompat
 import com.gigigo.orchextra.core.Orchextra
+import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.entities.Notification
 
 
 class NotificationActionExecutor(private val context: Context) {
 
-  fun showNotification(notification: Notification) = with(notification) {
+  fun showNotification(notification: Notification,
+      actionExecutor: () -> Unit) = with(notification) {
 
-    val mBuilder = NotificationCompat.Builder(context)
-        .setContentTitle(title)
-        .setContentText(body)
-
-    val mNotificationManager = context.getSystemService(
-        Context.NOTIFICATION_SERVICE) as NotificationManager
-
-    mNotificationManager.notify(0x213, mBuilder.build())
+    val builder = AlertDialog.Builder(context)
+    builder.setTitle(title)
+        .setMessage(body)
+        .setIcon(R.drawable.ox_notification_large_icon)
+        .setPositiveButton(android.R.string.ok, { dialog, _ ->
+          dialog.dismiss()
+          actionExecutor()
+        })
+        .show()
   }
 
   companion object Factory {

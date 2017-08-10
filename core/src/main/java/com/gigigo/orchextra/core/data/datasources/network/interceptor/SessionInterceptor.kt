@@ -28,6 +28,7 @@ import java.util.Locale
 
 class SessionInterceptor : Interceptor {
 
+  private val UNAUTHORIZED = 401
   private val sessionManager: SessionManager = SessionManager.create()
 
   override fun intercept(chain: Chain): Response {
@@ -44,6 +45,10 @@ class SessionInterceptor : Interceptor {
     val request = requestBuilder.build()
 
     val response = chain.proceed(request)
+
+    if (response.code() == UNAUTHORIZED) {
+      sessionManager.clearSession()
+    }
 
     return response
   }

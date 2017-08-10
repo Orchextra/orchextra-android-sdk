@@ -29,6 +29,7 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
+import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import okhttp3.OkHttpClient
@@ -89,6 +90,11 @@ class NetworkDataSourceImp : NetworkDataSource {
 //    val apiResponse = orchextraApi.getAction(trigger.type.name, trigger.value).execute().body()
 //
 //    return apiResponse?.data?.toAction() as Action
-    return Action(type = WEBVIEW, url = "https://www.google.es")
+    return Action(
+        type = WEBVIEW,
+        url = "https://www.google.es",
+        notification = Notification(
+            title = "Hola",
+            body = "Lorem fistrum se calle ustée amatomaa caballo blanco caballo negroorl ahorarr la caidita jarl llevame al sircoo no te digo trigo por no llamarte Rodrigor ahorarr."))
   }
 }

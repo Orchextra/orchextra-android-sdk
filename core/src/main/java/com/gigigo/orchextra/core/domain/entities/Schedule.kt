@@ -18,28 +18,11 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-enum class ActionType {
-  BROWSER,
-  WEBVIEW,
-  CUSTOM_SCHEME,
-  SCANNER,
-  IMAGE_RECOGNITION,
-  NOTIFICATION,
-  NOTHING
-}
+class Schedule(val seconds: Int = -1,
+    val cancelable: Boolean = true) {
 
-data class Action constructor(
-    val trackId: String = "-1",
-    val type: ActionType,
-    val url: String = "",
-    val notification: Notification = Notification(),
-    val schedule: Schedule = Schedule()) {
 
-  fun hasNotification(): Boolean {
-    return notification.isNotEmpty()
-  }
-
-  fun hasSchedule(): Boolean {
-    return schedule.isValid()
+  fun isValid(): Boolean {
+    return seconds != -1
   }
 }
