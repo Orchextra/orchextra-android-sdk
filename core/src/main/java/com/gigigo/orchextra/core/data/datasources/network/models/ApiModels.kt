@@ -38,12 +38,12 @@ class ApiToken(
 )
 
 class ApiAuthRequest(
-    val grantType: String,
-    val credentials: ApiCredentials
+    val grantType: String?,
+    val credentials: ApiCredentials?
 )
 
 class ApiCredentials(
-    val apiKey: String,
-    val apiSecret: String
+    val apiKey: String?,
+    val apiSecret: String?
 )
 

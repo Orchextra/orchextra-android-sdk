@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.core.domain.entities
 
 data class Token(
-    val value: String = "",
+    val value: String,
     val type: String = "",
     val expiresIn: Long = -1,
     val expiresAt: String = "",

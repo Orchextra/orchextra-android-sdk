@@ -33,7 +33,7 @@ class SessionManagerImp constructor(
 
   private val tokenJsonAdapter = moshi.adapter(Token::class.java)
   private val TOKEN_KEY = "token_key"
-  private var token = Token()
+  private var token = Token("")
 
   @SuppressLint("CommitPrefEdits")
   override fun saveSession(token: Token) {
@@ -49,7 +49,12 @@ class SessionManagerImp constructor(
     } else {
 
       val tokenJson = sharedPreferences.getString(TOKEN_KEY, "")
-      token = tokenJsonAdapter.fromJson(tokenJson) ?: Token()
+
+      if (tokenJson.isBlank()) {
+        return Token("")
+      }
+
+      token = tokenJsonAdapter.fromJson(tokenJson) ?: Token("")
 
       return token
     }
@@ -61,7 +66,7 @@ class SessionManagerImp constructor(
 
   @SuppressLint("CommitPrefEdits")
   override fun clearSession() {
-    token = Token()
+    token = Token("")
     val editor = sharedPreferences.edit()
     editor.putString(TOKEN_KEY, "")
     editor.commit()

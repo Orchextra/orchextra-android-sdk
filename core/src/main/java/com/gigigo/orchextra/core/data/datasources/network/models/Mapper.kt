@@ -34,8 +34,7 @@ import okhttp3.Response as OkResponse
 fun Credentials.toApiAuthRequest(grantType: String): ApiAuthRequest =
     with(this) {
       ApiAuthRequest(grantType,
-          ApiCredentials(apiKey,
-              apiSecret))
+          ApiCredentials(apiKey, apiSecret))
     }
 
 fun ApiToken.toToken(): Token =
