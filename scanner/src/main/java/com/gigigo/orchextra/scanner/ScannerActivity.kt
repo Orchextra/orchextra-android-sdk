@@ -98,7 +98,6 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   public override fun onDestroy() {
     super.onDestroy()
-    triggerListener = null
     scannerActivity = null
   }
 
