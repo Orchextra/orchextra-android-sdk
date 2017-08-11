@@ -1,7 +1,7 @@
 /*
  * Created by Orchextra
  *
- * Copyright (C) 2016 Gigigo Mobile Services SL
+ * Copyright (C) 2017 Gigigo Mobile Services SL
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-include ':orchextrasdk', ':orchextrasdk-control', ':core', ':scanner', ':geofence',
-    ':orchextrasdk-domain', ':orchextrasdk-dataprovision',
-    ':orchextrasdk-data', ':app'
+
+package com.gigigo.orchextra.geofence
+
+import com.gigigo.orchextra.core.domain.triggers.Geofence
+import com.gigigo.orchextra.core.domain.triggers.TriggerListener
+
+class OxGeofenceImp : Geofence {
+
+  override fun init() {
+    TODO("not implemented")
+  }
+
+  override fun finish() {
+    TODO("not implemented")
+  }
+
+  override fun setListener(triggerListener: TriggerListener) {
+    TODO("not implemented")
+  }
+}

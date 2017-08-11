@@ -18,5 +18,19 @@
 
 package com.gigigo.orchextra.core.domain.triggers
 
-interface Geofence : Trigger {
+interface Geofence : Trigger
+
+class VoidGeofence : Geofence {
+
+  override fun init() {
+    throw NotImplementedError("Operation is not implemented")
+  }
+
+  override fun finish() {
+    throw NotImplementedError("Operation is not implemented")
+  }
+
+  override fun setListener(triggerListener: TriggerListener) {
+    throw NotImplementedError("Operation is not implemented")
+  }
 }
