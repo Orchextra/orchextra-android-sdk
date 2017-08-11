@@ -35,6 +35,8 @@ interface NetworkDataSource {
 
   fun getAction(trigger: Trigger): Action
 
+  fun confirmAction(id: String)
+
   companion object Factory {
 
     fun create(): NetworkDataSource = NetworkDataSourceImp(Orchextra, SessionManager.create())

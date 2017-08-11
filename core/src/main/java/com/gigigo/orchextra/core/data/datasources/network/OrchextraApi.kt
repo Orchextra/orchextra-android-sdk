@@ -28,6 +28,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface OrchextraApi {
@@ -37,9 +38,13 @@ interface OrchextraApi {
   fun getAuthentication(@Body apiAuthRequest: ApiAuthRequest): Call<OxResponse<ApiToken>>
 
   @POST("v1/configuration")
-  fun getConfiguration(@Body loadConfiguration: LoadConfiguration): Call<OxResponse<ApiConfiguration>>
+  fun getConfiguration(
+      @Body loadConfiguration: LoadConfiguration): Call<OxResponse<ApiConfiguration>>
 
   @GET("v1/action")
   fun getAction(@Query("type") type: String,
       @Query("value") value: String): Call<OxResponse<ApiAction>>
+
+  @POST("v1/action/confirm/{id}")
+  fun confirmAction(@Path("id") id: String): Call<OxResponse<ApiAction>>
 }

@@ -106,6 +106,11 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
 //            body = "Lorem fistrum se calle ustée amatomaa caballo blanco caballo negroorl ahorarr la caidita jarl llevame al sircoo no te digo trigo por no llamarte Rodrigor ahorarr."))
   }
 
+  override fun confirmAction(id: String) {
+    makeCallWithRetry({ ->
+      orchextraApi.confirmAction(id).execute().body()
+    })
+  }
 
   private fun <T> makeCallWithRetry(call: () -> OxResponse<T>?): OxResponse<T>? {
     if (sessionManager.hasSession()) {
