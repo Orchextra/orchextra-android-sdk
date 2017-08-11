@@ -68,7 +68,7 @@ class SessionManagerImp constructor(
   override fun clearSession() {
     token = Token("")
     val editor = sharedPreferences.edit()
-    editor.putString(TOKEN_KEY, "")
+    editor.putString(TOKEN_KEY, tokenJsonAdapter.toJson(token))
     editor.commit()
   }
 }
