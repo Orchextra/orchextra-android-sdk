@@ -27,6 +27,7 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
@@ -35,7 +36,7 @@ import com.gigigo.orchextra.core.utils.extensions.getAppData
 import com.gigigo.orchextra.core.utils.extensions.getDeviceData
 import java.lang.IllegalStateException
 
-object Orchextra {
+object Orchextra : OrchextraErrorListener {
 
   private var context: Context? = null
   private lateinit var actionDispatcher: ActionDispatcher
@@ -43,6 +44,7 @@ object Orchextra {
   private var credentials: Credentials? = null
   private var isReady = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
+  private var orchextraErrorListener: OrchextraErrorListener? = null
 
   fun init(context: Context, apiKey: String, apiSecret: String,
       orchextraStatusListener: OrchextraStatusListener? = null) {
@@ -52,18 +54,6 @@ object Orchextra {
     this.triggerManager = TriggerManager.create()
     this.actionDispatcher = ActionDispatcher.create()
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
-
-//    val getAuthentication = GetAuthentication.create()
-//    getAuthentication.getAuthentication(Credentials(apiKey = apiKey, apiSecret = apiSecret),
-//        object : GetAuthentication.Callback {
-//          override fun onSuccess() {
-//            getConfiguration()
-//          }
-//
-//          override fun onError(error: NetworkException) {
-//            println("getAuthentication onError: $error")
-//          }
-//        })
 
     getConfiguration()
   }
@@ -131,6 +121,14 @@ object Orchextra {
     if (!isReady) {
       throw IllegalStateException("You must call init()")
     }
+  }
+
+  fun setErrorListener(errorListener: OrchextraErrorListener) {
+    this.orchextraErrorListener = errorListener
+  }
+
+  override fun onError(error: Error) {
+    orchextraErrorListener?.onError(error)
   }
 
   fun finish() {

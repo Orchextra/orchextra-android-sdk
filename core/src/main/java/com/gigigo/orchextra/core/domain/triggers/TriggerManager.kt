@@ -18,6 +18,9 @@
 
 package com.gigigo.orchextra.core.domain.triggers
 
+import com.gigigo.orchextra.core.Orchextra
+import com.gigigo.orchextra.core.OrchextraErrorListener
+import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -30,7 +33,8 @@ import com.gigigo.orchextra.core.domain.interactor.GetAction.Callback
 import kotlin.properties.Delegates
 
 class TriggerManager(private val getAction: GetAction,
-    private val actionDispatcher: ActionDispatcher) : TriggerListener {
+    private val actionDispatcher: ActionDispatcher,
+    private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
 
   var scanner by Delegates.observable(VoidScanner() as Scanner)
   { _, _, new ->
@@ -50,7 +54,7 @@ class TriggerManager(private val getAction: GetAction,
       }
 
       override fun onError(error: NetworkException) {
-        print("getAction error ${error.error}")
+        orchextraErrorListener.onError(error.toError())
       }
     })
   }
@@ -58,6 +62,7 @@ class TriggerManager(private val getAction: GetAction,
   companion object Factory {
 
     fun create(): TriggerManager = TriggerManager(GetAction.create(),
-        ActionDispatcher.create())
+        ActionDispatcher.create(),
+        Orchextra)
   }
 }

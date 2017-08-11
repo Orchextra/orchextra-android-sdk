@@ -22,6 +22,7 @@ import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Point
@@ -99,4 +100,11 @@ fun ApiNotification.toNotification(): Notification =
       return Notification(
           title = title ?: "",
           body = body ?: "")
+    }
+
+fun NetworkException.toError(): Error =
+    with(this) {
+      return Error(
+          code = code,
+          message = error)
     }
