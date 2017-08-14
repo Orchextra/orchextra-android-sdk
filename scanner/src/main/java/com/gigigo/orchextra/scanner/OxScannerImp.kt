@@ -21,7 +21,6 @@ package com.gigigo.orchextra.scanner
 import android.content.Context
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.triggers.Scanner
-import com.gigigo.orchextra.core.domain.triggers.TriggerListener
 
 class OxScannerImp private constructor(private val context: Context) : Scanner {
 
@@ -31,10 +30,6 @@ class OxScannerImp private constructor(private val context: Context) : Scanner {
 
   override fun finish() {
     ScannerActivity.finish()
-  }
-
-  override fun setListener(triggerListener: TriggerListener) {
-    ScannerActivity.triggerListener = triggerListener
   }
 
   companion object Factory {

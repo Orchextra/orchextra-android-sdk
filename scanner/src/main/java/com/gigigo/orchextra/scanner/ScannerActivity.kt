@@ -31,7 +31,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
-import com.gigigo.orchextra.core.domain.triggers.TriggerListener
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import me.dm7.barcodescanner.zbar.Result
 import me.dm7.barcodescanner.zbar.ZBarScannerView
 
@@ -53,9 +53,11 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
   override fun handleResult(rawResult: Result) {
 
     if (rawResult.barcodeFormat.name == "QRCODE") {
-      triggerListener?.onTriggerDetected(QR withValue rawResult.contents)
+      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(QR withValue rawResult.contents))
+      finish()
     } else {
-      triggerListener?.onTriggerDetected(BARCODE withValue rawResult.contents)
+      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(BARCODE withValue rawResult.contents))
+      finish()
     }
 
     handler.postDelayed({ mScannerView.resumeCameraPreview(this@ScannerActivity) }, 2000)
@@ -115,8 +117,6 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
   }
 
   companion object Navigator {
-
-    var triggerListener: TriggerListener? = null
     private var scannerActivity: ScannerActivity? = null
 
     fun open(context: Context) {

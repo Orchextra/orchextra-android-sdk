@@ -25,8 +25,6 @@ interface Trigger {
   fun init()
 
   fun finish()
-
-  fun setListener(triggerListener: TriggerListener)
 }
 
 interface TriggerListener {

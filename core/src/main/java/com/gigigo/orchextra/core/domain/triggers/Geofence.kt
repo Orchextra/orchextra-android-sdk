@@ -38,8 +38,4 @@ class VoidGeofence : Geofence {
   override fun finish() {
     throw NotImplementedError("Operation is not implemented")
   }
-
-  override fun setListener(triggerListener: TriggerListener) {
-    throw NotImplementedError("Operation is not implemented")
-  }
 }

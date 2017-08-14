@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
-import com.gigigo.orchextra.core.domain.triggers.TriggerListener
 import com.gigigo.orchextra.geofence.utils.toGeofence
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.Geofence
@@ -56,10 +55,6 @@ class OxGeofenceImp(private val context: Context,
 
   override fun finish() {
     removeGeofences()
-  }
-
-  override fun setListener(triggerListener: TriggerListener) {
-    // TODO eliminar listener
   }
 
   private fun addGeofences() {

@@ -27,8 +27,6 @@ import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerA
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Trigger
-import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
-import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetAction.Callback
@@ -38,28 +36,22 @@ class TriggerManager(private val getAction: GetAction,
     private val actionDispatcher: ActionDispatcher,
     private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
 
-   var configuration: Configuration = Configuration()
+  var configuration: Configuration = Configuration()
 
   var scanner by Delegates.observable(VoidScanner() as Scanner)
   { _, _, new ->
-    new.setListener(this@TriggerManager)
     ScannerActionExecutor.scanner = new
   }
 
   var geofence by Delegates.observable(VoidGeofence() as Geofence)
   { _, _, new ->
     new.setGeoMarketingList(configuration.geoMarketing)
-    new.setListener(this@TriggerManager)
     new.init()
   }
 
   override fun onTriggerDetected(trigger: Trigger) {
 
     Log.d(TAG, "onTriggerDetected: $trigger")
-
-    if (trigger.type == QR || trigger.type == BARCODE) {
-      scanner.finish()
-    }
 
     getAction.get(trigger, object : Callback {
       override fun onSuccess(action: Action) {
