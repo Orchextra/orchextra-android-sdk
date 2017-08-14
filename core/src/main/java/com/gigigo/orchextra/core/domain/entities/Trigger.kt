@@ -33,4 +33,13 @@ enum class TriggerType {
 
 data class Trigger constructor(
     val type: TriggerType,
-    val value: String)
+    val value: String,
+    val lat: Double? = null,
+    val lng: Double? = null,
+    val event: String? = null,
+    val phoneStatus: String? = null,
+    val distance: String? = null,
+    val temperature: Double? = null,
+    val battery: Double? = null,
+    val uptime: Int? = null
+)

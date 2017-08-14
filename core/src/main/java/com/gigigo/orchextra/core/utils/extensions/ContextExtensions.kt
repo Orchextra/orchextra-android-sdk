@@ -56,7 +56,11 @@ fun Context.getDeviceData(): DeviceData = with(this) {
       instanceId = "",
       secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
       serialNumber = Build.SERIAL,
-      bluetoothMacAddress = bluetoothAdapter.address,
+      bluetoothMacAddress = if (bluetoothAdapter != null) {
+        bluetoothAdapter.address
+      } else {
+        ""
+      },
       wifiMacAddress = wifiManager.connectionInfo.macAddress,
       tags = listOf(),
       businessUnits = listOf())

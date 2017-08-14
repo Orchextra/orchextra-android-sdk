@@ -18,9 +18,18 @@
 
 package com.gigigo.orchextra.core.domain.triggers
 
-interface Geofence : Trigger
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+
+interface Geofence : Trigger {
+
+  fun setGeoMarketingList(geoMarketingList: List<GeoMarketing>)
+}
 
 class VoidGeofence : Geofence {
+
+  override fun setGeoMarketingList(geoMarketingList: List<GeoMarketing>) {
+    throw NotImplementedError("Operation is not implemented")
+  }
 
   override fun init() {
     throw NotImplementedError("Operation is not implemented")

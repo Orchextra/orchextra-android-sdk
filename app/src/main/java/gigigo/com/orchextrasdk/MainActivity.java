@@ -11,6 +11,7 @@ import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
+import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 
 public class MainActivity extends AppCompatActivity {
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
     @Override public void onStatusChange(boolean isReady) {
       if (isReady) {
         orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create());
+        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create());
+
         Toast.makeText(MainActivity.this, "SDK ready", Toast.LENGTH_SHORT).show();
       } else {
         Toast.makeText(MainActivity.this, "SDK finished", Toast.LENGTH_SHORT).show();

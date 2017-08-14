@@ -1,7 +1,7 @@
 /*
  * Created by Orchextra
  *
- * Copyright (C) 2016 Gigigo Mobile Services SL
+ * Copyright (C) 2017 Gigigo Mobile Services SL
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-include ':app', ':core', ':scanner', ':geofence'
-//    ':orchextrasdk', ':orchextrasdk-control', ':orchextrasdk-domain', ':orchextrasdk-dataprovision',
-//    ':orchextrasdk-data'
+
+package com.gigigo.orchextra.geofence.utils
+
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.google.android.gms.location.Geofence
+
+
+fun GeoMarketing.toGeofence(): Geofence = with(this) {
+
+  return Geofence.Builder()
+      .setRequestId(code)
+      .setCircularRegion(point.lat, point.lng, radius.toFloat())
+      .setExpirationDuration(stayTime.toLong() * 1000)
+      .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
+      .build()
+}

@@ -18,20 +18,136 @@
 
 package com.gigigo.orchextra.geofence
 
-import com.gigigo.orchextra.core.domain.triggers.Geofence
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.preference.PreferenceManager
+import com.gigigo.orchextra.core.Orchextra
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.triggers.TriggerListener
+import com.gigigo.orchextra.geofence.utils.toGeofence
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.gigigo.orchextra.core.domain.triggers.Geofence as GeodenceInt
 
-class OxGeofenceImp : Geofence {
+
+class OxGeofenceImp(private val context: Context,
+    private val geofencingClient: GeofencingClient) : GeodenceInt, OnCompleteListener<Void> {
+
+  private val GEOFENCES_ADDED_KEY = "GEOFENCES_ADDED_KEY"
+  private var geofenceList: List<Geofence> = ArrayList()
+  private var geofencePendingIntent: PendingIntent? = null
+
+  override fun setGeoMarketingList(geoMarketingList: List<GeoMarketing>) {
+
+    geofenceList = geoMarketingList.map { it.toGeofence() }
+  }
 
   override fun init() {
-    TODO("not implemented")
+    connectWithCallbacks()
+    addGeofences()
   }
 
   override fun finish() {
-    TODO("not implemented")
+    removeGeofences()
   }
 
   override fun setListener(triggerListener: TriggerListener) {
-    TODO("not implemented")
+
+  }
+
+  private fun addGeofences() {
+    geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+        .addOnCompleteListener(this)
+  }
+
+  private fun removeGeofences() {
+    geofencingClient.removeGeofences(getGeofencePendingIntent()).addOnCompleteListener(this)
+  }
+
+  private fun connectWithCallbacks() {
+    val googleApiClient = GoogleApiClient.Builder(context)
+        .addApi(LocationServices.API)
+        .addConnectionCallbacks(connectionAddListener)
+        .addOnConnectionFailedListener(connectionFailedListener)
+        .build()
+    googleApiClient.connect()
+  }
+
+  private val connectionAddListener = object : GoogleApiClient.ConnectionCallbacks {
+    override fun onConnected(bundle: Bundle?) {
+      print("connectionAddListener")
+    }
+
+    override fun onConnectionSuspended(i: Int) {
+      print("onConnectionSuspended")
+    }
+  }
+
+  private val connectionFailedListener = GoogleApiClient.OnConnectionFailedListener {
+    print("connectionFailedListener")
+  }
+
+  override fun onComplete(task: Task<Void>) {
+    if (task.isSuccessful) {
+      updateGeofencesAdded(!getGeofencesAdded())
+
+      val messageId = if (getGeofencesAdded()) {
+        R.string.geofences_added
+      } else {
+        R.string.geofences_removed
+      }
+
+      print("messageId $messageId")
+    } else {
+
+      val errorMessage = GeofenceErrorMessages.getErrorString(context, task.exception)
+      print("error $errorMessage")
+    }
+  }
+
+  private fun getGeofencePendingIntent(): PendingIntent {
+
+    if (geofencePendingIntent != null) {
+      return geofencePendingIntent as PendingIntent
+    }
+
+    val intent = Intent(context, GeofenceTransitionsIntentService::class.java)
+    geofencePendingIntent = PendingIntent.getService(context, 0, intent,
+        PendingIntent.FLAG_UPDATE_CURRENT)
+
+    return geofencePendingIntent as PendingIntent
+  }
+
+  private fun getGeofencingRequest(): GeofencingRequest {
+    val builder = GeofencingRequest.Builder()
+    builder.setInitialTrigger(
+        GeofencingRequest.INITIAL_TRIGGER_ENTER or GeofencingRequest.INITIAL_TRIGGER_DWELL)
+    builder.addGeofences(geofenceList)
+    return builder.build()
+  }
+
+  private fun getGeofencesAdded(): Boolean {
+    return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+        GEOFENCES_ADDED_KEY, false)
+  }
+
+  private fun updateGeofencesAdded(added: Boolean) {
+    PreferenceManager.getDefaultSharedPreferences(context)
+        .edit()
+        .putBoolean(GEOFENCES_ADDED_KEY, added)
+        .apply()
+  }
+
+  companion object Factory {
+
+    fun create(): OxGeofenceImp = OxGeofenceImp(Orchextra.provideContext(),
+        LocationServices.getGeofencingClient(Orchextra.provideContext()))
   }
 }

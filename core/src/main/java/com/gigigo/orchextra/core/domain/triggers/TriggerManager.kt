@@ -24,6 +24,8 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.Configuration
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
@@ -34,12 +36,20 @@ import kotlin.properties.Delegates
 
 class TriggerManager(private val getAction: GetAction,
     private val actionDispatcher: ActionDispatcher,
-    private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
+    private var orchextraErrorListener: OrchextraErrorListener,
+    private val configuration: Configuration) : TriggerListener {
 
   var scanner by Delegates.observable(VoidScanner() as Scanner)
   { _, _, new ->
     new.setListener(this@TriggerManager)
     ScannerActionExecutor.scanner = new
+  }
+
+  var geofence by Delegates.observable(VoidGeofence() as Geofence)
+  { _, _, new ->
+    new.setGeoMarketingList(configuration.geoMarketing as List<GeoMarketing>)
+    new.setListener(this@TriggerManager)
+    new.init()
   }
 
   override fun onTriggerDetected(trigger: Trigger) {
@@ -61,8 +71,9 @@ class TriggerManager(private val getAction: GetAction,
 
   companion object Factory {
 
-    fun create(): TriggerManager = TriggerManager(GetAction.create(),
+    fun create(configuration: Configuration): TriggerManager = TriggerManager(GetAction.create(),
         ActionDispatcher.create(),
-        Orchextra)
+        Orchextra,
+        configuration)
   }
 }

@@ -18,9 +18,9 @@
 
 
 apply plugin: 'com.android.library'
-apply plugin: 'realm-android'
+//apply plugin: 'realm-android'
 apply from: rootProject.file('gradle/checkstyle.gradle')
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
 
 android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
