@@ -22,6 +22,8 @@ import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiAuthRequest
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiCredentials
 import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
@@ -31,7 +33,9 @@ import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
+import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
@@ -74,10 +78,14 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
   override fun getAuthentication(credentials: Credentials): Token {
 
     val apiCredential = credentials.toApiAuthRequest("auth_sdk")
-
     val apiResponse = orchextraApi.getAuthentication(apiCredential).execute().body()
 
-    return apiResponse?.data?.toToken() as Token
+    val apiClientCredentials = ApiAuthRequest("auth_user", ApiCredentials(
+        clientToken = apiResponse?.data?.value ?: "-1",
+        instanceId = "hola"))
+    val apiClientResponse = orchextraApi.getAuthentication(apiClientCredentials).execute().body()
+
+    return apiClientResponse?.data?.toToken() as Token
   }
 
   override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
@@ -86,7 +94,15 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
 
 //    return apiResponse?.data?.toConfiguration() as Configuration
 
-    return Configuration()
+    val geoMarketing: ArrayList<GeoMarketing> = ArrayList()
+    geoMarketing.add(GeoMarketing(code = "test_point",
+        point = Point(lat = 40.445794, lng = -3.628124),
+        radius = 5000,
+        notifyOnEntry = true,
+        notifyOnExit = true,
+        stayTime = 1200))
+
+    return Configuration(geoMarketing = geoMarketing)
   }
 
   override fun getAction(trigger: Trigger): Action {
@@ -96,14 +112,6 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
     })
 
     return apiResponse?.data?.toAction() as Action
-
-
-//    return Action(
-//        type = WEBVIEW,
-//        url = "https://www.google.es",
-//        notification = Notification(
-//            title = "Hola",
-//            body = "Lorem fistrum se calle ustée amatomaa caballo blanco caballo negroorl ahorarr la caidita jarl llevame al sircoo no te digo trigo por no llamarte Rodrigor ahorarr."))
   }
 
   override fun confirmAction(id: String) {
@@ -117,7 +125,7 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
       return makeCallWithRetryOnSessionFailed(call)
     } else {
       sessionManager.saveSession(getAuthentication(orchextra.getCredentials()))
-      return makeCallWithRetryOnSessionFailed(call)
+      return call()
     }
   }
 

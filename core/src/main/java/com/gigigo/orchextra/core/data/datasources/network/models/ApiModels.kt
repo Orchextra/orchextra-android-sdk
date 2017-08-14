@@ -47,7 +47,13 @@ class ApiAuthRequest(
 )
 
 class ApiCredentials(
-    val apiKey: String?,
-    val apiSecret: String?
+    val apiKey: String? = null,
+    val apiSecret: String? = null,
+    val clientToken: String? = null,
+    val crmId: String? = null,
+    val instanceId: String? = null,
+    val secureId: String? = null,
+    val serialNumber: String? = null,
+    val bluetoothMacAddress: String? = null,
+    val wifiMacAddress: String? = null
 )
-
