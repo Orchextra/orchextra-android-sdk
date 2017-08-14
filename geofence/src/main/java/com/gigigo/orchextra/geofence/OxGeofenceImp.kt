@@ -59,7 +59,7 @@ class OxGeofenceImp(private val context: Context,
   }
 
   override fun setListener(triggerListener: TriggerListener) {
-
+    // TODO eliminar listener
   }
 
   private fun addGeofences() {

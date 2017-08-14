@@ -33,5 +33,16 @@
         android:name="com.gigigo.orchextra.core.domain.actions.actionexecutors.webview.WebViewActivity"
         android:theme="@style/Theme.AppCompat.Light">
     </activity>
+
+    <receiver
+        android:name=".receiver.TriggerBroadcastReceiver"
+        android:exported="true">
+      <intent-filter>
+        <action android:name="com.gigigo.orchextra.TRIGGER_RECIVER"/>
+      </intent-filter>
+    </receiver>
+
+    <service android:name=".receiver.TriggerHandlerService"/>
+
   </application>
 </manifest>

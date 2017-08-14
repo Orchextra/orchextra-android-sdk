@@ -18,6 +18,9 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
+import android.os.Parcel
+import android.os.Parcelable
+
 
 enum class TriggerType {
   BEACON,
@@ -42,4 +45,40 @@ data class Trigger constructor(
     val temperature: Double? = null,
     val battery: Double? = null,
     val uptime: Int? = null
-)
+) : Parcelable {
+  constructor(source: Parcel) : this(
+      TriggerType.values()[source.readInt()],
+      source.readString(),
+      source.readValue(Double::class.java.classLoader) as Double?,
+      source.readValue(Double::class.java.classLoader) as Double?,
+      source.readString(),
+      source.readString(),
+      source.readString(),
+      source.readValue(Double::class.java.classLoader) as Double?,
+      source.readValue(Double::class.java.classLoader) as Double?,
+      source.readValue(Int::class.java.classLoader) as Int?
+  )
+
+  override fun describeContents() = 0
+
+  override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+    writeInt(type.ordinal)
+    writeString(value)
+    writeValue(lat)
+    writeValue(lng)
+    writeString(event)
+    writeString(phoneStatus)
+    writeString(distance)
+    writeValue(temperature)
+    writeValue(battery)
+    writeValue(uptime)
+  }
+
+  companion object {
+    @JvmField @Suppress("unused")
+    val CREATOR: Parcelable.Creator<Trigger> = object : Parcelable.Creator<Trigger> {
+      override fun createFromParcel(source: Parcel): Trigger = Trigger(source)
+      override fun newArray(size: Int): Array<Trigger?> = arrayOfNulls(size)
+    }
+  }
+}

@@ -21,6 +21,7 @@ package com.gigigo.orchextra.geofence
 import android.app.IntentService
 import android.content.Intent
 import android.util.Log
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.GEOFENCE
 import com.google.android.gms.location.Geofence
@@ -48,7 +49,9 @@ class GeofenceTransitionsIntentService : IntentService(TAG) {
           event = getTransitionString(geofenceTransition))
 
       Log.d(TAG, "trigger: $trigger")
+      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
     } else {
+
       Log.e(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition))
     }
   }
