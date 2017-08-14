@@ -26,6 +26,7 @@ import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
+import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
@@ -46,7 +47,12 @@ class TriggerManager(private val getAction: GetAction,
   var geofence by Delegates.observable(VoidGeofence() as Geofence)
   { _, _, new ->
     new.setGeoMarketingList(configuration.geoMarketing)
-    new.init()
+
+    try {
+      new.init()
+    } catch (exception: SecurityException) {
+      orchextraErrorListener.onError(Error(code = -1, message = exception.message as String))
+    }
   }
 
   override fun onTriggerDetected(trigger: Trigger) {

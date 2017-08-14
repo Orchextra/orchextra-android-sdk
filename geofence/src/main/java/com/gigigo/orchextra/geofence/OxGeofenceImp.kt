@@ -18,11 +18,14 @@
 
 package com.gigigo.orchextra.geofence
 
+import android.Manifest
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.support.v4.content.ContextCompat
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.geofence.utils.toGeofence
@@ -49,8 +52,14 @@ class OxGeofenceImp(private val context: Context,
   }
 
   override fun init() {
-    connectWithCallbacks()
-    addGeofences()
+
+    if (ContextCompat.checkSelfPermission(context,
+        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+      connectWithCallbacks()
+      addGeofences()
+    } else {
+      throw SecurityException("Geofence trigger needs ACCESS_FINE_LOCATION permission")
+    }
   }
 
   override fun finish() {
