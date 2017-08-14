@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.triggers
 
+import android.util.Log
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.OrchextraErrorListener
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
@@ -25,7 +26,6 @@ import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
-import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
@@ -36,8 +36,9 @@ import kotlin.properties.Delegates
 
 class TriggerManager(private val getAction: GetAction,
     private val actionDispatcher: ActionDispatcher,
-    private var orchextraErrorListener: OrchextraErrorListener,
-    private val configuration: Configuration) : TriggerListener {
+    private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
+
+   var configuration: Configuration = Configuration()
 
   var scanner by Delegates.observable(VoidScanner() as Scanner)
   { _, _, new ->
@@ -47,12 +48,14 @@ class TriggerManager(private val getAction: GetAction,
 
   var geofence by Delegates.observable(VoidGeofence() as Geofence)
   { _, _, new ->
-    new.setGeoMarketingList(configuration.geoMarketing as List<GeoMarketing>)
+    new.setGeoMarketingList(configuration.geoMarketing)
     new.setListener(this@TriggerManager)
     new.init()
   }
 
   override fun onTriggerDetected(trigger: Trigger) {
+
+    Log.d(TAG, "onTriggerDetected: $trigger")
 
     if (trigger.type == QR || trigger.type == BARCODE) {
       scanner.finish()
@@ -70,10 +73,9 @@ class TriggerManager(private val getAction: GetAction,
   }
 
   companion object Factory {
+    private val TAG = "TriggerManager"
 
-    fun create(configuration: Configuration): TriggerManager = TriggerManager(GetAction.create(),
-        ActionDispatcher.create(),
-        Orchextra,
-        configuration)
+    fun create(): TriggerManager = TriggerManager(GetAction.create(),
+        ActionDispatcher.create(), Orchextra)
   }
 }

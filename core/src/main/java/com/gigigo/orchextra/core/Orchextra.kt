@@ -53,6 +53,9 @@ object Orchextra : OrchextraErrorListener {
     this.orchextraStatusListener = orchextraStatusListener
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
 
+    triggerManager = TriggerManager.create()
+    actionDispatcher = ActionDispatcher.create()
+
     getConfiguration()
   }
 
@@ -67,8 +70,7 @@ object Orchextra : OrchextraErrorListener {
     getConfiguration.get(loadConfiguration,
         object : GetConfiguration.Callback {
           override fun onSuccess(configuration: Configuration) {
-            triggerManager = TriggerManager.create(configuration)
-            actionDispatcher = ActionDispatcher.create()
+            triggerManager.configuration = configuration
 
             changeStatus(true)
             println("getConfiguration onSuccess $configuration")

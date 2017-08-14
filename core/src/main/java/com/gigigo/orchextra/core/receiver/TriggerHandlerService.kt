@@ -21,16 +21,17 @@ package com.gigigo.orchextra.core.receiver
 import android.app.IntentService
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.triggers.TriggerListener
+import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 
 class TriggerHandlerService : IntentService(TAG) {
 
+  private val triggerListener: TriggerListener = TriggerManager.create()
 
   override fun onHandleIntent(intent: Intent) {
-
-
-    Log.d(TAG, "hola: ${intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)}")
+    val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)
+    triggerListener.onTriggerDetected(trigger)
   }
 
   companion object Navigator {
