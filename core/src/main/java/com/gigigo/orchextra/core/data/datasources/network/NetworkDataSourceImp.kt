@@ -28,6 +28,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
+import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
@@ -99,7 +100,7 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
   override fun getAction(trigger: Trigger): Action {
 
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.getAction(trigger.type.name, trigger.value).execute().body()
+      orchextraApi.getAction(trigger.type.toOxType(), trigger.value).execute().body()
     })
 
     return apiResponse?.data?.toAction() as Action

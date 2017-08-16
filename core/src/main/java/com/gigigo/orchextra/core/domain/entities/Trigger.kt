@@ -29,7 +29,7 @@ enum class TriggerType {
   GEOFENCE,
   QR,
   BARCODE,
-  VUFORIA;
+  IMAGE_RECOGNITION;
 
   infix fun withValue(value: String) = Trigger(this, value)
 }
@@ -75,7 +75,8 @@ data class Trigger constructor(
   }
 
   companion object {
-    @JvmField @Suppress("unused")
+    @JvmField
+    @Suppress("unused")
     val CREATOR: Parcelable.Creator<Trigger> = object : Parcelable.Creator<Trigger> {
       override fun createFromParcel(source: Parcel): Trigger = Trigger(source)
       override fun newArray(size: Int): Array<Trigger?> = arrayOfNulls(size)

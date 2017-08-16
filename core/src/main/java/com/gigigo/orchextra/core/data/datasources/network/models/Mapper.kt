@@ -27,6 +27,7 @@ import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Token
+import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
 import com.squareup.moshi.Moshi
@@ -108,3 +109,13 @@ fun NetworkException.toError(): Error =
           code = code,
           message = error)
     }
+
+fun TriggerType.toOxType(): String = when (this) {
+  TriggerType.BEACON -> "beacon"
+  TriggerType.BEACON_REGION -> "beacon_region"
+  TriggerType.EDDYSTONE -> "eddystone"
+  TriggerType.GEOFENCE -> "geofence"
+  TriggerType.QR -> "qr"
+  TriggerType.BARCODE -> "barcode"
+  TriggerType.IMAGE_RECOGNITION -> "vuforia"
+}
