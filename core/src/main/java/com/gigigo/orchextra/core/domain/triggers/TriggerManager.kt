@@ -51,7 +51,8 @@ class TriggerManager(private val getAction: GetAction,
     try {
       new.init()
     } catch (exception: SecurityException) {
-      orchextraErrorListener.onError(Error(code = -1, message = exception.message as String))
+      orchextraErrorListener.onError(
+          Error(code = Error.FATAL_ERROR, message = exception.message as String))
     }
   }
 

@@ -24,10 +24,22 @@ import com.google.android.gms.location.Geofence
 
 fun GeoMarketing.toGeofence(): Geofence = with(this) {
 
+  var event = 0
+
+  if (notifyOnEntry && !notifyOnExit) {
+    event = Geofence.GEOFENCE_TRANSITION_ENTER
+
+  } else if (!notifyOnEntry && notifyOnExit) {
+    event = Geofence.GEOFENCE_TRANSITION_EXIT
+
+  } else if (notifyOnEntry && notifyOnExit) {
+    event = Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT
+  }
+
   return Geofence.Builder()
       .setRequestId(code)
       .setCircularRegion(point.lat, point.lng, radius.toFloat())
       .setExpirationDuration(stayTime.toLong() * 1000)
-      .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
+      .setTransitionTypes(event)
       .build()
 }
