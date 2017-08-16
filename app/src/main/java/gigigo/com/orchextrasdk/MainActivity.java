@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = "MainActivity";
   private static final int PERMISSIONS_REQUEST_LOCATION = 1;
-  public static String API_KEY = "122f51a9f80a93270dfbd61b027155936031bba9";
-  public static String API_SECRET = "54b0294038ae8118db6d996d4db4e082aa8447df";
+  public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
+  public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
   private Orchextra orchextra;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             == PackageManager.PERMISSION_GRANTED) {
           orchextra.init(MainActivity.this, API_KEY, API_SECRET, orchextraStatusListener);
         } else {
-          requestPermision();
+          requestPermission();
         }
       }
     });
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     });
   }
 
-  private void requestPermision() {
+  private void requestPermission() {
     if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
 

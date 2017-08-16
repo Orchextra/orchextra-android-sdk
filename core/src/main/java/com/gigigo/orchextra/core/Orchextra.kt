@@ -41,7 +41,7 @@ object Orchextra : OrchextraErrorListener {
   private var context: Context? = null
   private lateinit var actionDispatcher: ActionDispatcher
   private lateinit var triggerManager: TriggerManager
-  private var credentials: Credentials? = null
+  private var credentials: Credentials = Credentials()
   private var isReady = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
   private var orchextraErrorListener: OrchextraErrorListener? = null
@@ -112,8 +112,7 @@ object Orchextra : OrchextraErrorListener {
   }
 
   fun getCredentials(): Credentials {
-    checkInitialization()
-    return credentials as Credentials
+    return credentials
   }
 
   fun isReady(): Boolean {
@@ -140,7 +139,7 @@ object Orchextra : OrchextraErrorListener {
 
   fun finish() {
     this.context = null
-    this.credentials = null
+    this.credentials = Credentials()
 
     changeStatus(false)
   }

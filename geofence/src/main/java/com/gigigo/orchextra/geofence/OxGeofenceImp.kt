@@ -53,6 +53,10 @@ class OxGeofenceImp(private val context: Context,
 
   override fun init() {
 
+    if (geofenceList.isEmpty()) {
+      throw IllegalArgumentException("Empty geofence list")
+    }
+
     if (ContextCompat.checkSelfPermission(context,
         Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
       connectWithCallbacks()

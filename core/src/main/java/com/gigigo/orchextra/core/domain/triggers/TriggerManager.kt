@@ -46,13 +46,15 @@ class TriggerManager(private val getAction: GetAction,
 
   var geofence by Delegates.observable(VoidGeofence() as Geofence)
   { _, _, new ->
-    new.setGeoMarketingList(configuration.geoMarketing)
+    if (configuration.geoMarketing.isNotEmpty()) {
+      new.setGeoMarketingList(configuration.geoMarketing)
 
-    try {
-      new.init()
-    } catch (exception: SecurityException) {
-      orchextraErrorListener.onError(
-          Error(code = Error.FATAL_ERROR, message = exception.message as String))
+      try {
+        new.init()
+      } catch (exception: SecurityException) {
+        orchextraErrorListener.onError(
+            Error(code = Error.FATAL_ERROR, message = exception.message as String))
+      }
     }
   }
 

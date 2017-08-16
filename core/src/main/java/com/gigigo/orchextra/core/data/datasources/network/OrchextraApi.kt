@@ -23,7 +23,6 @@ import com.gigigo.orchextra.core.data.datasources.network.models.ApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiToken
 import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
-import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -37,9 +36,8 @@ interface OrchextraApi {
   @POST("v1/security/token")
   fun getAuthentication(@Body apiAuthRequest: ApiAuthRequest): Call<OxResponse<ApiToken>>
 
-  @POST("v1/configuration")
-  fun getConfiguration(
-      @Body loadConfiguration: LoadConfiguration): Call<OxResponse<ApiConfiguration>>
+  @GET("v1/configuration")
+  fun getConfiguration(): Call<OxResponse<ApiConfiguration>>
 
   @GET("v1/action")
   fun getAction(@Query("type") type: String,

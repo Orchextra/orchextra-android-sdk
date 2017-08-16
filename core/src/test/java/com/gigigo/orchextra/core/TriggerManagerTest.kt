@@ -29,7 +29,6 @@ import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
-import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
@@ -51,8 +50,7 @@ class TriggerManagerTest {
     val browserActionExecutor: BrowserActionExecutor = mock()
     val action = Action(trackId = "test_123",
         type = BROWSER,
-        url = "https://www.google.es",
-        notification = Notification())
+        url = "https://www.google.es")
     val actionManager = getActionManager(action, browserActionExecutor = browserActionExecutor)
 
     actionManager.onTriggerDetected(TEST_TRIGGER)
@@ -65,8 +63,7 @@ class TriggerManagerTest {
     val webViewActionExecutor: WebViewActionExecutor = mock()
     val action = Action(trackId = "test_123",
         type = WEBVIEW,
-        url = "https://www.google.es",
-        notification = Notification())
+        url = "https://www.google.es")
     val actionManager = getActionManager(action, webViewActionExecutor = webViewActionExecutor)
 
     actionManager.onTriggerDetected(TEST_TRIGGER)
@@ -80,7 +77,8 @@ class TriggerManagerTest {
       customActionExecutor: CustomActionExecutor = mock(),
       scannerActionExecutor: ScannerActionExecutor = mock(),
       imageRecognitionActionExecutor: ImageRecognitionActionExecutor = mock(),
-      notificationActionExecutor: NotificationActionExecutor = mock()
+      notificationActionExecutor: NotificationActionExecutor = mock(),
+      orchextraErrorListener: OrchextraErrorListener = mock()
   ): TriggerManager {
 
     val networkDataSource = mock<NetworkDataSource> {
@@ -92,6 +90,7 @@ class TriggerManagerTest {
         notificationActionExecutor)
     val getAction = GetAction(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSource)
 
-    return TriggerManager(getAction = getAction, actionDispatcher = actionDispatcher)
+    return TriggerManager(getAction = getAction, actionDispatcher = actionDispatcher,
+        orchextraErrorListener = orchextraErrorListener)
   }
 }

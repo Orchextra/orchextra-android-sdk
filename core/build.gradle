@@ -10,7 +10,7 @@ android {
   buildToolsVersion "26.0.0"
 
   defaultConfig {
-    minSdkVersion 16
+    minSdkVersion 10
     targetSdkVersion 25
     versionCode 1
     versionName "3.0.0"
@@ -20,13 +20,13 @@ android {
   buildTypes {
 
     debug {
-      buildConfigField STRING, "API_URL", '"https://sdk.q.orchextra.io/"'
+      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
       buildConfigField BOOLEAN, "NETWORK_LOG", "true"
       debuggable true
     }
 
     release {
-      buildConfigField STRING, "API_URL", '"https://sdk.q.orchextra.io/"'
+      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
       buildConfigField BOOLEAN, "NETWORK_LOG", "true"
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

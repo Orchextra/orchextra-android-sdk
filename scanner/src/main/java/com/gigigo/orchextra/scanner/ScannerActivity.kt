@@ -72,13 +72,12 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
         Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
       mScannerView.startCamera()
     } else {
-      requestPermision()
+      requestPermission()
     }
   }
 
-  fun requestPermision() {
-    if (ContextCompat.checkSelfPermission(this,
-        Manifest.permission.CAMERA)
+  fun requestPermission() {
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
         != PackageManager.PERMISSION_GRANTED) {
 
       if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {

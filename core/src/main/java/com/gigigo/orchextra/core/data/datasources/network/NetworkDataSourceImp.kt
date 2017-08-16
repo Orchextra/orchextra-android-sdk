@@ -27,15 +27,14 @@ import com.gigigo.orchextra.core.data.datasources.network.models.ApiCredentials
 import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
+import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
-import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
-import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
@@ -82,7 +81,7 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
 
     val apiClientCredentials = ApiAuthRequest("auth_user", ApiCredentials(
         clientToken = apiResponse?.data?.value ?: "-1",
-        instanceId = "hola"))
+        instanceId = "hola")) // InstanceID.getInstance(orchextra.provideContext()).getId()
     val apiClientResponse = orchextraApi.getAuthentication(apiClientCredentials).execute().body()
 
     return apiClientResponse?.data?.toToken() as Token
@@ -90,19 +89,11 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
 
   override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
 
-//    val apiResponse = orchextraApi.getConfiguration(loadConfiguration).execute().body()
+    val apiResponse = makeCallWithRetry({ ->
+      orchextraApi.getConfiguration().execute().body()
+    })
 
-//    return apiResponse?.data?.toConfiguration() as Configuration
-
-    val geoMarketing: ArrayList<GeoMarketing> = ArrayList()
-    geoMarketing.add(GeoMarketing(code = "test_point",
-        point = Point(lat = 40.445794, lng = -3.628124),
-        radius = 5000,
-        notifyOnEntry = true,
-        notifyOnExit = true,
-        stayTime = 1200))
-
-    return Configuration(geoMarketing = geoMarketing)
+    return apiResponse?.data?.toConfiguration() as Configuration
   }
 
   override fun getAction(trigger: Trigger): Action {
@@ -121,20 +112,20 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
   }
 
   private fun <T> makeCallWithRetry(call: () -> OxResponse<T>?): OxResponse<T>? {
-    if (sessionManager.hasSession()) {
-      return makeCallWithRetryOnSessionFailed(call)
+    return if (sessionManager.hasSession()) {
+      makeCallWithRetryOnSessionFailed(call)
     } else {
       sessionManager.saveSession(getAuthentication(orchextra.getCredentials()))
-      return call()
+      call()
     }
   }
 
   private fun <T> makeCallWithRetryOnSessionFailed(call: () -> OxResponse<T>?): OxResponse<T>? {
-    try {
-      return call()
+    return try {
+      call()
     } catch (exception: UnauthorizedException) {
       sessionManager.saveSession(getAuthentication(orchextra.getCredentials()))
-      return call()
+      call()
     }
   }
 }

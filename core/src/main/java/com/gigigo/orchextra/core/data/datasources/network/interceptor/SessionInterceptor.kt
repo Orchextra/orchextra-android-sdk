@@ -39,7 +39,7 @@ class SessionInterceptor : Interceptor {
         .addHeader("Content-Type", "application/json")
 
     if (sessionManager.hasSession()) {
-      requestBuilder.addHeader("Authorization", sessionManager.getSession().value)
+      requestBuilder.addHeader("Authorization", "Bearer ${sessionManager.getSession().value}")
     }
 
     val request = requestBuilder.build()
