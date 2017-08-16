@@ -1,7 +1,11 @@
 package gigigo.com.orchextrasdk;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,9 +18,12 @@ import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 public class MainActivity extends AppCompatActivity {
 
-  private static String TAG = "MainActivity";
+  private static final String TAG = "MainActivity";
+  private static final int PERMISSIONS_REQUEST_LOCATION = 1;
   public static String API_KEY = "122f51a9f80a93270dfbd61b027155936031bba9";
   public static String API_SECRET = "54b0294038ae8118db6d996d4db4e082aa8447df";
   private Orchextra orchextra;
@@ -41,7 +48,13 @@ public class MainActivity extends AppCompatActivity {
     Button initButton = (Button) findViewById(R.id.init_button);
     initButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        orchextra.init(MainActivity.this, API_KEY, API_SECRET, orchextraStatusListener);
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+          orchextra.init(MainActivity.this, API_KEY, API_SECRET, orchextraStatusListener);
+        } else {
+          requestPermision();
+        }
       }
     });
 
@@ -77,6 +90,33 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     });
+  }
+
+  private void requestPermision() {
+    if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) {
+
+      if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+        Toast.makeText(this, "Expanation!!!", Toast.LENGTH_SHORT).show();
+      } else {
+        ActivityCompat.requestPermissions(this, new String[] { ACCESS_FINE_LOCATION },
+            PERMISSIONS_REQUEST_LOCATION);
+      }
+    }
+  }
+
+  @Override public void onRequestPermissionsResult(int requestCode, String permissions[],
+      int[] grantResults) {
+
+    switch (requestCode) {
+      case PERMISSIONS_REQUEST_LOCATION: {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          orchextra.init(MainActivity.this, API_KEY, API_SECRET, orchextraStatusListener);
+        } else {
+          Toast.makeText(MainActivity.this, "Lo necesitamos!!!", Toast.LENGTH_SHORT).show();
+        }
+      }
+    }
   }
 
   private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {

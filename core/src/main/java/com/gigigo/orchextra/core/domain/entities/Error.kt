@@ -18,4 +18,9 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-data class Error(val code: Int, val message: String)
+data class Error(val code: Int, val message: String) {
+
+  companion object {
+    val FATAL_ERROR = 9991
+  }
+}

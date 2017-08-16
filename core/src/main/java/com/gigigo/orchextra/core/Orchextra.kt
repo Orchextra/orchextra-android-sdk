@@ -53,8 +53,8 @@ object Orchextra : OrchextraErrorListener {
     this.orchextraStatusListener = orchextraStatusListener
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
 
-    triggerManager = TriggerManager.create()
-    actionDispatcher = ActionDispatcher.create()
+    this.triggerManager = TriggerManager.create()
+    this.actionDispatcher = ActionDispatcher.create()
 
     getConfiguration()
   }
@@ -132,10 +132,16 @@ object Orchextra : OrchextraErrorListener {
 
   override fun onError(error: Error) {
     orchextraErrorListener?.onError(error)
+
+    if (error.code == Error.FATAL_ERROR) {
+      finish()
+    }
   }
 
   fun finish() {
     this.context = null
+    this.credentials = null
+
     changeStatus(false)
   }
 
