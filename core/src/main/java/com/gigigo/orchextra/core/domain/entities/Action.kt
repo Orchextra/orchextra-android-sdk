@@ -25,7 +25,19 @@ enum class ActionType {
   SCANNER,
   IMAGE_RECOGNITION,
   NOTIFICATION,
-  NOTHING
+  NOTHING;
+
+  companion object {
+    fun fromOxType(value: String): ActionType = when (value) {
+      "browser" -> ActionType.BROWSER
+      "webview" -> ActionType.WEBVIEW
+      "custom_scheme" -> ActionType.CUSTOM_SCHEME
+      "scan" -> ActionType.SCANNER
+      "scan_vuforia" -> ActionType.IMAGE_RECOGNITION
+      "notification" -> ActionType.NOTIFICATION
+      else -> ActionType.NOTHING
+    }
+  }
 }
 
 data class Action constructor(

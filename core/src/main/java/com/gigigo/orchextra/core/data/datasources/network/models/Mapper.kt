@@ -91,7 +91,7 @@ fun ApiAction.toAction(): Action =
     with(this) {
       return Action(
           trackId = trackId ?: "",
-          type = ActionType.valueOf(type ?: "NOTHING"),
+          type = ActionType.fromOxType(type ?: ""),
           url = url ?: "",
           notification = notification?.toNotification() ?: Notification())
     }
