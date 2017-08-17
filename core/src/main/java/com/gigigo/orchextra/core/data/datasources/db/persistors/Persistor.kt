@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
+package com.gigigo.orchextra.core.data.datasources.db.persistors
 
-data class Schedule(val seconds: Int = -1,
-    val cancelable: Boolean = true) {
+import java.sql.SQLException
 
-
-  fun isValid(): Boolean {
-    return seconds != -1
-  }
+interface Persistor<T> {
+  @Throws(SQLException::class)
+  fun persist(data: T)
 }

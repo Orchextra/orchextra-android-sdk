@@ -16,13 +16,21 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
+package com.gigigo.orchextra.core.data.datasources.db.persistors
 
-data class Schedule(val seconds: Int = -1,
-    val cancelable: Boolean = true) {
+import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
+import com.gigigo.orchextra.core.data.datasources.db.models.DbAction
+import java.sql.SQLException
 
 
-  fun isValid(): Boolean {
-    return seconds != -1
+class ActionPersistor(private val helper: DatabaseHelper) : Persistor<DbAction> {
+
+  @Throws(SQLException::class)
+  override fun persist(data: DbAction) {
+
+    helper.getNotificationDao()?.create(data.notification)
+    helper.getScheduleDao()?.create(data.schedule)
+
+    helper.getActionDao()?.create(data)
   }
 }

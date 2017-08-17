@@ -18,5 +18,13 @@
 
 package com.gigigo.orchextra.core.domain.datasources
 
+import com.gigigo.orchextra.core.domain.entities.Action
+
 interface DbDataSource {
+
+  fun getActions(): List<Action>
+
+  fun saveActions(actions:List<Action>)
+
+  fun removeActions(actions:List<Action>)
 }

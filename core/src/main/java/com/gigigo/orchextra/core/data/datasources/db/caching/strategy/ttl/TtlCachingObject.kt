@@ -16,13 +16,9 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
+package com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl
 
-data class Schedule(val seconds: Int = -1,
-    val cancelable: Boolean = true) {
+interface TtlCachingObject {
 
-
-  fun isValid(): Boolean {
-    return seconds != -1
-  }
+  fun getPersistedTime(): Long
 }

@@ -26,6 +26,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.geofence.utils.toGeofence
@@ -112,11 +113,11 @@ class OxGeofenceImp(private val context: Context,
         R.string.geofences_removed
       }
 
-      print("messageId $messageId")
+      Log.d(TAG, "onComplete: $messageId")
     } else {
 
       val errorMessage = GeofenceErrorMessages.getErrorString(context, task.exception)
-      print("error $errorMessage")
+      Log.e(TAG, "onComplete: $errorMessage")
     }
   }
 
@@ -154,6 +155,8 @@ class OxGeofenceImp(private val context: Context,
   }
 
   companion object Factory {
+
+    private val TAG = "OxGeofenceImp"
 
     fun create(): OxGeofenceImp = OxGeofenceImp(Orchextra.provideContext(),
         LocationServices.getGeofencingClient(Orchextra.provideContext()))

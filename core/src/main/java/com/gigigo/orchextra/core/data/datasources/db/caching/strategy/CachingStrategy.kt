@@ -16,13 +16,9 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
-
-data class Schedule(val seconds: Int = -1,
-    val cancelable: Boolean = true) {
+package com.gigigo.orchextra.core.data.datasources.db.caching.strategy
 
 
-  fun isValid(): Boolean {
-    return seconds != -1
-  }
+interface CachingStrategy<T> {
+  fun isValid(data: T): Boolean
 }

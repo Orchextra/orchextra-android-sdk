@@ -16,13 +16,6 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
+package com.gigigo.orchextra.core.domain.exceptions
 
-data class Schedule(val seconds: Int = -1,
-    val cancelable: Boolean = true) {
-
-
-  fun isValid(): Boolean {
-    return seconds != -1
-  }
-}
+class DbException(val code: Int, val error: String) : Exception()

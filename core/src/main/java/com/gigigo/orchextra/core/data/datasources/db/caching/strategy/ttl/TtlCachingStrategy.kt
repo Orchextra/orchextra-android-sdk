@@ -16,13 +16,17 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
+package com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl
 
-data class Schedule(val seconds: Int = -1,
-    val cancelable: Boolean = true) {
+import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.CachingStrategy
+import java.util.concurrent.TimeUnit
 
 
-  fun isValid(): Boolean {
-    return seconds != -1
-  }
+class TtlCachingStrategy<T : TtlCachingObject>(ttl: Int, timeUnit: TimeUnit) : CachingStrategy<T> {
+
+  private val ttlMillis: Long = timeUnit.toMillis(ttl.toLong())
+
+  override fun isValid(data: T): Boolean =
+      data.getPersistedTime() + ttlMillis > System.currentTimeMillis()
+
 }

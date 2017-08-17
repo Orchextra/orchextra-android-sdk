@@ -40,7 +40,7 @@ enum class ActionType {
   }
 }
 
-data class Action constructor(
+data class Action(
     val trackId: String = "-1",
     val type: ActionType,
     val url: String = "",

@@ -47,6 +47,8 @@ dependencies {
   compile 'com.squareup.okhttp3:okhttp:3.4.2'
   compile 'com.squareup.okhttp3:logging-interceptor:3.4.2'
 
+  compile 'com.j256.ormlite:ormlite-android:5.0'
+
   testCompile 'junit:junit:4.12'
   testCompile 'com.nhaarman:mockito-kotlin:1.5.0'
   testCompile 'org.amshove.kluent:kluent:1.26'
