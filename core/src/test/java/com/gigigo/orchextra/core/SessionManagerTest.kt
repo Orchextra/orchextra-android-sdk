@@ -63,10 +63,11 @@ class SessionManagerTest {
   fun shouldClearSession() {
     val editorMock: Editor = mock()
     val sessionManager: SessionManager = getSessionManager(editor = editorMock)
+    val token = Token("")
 
     sessionManager.clearSession()
 
-    verify(editorMock).putString(TOKEN_KEY, "")
+    verify(editorMock).putString(TOKEN_KEY, tokenJsonAdapter.toJson(token))
     verify(editorMock).commit()
   }
 
@@ -80,7 +81,7 @@ class SessionManagerTest {
     hasSession `should be` true
   }
 
-  private fun getSessionManager(token: Token = Token(),
+  private fun getSessionManager(token: Token = Token(""),
       editor: Editor = mock()): SessionManager {
 
     val sharedPreferencesMock = mock<SharedPreferences> {

@@ -32,6 +32,7 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
+import com.gigigo.orchextra.core.schedule.ActionSchedulerManager
 import com.gigigo.orchextra.core.utils.PostExecutionThreadMock
 import com.gigigo.orchextra.core.utils.ThreadExecutorMock
 import com.nhaarman.mockito_kotlin.any
@@ -78,7 +79,8 @@ class TriggerManagerTest {
       scannerActionExecutor: ScannerActionExecutor = mock(),
       imageRecognitionActionExecutor: ImageRecognitionActionExecutor = mock(),
       notificationActionExecutor: NotificationActionExecutor = mock(),
-      orchextraErrorListener: OrchextraErrorListener = mock()
+      orchextraErrorListener: OrchextraErrorListener = mock(),
+      actionSchedulerManager: ActionSchedulerManager = mock()
   ): TriggerManager {
 
     val networkDataSource = mock<NetworkDataSource> {
@@ -87,7 +89,7 @@ class TriggerManagerTest {
 
     val actionDispatcher = ActionDispatcher(browserActionExecutor, webViewActionExecutor,
         customActionExecutor, scannerActionExecutor, imageRecognitionActionExecutor,
-        notificationActionExecutor)
+        notificationActionExecutor, actionSchedulerManager)
     val getAction = GetAction(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSource)
 
     return TriggerManager(getAction = getAction, actionDispatcher = actionDispatcher,

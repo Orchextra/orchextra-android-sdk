@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.core.domain.triggers
 
-import android.util.Log
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.OrchextraErrorListener
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
@@ -60,8 +59,6 @@ class TriggerManager(private val getAction: GetAction,
 
   override fun onTriggerDetected(trigger: Trigger) {
 
-    Log.d(TAG, "onTriggerDetected: $trigger")
-
     getAction.get(trigger, object : Callback {
       override fun onSuccess(action: Action) {
         actionDispatcher.executeAction(action)
@@ -74,7 +71,6 @@ class TriggerManager(private val getAction: GetAction,
   }
 
   companion object Factory {
-    private val TAG = "TriggerManager"
 
     fun create(): TriggerManager = TriggerManager(GetAction.create(),
         ActionDispatcher.create(), Orchextra)

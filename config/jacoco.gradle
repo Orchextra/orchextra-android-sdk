@@ -15,6 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-include ':app', ':core', ':scanner', ':geofence'
-//    ':orchextrasdk', ':orchextrasdk-control', ':orchextrasdk-domain', ':orchextrasdk-dataprovision',
-//    ':orchextrasdk-data'
+
+apply plugin: 'jacoco-android'
+
+android {
+  testOptions {
+    unitTests.all {
+      jacoco {
+        includeNoLocationClasses true
+      }
+    }
+  }
+}
+
+jacocoAndroidUnitTestReport {
+  excludes += ['**/R.class',
+               '**/R$*.class',
+               '**/*inlined*.*']
+}
+
+jacocoAndroidUnitTestReport {
+  csv.enabled false
+  html.enabled true
+  xml.enabled true
+}

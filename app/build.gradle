@@ -18,6 +18,7 @@
 
 apply plugin: 'com.android.application'
 apply from: rootProject.file('gradle/checkstyle.gradle')
+apply from: '../config/jacoco.gradle'
 
 android {
   compileSdkVersion 25
@@ -60,6 +61,12 @@ android {
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
     targetCompatibility JavaVersion.VERSION_1_7
+  }
+
+  lintOptions {
+    quiet true
+    abortOnError false
+    ignoreWarnings true
   }
 }
 
