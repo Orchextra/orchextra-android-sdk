@@ -42,6 +42,8 @@
       </intent-filter>
     </receiver>
 
+    <receiver android:name=".schedule.ScheduleActionReceiver"></receiver>
+
     <service android:name=".receiver.TriggerHandlerService"/>
 
   </application>

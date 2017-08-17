@@ -18,11 +18,33 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-data class Schedule(val seconds: Int = -1,
-    val cancelable: Boolean = true) {
+import android.os.Parcel
+import android.os.Parcelable
 
+data class Schedule(val seconds: Int = -1,
+    val cancelable: Boolean = true) : Parcelable {
 
   fun isValid(): Boolean {
     return seconds != -1
+  }
+
+  constructor(source: Parcel) : this(
+      source.readInt(),
+      1 == source.readInt()
+  )
+
+  override fun describeContents() = 0
+
+  override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+    writeInt(seconds)
+    writeInt((if (cancelable) 1 else 0))
+  }
+
+  companion object {
+    @JvmField
+    val CREATOR: Parcelable.Creator<Schedule> = object : Parcelable.Creator<Schedule> {
+      override fun createFromParcel(source: Parcel): Schedule = Schedule(source)
+      override fun newArray(size: Int): Array<Schedule?> = arrayOfNulls(size)
+    }
   }
 }

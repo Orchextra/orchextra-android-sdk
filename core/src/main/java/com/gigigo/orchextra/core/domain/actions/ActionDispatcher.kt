@@ -30,16 +30,30 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.CUSTOM_SCHEME
 import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
+import com.gigigo.orchextra.core.schedule.ActionSchedulerManager
 
 class ActionDispatcher constructor(private val browserActionExecutor: BrowserActionExecutor,
     private val webViewActionExecutor: WebViewActionExecutor,
     private val customActionExecutor: CustomActionExecutor,
     private val scannerActionExecutor: ScannerActionExecutor,
     private val imageRecognitionActionExecutor: ImageRecognitionActionExecutor,
-    private val notificationActionExecutor: NotificationActionExecutor) {
+    private val notificationActionExecutor: NotificationActionExecutor,
+    private val actionSchedulerManager: ActionSchedulerManager) {
 
   fun executeAction(action: Action) {
 
+    if (action.hasSchedule()) {
+      scheduleAction(action)
+    } else {
+      dispathAction(action)
+    }
+  }
+
+  private fun scheduleAction(action: Action) {
+    actionSchedulerManager.scheduleAction(action)
+  }
+
+  private fun dispathAction(action: Action) {
     if (action.hasNotification()) {
       notificationActionExecutor.showNotification(action.notification,
           { -> openActionView(action) })
@@ -48,7 +62,7 @@ class ActionDispatcher constructor(private val browserActionExecutor: BrowserAct
     }
   }
 
-  fun openActionView(action: Action) = with(action) {
+  private fun openActionView(action: Action) = with(action) {
     when (type) {
       BROWSER -> browserActionExecutor.open(url)
       WEBVIEW -> webViewActionExecutor.open(url)
@@ -66,6 +80,7 @@ class ActionDispatcher constructor(private val browserActionExecutor: BrowserAct
         CustomActionExecutor.create(),
         ScannerActionExecutor,
         ImageRecognitionActionExecutor.create(),
-        NotificationActionExecutor.create())
+        NotificationActionExecutor.create(),
+        ActionSchedulerManager.create())
   }
 }

@@ -18,6 +18,9 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
+import android.os.Parcel
+import android.os.Parcelable
+
 enum class ActionType {
   BROWSER,
   WEBVIEW,
@@ -45,7 +48,7 @@ data class Action(
     val type: ActionType,
     val url: String = "",
     val notification: Notification = Notification(),
-    val schedule: Schedule = Schedule()) {
+    val schedule: Schedule = Schedule()) : Parcelable {
 
   fun hasNotification(): Boolean {
     return notification.isNotEmpty()
@@ -53,5 +56,31 @@ data class Action(
 
   fun hasSchedule(): Boolean {
     return schedule.isValid()
+  }
+
+  constructor(source: Parcel) : this(
+      source.readString(),
+      ActionType.values()[source.readInt()],
+      source.readString(),
+      source.readParcelable<Notification>(Notification::class.java.classLoader),
+      source.readParcelable<Schedule>(Schedule::class.java.classLoader)
+  )
+
+  override fun describeContents() = 0
+
+  override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+    writeString(trackId)
+    writeInt(type.ordinal)
+    writeString(url)
+    writeParcelable(notification, 0)
+    writeParcelable(schedule, 0)
+  }
+
+  companion object {
+    @JvmField
+    val CREATOR: Parcelable.Creator<Action> = object : Parcelable.Creator<Action> {
+      override fun createFromParcel(source: Parcel): Action = Action(source)
+      override fun newArray(size: Int): Array<Action?> = arrayOfNulls(size)
+    }
   }
 }

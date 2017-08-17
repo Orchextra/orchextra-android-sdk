@@ -26,6 +26,7 @@ import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Point
+import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -93,7 +94,8 @@ fun ApiAction.toAction(): Action =
           trackId = trackId ?: "",
           type = ActionType.fromOxType(type ?: ""),
           url = url ?: "",
-          notification = notification?.toNotification() ?: Notification())
+          notification = notification?.toNotification() ?: Notification(),
+          schedule = schedule?.toSchedule() ?: Schedule())
     }
 
 fun ApiNotification.toNotification(): Notification =
@@ -101,6 +103,13 @@ fun ApiNotification.toNotification(): Notification =
       return Notification(
           title = title ?: "",
           body = body ?: "")
+    }
+
+fun ApiSchedule.toSchedule(): Schedule =
+    with(this) {
+      return Schedule(
+          seconds = seconds ?: -1,
+          cancelable = cancelable ?: true)
     }
 
 fun NetworkException.toError(): Error =

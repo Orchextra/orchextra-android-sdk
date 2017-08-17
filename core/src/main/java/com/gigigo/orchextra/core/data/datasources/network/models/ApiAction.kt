@@ -22,10 +22,16 @@ class ApiAction(
     val trackId: String?,
     val type: String?,
     val url: String?,
-    val notification: ApiNotification?
+    val notification: ApiNotification?,
+    val schedule: ApiSchedule?
 )
 
 class ApiNotification(
     val title: String?,
     val body: String?
+)
+
+class ApiSchedule(
+    val seconds: Int?,
+    val cancelable: Boolean?
 )
