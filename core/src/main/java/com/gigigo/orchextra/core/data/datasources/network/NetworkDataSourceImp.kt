@@ -91,7 +91,7 @@ class NetworkDataSourceImp(val orchextra: Orchextra,
   override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
 
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.getConfiguration().execute().body()
+      orchextraApi.getConfiguration(loadConfiguration).execute().body()
     })
 
     return apiResponse?.data?.toConfiguration() as Configuration

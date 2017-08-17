@@ -28,7 +28,9 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
+import com.gigigo.orchextra.core.domain.entities.GeoLocation
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
+import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
@@ -65,7 +67,8 @@ object Orchextra : OrchextraErrorListener {
 
     val loadConfiguration = LoadConfiguration(
         app = context?.getAppData(),
-        device = context?.getDeviceData())
+        device = context?.getDeviceData(),
+        geoLocation = GeoLocation(point = Point(lat = 40.4458471, lng = -3.6302917)))
 
     getConfiguration.get(loadConfiguration,
         object : GetConfiguration.Callback {

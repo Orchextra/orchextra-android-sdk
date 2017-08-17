@@ -20,7 +20,8 @@ package com.gigigo.orchextra.core.domain.entities
 
 data class LoadConfiguration constructor(
     val app: AppData? = null,
-    val device: DeviceData? = null)
+    val device: DeviceData? = null,
+    val geoLocation: GeoLocation? = null)
 
 data class AppData constructor(
     val appVersion: String,
@@ -39,3 +40,11 @@ data class DeviceData constructor(
     var wifiMacAddress: String,
     var tags: List<String>,
     var businessUnits: List<String>)
+
+data class GeoLocation constructor(
+    var country: String = "",
+    var countryCode: String = "",
+    var locality: String = "",
+    var zip: String = "",
+    var street: String = "",
+    var point: Point)
