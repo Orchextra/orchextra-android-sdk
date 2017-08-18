@@ -18,8 +18,6 @@
 
 <resources>
   <string name="ox_app_name">OrchextraSDK</string>
-
-
   <integer name="ox_permission_retries_infinite">-1</integer>
   <integer name="ox_permission_retries_noretry">0</integer>
 
@@ -39,13 +37,9 @@
   <string name="ox_permission_rationale_message_camera">App needs the camera device access</string>
   <integer name="ox_permission_retries_camera">-1</integer>
 
-  <string name="ox_accept_text">Aceptar</string>
-  <string name="ox_cancel_text">Cancelar</string>
-
-
-
+  <string name="ox_accept_text">Accept</string>
+  <string name="ox_cancel_text">Cancel</string>
   <!--Messages Callback-->
-
   <string name="ox_initialize_android_sdk">Orchextra init successfully, with API>=18</string>
   <string name="ox_not_supported_android_sdk">This android sdk version is too old to support Orchextra features.</string>
 
