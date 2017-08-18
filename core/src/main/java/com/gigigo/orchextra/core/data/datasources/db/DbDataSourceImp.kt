@@ -21,12 +21,17 @@ package com.gigigo.orchextra.core.data.datasources.db
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.list.ListCachingStrategy
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl.TtlCachingStrategy
 import com.gigigo.orchextra.core.data.datasources.db.models.DbAction
+import com.gigigo.orchextra.core.data.datasources.db.models.DbTrigger
 import com.gigigo.orchextra.core.data.datasources.db.models.toAction
 import com.gigigo.orchextra.core.data.datasources.db.models.toDbAction
+import com.gigigo.orchextra.core.data.datasources.db.models.toDbTrigger
+import com.gigigo.orchextra.core.data.datasources.db.models.toTrigger
 import com.gigigo.orchextra.core.data.datasources.db.persistors.ActionPersistor
 import com.gigigo.orchextra.core.data.datasources.db.persistors.Persistor
+import com.gigigo.orchextra.core.data.datasources.db.persistors.TriggerPersistor
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.DbException
 import com.j256.ormlite.dao.Dao
 import java.sql.SQLException
@@ -36,8 +41,12 @@ import java.util.concurrent.TimeUnit.DAYS
 class DbDataSourceImp(helper: DatabaseHelper) : DbDataSource {
 
   private val daoActions: Dao<DbAction, Int> = helper.getActionDao()!!
+  private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()!!
   private val listCachingStrategy = ListCachingStrategy(TtlCachingStrategy<DbAction>(15, DAYS))
+  private val triggerListCachingStrategy = ListCachingStrategy(
+      TtlCachingStrategy<DbTrigger>(15, DAYS))
   private val persistor: Persistor<DbAction> = ActionPersistor(helper)
+  private val triggerPersistor: Persistor<DbTrigger> = TriggerPersistor(helper)
 
   override fun getActions(): List<Action> {
     try {
@@ -73,19 +82,53 @@ class DbDataSourceImp(helper: DatabaseHelper) : DbDataSource {
     }
   }
 
+  override fun getTriggers(): List<Trigger> {
+    try {
+      val dbTriggers = daoTriggers.queryForAll()
+
+      if (!triggerListCachingStrategy.isValid(dbTriggers)) {
+        deleteDbTriggers(triggerListCachingStrategy.candidatesToPurgue(dbTriggers))
+      }
+
+      return dbTriggers.map { it.toTrigger() }
+    } catch (e: SQLException) {
+      throw DbException(-1, e.message ?: "")
+    }
+  }
+
+  override fun saveTriggers(triggers: List<Trigger>) {
+    try {
+      for (trigger in triggers) {
+        val dbTrigger = trigger.toDbTrigger()
+        dbTrigger.dbPersistedTime = System.currentTimeMillis()
+        triggerPersistor.persist(dbTrigger)
+      }
+    } catch (e: SQLException) {
+      throw DbException(-1, e.message ?: "")
+    }
+  }
+
   @Throws(SQLException::class)
   private fun deleteDbActions(purgue: List<DbAction>) {
-    if (purgue.isNotEmpty()) {
-      val deleteMd5s: MutableList<String> = ArrayList()
-      purgue.mapTo(deleteMd5s) { it.trackId }
-      internalDeleteActions(deleteMd5s)
-    }
+    internalDeleteActions(purgue.map { it.trackId })
   }
 
   @Throws(SQLException::class)
   private fun internalDeleteActions(trackIds: List<String>) {
     val deleteBuilder = daoActions.deleteBuilder()
     deleteBuilder.where().`in`("trackId", trackIds)
+    deleteBuilder.delete()
+  }
+
+  @Throws(SQLException::class)
+  private fun deleteDbTriggers(purgue: List<DbTrigger>) {
+    internalDeleteTriggers(purgue.map { it.value })
+  }
+
+  @Throws(SQLException::class)
+  private fun internalDeleteTriggers(triggerIds: List<String>) {
+    val deleteBuilder = daoActions.deleteBuilder()
+    deleteBuilder.where().`in`("value", triggerIds)
     deleteBuilder.delete()
   }
 }

@@ -22,6 +22,8 @@ import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Schedule
+import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.entities.TriggerType
 
 fun DbAction.toAction(): Action =
     with(this) {
@@ -69,4 +71,34 @@ fun Schedule.toDbSchedule(): DbSchedule =
       return DbSchedule(
           seconds = seconds,
           cancelable = cancelable)
+    }
+
+fun Trigger.toDbTrigger(): DbTrigger =
+    with(this) {
+      return DbTrigger(
+          type = type.name,
+          value = value,
+          lat = lat,
+          lng = lng,
+          event = event,
+          phoneStatus = phoneStatus,
+          distance = distance,
+          temperature = temperature,
+          battery = battery,
+          uptime = uptime)
+    }
+
+fun DbTrigger.toTrigger(): Trigger =
+    with(this) {
+      return Trigger(
+          type = TriggerType.valueOf(type),
+          value = value,
+          lat = lat,
+          lng = lng,
+          event = event,
+          phoneStatus = phoneStatus,
+          distance = distance,
+          temperature = temperature,
+          battery = battery,
+          uptime = uptime)
     }

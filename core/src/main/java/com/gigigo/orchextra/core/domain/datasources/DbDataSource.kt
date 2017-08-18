@@ -19,12 +19,17 @@
 package com.gigigo.orchextra.core.domain.datasources
 
 import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.Trigger
 
 interface DbDataSource {
 
   fun getActions(): List<Action>
 
-  fun saveActions(actions:List<Action>)
+  fun saveActions(actions: List<Action>)
 
-  fun removeActions(actions:List<Action>)
+  fun removeActions(actions: List<Action>)
+
+  fun getTriggers(): List<Trigger>
+
+  fun saveTriggers(triggers: List<Trigger>)
 }
