@@ -16,9 +16,19 @@
  * limitations under the License.
  */
 
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
+  }
+}
+
 apply plugin: 'com.android.application'
 apply from: rootProject.file('gradle/checkstyle.gradle')
-apply from: '../config/jacoco.gradle'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
   compileSdkVersion 25
@@ -68,6 +78,18 @@ android {
     abortOnError false
     ignoreWarnings true
   }
+}
+
+dexcount {
+  format = "list"
+  includeClasses = false
+  includeFieldCount = true
+  includeTotalMethodCount = true
+  orderByMethodCount = false
+  verbose = true
+  maxTreeDepth = Integer.MAX_VALUE
+  enableForInstantRun = false
+  runOnEachAssemble = false
 }
 
 dependencies {

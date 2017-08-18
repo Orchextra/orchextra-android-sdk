@@ -114,13 +114,9 @@ object Orchextra : OrchextraErrorListener {
     orchextraStatusListener?.onStatusChange(isReady)
   }
 
-  fun getCredentials(): Credentials {
-    return credentials
-  }
+  fun getCredentials(): Credentials = credentials
 
-  fun isReady(): Boolean {
-    return Orchextra.isReady
-  }
+  fun isReady(): Boolean = Orchextra.isReady
 
   private fun checkInitialization() {
     if (!isReady) {

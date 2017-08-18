@@ -46,8 +46,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-class NetworkDataSourceImp(val orchextra: Orchextra,
-    val sessionManager: SessionManager) : NetworkDataSource {
+class NetworkDataSourceImp(private val orchextra: Orchextra,
+    private val sessionManager: SessionManager) : NetworkDataSource {
 
   private val orchextraApi: OrchextraApi
 
