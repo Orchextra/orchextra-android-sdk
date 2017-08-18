@@ -18,25 +18,21 @@
 
 package com.gigigo.orchextra.core
 
+import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.browser.BrowserActionExecutor
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationActionExecutor
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.webview.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
-import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
+import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
+import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
-import com.gigigo.orchextra.core.schedule.ActionSchedulerManager
 import com.gigigo.orchextra.core.utils.PostExecutionThreadMock
 import com.gigigo.orchextra.core.utils.ThreadExecutorMock
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.doThrow
+import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
@@ -44,52 +40,40 @@ import org.junit.Test
 
 class TriggerManagerTest {
 
-  private val TEST_TRIGGER = QR withValue "test_123"
+  private val TEST_SUCCESS_TRIGGER = QR withValue "test_123"
+  private val TEST_ERROR_TRIGGER = BARCODE withValue "test_error_123"
+  private val TEST_ACTION = Action(trackId = "test_123", type = WEBVIEW,
+      url = "https://www.google.es")
+  private val TEST_NETWORK_EXCEPTION = NetworkException(-1, "error")
 
   @Test
-  fun shouldExecuteBrowserAction() {
-    val browserActionExecutor: BrowserActionExecutor = mock()
-    val action = Action(trackId = "test_123",
-        type = BROWSER,
-        url = "https://www.google.es")
-    val actionManager = getActionManager(action, browserActionExecutor = browserActionExecutor)
+  fun shouldExecuteAction() {
+    val actionDispatcher: ActionDispatcher = mock()
+    val triggerManager = getTriggerManager(actionDispatcher = actionDispatcher)
 
-    actionManager.onTriggerDetected(TEST_TRIGGER)
+    triggerManager.onTriggerDetected(TEST_SUCCESS_TRIGGER)
 
-    verify(browserActionExecutor).open(action.url)
+    verify(actionDispatcher).executeAction(TEST_ACTION)
   }
 
   @Test
-  fun shouldExecuteWebViewAction() {
-    val webViewActionExecutor: WebViewActionExecutor = mock()
-    val action = Action(trackId = "test_123",
-        type = WEBVIEW,
-        url = "https://www.google.es")
-    val actionManager = getActionManager(action, webViewActionExecutor = webViewActionExecutor)
+  fun shouldNotifyGetActionError() {
+    val orchextraErrorListener: OrchextraErrorListener = mock()
+    val triggerManager = getTriggerManager(orchextraErrorListener = orchextraErrorListener)
 
-    actionManager.onTriggerDetected(TEST_TRIGGER)
+    triggerManager.onTriggerDetected(TEST_ERROR_TRIGGER)
 
-    verify(webViewActionExecutor).open(action.url)
+    verify(orchextraErrorListener).onError(eq(TEST_NETWORK_EXCEPTION.toError()))
   }
 
-  private fun getActionManager(action: Action,
-      browserActionExecutor: BrowserActionExecutor = mock(),
-      webViewActionExecutor: WebViewActionExecutor = mock(),
-      customActionExecutor: CustomActionExecutor = mock(),
-      scannerActionExecutor: ScannerActionExecutor = mock(),
-      imageRecognitionActionExecutor: ImageRecognitionActionExecutor = mock(),
-      notificationActionExecutor: NotificationActionExecutor = mock(),
-      orchextraErrorListener: OrchextraErrorListener = mock(),
-      actionSchedulerManager: ActionSchedulerManager = mock()
-  ): TriggerManager {
+  private fun getTriggerManager(actionDispatcher: ActionDispatcher = mock(),
+      orchextraErrorListener: OrchextraErrorListener = mock()): TriggerManager {
 
     val networkDataSource = mock<NetworkDataSource> {
-      on { getAction(any()) } doReturn action
+      on { getAction(TEST_SUCCESS_TRIGGER) } doReturn TEST_ACTION
+      on { getAction(TEST_ERROR_TRIGGER) } doThrow TEST_NETWORK_EXCEPTION
     }
 
-    val actionDispatcher = ActionDispatcher(browserActionExecutor, webViewActionExecutor,
-        customActionExecutor, scannerActionExecutor, imageRecognitionActionExecutor,
-        notificationActionExecutor, actionSchedulerManager)
     val getAction = GetAction(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSource)
 
     return TriggerManager(getAction = getAction, actionDispatcher = actionDispatcher,

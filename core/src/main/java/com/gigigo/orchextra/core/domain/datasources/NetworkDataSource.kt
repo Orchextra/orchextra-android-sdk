@@ -26,15 +26,20 @@ import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 
 interface NetworkDataSource {
 
+  @Throws(NetworkException::class)
   fun getAuthentication(credentials: Credentials): Token
 
+  @Throws(NetworkException::class)
   fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration
 
+  @Throws(NetworkException::class)
   fun getAction(trigger: Trigger): Action
 
+  @Throws(NetworkException::class)
   fun confirmAction(id: String)
 
   companion object Factory {

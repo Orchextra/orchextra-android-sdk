@@ -18,6 +18,8 @@
 
 package com.gigigo.orchextra.core.domain.datasources
 
+import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
+import com.gigigo.orchextra.core.data.datasources.db.DbDataSourceImp
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
 
@@ -32,4 +34,9 @@ interface DbDataSource {
   fun getTriggers(): List<Trigger>
 
   fun saveTriggers(triggers: List<Trigger>)
+
+  companion object Factory {
+
+    fun create(): DbDataSource = DbDataSourceImp(DatabaseHelper.create())
+  }
 }

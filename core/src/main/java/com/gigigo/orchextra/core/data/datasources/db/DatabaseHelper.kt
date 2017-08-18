@@ -22,6 +22,7 @@ import android.content.Context
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.db.models.DbAction
 import com.gigigo.orchextra.core.data.datasources.db.models.DbNotification
 import com.gigigo.orchextra.core.data.datasources.db.models.DbSchedule
@@ -98,8 +99,10 @@ class DatabaseHelper constructor(val context: Context) : OrmLiteSqliteOpenHelper
     return null
   }
 
-  companion object {
+  companion object Factory {
     private val TAG = "DatabaseHelper"
     private val DATABASE_VERSION = 1
+
+    fun create(): DatabaseHelper = DatabaseHelper(Orchextra.provideContext())
   }
 }
