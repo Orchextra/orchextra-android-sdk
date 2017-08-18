@@ -25,6 +25,7 @@ import android.util.Log
 import com.gigigo.orchextra.core.data.datasources.db.models.DbAction
 import com.gigigo.orchextra.core.data.datasources.db.models.DbNotification
 import com.gigigo.orchextra.core.data.datasources.db.models.DbSchedule
+import com.gigigo.orchextra.core.data.datasources.db.models.DbTrigger
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper
 import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.support.ConnectionSource
@@ -80,6 +81,16 @@ class DatabaseHelper constructor(val context: Context) : OrmLiteSqliteOpenHelper
   fun getScheduleDao(): Dao<DbSchedule, Int>? {
     try {
       return getDao<Dao<DbSchedule, Int>, DbSchedule>(DbSchedule::class.java)
+    } catch (e: SQLException) {
+      e.printStackTrace()
+    }
+
+    return null
+  }
+
+  fun getTriggerDao(): Dao<DbTrigger, Int>? {
+    try {
+      return getDao<Dao<DbTrigger, Int>, DbTrigger>(DbTrigger::class.java)
     } catch (e: SQLException) {
       e.printStackTrace()
     }

@@ -37,7 +37,6 @@ data class DbAction(
   override fun getPersistedTime(): Long = dbPersistedTime
 }
 
-
 data class DbNotification(
     @DatabaseField(generatedId = true, columnName = "id")
     var id: Int = 0,
@@ -49,3 +48,21 @@ data class DbSchedule(
     var id: Int = 0,
     @DatabaseField val seconds: Int = -1,
     @DatabaseField val cancelable: Boolean = true)
+
+data class DbTrigger constructor(
+    @DatabaseField(generatedId = true, columnName = "id")
+    var id: Int = 0,
+    @DatabaseField val type: String,
+    @DatabaseField(columnName = "value") val value: String,
+    @DatabaseField val lat: Double,
+    @DatabaseField val lng: Double,
+    @DatabaseField val event: String,
+    @DatabaseField val phoneStatus: String,
+    @DatabaseField val distance: String,
+    @DatabaseField val temperature: Double,
+    @DatabaseField val battery: Double,
+    @DatabaseField val uptime: Int,
+    @DatabaseField var dbPersistedTime: Long = 0) : TtlCachingObject {
+
+  override fun getPersistedTime(): Long = dbPersistedTime
+}
