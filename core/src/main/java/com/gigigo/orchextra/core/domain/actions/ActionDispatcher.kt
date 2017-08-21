@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.actions
 
+import android.content.Context
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.browser.BrowserActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
@@ -32,7 +33,8 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.schedule.ActionSchedulerManager
 
-class ActionDispatcher constructor(private val browserActionExecutor: BrowserActionExecutor,
+class ActionDispatcher constructor(
+    private val browserActionExecutor: BrowserActionExecutor,
     private val webViewActionExecutor: WebViewActionExecutor,
     private val customActionExecutor: CustomActionExecutor,
     private val scannerActionExecutor: ScannerActionExecutor,
@@ -74,13 +76,13 @@ class ActionDispatcher constructor(private val browserActionExecutor: BrowserAct
 
   companion object Factory {
 
-    fun create(): ActionDispatcher = ActionDispatcher(
-        BrowserActionExecutor.create(),
-        WebViewActionExecutor.create(),
+    fun create(context: Context): ActionDispatcher = ActionDispatcher(
+        BrowserActionExecutor.create(context),
+        WebViewActionExecutor.create(context),
         CustomActionExecutor.create(),
         ScannerActionExecutor,
         ImageRecognitionActionExecutor.create(),
-        NotificationActionExecutor.create(),
-        ActionSchedulerManager.create())
+        NotificationActionExecutor.create(context),
+        ActionSchedulerManager.create(context))
   }
 }

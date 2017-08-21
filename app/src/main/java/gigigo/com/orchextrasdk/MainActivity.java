@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
   private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
     @Override public void onStatusChange(boolean isReady) {
       if (isReady) {
-        orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create());
-        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create());
+        orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create(MainActivity.this));
+        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(MainActivity.this));
 
         Toast.makeText(MainActivity.this, "SDK ready", Toast.LENGTH_SHORT).show();
       } else {

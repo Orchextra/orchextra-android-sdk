@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.webview
 
 import android.content.Context
-import com.gigigo.orchextra.core.Orchextra
 
 class WebViewActionExecutor constructor(private val context: Context) {
 
@@ -29,7 +28,6 @@ class WebViewActionExecutor constructor(private val context: Context) {
 
   companion object Factory {
 
-    fun create(): WebViewActionExecutor = WebViewActionExecutor(
-        Orchextra.provideContext())
+    fun create(context: Context): WebViewActionExecutor = WebViewActionExecutor(context)
   }
 }

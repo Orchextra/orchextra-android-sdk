@@ -27,7 +27,6 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.util.Log
-import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.geofence.utils.toGeofence
 import com.google.android.gms.common.api.GoogleApiClient
@@ -158,7 +157,7 @@ class OxGeofenceImp(private val context: Context,
 
     private val TAG = "OxGeofenceImp"
 
-    fun create(): OxGeofenceImp = OxGeofenceImp(Orchextra.provideContext(),
-        LocationServices.getGeofencingClient(Orchextra.provideContext()))
+    fun create(context: Context): OxGeofenceImp = OxGeofenceImp(context,
+        LocationServices.getGeofencingClient(context))
   }
 }

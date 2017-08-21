@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.scanner
 
 import android.content.Context
-import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.triggers.Scanner
 
 class OxScannerImp private constructor(private val context: Context) : Scanner {
@@ -34,6 +33,6 @@ class OxScannerImp private constructor(private val context: Context) : Scanner {
 
   companion object Factory {
 
-    fun create(): OxScannerImp = OxScannerImp(Orchextra.provideContext())
+    fun create(context: Context): OxScannerImp = OxScannerImp(context)
   }
 }

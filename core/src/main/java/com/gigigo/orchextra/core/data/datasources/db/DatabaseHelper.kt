@@ -22,7 +22,6 @@ import android.content.Context
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
-import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.db.models.DbAction
 import com.gigigo.orchextra.core.data.datasources.db.models.DbNotification
 import com.gigigo.orchextra.core.data.datasources.db.models.DbSchedule
@@ -31,7 +30,6 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper
 import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils
-
 
 class DatabaseHelper constructor(val context: Context) : OrmLiteSqliteOpenHelper(context,
     "OXDataBase", null,
@@ -103,6 +101,6 @@ class DatabaseHelper constructor(val context: Context) : OrmLiteSqliteOpenHelper
     private val TAG = "DatabaseHelper"
     private val DATABASE_VERSION = 1
 
-    fun create(): DatabaseHelper = DatabaseHelper(Orchextra.provideContext())
+    fun create(context: Context): DatabaseHelper = DatabaseHelper(context)
   }
 }

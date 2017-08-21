@@ -26,10 +26,8 @@ import com.gigigo.orchextra.core.domain.entities.Token
 import com.squareup.moshi.Moshi
 
 
-class SessionManagerImp constructor(
-    private val sharedPreferences: SharedPreferences = Orchextra.provideSharedPreferences(),
-    moshi: Moshi = Moshi.Builder().build())
-  : SessionManager {
+class SessionManagerImp constructor(private val sharedPreferences: SharedPreferences,
+    moshi: Moshi) : SessionManager {
 
   private val tokenJsonAdapter = moshi.adapter(Token::class.java)
   private val TOKEN_KEY = "token_key"
@@ -70,5 +68,11 @@ class SessionManagerImp constructor(
     val editor = sharedPreferences.edit()
     editor.putString(TOKEN_KEY, tokenJsonAdapter.toJson(token))
     editor.commit()
+  }
+
+  companion object Factory {
+
+    fun create(): SessionManagerImp = SessionManagerImp(
+        Orchextra.provideSharedPreferences() as SharedPreferences, Moshi.Builder().build())
   }
 }

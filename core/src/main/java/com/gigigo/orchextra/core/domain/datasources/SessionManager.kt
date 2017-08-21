@@ -33,6 +33,6 @@ interface SessionManager {
 
   companion object Factory {
 
-    fun create(): SessionManager = SessionManagerImp()
+    fun create(): SessionManager = SessionManagerImp.create()
   }
 }

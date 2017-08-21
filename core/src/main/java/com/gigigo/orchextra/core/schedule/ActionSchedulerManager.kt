@@ -20,9 +20,7 @@ package com.gigigo.orchextra.core.schedule
 
 import android.app.AlarmManager
 import android.content.Context
-import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.Action
-
 
 class ActionSchedulerManager(val context: Context) {
 
@@ -44,6 +42,6 @@ class ActionSchedulerManager(val context: Context) {
 
   companion object Factory {
 
-    fun create(): ActionSchedulerManager = ActionSchedulerManager(Orchextra.provideContext())
+    fun create(context: Context): ActionSchedulerManager = ActionSchedulerManager(context)
   }
 }

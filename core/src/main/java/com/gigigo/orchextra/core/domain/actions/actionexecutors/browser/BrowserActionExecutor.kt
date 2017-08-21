@@ -21,8 +21,6 @@ package com.gigigo.orchextra.core.domain.actions.actionexecutors.browser
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.gigigo.orchextra.core.Orchextra
-
 
 class BrowserActionExecutor(private val context: Context) {
 
@@ -33,7 +31,6 @@ class BrowserActionExecutor(private val context: Context) {
 
   companion object Factory {
 
-    fun create(): BrowserActionExecutor = BrowserActionExecutor(
-        Orchextra.provideContext())
+    fun create(context: Context): BrowserActionExecutor = BrowserActionExecutor(context)
   }
 }

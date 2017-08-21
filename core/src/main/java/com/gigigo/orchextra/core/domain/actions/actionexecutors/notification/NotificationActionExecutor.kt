@@ -36,10 +36,15 @@ class NotificationActionExecutor(private val context: Context) {
 
   fun showNotification(notification: Notification, actionExecutor: () -> Unit) {
 
-    handler.post { showDialog(notification, actionExecutor) }
+    if (Orchextra.provideContext() != null) {
+      val viewContext = Orchextra.provideContext() as Context
+      handler.post { showDialog(viewContext, notification, actionExecutor) }
+    } else {
+      showBarNotification(notification, actionExecutor)
+    }
   }
 
-  private fun showDialog(notification: Notification,
+  private fun showDialog(context: Context, notification: Notification,
       actionExecutor: () -> Unit) = with(notification) {
 
     val builder = AlertDialog.Builder(context)
@@ -68,7 +73,7 @@ class NotificationActionExecutor(private val context: Context) {
 
   companion object Factory {
 
-    fun create(): NotificationActionExecutor = NotificationActionExecutor(
-        Orchextra.provideContext())
+    fun create(context: Context): NotificationActionExecutor = NotificationActionExecutor(
+        context)
   }
 }
