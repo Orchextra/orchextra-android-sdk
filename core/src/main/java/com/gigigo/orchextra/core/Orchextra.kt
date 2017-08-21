@@ -143,11 +143,8 @@ object Orchextra : OrchextraErrorListener {
     changeStatus(false)
   }
 
-  fun provideContext(): Context {
-    return context as Context
-  }
+  fun provideContext(): Context = context as Context
 
-  fun provideSharedPreferences(): SharedPreferences {
-    return provideContext().getSharedPreferences("orchextra", Context.MODE_PRIVATE)
-  }
+  fun provideSharedPreferences(): SharedPreferences =
+      provideContext().getSharedPreferences("orchextra", Context.MODE_PRIVATE)
 }
