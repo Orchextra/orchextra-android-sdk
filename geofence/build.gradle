@@ -5,7 +5,7 @@ apply from: '../config/jacoco.gradle'
 
 android {
   compileSdkVersion 25
-  buildToolsVersion "26.0.0"
+  buildToolsVersion '26'
 
   defaultConfig {
     minSdkVersion 16

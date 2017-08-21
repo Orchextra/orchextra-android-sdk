@@ -32,7 +32,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
   compileSdkVersion 25
-  buildToolsVersion "24.0.3"
+  buildToolsVersion '26'
 
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
