@@ -18,12 +18,12 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner
 
-import com.gigigo.orchextra.core.domain.triggers.Scanner
-import com.gigigo.orchextra.core.domain.triggers.VoidScanner
+import com.gigigo.orchextra.core.domain.triggers.OxTrigger
+import com.gigigo.orchextra.core.domain.triggers.VoidTrigger
 
 object ScannerActionExecutor {
 
-  var scanner: Scanner = VoidScanner()
+  var scanner: OxTrigger<Any> = VoidTrigger()
 
   fun open() {
     scanner.init()

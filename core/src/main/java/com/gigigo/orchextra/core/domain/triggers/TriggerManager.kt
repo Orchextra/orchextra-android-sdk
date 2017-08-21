@@ -27,6 +27,7 @@ import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerA
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Error
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
@@ -39,15 +40,16 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
 
   var configuration: Configuration = Configuration()
 
-  var scanner by Delegates.observable(VoidScanner() as Scanner)
+  var scanner by Delegates.observable(VoidTrigger<Any>() as OxTrigger<Any>)
   { _, _, new ->
     ScannerActionExecutor.scanner = new
   }
 
-  var geofence by Delegates.observable(VoidGeofence() as Geofence)
+  var geofence by Delegates.observable(
+      VoidTrigger<List<GeoMarketing>>() as OxTrigger<List<GeoMarketing>>)
   { _, _, new ->
     if (configuration.geoMarketing.isNotEmpty()) {
-      new.setGeoMarketingList(configuration.geoMarketing)
+      new.setConfig(configuration.geoMarketing)
 
       try {
         new.init()

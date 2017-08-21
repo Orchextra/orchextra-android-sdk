@@ -28,6 +28,7 @@ import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.gigigo.orchextra.core.domain.triggers.OxTrigger
 import com.gigigo.orchextra.geofence.utils.toGeofence
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.Geofence
@@ -36,20 +37,14 @@ import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.gigigo.orchextra.core.domain.triggers.Geofence as GeodenceInt
 
 
 class OxGeofenceImp(private val context: Context,
-    private val geofencingClient: GeofencingClient) : GeodenceInt, OnCompleteListener<Void> {
+    private val geofencingClient: GeofencingClient) : OxTrigger<List<GeoMarketing>>, OnCompleteListener<Void> {
 
   private val GEOFENCES_ADDED_KEY = "GEOFENCES_ADDED_KEY"
   private var geofenceList: List<Geofence> = ArrayList()
   private var geofencePendingIntent: PendingIntent? = null
-
-  override fun setGeoMarketingList(geoMarketingList: List<GeoMarketing>) {
-
-    geofenceList = geoMarketingList.map { it.toGeofence() }
-  }
 
   override fun init() {
 
@@ -64,6 +59,10 @@ class OxGeofenceImp(private val context: Context,
     } else {
       throw SecurityException("Geofence trigger needs ACCESS_FINE_LOCATION permission")
     }
+  }
+
+  override fun setConfig(config: List<GeoMarketing>) {
+    geofenceList = config.map { it.toGeofence() }
   }
 
   override fun finish() {
