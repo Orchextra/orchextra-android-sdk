@@ -16,21 +16,21 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.receiver
+package com.gigigo.orchextra.core.domain.triggers
 
 import android.app.IntentService
 import android.content.Context
 import android.content.Intent
 import com.gigigo.orchextra.core.domain.entities.Trigger
-import com.gigigo.orchextra.core.domain.triggers.TriggerListener
-import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 
-class TriggerHandlerService : IntentService(TAG) {
+class TriggerHandlerService : IntentService(
+    TAG) {
 
-  private val triggerListener: TriggerListener = TriggerManager.create()
+  private val triggerListener: TriggerListener = TriggerManager.create(this)
 
   override fun onHandleIntent(intent: Intent) {
-    val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)
+    val trigger = intent.getParcelableExtra<Trigger>(
+        TRIGGER_EXTRA)
     triggerListener.onTriggerDetected(trigger)
   }
 
@@ -40,7 +40,8 @@ class TriggerHandlerService : IntentService(TAG) {
 
     fun start(context: Context, trigger: Trigger) {
       val intent = Intent(context, TriggerHandlerService::class.java)
-      intent.putExtra(TRIGGER_EXTRA, trigger)
+      intent.putExtra(
+          TRIGGER_EXTRA, trigger)
       context.startService(intent)
     }
   }

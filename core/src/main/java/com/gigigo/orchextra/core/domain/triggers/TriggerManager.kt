@@ -18,10 +18,11 @@
 
 package com.gigigo.orchextra.core.domain.triggers
 
+import android.content.Context
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.OrchextraErrorListener
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
-import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
+import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
@@ -32,8 +33,8 @@ import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetAction.Callback
 import kotlin.properties.Delegates
 
-class TriggerManager(private val getAction: GetAction,
-    private val actionDispatcher: ActionDispatcher,
+class TriggerManager(private val context: Context, private val getAction: GetAction,
+    private val actionHandlerServiceExecutor: ActionHandlerServiceExecutor,
     private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
 
   var configuration: Configuration = Configuration()
@@ -61,7 +62,7 @@ class TriggerManager(private val getAction: GetAction,
 
     getAction.get(trigger, object : Callback {
       override fun onSuccess(action: Action) {
-        actionDispatcher.executeAction(action)
+        actionHandlerServiceExecutor.execute(context = context, action = action)
       }
 
       override fun onError(error: NetworkException) {
@@ -72,7 +73,7 @@ class TriggerManager(private val getAction: GetAction,
 
   companion object Factory {
 
-    fun create(): TriggerManager = TriggerManager(GetAction.create(),
-        ActionDispatcher.create(), Orchextra)
+    fun create(context: Context): TriggerManager = TriggerManager(context, GetAction.create(),
+        ActionHandlerServiceExecutor.create(), Orchextra)
   }
 }

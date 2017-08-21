@@ -20,7 +20,7 @@ package com.gigigo.orchextra.core
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
+import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
@@ -41,12 +41,12 @@ import java.lang.IllegalStateException
 object Orchextra : OrchextraErrorListener {
 
   private var context: Context? = null
-  private lateinit var actionDispatcher: ActionDispatcher
   private lateinit var triggerManager: TriggerManager
   private var credentials: Credentials = Credentials()
   private var isReady = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
   private var orchextraErrorListener: OrchextraErrorListener? = null
+  private val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
 
   fun init(context: Context, apiKey: String, apiSecret: String,
       orchextraStatusListener: OrchextraStatusListener? = null) {
@@ -54,9 +54,7 @@ object Orchextra : OrchextraErrorListener {
     this.context = context
     this.orchextraStatusListener = orchextraStatusListener
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
-
-    this.triggerManager = TriggerManager.create()
-    this.actionDispatcher = ActionDispatcher.create()
+    this.triggerManager = TriggerManager.create(context)
 
     getConfiguration()
   }
@@ -88,20 +86,17 @@ object Orchextra : OrchextraErrorListener {
 
   fun openBrowser(url: String) {
     checkInitialization()
-    actionDispatcher.executeAction(
-        Action(type = BROWSER, url = url))
+    actionHandlerServiceExecutor.execute(context as Context, Action(type = BROWSER, url = url))
   }
 
   fun openWebView(url: String) {
     checkInitialization()
-    actionDispatcher.executeAction(
-        Action(type = WEBVIEW, url = url))
+    actionHandlerServiceExecutor.execute(context as Context, Action(type = WEBVIEW, url = url))
   }
 
   fun openScanner() {
     checkInitialization()
-    actionDispatcher.executeAction(
-        Action(type = SCANNER))
+    actionHandlerServiceExecutor.execute(context as Context, Action(type = SCANNER))
   }
 
   fun getTriggerManager(): TriggerManager {

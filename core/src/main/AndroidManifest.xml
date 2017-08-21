@@ -44,7 +44,8 @@
 
     <receiver android:name=".schedule.ScheduleActionReceiver"/>
 
-    <service android:name=".receiver.TriggerHandlerService"/>
+    <service android:name=".domain.triggers.TriggerHandlerService"/>
+    <service android:name=".domain.actions.ActionHandlerService"/>
 
   </application>
 </manifest>

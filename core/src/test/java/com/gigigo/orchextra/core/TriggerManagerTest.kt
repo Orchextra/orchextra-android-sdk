@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.core
 
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
-import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
+import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
@@ -30,6 +30,7 @@ import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.PostExecutionThreadMock
 import com.gigigo.orchextra.core.utils.ThreadExecutorMock
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.doThrow
 import com.nhaarman.mockito_kotlin.eq
@@ -48,12 +49,13 @@ class TriggerManagerTest {
 
   @Test
   fun shouldExecuteAction() {
-    val actionDispatcher: ActionDispatcher = mock()
-    val triggerManager = getTriggerManager(actionDispatcher = actionDispatcher)
+    val actionHandlerServiceExecutor: ActionHandlerServiceExecutor = mock()
+    val triggerManager = getTriggerManager(
+        actionHandlerServiceExecutor = actionHandlerServiceExecutor)
 
     triggerManager.onTriggerDetected(TEST_SUCCESS_TRIGGER)
 
-    verify(actionDispatcher).executeAction(TEST_ACTION)
+    verify(actionHandlerServiceExecutor).execute(any(), eq(TEST_ACTION))
   }
 
   @Test
@@ -66,7 +68,7 @@ class TriggerManagerTest {
     verify(orchextraErrorListener).onError(eq(TEST_NETWORK_EXCEPTION.toError()))
   }
 
-  private fun getTriggerManager(actionDispatcher: ActionDispatcher = mock(),
+  private fun getTriggerManager(actionHandlerServiceExecutor: ActionHandlerServiceExecutor = mock(),
       orchextraErrorListener: OrchextraErrorListener = mock()): TriggerManager {
 
     val networkDataSource = mock<NetworkDataSource> {
@@ -76,7 +78,8 @@ class TriggerManagerTest {
 
     val getAction = GetAction(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSource)
 
-    return TriggerManager(getAction = getAction, actionDispatcher = actionDispatcher,
+    return TriggerManager(context = mock(), getAction = getAction,
+        actionHandlerServiceExecutor = actionHandlerServiceExecutor,
         orchextraErrorListener = orchextraErrorListener)
   }
 }

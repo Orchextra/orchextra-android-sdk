@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.triggers.TriggerHandlerService
 
 class TriggerBroadcastReceiver : BroadcastReceiver() {
 

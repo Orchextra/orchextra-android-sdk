@@ -23,20 +23,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.gigigo.orchextra.core.domain.actions.ActionDispatcher
+import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Schedule
 
 class ScheduleActionReceiver : BroadcastReceiver() {
 
-  private val actionDispatcher: ActionDispatcher = ActionDispatcher.create()
+  private val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
 
   override fun onReceive(context: Context, intent: Intent) {
 
     val action = intent.getParcelableExtra<Action>(ACTION_EXTRA)
     Log.d(TAG, "onScheduledActionReceive: $action")
 
-    actionDispatcher.executeAction(action.copy(schedule = Schedule()))
+    actionHandlerServiceExecutor.execute(context, action.copy(schedule = Schedule()))
   }
 
   companion object {

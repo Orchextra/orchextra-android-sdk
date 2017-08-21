@@ -39,7 +39,7 @@ public class UpdateConfigUtility {
             PendingIntent BroadCastPending = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("Permissions Problem, maybe never do start and grant permissions");
+                System.out.println("Permissions Problem, maybe never do execute and grant permissions");
                 return;
             }
             System.out.println("BROADCAST UpdateConfigurationByTime Suscribe!!");

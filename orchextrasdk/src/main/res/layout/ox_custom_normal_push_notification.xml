@@ -4,7 +4,7 @@
     android:id="@+id/ox_layout_custom_local_notification"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="left|start"
+    android:gravity="left|execute"
     android:paddingBottom="2dp"
     android:paddingEnd="8dp"
     android:paddingRight="8dp"
