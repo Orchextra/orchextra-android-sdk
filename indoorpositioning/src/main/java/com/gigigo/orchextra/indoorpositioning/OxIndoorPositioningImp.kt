@@ -18,7 +18,29 @@
 
 package com.gigigo.orchextra.indoorpositioning
 
+import android.content.Context
+import com.gigigo.orchextra.core.domain.entities.Proximity
+import com.gigigo.orchextra.core.domain.triggers.OxTrigger
 
-class OxIndoorPositioningImp {
 
+class OxIndoorPositioningImp private constructor(
+    private val context: Context) : OxTrigger<List<Proximity>> {
+
+
+  override fun init() {
+    TODO("not implemented")
+  }
+
+  override fun setConfig(config: List<Proximity>) {
+    TODO("not implemented")
+  }
+
+  override fun finish() {
+    TODO("not implemented")
+  }
+
+  companion object Factory {
+
+    fun create(context: Context): OxIndoorPositioningImp = OxIndoorPositioningImp(context)
+  }
 }

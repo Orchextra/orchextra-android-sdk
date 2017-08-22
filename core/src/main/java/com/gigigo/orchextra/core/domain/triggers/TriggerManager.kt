@@ -28,6 +28,7 @@ import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.gigigo.orchextra.core.domain.entities.Proximity
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
@@ -50,6 +51,21 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
   { _, _, new ->
     if (configuration.geoMarketing.isNotEmpty()) {
       new.setConfig(configuration.geoMarketing)
+
+      try {
+        new.init()
+      } catch (exception: SecurityException) {
+        orchextraErrorListener.onError(
+            Error(code = Error.FATAL_ERROR, message = exception.message as String))
+      }
+    }
+  }
+
+  var indoorPositioning by Delegates.observable(
+      VoidTrigger<List<Proximity>>() as OxTrigger<List<Proximity>>)
+  { _, _, new ->
+    if (configuration.proximity.isNotEmpty()) {
+      new.setConfig(configuration.proximity)
 
       try {
         new.init()

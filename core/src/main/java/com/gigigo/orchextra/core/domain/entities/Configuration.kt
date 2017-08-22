@@ -19,7 +19,8 @@
 package com.gigigo.orchextra.core.domain.entities
 
 data class Configuration constructor(
-    val geoMarketing: List<GeoMarketing> = listOf())
+    val geoMarketing: List<GeoMarketing> = listOf(),
+    val proximity: List<Proximity> = listOf())
 
 
 data class GeoMarketing constructor(
@@ -33,3 +34,11 @@ data class GeoMarketing constructor(
 data class Point constructor(
     val lat: Double,
     val lng: Double)
+
+data class Proximity constructor(
+    val code: String,
+    val uuid: String,
+    val minor: Int,
+    val major: Int,
+    val notifyOnEntry: Boolean,
+    val notifyOnExit: Boolean)
