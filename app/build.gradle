@@ -40,6 +40,8 @@ android {
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode
     versionName "7.0.3"
+
+    vectorDrawables.useSupportLibrary = true
   }
 
   lintOptions {
@@ -94,13 +96,14 @@ dexcount {
 
 dependencies {
 
-  compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
-  compile 'com.android.support:appcompat-v7:25.3.1'
-
   compile project(':core')
   compile project(':scanner')
   compile project(':geofence')
   compile project(':indoorpositioning')
 
+  compile 'com.github.Gigigo-Android-Devs:fabmenu:proto'
+  compile 'com.android.support:appcompat-v7:25.3.1'
+  compile 'com.android.support:design:25.3.1'
+  compile 'com.android.support:support-vector-drawable:25.3.1'
   testCompile 'junit:junit:4.12'
 }

@@ -28,4 +28,8 @@
   <string name="status_running">running</string>
   <string name="status_text">Orchextra status: %s</string>
   <string name="status_stoped">stopped</string>
+  <string name="title_activity_orchextra_demo">OrchextraDemoActivity</string>
+  <string name="title_home">Home</string>
+  <string name="title_dashboard">Dashboard</string>
+  <string name="title_notifications">Notifications</string>
 </resources>

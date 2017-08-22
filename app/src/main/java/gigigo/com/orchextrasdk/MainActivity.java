@@ -73,11 +73,14 @@ public class MainActivity extends AppCompatActivity {
     Button webviewButton = (Button) findViewById(R.id.webview_button);
     webviewButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        if (orchextra.isReady()) {
-          orchextra.openWebView("https://www.google.es");
-        } else {
-          Toast.makeText(MainActivity.this, "SDK sin inicializar", Toast.LENGTH_SHORT).show();
-        }
+
+        OrchextraDemoActivity.open(MainActivity.this);
+
+        //if (orchextra.isReady()) {
+        //  orchextra.openWebView("https://www.google.es");
+        //} else {
+        //  Toast.makeText(MainActivity.this, "SDK sin inicializar", Toast.LENGTH_SHORT).show();
+        //}
       }
     });
 
