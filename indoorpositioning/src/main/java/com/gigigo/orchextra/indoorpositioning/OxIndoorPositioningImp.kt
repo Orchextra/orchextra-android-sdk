@@ -1,7 +1,7 @@
 /*
  * Created by Orchextra
  *
- * Copyright (C) 2016 Gigigo Mobile Services SL
+ * Copyright (C) 2017 Gigigo Mobile Services SL
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-include ':app', ':core', ':scanner', ':geofence', ':indoorpositioning'
-//    ':orchextrasdk', ':orchextrasdk-control', ':orchextrasdk-domain', ':orchextrasdk-dataprovision',
-//    ':orchextrasdk-data'
+
+package com.gigigo.orchextra.indoorpositioning
+
+
+class OxIndoorPositioningImp {
+
+}
