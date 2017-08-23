@@ -27,6 +27,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -35,9 +37,9 @@ import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
-import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import gigigo.com.orchextrasdk.demo.OrchextraDemoActivity;
+import gigigo.com.orchextrasdk.settings.SettingsActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -63,6 +65,21 @@ public class MainActivity extends AppCompatActivity {
     });
 
     initView();
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_settings, menu);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+
+    if (item.getItemId() == R.id.action_settings) {
+      SettingsActivity.open(this);
+      return true;
+    } else {
+      return super.onOptionsItemSelected(item);
+    }
   }
 
   private void initView() {

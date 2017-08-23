@@ -26,10 +26,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.scanner.ScannerFragment;
 import gigigo.com.orchextrasdk.demo.triggerlog.TriggerLogFragment;
+import gigigo.com.orchextrasdk.settings.SettingsActivity;
 
 public class OrchextraDemoActivity extends AppCompatActivity {
 
@@ -49,6 +51,21 @@ public class OrchextraDemoActivity extends AppCompatActivity {
 
     if (savedInstanceState == null) {
       navigation.setSelectedItemId(R.id.navigation_scanner);
+    }
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_settings, menu);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+
+    if (item.getItemId() == R.id.action_settings) {
+      SettingsActivity.open(this);
+      return true;
+    } else {
+      return super.onOptionsItemSelected(item);
     }
   }
 
@@ -82,10 +99,9 @@ public class OrchextraDemoActivity extends AppCompatActivity {
 
     setSupportActionBar(toolbar);
     if (getSupportActionBar() != null) {
-      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      getSupportActionBar().setDisplayShowHomeEnabled(true);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+      getSupportActionBar().setDisplayShowHomeEnabled(false);
     }
-    //toolbar.setNavigationOnClickListener({ onBackPressed() })
   }
 
   private void showView(Fragment fragment) {
