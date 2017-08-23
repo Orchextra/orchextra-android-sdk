@@ -5,11 +5,13 @@
     tools:context="gigigo.com.orchextrasdk.demo.triggerlog.TriggerLogFragment"
     >
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/trigger_log_list"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:text="@string/hello_blank_fragment"
+      android:clipToPadding="false"
+      android:scrollbarStyle="outsideOverlay"
+      tools:listitem="@layout/item_trigger_log"
       />
 
 </FrameLayout>

@@ -38,6 +38,7 @@
   <string name="open_image_recognition">Open image recognition</string>
   <string name="start_orchextra">Start Orchextra</string>
 
-  <!-- TODO: Remove or change this placeholder text -->
-  <string name="hello_blank_fragment">Hello blank fragment</string>
+  <string name="trigger_type_format">Type: %1$s</string>
+  <string name="trigger_value_format">Value: %1$s</string>
+
 </resources>

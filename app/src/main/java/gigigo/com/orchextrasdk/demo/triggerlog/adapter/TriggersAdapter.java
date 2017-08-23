@@ -1,0 +1,110 @@
+/*
+ * Created by Orchextra
+ *
+ * Copyright (C) 2017 Gigigo Mobile Services SL
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package gigigo.com.orchextrasdk.demo.triggerlog.adapter;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import com.gigigo.orchextra.core.domain.entities.Trigger;
+import gigigo.com.orchextrasdk.R;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class TriggersAdapter extends RecyclerView.Adapter<TriggersViewHolder> {
+
+  private List<Trigger> triggerList;
+
+  public TriggersAdapter() {
+    this.triggerList = new ArrayList<>();
+  }
+
+  @Override public TriggersViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    View view = LayoutInflater.from(viewGroup.getContext())
+        .inflate(R.layout.item_trigger_log, viewGroup, false);
+    return new TriggersViewHolder(view);
+  }
+
+  @Override public void onBindViewHolder(TriggersViewHolder viewHolder, int position) {
+    Trigger trigger = triggerList.get(position);
+    viewHolder.render(trigger);
+  }
+
+  @Override public int getItemCount() {
+    return triggerList.size();
+  }
+
+  public void addAll(Collection<Trigger> collection) {
+    triggerList.clear();
+    triggerList.addAll(collection);
+    notifyDataSetChanged();
+  }
+
+  public void animateTo(List<Trigger> models) {
+    applyAndAnimateRemovals(models);
+    applyAndAnimateAdditions(models);
+    applyAndAnimateMovedItems(models);
+  }
+
+  private void applyAndAnimateRemovals(List<Trigger> newModels) {
+    for (int i = triggerList.size() - 1; i >= 0; i--) {
+      final Trigger model = triggerList.get(i);
+      if (!newModels.contains(model)) {
+        removeItem(i);
+      }
+    }
+  }
+
+  private void applyAndAnimateAdditions(List<Trigger> newModels) {
+    for (int i = 0, count = newModels.size(); i < count; i++) {
+      final Trigger model = newModels.get(i);
+      if (!triggerList.contains(model)) {
+        addItem(i, model);
+      }
+    }
+  }
+
+  private void applyAndAnimateMovedItems(List<Trigger> newModels) {
+    for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
+      final Trigger model = newModels.get(toPosition);
+      final int fromPosition = triggerList.indexOf(model);
+      if (fromPosition >= 0 && fromPosition != toPosition) {
+        moveItem(fromPosition, toPosition);
+      }
+    }
+  }
+
+  public Trigger removeItem(int position) {
+    final Trigger model = triggerList.remove(position);
+    notifyItemRemoved(position);
+    return model;
+  }
+
+  public void addItem(int position, Trigger model) {
+    triggerList.add(position, model);
+    notifyItemInserted(position);
+  }
+
+  public void moveItem(int fromPosition, int toPosition) {
+    final Trigger model = triggerList.remove(fromPosition);
+    triggerList.add(toPosition, model);
+    notifyItemMoved(fromPosition, toPosition);
+  }
+}
