@@ -27,17 +27,22 @@ import gigigo.com.orchextrasdk.R;
 
 public class TriggersViewHolder extends RecyclerView.ViewHolder {
 
+  private TextView dateTypeTv;
   private TextView triggerTypeTv;
   private TextView triggerValueTv;
 
   public TriggersViewHolder(View itemView) {
     super(itemView);
+    dateTypeTv = (TextView) itemView.findViewById(R.id.date_type_tv);
     triggerTypeTv = (TextView) itemView.findViewById(R.id.trigger_type_tv);
     triggerValueTv = (TextView) itemView.findViewById(R.id.trigger_value_tv);
   }
 
-  public void render(final Trigger trigger) {
+  public void render(final TriggerLog triggerLog) {
 
+    final Trigger trigger = triggerLog.getTrigger();
+
+    dateTypeTv.setText(getContext().getString(R.string.trigger_date_format, triggerLog.getDate()));
     triggerTypeTv.setText(
         getContext().getString(R.string.trigger_type_format, trigger.getType().name()));
     triggerValueTv.setText(

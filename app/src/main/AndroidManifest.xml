@@ -51,5 +51,14 @@
           android:name="android.support.PARENT_ACTIVITY"
           android:value="gigigo.com.orchextrasdk.MainActivity"/>
     </activity>
+
+    <receiver
+        android:name=".demo.triggerlog.receiver.TriggerLogBroadcastReceiver"
+        android:exported="true">
+      <intent-filter>
+        <action android:name="com.gigigo.orchextra.TRIGGER_RECIVER"/>
+      </intent-filter>
+    </receiver>
+
   </application>
 </manifest>

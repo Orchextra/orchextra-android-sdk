@@ -22,7 +22,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.gigigo.orchextra.core.domain.entities.Trigger;
 import gigigo.com.orchextrasdk.R;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +29,7 @@ import java.util.List;
 
 public class TriggersAdapter extends RecyclerView.Adapter<TriggersViewHolder> {
 
-  private List<Trigger> triggerList;
+  private List<TriggerLog> triggerList;
 
   public TriggersAdapter() {
     this.triggerList = new ArrayList<>();
@@ -43,47 +42,52 @@ public class TriggersAdapter extends RecyclerView.Adapter<TriggersViewHolder> {
   }
 
   @Override public void onBindViewHolder(TriggersViewHolder viewHolder, int position) {
-    Trigger trigger = triggerList.get(position);
-    viewHolder.render(trigger);
+    TriggerLog triggerLog = triggerList.get(position);
+    viewHolder.render(triggerLog);
   }
 
   @Override public int getItemCount() {
     return triggerList.size();
   }
 
-  public void addAll(Collection<Trigger> collection) {
+  public void addAll(Collection<TriggerLog> collection) {
     triggerList.clear();
     triggerList.addAll(collection);
     notifyDataSetChanged();
   }
 
-  public void animateTo(List<Trigger> models) {
+  public void add(TriggerLog trigger) {
+    triggerList.add(trigger);
+    notifyDataSetChanged();
+  }
+
+  public void animateTo(List<TriggerLog> models) {
     applyAndAnimateRemovals(models);
     applyAndAnimateAdditions(models);
     applyAndAnimateMovedItems(models);
   }
 
-  private void applyAndAnimateRemovals(List<Trigger> newModels) {
+  private void applyAndAnimateRemovals(List<TriggerLog> newModels) {
     for (int i = triggerList.size() - 1; i >= 0; i--) {
-      final Trigger model = triggerList.get(i);
+      final TriggerLog model = triggerList.get(i);
       if (!newModels.contains(model)) {
         removeItem(i);
       }
     }
   }
 
-  private void applyAndAnimateAdditions(List<Trigger> newModels) {
+  private void applyAndAnimateAdditions(List<TriggerLog> newModels) {
     for (int i = 0, count = newModels.size(); i < count; i++) {
-      final Trigger model = newModels.get(i);
+      final TriggerLog model = newModels.get(i);
       if (!triggerList.contains(model)) {
         addItem(i, model);
       }
     }
   }
 
-  private void applyAndAnimateMovedItems(List<Trigger> newModels) {
+  private void applyAndAnimateMovedItems(List<TriggerLog> newModels) {
     for (int toPosition = newModels.size() - 1; toPosition >= 0; toPosition--) {
-      final Trigger model = newModels.get(toPosition);
+      final TriggerLog model = newModels.get(toPosition);
       final int fromPosition = triggerList.indexOf(model);
       if (fromPosition >= 0 && fromPosition != toPosition) {
         moveItem(fromPosition, toPosition);
@@ -91,19 +95,19 @@ public class TriggersAdapter extends RecyclerView.Adapter<TriggersViewHolder> {
     }
   }
 
-  public Trigger removeItem(int position) {
-    final Trigger model = triggerList.remove(position);
+  public TriggerLog removeItem(int position) {
+    final TriggerLog model = triggerList.remove(position);
     notifyItemRemoved(position);
     return model;
   }
 
-  public void addItem(int position, Trigger model) {
+  public void addItem(int position, TriggerLog model) {
     triggerList.add(position, model);
     notifyItemInserted(position);
   }
 
   public void moveItem(int fromPosition, int toPosition) {
-    final Trigger model = triggerList.remove(fromPosition);
+    final TriggerLog model = triggerList.remove(fromPosition);
     triggerList.add(toPosition, model);
     notifyItemMoved(fromPosition, toPosition);
   }

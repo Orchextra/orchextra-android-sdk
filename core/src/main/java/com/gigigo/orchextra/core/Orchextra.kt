@@ -22,9 +22,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
-import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
-import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
@@ -82,16 +80,6 @@ object Orchextra : OrchextraErrorListener {
             println("getAuthentication onError: $error")
           }
         })
-  }
-
-  fun openBrowser(url: String) {
-    checkInitialization()
-    actionHandlerServiceExecutor.execute(context as Context, Action(type = BROWSER, url = url))
-  }
-
-  fun openWebView(url: String) {
-    checkInitialization()
-    actionHandlerServiceExecutor.execute(context as Context, Action(type = WEBVIEW, url = url))
   }
 
   fun openScanner() {

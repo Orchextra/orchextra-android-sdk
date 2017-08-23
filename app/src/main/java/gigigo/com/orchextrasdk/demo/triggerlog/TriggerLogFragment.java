@@ -32,17 +32,14 @@ import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
-import com.gigigo.orchextra.core.domain.entities.Trigger;
-import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.triggerlog.adapter.TriggersAdapter;
-import java.util.ArrayList;
-import java.util.List;
+import gigigo.com.orchextrasdk.demo.triggerlog.receiver.TriggerLogMemory;
 
 public class TriggerLogFragment extends Fragment {
 
   private static final String TAG = "ScannerFragment";
-  private Orchextra orchextra;
+  private TriggerLogMemory triggerLogMemory;
   private TriggersAdapter triggersAdapter;
   private RecyclerView triggerLogList;
 
@@ -66,12 +63,13 @@ public class TriggerLogFragment extends Fragment {
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
+    triggerLogMemory = TriggerLogMemory.getInstance();
     initOrchextra();
     initView();
   }
 
   private void initOrchextra() {
-    orchextra = Orchextra.INSTANCE;
+    Orchextra orchextra = Orchextra.INSTANCE;
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
         Log.e(TAG, error.toString());
@@ -83,22 +81,7 @@ public class TriggerLogFragment extends Fragment {
   private void initView() {
     initRecyclerView();
 
-    List<Trigger> triggers = new ArrayList<>();
-
-    triggers.add(
-        new Trigger(TriggerType.BARCODE, "value 1", null, null, null, null, null, null, null,
-            null));
-    triggers.add(
-        new Trigger(TriggerType.BARCODE, "value 2", null, null, null, null, null, null, null,
-            null));
-    triggers.add(
-        new Trigger(TriggerType.BARCODE, "value 3", null, null, null, null, null, null, null,
-            null));
-    triggers.add(
-        new Trigger(TriggerType.BARCODE, "value 4", null, null, null, null, null, null, null,
-            null));
-
-    triggersAdapter.addAll(triggers);
+    triggersAdapter.addAll(triggerLogMemory.getTriggerLogs());
   }
 
   private void initRecyclerView() {
