@@ -17,18 +17,28 @@
   ~ limitations under the License.
 -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="gigigo.com.orchextrasdk.ScannerFragment"
+    android:orientation="vertical"
+    tools:context="gigigo.com.orchextrasdk.demo.scanner.ScannerFragment"
     >
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
+  <Button
+      android:id="@+id/ox_scanner_button"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:text="@string/hello_blank_fragment"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/spacing_normal"
+      android:text="@string/open_orchextra_scanner"
       />
 
-</FrameLayout>
+  <Button
+      android:id="@+id/ox_image_recognition_button"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/spacing_normal"
+      android:text="@string/open_image_recognition"
+      />
+
+</LinearLayout>

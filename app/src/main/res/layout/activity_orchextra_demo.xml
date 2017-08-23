@@ -25,7 +25,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="gigigo.com.orchextrasdk.OrchextraDemoActivity"
+    tools:context="gigigo.com.orchextrasdk.demo.OrchextraDemoActivity"
     >
 
   <include layout="@layout/toolbar"/>

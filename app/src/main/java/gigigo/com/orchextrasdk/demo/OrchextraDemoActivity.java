@@ -1,4 +1,4 @@
-package gigigo.com.orchextrasdk;
+package gigigo.com.orchextrasdk.demo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import gigigo.com.orchextrasdk.R;
+import gigigo.com.orchextrasdk.demo.scanner.ScannerFragment;
 
 public class OrchextraDemoActivity extends AppCompatActivity {
 

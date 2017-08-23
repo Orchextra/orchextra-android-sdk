@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
+import gigigo.com.orchextrasdk.demo.OrchextraDemoActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -46,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initView() {
-    Button initButton = (Button) findViewById(R.id.init_button);
-    initButton.setOnClickListener(new View.OnClickListener() {
+
+    initToolbar();
+
+    Button startButton = (Button) findViewById(R.id.start_button);
+    startButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)
@@ -58,42 +63,17 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     });
+  }
 
-    Button browserButton = (Button) findViewById(R.id.browser_button);
-    browserButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        if (orchextra.isReady()) {
-          orchextra.openBrowser("https://www.google.es");
-        } else {
-          Toast.makeText(MainActivity.this, "SDK sin inicializar", Toast.LENGTH_SHORT).show();
-        }
-      }
-    });
+  private void initToolbar() {
 
-    Button webviewButton = (Button) findViewById(R.id.webview_button);
-    webviewButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        OrchextraDemoActivity.open(MainActivity.this);
-
-        //if (orchextra.isReady()) {
-        //  orchextra.openWebView("https://www.google.es");
-        //} else {
-        //  Toast.makeText(MainActivity.this, "SDK sin inicializar", Toast.LENGTH_SHORT).show();
-        //}
-      }
-    });
-
-    Button scannerButton = (Button) findViewById(R.id.scanner_button);
-    scannerButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        if (orchextra.isReady()) {
-          orchextra.openScanner();
-        } else {
-          Toast.makeText(MainActivity.this, "SDK sin inicializar", Toast.LENGTH_SHORT).show();
-        }
-      }
-    });
+    setSupportActionBar(toolbar);
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+      getSupportActionBar().setDisplayShowHomeEnabled(false);
+    }
   }
 
   private void requestPermission() {
@@ -109,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  @Override public void onRequestPermissionsResult(int requestCode, String permissions[],
-      int[] grantResults) {
+  @Override public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
+      @NonNull int[] grantResults) {
 
     switch (requestCode) {
       case PERMISSIONS_REQUEST_LOCATION: {
@@ -128,10 +108,11 @@ public class MainActivity extends AppCompatActivity {
       if (isReady) {
         orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create(MainActivity.this));
         orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(MainActivity.this));
-        orchextra.getTriggerManager()
-            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(MainActivity.this));
+        //orchextra.getTriggerManager()
+        //    .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(MainActivity.this));
 
         Toast.makeText(MainActivity.this, "SDK ready", Toast.LENGTH_SHORT).show();
+        OrchextraDemoActivity.open(MainActivity.this);
       } else {
         Toast.makeText(MainActivity.this, "SDK finished", Toast.LENGTH_SHORT).show();
       }
