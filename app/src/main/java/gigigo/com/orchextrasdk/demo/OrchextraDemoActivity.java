@@ -29,16 +29,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import gigigo.com.orchextrasdk.R;
+import gigigo.com.orchextrasdk.demo.geofences.GeofencesFragment;
 import gigigo.com.orchextrasdk.demo.scanner.ScannerFragment;
 import gigigo.com.orchextrasdk.demo.triggerlog.TriggerLogFragment;
 import gigigo.com.orchextrasdk.settings.SettingsActivity;
 
 public class OrchextraDemoActivity extends AppCompatActivity {
 
-  ScannerFragment scannerFragment;
-  TriggerLogFragment triggerLogFragment;
-
-  BottomNavigationView navigation;
+  private ScannerFragment scannerFragment;
+  private TriggerLogFragment triggerLogFragment;
+  private GeofencesFragment geofencesFragment;
+  private BottomNavigationView navigation;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -47,6 +48,7 @@ public class OrchextraDemoActivity extends AppCompatActivity {
     initView();
 
     scannerFragment = ScannerFragment.newInstance();
+    geofencesFragment = GeofencesFragment.newInstance();
     triggerLogFragment = TriggerLogFragment.newInstance();
 
     if (savedInstanceState == null) {
@@ -83,6 +85,7 @@ public class OrchextraDemoActivity extends AppCompatActivity {
                 showView(scannerFragment);
                 return true;
               case R.id.navigation_geofences:
+                showView(geofencesFragment);
                 return true;
               case R.id.navigation_triggers_log:
                 showView(triggerLogFragment);

@@ -20,6 +20,7 @@
     package="gigigo.com.orchextrasdk">
 
   <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
   <application
       android:allowBackup="true"
@@ -47,7 +48,6 @@
           android:name="android.support.PARENT_ACTIVITY"
           android:value="gigigo.com.orchextrasdk.MainActivity"/>
     </activity>
-
     <activity
         android:name=".settings.SettingsActivity"
         android:label="@string/title_settings"
@@ -66,7 +66,9 @@
       </intent-filter>
     </receiver>
 
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/google_maps_key"/>
 
   </application>
-
 </manifest>

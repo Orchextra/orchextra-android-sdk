@@ -28,7 +28,7 @@
   <string name="status_running">running</string>
   <string name="status_text">Orchextra status: %s</string>
   <string name="status_stoped">stopped</string>
-  <string name="title_activity_orchextra_demo">OrchextraDemoActivity</string>
+  <string name="title_activity_orchextra_demo">Orchextra Demo</string>
   <string name="title_settings">Settings</string>
   <string name="title_scanner">Scanner</string>
   <string name="title_geofences">Geofences</string>
