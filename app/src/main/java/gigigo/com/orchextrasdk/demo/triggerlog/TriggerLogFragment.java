@@ -33,6 +33,7 @@ import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import gigigo.com.orchextrasdk.R;
+import gigigo.com.orchextrasdk.demo.triggerlog.adapter.TriggerLog;
 import gigigo.com.orchextrasdk.demo.triggerlog.adapter.TriggersAdapter;
 import gigigo.com.orchextrasdk.demo.triggerlog.receiver.TriggerLogMemory;
 
@@ -82,6 +83,11 @@ public class TriggerLogFragment extends Fragment {
     initRecyclerView();
 
     triggersAdapter.addAll(triggerLogMemory.getTriggerLogs());
+    triggerLogMemory.setTriggerLogListener(new TriggerLogMemory.TriggerLogListener() {
+      @Override public void onNewTriggerLog(TriggerLog triggerLog) {
+        triggersAdapter.addAll(triggerLogMemory.getTriggerLogs());
+      }
+    });
   }
 
   private void initRecyclerView() {

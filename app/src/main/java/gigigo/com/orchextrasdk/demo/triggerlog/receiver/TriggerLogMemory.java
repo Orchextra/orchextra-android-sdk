@@ -27,6 +27,7 @@ import java.util.List;
 public class TriggerLogMemory {
 
   private static final TriggerLogMemory instance = new TriggerLogMemory();
+  private TriggerLogListener triggerLogListener;
   private List<TriggerLog> triggerLogs;
 
   public static TriggerLogMemory getInstance() {
@@ -38,7 +39,13 @@ public class TriggerLogMemory {
   }
 
   public void addTrigger(Trigger trigger) {
-    triggerLogs.add(new TriggerLog(new Date(), trigger));
+
+    TriggerLog triggerLog = new TriggerLog(new Date(), trigger);
+
+    triggerLogs.add(triggerLog);
+    if (triggerLogListener != null) {
+      triggerLogListener.onNewTriggerLog(triggerLog);
+    }
   }
 
   public List<TriggerLog> getTriggerLogs() {
@@ -47,5 +54,13 @@ public class TriggerLogMemory {
 
   public void clearTriggerLogs() {
     triggerLogs = new ArrayList<>();
+  }
+
+  public void setTriggerLogListener(TriggerLogListener triggerLogListener) {
+    this.triggerLogListener = triggerLogListener;
+  }
+
+  public interface TriggerLogListener {
+    void onNewTriggerLog(TriggerLog triggerLog);
   }
 }
