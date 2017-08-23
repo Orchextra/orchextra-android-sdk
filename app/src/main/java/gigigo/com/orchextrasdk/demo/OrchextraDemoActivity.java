@@ -5,32 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.scanner.ScannerFragment;
+import gigigo.com.orchextrasdk.demo.triggerlog.TriggerLogFragment;
 
 public class OrchextraDemoActivity extends AppCompatActivity {
 
-  private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
-      new BottomNavigationView.OnNavigationItemSelectedListener() {
+  ScannerFragment scannerFragment;
+  TriggerLogFragment triggerLogFragment;
 
-        @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-          switch (item.getItemId()) {
-            case R.id.navigation_home:
-              //mTextMessage.setText(R.string.title_home);
-              return true;
-            case R.id.navigation_dashboard:
-              //mTextMessage.setText(R.string.title_dashboard);
-              return true;
-            case R.id.navigation_notifications:
-              //mTextMessage.setText(R.string.title_notifications);
-              return true;
-          }
-          return false;
-        }
-      };
+  BottomNavigationView navigation;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -38,15 +26,11 @@ public class OrchextraDemoActivity extends AppCompatActivity {
 
     initView();
 
-    if (findViewById(R.id.fragment_container) != null) {
-      if (savedInstanceState != null) {
-        return;
-      }
+    scannerFragment = ScannerFragment.newInstance();
+    triggerLogFragment = TriggerLogFragment.newInstance();
 
-      ScannerFragment scannerFragment = ScannerFragment.newInstance();
-      getSupportFragmentManager().beginTransaction()
-          .add(R.id.fragment_container, scannerFragment)
-          .commit();
+    if (savedInstanceState == null) {
+      navigation.setSelectedItemId(R.id.navigation_scanner);
     }
   }
 
@@ -54,8 +38,24 @@ public class OrchextraDemoActivity extends AppCompatActivity {
 
     initToolbar();
 
-    BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-    navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    navigation = (BottomNavigationView) findViewById(R.id.navigation);
+    navigation.setOnNavigationItemSelectedListener(
+        new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+          @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+              case R.id.navigation_scanner:
+                showView(scannerFragment);
+                return true;
+              case R.id.navigation_geofences:
+                return true;
+              case R.id.navigation_triggers_log:
+                showView(triggerLogFragment);
+                return true;
+            }
+            return false;
+          }
+        });
   }
 
   private void initToolbar() {
@@ -68,6 +68,12 @@ public class OrchextraDemoActivity extends AppCompatActivity {
       getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
     //toolbar.setNavigationOnClickListener({ onBackPressed() })
+  }
+
+  private void showView(Fragment fragment) {
+    getSupportFragmentManager().beginTransaction()
+        .replace(R.id.fragment_container, fragment)
+        .commit();
   }
 
   public static void open(Context context) {

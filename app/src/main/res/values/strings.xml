@@ -29,12 +29,15 @@
   <string name="status_text">Orchextra status: %s</string>
   <string name="status_stoped">stopped</string>
   <string name="title_activity_orchextra_demo">OrchextraDemoActivity</string>
-  <string name="title_home">Home</string>
-  <string name="title_dashboard">Dashboard</string>
-  <string name="title_notifications">Notifications</string>
+  <string name="title_scanner">Scanner</string>
+  <string name="title_geofences">Geofences</string>
+  <string name="title_triggers_log">Triggers log</string>
 
 
   <string name="open_orchextra_scanner">Open Orchextra scanner</string>
   <string name="open_image_recognition">Open image recognition</string>
   <string name="start_orchextra">Start Orchextra</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
