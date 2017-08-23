@@ -15,17 +15,22 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 
-<resources>
-  <color name="color_primary">#EE524F</color>
-  <color name="color_primary_dark">#AC2A27</color>
-  <color name="color_accent">#FFFFFF</color>
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/AppTheme.AppBarOverlay"
+    >
 
-  <color name="grey7">#777</color>
+  <android.support.v7.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="?attr/colorPrimary"
+      app:popupTheme="@style/AppTheme.PopupOverlay"
+      />
 
-  <color name="black_overlay">#66000000</color>
-  <color name="transparent">#00000000</color>
-  <color name="grey2">#212121</color>
-  <color name="white">#FFFFFF</color>
-</resources>
+</android.support.design.widget.AppBarLayout>

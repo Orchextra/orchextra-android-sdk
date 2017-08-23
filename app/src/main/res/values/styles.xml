@@ -18,22 +18,19 @@
 
 <resources>
 
-  <!-- Base application theme. -->
-  <style name="AppTheme"/>
-  <!--<style name="AppTheme"-->
-      <!--parent="Theme.AppCompat.Light.DarkActionBar">-->
-    <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
-    <!--<item name="colorPrimary">@color/color_primary</item>-->
-    <!--<item name="colorPrimaryDark">@color/color_primary_dark</item>-->
-    <!--<item name="colorAccent">@color/color_accent</item>-->
-  <!--</style>-->
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorPrimary">@color/color_primary</item>
+    <item name="colorPrimaryDark">@color/color_primary_dark</item>
+    <item name="colorAccent">@color/color_accent</item>
+  </style>
 
-  <style name="AppThemeNoBar"
-      parent="Theme.AppCompat.Light.NoActionBar">
+  <style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
   </style>
-  <!-- style labels for FAB Menu -->
-  <style name="menu_labels_style">
-    <item name="android:textColor">@color/grey7</item>
-    <item name="android:textSize">@dimen/label_fab_font_size</item>
-  </style>
+
+  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
 </resources>

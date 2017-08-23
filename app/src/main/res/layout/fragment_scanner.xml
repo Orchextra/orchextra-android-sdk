@@ -15,17 +15,20 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 
-<resources>
-  <color name="color_primary">#EE524F</color>
-  <color name="color_primary_dark">#AC2A27</color>
-  <color name="color_accent">#FFFFFF</color>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gigigo.com.orchextrasdk.ScannerFragment"
+    >
 
-  <color name="grey7">#777</color>
+  <!-- TODO: Update blank fragment layout -->
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:text="@string/hello_blank_fragment"
+      />
 
-  <color name="black_overlay">#66000000</color>
-  <color name="transparent">#00000000</color>
-  <color name="grey2">#212121</color>
-  <color name="white">#FFFFFF</color>
-</resources>
+</FrameLayout>
