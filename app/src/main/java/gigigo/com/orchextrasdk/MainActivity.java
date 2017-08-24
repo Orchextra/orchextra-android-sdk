@@ -39,6 +39,7 @@ import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import gigigo.com.orchextrasdk.demo.OrchextraDemoActivity;
+import gigigo.com.orchextrasdk.settings.OrchextraPreferenceManager;
 import gigigo.com.orchextrasdk.settings.SettingsActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -46,15 +47,15 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MainActivity extends AppCompatActivity {
 
   private static final String TAG = "MainActivity";
+  private OrchextraPreferenceManager orchextraPreferenceManager;
   private static final int PERMISSIONS_REQUEST_LOCATION = 1;
-  public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
-  public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
   private Orchextra orchextra;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    orchextraPreferenceManager = new OrchextraPreferenceManager(this);
     orchextra = Orchextra.INSTANCE;
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
-          orchextra.init(MainActivity.this, API_KEY, API_SECRET, orchextraStatusListener);
+          orchextra.init(MainActivity.this, orchextraPreferenceManager.getApiKey(),
+              orchextraPreferenceManager.getApiSecret(), orchextraStatusListener);
         } else {
           requestPermission();
         }
@@ -130,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
     switch (requestCode) {
       case PERMISSIONS_REQUEST_LOCATION: {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          orchextra.init(MainActivity.this, API_KEY, API_SECRET, orchextraStatusListener);
+          orchextra.init(MainActivity.this, orchextraPreferenceManager.getApiKey(),
+              orchextraPreferenceManager.getApiSecret(), orchextraStatusListener);
         } else {
           Toast.makeText(MainActivity.this, "Lo necesitamos!!!", Toast.LENGTH_SHORT).show();
         }

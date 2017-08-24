@@ -42,5 +42,8 @@
   <string name="trigger_type_format">Type: %1$s</string>
   <string name="trigger_value_format">Value: %1$s</string>
   <string name="trigger_date_format">Detected:  %1$tRh - %1$te %1$tB %1$tY</string>
+  <string name="project_config">Project config</string>
+  <string name="api_key">Api Key</string>
+  <string name="api_secret">Api secret</string>
 
 </resources>

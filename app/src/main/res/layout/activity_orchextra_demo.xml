@@ -42,7 +42,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="bottom"
-      app:itemBackground="@color/color_primary"
+      app:itemBackground="@color/primary"
       app:itemIconTint="@color/white"
       app:itemTextColor="@color/white"
       app:menu="@menu/navigation"

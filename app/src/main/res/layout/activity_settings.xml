@@ -29,5 +29,46 @@
 
   <include layout="@layout/toolbar"/>
 
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="@dimen/spacing_normal"
+      android:orientation="vertical"
+      >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/project_config"
+        android:textSize="@dimen/font_large"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        >
+      <EditText
+          android:id="@+id/api_key_tv"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/api_key"
+          android:textSize="@dimen/font_normal"
+          />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <EditText
+          android:id="@+id/api_secret_tv"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/api_secret"
+          android:textSize="@dimen/font_normal"
+          />
+    </android.support.design.widget.TextInputLayout>
+  </LinearLayout>
 </LinearLayout>
