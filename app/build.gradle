@@ -50,11 +50,6 @@ android {
   }
 
   buildTypes {
-    staging {
-      signingConfig signingConfigs.debug
-      testCoverageEnabled = true
-      debuggable true
-    }
     debug {
       testCoverageEnabled = true
       debuggable true
