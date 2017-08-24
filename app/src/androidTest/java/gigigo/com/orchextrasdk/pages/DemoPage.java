@@ -20,6 +20,9 @@ package gigigo.com.orchextrasdk.pages;
 
 import android.content.Context;
 import android.support.test.espresso.ViewInteraction;
+import com.gigigo.orchextra.core.domain.entities.Trigger;
+import com.gigigo.orchextra.core.domain.entities.TriggerType;
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver;
 import gigigo.com.orchextrasdk.R;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -62,5 +65,13 @@ public class DemoPage extends BasePage {
     bottomNavigationItemView.perform(click());
 
     return new TriggerLogPage(context);
+  }
+
+  public WebViewPage detectQRCodeWithOpenWebViewActionAssociated() {
+
+    context.sendBroadcast(TriggerBroadcastReceiver.Navigator.getTriggerIntent(
+        new Trigger(TriggerType.QR, "google", null, null, null, null, null, null, null, null)));
+
+    return new WebViewPage(context);
   }
 }

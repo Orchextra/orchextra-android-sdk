@@ -18,20 +18,12 @@
   -->
 
 <resources>
-
-  <style name="OxAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    <item name="colorPrimary">@color/ox_primary</item>
-    <item name="colorPrimaryDark">@color/ox_primary_dark</item>
-    <item name="colorAccent">@color/ox_accent</item>
-  </style>
-
-  <style name="OxAppTheme.NoActionBar">
-    <item name="windowActionBar">false</item>
-    <item name="windowNoTitle">true</item>
-  </style>
-
-  <style name="OxAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-  <style name="OxAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
+  <color name="ox_primary">#F44336</color>
+  <color name="ox_primary_dark">#D32F2F</color>
+  <color name="ox_primary_light">#FFCDD2</color>
+  <color name="ox_accent">#03A9F4</color>
+  <color name="ox_primary_text">#212121</color>
+  <color name="ox_secondary_text">#757575</color>
+  <color name="ox_icons">#FFFFFF</color>
+  <color name="ox_divider">#BDBDBD</color>
 </resources>

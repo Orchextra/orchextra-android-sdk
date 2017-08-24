@@ -22,8 +22,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import com.gigigo.orchextra.core.R
 import kotlinx.android.synthetic.main.ox_activity_web_view.oxWebView
+import java.net.URI
+import java.net.URISyntaxException
 
 class WebViewActivity : AppCompatActivity() {
 
@@ -31,11 +34,32 @@ class WebViewActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.ox_activity_web_view)
 
+    initToolbar()
     oxWebView.loadUrl(getUrl())
+  }
+
+  private fun initToolbar() {
+
+    val toolbar = findViewById(R.id.ox_toolbar) as Toolbar
+
+    setSupportActionBar(toolbar)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    supportActionBar?.setDisplayShowHomeEnabled(true)
+
+    toolbar.setNavigationOnClickListener { onBackPressed() }
+
+    title = getDomainName(getUrl())
   }
 
   private fun getUrl(): String {
     return intent.getStringExtra(EXTRA_URL) ?: ""
+  }
+
+  @Throws(URISyntaxException::class)
+  fun getDomainName(url: String): String {
+    val uri = URI(url)
+    val domain = uri.host
+    return if (domain.startsWith("www.")) domain.substring(4) else domain
   }
 
   companion object Navigator {

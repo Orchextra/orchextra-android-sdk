@@ -17,21 +17,20 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/OxAppTheme.AppBarOverlay"
+    >
 
-  <style name="OxAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-    <item name="colorPrimary">@color/ox_primary</item>
-    <item name="colorPrimaryDark">@color/ox_primary_dark</item>
-    <item name="colorAccent">@color/ox_accent</item>
-  </style>
+  <android.support.v7.widget.Toolbar
+      android:id="@+id/ox_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="?attr/colorPrimary"
+      app:popupTheme="@style/OxAppTheme.PopupOverlay"
+      />
 
-  <style name="OxAppTheme.NoActionBar">
-    <item name="windowActionBar">false</item>
-    <item name="windowNoTitle">true</item>
-  </style>
-
-  <style name="OxAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-  <style name="OxAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-</resources>
+</android.support.design.widget.AppBarLayout>
