@@ -26,6 +26,7 @@ class BrowserActionExecutor(private val context: Context) {
 
   fun open(url: String) {
     val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     context.startActivity(browserIntent)
   }
 

@@ -47,7 +47,7 @@ class ActionDispatcher constructor(
     if (action.hasSchedule()) {
       scheduleAction(action)
     } else {
-      dispathAction(action)
+      dispatchAction(action)
     }
   }
 
@@ -55,7 +55,7 @@ class ActionDispatcher constructor(
     actionSchedulerManager.scheduleAction(action)
   }
 
-  private fun dispathAction(action: Action) {
+  private fun dispatchAction(action: Action) {
     if (action.hasNotification()) {
       notificationActionExecutor.showNotification(action.notification,
           { -> openActionView(action) })
