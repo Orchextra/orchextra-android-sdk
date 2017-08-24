@@ -18,6 +18,7 @@
 
 package gigigo.com.orchextrasdk.demo.geofences;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
@@ -26,11 +27,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import gigigo.com.orchextrasdk.R;
 import java.util.List;
 
@@ -41,6 +48,7 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
 
   private MapView mapView;
   private GoogleMap googleMap;
+  private FusedLocationProviderClient fusedLocationClient;
 
   public GeofencesFragment() {
   }
@@ -69,6 +77,7 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
     }
 
     mapView.getMapAsync(this);
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
   }
 
   @Override public void onResume() {
@@ -96,6 +105,20 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
     this.googleMap.setMyLocationEnabled(true);
 
     getGeofences();
+    showMyLocation();
+  }
+
+  @SuppressWarnings("MissingPermission") private void showMyLocation() {
+    fusedLocationClient.getLastLocation()
+        .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+          @Override public void onSuccess(Location location) {
+            if (location != null) {
+              LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+              CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+              googleMap.animateCamera(cameraUpdate);
+            }
+          }
+        });
   }
 
   private void getGeofences() {
