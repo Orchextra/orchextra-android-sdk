@@ -22,23 +22,18 @@ import android.app.AlertDialog
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
-import android.os.Handler
-import android.os.Looper
 import android.support.v4.app.NotificationCompat
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.entities.Notification
 
-
 class NotificationActionExecutor(private val context: Context) {
-
-  private val handler = Handler(Looper.getMainLooper())
 
   fun showNotification(notification: Notification, actionExecutor: () -> Unit) {
 
     if (Orchextra.provideContext() != null) {
       val viewContext = Orchextra.provideContext() as Context
-      handler.post { showDialog(viewContext, notification, actionExecutor) }
+      showDialog(viewContext, notification, actionExecutor)
     } else {
       showBarNotification(notification, actionExecutor)
     }
