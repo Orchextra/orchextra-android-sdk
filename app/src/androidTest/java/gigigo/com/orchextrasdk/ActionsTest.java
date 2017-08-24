@@ -32,5 +32,7 @@ import org.junit.runner.RunWith;
 
     WebViewPage webViewPage =
         (new MainPage(getContext())).startOrchextra().detectQRCodeWithOpenWebViewActionAssociated();
+
+    webViewPage.checkIfPageTitleIsEqualsTo("google.es");
   }
 }

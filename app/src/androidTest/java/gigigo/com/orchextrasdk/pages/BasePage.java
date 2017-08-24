@@ -19,6 +19,16 @@
 package gigigo.com.orchextrasdk.pages;
 
 import android.content.Context;
+import android.support.test.espresso.ViewInteraction;
+import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 public class BasePage {
 
@@ -26,5 +36,16 @@ public class BasePage {
 
   public BasePage(Context context) {
     this.context = context;
+  }
+
+  public BasePage checkIfPageTitleIsEqualsTo(String title) {
+
+    ViewInteraction textView =
+        onView(allOf(isAssignableFrom(TextView.class), withParent(isAssignableFrom(Toolbar.class))))
+            .check(matches(withText(title)));
+
+    textView.check(matches(withText(title)));
+
+    return this;
   }
 }
