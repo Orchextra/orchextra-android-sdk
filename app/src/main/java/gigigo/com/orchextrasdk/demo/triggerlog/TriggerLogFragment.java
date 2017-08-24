@@ -36,6 +36,7 @@ import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.triggerlog.adapter.TriggerLog;
 import gigigo.com.orchextrasdk.demo.triggerlog.adapter.TriggersAdapter;
 import gigigo.com.orchextrasdk.demo.triggerlog.receiver.TriggerLogMemory;
+import java.util.Collection;
 
 public class TriggerLogFragment extends Fragment {
 
@@ -43,6 +44,7 @@ public class TriggerLogFragment extends Fragment {
   private TriggerLogMemory triggerLogMemory;
   private TriggersAdapter triggersAdapter;
   private RecyclerView triggerLogList;
+  private View emptyListView;
 
   public TriggerLogFragment() {
   }
@@ -57,6 +59,7 @@ public class TriggerLogFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_trigger_log, container, false);
 
     triggerLogList = (RecyclerView) view.findViewById(R.id.trigger_log_list);
+    emptyListView = view.findViewById(R.id.empty_list_view);
 
     return view;
   }
@@ -82,12 +85,24 @@ public class TriggerLogFragment extends Fragment {
   private void initView() {
     initRecyclerView();
 
-    triggersAdapter.addAll(triggerLogMemory.getTriggerLogs());
+    updateList(triggerLogMemory.getTriggerLogs());
     triggerLogMemory.setTriggerLogListener(new TriggerLogMemory.TriggerLogListener() {
       @Override public void onNewTriggerLog(TriggerLog triggerLog) {
-        triggersAdapter.addAll(triggerLogMemory.getTriggerLogs());
+        updateList(triggerLogMemory.getTriggerLogs());
       }
     });
+  }
+
+  private void updateList(@NonNull Collection<TriggerLog> collection) {
+
+    if (collection.isEmpty()) {
+      emptyListView.setVisibility(View.VISIBLE);
+      triggerLogList.setVisibility(View.GONE);
+    } else {
+      emptyListView.setVisibility(View.GONE);
+      triggerLogList.setVisibility(View.VISIBLE);
+      triggersAdapter.addAll(collection);
+    }
   }
 
   private void initRecyclerView() {

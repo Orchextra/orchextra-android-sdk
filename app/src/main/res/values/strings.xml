@@ -45,5 +45,6 @@
   <string name="project_config">Project config</string>
   <string name="api_key">Api Key</string>
   <string name="api_secret">Api secret</string>
+  <string name="empty_list">Empty list</string>
 
 </resources>
