@@ -26,12 +26,12 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class) public class ScannerTest extends BaseSectionTest {
 
-  @Test public void shouldSeeEmptyListViewInTriggersLogView() {
+  @Test public void shouldSeeIfOxScannerButtonIsDisplayed() {
 
     startActivity();
 
     ScannerPage scannerPage = (new MainPage(getContext())).startOrchextra();
 
-    scannerPage.checkIfOxScannerButtonIsDisplayer();
+    scannerPage.checkIfOxScannerButtonIsDisplayed();
   }
 }

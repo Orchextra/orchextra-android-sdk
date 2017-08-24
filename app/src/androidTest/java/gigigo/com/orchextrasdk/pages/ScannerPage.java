@@ -35,7 +35,7 @@ public class ScannerPage extends DemoPage {
     super(context);
   }
 
-  public ScannerPage checkIfOxScannerButtonIsDisplayer() {
+  public ScannerPage checkIfOxScannerButtonIsDisplayed() {
     ViewInteraction button = onView(allOf(withId(R.id.ox_scanner_button),
         TestUtils.childAtPosition(TestUtils.childAtPosition(withId(R.id.fragment_container), 0), 0),
         isDisplayed()));

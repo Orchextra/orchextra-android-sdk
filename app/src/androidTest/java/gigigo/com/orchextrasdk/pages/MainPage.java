@@ -33,7 +33,7 @@ public class MainPage extends BasePage {
   public MainPage(Context context) {
     super(context);
     try {
-      Thread.sleep(1000);
+      Thread.sleep(5000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
