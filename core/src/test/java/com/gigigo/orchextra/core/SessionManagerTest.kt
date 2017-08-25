@@ -90,6 +90,8 @@ class SessionManagerTest {
 
     }
 
-    return SessionManagerImp(moshi = moshi, sharedPreferences = sharedPreferencesMock)
+    SessionManagerImp.sharedPreferences = sharedPreferencesMock
+
+    return SessionManagerImp
   }
 }

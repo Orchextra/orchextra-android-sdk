@@ -60,7 +60,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
         .readTimeout(10, TimeUnit.SECONDS)
         .connectTimeout(10, TimeUnit.SECONDS)
     okHttpBuilder.addInterceptor(ErrorInterceptor())
-    okHttpBuilder.addInterceptor(SessionInterceptor())
+    okHttpBuilder.addInterceptor(SessionInterceptor(sessionManager))
 
     if (BuildConfig.NETWORK_LOG) {
       okHttpBuilder.addInterceptor(loggingInterceptor)

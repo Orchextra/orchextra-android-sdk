@@ -26,10 +26,9 @@ import okhttp3.Response
 import java.util.Locale
 
 
-class SessionInterceptor : Interceptor {
+class SessionInterceptor(private val sessionManager: SessionManager) : Interceptor {
 
   private val UNAUTHORIZED = 401
-  private val sessionManager: SessionManager = SessionManager.create()
 
   override fun intercept(chain: Chain): Response {
 

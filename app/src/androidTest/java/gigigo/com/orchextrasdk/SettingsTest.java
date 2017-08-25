@@ -46,6 +46,6 @@ import org.junit.runner.RunWith;
         .clickInFinishButton()
         .goBackToMainView();
 
-    mainPage.checkIfStartButtonExist();
+    mainPage.openSettingsView();
   }
 }

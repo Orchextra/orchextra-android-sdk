@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.datasources
 
+import android.content.Context
 import com.gigigo.orchextra.core.data.datasources.session.SessionManagerImp
 import com.gigigo.orchextra.core.domain.entities.Token
 
@@ -33,6 +34,12 @@ interface SessionManager {
 
   companion object Factory {
 
-    fun create(): SessionManager = SessionManagerImp.create()
+    fun create(context: Context): SessionManager {
+      if (SessionManagerImp.sharedPreferences == null) {
+        SessionManagerImp.sharedPreferences = context.getSharedPreferences("orchextra",
+            Context.MODE_PRIVATE)
+      }
+      return SessionManagerImp
+    }
   }
 }

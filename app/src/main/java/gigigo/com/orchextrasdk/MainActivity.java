@@ -19,6 +19,8 @@
 package gigigo.com.orchextrasdk;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
-          orchextra.init(MainActivity.this, orchextraPreferenceManager.getApiKey(),
+          orchextra.init(getApplication(), orchextraPreferenceManager.getApiKey(),
               orchextraPreferenceManager.getApiSecret(), orchextraStatusListener);
         } else {
           requestPermission();
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     switch (requestCode) {
       case PERMISSIONS_REQUEST_LOCATION: {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          orchextra.init(MainActivity.this, orchextraPreferenceManager.getApiKey(),
+          orchextra.init(getApplication(), orchextraPreferenceManager.getApiKey(),
               orchextraPreferenceManager.getApiSecret(), orchextraStatusListener);
         } else {
           Toast.makeText(MainActivity.this, "Lo necesitamos!!!", Toast.LENGTH_SHORT).show();
@@ -151,9 +153,15 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(MainActivity.this, "SDK ready", Toast.LENGTH_SHORT).show();
         OrchextraDemoActivity.open(MainActivity.this);
+        finish();
       } else {
         Toast.makeText(MainActivity.this, "SDK finished", Toast.LENGTH_SHORT).show();
       }
     }
   };
+
+  public static void open(Context context) {
+    Intent intent = new Intent(context, MainActivity.class);
+    context.startActivity(intent);
+  }
 }

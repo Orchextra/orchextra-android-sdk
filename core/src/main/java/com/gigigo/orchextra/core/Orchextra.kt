@@ -18,8 +18,8 @@
 
 package com.gigigo.orchextra.core
 
+import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
@@ -38,21 +38,22 @@ import java.lang.IllegalStateException
 
 object Orchextra : OrchextraErrorListener {
 
-  private var context: Context? = null
+  private var context: Application? = null
   private lateinit var triggerManager: TriggerManager
+  private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
   private var credentials: Credentials = Credentials()
   private var isReady = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
   private var orchextraErrorListener: OrchextraErrorListener? = null
-  private val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
 
-  fun init(context: Context, apiKey: String, apiSecret: String,
+  fun init(context: Application, apiKey: String, apiSecret: String,
       orchextraStatusListener: OrchextraStatusListener? = null) {
 
     this.context = context
     this.orchextraStatusListener = orchextraStatusListener
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
+    this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
 
     getConfiguration()
   }
@@ -130,8 +131,9 @@ object Orchextra : OrchextraErrorListener {
     changeStatus(false)
   }
 
-  fun provideContext(): Context? = context
+  fun setContext(context: Application) {
+    this.context = context
+  }
 
-  fun provideSharedPreferences(): SharedPreferences? =
-      provideContext()?.getSharedPreferences("orchextra", Context.MODE_PRIVATE)
+  fun provideContext(): Context = context as Context
 }

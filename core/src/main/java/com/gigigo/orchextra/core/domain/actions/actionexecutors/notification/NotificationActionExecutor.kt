@@ -42,15 +42,19 @@ class NotificationActionExecutor(private val context: Context) {
   private fun showDialog(context: Context, notification: Notification,
       actionExecutor: () -> Unit) = with(notification) {
 
-    val builder = AlertDialog.Builder(context)
-    builder.setTitle(title)
-        .setMessage(body)
-        .setIcon(R.drawable.ox_notification_large_icon)
-        .setPositiveButton(android.R.string.ok, { dialog, _ ->
-          dialog.dismiss()
-          actionExecutor()
-        })
-        .show()
+    try {
+      val builder = AlertDialog.Builder(context)
+      builder.setTitle(title)
+          .setMessage(body)
+          .setIcon(R.drawable.ox_notification_large_icon)
+          .setPositiveButton(android.R.string.ok, { dialog, _ ->
+            dialog.dismiss()
+            actionExecutor()
+          })
+          .show()
+    } catch (exception: Exception) {
+      exception.printStackTrace()
+    }
   }
 
   private fun showBarNotification(notification: Notification,

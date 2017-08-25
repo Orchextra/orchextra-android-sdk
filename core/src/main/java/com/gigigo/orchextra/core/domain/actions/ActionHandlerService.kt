@@ -22,11 +22,15 @@ import android.app.IntentService
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.Action
 
 class ActionHandlerService : IntentService(TAG) {
 
   override fun onHandleIntent(intent: Intent) {
+
+    Orchextra.setContext(application)
+
     val actionDispatcher: ActionDispatcher = ActionDispatcher.create(this)
     val action = intent.getParcelableExtra<Action>(ACTION_EXTRA)
     Log.d(TAG, "Execute action: $action")

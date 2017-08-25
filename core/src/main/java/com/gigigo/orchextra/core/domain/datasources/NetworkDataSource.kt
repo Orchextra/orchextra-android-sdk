@@ -44,6 +44,7 @@ interface NetworkDataSource {
 
   companion object Factory {
 
-    fun create(): NetworkDataSource = NetworkDataSourceImp(Orchextra, SessionManager.create())
+    fun create(): NetworkDataSource = NetworkDataSourceImp(Orchextra,
+        SessionManager.create(Orchextra.provideContext()))
   }
 }
