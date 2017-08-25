@@ -52,8 +52,11 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
     System.out.println(
         "REALM /////////////////////////////////////\n\n\n\n\n\n\n REALM se ejecuta el onCreate ");
-    String oxKey = "30a2d1032d623dadd345db6c7631fbaac704af45";
-    String oxSecret = "329e98d088e0cfaac1a190ee9fafb44cbea92b59";
+    //String oxKey = "30a2d1032d623dadd345db6c7631fbaac704af45";
+    //String oxSecret = "329e98d088e0cfaac1a190ee9fafb44cbea92b59";
+
+    String oxKey = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
+    String oxSecret = "eab37080130215ced60eb9d5ff729049749ec205";
     //oxKey = "fake";
     //oxSecret = "fake ";
     OrchextraBuilder builder = new OrchextraBuilder(this)

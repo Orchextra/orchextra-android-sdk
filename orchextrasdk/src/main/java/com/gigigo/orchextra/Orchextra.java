@@ -130,13 +130,17 @@ public final class Orchextra {
     System.out.println("REALM ************ start FIN:\n ");
   }
 
+  public static synchronized void updateSDKCredentials(String apiKey, String apiSecret)
+  {
+    updateSDKCredentials(apiKey, apiSecret,false);
+  }
   /**
    * Change the api key and secret defined in the initialization call in any moment.
    * <p>
    * If the credentials are the same, it doesn't have effects. You don't have to use it, except you
    * have almost 2 different credentials.
    */
-  public static synchronized void updateSDKCredentials(String apiKey, String apiSecret) {
+  public static synchronized void updateSDKCredentials(String apiKey, String apiSecret, boolean forceCallback ) {
     //todo hay q comprobar que más guardar
     SharedPreferences prefs =
         mApplication.getSharedPreferences("com.gigigo.orchextra:sdkcredentials",
@@ -145,7 +149,7 @@ public final class Orchextra {
 
     String myApiKey = prefs.getString("apikey", "");
     String myApiSecret = prefs.getString("apisecret", "");
-    if ((!myApiKey.equals(apiKey)) || (!myApiSecret.equals(apiSecret))) {
+    if ((!myApiKey.equals(apiKey)) || (!myApiSecret.equals(apiSecret)) || forceCallback==true) {
       editor.putString("apikey", apiKey);
       editor.putString("apisecret", apiSecret);
       editor.commit();
