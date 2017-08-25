@@ -28,6 +28,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.gigigo.orchextra.core.Orchextra;
 import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.geofences.GeofencesFragment;
 import gigigo.com.orchextrasdk.demo.scanner.ScannerFragment;
@@ -68,6 +69,14 @@ public class OrchextraDemoActivity extends AppCompatActivity {
       return true;
     } else {
       return super.onOptionsItemSelected(item);
+    }
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    Orchextra orchextra = Orchextra.INSTANCE;
+    if (!orchextra.isReady()) {
+      finish();
     }
   }
 

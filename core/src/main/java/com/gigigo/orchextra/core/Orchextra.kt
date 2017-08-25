@@ -107,6 +107,10 @@ object Orchextra : OrchextraErrorListener {
     }
   }
 
+  fun setOrchextraStatusListener(orchextraStatusListener: OrchextraStatusListener) {
+    this.orchextraStatusListener = orchextraStatusListener
+  }
+
   fun setErrorListener(errorListener: OrchextraErrorListener) {
     this.orchextraErrorListener = errorListener
   }

@@ -18,13 +18,6 @@
 
 <resources>
   <string name="app_name">OrchextraSDK Demo</string>
-  <string name="ox_start_orchextra">Start Orchextra</string>
-  <string name="ox_stop_orchextra">Stop Orchextra</string>
-  <string name="ox_webview_orchextra">open webviewOX</string>
-  <string name="ox_webview_builtin">open App Activity With webviewOX</string>
-  <string name="ox_tags_bu_cf"> Segmentation </string>
-  <string name="ox_unbind">unBindCrmUser </string>
-  <string name="ox_bind">BindCrmUser </string>
   <string name="status_running">running</string>
   <string name="status_text">Orchextra status: %s</string>
   <string name="status_stoped">stopped</string>
@@ -34,10 +27,10 @@
   <string name="title_geofences">Geofences</string>
   <string name="title_triggers_log">Triggers log</string>
 
-
   <string name="open_orchextra_scanner">Open Orchextra scanner</string>
   <string name="open_image_recognition">Open image recognition</string>
   <string name="start_orchextra">Start Orchextra</string>
+  <string name="finish_orchextra">Finish Orchextra</string>
 
   <string name="trigger_type_format">Type: %1$s</string>
   <string name="trigger_value_format">Value: %1$s</string>
@@ -46,5 +39,6 @@
   <string name="api_key">Api Key</string>
   <string name="api_secret">Api secret</string>
   <string name="empty_list">Empty list</string>
+
 
 </resources>

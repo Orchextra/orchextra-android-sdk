@@ -26,10 +26,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
+import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import gigigo.com.orchextrasdk.R;
 
@@ -40,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
   private Orchextra orchextra;
   private EditText apiKeyTv;
   private EditText apiSecretTv;
+  private Button finishButton;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -47,9 +50,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     apiKeyTv = (EditText) findViewById(R.id.api_key_tv);
     apiSecretTv = (EditText) findViewById(R.id.api_secret_tv);
+    finishButton = (Button) findViewById(R.id.finish_button);
     orchextraPreferenceManager = new OrchextraPreferenceManager(this);
 
     orchextra = Orchextra.INSTANCE;
+    orchextra.setOrchextraStatusListener(new OrchextraStatusListener() {
+      @Override public void onStatusChange(boolean isReady) {
+        initFinishButton();
+        apiKeyTv.setEnabled(!isReady);
+        apiSecretTv.setEnabled(!isReady);
+      }
+    });
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
         Log.e(TAG, error.toString());
@@ -63,12 +74,27 @@ public class SettingsActivity extends AppCompatActivity {
 
   private void initView() {
     initToolbar();
+    initFinishButton();
 
     apiKeyTv.setText(orchextraPreferenceManager.getApiKey());
     apiSecretTv.setText(orchextraPreferenceManager.getApiSecret());
 
     apiKeyTv.setEnabled(!orchextra.isReady());
     apiSecretTv.setEnabled(!orchextra.isReady());
+  }
+
+  private void initFinishButton() {
+
+    if (orchextra.isReady()) {
+      finishButton.setVisibility(View.VISIBLE);
+      finishButton.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          orchextra.finish();
+        }
+      });
+    } else {
+      finishButton.setVisibility(View.GONE);
+    }
   }
 
   private void initToolbar() {
