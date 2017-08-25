@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('github.com/pedroamador/jenkins-pipeline-library') _
+@Library('github.com/pedroamador/jenkins-pipeline-library@develop') _
 
 // Initialize global condig
 cfg = jplConfig('', 'android', '', [ hipchat:'', slack:'#integrations', email:'qa+orchextra@gigigo.com' ])
