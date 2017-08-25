@@ -27,9 +27,12 @@ import gigigo.com.orchextrasdk.utils.TestUtils;
 import org.hamcrest.core.IsInstanceOf;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -37,6 +40,31 @@ public class SettingsPage extends BasePage {
 
   public SettingsPage(Context context) {
     super(context);
+  }
+
+  public MainPage goBackToMainView() {
+    ViewInteraction button = onView(
+        allOf(withContentDescription("Navigate up"), withParent(withId(R.id.toolbar)),
+            isDisplayed()));
+    button.perform(click());
+
+    return new MainPage(context);
+  }
+
+  public DemoPage goBackToDemoView() {
+    ViewInteraction button = onView(
+        allOf(withContentDescription("Navigate up"), withParent(withId(R.id.toolbar)),
+            isDisplayed()));
+    button.perform(click());
+
+    return new DemoPage(context);
+  }
+
+  public SettingsPage clickInFinishButton() {
+    ViewInteraction button = onView(allOf(withId(R.id.finish_button), isDisplayed()));
+    button.perform(click());
+
+    return this;
   }
 
   public SettingsPage checkIfApiKeyIsEqualsTo(String apiKey) {

@@ -21,6 +21,7 @@ package gigigo.com.orchextrasdk;
 import android.support.test.runner.AndroidJUnit4;
 import gigigo.com.orchextrasdk.pages.MainPage;
 import gigigo.com.orchextrasdk.pages.SettingsPage;
+import gigigo.com.orchextrasdk.utils.BaseSectionTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -34,5 +35,17 @@ import org.junit.runner.RunWith;
 
     settingsPage.checkIfApiKeyIsEqualsTo("34a4654b9804eab82aae05b2a5f949eb2a9f412c");
     settingsPage.checkIfApiSecretIsEqualsTo("2d5bce79e3e6e9cabf6d7b040d84519197dc22f3");
+  }
+
+  @Test public void shouldStartAndStopOrchextra() {
+
+    startActivity();
+
+    MainPage mainPage = (new MainPage(getContext())).startOrchextra()
+        .openSettingsView()
+        .clickInFinishButton()
+        .goBackToMainView();
+
+    mainPage.checkIfStartButtonExist();
   }
 }

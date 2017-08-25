@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk;
+package gigigo.com.orchextrasdk.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import gigigo.com.orchextrasdk.MainActivity;
 import java.io.File;
 import org.junit.Rule;
 

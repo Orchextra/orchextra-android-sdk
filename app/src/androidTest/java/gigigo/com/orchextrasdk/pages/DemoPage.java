@@ -67,6 +67,13 @@ public class DemoPage extends BasePage {
     return new TriggerLogPage(context);
   }
 
+  public SettingsPage openSettingsView() {
+    ViewInteraction actionMenuItemView = onView(allOf(withId(R.id.action_settings), isDisplayed()));
+    actionMenuItemView.perform(click());
+
+    return new SettingsPage(context);
+  }
+
   public WebViewPage detectQRCodeWithOpenWebViewActionAssociated() {
 
     context.sendBroadcast(TriggerBroadcastReceiver.Navigator.getTriggerIntent(

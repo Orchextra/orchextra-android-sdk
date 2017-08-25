@@ -21,6 +21,7 @@ package gigigo.com.orchextrasdk;
 import android.support.test.runner.AndroidJUnit4;
 import gigigo.com.orchextrasdk.pages.MainPage;
 import gigigo.com.orchextrasdk.pages.ScannerPage;
+import gigigo.com.orchextrasdk.utils.BaseSectionTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

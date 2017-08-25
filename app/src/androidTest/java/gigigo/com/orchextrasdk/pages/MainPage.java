@@ -21,9 +21,11 @@ package gigigo.com.orchextrasdk.pages;
 import android.content.Context;
 import android.support.test.espresso.ViewInteraction;
 import gigigo.com.orchextrasdk.R;
+import gigigo.com.orchextrasdk.utils.TestUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
@@ -32,17 +34,14 @@ public class MainPage extends BasePage {
 
   public MainPage(Context context) {
     super(context);
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
   }
 
   public ScannerPage startOrchextra() {
 
-    ViewInteraction appCompatButton = onView(allOf(withId(R.id.start_button), isDisplayed()));
-    appCompatButton.perform(click());
+    ViewInteraction button = onView(allOf(withId(R.id.start_button),
+        TestUtils.childAtPosition(TestUtils.childAtPosition(withId(android.R.id.content), 0), 2),
+        isDisplayed()));
+    button.perform(click());
 
     return new ScannerPage(context);
   }
@@ -52,5 +51,14 @@ public class MainPage extends BasePage {
     actionMenuItemView.perform(click());
 
     return new SettingsPage(context);
+  }
+
+  public MainPage checkIfStartButtonExist() {
+    ViewInteraction button = onView(allOf(withId(R.id.start_button),
+        TestUtils.childAtPosition(TestUtils.childAtPosition(withId(android.R.id.content), 0), 2),
+        isDisplayed()));
+    button.check(matches(isDisplayed()));
+
+    return this;
   }
 }
