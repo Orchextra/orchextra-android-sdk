@@ -1,26 +1,67 @@
 #!groovy
 
-// Build stage
-parallel sonarqube : {
-  stage ('Sonarqube Analysis') {
-    node ('sonarqube') {
-      // Get source code
-      checkout scm
-      // requires SonarQube Scanner 2.8+
-      def sonarHome = tool 'SonarQube Runner 2.8';
-      withSonarQubeEnv('SonarQube') {
-        sh "${sonarHome}/bin/sonar-scanner"
-      }
+@Library('github.com/pedroamador/jenkins-pipeline-library@develop') _
+
+// Initialize global condig
+cfg = jplConfig('orchextra-sdk', 'android', '', [ hipchat:'', slack:'#integrations', email:'qa+orchextra@gigigo.com' ])
+
+pipeline {
+    agent none
+
+    stages {
+        stage ('Build') {
+            agent { label 'docker' }
+            steps  {
+                jplCheckoutSCM(cfg)
+                jplBuildAPK(cfg)
+            }
+        }
+        stage ('Instrumentation Test') {
+            agent { label 'docker' }
+            when { branch 'feature/core_module' }
+            steps  {
+                timestamps {
+                    ansiColor('xterm') {
+                        sh 'ci-scripts/bin/doTest.sh'
+                    }
+                }
+            }
+        }
+        stage ('Release confirm') {
+            when { branch 'release/*' }
+            steps {
+                // jplPromoteBuild(cfg)
+                echo "Mock release confirm"
+            }
+        }
+        stage ('Release finish') {
+            agent { label 'docker' }
+            when { expression { env.BRANCH_NAME.startsWith('release/') && cfg.promoteBuild } }
+            steps {
+                //jplCloseRelease(cfg)
+                //deleteDir()
+                echo "Mock release finish"
+            }
+        }
+        stage ('PR Clean') {
+            agent { label 'docker' }
+            when { branch 'PR-*' }
+            steps {
+                deleteDir();
+            }
+        }
     }
-  }
-},
-build: {
-  stage ('Gradle build') {
-    node ('linux') {
-      // Get source code
-      checkout scm
-      // Execute gradlew
-      sh './gradlew clean build jacocoTestReport jacocoFullReport --stacktrace'
+
+    post {
+        always {
+            jplPostBuild(cfg)
+        }
     }
-  }
+
+    options {
+        buildDiscarder(logRotator(artifactNumToKeepStr: '20',artifactDaysToKeepStr: '30'))
+        disableConcurrentBuilds()
+        skipDefaultCheckout()
+        timeout(time: 1, unit: 'DAYS')
+    }
 }

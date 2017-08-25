@@ -31,3 +31,6 @@ proguard-rules.pro
 
 gigigo-utils-suite-modular/
 app/src/main/res/res.rar
+
+# ci-scripts
+!ci-scripts/bin
