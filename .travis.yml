@@ -8,7 +8,11 @@ env:
   - ADB_INSTALL_TIMEOUT=8 # 8 minutes (2 minutes by default)
 
 notifications:
-  slack: orchextra:edTGY2Fgw81QDHRDS3pfEixE#ci
+  slack:
+    rooms:
+      - orchextra:m4j1PrSCNml7lVi7bPexvQBP#development
+    on_success: change
+    on_failure: always
 
 android:
   components:
