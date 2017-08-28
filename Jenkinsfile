@@ -9,6 +9,7 @@ pipeline {
     agent none
 
     stages {
+        // Build includes PR (test)
         stage ('Build') {
             agent { label 'docker' }
             steps  {
