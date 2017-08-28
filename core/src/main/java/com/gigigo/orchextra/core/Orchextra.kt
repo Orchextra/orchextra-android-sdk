@@ -32,6 +32,7 @@ import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
+import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.extensions.getAppData
 import com.gigigo.orchextra.core.utils.extensions.getDeviceData
 import java.lang.IllegalStateException
@@ -41,6 +42,7 @@ object Orchextra : OrchextraErrorListener {
   private var context: Application? = null
   private lateinit var triggerManager: TriggerManager
   private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
+  private lateinit var locationProvider: LocationProvider
   private var credentials: Credentials = Credentials()
   private var isReady = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
@@ -54,19 +56,19 @@ object Orchextra : OrchextraErrorListener {
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
+    this.locationProvider = LocationProvider(context)
 
-    getConfiguration()
+    locationProvider.getLocation { point -> getConfiguration(point) }
   }
 
-  private fun getConfiguration() {
-
-    val getConfiguration = GetConfiguration.create()
+  private fun getConfiguration(point: Point) {
 
     val loadConfiguration = LoadConfiguration(
         app = context?.getAppData(),
         device = context?.getDeviceData(),
-        geoLocation = GeoLocation(point = Point(lat = 40.4458471, lng = -3.6302917)))
+        geoLocation = GeoLocation(point = point))
 
+    val getConfiguration = GetConfiguration.create()
     getConfiguration.get(loadConfiguration,
         object : GetConfiguration.Callback {
           override fun onSuccess(configuration: Configuration) {
