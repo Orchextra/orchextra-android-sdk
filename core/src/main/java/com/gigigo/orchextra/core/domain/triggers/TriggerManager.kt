@@ -76,6 +76,12 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
     }
   }
 
+  fun finish() {
+    scanner.finish()
+    geofence.finish()
+    indoorPositioning.finish()
+  }
+
   override fun onTriggerDetected(trigger: Trigger) {
 
     getAction.get(trigger, object : Callback {

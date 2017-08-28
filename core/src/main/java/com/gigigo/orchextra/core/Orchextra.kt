@@ -129,6 +129,7 @@ object Orchextra : OrchextraErrorListener {
   fun finish() {
     this.context = null
     this.credentials = Credentials()
+    triggerManager.finish()
 
     changeStatus(false)
   }

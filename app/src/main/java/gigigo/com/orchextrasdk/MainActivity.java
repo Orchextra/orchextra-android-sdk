@@ -39,6 +39,7 @@ import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
+import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import gigigo.com.orchextrasdk.demo.OrchextraDemoActivity;
 import gigigo.com.orchextrasdk.settings.OrchextraPreferenceManager;
@@ -148,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
       if (isReady) {
         orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create(MainActivity.this));
         orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(MainActivity.this));
-        //orchextra.getTriggerManager()
-        //    .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(MainActivity.this));
+        orchextra.getTriggerManager()
+            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
 
         Toast.makeText(MainActivity.this, "SDK ready", Toast.LENGTH_SHORT).show();
         OrchextraDemoActivity.open(MainActivity.this);
