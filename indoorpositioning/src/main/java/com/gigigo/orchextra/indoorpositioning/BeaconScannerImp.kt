@@ -22,11 +22,15 @@ import android.os.Build.VERSION_CODES
 import android.os.RemoteException
 import android.support.annotation.RequiresApi
 import android.util.Log
+import com.gigigo.orchextra.core.domain.entities.Proximity
+import com.gigigo.orchextra.indoorpositioning.utils.extensions.isInRegion
+import com.gigigo.orchextra.indoorpositioning.utils.extensions.toOxBeacon
 import org.altbeacon.beacon.BeaconConsumer
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.Region
 
 class BeaconScannerImp(private val beaconManager: BeaconManager,
+    private val config: List<Proximity>,
     private val consumer: BeaconConsumer) : BeaconScanner {
 
   override fun start() {
@@ -43,7 +47,12 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
 
     beaconManager.addRangeNotifier { beacons, region ->
 
-      Log.d(TAG, "--------> Beacons!!!!")
+      Log.d(TAG, "--------> Beacons!!!!${beacons.map { it.toOxBeacon().toString() }}")
+      Log.d(TAG, "--------> Regions!!!!$region")
+
+      val filteredBeacons = beacons.map { it.toOxBeacon() }.filter { it.isInRegion(config) }
+
+      Log.d(TAG, "--------> Filtered!!!! $filteredBeacons")
     }
 
     try {

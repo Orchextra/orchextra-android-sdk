@@ -38,6 +38,7 @@ dependencies {
   compile 'org.altbeacon:android-beacon-library:2.12.1'
 
   testCompile 'junit:junit:4.12'
+  testCompile 'org.amshove.kluent:kluent:1.26'
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })

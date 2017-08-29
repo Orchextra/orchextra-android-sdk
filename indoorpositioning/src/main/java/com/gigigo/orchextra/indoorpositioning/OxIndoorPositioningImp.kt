@@ -34,14 +34,15 @@ class OxIndoorPositioningImp private constructor(private val context: Applicatio
     BeaconConsumer {
 
   private lateinit var beaconScanner: BeaconScanner
+  private lateinit var config: List<Proximity>
 
   override fun init() {
-    beaconScanner = BeaconScannerImp(context.getBeaconManager(0L), this)
+    beaconScanner = BeaconScannerImp(context.getBeaconManager(50000L), config, this)
     beaconScanner.start()
   }
 
   override fun setConfig(config: List<Proximity>) {
-
+    this.config = config
   }
 
   override fun finish() {

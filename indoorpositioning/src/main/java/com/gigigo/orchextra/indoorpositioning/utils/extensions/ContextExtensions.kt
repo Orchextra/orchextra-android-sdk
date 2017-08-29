@@ -22,7 +22,7 @@ import android.content.Context
 import org.altbeacon.beacon.BeaconManager
 import org.altbeacon.beacon.BeaconParser
 
-fun Context.getBeaconManager(scanDelay: Long): BeaconManager = with(this) {
+fun Context.getBeaconManager(scanDelay: Long = 0L): BeaconManager = with(this) {
 
   val instance = BeaconManager.getInstanceForApplication(this)
 
