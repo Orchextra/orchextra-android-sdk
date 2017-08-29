@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.indoorpositioning
 
+import android.app.AlarmManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -38,7 +39,19 @@ import org.altbeacon.beacon.BeaconConsumer
 
 class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
 
+  private lateinit var alarmManager: AlarmManager
   private lateinit var beaconScanner: BeaconScanner
+  private lateinit var config: List<Proximity>
+  private var isRunning: Boolean = false
+
+  private val SCAN_DELAY_IN_SECONDS = 5
+  private val CHECK_SERVICE_TIME_IN_SECONDS = 30
+
+  override fun onCreate() {
+    super.onCreate()
+    isRunning = false
+    alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+  }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
@@ -46,24 +59,49 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
       return START_NOT_STICKY
     }
 
-    val config: List<Proximity> = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
-    beaconScanner = BeaconScannerImp(getBeaconManager(5000L), config, this, this)
-    beaconScanner.start()
+    if (!isRunning) {
+      isRunning = true
 
-    return START_REDELIVER_INTENT
+      config = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
+      beaconScanner = BeaconScannerImp(getBeaconManager(SCAN_DELAY_IN_SECONDS * 1000L), config,
+          this, this)
+      beaconScanner.start()
+    } else {
+      Log.w(TAG, "IndoorPositioningService is already running")
+    }
+
+    setAlarmService()
+
+    return START_STICKY
   }
 
   override fun onBind(intent: Intent?): IBinder? = null
 
   override fun onDestroy() {
+    Log.d(TAG, "onDestroy()")
+    beaconScanner.stop()
+
     super.onDestroy()
+  }
+
+  fun setAlarmService() {
+    val pendingIntent = IndoorPositioningReceiver.getIndoorPositioningIntent(this,
+        config as ArrayList<Proximity>)
+    val time = System.currentTimeMillis() + CHECK_SERVICE_TIME_IN_SECONDS * 1000
+
+    alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent)
   }
 
   @RequiresApi(VERSION_CODES.JELLY_BEAN_MR2)
   override fun onBeaconServiceConnect() = beaconScanner.onBeaconServiceConnect()
 
-  override fun onBeaconDetect(oxBeacon: OxBeacon) {
-    sendOxBeaconEvent(oxBeacon)
+  override fun onBeaconsDetect(oxBeacons: List<OxBeacon>) {
+
+    Log.d(TAG, "onBeaconsDetect()")
+
+    // TODO check if beacon should be sent
+
+    oxBeacons.forEach { sendOxBeaconEvent(it) }
   }
 
   private fun sendOxBeaconEvent(oxBeacon: OxBeacon) {

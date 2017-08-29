@@ -48,7 +48,7 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
 
     beaconManager.addRangeNotifier { beacons, region ->
       val filteredBeacons = beacons.map { it.toOxBeacon() }.filter { it.isInRegion(config) }
-      filteredBeacons.forEach { beaconListener.onBeaconDetect(it) }
+      beaconListener.onBeaconsDetect(filteredBeacons)
     }
 
     try {

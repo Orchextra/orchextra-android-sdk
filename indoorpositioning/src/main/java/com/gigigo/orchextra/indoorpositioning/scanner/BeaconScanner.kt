@@ -32,5 +32,5 @@ interface BeaconScanner {
 
 interface BeaconListener {
 
-  fun onBeaconDetect(oxBeacon: OxBeacon)
+  fun onBeaconsDetect(oxBeacons: List<OxBeacon>)
 }
