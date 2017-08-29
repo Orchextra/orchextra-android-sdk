@@ -15,8 +15,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gigigo.orchextra.core">
 
@@ -29,10 +28,14 @@
       android:allowBackup="true"
       android:label="@string/app_name"
       android:supportsRtl="true">
+    <activity
+        android:name=".domain.actions.actionexecutors.webview.WebViewActivity"
+        android:theme="@style/OxAppTheme.NoActionBar">
+    </activity>
 
     <activity
-        android:name="com.gigigo.orchextra.core.domain.actions.actionexecutors.webview.WebViewActivity"
-        android:theme="@style/OxAppTheme.NoActionBar">
+        android:name=".domain.actions.actionexecutors.notification.NotificationActivity"
+        android:theme="@style/OxAppTheme.Transparent">
     </activity>
 
     <receiver
@@ -42,11 +45,10 @@
         <action android:name="com.gigigo.orchextra.TRIGGER_RECIVER"/>
       </intent-filter>
     </receiver>
-
     <receiver android:name=".schedule.ScheduleActionReceiver"/>
 
     <service android:name=".domain.triggers.TriggerHandlerService"/>
     <service android:name=".domain.actions.ActionHandlerService"/>
-
   </application>
+
 </manifest>

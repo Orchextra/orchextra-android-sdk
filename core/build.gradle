@@ -87,7 +87,6 @@ dependencies {
   compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
   compile 'com.android.support:design:25.3.1'
-
   compile 'com.squareup.retrofit2:retrofit:2.3.0'
   compile 'com.squareup.retrofit2:converter-moshi:2.3.0'
   compile 'com.squareup.okhttp3:okhttp:3.4.2'

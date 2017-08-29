@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.notification
 
-import android.app.AlertDialog
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
@@ -32,7 +31,7 @@ class NotificationActionExecutor(private val context: Context) {
   fun showNotification(notification: Notification, actionExecutor: () -> Unit) {
 
     if (Orchextra.provideContext() != null) {
-      val viewContext = Orchextra.provideContext() as Context
+      val viewContext = Orchextra.provideContext()
       showDialog(viewContext, notification, actionExecutor)
     } else {
       showBarNotification(notification, actionExecutor)
@@ -43,15 +42,18 @@ class NotificationActionExecutor(private val context: Context) {
       actionExecutor: () -> Unit) = with(notification) {
 
     try {
-      val builder = AlertDialog.Builder(context)
-      builder.setTitle(title)
-          .setMessage(body)
-          .setIcon(R.drawable.ox_notification_large_icon)
-          .setPositiveButton(android.R.string.ok, { dialog, _ ->
-            dialog.dismiss()
-            actionExecutor()
-          })
-          .show()
+//      val builder = AlertDialog.Builder(context)
+//      builder.setTitle(title)
+//          .setMessage(body)
+//          .setIcon(R.drawable.ox_notification_large_icon)
+//          .setPositiveButton(android.R.string.ok, { dialog, _ ->
+//            dialog.dismiss()
+//            actionExecutor()
+//          })
+//          .show()
+
+
+      NotificationActivity.open(context, notification)
     } catch (exception: Exception) {
       exception.printStackTrace()
     }

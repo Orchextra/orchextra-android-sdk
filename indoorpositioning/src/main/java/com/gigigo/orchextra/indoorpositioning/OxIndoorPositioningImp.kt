@@ -28,7 +28,9 @@ class OxIndoorPositioningImp private constructor(private val context: Applicatio
   private lateinit var config: List<Proximity>
 
   override fun init() {
-    IndoorPositioningService.start(context, config as ArrayList<Proximity>)
+    if (config.isNotEmpty()) {
+      IndoorPositioningService.start(context, config as ArrayList<Proximity>)
+    }
   }
 
   override fun setConfig(config: List<Proximity>) {

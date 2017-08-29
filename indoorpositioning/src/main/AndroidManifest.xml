@@ -12,7 +12,7 @@
     <service
         android:name=".IndoorPositioningService"
         android:enabled="true"/>
-    
+
     <receiver android:name=".IndoorPositioningReceiver"/>
 
   </application>
