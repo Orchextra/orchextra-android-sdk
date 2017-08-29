@@ -19,26 +19,16 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import android.app.Application
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
-import android.os.Build.VERSION_CODES
-import android.support.annotation.RequiresApi
 import com.gigigo.orchextra.core.domain.entities.Proximity
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
-import com.gigigo.orchextra.indoorpositioning.utils.extensions.getBeaconManager
-import org.altbeacon.beacon.BeaconConsumer
 
 class OxIndoorPositioningImp private constructor(private val context: Application) :
-    OxTrigger<List<Proximity>>,
-    BeaconConsumer {
+    OxTrigger<List<Proximity>> {
 
-  private lateinit var beaconScanner: BeaconScanner
   private lateinit var config: List<Proximity>
 
   override fun init() {
-    beaconScanner = BeaconScannerImp(context.getBeaconManager(50000L), config, this)
-    beaconScanner.start()
+    IndoorPositioningService.start(context, config as ArrayList<Proximity>)
   }
 
   override fun setConfig(config: List<Proximity>) {
@@ -46,22 +36,10 @@ class OxIndoorPositioningImp private constructor(private val context: Applicatio
   }
 
   override fun finish() {
-    beaconScanner.stop()
+    IndoorPositioningService.stop(context)
   }
 
-  override fun getApplicationContext(): Context = context
-
-  override fun unbindService(conn: ServiceConnection) = context.unbindService(conn)
-
-  override fun bindService(service: Intent, conn: ServiceConnection, flags: Int): Boolean =
-      context.bindService(service, conn, flags)
-
-  @RequiresApi(VERSION_CODES.JELLY_BEAN_MR2)
-  override fun onBeaconServiceConnect() = beaconScanner.onBeaconServiceConnect()
-
   companion object Factory {
-
-    private val TAG = "OxIndoorPositioningImp"
 
     fun create(context: Application): OxIndoorPositioningImp = OxIndoorPositioningImp(context)
   }

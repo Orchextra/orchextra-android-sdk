@@ -16,13 +16,21 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.indoorpositioning
+package com.gigigo.orchextra.indoorpositioning.scanner
+
+import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
 
 
 interface BeaconScanner {
 
   fun start()
+
   fun stop()
 
   fun onBeaconServiceConnect()
+}
+
+interface BeaconListener {
+
+  fun onBeaconDetect(oxBeacon: OxBeacon)
 }

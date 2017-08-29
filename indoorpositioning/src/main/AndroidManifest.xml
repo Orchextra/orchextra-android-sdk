@@ -9,5 +9,7 @@
       android:label="@string/app_name"
       android:supportsRtl="true">
 
+    <service android:name=".IndoorPositioningService"/>
+
   </application>
 </manifest>

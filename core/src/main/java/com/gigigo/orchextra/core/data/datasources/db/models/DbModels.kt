@@ -59,9 +59,9 @@ data class DbTrigger constructor(
     @DatabaseField val event: String? = null,
     @DatabaseField val phoneStatus: String? = null,
     @DatabaseField val distance: String? = null,
-    @DatabaseField val temperature: Double? = null,
-    @DatabaseField val battery: Double? = null,
-    @DatabaseField val uptime: Int? = null,
+    @DatabaseField val temperature: Float? = null,
+    @DatabaseField val battery: Long? = null,
+    @DatabaseField val uptime: Long? = null,
     @DatabaseField var dbPersistedTime: Long = 0) : TtlCachingObject {
 
   override fun getPersistedTime(): Long = dbPersistedTime

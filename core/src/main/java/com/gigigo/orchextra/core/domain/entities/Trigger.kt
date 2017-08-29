@@ -42,9 +42,9 @@ data class Trigger constructor(
     val event: String? = null,
     val phoneStatus: String? = null,
     val distance: String? = null,
-    val temperature: Double? = null,
-    val battery: Double? = null,
-    val uptime: Int? = null
+    val temperature: Float? = null,
+    val battery: Long? = null,
+    val uptime: Long? = null
 ) : Parcelable {
   constructor(source: Parcel) : this(
       TriggerType.values()[source.readInt()],
@@ -54,9 +54,9 @@ data class Trigger constructor(
       source.readString(),
       source.readString(),
       source.readString(),
-      source.readValue(Double::class.java.classLoader) as Double?,
-      source.readValue(Double::class.java.classLoader) as Double?,
-      source.readValue(Int::class.java.classLoader) as Int?
+      source.readValue(Float::class.java.classLoader) as Float?,
+      source.readValue(Long::class.java.classLoader) as Long?,
+      source.readValue(Long::class.java.classLoader) as Long?
   )
 
   override fun describeContents() = 0
