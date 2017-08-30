@@ -42,18 +42,9 @@ class NotificationActionExecutor(private val context: Context) {
       actionExecutor: () -> Unit) = with(notification) {
 
     try {
-//      val builder = AlertDialog.Builder(context)
-//      builder.setTitle(title)
-//          .setMessage(body)
-//          .setIcon(R.drawable.ox_notification_large_icon)
-//          .setPositiveButton(android.R.string.ok, { dialog, _ ->
-//            dialog.dismiss()
-//            actionExecutor()
-//          })
-//          .show()
-
-
       NotificationActivity.open(context, notification)
+      actionExecutor()
+
     } catch (exception: Exception) {
       exception.printStackTrace()
     }

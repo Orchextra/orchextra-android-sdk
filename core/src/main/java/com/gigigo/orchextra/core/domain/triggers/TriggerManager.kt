@@ -84,6 +84,10 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
 
   override fun onTriggerDetected(trigger: Trigger) {
 
+
+    // TODO check if beacon should be sent and set beacon event
+
+
     getAction.get(trigger, object : Callback {
       override fun onSuccess(action: Action) {
         actionHandlerServiceExecutor.execute(context = context, action = action)
