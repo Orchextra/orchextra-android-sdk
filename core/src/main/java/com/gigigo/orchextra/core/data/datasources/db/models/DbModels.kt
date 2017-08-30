@@ -20,49 +20,102 @@ package com.gigigo.orchextra.core.data.datasources.db.models
 
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl.TtlCachingObject
 import com.j256.ormlite.field.DatabaseField
+import com.j256.ormlite.table.DatabaseTable
 
 
-data class DbAction(
-    @DatabaseField(generatedId = true, columnName = "id")
-    var id: Int = 0,
-    @DatabaseField(columnName = "trackId") val trackId: String,
-    @DatabaseField val type: String,
-    @DatabaseField val url: String,
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    val notification: DbNotification = DbNotification(),
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    val schedule: DbSchedule = DbSchedule(),
-    @DatabaseField var dbPersistedTime: Long = 0) : TtlCachingObject {
+@DatabaseTable(tableName = "action")
+class DbAction : TtlCachingObject {
+
+  @DatabaseField(generatedId = true, columnName = "id")
+  var id: Int = 0
+
+  @DatabaseField(columnName = "trackId")
+  var trackId: String = ""
+
+  @DatabaseField
+  var type: String = ""
+
+  @DatabaseField
+  var url: String = ""
+
+  @DatabaseField(foreign = true, foreignAutoRefresh = true)
+  var notification: DbNotification = DbNotification()
+
+  @DatabaseField(foreign = true, foreignAutoRefresh = true)
+  var schedule: DbSchedule = DbSchedule()
+
+  @DatabaseField
+  var dbPersistedTime: Long = 0
 
   override fun getPersistedTime(): Long = dbPersistedTime
 }
 
-data class DbNotification(
-    @DatabaseField(generatedId = true, columnName = "id")
-    var id: Int = 0,
-    @DatabaseField val title: String = "",
-    @DatabaseField val body: String = "")
+@DatabaseTable(tableName = "notification")
+class DbNotification {
 
-data class DbSchedule(
-    @DatabaseField(generatedId = true, columnName = "id")
-    var id: Int = 0,
-    @DatabaseField val seconds: Int = -1,
-    @DatabaseField val cancelable: Boolean = true)
+  @DatabaseField(generatedId = true, columnName = "id")
+  var id: Int = 0
 
-data class DbTrigger constructor(
-    @DatabaseField(generatedId = true, columnName = "id")
-    var id: Int = 0,
-    @DatabaseField val type: String,
-    @DatabaseField(columnName = "value") val value: String,
-    @DatabaseField val lat: Double? = null,
-    @DatabaseField val lng: Double? = null,
-    @DatabaseField val event: String? = null,
-    @DatabaseField val phoneStatus: String? = null,
-    @DatabaseField val distance: String? = null,
-    @DatabaseField val temperature: Float? = null,
-    @DatabaseField val battery: Long? = null,
-    @DatabaseField val uptime: Long? = null,
-    @DatabaseField var dbPersistedTime: Long = 0) : TtlCachingObject {
+  @DatabaseField
+  var title: String = ""
+
+  @DatabaseField
+  var body: String = ""
+}
+
+
+@DatabaseTable(tableName = "schedule")
+class DbSchedule {
+
+  @DatabaseField(generatedId = true, columnName = "id")
+  var id: Int = 0
+
+  @DatabaseField
+  var seconds: Int = -1
+
+  @DatabaseField
+  var cancelable: Boolean = true
+}
+
+
+@DatabaseTable(tableName = "trigger")
+class DbTrigger : TtlCachingObject {
+
+  @DatabaseField(generatedId = true, columnName = "id")
+  var id: Int = 0
+
+  @DatabaseField
+  var type: String = ""
+
+  @DatabaseField(columnName = "value")
+  var value: String = ""
+
+  @DatabaseField
+  var lat: Double? = null
+
+  @DatabaseField
+  var lng: Double? = null
+
+  @DatabaseField
+  var event: String? = null
+
+  @DatabaseField
+  var phoneStatus: String? = null
+
+  @DatabaseField
+  var distance: String? = null
+
+  @DatabaseField
+  var temperature: Float? = null
+
+  @DatabaseField
+  var battery: Long? = null
+
+  @DatabaseField
+  var uptime: Long? = null
+
+  @DatabaseField
+  var dbPersistedTime: Long = 0
 
   override fun getPersistedTime(): Long = dbPersistedTime
 }

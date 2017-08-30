@@ -32,10 +32,11 @@ import com.gigigo.orchextra.core.domain.entities.Proximity
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
-import com.gigigo.orchextra.core.domain.interactor.GetAction.Callback
+import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import kotlin.properties.Delegates
 
 class TriggerManager(private val context: Context, private val getAction: GetAction,
+    private val validateTrigger: ValidateTrigger,
     private val actionHandlerServiceExecutor: ActionHandlerServiceExecutor,
     private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
 
@@ -84,11 +85,22 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
 
   override fun onTriggerDetected(trigger: Trigger) {
 
+    validateTrigger.validate(trigger, object : ValidateTrigger.Callback {
 
-    // TODO check if beacon should be sent and set beacon event
+      override fun onSuccess(validTrigger: Trigger) {
+        getActionByTrigger(trigger)
+      }
 
+      override fun onError(error: Error) {
+        if (error.isValid()) {
+          orchextraErrorListener.onError(error)
+        }
+      }
+    })
+  }
 
-    getAction.get(trigger, object : Callback {
+  private fun getActionByTrigger(trigger: Trigger) {
+    getAction.get(trigger, object : GetAction.Callback {
       override fun onSuccess(action: Action) {
         actionHandlerServiceExecutor.execute(context = context, action = action)
       }
@@ -102,6 +114,6 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
   companion object Factory {
 
     fun create(context: Context): TriggerManager = TriggerManager(context, GetAction.create(),
-        ActionHandlerServiceExecutor.create(), Orchextra)
+        ValidateTrigger.create(), ActionHandlerServiceExecutor.create(), Orchextra)
   }
 }

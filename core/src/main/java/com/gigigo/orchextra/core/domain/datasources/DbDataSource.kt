@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.datasources
 
-import android.content.Context
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
 import com.gigigo.orchextra.core.data.datasources.db.DbDataSourceImp
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -38,6 +38,6 @@ interface DbDataSource {
 
   companion object Factory {
 
-    fun create(context: Context): DbDataSource = DbDataSourceImp(DatabaseHelper.create(context))
+    fun create(): DbDataSource = DbDataSourceImp(DatabaseHelper.create(Orchextra.provideContext()))
   }
 }

@@ -51,41 +51,53 @@ fun DbSchedule.toSchedule(): Schedule =
 
 fun Action.toDbAction(): DbAction =
     with(this) {
-      return DbAction(
-          trackId = trackId,
-          type = type.name,
-          url = url,
-          notification = notification.toDbNotification(),
-          schedule = schedule.toDbSchedule())
+
+      val dbAction = DbAction()
+      dbAction.trackId = trackId
+      dbAction.type = type.name
+      dbAction.url = url
+      dbAction.notification = notification.toDbNotification()
+      dbAction.schedule = schedule.toDbSchedule()
+
+      return dbAction
     }
 
 fun Notification.toDbNotification(): DbNotification =
     with(this) {
-      return DbNotification(
-          title = title,
-          body = body)
+
+      val dbNotification = DbNotification()
+      dbNotification.title = title
+      dbNotification.body = body
+
+      return dbNotification
     }
 
 fun Schedule.toDbSchedule(): DbSchedule =
     with(this) {
-      return DbSchedule(
-          seconds = seconds,
-          cancelable = cancelable)
+
+      val dbSchedule = DbSchedule()
+      dbSchedule.seconds = seconds
+      dbSchedule.cancelable = cancelable
+
+      return dbSchedule
     }
 
 fun Trigger.toDbTrigger(): DbTrigger =
     with(this) {
-      return DbTrigger(
-          type = type.name,
-          value = value,
-          lat = lat,
-          lng = lng,
-          event = event,
-          phoneStatus = phoneStatus,
-          distance = distance,
-          temperature = temperature,
-          battery = battery,
-          uptime = uptime)
+
+      val dbTrigger = DbTrigger()
+      dbTrigger.type = type.name
+      dbTrigger.value = value
+      dbTrigger.lat = lat
+      dbTrigger.lng = lng
+      dbTrigger.event = event
+      dbTrigger.phoneStatus = phoneStatus
+      dbTrigger.distance = distance
+      dbTrigger.temperature = temperature
+      dbTrigger.battery = battery
+      dbTrigger.uptime = uptime
+
+      return dbTrigger
     }
 
 fun DbTrigger.toTrigger(): Trigger =

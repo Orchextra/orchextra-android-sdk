@@ -47,8 +47,8 @@ before_script:
 script:
   - ./gradlew build jacocoTestReport
   - ./gradlew check
-  - ./gradlew grantDebugPermissions
-  - ./gradlew connectedCheck
+#  - ./gradlew grantDebugPermissions
+#  - ./gradlew connectedCheck
 
 after_success:
   - ./gradlew jacocoFullReport

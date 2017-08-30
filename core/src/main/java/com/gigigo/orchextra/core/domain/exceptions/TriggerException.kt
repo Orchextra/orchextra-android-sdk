@@ -16,14 +16,6 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
+package com.gigigo.orchextra.core.domain.exceptions
 
-data class Error(val code: Int, val message: String) {
-
-  fun isValid(): Boolean = code != INVALID_ERROR
-
-  companion object {
-    val INVALID_ERROR = -1
-    val FATAL_ERROR = 9991
-  }
-}
+class TriggerException(val code: Int, val error: String) : Exception()
