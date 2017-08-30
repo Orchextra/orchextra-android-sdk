@@ -86,9 +86,10 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
   override fun onTriggerDetected(trigger: Trigger) {
 
     validateTrigger.validate(trigger, object : ValidateTrigger.Callback {
-
       override fun onSuccess(validTrigger: Trigger) {
-        getActionByTrigger(trigger)
+        if (!validTrigger.isVoid()) {
+          getActionByTrigger(trigger)
+        }
       }
 
       override fun onError(error: Error) {

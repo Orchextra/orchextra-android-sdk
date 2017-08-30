@@ -27,8 +27,8 @@ import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.squareup.moshi.Moshi
-import org.amshove.kluent.`should be`
-import org.amshove.kluent.`should equal`
+import org.amshove.kluent.shouldBeTrue
+import org.amshove.kluent.shouldEqual
 import org.junit.Test
 
 class SessionManagerTest {
@@ -56,7 +56,7 @@ class SessionManagerTest {
 
     val currentToken = sessionManager.getSession()
 
-    currentToken `should equal` token
+    currentToken.shouldEqual(token)
   }
 
   @Test
@@ -78,7 +78,7 @@ class SessionManagerTest {
 
     val hasSession = sessionManager.hasSession()
 
-    hasSession `should be` true
+    hasSession.shouldBeTrue()
   }
 
   private fun getSessionManager(token: Token = Token(""),

@@ -20,10 +20,12 @@ package com.gigigo.orchextra.core.data.datasources.db.models
 
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType
+import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType
+import com.gigigo.orchextra.core.domain.exceptions.DbException
 
 fun DbAction.toAction(): Action =
     with(this) {
@@ -113,4 +115,11 @@ fun DbTrigger.toTrigger(): Trigger =
           temperature = temperature,
           battery = battery,
           uptime = uptime)
+    }
+
+fun DbException.toError(): Error =
+    with(this) {
+      return Error(
+          code = code,
+          message = error)
     }

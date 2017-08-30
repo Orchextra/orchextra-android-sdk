@@ -96,13 +96,24 @@ class DbDataSourceImp(helper: DatabaseHelper) : DbDataSource {
     }
   }
 
-  override fun saveTriggers(triggers: List<Trigger>) {
+  override fun getTrigger(value: String): Trigger {
     try {
-      for (trigger in triggers) {
-        val dbTrigger = trigger.toDbTrigger()
-        dbTrigger.dbPersistedTime = System.currentTimeMillis()
-        triggerPersistor.persist(dbTrigger)
-      }
+      val dbTrigger = daoTriggers.queryBuilder().where().eq(value, value).queryForFirst()
+      getTriggers()
+
+      return dbTrigger.toTrigger()
+
+    } catch (e: Throwable) {
+      throw DbException(-1, e.message ?: "")
+    }
+  }
+
+  override fun saveTrigger(trigger: Trigger) {
+    try {
+      val dbTrigger = trigger.toDbTrigger()
+      dbTrigger.dbPersistedTime = System.currentTimeMillis()
+      triggerPersistor.persist(dbTrigger)
+
     } catch (e: SQLException) {
       throw DbException(-1, e.message ?: "")
     }

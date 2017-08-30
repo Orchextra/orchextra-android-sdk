@@ -23,6 +23,7 @@ import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
 import com.gigigo.orchextra.core.data.datasources.db.DbDataSourceImp
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.exceptions.DbException
 
 interface DbDataSource {
 
@@ -34,7 +35,11 @@ interface DbDataSource {
 
   fun getTriggers(): List<Trigger>
 
-  fun saveTriggers(triggers: List<Trigger>)
+  @Throws(DbException::class)
+  fun getTrigger(value: String): Trigger
+
+  @Throws(DbException::class)
+  fun saveTrigger(trigger: Trigger)
 
   companion object Factory {
 

@@ -144,4 +144,5 @@ fun TriggerType.toOxType(): String = when (this) {
   TriggerType.QR -> "qr"
   TriggerType.BARCODE -> "barcode"
   TriggerType.IMAGE_RECOGNITION -> "vuforia"
+  TriggerType.VOID -> "void"
 }

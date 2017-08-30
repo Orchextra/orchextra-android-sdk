@@ -20,6 +20,11 @@ package com.gigigo.orchextra.core.domain.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
+import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON_REGION
+import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE
+import com.gigigo.orchextra.core.domain.entities.TriggerType.GEOFENCE
+import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 
 
 enum class TriggerType {
@@ -29,7 +34,8 @@ enum class TriggerType {
   GEOFENCE,
   QR,
   BARCODE,
-  IMAGE_RECOGNITION;
+  IMAGE_RECOGNITION,
+  VOID;
 
   infix fun withValue(value: String) = Trigger(this, value)
 }
@@ -44,7 +50,8 @@ data class Trigger constructor(
     val distance: String? = null,
     val temperature: Float? = null,
     val battery: Long? = null,
-    val uptime: Long? = null
+    val uptime: Long? = null,
+    val detectedTime: Long = System.currentTimeMillis()
 ) : Parcelable {
   constructor(source: Parcel) : this(
       TriggerType.values()[source.readInt()],
@@ -58,6 +65,11 @@ data class Trigger constructor(
       source.readValue(Long::class.java.classLoader) as Long?,
       source.readValue(Long::class.java.classLoader) as Long?
   )
+
+  fun isVoid(): Boolean = type == VOID
+
+  fun needEvent(): Boolean = type == BEACON || type == BEACON_REGION
+      || type == EDDYSTONE || type == GEOFENCE
 
   override fun describeContents() = 0
 

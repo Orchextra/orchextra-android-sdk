@@ -18,13 +18,18 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
+import android.support.annotation.WorkerThread
+import com.gigigo.orchextra.core.data.datasources.db.models.toError
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
+import com.gigigo.orchextra.core.domain.exceptions.DbException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
+import java.util.concurrent.TimeUnit
 
 class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
     private val postExecutionThread: PostExecutionThread,
@@ -32,6 +37,8 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
 
   private lateinit var trigger: Trigger
   private lateinit var callback: Callback
+
+  private val waitTime: Long = TimeUnit.MINUTES.toMillis(3)
 
   fun validate(trigger: Trigger, callback: Callback) {
     this.trigger = trigger
@@ -41,11 +48,39 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
   }
 
   override fun run() {
+    try {
+      notifySuccess(validate(trigger))
 
-    // get trigger from db
-    // if trigger dont exist is a valid trigger and is type is beacon set enter event
+    } catch (error: DbException) {
+      notifyError(error.toError())
+    }
+  }
 
-    notifySuccess(trigger)
+  @WorkerThread
+  fun validate(trigger: Trigger): Trigger {
+    this.trigger = trigger
+
+    val savedTrigger = dbDataSource.getTrigger(trigger.value)
+    dbDataSource.saveTrigger(trigger)
+
+    if (savedTrigger.isVoid()) {
+      return addEventIfNeed("enter")
+
+    } else {
+      if (trigger.detectedTime + waitTime > System.currentTimeMillis()) {
+        return addEventIfNeed("stay")
+      } else {
+        return Trigger(VOID, "")
+      }
+    }
+  }
+
+  private fun addEventIfNeed(event: String): Trigger {
+    return if (trigger.needEvent()) {
+      trigger.copy(event = event)
+    } else {
+      trigger
+    }
   }
 
   private fun notifySuccess(validTrigger: Trigger) {
