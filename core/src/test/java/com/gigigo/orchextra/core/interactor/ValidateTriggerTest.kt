@@ -56,7 +56,7 @@ class ValidateTriggerTest {
   @Test
   fun shouldBeAValidBeaconTriggerWithEventStay() {
     val trigger = Trigger(BEACON, "e21dguywqbjs")
-    val validateTrigger = getValidateTrigger(trigger)
+    val validateTrigger = getValidateTrigger(trigger.copy(detectedTime = 0L))
 
     val validTrigger = validateTrigger.validate(trigger)
 

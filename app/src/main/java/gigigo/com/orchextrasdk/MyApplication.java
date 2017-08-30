@@ -16,21 +16,15 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.data.datasources.db.persistors
+package gigigo.com.orchextrasdk;
 
-import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
-import com.gigigo.orchextra.core.data.datasources.db.models.DbAction
-import java.sql.SQLException
+import android.app.Application;
+import com.facebook.stetho.Stetho;
 
+public class MyApplication extends Application {
 
-class ActionPersistor(private val helper: DatabaseHelper) : Persistor<DbAction> {
-
-  @Throws(SQLException::class)
-  override fun persist(data: DbAction) {
-
-    helper.getNotificationDao()?.create(data.notification)
-    helper.getScheduleDao()?.create(data.schedule)
-
-    helper.getActionDao()?.create(data)
+  public void onCreate() {
+    super.onCreate();
+    Stetho.initializeWithDefaults(this);
   }
 }

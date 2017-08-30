@@ -18,71 +18,10 @@
 
 package com.gigigo.orchextra.core.data.datasources.db.models
 
-import com.gigigo.orchextra.core.domain.entities.Action
-import com.gigigo.orchextra.core.domain.entities.ActionType
 import com.gigigo.orchextra.core.domain.entities.Error
-import com.gigigo.orchextra.core.domain.entities.Notification
-import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.DbException
-
-fun DbAction.toAction(): Action =
-    with(this) {
-      return Action(
-          trackId = trackId,
-          type = ActionType.valueOf(type),
-          url = url,
-          notification = notification.toNotification(),
-          schedule = schedule.toSchedule())
-    }
-
-fun DbNotification.toNotification(): Notification =
-    with(this) {
-      return Notification(
-          title = title,
-          body = body)
-    }
-
-fun DbSchedule.toSchedule(): Schedule =
-    with(this) {
-      return Schedule(
-          seconds = seconds,
-          cancelable = cancelable)
-    }
-
-fun Action.toDbAction(): DbAction =
-    with(this) {
-
-      val dbAction = DbAction()
-      dbAction.trackId = trackId
-      dbAction.type = type.name
-      dbAction.url = url
-      dbAction.notification = notification.toDbNotification()
-      dbAction.schedule = schedule.toDbSchedule()
-
-      return dbAction
-    }
-
-fun Notification.toDbNotification(): DbNotification =
-    with(this) {
-
-      val dbNotification = DbNotification()
-      dbNotification.title = title
-      dbNotification.body = body
-
-      return dbNotification
-    }
-
-fun Schedule.toDbSchedule(): DbSchedule =
-    with(this) {
-
-      val dbSchedule = DbSchedule()
-      dbSchedule.seconds = seconds
-      dbSchedule.cancelable = cancelable
-
-      return dbSchedule
-    }
 
 fun Trigger.toDbTrigger(): DbTrigger =
     with(this) {
@@ -98,6 +37,7 @@ fun Trigger.toDbTrigger(): DbTrigger =
       dbTrigger.temperature = temperature
       dbTrigger.battery = battery
       dbTrigger.uptime = uptime
+      dbTrigger.detectedTime = detectedTime
 
       return dbTrigger
     }
@@ -114,7 +54,8 @@ fun DbTrigger.toTrigger(): Trigger =
           distance = distance,
           temperature = temperature,
           battery = battery,
-          uptime = uptime)
+          uptime = uptime,
+          detectedTime = detectedTime)
     }
 
 fun DbException.toError(): Error =

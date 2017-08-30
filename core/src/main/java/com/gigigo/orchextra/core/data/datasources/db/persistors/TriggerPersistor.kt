@@ -27,6 +27,14 @@ class TriggerPersistor(private val helper: DatabaseHelper) : Persistor<DbTrigger
   @Throws(SQLException::class)
   override fun persist(data: DbTrigger) {
 
-    helper.getTriggerDao()?.create(data)
+    val dbTrigger = helper.getTriggerDao().queryBuilder().where().eq("value",
+        data.value).queryForFirst()
+
+    if (dbTrigger == null) {
+      helper.getTriggerDao().create(data)
+    } else {
+      data.id = dbTrigger.id
+      helper.getTriggerDao().update(data)
+    }
   }
 }

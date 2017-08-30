@@ -21,19 +21,10 @@ package com.gigigo.orchextra.core.domain.datasources
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
 import com.gigigo.orchextra.core.data.datasources.db.DbDataSourceImp
-import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.DbException
 
 interface DbDataSource {
-
-  fun getActions(): List<Action>
-
-  fun saveActions(actions: List<Action>)
-
-  fun removeActions(actions: List<Action>)
-
-  fun getTriggers(): List<Trigger>
 
   @Throws(DbException::class)
   fun getTrigger(value: String): Trigger

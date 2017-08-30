@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.core.domain.interactor
 
 import android.support.annotation.WorkerThread
-import com.gigigo.orchextra.core.data.datasources.db.models.toError
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.Trigger
@@ -38,7 +37,7 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
   private lateinit var trigger: Trigger
   private lateinit var callback: Callback
 
-  private val waitTime: Long = TimeUnit.MINUTES.toMillis(3)
+  private val waitTime: Long = TimeUnit.MINUTES.toMillis(1)
 
   fun validate(trigger: Trigger, callback: Callback) {
     this.trigger = trigger
@@ -52,7 +51,9 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
       notifySuccess(validate(trigger))
 
     } catch (error: DbException) {
-      notifyError(error.toError())
+      notifySuccess(trigger)
+    } catch (e: Exception) {
+      notifyError(Error(Error.INVALID_ERROR, ""))
     }
   }
 
@@ -61,13 +62,14 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
     this.trigger = trigger
 
     val savedTrigger = dbDataSource.getTrigger(trigger.value)
-    dbDataSource.saveTrigger(trigger)
 
     if (savedTrigger.isVoid()) {
+      dbDataSource.saveTrigger(addEventIfNeed("enter"))
       return addEventIfNeed("enter")
 
     } else {
-      if (trigger.detectedTime + waitTime > System.currentTimeMillis()) {
+      if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
+        dbDataSource.saveTrigger(addEventIfNeed("stay"))
         return addEventIfNeed("stay")
       } else {
         return Trigger(VOID, "")

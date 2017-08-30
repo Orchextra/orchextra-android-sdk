@@ -22,62 +22,6 @@ import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl.TtlCac
 import com.j256.ormlite.field.DatabaseField
 import com.j256.ormlite.table.DatabaseTable
 
-
-@DatabaseTable(tableName = "action")
-class DbAction : TtlCachingObject {
-
-  @DatabaseField(generatedId = true, columnName = "id")
-  var id: Int = 0
-
-  @DatabaseField(columnName = "trackId")
-  var trackId: String = ""
-
-  @DatabaseField
-  var type: String = ""
-
-  @DatabaseField
-  var url: String = ""
-
-  @DatabaseField(foreign = true, foreignAutoRefresh = true)
-  var notification: DbNotification = DbNotification()
-
-  @DatabaseField(foreign = true, foreignAutoRefresh = true)
-  var schedule: DbSchedule = DbSchedule()
-
-  @DatabaseField
-  var dbPersistedTime: Long = 0
-
-  override fun getPersistedTime(): Long = dbPersistedTime
-}
-
-@DatabaseTable(tableName = "notification")
-class DbNotification {
-
-  @DatabaseField(generatedId = true, columnName = "id")
-  var id: Int = 0
-
-  @DatabaseField
-  var title: String = ""
-
-  @DatabaseField
-  var body: String = ""
-}
-
-
-@DatabaseTable(tableName = "schedule")
-class DbSchedule {
-
-  @DatabaseField(generatedId = true, columnName = "id")
-  var id: Int = 0
-
-  @DatabaseField
-  var seconds: Int = -1
-
-  @DatabaseField
-  var cancelable: Boolean = true
-}
-
-
 @DatabaseTable(tableName = "trigger")
 class DbTrigger : TtlCachingObject {
 
@@ -113,6 +57,9 @@ class DbTrigger : TtlCachingObject {
 
   @DatabaseField
   var uptime: Long? = null
+
+  @DatabaseField
+  var detectedTime: Long = System.currentTimeMillis()
 
   @DatabaseField
   var dbPersistedTime: Long = 0
