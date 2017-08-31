@@ -45,8 +45,8 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   private lateinit var config: List<Proximity>
   private var isRunning: Boolean = false
 
-  private val SCAN_DELAY_IN_SECONDS = 10
-  private val CHECK_SERVICE_TIME_IN_SECONDS = 60 * 10
+  private val SCAN_DELAY_IN_SECONDS = 30
+  private val CHECK_SERVICE_TIME_IN_SECONDS = 60 * 5
 
   override fun onCreate() {
     super.onCreate()
