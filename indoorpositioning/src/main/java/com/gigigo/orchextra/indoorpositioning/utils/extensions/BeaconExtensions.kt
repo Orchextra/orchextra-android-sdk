@@ -23,6 +23,7 @@ import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
 import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE
 import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
+import com.gigigo.orchextra.indoorpositioning.utils.HASH
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.utils.UrlBeaconUrlCompressor
 import java.util.Date
@@ -99,6 +100,6 @@ fun OxBeacon.getValue(): String {
   return if (this.uuid.isNullOrEmpty()) {
     "${this.namespaceId}_${this.instanceId}"
   } else {
-    "${this.uuid}_${this.major}_${this.minor}"
+    HASH.md5("${this.uuid?.toUpperCase()}_${this.major}_${this.minor}")
   }
 }

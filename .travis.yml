@@ -11,7 +11,7 @@ notifications:
   slack:
     rooms:
       - orchextra:m4j1PrSCNml7lVi7bPexvQBP#development
-    on_success: change
+    on_success: always
     on_failure: always
 
 android:
