@@ -19,13 +19,16 @@
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.notification
 
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.support.v4.app.NotificationCompat
+import android.support.v4.app.TaskStackBuilder
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Notification
+
 
 class NotificationActionExecutor(private val context: Context) {
 
@@ -54,6 +57,13 @@ class NotificationActionExecutor(private val context: Context) {
         .setSmallIcon(R.drawable.ox_notification_large_icon)
         .setContentTitle(title)
         .setContentText(body)
+
+    val resultIntent = NotificationActivity.getIntent(context, notification, action)
+    val stackBuilder = TaskStackBuilder.create(context)
+    stackBuilder.addParentStack(NotificationActivity::class.java)
+    stackBuilder.addNextIntent(resultIntent)
+    val resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+    notificationBuilder.setContentIntent(resultPendingIntent)
 
     val mNotificationId = 1
     val mNotifyMgr = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager

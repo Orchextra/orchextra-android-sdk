@@ -44,11 +44,17 @@ class NotificationActivity : AppCompatActivity() {
     private val ACTION_EXTRA = "action_extra"
 
     fun open(context: Context, notification: Notification, action: Action) {
+      val intent = getIntent(context, notification, action)
+      context.startActivity(intent)
+    }
+
+    fun getIntent(context: Context, notification: Notification, action: Action): Intent {
       val intent = Intent(context, NotificationActivity::class.java)
       intent.putExtra(NOTIFICATION_EXTRA, notification)
       intent.putExtra(ACTION_EXTRA, action)
       intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-      context.startActivity(intent)
+
+      return intent
     }
   }
 }
