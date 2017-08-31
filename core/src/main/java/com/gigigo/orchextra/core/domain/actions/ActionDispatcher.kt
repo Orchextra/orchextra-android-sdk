@@ -57,8 +57,7 @@ class ActionDispatcher constructor(
 
   private fun dispatchAction(action: Action) {
     if (action.hasNotification()) {
-      notificationActionExecutor.showNotification(action.notification,
-          { -> openActionView(action) })
+      notificationActionExecutor.showNotification(action.notification, action)
     } else {
       openActionView(action)
     }

@@ -24,33 +24,31 @@ import android.content.Context.NOTIFICATION_SERVICE
 import android.support.v4.app.NotificationCompat
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
+import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Notification
 
 class NotificationActionExecutor(private val context: Context) {
 
-  fun showNotification(notification: Notification, actionExecutor: () -> Unit) {
+  fun showNotification(notification: Notification, action: Action) {
 
     if (Orchextra.isActivityRunning()) {
-      showDialog(context, notification, actionExecutor)
+      showDialog(context, notification, action)
     } else {
-      showBarNotification(notification, actionExecutor)
+      showBarNotification(notification, action)
     }
   }
 
-  private fun showDialog(context: Context, notification: Notification,
-      actionExecutor: () -> Unit) = with(notification) {
+  private fun showDialog(context: Context, notification: Notification, action: Action) = with(
+      notification) {
 
     try {
-      NotificationActivity.open(context, notification)
-      actionExecutor()
-
+      NotificationActivity.open(context, notification, action)
     } catch (exception: Exception) {
       exception.printStackTrace()
     }
   }
 
-  private fun showBarNotification(notification: Notification,
-      actionExecutor: () -> Unit) = with(notification) {
+  private fun showBarNotification(notification: Notification, action: Action) = with(notification) {
 
     val notificationBuilder = NotificationCompat.Builder(context)
         .setSmallIcon(R.drawable.ox_notification_large_icon)
