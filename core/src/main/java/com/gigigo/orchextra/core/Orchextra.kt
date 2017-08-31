@@ -32,6 +32,8 @@ import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
+import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
+import com.gigigo.orchextra.core.utils.ActivityLifecycleManager.ActivityLifecycleCallback
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.extensions.getAppData
 import com.gigigo.orchextra.core.utils.extensions.getDeviceData
@@ -45,6 +47,7 @@ object Orchextra : OrchextraErrorListener {
   private lateinit var locationProvider: LocationProvider
   private var credentials: Credentials = Credentials()
   private var isReady = false
+  private var isActivityRunning = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
   private var orchextraErrorListener: OrchextraErrorListener? = null
 
@@ -59,6 +62,17 @@ object Orchextra : OrchextraErrorListener {
     this.locationProvider = LocationProvider(context)
 
     locationProvider.getLocation { point -> getConfiguration(point) }
+
+    ActivityLifecycleManager(context,
+        object : ActivityLifecycleCallback {
+          override fun onActivityResumed() {
+            isActivityRunning = true
+          }
+
+          override fun onActivityPaused() {
+            isActivityRunning = false
+          }
+        })
   }
 
   private fun getConfiguration(point: Point) {
@@ -137,6 +151,8 @@ object Orchextra : OrchextraErrorListener {
   fun setContext(context: Application) {
     this.context = context
   }
+
+  fun isActivityRunning() = isActivityRunning
 
   fun provideContext(): Context = context as Context
 }

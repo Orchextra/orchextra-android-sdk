@@ -30,9 +30,8 @@ class NotificationActionExecutor(private val context: Context) {
 
   fun showNotification(notification: Notification, actionExecutor: () -> Unit) {
 
-    if (Orchextra.provideContext() != null) {
-      val viewContext = Orchextra.provideContext()
-      showDialog(viewContext, notification, actionExecutor)
+    if (Orchextra.isActivityRunning()) {
+      showDialog(context, notification, actionExecutor)
     } else {
       showBarNotification(notification, actionExecutor)
     }
