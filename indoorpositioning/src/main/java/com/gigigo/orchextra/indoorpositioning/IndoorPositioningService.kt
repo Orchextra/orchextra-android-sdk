@@ -84,7 +84,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     super.onDestroy()
   }
 
-  fun setAlarmService() {
+  private fun setAlarmService() {
     val pendingIntent = IndoorPositioningReceiver.getIndoorPositioningIntent(this,
         config as ArrayList<Proximity>)
     val time = System.currentTimeMillis() + CHECK_SERVICE_TIME_IN_SECONDS * 1000
