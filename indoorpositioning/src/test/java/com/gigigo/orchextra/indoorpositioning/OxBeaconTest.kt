@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.indoorpositioning
 
-import com.gigigo.orchextra.core.domain.entities.Proximity
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.isInRegion
 import org.amshove.kluent.shouldBe
@@ -40,6 +40,17 @@ class OxBeaconTest {
   }
 
   @Test
+  fun eddystoneShouldBeInRegion() {
+
+    val config = getConfig()
+    val testOxEddystone = OxBeacon(namespaceId = "namespace1")
+
+    val isInRegion = testOxEddystone.isInRegion(config)
+
+    isInRegion.shouldBe(true)
+  }
+
+  @Test
   fun beaconShouldNotBeInRegion() {
 
     val config = getConfig()
@@ -52,12 +63,23 @@ class OxBeaconTest {
     isInRegion.shouldBe(false)
   }
 
+  @Test
+  fun eddystoneShouldNotBeInRegion() {
 
-  fun getConfig(): List<Proximity> {
+    val config = getConfig()
+    val testOxEddystone = OxBeacon(namespaceId = "namespace2")
 
-    val config: MutableList<Proximity> = arrayListOf()
+    val isInRegion = testOxEddystone.isInRegion(config)
 
-    config.add(Proximity(
+    isInRegion.shouldBe(false)
+  }
+
+
+  fun getConfig(): List<IndoorPositionConfig> {
+
+    val config: MutableList<IndoorPositionConfig> = arrayListOf()
+
+    config.add(IndoorPositionConfig(
         code = "code1",
         uuid = "uuid1",
         minor = 1,
@@ -65,7 +87,7 @@ class OxBeaconTest {
         notifyOnEntry = true,
         notifyOnExit = true))
 
-    config.add(Proximity(
+    config.add(IndoorPositionConfig(
         code = "code2",
         uuid = "uuid1",
         minor = 1,
@@ -73,7 +95,7 @@ class OxBeaconTest {
         notifyOnEntry = true,
         notifyOnExit = true))
 
-    config.add(Proximity(
+    config.add(IndoorPositionConfig(
         code = "code3",
         uuid = "uuid1",
         minor = 2,
@@ -81,11 +103,17 @@ class OxBeaconTest {
         notifyOnEntry = true,
         notifyOnExit = true))
 
-    config.add(Proximity(
+    config.add(IndoorPositionConfig(
         code = "code4",
         uuid = "uuid2",
         minor = 1,
         major = 3,
+        notifyOnEntry = true,
+        notifyOnExit = true))
+
+    config.add(IndoorPositionConfig(
+        code = "code4",
+        namespace = "namespace1",
         notifyOnEntry = true,
         notifyOnExit = true))
 

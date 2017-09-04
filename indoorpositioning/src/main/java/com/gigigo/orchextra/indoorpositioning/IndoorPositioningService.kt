@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -85,10 +86,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   }
 
   private fun setAlarmService() {
-    val pendingIntent = IndoorPositioningReceiver.getIndoorPositioningIntent(this,
-        config as ArrayList<IndoorPositionConfig>)
     val time = System.currentTimeMillis() + CHECK_SERVICE_TIME_IN_SECONDS * 1000
-
     alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent)
   }
 
@@ -116,8 +114,10 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     private val TAG = "IndoorPositioningS"
     private val CONFIG_EXTRA = "config_extra"
     private var intent: Intent? = null
+    private var pendingIntent: PendingIntent? = null
 
     fun start(context: Context, config: ArrayList<IndoorPositionConfig>) {
+      pendingIntent = IndoorPositioningReceiver.getIndoorPositioningIntent(context, config)
       intent = Intent(context, IndoorPositioningService::class.java)
       intent?.putParcelableArrayListExtra(CONFIG_EXTRA, config)
       context.startService(intent)
@@ -126,6 +126,10 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     fun stop(context: Context) {
       if (intent != null) {
         context.stopService(intent)
+      }
+      if (pendingIntent != null) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
       }
     }
   }

@@ -87,8 +87,8 @@ fun Beacon.toOxBeacon(): OxBeacon = with(this) {
 
 fun OxBeacon.isInRegion(config: List<IndoorPositionConfig>): Boolean =
     config.any {
-      it.uuid == this.uuid && it.major.toString() == this.major
-          || it.namespace == this.namespaceId.replace("0x", "")
+      (it.uuid.isNotEmpty() && it.uuid == this.uuid && it.major.toString() == this.major)
+          || it.namespace.isNotEmpty() && it.namespace == this.namespaceId.replace("0x", "")
     }
 
 fun OxBeacon.getType(): TriggerType = when (this.beaconType) {
