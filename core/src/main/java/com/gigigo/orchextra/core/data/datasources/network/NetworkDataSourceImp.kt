@@ -62,7 +62,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     okHttpBuilder.addInterceptor(ErrorInterceptor())
     okHttpBuilder.addInterceptor(SessionInterceptor(sessionManager))
 
-    if (BuildConfig.NETWORK_LOG) {
+    if (Orchextra.isDebuggable()) {
       okHttpBuilder.addInterceptor(loggingInterceptor)
     }
 

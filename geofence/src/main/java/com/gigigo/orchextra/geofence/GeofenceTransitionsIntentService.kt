@@ -20,10 +20,13 @@ package com.gigigo.orchextra.geofence
 
 import android.app.IntentService
 import android.content.Intent
-import android.util.Log
-import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.GEOFENCE
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
+import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGD
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
+import com.gigigo.orchextra.geofence.R.string
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 
@@ -34,7 +37,7 @@ class GeofenceTransitionsIntentService : IntentService(TAG) {
     val geofencingEvent = GeofencingEvent.fromIntent(intent)
     if (geofencingEvent.hasError()) {
       val errorMessage = GeofenceErrorMessages.getErrorString(this, geofencingEvent.errorCode)
-      Log.e(TAG, errorMessage)
+      LOGE(TAG, errorMessage)
       return
     }
 
@@ -48,11 +51,10 @@ class GeofenceTransitionsIntentService : IntentService(TAG) {
           value = triggeringGeofences[0].requestId,
           event = getTransitionString(geofenceTransition))
 
-      Log.d(TAG, "trigger: $trigger")
+      LOGD(TAG, "trigger: $trigger")
       sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
     } else {
-
-      Log.e(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition))
+      LOGE(TAG, getString(string.geofence_transition_invalid_type, geofenceTransition))
     }
   }
 
@@ -66,6 +68,6 @@ class GeofenceTransitionsIntentService : IntentService(TAG) {
   }
 
   companion object {
-    private val TAG = "GeofenceTransitionsIS"
+    private val TAG = LogUtils.makeLogTag(GeofenceTransitionsIntentService::class.java)
   }
 }

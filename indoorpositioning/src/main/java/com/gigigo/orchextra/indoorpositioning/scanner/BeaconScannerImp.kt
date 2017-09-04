@@ -21,8 +21,9 @@ package com.gigigo.orchextra.indoorpositioning.scanner
 import android.os.Build.VERSION_CODES
 import android.os.RemoteException
 import android.support.annotation.RequiresApi
-import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
+import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGD
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.isInRegion
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.toOxBeacon
 import org.altbeacon.beacon.BeaconConsumer
@@ -34,6 +35,8 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
     private val beaconListener: BeaconListener,
     private val consumer: BeaconConsumer) : BeaconScanner {
 
+  private val TAG = LogUtils.makeLogTag(BeaconScannerImp::class.java)
+
   override fun start() {
     startScan()
   }
@@ -44,7 +47,7 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
 
   @RequiresApi(VERSION_CODES.JELLY_BEAN_MR2)
   override fun onBeaconServiceConnect() {
-    Log.d(TAG, "beaconManager is bound, ready to start scanning")
+    LOGD(TAG, "beaconManager is bound, ready to start scanning")
 
     beaconManager.addRangeNotifier { beacons, region ->
       val filteredBeacons = beacons.map { it.toOxBeacon() }.filter { it.isInRegion(config) }
@@ -60,12 +63,12 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
   }
 
   private fun startScan() {
-    Log.d(TAG, "binding beaconManager")
+    LOGD(TAG, "binding beaconManager")
     beaconManager.bind(consumer)
   }
 
   private fun stopScan() {
-    Log.d(TAG, "Unbinding from beaconManager")
+    LOGD(TAG, "Unbinding from beaconManager")
     beaconManager.unbind(consumer)
   }
 

@@ -26,9 +26,11 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
+import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGD
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.gigigo.orchextra.geofence.utils.toGeofence
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.Geofence
@@ -42,6 +44,7 @@ import com.google.android.gms.tasks.Task
 class OxGeofenceImp(private val context: Context,
     private val geofencingClient: GeofencingClient) : OxTrigger<List<GeoMarketing>>, OnCompleteListener<Void> {
 
+  private val TAG = LogUtils.makeLogTag(OxGeofenceImp::class.java)
   private val GEOFENCES_ADDED_KEY = "GEOFENCES_ADDED_KEY"
   private var geofenceList: List<Geofence> = ArrayList()
   private var geofencePendingIntent: PendingIntent? = null
@@ -110,12 +113,11 @@ class OxGeofenceImp(private val context: Context,
       } else {
         R.string.geofences_removed
       }
-
-      Log.d(TAG, "onComplete: $messageId")
+      LOGD(TAG, "onComplete: $messageId")
     } else {
 
       val errorMessage = GeofenceErrorMessages.getErrorString(context, task.exception)
-      Log.e(TAG, "onComplete: $errorMessage")
+      LOGE(TAG, "onComplete: $errorMessage")
     }
   }
 
@@ -153,8 +155,6 @@ class OxGeofenceImp(private val context: Context,
   }
 
   companion object Factory {
-
-    private val TAG = "OxGeofenceImp"
 
     fun create(context: Context): OxGeofenceImp = OxGeofenceImp(context,
         LocationServices.getGeofencingClient(context))

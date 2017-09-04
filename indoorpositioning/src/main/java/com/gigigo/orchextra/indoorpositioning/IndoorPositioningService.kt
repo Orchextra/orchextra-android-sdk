@@ -26,10 +26,11 @@ import android.content.Intent
 import android.os.Build.VERSION_CODES
 import android.os.IBinder
 import android.support.annotation.RequiresApi
-import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
+import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGW
 import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconListener
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScanner
@@ -41,6 +42,7 @@ import org.altbeacon.beacon.BeaconConsumer
 
 class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
 
+  private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
   private lateinit var alarmManager: AlarmManager
   private lateinit var beaconScanner: BeaconScanner
   private lateinit var config: List<IndoorPositionConfig>
@@ -69,7 +71,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
           this, this)
       beaconScanner.start()
     } else {
-      Log.w(TAG, "IndoorPositioningService is already running")
+      LOGW(TAG, "IndoorPositioningService is already running")
     }
 
     setAlarmService()
@@ -111,7 +113,6 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   }
 
   companion object Navigator {
-    private val TAG = "IndoorPositioningS"
     private val CONFIG_EXTRA = "config_extra"
     private var intent: Intent? = null
     private var pendingIntent: PendingIntent? = null

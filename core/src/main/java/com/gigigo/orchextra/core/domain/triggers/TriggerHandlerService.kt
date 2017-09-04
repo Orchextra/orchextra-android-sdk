@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.utils.LogUtils
 
 class TriggerHandlerService : IntentService(TAG) {
 
@@ -36,13 +37,12 @@ class TriggerHandlerService : IntentService(TAG) {
   }
 
   companion object Navigator {
-    private val TAG = "TriggerHandlerService"
+    private val TAG = LogUtils.makeLogTag(TriggerHandlerService::class.java)
     val TRIGGER_EXTRA = "trigger_extra"
 
     fun start(context: Context, trigger: Trigger) {
       val intent = Intent(context, TriggerHandlerService::class.java)
-      intent.putExtra(
-          TRIGGER_EXTRA, trigger)
+      intent.putExtra(TRIGGER_EXTRA, trigger)
       context.startService(intent)
     }
   }

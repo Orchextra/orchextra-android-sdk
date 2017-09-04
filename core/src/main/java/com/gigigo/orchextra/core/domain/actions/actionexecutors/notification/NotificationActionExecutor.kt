@@ -64,6 +64,7 @@ class NotificationActionExecutor(private val context: Context) {
     stackBuilder.addNextIntent(resultIntent)
     val resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
     notificationBuilder.setContentIntent(resultPendingIntent)
+    notificationBuilder.setAutoCancel(true)
 
     val mNotificationId = 1
     val mNotifyMgr = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
