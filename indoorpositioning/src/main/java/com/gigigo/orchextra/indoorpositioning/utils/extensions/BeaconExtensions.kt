@@ -88,7 +88,7 @@ fun Beacon.toOxBeacon(): OxBeacon = with(this) {
 fun OxBeacon.isInRegion(config: List<Proximity>): Boolean =
     config.any {
       it.uuid == this.uuid && it.major.toString() == this.major
-          || this.namespaceId?.replace("0x", "") == "636f6b65634063656575"
+          || this.namespaceId.replace("0x", "") == "636f6b65634063656575"
     }
 
 fun OxBeacon.getType(): TriggerType = when (this.beaconType) {
@@ -100,9 +100,9 @@ fun OxBeacon.getType(): TriggerType = when (this.beaconType) {
 }
 
 fun OxBeacon.getValue(): String {
-  return if (this.uuid.isNullOrEmpty()) {
-    "${this.namespaceId?.replace("0x", "")}_${this.instanceId?.replace("0x", "")}"
+  return if (this.uuid.isEmpty()) {
+    "${this.namespaceId.replace("0x", "")}${this.instanceId.replace("0x", "")}"
   } else {
-    HASH.md5("${this.uuid?.toUpperCase()}_${this.major}_${this.minor}")
+    HASH.md5("${this.uuid.toUpperCase()}_${this.major}_${this.minor}")
   }
 }
