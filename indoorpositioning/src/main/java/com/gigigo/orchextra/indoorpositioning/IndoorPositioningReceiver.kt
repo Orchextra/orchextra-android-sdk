@@ -22,20 +22,21 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.gigigo.orchextra.core.domain.entities.Proximity
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 
 class IndoorPositioningReceiver : BroadcastReceiver() {
 
   override fun onReceive(context: Context, intent: Intent) {
-    val config: List<Proximity> = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
+    val config: List<IndoorPositionConfig> = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
 
-    IndoorPositioningService.start(context, config as ArrayList<Proximity>)
+    IndoorPositioningService.start(context, config as ArrayList<IndoorPositionConfig>)
   }
 
   companion object {
     private val CONFIG_EXTRA = "config_extra"
 
-    fun getIndoorPositioningIntent(context: Context, config: ArrayList<Proximity>): PendingIntent {
+    fun getIndoorPositioningIntent(context: Context,
+        config: ArrayList<IndoorPositionConfig>): PendingIntent {
 
       val alarmIntent = Intent(context, IndoorPositioningReceiver::class.java)
       alarmIntent.putParcelableArrayListExtra(CONFIG_EXTRA, config)

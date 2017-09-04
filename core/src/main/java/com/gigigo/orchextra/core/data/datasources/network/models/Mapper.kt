@@ -24,9 +24,9 @@ import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Point
-import com.gigigo.orchextra.core.domain.entities.Proximity
 import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.TriggerType
@@ -67,17 +67,18 @@ fun ApiError.toUnauthorizedException(): UnauthorizedException =
 
 fun ApiConfiguration.toConfiguration(): Configuration =
     with(this) {
+
+      val proximity = proximity?.map { it.toIndoorPositionConfig() } ?: listOf()
+      val eddystoneRegions = eddystoneRegions?.map { it.toIndoorPositionConfig() } ?: listOf()
+      val indoorPositionConfig = proximity + eddystoneRegions
+
       return Configuration(
           geoMarketing = geoMarketing?.toGeoMarketingList() ?: listOf(),
-          proximity = proximity?.toProximityList() ?: listOf())
+          indoorPositionConfig = indoorPositionConfig)
     }
 
 fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {
   it.toGeoMarketing()
-}
-
-fun List<ApiProximity>.toProximityList(): List<Proximity> = map {
-  it.toProximity()
 }
 
 fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing =
@@ -90,12 +91,22 @@ fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing =
           stayTime = stayTime ?: -1)
     }
 
-fun ApiProximity.toProximity(): Proximity =
+fun ApiProximity.toIndoorPositionConfig(): IndoorPositionConfig =
     with(this) {
-      return Proximity(code = code ?: "",
+      return IndoorPositionConfig(
+          code = code ?: "",
           uuid = uuid ?: "",
           minor = minor ?: -1,
           major = major ?: -1,
+          notifyOnEntry = notifyOnEntry ?: false,
+          notifyOnExit = notifyOnExit ?: false)
+    }
+
+fun ApiEddystoneRegions.toIndoorPositionConfig(): IndoorPositionConfig =
+    with(this) {
+      return IndoorPositionConfig(
+          code = code ?: "",
+          namespace = namespace ?: "",
           notifyOnEntry = notifyOnEntry ?: false,
           notifyOnExit = notifyOnExit ?: false)
     }

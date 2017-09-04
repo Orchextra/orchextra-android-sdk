@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.indoorpositioning.utils.extensions
 
-import com.gigigo.orchextra.core.domain.entities.Proximity
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
 import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE
@@ -85,10 +85,10 @@ fun Beacon.toOxBeacon(): OxBeacon = with(this) {
   return oxBeacon
 }
 
-fun OxBeacon.isInRegion(config: List<Proximity>): Boolean =
+fun OxBeacon.isInRegion(config: List<IndoorPositionConfig>): Boolean =
     config.any {
       it.uuid == this.uuid && it.major.toString() == this.major
-          || this.namespaceId.replace("0x", "") == "636f6b65634063656575"
+          || it.namespace == this.namespaceId.replace("0x", "")
     }
 
 fun OxBeacon.getType(): TriggerType = when (this.beaconType) {

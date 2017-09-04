@@ -20,6 +20,7 @@ package com.gigigo.orchextra.core
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
@@ -41,6 +42,7 @@ import java.lang.IllegalStateException
 
 object Orchextra : OrchextraErrorListener {
 
+  private val TAG = "Orchextra"
   private var context: Application? = null
   private lateinit var triggerManager: TriggerManager
   private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
@@ -89,12 +91,11 @@ object Orchextra : OrchextraErrorListener {
             triggerManager.configuration = configuration
 
             changeStatus(true)
-            println("getConfiguration onSuccess $configuration")
           }
 
           override fun onError(error: NetworkException) {
             changeStatus(false)
-            println("getAuthentication onError: $error")
+            Log.e(TAG, "getConfiguration", error)
           }
         })
   }
@@ -155,4 +156,6 @@ object Orchextra : OrchextraErrorListener {
   fun isActivityRunning() = isActivityRunning
 
   fun provideContext(): Context = context as Context
+
+
 }

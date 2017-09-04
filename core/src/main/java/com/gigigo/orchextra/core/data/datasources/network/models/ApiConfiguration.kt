@@ -20,8 +20,8 @@ package com.gigigo.orchextra.core.data.datasources.network.models
 
 data class ApiConfiguration constructor(
     val geoMarketing: List<ApiGeoMarketing>?,
-    val proximity: List<ApiProximity>?)
-
+    val proximity: List<ApiProximity>?,
+    val eddystoneRegions: List<ApiEddystoneRegions>?)
 
 data class ApiGeoMarketing constructor(
     val code: String?,
@@ -40,5 +40,11 @@ data class ApiProximity constructor(
     val uuid: String?,
     val minor: Int?,
     val major: Int?,
+    val notifyOnEntry: Boolean?,
+    val notifyOnExit: Boolean?)
+
+data class ApiEddystoneRegions constructor(
+    val code: String?,
+    val namespace: String?,
     val notifyOnEntry: Boolean?,
     val notifyOnExit: Boolean?)

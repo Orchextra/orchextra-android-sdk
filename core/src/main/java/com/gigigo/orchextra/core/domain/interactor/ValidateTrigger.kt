@@ -37,7 +37,8 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
   private lateinit var trigger: Trigger
   private lateinit var callback: Callback
 
-  private val waitTime: Long = TimeUnit.MINUTES.toMillis(1)
+  // TODO set request wait time from server
+  private val waitTime: Long = TimeUnit.MINUTES.toMillis(2)
 
   fun validate(trigger: Trigger, callback: Callback) {
     this.trigger = trigger

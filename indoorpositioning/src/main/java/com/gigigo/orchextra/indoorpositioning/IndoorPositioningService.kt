@@ -26,7 +26,7 @@ import android.os.Build.VERSION_CODES
 import android.os.IBinder
 import android.support.annotation.RequiresApi
 import android.util.Log
-import com.gigigo.orchextra.core.domain.entities.Proximity
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
@@ -42,7 +42,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
 
   private lateinit var alarmManager: AlarmManager
   private lateinit var beaconScanner: BeaconScanner
-  private lateinit var config: List<Proximity>
+  private lateinit var config: List<IndoorPositionConfig>
   private var isRunning: Boolean = false
 
   private val SCAN_DELAY_IN_SECONDS = 30
@@ -86,7 +86,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
 
   private fun setAlarmService() {
     val pendingIntent = IndoorPositioningReceiver.getIndoorPositioningIntent(this,
-        config as ArrayList<Proximity>)
+        config as ArrayList<IndoorPositionConfig>)
     val time = System.currentTimeMillis() + CHECK_SERVICE_TIME_IN_SECONDS * 1000
 
     alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent)
@@ -117,7 +117,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     private val CONFIG_EXTRA = "config_extra"
     private var intent: Intent? = null
 
-    fun start(context: Context, config: ArrayList<Proximity>) {
+    fun start(context: Context, config: ArrayList<IndoorPositionConfig>) {
       intent = Intent(context, IndoorPositioningService::class.java)
       intent?.putParcelableArrayListExtra(CONFIG_EXTRA, config)
       context.startService(intent)
