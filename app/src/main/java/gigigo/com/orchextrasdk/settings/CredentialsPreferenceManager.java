@@ -24,23 +24,23 @@ import android.content.SharedPreferences;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public final class OrchextraPreferenceManager {
+public final class CredentialsPreferenceManager {
 
   private static final String API_KEY = "api_key";
   private static final String API_SECRET = "api_secret";
 
   private final SharedPreferences sharedPreferences;
 
-  public OrchextraPreferenceManager(Activity activity) {
+  public CredentialsPreferenceManager(Activity activity) {
     this.sharedPreferences = activity.getPreferences(MODE_PRIVATE);
   }
 
   public String getApiKey() {
-    return sharedPreferences.getString(API_KEY, "34a4654b9804eab82aae05b2a5f949eb2a9f412c");
+    return sharedPreferences.getString(API_KEY, "");
   }
 
   public String getApiSecret() {
-    return sharedPreferences.getString(API_SECRET, "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3");
+    return sharedPreferences.getString(API_SECRET, "");
   }
 
   @SuppressLint("ApplySharedPref") public void saveApiKey(String apiKey) {

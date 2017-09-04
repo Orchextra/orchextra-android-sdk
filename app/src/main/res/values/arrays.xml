@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string-array name="projects_array" translatable="false">
+    <item>@string/project</item>
+    <item>Sample App#34a4654b9804eab82aae05b2a5f949eb2a9f412c#2d5bce79e3e6e9cabf6d7b040d84519197dc22f3</item>
+    <item>Demo 2#ghi#jkl</item>
+    <item>Demo 3#mnñ#opq</item>
+  </string-array>
+</resources>

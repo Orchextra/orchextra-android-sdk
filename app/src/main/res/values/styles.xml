@@ -33,4 +33,29 @@
 
   <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+  <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+    <item name="android:layout_marginLeft">17dp</item>
+    <item name="android:layout_marginTop">13dp</item>
+    <item name="android:layout_marginBottom">13dp</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:ellipsize">marquee</item>
+  </style>
+
+  <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+    <item name="android:layout_marginLeft">17dp</item>
+    <item name="android:layout_marginTop">13dp</item>
+    <item name="android:layout_marginBottom">13dp</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:ellipsize">marquee</item>
+  </style>
+
+  <style name="OrchextraButton" parent="Base.Widget.AppCompat.Button">
+    <item name="android:background">@color/primary</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:textColor">#ffffff</item>
+
+  </style>
+
 </resources>

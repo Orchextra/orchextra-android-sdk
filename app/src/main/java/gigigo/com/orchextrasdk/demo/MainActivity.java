@@ -29,14 +29,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.gigigo.orchextra.core.Orchextra;
-import gigigo.com.orchextrasdk.MainActivity;
+import gigigo.com.orchextrasdk.LoginActivity;
 import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.geofences.GeofencesFragment;
 import gigigo.com.orchextrasdk.demo.scanner.ScannerFragment;
 import gigigo.com.orchextrasdk.demo.triggerlog.TriggerLogFragment;
 import gigigo.com.orchextrasdk.settings.SettingsActivity;
 
-public class OrchextraDemoActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
   private ScannerFragment scannerFragment;
   private TriggerLogFragment triggerLogFragment;
@@ -45,7 +45,7 @@ public class OrchextraDemoActivity extends AppCompatActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_orchextra_demo);
+    setContentView(R.layout.activity_main);
 
     initView();
 
@@ -77,7 +77,7 @@ public class OrchextraDemoActivity extends AppCompatActivity {
     super.onResume();
     Orchextra orchextra = Orchextra.INSTANCE;
     if (!orchextra.isReady()) {
-      MainActivity.open(this);
+      LoginActivity.open(this);
       finish();
     }
   }
@@ -125,7 +125,7 @@ public class OrchextraDemoActivity extends AppCompatActivity {
   }
 
   public static void open(Context context) {
-    Intent intent = new Intent(context, OrchextraDemoActivity.class);
+    Intent intent = new Intent(context, MainActivity.class);
     context.startActivity(intent);
   }
 }

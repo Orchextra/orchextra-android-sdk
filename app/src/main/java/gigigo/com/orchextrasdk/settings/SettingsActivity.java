@@ -38,7 +38,7 @@ import gigigo.com.orchextrasdk.R;
 public class SettingsActivity extends AppCompatActivity {
 
   private static final String TAG = "SettingsActivity";
-  private OrchextraPreferenceManager orchextraPreferenceManager;
+  private CredentialsPreferenceManager credentialsPreferenceManager;
   private Orchextra orchextra;
   private EditText apiKeyTv;
   private EditText apiSecretTv;
@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
     apiKeyTv = (EditText) findViewById(R.id.api_key_tv);
     apiSecretTv = (EditText) findViewById(R.id.api_secret_tv);
     finishButton = (Button) findViewById(R.id.finish_button);
-    orchextraPreferenceManager = new OrchextraPreferenceManager(this);
+    credentialsPreferenceManager = new CredentialsPreferenceManager(this);
 
     orchextra = Orchextra.INSTANCE;
     orchextra.setOrchextraStatusListener(new OrchextraStatusListener() {
@@ -76,8 +76,8 @@ public class SettingsActivity extends AppCompatActivity {
     initToolbar();
     initFinishButton();
 
-    apiKeyTv.setText(orchextraPreferenceManager.getApiKey());
-    apiSecretTv.setText(orchextraPreferenceManager.getApiSecret());
+    apiKeyTv.setText(credentialsPreferenceManager.getApiKey());
+    apiSecretTv.setText(credentialsPreferenceManager.getApiSecret());
 
     apiKeyTv.setEnabled(!orchextra.isReady());
     apiSecretTv.setEnabled(!orchextra.isReady());

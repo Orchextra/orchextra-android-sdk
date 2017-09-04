@@ -22,7 +22,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import gigigo.com.orchextrasdk.MainActivity;
+import gigigo.com.orchextrasdk.LoginActivity;
 import java.io.File;
 import org.junit.Rule;
 
@@ -30,10 +30,10 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
 public class BaseSectionTest {
 
-  @Rule public IntentsTestRule<MainActivity> activityRule =
-      new IntentsTestRule<>(MainActivity.class, true, false);
+  @Rule public IntentsTestRule<LoginActivity> activityRule =
+      new IntentsTestRule<>(LoginActivity.class, true, false);
 
-  public MainActivity startActivity() {
+  public LoginActivity startActivity() {
     return activityRule.launchActivity(null);
   }
 
