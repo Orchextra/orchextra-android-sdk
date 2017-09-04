@@ -101,7 +101,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     val trigger = Trigger(
         type = oxBeacon.getType(),
         value = oxBeacon.getValue(),
-        event = "",
+        event = "enter",
         distance = oxBeacon.getDistanceQualifier(),
         temperature = oxBeacon.getTemperatureInCelsius(),
         battery = oxBeacon.batteryMilliVolts,

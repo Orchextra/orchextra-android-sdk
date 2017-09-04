@@ -45,7 +45,7 @@ class ValidateTriggerTest {
 
   @Test
   fun shouldBeAValidBeaconTriggerWithEventEnter() {
-    val trigger = Trigger(BEACON, "e21dguywqbjs")
+    val trigger = Trigger(BEACON, "e21dguywqbjs", event = "enter", distance = "near")
     val validateTrigger = getValidateTrigger()
 
     val validTrigger = validateTrigger.validate(trigger)
@@ -55,7 +55,7 @@ class ValidateTriggerTest {
 
   @Test
   fun shouldBeAValidBeaconTriggerWithEventStay() {
-    val trigger = Trigger(BEACON, "e21dguywqbjs")
+    val trigger = Trigger(BEACON, "e21dguywqbjs", event = "enter", distance = "near")
     val validateTrigger = getValidateTrigger(trigger.copy(detectedTime = 0L))
 
     val validTrigger = validateTrigger.validate(trigger)
@@ -65,7 +65,7 @@ class ValidateTriggerTest {
 
   @Test
   fun shouldBeAInvalidBeaconTrigger() {
-    val trigger = Trigger(BEACON, "e21dguywqbjs")
+    val trigger = Trigger(BEACON, "e21dguywqbjs", event = "enter", distance = "near")
     val validateTrigger = getValidateTrigger(trigger)
 
     val validTrigger = validateTrigger.validate(trigger.copy(detectedTime = 0L))

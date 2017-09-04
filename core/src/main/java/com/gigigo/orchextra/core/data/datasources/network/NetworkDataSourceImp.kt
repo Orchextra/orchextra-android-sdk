@@ -100,7 +100,15 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   override fun getAction(trigger: Trigger): Action {
 
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.getAction(trigger.type.toOxType(), trigger.value).execute().body()
+      orchextraApi.getAction(trigger.type.toOxType(),
+          value = trigger.value,
+          event = trigger.event,
+          phoneStatus = trigger.phoneStatus,
+          distance = trigger.distance,
+          temperature = "${trigger.temperature}",
+          battery = "${trigger.battery}",
+          uptime = "${trigger.uptime}")
+          .execute().body()
     })
 
     return apiResponse?.data?.toAction() as Action

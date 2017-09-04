@@ -65,8 +65,8 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
     val savedTrigger = dbDataSource.getTrigger(trigger.value)
 
     if (savedTrigger.isVoid()) {
-      dbDataSource.saveTrigger(addEventIfNeed("enter"))
-      return addEventIfNeed("enter")
+      dbDataSource.saveTrigger(trigger)
+      return trigger
 
     } else {
       if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
