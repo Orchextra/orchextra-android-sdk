@@ -77,6 +77,14 @@ android {
     abortOnError false
     ignoreWarnings true
   }
+
+  testOptions.unitTests.all {
+    testLogging {
+      events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+      outputs.upToDateWhen { false }
+      showStandardStreams = true
+    }
+  }
 }
 
 dexcount {
@@ -125,11 +133,12 @@ android.applicationVariants.all { variant ->
   def variantName = variant.name.capitalize()
   def grantPermissionTask = tasks.create("grant${variantName}Permissions") << {
     "${adb} devices".execute().text.eachLine {
-      if (it.endsWith("device")){
+      if (it.endsWith("device")) {
         def device = it.split()[0]
         println "Granting permissions on devices ${device}"
         "${adb} -s ${device} shell pm grant ${applicationId} android.permission.CAMERA".execute()
-        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.ACCESS_FINE_LOCATION".execute()
+        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.ACCESS_FINE_LOCATION".
+            execute()
       }
     }
   }

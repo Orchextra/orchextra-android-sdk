@@ -19,21 +19,21 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import android.app.Application
-import com.gigigo.orchextra.core.domain.entities.Proximity
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
 
 class OxIndoorPositioningImp private constructor(private val context: Application) :
-    OxTrigger<List<Proximity>> {
+    OxTrigger<List<IndoorPositionConfig>> {
 
-  private lateinit var config: List<Proximity>
+  private lateinit var config: List<IndoorPositionConfig>
 
   override fun init() {
     if (config.isNotEmpty()) {
-      IndoorPositioningService.start(context, config as ArrayList<Proximity>)
+      IndoorPositioningService.start(context, config as ArrayList<IndoorPositionConfig>)
     }
   }
 
-  override fun setConfig(config: List<Proximity>) {
+  override fun setConfig(config: List<IndoorPositionConfig>) {
     this.config = config
   }
 

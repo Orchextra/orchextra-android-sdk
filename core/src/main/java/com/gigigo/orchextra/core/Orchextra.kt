@@ -35,12 +35,14 @@ import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager.ActivityLifecycleCallback
 import com.gigigo.orchextra.core.utils.LocationProvider
+import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.extensions.getAppData
 import com.gigigo.orchextra.core.utils.extensions.getDeviceData
 import java.lang.IllegalStateException
 
 object Orchextra : OrchextraErrorListener {
 
+  private val TAG = LogUtils.makeLogTag(Orchextra::class.java)
   private var context: Application? = null
   private lateinit var triggerManager: TriggerManager
   private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
@@ -50,11 +52,14 @@ object Orchextra : OrchextraErrorListener {
   private var isActivityRunning = false
   private var orchextraStatusListener: OrchextraStatusListener? = null
   private var orchextraErrorListener: OrchextraErrorListener? = null
+  private var debuggable = false
 
+  @JvmOverloads
   fun init(context: Application, apiKey: String, apiSecret: String,
-      orchextraStatusListener: OrchextraStatusListener? = null) {
+      orchextraStatusListener: OrchextraStatusListener? = null, debuggable: Boolean = false) {
 
     this.context = context
+    this.debuggable = debuggable
     this.orchextraStatusListener = orchextraStatusListener
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
@@ -89,12 +94,11 @@ object Orchextra : OrchextraErrorListener {
             triggerManager.configuration = configuration
 
             changeStatus(true)
-            println("getConfiguration onSuccess $configuration")
           }
 
           override fun onError(error: NetworkException) {
             changeStatus(false)
-            println("getAuthentication onError: $error")
+            LogUtils.LOGE(TAG, "getConfiguration: ${error.error}")
           }
         })
   }
@@ -151,6 +155,8 @@ object Orchextra : OrchextraErrorListener {
   fun setContext(context: Application) {
     this.context = context
   }
+
+  fun isDebuggable(): Boolean = debuggable
 
   fun isActivityRunning() = isActivityRunning
 

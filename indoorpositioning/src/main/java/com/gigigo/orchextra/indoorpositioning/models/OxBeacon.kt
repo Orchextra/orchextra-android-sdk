@@ -24,25 +24,27 @@ import android.os.Parcelable
 data class OxBeacon(
     var hashcode: Int = 0, // hashcode()
     var beaconType: Int = 0, // Eddystone, altBeacon, iBeacon
-    var beaconAddress: String? = null, // MAC address of the bluetooth emitter
-    var uuid: String? = null,
-    var major: String? = null,
-    var minor: String? = null,
+    var beaconAddress: String = "", // MAC address of the bluetooth emitter
+    var uuid: String = "",
+    var major: String = "",
+    var minor: String = "",
     var txPower: Int = 0,
     var rssi: Int = 0,
     var distance: Double = 0.toDouble(),
     var lastSeen: Long = 0,
     var lastMinuteSeen: Long = 0,
     var manufacturer: Int = 0,
-    var url: String? = null,
-    var namespaceId: String? = null,
-    var instanceId: String? = null,
+    var url: String = "",
+    var namespaceId: String = "",
+    var instanceId: String = "",
     var hasTelemetryData: Boolean = false,
     var telemetryVersion: Long = 0,
     var batteryMilliVolts: Long = 0,
     var temperature: Float = 0F,
     var pduCount: Long = 0,
     var uptime: Long = 0) : Parcelable {
+
+
   fun getTemperatureInCelsius(): Float {
     val tmp = temperature / 256F
 

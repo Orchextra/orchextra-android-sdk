@@ -19,16 +19,18 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build.VERSION_CODES
 import android.os.IBinder
 import android.support.annotation.RequiresApi
-import android.util.Log
-import com.gigigo.orchextra.core.domain.entities.Proximity
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
+import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGW
 import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconListener
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScanner
@@ -40,9 +42,10 @@ import org.altbeacon.beacon.BeaconConsumer
 
 class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
 
+  private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
   private lateinit var alarmManager: AlarmManager
   private lateinit var beaconScanner: BeaconScanner
-  private lateinit var config: List<Proximity>
+  private lateinit var config: List<IndoorPositionConfig>
   private var isRunning: Boolean = false
 
   private val SCAN_DELAY_IN_SECONDS = 30
@@ -68,7 +71,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
           this, this)
       beaconScanner.start()
     } else {
-      Log.w(TAG, "IndoorPositioningService is already running")
+      LOGW(TAG, "IndoorPositioningService is already running")
     }
 
     setAlarmService()
@@ -85,10 +88,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   }
 
   private fun setAlarmService() {
-    val pendingIntent = IndoorPositioningReceiver.getIndoorPositioningIntent(this,
-        config as ArrayList<Proximity>)
     val time = System.currentTimeMillis() + CHECK_SERVICE_TIME_IN_SECONDS * 1000
-
     alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent)
   }
 
@@ -103,7 +103,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     val trigger = Trigger(
         type = oxBeacon.getType(),
         value = oxBeacon.getValue(),
-        event = "",
+        event = "enter",
         distance = oxBeacon.getDistanceQualifier(),
         temperature = oxBeacon.getTemperatureInCelsius(),
         battery = oxBeacon.batteryMilliVolts,
@@ -113,11 +113,12 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   }
 
   companion object Navigator {
-    private val TAG = "IndoorPositioningS"
     private val CONFIG_EXTRA = "config_extra"
     private var intent: Intent? = null
+    private var pendingIntent: PendingIntent? = null
 
-    fun start(context: Context, config: ArrayList<Proximity>) {
+    fun start(context: Context, config: ArrayList<IndoorPositionConfig>) {
+      pendingIntent = IndoorPositioningReceiver.getIndoorPositioningIntent(context, config)
       intent = Intent(context, IndoorPositioningService::class.java)
       intent?.putParcelableArrayListExtra(CONFIG_EXTRA, config)
       context.startService(intent)
@@ -126,6 +127,10 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     fun stop(context: Context) {
       if (intent != null) {
         context.stopService(intent)
+      }
+      if (pendingIntent != null) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
       }
     }
   }

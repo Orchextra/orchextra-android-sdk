@@ -18,13 +18,9 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-import android.os.Parcel
-import android.os.Parcelable
-
 data class Configuration constructor(
     val geoMarketing: List<GeoMarketing> = listOf(),
-    val proximity: List<Proximity> = listOf())
-
+    val indoorPositionConfig: List<IndoorPositionConfig> = listOf())
 
 data class GeoMarketing constructor(
     val code: String,
@@ -37,40 +33,3 @@ data class GeoMarketing constructor(
 data class Point constructor(
     val lat: Double,
     val lng: Double)
-
-data class Proximity constructor(
-    val code: String,
-    val uuid: String,
-    val minor: Int,
-    val major: Int,
-    val notifyOnEntry: Boolean,
-    val notifyOnExit: Boolean) : Parcelable {
-
-  constructor(source: Parcel) : this(
-      source.readString(),
-      source.readString(),
-      source.readInt(),
-      source.readInt(),
-      1 == source.readInt(),
-      1 == source.readInt()
-  )
-
-  override fun describeContents() = 0
-
-  override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-    writeString(code)
-    writeString(uuid)
-    writeInt(minor)
-    writeInt(major)
-    writeInt((if (notifyOnEntry) 1 else 0))
-    writeInt((if (notifyOnExit) 1 else 0))
-  }
-
-  companion object {
-    @JvmField
-    val CREATOR: Parcelable.Creator<Proximity> = object : Parcelable.Creator<Proximity> {
-      override fun createFromParcel(source: Parcel): Proximity = Proximity(source)
-      override fun newArray(size: Int): Array<Proximity?> = arrayOfNulls(size)
-    }
-  }
-}

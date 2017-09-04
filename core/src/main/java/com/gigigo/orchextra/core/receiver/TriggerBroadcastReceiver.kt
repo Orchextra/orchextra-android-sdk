@@ -21,20 +21,21 @@ package com.gigigo.orchextra.core.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.triggers.TriggerHandlerService
+import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGD
 
 class TriggerBroadcastReceiver : BroadcastReceiver() {
 
   override fun onReceive(context: Context, intent: Intent) {
     val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)
-    Log.d(TAG, "onTriggerReceived: $trigger")
+    LOGD(TAG, "onTriggerReceived: $trigger")
     TriggerHandlerService.start(context, trigger)
   }
 
   companion object Navigator {
-    private val TAG = "TriggerBR"
+    private val TAG = LogUtils.makeLogTag(TriggerBroadcastReceiver::class.java)
     val TRIGGER_RECIVER = "com.gigigo.orchextra.TRIGGER_RECIVER"
     val TRIGGER_EXTRA = "trigger_extra"
 

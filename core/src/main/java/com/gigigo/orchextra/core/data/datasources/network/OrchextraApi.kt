@@ -42,7 +42,13 @@ interface OrchextraApi {
 
   @GET("v1/action")
   fun getAction(@Query("type") type: String,
-      @Query("value") value: String): Call<OxResponse<ApiAction>>
+      @Query("value") value: String,
+      @Query("event") event: String?,
+      @Query("phoneStatus") phoneStatus: String?,
+      @Query("distance") distance: String?,
+      @Query("temperature") temperature: String?,
+      @Query("battery") battery: String?,
+      @Query("uptime") uptime: String?): Call<OxResponse<ApiAction>>
 
   @POST("v1/action/confirm/{id}")
   fun confirmAction(@Path("id") id: String): Call<OxResponse<ApiAction>>
