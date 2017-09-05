@@ -41,16 +41,17 @@ class NotificationActivity : AppCompatActivity() {
     val action = getAction()
 
     val builder = AlertDialog.Builder(this)
-    builder.setTitle(notification.title)
+    val dialog = builder.setTitle(notification.title)
         .setMessage(notification.body)
         .setIcon(R.drawable.ox_notification_large_icon)
         .setPositiveButton(android.R.string.ok, { dialog, _ ->
           dialog.dismiss()
           actionHandlerServiceExecutor.execute(this@NotificationActivity,
               action.copy(notification = Notification()))
-          this@NotificationActivity.finish()
         })
         .show()
+
+    dialog.setOnDismissListener { finish() }
   }
 
   private fun getNotification(): Notification = intent.getParcelableExtra(NOTIFICATION_EXTRA)
