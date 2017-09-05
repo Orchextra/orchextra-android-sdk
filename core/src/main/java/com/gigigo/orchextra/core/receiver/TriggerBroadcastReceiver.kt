@@ -33,7 +33,8 @@ class TriggerBroadcastReceiver : BroadcastReceiver() {
 
     Orchextra.initLogger(context)
 
-    val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)
+    val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA).copy(
+        phoneStatus = getStatus())
     LOGD(TAG, "onTriggerReceived: $trigger")
     TriggerHandlerService.start(context, trigger)
   }
@@ -49,5 +50,11 @@ class TriggerBroadcastReceiver : BroadcastReceiver() {
       intent.putExtra(TRIGGER_EXTRA, trigger)
       return intent
     }
+  }
+
+  private fun getStatus(): String = if (Orchextra.isActivityRunning()) {
+    "foreground"
+  } else {
+    "background"
   }
 }
