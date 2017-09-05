@@ -19,8 +19,8 @@
 package com.gigigo.orchextra.geofence
 
 import android.Manifest
+import android.app.Application
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -41,7 +41,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 
 
-class OxGeofenceImp(private val context: Context,
+class OxGeofenceImp(private val context: Application,
     private val geofencingClient: GeofencingClient) : OxTrigger<List<GeoMarketing>>, OnCompleteListener<Void> {
 
   private val TAG = LogUtils.makeLogTag(OxGeofenceImp::class.java)
@@ -156,7 +156,7 @@ class OxGeofenceImp(private val context: Context,
 
   companion object Factory {
 
-    fun create(context: Context): OxGeofenceImp = OxGeofenceImp(context,
+    fun create(context: Application): OxGeofenceImp = OxGeofenceImp(context,
         LocationServices.getGeofencingClient(context))
   }
 }
