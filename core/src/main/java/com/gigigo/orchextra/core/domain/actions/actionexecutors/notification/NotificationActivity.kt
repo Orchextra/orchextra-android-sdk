@@ -30,11 +30,12 @@ import com.gigigo.orchextra.core.domain.entities.Notification
 
 class NotificationActivity : AppCompatActivity() {
 
-  val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
+  private val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_notification)
+    title = ""
 
     val notification = getNotification()
     val action = getAction()
