@@ -67,22 +67,15 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
     if (savedTrigger.isVoid()) {
       dbDataSource.saveTrigger(trigger)
       return trigger
-
-    } else {
-      if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
-        dbDataSource.saveTrigger(addEventIfNeed("stay"))
-        return addEventIfNeed("stay")
-      } else {
-        return Trigger(VOID, "")
-      }
     }
-  }
 
-  private fun addEventIfNeed(event: String): Trigger {
-    return if (trigger.needEvent()) {
-      trigger.copy(event = event)
+    val newTrigger = trigger.copy(event = "stay")
+    dbDataSource.saveTrigger(newTrigger)
+
+    if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
+      return newTrigger
     } else {
-      trigger
+      return Trigger(VOID, "")
     }
   }
 
