@@ -24,7 +24,6 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.GEOFENCE
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
-import com.gigigo.orchextra.core.utils.LogUtils.LOGD
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.gigigo.orchextra.geofence.R.string
 import com.google.android.gms.location.Geofence
@@ -51,20 +50,17 @@ class GeofenceTransitionsIntentService : IntentService(TAG) {
           value = triggeringGeofences[0].requestId,
           event = getTransitionString(geofenceTransition))
 
-      LOGD(TAG, "trigger: $trigger")
       sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
     } else {
       LOGE(TAG, getString(string.geofence_transition_invalid_type, geofenceTransition))
     }
   }
 
-  private fun getTransitionString(transitionType: Int): String {
-    when (transitionType) {
-      Geofence.GEOFENCE_TRANSITION_ENTER -> return getString(R.string.geofence_transition_entered)
-      Geofence.GEOFENCE_TRANSITION_EXIT -> return getString(R.string.geofence_transition_exited)
-      Geofence.GEOFENCE_TRANSITION_DWELL -> return getString(R.string.geofence_transition_stay)
-      else -> return getString(R.string.unknown_geofence_transition)
-    }
+  private fun getTransitionString(transitionType: Int): String = when (transitionType) {
+    Geofence.GEOFENCE_TRANSITION_ENTER -> getString(R.string.geofence_transition_entered)
+    Geofence.GEOFENCE_TRANSITION_EXIT -> getString(R.string.geofence_transition_exited)
+    Geofence.GEOFENCE_TRANSITION_DWELL -> getString(R.string.geofence_transition_stay)
+    else -> getString(R.string.unknown_geofence_transition)
   }
 
   companion object {

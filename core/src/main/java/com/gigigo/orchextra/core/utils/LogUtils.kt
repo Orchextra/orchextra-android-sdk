@@ -23,9 +23,10 @@ import com.gigigo.orchextra.core.Orchextra
 
 
 object LogUtils {
-  private val MAX_LOG_TAG_LENGTH = 23
 
-  var LOG_LEVEL = android.util.Log.DEBUG
+  private val MAX_LOG_TAG_LENGTH = 23
+  var LOG_LEVEL = Log.DEBUG
+  var fileLogging: FileLogging? = null
 
   fun makeLogTag(str: String): String {
     return if (str.length > MAX_LOG_TAG_LENGTH) {
@@ -44,6 +45,7 @@ object LogUtils {
     if (Orchextra.isDebuggable()) {
       if (LOG_LEVEL <= Log.DEBUG) {
         Log.d(tag, message)
+        fileLogging?.log(Log.DEBUG, tag, message)
       }
     }
   }
@@ -52,6 +54,7 @@ object LogUtils {
     if (Orchextra.isDebuggable()) {
       if (LOG_LEVEL <= Log.DEBUG) {
         Log.d(tag, message, cause)
+        fileLogging?.log(Log.DEBUG, tag, message, cause)
       }
     }
   }
@@ -60,6 +63,7 @@ object LogUtils {
     if (Orchextra.isDebuggable()) {
       if (LOG_LEVEL <= Log.VERBOSE) {
         Log.v(tag, message)
+        fileLogging?.log(Log.VERBOSE, tag, message)
       }
     }
   }
@@ -68,6 +72,7 @@ object LogUtils {
     if (Orchextra.isDebuggable()) {
       if (LOG_LEVEL <= Log.VERBOSE) {
         Log.v(tag, message, cause)
+        fileLogging?.log(Log.VERBOSE, tag, message)
       }
     }
   }
@@ -75,28 +80,34 @@ object LogUtils {
   fun LOGI(tag: String, message: String) {
     if (Orchextra.isDebuggable()) {
       Log.i(tag, message)
+      fileLogging?.log(Log.INFO, tag, message)
     }
   }
 
   fun LOGI(tag: String, message: String, cause: Throwable) {
     if (Orchextra.isDebuggable()) {
       Log.i(tag, message, cause)
+      fileLogging?.log(Log.INFO, tag, message)
     }
   }
 
   fun LOGW(tag: String, message: String) {
     Log.w(tag, message)
+    fileLogging?.log(Log.WARN, tag, message)
   }
 
   fun LOGW(tag: String, message: String, cause: Throwable) {
     Log.w(tag, message, cause)
+    fileLogging?.log(Log.WARN, tag, message, cause)
   }
 
   fun LOGE(tag: String, message: String) {
     Log.e(tag, message)
+    fileLogging?.log(Log.ERROR, tag, message)
   }
 
   fun LOGE(tag: String, message: String, cause: Throwable) {
     Log.e(tag, message, cause)
+    fileLogging?.log(Log.ERROR, tag, message, cause)
   }
 }
