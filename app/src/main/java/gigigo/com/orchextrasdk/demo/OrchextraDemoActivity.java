@@ -38,9 +38,9 @@ import gigigo.com.orchextrasdk.settings.SettingsActivity;
 
 public class OrchextraDemoActivity extends AppCompatActivity {
 
-  private ScannerFragment scannerFragment;
-  private TriggerLogFragment triggerLogFragment;
-  private GeofencesFragment geofencesFragment;
+  ScannerFragment scannerFragment;
+  TriggerLogFragment triggerLogFragment;
+  GeofencesFragment geofencesFragment;
   private BottomNavigationView navigation;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +118,7 @@ public class OrchextraDemoActivity extends AppCompatActivity {
     }
   }
 
-  private void showView(Fragment fragment) {
+  void showView(Fragment fragment) {
     getSupportFragmentManager().beginTransaction()
         .replace(R.id.fragment_container, fragment)
         .commit();
@@ -126,6 +126,7 @@ public class OrchextraDemoActivity extends AppCompatActivity {
 
   public static void open(Context context) {
     Intent intent = new Intent(context, OrchextraDemoActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     context.startActivity(intent);
   }
 }
