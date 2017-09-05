@@ -33,4 +33,5 @@
   <color name="transparent">#00000000</color>
   <color name="grey2">#212121</color>
   <color name="white">#FFFFFF</color>
+  <color name="white2">#f9f9f9</color>
 </resources>

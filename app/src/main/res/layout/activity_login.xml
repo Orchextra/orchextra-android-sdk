@@ -81,7 +81,7 @@
       android:layout_marginLeft="64dp"
       android:layout_marginRight="64dp"
       android:layout_marginTop="40dp"
-      android:text="@string/start"
+      android:text="@string/start_orchextra"
       style="@style/ButtonLoginStyle"
       />
 

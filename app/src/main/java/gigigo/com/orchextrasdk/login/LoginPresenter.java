@@ -17,6 +17,28 @@ public class LoginPresenter {
     this.credentialsPreferenceManager = credentialsPreferenceManager;
   }
 
+  public void uiReady() {
+    view.createOrchextra();
+
+    loadCredentials();
+    checkLogged();
+  }
+
+  private void checkLogged() {
+    if(validateCredentials()) {
+      view.initOrchextra(apiKey, apiSecret);
+    }
+  }
+
+  private void loadCredentials() {
+    apiKey = credentialsPreferenceManager.getApiKey();
+    apiSecret = credentialsPreferenceManager.getApiSecret();
+  }
+
+  private boolean validateCredentials() {
+    return !apiKey.isEmpty() && !apiSecret.isEmpty();
+  }
+
   public void projectSelected(String project) {
     String[] projectConfig = project.split("#");
     if (projectConfig.length == 3) {
@@ -31,10 +53,6 @@ public class LoginPresenter {
     view.enableLogin(validateCredentials());
   }
 
-  private boolean validateCredentials() {
-    return !apiKey.isEmpty() && !apiSecret.isEmpty();
-  }
-
   public List<String> readDefaultProjects(ArrayAdapter projectsArray) {
     List<String> projects = new ArrayList<>();
     for (int i = 0; i < projectsArray.getCount(); i++) {
@@ -47,8 +65,6 @@ public class LoginPresenter {
   }
 
   public void doLogin() {
-    view.createOrchextra();
-
     if (validateCredentials()) {
       credentialsPreferenceManager.saveApiKey(apiKey);
       credentialsPreferenceManager.saveApiSecret(apiSecret);

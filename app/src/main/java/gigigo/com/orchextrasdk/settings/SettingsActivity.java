@@ -34,31 +34,50 @@ import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import gigigo.com.orchextrasdk.R;
+import gigigo.com.orchextrasdk.demo.MainActivity;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SettingsView {
 
   private static final String TAG = "SettingsActivity";
-  private CredentialsPreferenceManager credentialsPreferenceManager;
   private Orchextra orchextra;
-  private EditText apiKeyTv;
-  private EditText apiSecretTv;
+  private EditText projectNameTextView;
+  private EditText apiKeyTextView;
+  private EditText apiSecretTextView;
   private Button finishButton;
+
+  private SettingsPresenter settingsPresenter;
+
+  public static void open(Context context) {
+    Intent intent = new Intent(context, SettingsActivity.class);
+    context.startActivity(intent);
+  }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
 
-    apiKeyTv = (EditText) findViewById(R.id.api_key_tv);
-    apiSecretTv = (EditText) findViewById(R.id.api_secret_tv);
-    finishButton = (Button) findViewById(R.id.finish_button);
-    credentialsPreferenceManager = new CredentialsPreferenceManager(this);
+    settingsPresenter = new SettingsPresenter(this, new CredentialsPreferenceManager(this));
 
+    projectNameTextView = (EditText) findViewById(R.id.project_name_editText);
+    apiKeyTextView = (EditText) findViewById(R.id.apiKey_editText);
+    apiSecretTextView = (EditText) findViewById(R.id.apiSecret_editText);
+    finishButton = (Button) findViewById(R.id.finish_button);
+
+    initView();
+  }
+
+  @Override public void setupOrchextra() {
     orchextra = Orchextra.INSTANCE;
     orchextra.setOrchextraStatusListener(new OrchextraStatusListener() {
       @Override public void onStatusChange(boolean isReady) {
-        initFinishButton();
-        apiKeyTv.setEnabled(!isReady);
-        apiSecretTv.setEnabled(!isReady);
+        if (isReady) {
+          enableLogout();
+          apiKeyTextView.setEnabled(!isReady);
+          apiSecretTextView.setEnabled(!isReady);
+        } else {
+          MainActivity.open(SettingsActivity.this);
+          finish();
+        }
       }
     });
     orchextra.setErrorListener(new OrchextraErrorListener() {
@@ -68,33 +87,37 @@ public class SettingsActivity extends AppCompatActivity {
             .show();
       }
     });
+  }
 
-    initView();
+  @Override public void finishOrchextra() {
+    orchextra.finish();
   }
 
   private void initView() {
     initToolbar();
-    initFinishButton();
 
-    apiKeyTv.setText(credentialsPreferenceManager.getApiKey());
-    apiSecretTv.setText(credentialsPreferenceManager.getApiSecret());
-
-    apiKeyTv.setEnabled(!orchextra.isReady());
-    apiSecretTv.setEnabled(!orchextra.isReady());
+    settingsPresenter.uiReady();
   }
 
-  private void initFinishButton() {
-
+  @Override public void enableLogout() {
     if (orchextra.isReady()) {
       finishButton.setVisibility(View.VISIBLE);
       finishButton.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View v) {
-          orchextra.finish();
+          settingsPresenter.doLogout();
         }
       });
     } else {
       finishButton.setVisibility(View.GONE);
     }
+  }
+
+  @Override public void showProjectCredentials(String apiKey, String apiSecret) {
+    apiKeyTextView.setText(apiKey);
+    apiSecretTextView.setText(apiSecret);
+
+    apiKeyTextView.setEnabled(!orchextra.isReady());
+    apiSecretTextView.setEnabled(!orchextra.isReady());
   }
 
   private void initToolbar() {
@@ -112,10 +135,5 @@ public class SettingsActivity extends AppCompatActivity {
         onBackPressed();
       }
     });
-  }
-
-  public static void open(Context context) {
-    Intent intent = new Intent(context, SettingsActivity.class);
-    context.startActivity(intent);
   }
 }

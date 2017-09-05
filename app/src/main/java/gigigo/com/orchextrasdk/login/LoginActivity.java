@@ -112,6 +112,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         loginPresenter.doLogin();
       }
     });
+
+    loginPresenter.uiReady();
   }
 
 

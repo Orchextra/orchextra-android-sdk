@@ -23,6 +23,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white2"
     android:orientation="vertical"
     tools:context="gigigo.com.orchextrasdk.settings.SettingsActivity"
     >
@@ -32,50 +33,110 @@
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_margin="@dimen/spacing_normal"
+      android:background="@color/white"
+      android:orientation="vertical"
+      android:paddingTop="20dp"
+      >
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+      <EditText
+          android:id="@+id/project_name_editText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:enabled="false"
+          android:hint="@string/project"
+          android:textColor="@color/grey7"
+          android:textColorHint="@color/secondary_text"
+          android:textSize="14sp"
+          tools:text="Project example name"
+          />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:orientation="vertical"
+
+        >
+      <android.support.design.widget.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="15dp"
+          >
+        <EditText
+            android:id="@+id/apiKey_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="@string/api_key"
+            android:textColor="@color/grey7"
+            android:textColorHint="@color/secondary_text"
+            android:textSize="12sp"
+            tools:text="keidjqqdmaon3847713e"
+            />
+      </android.support.design.widget.TextInputLayout>
+
+
+      <android.support.design.widget.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="20dp"
+          >
+        <EditText
+            android:id="@+id/apiSecret_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="@string/api_secret"
+            android:textColor="@color/grey7"
+            android:textColorHint="@color/secondary_text"
+            android:textSize="12sp"
+            tools:text="keidjqqdmaon3847713e"
+            />
+      </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+  </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="60dp"
       android:orientation="vertical"
       >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/project_config"
-        android:textSize="@dimen/font_large"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/grey7"
+        android:textSize="17sp"
+        tools:text="User"
         />
-
-    <android.support.design.widget.TextInputLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        >
-      <EditText
-          android:id="@+id/api_key_tv"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:hint="@string/api_key"
-          android:textSize="@dimen/font_normal"
-          />
-    </android.support.design.widget.TextInputLayout>
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-      <EditText
-          android:id="@+id/api_secret_tv"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:hint="@string/api_secret"
-          android:textSize="@dimen/font_normal"
-          />
-    </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/finish_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/finish_orchextra"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/grey7"
+        android:textSize="17sp"
+        tools:text="Device"
         />
   </LinearLayout>
+
+  <Button
+      android:id="@+id/finish_button"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="50dp"
+      android:text="@string/finish_orchextra"
+      style="@style/ButtonStyle"
+      />
 </LinearLayout>

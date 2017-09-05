@@ -32,7 +32,7 @@ public final class CredentialsPreferenceManager {
   private final SharedPreferences sharedPreferences;
 
   public CredentialsPreferenceManager(Activity activity) {
-    this.sharedPreferences = activity.getPreferences(MODE_PRIVATE);
+    this.sharedPreferences = activity.getSharedPreferences("orchextra_credentials", MODE_PRIVATE);
   }
 
   public String getApiKey() {

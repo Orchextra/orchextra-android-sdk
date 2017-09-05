@@ -31,13 +31,12 @@
   <string name="open_orchextra_scanner">Orchextra scanner</string>
   <string name="open_custom_scanner">Custom scanner</string>
   <string name="open_image_recognition">Image recognition</string>
-  <string name="start">Start</string>
-  <string name="finish_orchextra">Finish Orchextra</string>
+  <string name="start_orchextra">Start</string>
+  <string name="finish_orchextra">Log out</string>
 
   <string name="trigger_type_format">Type: %1$s</string>
   <string name="trigger_value_format">Value: %1$s</string>
   <string name="trigger_date_format">Detected:  %1$tRh - %1$te %1$tB %1$tY</string>
-  <string name="project_config">Project config</string>
   <string name="project">Project</string>
   <string name="api_key">Api key</string>
   <string name="api_secret">Api secret</string>
