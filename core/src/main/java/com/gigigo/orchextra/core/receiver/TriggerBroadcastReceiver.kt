@@ -21,6 +21,7 @@ package com.gigigo.orchextra.core.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.triggers.TriggerHandlerService
 import com.gigigo.orchextra.core.utils.LogUtils
@@ -29,6 +30,9 @@ import com.gigigo.orchextra.core.utils.LogUtils.LOGD
 class TriggerBroadcastReceiver : BroadcastReceiver() {
 
   override fun onReceive(context: Context, intent: Intent) {
+
+    Orchextra.initLogger(context)
+
     val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)
     LOGD(TAG, "onTriggerReceived: $trigger")
     TriggerHandlerService.start(context, trigger)

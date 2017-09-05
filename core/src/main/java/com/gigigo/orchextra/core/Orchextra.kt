@@ -34,6 +34,7 @@ import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager.ActivityLifecycleCallback
+import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.extensions.getAppData
@@ -65,8 +66,9 @@ object Orchextra : OrchextraErrorListener {
     this.triggerManager = TriggerManager.create(context)
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
     this.locationProvider = LocationProvider(context)
+    this.locationProvider.getLocation { point -> getConfiguration(point) }
 
-    locationProvider.getLocation { point -> getConfiguration(point) }
+    initLogger(context)
 
     ActivityLifecycleManager(context,
         object : ActivityLifecycleCallback {
@@ -101,6 +103,10 @@ object Orchextra : OrchextraErrorListener {
             LogUtils.LOGE(TAG, "getConfiguration: ${error.error}")
           }
         })
+  }
+
+  fun initLogger(context: Context) {
+    LogUtils.fileLogging = FileLogging(context)
   }
 
   fun openScanner() {

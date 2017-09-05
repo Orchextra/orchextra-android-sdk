@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(MainActivity.this, ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
           orchextra.init(getApplication(), orchextraPreferenceManager.getApiKey(),
-              orchextraPreferenceManager.getApiSecret(), orchextraStatusListener);
+              orchextraPreferenceManager.getApiSecret(), orchextraStatusListener, true);
         } else {
           requestPermission();
         }
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
       case PERMISSIONS_REQUEST_LOCATION: {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
           orchextra.init(getApplication(), orchextraPreferenceManager.getApiKey(),
-              orchextraPreferenceManager.getApiSecret(), orchextraStatusListener);
+              orchextraPreferenceManager.getApiSecret(), orchextraStatusListener, true);
         } else {
           Toast.makeText(MainActivity.this, "Lo necesitamos!!!", Toast.LENGTH_SHORT).show();
         }
