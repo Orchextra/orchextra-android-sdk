@@ -28,16 +28,25 @@
   <Button
       android:id="@+id/ox_scanner_button"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_margin="@dimen/spacing_normal"
+      android:layout_height="50dp"
+      android:layout_marginTop="58dp"
+      style="@style/ButtonStyle"
       android:text="@string/open_orchextra_scanner"
+      />
+
+  <Button
+      android:id="@+id/ox_custom_scanner_button"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      style="@style/ButtonStyle"
+      android:text="@string/open_custom_scanner"
       />
 
   <Button
       android:id="@+id/ox_image_recognition_button"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_margin="@dimen/spacing_normal"
+      android:layout_height="50dp"
+      style="@style/ButtonStyle"
       android:text="@string/open_image_recognition"
       />
 

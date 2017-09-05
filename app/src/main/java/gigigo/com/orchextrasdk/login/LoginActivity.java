@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk;
+package gigigo.com.orchextrasdk.login;
 
 import android.Manifest;
 import android.content.Context;
@@ -45,29 +45,27 @@ import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
+import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.MainActivity;
 import gigigo.com.orchextrasdk.settings.CredentialsPreferenceManager;
 import gigigo.com.orchextrasdk.settings.SettingsActivity;
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView{
 
   private static final String TAG = "LoginActivity";
   private static final int PERMISSIONS_REQUEST_LOCATION = 1;
-  private CredentialsPreferenceManager credentialsPreferenceManager;
   private Orchextra orchextra;
-
-  private String apiKey = "";
-  private String apiSecret = "";
 
   private TextView apiKeyTextView;
   private TextView apiSecretTextView;
   private Spinner projectSpinner;
   private ArrayAdapter<CharSequence> projectsArray;
   private Button startButton;
+
+  private LoginPresenter loginPresenter;
 
   private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
     @Override public void onStatusChange(boolean isReady) {
@@ -95,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
-    credentialsPreferenceManager = new CredentialsPreferenceManager(this);
+    loginPresenter = new LoginPresenter(this, new CredentialsPreferenceManager(this));
 
     initView();
   }
@@ -104,45 +102,21 @@ public class LoginActivity extends AppCompatActivity {
     initToolbar();
 
     initSpinner();
-    initCredentials();
 
-    startButton = (Button) findViewById(R.id.start_button);
-    startButton.setEnabled(validateCredentials());
-    startButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        initOrchextra();
-
-        if (validateCredentials()) {
-          credentialsPreferenceManager.saveApiKey(apiKey);
-          credentialsPreferenceManager.saveApiSecret(apiSecret);
-
-          if (ContextCompat.checkSelfPermission(LoginActivity.this, ACCESS_FINE_LOCATION)
-              == PackageManager.PERMISSION_GRANTED) {
-            orchextra.init(getApplication(), credentialsPreferenceManager.getApiKey(),
-                credentialsPreferenceManager.getApiSecret(), orchextraStatusListener);
-          } else {
-            requestPermission();
-          }
-        } else {
-          Toast.makeText(LoginActivity.this, "Introduce las credenciales", Toast.LENGTH_SHORT)
-              .show();
-        }
-      }
-    });
-  }
-
-  private void initCredentials() {
     apiKeyTextView = (TextView) findViewById(R.id.apiKey_editText);
     apiSecretTextView = (TextView) findViewById(R.id.apiSecret_editText);
 
-    apiKeyTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override public void onFocusChange(View v, boolean hasFocus) {
-
+    startButton = (Button) findViewById(R.id.start_button);
+    startButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        loginPresenter.doLogin();
       }
     });
   }
 
-  private void initOrchextra() {
+
+  @Override
+  public void createOrchextra() {
     orchextra = Orchextra.INSTANCE;
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
@@ -151,6 +125,17 @@ public class LoginActivity extends AppCompatActivity {
             .show();
       }
     });
+  }
+
+  @Override
+  public void initOrchextra(String apiKey, String apiSecret) {
+    orchextra.init(getApplication(), apiKey, apiSecret, orchextraStatusListener);
+  }
+
+  @Override
+  public void showCredentialsError(String message) {
+    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT)
+        .show();
   }
 
   private void initToolbar() {
@@ -168,14 +153,9 @@ public class LoginActivity extends AppCompatActivity {
 
     projectsArray =
         ArrayAdapter.createFromResource(this, R.array.projects_array, R.layout.simple_spinner_item);
-    projectsArray.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 
-    List<String> projects = new ArrayList<>();
-    for (int i = 0; i < projectsArray.getCount(); i++) {
-      String project = projectsArray.getItem(i).toString();
-      String[] projectConfig = project.split("#");
-      projects.add(projectConfig[0]);
-    }
+    List<String> projects = loginPresenter.readDefaultProjects(projectsArray);
+
     projectSpinner.setAdapter(
         new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, projects));
 
@@ -183,17 +163,7 @@ public class LoginActivity extends AppCompatActivity {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String project = projectsArray.getItem(position).toString();
-        String[] projectConfig = project.split("#");
-        if (projectConfig.length == 3) {
-          apiKey = projectConfig[1];
-          apiSecret = projectConfig[2];
-        } else {
-          apiKey = "";
-          apiSecret = "";
-        }
-
-        updateCredentialsView();
-        startButton.setEnabled(validateCredentials());
+        loginPresenter.projectSelected(project);
       }
 
       @Override public void onNothingSelected(AdapterView<?> parent) {
@@ -204,16 +174,15 @@ public class LoginActivity extends AppCompatActivity {
     projectSpinner.setSelection(0);
   }
 
-  private boolean validateCredentials() {
-    return !apiKey.isEmpty() && !apiSecret.isEmpty();
-  }
-
-  private void updateCredentialsView() {
+  @Override
+  public void showProjectCredentials(String apiKey, String apiSecret) {
     apiKeyTextView.setText(apiKey);
     apiSecretTextView.setText(apiSecret);
+  }
 
-    //apiKeyTextView.setEnabled(apiKey.isEmpty());
-    //apiSecretTextView.setEnabled(apiSecret.isEmpty());
+  @Override
+  public void enableLogin(boolean enabled) {
+    startButton.setEnabled(enabled);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -231,7 +200,14 @@ public class LoginActivity extends AppCompatActivity {
     }
   }
 
-  private void requestPermission() {
+
+  @Override
+  public boolean checkPermissions() {
+    return ContextCompat.checkSelfPermission(LoginActivity.this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+  }
+
+  @Override
+  public void requestPermission() {
     if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
 
@@ -249,12 +225,8 @@ public class LoginActivity extends AppCompatActivity {
 
     switch (requestCode) {
       case PERMISSIONS_REQUEST_LOCATION: {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          orchextra.init(getApplication(), credentialsPreferenceManager.getApiKey(),
-              credentialsPreferenceManager.getApiSecret(), orchextraStatusListener);
-        } else {
-          Toast.makeText(LoginActivity.this, "Lo necesitamos!!!", Toast.LENGTH_SHORT).show();
-        }
+        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        loginPresenter.permissionGranted(granted);
       }
     }
   }

@@ -22,7 +22,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
-import gigigo.com.orchextrasdk.LoginActivity;
+import gigigo.com.orchextrasdk.login.LoginActivity;
 import java.io.File;
 import org.junit.Rule;
 

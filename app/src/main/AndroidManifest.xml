@@ -31,7 +31,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
     <activity
-        android:name=".LoginActivity"
+        android:name=".login.LoginActivity"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar">
       <intent-filter>
@@ -42,21 +42,20 @@
     </activity>
     <activity
         android:name=".demo.MainActivity"
-        android:label="@string/title_activity_orchextra_demo"
-        android:parentActivityName=".LoginActivity"
+        android:parentActivityName=".login.LoginActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value="gigigo.com.orchextrasdk.LoginActivity"/>
+          android:value="gigigo.com.orchextrasdk.login.LoginActivity"/>
     </activity>
     <activity
         android:name=".settings.SettingsActivity"
         android:label="@string/title_settings"
-        android:parentActivityName=".LoginActivity"
+        android:parentActivityName=".login.LoginActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value="gigigo.com.orchextrasdk.LoginActivity"/>
+          android:value="gigigo.com.orchextrasdk.login.LoginActivity"/>
     </activity>
 
     <receiver

@@ -29,7 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.gigigo.orchextra.core.Orchextra;
-import gigigo.com.orchextrasdk.LoginActivity;
+import gigigo.com.orchextrasdk.login.LoginActivity;
 import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.geofences.GeofencesFragment;
 import gigigo.com.orchextrasdk.demo.scanner.ScannerFragment;
@@ -94,12 +94,15 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
               case R.id.navigation_scanner:
                 showView(scannerFragment);
+                setTitle(R.string.title_scanner);
                 return true;
               case R.id.navigation_geofences:
                 showView(geofencesFragment);
+                setTitle(R.string.title_geofences);
                 return true;
               case R.id.navigation_triggers_log:
                 showView(triggerLogFragment);
+                setTitle(R.string.title_triggers_log);
                 return true;
             }
             return false;

@@ -23,7 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="gigigo.com.orchextrasdk.LoginActivity"
+    tools:context="gigigo.com.orchextrasdk.login.LoginActivity"
     >
 
   <ImageView
@@ -49,12 +49,7 @@
       android:layout_height="46dp"
       android:layout_marginLeft="33dp"
       android:layout_marginRight="43dp"
-      android:paddingLeft="17dp"
-      android:paddingTop="13dp"
-      android:paddingBottom="13dp"
-      android:textSize="16sp"
-      android:textColor="@color/secondary_text"
-      android:background="@drawable/edit_text_shape"
+      style="@style/SpinnerStyle"
       />
 
   <EditText
@@ -64,15 +59,8 @@
       android:layout_marginLeft="53dp"
       android:layout_marginRight="43dp"
       android:layout_marginTop="17dp"
-      android:paddingLeft="14.5dp"
-      android:paddingTop="13dp"
-      android:paddingBottom="13dp"
-      android:textSize="16sp"
-      android:inputType="textCapCharacters"
+      style="@style/EditTextStyle"
       android:hint="@string/api_key"
-      android:textColorHint="@color/secondary_text"
-      android:textColor="@color/primary_text"
-      android:background="@drawable/edit_text_shape"
       />
   <EditText
       android:id="@+id/apiSecret_editText"
@@ -81,15 +69,8 @@
       android:layout_marginLeft="53dp"
       android:layout_marginRight="43dp"
       android:layout_marginTop="15dp"
-      android:paddingLeft="14.5dp"
-      android:paddingTop="13dp"
-      android:paddingBottom="13dp"
-      android:textSize="16sp"
-      android:inputType="textCapCharacters"
+      style="@style/EditTextStyle"
       android:hint="@string/api_secret"
-      android:textColorHint="@color/secondary_text"
-      android:textColor="@color/primary_text"
-      android:background="@drawable/edit_text_shape"
       />
 
   <Button
@@ -101,7 +82,7 @@
       android:layout_marginRight="64dp"
       android:layout_marginTop="40dp"
       android:text="@string/start"
-      style="@style/OrchextraButton"
+      style="@style/ButtonLoginStyle"
       />
 
 </LinearLayout>
