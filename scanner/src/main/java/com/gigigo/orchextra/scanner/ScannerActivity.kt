@@ -27,6 +27,7 @@ import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.ViewGroup
 import android.widget.Toast
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
@@ -48,6 +49,21 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
     mScannerView = ZBarScannerView(this)
     val contentFrame = findViewById(R.id.content_frame) as ViewGroup
     contentFrame.addView(mScannerView)
+
+    initToolbar()
+  }
+
+  private fun initToolbar() {
+
+    val toolbar = findViewById(com.gigigo.orchextra.core.R.id.ox_toolbar) as Toolbar
+
+    setSupportActionBar(toolbar)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    supportActionBar?.setDisplayShowHomeEnabled(true)
+
+    toolbar.setNavigationOnClickListener { onBackPressed() }
+
+    title = getString(R.string.app_name)
   }
 
   override fun handleResult(rawResult: Result) {
