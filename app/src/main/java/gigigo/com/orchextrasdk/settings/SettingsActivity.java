@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -111,6 +112,11 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
       finishButton.setVisibility(View.GONE);
     }
   }
+
+  @Override public void showProjectName(String projectName) {
+    projectNameTextView.setText(projectName);
+  }
+
 
   @Override public void showProjectCredentials(String apiKey, String apiSecret) {
     apiKeyTextView.setText(apiKey);

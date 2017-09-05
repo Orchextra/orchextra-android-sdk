@@ -3,17 +3,17 @@
 
   <item
       android:id="@+id/navigation_scanner"
-      android:icon="@drawable/ic_home_black_24dp"
+      android:icon="@drawable/ic_camera"
       android:title="@string/title_scanner"/>
 
   <item
       android:id="@+id/navigation_geofences"
-      android:icon="@drawable/ic_dashboard_black_24dp"
+      android:icon="@drawable/ic_geofences"
       android:title="@string/title_geofences"/>
 
   <item
       android:id="@+id/navigation_triggers_log"
-      android:icon="@drawable/ic_notifications_black_24dp"
+      android:icon="@drawable/ic_triggers"
       android:title="@string/title_triggers_log"/>
 
 </menu>

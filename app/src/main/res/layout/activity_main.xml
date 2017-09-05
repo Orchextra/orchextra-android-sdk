@@ -40,11 +40,11 @@
   <android.support.design.widget.BottomNavigationView
       android:id="@+id/navigation"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="52dp"
       android:layout_gravity="bottom"
-      app:itemBackground="@color/primary"
-      app:itemIconTint="@color/white"
-      app:itemTextColor="@color/white"
+      app:itemBackground="@drawable/navigation_item_background_selector"
+      app:itemIconTint="@color/navigation_item_icon_tint_selector"
+      app:itemTextColor="@color/navigation_item_text_color_selector"
       app:menu="@menu/navigation"
       />
 </LinearLayout>

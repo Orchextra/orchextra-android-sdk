@@ -28,6 +28,7 @@ public final class CredentialsPreferenceManager {
 
   private static final String API_KEY = "api_key";
   private static final String API_SECRET = "api_secret";
+  private static final String PROJECT_NAME = "project_name";
 
   private final SharedPreferences sharedPreferences;
 
@@ -43,6 +44,10 @@ public final class CredentialsPreferenceManager {
     return sharedPreferences.getString(API_SECRET, "");
   }
 
+  public String getProjectName() {
+    return sharedPreferences.getString(PROJECT_NAME, "");
+  }
+
   @SuppressLint("ApplySharedPref") public void saveApiKey(String apiKey) {
     SharedPreferences.Editor editor = sharedPreferences.edit();
     editor.putString(API_KEY, apiKey);
@@ -52,6 +57,12 @@ public final class CredentialsPreferenceManager {
   @SuppressLint("ApplySharedPref") public void saveApiSecret(String apiSecret) {
     SharedPreferences.Editor editor = sharedPreferences.edit();
     editor.putString(API_SECRET, apiSecret);
+    editor.commit();
+  }
+
+  @SuppressLint("ApplySharedPref") public void saveProjectName(String projectName) {
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putString(PROJECT_NAME, projectName);
     editor.commit();
   }
 }

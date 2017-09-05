@@ -2,13 +2,13 @@ package gigigo.com.orchextrasdk.login;
 
 import android.widget.ArrayAdapter;
 import gigigo.com.orchextrasdk.settings.CredentialsPreferenceManager;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class LoginPresenter {
   private LoginView view;
   private CredentialsPreferenceManager credentialsPreferenceManager;
 
+  private String projectName = "";
   private String apiKey = "";
   private String apiSecret = "";
 
@@ -28,6 +28,11 @@ public class LoginPresenter {
     if(validateCredentials()) {
       view.initOrchextra(apiKey, apiSecret);
     }
+    else {
+      view.loadDefaultProject();
+    }
+
+    view.enableLogin(true);
   }
 
   private void loadCredentials() {
@@ -39,35 +44,29 @@ public class LoginPresenter {
     return !apiKey.isEmpty() && !apiSecret.isEmpty();
   }
 
-  public void projectSelected(String project) {
+  public void readDefaultProject(ArrayAdapter projectsArray) {
+    String project = projectsArray.getItem(0).toString();
     String[] projectConfig = project.split("#");
+
     if (projectConfig.length == 3) {
+      projectName = projectConfig[0];
       apiKey = projectConfig[1];
       apiSecret = projectConfig[2];
     } else {
+      projectName = "";
       apiKey = "";
       apiSecret = "";
     }
 
+    view.showProjectName(projectName);
     view.showProjectCredentials(apiKey, apiKey);
-    view.enableLogin(validateCredentials());
-  }
-
-  public List<String> readDefaultProjects(ArrayAdapter projectsArray) {
-    List<String> projects = new ArrayList<>();
-    for (int i = 0; i < projectsArray.getCount(); i++) {
-      String project = projectsArray.getItem(i).toString();
-      String[] projectConfig = project.split("#");
-      projects.add(projectConfig[0]);
-    }
-
-    return projects;
   }
 
   public void doLogin() {
     if (validateCredentials()) {
       credentialsPreferenceManager.saveApiKey(apiKey);
       credentialsPreferenceManager.saveApiSecret(apiSecret);
+      credentialsPreferenceManager.saveProjectName(projectName);
 
       boolean granted = view.checkPermissions();
 

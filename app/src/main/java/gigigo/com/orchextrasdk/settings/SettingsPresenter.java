@@ -1,5 +1,7 @@
 package gigigo.com.orchextrasdk.settings;
 
+import android.widget.ArrayAdapter;
+
 /**
  * Created by rui.alonso on 5/9/17.
  */
@@ -11,6 +13,7 @@ public class SettingsPresenter {
 
   private String apiKey = "";
   private String apiSecret = "";
+  private String projectName = "";
 
   public SettingsPresenter(SettingsView view, CredentialsPreferenceManager credentialsPreferenceManager) {
     this.view = view;
@@ -20,7 +23,9 @@ public class SettingsPresenter {
   public void uiReady() {
     loadCredentials();
     view.setupOrchextra();
+    view.showProjectName(projectName);
     view.showProjectCredentials(apiKey, apiSecret);
+
     view.enableLogout();
   }
 
@@ -33,16 +38,19 @@ public class SettingsPresenter {
   private void loadCredentials() {
     apiKey = credentialsPreferenceManager.getApiKey();
     apiSecret = credentialsPreferenceManager.getApiSecret();
+    projectName = credentialsPreferenceManager.getProjectName();
   }
 
   private void saveCredentials() {
     credentialsPreferenceManager.saveApiKey(apiKey);
     credentialsPreferenceManager.saveApiSecret(apiSecret);
+    credentialsPreferenceManager.saveProjectName(projectName);
   }
 
   private void clearCredentials() {
     apiKey = "";
     apiSecret = "";
+    projectName = "";
     saveCredentials();
   }
 }

@@ -28,15 +28,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
@@ -49,20 +49,18 @@ import gigigo.com.orchextrasdk.R;
 import gigigo.com.orchextrasdk.demo.MainActivity;
 import gigigo.com.orchextrasdk.settings.CredentialsPreferenceManager;
 import gigigo.com.orchextrasdk.settings.SettingsActivity;
-import java.util.List;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class LoginActivity extends AppCompatActivity implements LoginView{
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
   private static final String TAG = "LoginActivity";
   private static final int PERMISSIONS_REQUEST_LOCATION = 1;
   private Orchextra orchextra;
 
-  private TextView apiKeyTextView;
-  private TextView apiSecretTextView;
-  private Spinner projectSpinner;
-  private ArrayAdapter<CharSequence> projectsArray;
+  private EditText projectNameEditText;
+  private EditText apiKeyEditText;
+  private EditText apiSecretEditText;
   private Button startButton;
 
   private LoginPresenter loginPresenter;
@@ -101,10 +99,23 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
   private void initView() {
     initToolbar();
 
-    initSpinner();
+    projectNameEditText = (EditText) findViewById(R.id.projectName_editText);
+    apiKeyEditText = (EditText) findViewById(R.id.apiKey_editText);
+    apiSecretEditText = (EditText) findViewById(R.id.apiSecret_editText);
 
-    apiKeyTextView = (TextView) findViewById(R.id.apiKey_editText);
-    apiSecretTextView = (TextView) findViewById(R.id.apiSecret_editText);
+    apiKeyEditText.addTextChangedListener(new TextWatcher() {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override public void afterTextChanged(Editable s) {
+
+      }
+    });
 
     startButton = (Button) findViewById(R.id.start_button);
     startButton.setOnClickListener(new View.OnClickListener() {
@@ -116,9 +127,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     loginPresenter.uiReady();
   }
 
+  @Override public void loadDefaultProject() {
+    ArrayAdapter<CharSequence> projectsArray =
+        ArrayAdapter.createFromResource(this, R.array.projects_array, R.layout.simple_spinner_item);
 
-  @Override
-  public void createOrchextra() {
+    loginPresenter.readDefaultProject(projectsArray);
+  }
+
+  @Override public void createOrchextra() {
     orchextra = Orchextra.INSTANCE;
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
@@ -129,15 +145,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     });
   }
 
-  @Override
-  public void initOrchextra(String apiKey, String apiSecret) {
+  @Override public void initOrchextra(String apiKey, String apiSecret) {
     orchextra.init(getApplication(), apiKey, apiSecret, orchextraStatusListener);
   }
 
-  @Override
-  public void showCredentialsError(String message) {
-    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT)
-        .show();
+  @Override public void showCredentialsError(String message) {
+    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
   }
 
   private void initToolbar() {
@@ -150,40 +163,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     }
   }
 
-  private void initSpinner() {
-    projectSpinner = (Spinner) findViewById(R.id.projects_spinner);
-
-    projectsArray =
-        ArrayAdapter.createFromResource(this, R.array.projects_array, R.layout.simple_spinner_item);
-
-    List<String> projects = loginPresenter.readDefaultProjects(projectsArray);
-
-    projectSpinner.setAdapter(
-        new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, projects));
-
-    projectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-      @Override
-      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String project = projectsArray.getItem(position).toString();
-        loginPresenter.projectSelected(project);
-      }
-
-      @Override public void onNothingSelected(AdapterView<?> parent) {
-
-      }
-    });
-
-    projectSpinner.setSelection(0);
+  @Override public void showProjectName(String projectName) {
+    projectNameEditText.setText(projectName);
   }
 
-  @Override
-  public void showProjectCredentials(String apiKey, String apiSecret) {
-    apiKeyTextView.setText(apiKey);
-    apiSecretTextView.setText(apiSecret);
+  @Override public void showProjectCredentials(String apiKey, String apiSecret) {
+    apiKeyEditText.setText(apiKey);
+    apiSecretEditText.setText(apiSecret);
   }
 
-  @Override
-  public void enableLogin(boolean enabled) {
+  @Override public void enableLogin(boolean enabled) {
     startButton.setEnabled(enabled);
   }
 
@@ -202,14 +191,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     }
   }
 
-
-  @Override
-  public boolean checkPermissions() {
-    return ContextCompat.checkSelfPermission(LoginActivity.this, ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+  @Override public boolean checkPermissions() {
+    return ContextCompat.checkSelfPermission(LoginActivity.this, ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED;
   }
 
-  @Override
-  public void requestPermission() {
+  @Override public void requestPermission() {
     if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
 
@@ -227,7 +214,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
     switch (requestCode) {
       case PERMISSIONS_REQUEST_LOCATION: {
-        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        boolean granted =
+            grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
         loginPresenter.permissionGranted(granted);
       }
     }

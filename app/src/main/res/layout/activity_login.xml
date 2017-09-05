@@ -43,14 +43,17 @@
       android:textSize="38.6sp"
       android:text="@string/app_title"
       />
-  <Spinner
-      android:id="@+id/projects_spinner"
+
+  <EditText
+      android:id="@+id/projectName_editText"
       android:layout_width="match_parent"
       android:layout_height="46dp"
       android:layout_marginLeft="33dp"
       android:layout_marginRight="43dp"
-      style="@style/SpinnerStyle"
+      style="@style/EditTextStyle"
+      android:enabled="false"
       />
+
 
   <EditText
       android:id="@+id/apiKey_editText"
