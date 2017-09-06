@@ -36,7 +36,7 @@ android {
   buildToolsVersion '26'
 
   defaultConfig {
-    applicationId "gigigo.com.orchextrasdk"
+    applicationId "com.gigigo.orchextrasdk.demo"
     minSdkVersion 17
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode

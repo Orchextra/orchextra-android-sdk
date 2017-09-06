@@ -17,7 +17,7 @@
   ~ limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="gigigo.com.orchextrasdk">
+    package="com.gigigo.orchextrasdk.demo">
 
   <uses-permission android:name="android.permission.INTERNET"/>
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -31,7 +31,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
     <activity
-        android:name=".demo.ui.login.LoginActivity"
+        android:name=".ui.login.LoginActivity"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar">
       <intent-filter>
@@ -41,28 +41,28 @@
       </intent-filter>
     </activity>
     <activity
-        android:name=".demo.ui.MainActivity"
-        android:parentActivityName=".demo.ui.login.LoginActivity"
+        android:name=".ui.MainActivity"
+        android:parentActivityName=".ui.login.LoginActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value=".demo.ui.login.LoginActivity"/>
+          android:value=".ui.login.LoginActivity"/>
     </activity>
     <activity
-        android:name=".demo.ui.settings.SettingsActivity"
+        android:name=".ui.settings.SettingsActivity"
         android:label="@string/title_settings"
-        android:parentActivityName=".demo.ui.login.LoginActivity"
+        android:parentActivityName=".ui.login.LoginActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value=".demo.ui.login.LoginActivity"/>
+          android:value=".ui.login.LoginActivity"/>
     </activity>
 
     <receiver
-        android:name=".demo.ui.triggerlog.receiver.TriggerLogBroadcastReceiver"
+        android:name=".ui.triggerlog.receiver.TriggerLogBroadcastReceiver"
         android:exported="true">
       <intent-filter>
-        <action android:name="com.gigigo.orchextra.TRIGGER_RECIVER"/>
+        <action android:name="com.gigigo.orchextra.TRIGGER_RECEIVER"/>
       </intent-filter>
     </receiver>
 

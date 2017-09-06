@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".demo.ui.geofences.GeofencesFragment"
+    tools:context=".ui.geofences.GeofencesFragment"
     >
 
   <com.google.android.gms.maps.MapView

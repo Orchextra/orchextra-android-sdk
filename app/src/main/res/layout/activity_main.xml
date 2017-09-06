@@ -26,7 +26,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white2"
-    tools:context="gigigo.com.orchextrasdk.demo.ui.MainActivity"
+    tools:context=".ui.MainActivity"
     >
 
   <include layout="@layout/toolbar"/>

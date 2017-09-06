@@ -25,7 +25,7 @@
     android:layout_height="match_parent"
     android:background="@color/white2"
     android:orientation="vertical"
-    tools:context=".demo.ui.settings.SettingsActivity"
+    tools:context=".ui.settings.SettingsActivity"
     >
 
   <include layout="@layout/toolbar"/>
