@@ -69,11 +69,10 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
       return trigger
     }
 
-    val newTrigger = trigger.copy(event = "stay")
-    dbDataSource.saveTrigger(newTrigger)
+    dbDataSource.saveTrigger(trigger)
 
     if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
-      return newTrigger
+      return trigger
     } else {
       return Trigger(VOID, "")
     }
