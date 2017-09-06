@@ -18,6 +18,9 @@
 
 package gigigo.com.orchextrasdk.demo.geofences;
 
+import com.gigigo.orchextra.core.Orchextra;
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing;
+import com.gigigo.orchextra.core.domain.entities.Point;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +32,27 @@ public final class GeofencesProvider {
 
   public void getGeofences(GeofencesProviderCallback geofencesProviderCallback) {
 
-    List<Geofence> geofences = new ArrayList<>();
-    geofences.add(new Geofence(new LatLng(40.446561303262, -3.6278459079346), 131));
+    Orchextra orchextra = Orchextra.INSTANCE;
+    List<GeoMarketing> geoMarketings =
+        orchextra.getTriggerManager().getConfiguration().getGeoMarketing();
+
+    List<Geofence> geofences = map(geoMarketings);
 
     geofencesProviderCallback.onGetGeofencesSuccess(geofences);
+  }
+
+  private List<Geofence> map(List<GeoMarketing> geoMarketings) {
+
+    List<Geofence> geofences = new ArrayList<>();
+    Point point;
+
+    for (GeoMarketing geoMarketing : geoMarketings) {
+      point = geoMarketing.getPoint();
+      geofences.add(
+          new Geofence(new LatLng(point.getLat(), point.getLng()), geoMarketing.getRadius()));
+    }
+
+    return geofences;
   }
 
   public interface GeofencesProviderCallback {
