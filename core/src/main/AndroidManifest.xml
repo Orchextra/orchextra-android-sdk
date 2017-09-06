@@ -42,7 +42,7 @@
         android:name=".receiver.TriggerBroadcastReceiver"
         android:exported="true">
       <intent-filter>
-        <action android:name="com.gigigo.orchextra.TRIGGER_RECIVER"/>
+        <action android:name="com.gigigo.orchextra.TRIGGER_RECEIVER"/>
       </intent-filter>
     </receiver>
     <receiver android:name=".schedule.ScheduleActionReceiver"/>

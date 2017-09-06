@@ -41,12 +41,12 @@ class TriggerBroadcastReceiver : BroadcastReceiver() {
 
   companion object Navigator {
     private val TAG = LogUtils.makeLogTag(TriggerBroadcastReceiver::class.java)
-    val TRIGGER_RECIVER = "com.gigigo.orchextra.TRIGGER_RECIVER"
+    val TRIGGER_RECEIVER = "com.gigigo.orchextra.TRIGGER_RECEIVER"
     val TRIGGER_EXTRA = "trigger_extra"
 
     fun getTriggerIntent(trigger: Trigger): Intent {
       val intent = Intent()
-      intent.action = TRIGGER_RECIVER
+      intent.action = TRIGGER_RECEIVER
       intent.putExtra(TRIGGER_EXTRA, trigger)
       return intent
     }
