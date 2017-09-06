@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.scanner
+package com.gigigo.orchextrasdk.demo.ui.scanner.custom
 
 import android.Manifest
 import android.content.Context
@@ -33,10 +33,11 @@ import android.widget.Toast
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
+import com.gigigo.orchextrasdk.demo.R
 import me.dm7.barcodescanner.zbar.Result
 import me.dm7.barcodescanner.zbar.ZBarScannerView
 
-class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
+class CustomScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   private val PERMISSIONS_REQUEST_CAMERA = 1
   private val handler = Handler()
@@ -44,7 +45,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.ox_activity_scanner)
+    setContentView(R.layout.activity_scanner)
 
     scannerView = ZBarScannerView(this)
     val contentFrame = findViewById(R.id.content_frame) as ViewGroup
@@ -55,7 +56,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   private fun initToolbar() {
 
-    val toolbar = findViewById(com.gigigo.orchextra.core.R.id.ox_toolbar) as Toolbar
+    val toolbar = findViewById(R.id.toolbar) as Toolbar
 
     setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -63,7 +64,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
     toolbar.setNavigationOnClickListener { onBackPressed() }
 
-    title = getString(R.string.ox_scanner_title)
+    title = getString(R.string.custom_scanner_title)
   }
 
   override fun handleResult(rawResult: Result) {
@@ -76,7 +77,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
       finish()
     }
 
-    handler.postDelayed({ scannerView.resumeCameraPreview(this@ScannerActivity) }, 2000)
+    handler.postDelayed({ scannerView.resumeCameraPreview(this@CustomScannerActivity) }, 2000)
   }
 
   public override fun onResume() {
@@ -125,17 +126,17 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
           scannerView.startCamera()
         } else {
-          ScannerActivity.finish()
+          CustomScannerActivity.finish()
         }
       }
     }
   }
 
   companion object Navigator {
-    private var scannerActivity: ScannerActivity? = null
+    private var scannerActivity: CustomScannerActivity? = null
 
     fun open(context: Context) {
-      val intent = Intent(context, ScannerActivity::class.java)
+      val intent = Intent(context, CustomScannerActivity::class.java)
       intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
       context.startActivity(intent)
     }

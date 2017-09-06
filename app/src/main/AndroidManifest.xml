@@ -49,6 +49,14 @@
           android:value=".ui.login.LoginActivity"/>
     </activity>
     <activity
+        android:name=".ui.scanner.custom.CustomScannerActivity"
+        android:parentActivityName=".ui.login.LoginActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.login.LoginActivity"/>
+    </activity>
+    <activity
         android:name=".ui.settings.SettingsActivity"
         android:label="@string/title_settings"
         android:parentActivityName=".ui.login.LoginActivity"

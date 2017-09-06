@@ -30,6 +30,8 @@ apply plugin: 'com.android.application'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply from: '../config/jacoco.gradle'
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
   compileSdkVersion 25
@@ -37,10 +39,10 @@ android {
 
   defaultConfig {
     applicationId "com.gigigo.orchextrasdk.demo"
-    minSdkVersion 17
+    minSdkVersion 16
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode
-    versionName "7.0.3"
+    versionName "1.0.0"
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
@@ -67,10 +69,6 @@ android {
     unitTests.returnDefaultValues = true
   }
 
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_7
-    targetCompatibility JavaVersion.VERSION_1_7
-  }
 
   lintOptions {
     quiet true

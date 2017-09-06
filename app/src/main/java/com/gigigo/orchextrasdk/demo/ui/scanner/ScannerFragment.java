@@ -33,6 +33,7 @@ import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import com.gigigo.orchextrasdk.demo.R;
+import com.gigigo.orchextrasdk.demo.ui.scanner.custom.CustomScannerImp;
 
 public class ScannerFragment extends Fragment {
 
@@ -94,7 +95,8 @@ public class ScannerFragment extends Fragment {
     oxCustomScannerButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (orchextra.isReady()) {
-          Toast.makeText(getContext(), "Operation is not implemented", Toast.LENGTH_SHORT).show();
+          orchextra.getTriggerManager().setScanner(CustomScannerImp.Factory.create(getActivity().getApplication()));
+          orchextra.openScanner();
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
         }
