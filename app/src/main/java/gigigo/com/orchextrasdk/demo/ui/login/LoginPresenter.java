@@ -1,7 +1,7 @@
-package gigigo.com.orchextrasdk.login;
+package gigigo.com.orchextrasdk.demo.ui.login;
 
 import android.widget.ArrayAdapter;
-import gigigo.com.orchextrasdk.settings.CredentialsPreferenceManager;
+import gigigo.com.orchextrasdk.demo.utils.CredentialsPreferenceManager;
 
 
 public class LoginPresenter {

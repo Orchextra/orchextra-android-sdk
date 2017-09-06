@@ -1,6 +1,6 @@
-package gigigo.com.orchextrasdk.settings;
+package gigigo.com.orchextrasdk.demo.ui.settings;
 
-import android.widget.ArrayAdapter;
+import gigigo.com.orchextrasdk.demo.utils.CredentialsPreferenceManager;
 
 /**
  * Created by rui.alonso on 5/9/17.

@@ -16,22 +16,26 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.demo.triggerlog.receiver;
+package gigigo.com.orchextrasdk.demo.ui.triggerlog.adapter;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
+import java.util.Date;
 
-public class TriggerLogBroadcastReceiver extends BroadcastReceiver {
+public final class TriggerLog {
 
-  private static final String TRIGGER_EXTRA = "trigger_extra";
+  private final Date date;
+  private final Trigger trigger;
 
-  @Override public void onReceive(Context context, Intent intent) {
+  public TriggerLog(Date date, Trigger trigger) {
+    this.date = date;
+    this.trigger = trigger;
+  }
 
-    Trigger trigger = intent.getParcelableExtra(TRIGGER_EXTRA);
+  public Date getDate() {
+    return date;
+  }
 
-    TriggerLogMemory triggerLogMemory = TriggerLogMemory.getInstance();
-    triggerLogMemory.addTrigger(trigger);
+  public Trigger getTrigger() {
+    return trigger;
   }
 }

@@ -1,4 +1,4 @@
-package gigigo.com.orchextrasdk.login;
+package gigigo.com.orchextrasdk.demo.ui.login;
 
 public interface LoginView {
   void createOrchextra();

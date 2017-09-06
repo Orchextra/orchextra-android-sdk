@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.demo.scanner;
+package gigigo.com.orchextrasdk.demo.ui.scanner;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

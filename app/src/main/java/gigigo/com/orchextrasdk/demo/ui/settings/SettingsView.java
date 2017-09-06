@@ -1,4 +1,4 @@
-package gigigo.com.orchextrasdk.settings;
+package gigigo.com.orchextrasdk.demo.ui.settings;
 
 /**
  * Created by rui.alonso on 5/9/17.

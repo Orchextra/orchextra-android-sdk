@@ -16,8 +16,11 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.demo.geofences;
+package gigigo.com.orchextrasdk.demo.ui.geofences;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -35,8 +38,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import gigigo.com.orchextrasdk.R;
 import java.util.List;
@@ -45,6 +51,7 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
 
   @ColorInt public static final int fillColor = 0x555677FC;
   @ColorInt public static final int strokeColor = 0xFF5677FC;
+  private int zoomLevel = 15;
 
   private MapView mapView;
   private GoogleMap googleMap;
@@ -114,7 +121,10 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
           @Override public void onSuccess(Location location) {
             if (location != null) {
               LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-              CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+              CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
+              googleMap.addMarker(new MarkerOptions().position(latLng)
+                  .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_myposition)));
+
               googleMap.animateCamera(cameraUpdate);
             }
           }
@@ -134,15 +144,23 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
   }
 
   private void drawGeofences(List<Geofence> geofences) {
-
     googleMap.clear();
 
+    BitmapDescriptor markerIcon = getMarkerIconFromDrawable(getResources().getDrawable(R.drawable.geofence_marker));
+
+
     for (Geofence geofence : geofences) {
-      googleMap.addCircle(new CircleOptions().center(geofence.getCenter())
-          .radius(geofence.getRadius())
-          .strokeWidth(2f)
-          .strokeColor(strokeColor)
-          .fillColor(fillColor));
+      googleMap.addMarker(new MarkerOptions().position(geofence.getCenter())
+          .icon(markerIcon));
     }
+  }
+
+  private BitmapDescriptor getMarkerIconFromDrawable(Drawable drawable) {
+    Canvas canvas = new Canvas();
+    Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+    canvas.setBitmap(bitmap);
+    drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+    drawable.draw(canvas);
+    return BitmapDescriptorFactory.fromBitmap(bitmap);
   }
 }

@@ -31,7 +31,7 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
     <activity
-        android:name=".login.LoginActivity"
+        android:name=".demo.ui.login.LoginActivity"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar">
       <intent-filter>
@@ -41,25 +41,25 @@
       </intent-filter>
     </activity>
     <activity
-        android:name=".demo.MainActivity"
-        android:parentActivityName=".login.LoginActivity"
+        android:name=".demo.ui.MainActivity"
+        android:parentActivityName=".demo.ui.login.LoginActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value="gigigo.com.orchextrasdk.login.LoginActivity"/>
+          android:value=".demo.ui.login.LoginActivity"/>
     </activity>
     <activity
-        android:name=".settings.SettingsActivity"
+        android:name=".demo.ui.settings.SettingsActivity"
         android:label="@string/title_settings"
-        android:parentActivityName=".login.LoginActivity"
+        android:parentActivityName=".demo.ui.login.LoginActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value="gigigo.com.orchextrasdk.login.LoginActivity"/>
+          android:value=".demo.ui.login.LoginActivity"/>
     </activity>
 
     <receiver
-        android:name=".demo.triggerlog.receiver.TriggerLogBroadcastReceiver"
+        android:name=".demo.ui.triggerlog.receiver.TriggerLogBroadcastReceiver"
         android:exported="true">
       <intent-filter>
         <action android:name="com.gigigo.orchextra.TRIGGER_RECIVER"/>

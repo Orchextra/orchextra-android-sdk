@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.demo.triggerlog.receiver;
+package gigigo.com.orchextrasdk.demo.ui.triggerlog.receiver;
 
 import com.gigigo.orchextra.core.domain.entities.Trigger;
-import gigigo.com.orchextrasdk.demo.triggerlog.adapter.TriggerLog;
+import gigigo.com.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

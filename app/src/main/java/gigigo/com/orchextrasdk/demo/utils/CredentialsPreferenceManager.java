@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.settings;
+package gigigo.com.orchextrasdk.demo.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

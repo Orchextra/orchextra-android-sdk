@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.demo.triggerlog.adapter;
+package gigigo.com.orchextrasdk.demo.ui.triggerlog.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

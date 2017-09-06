@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.demo;
+package gigigo.com.orchextrasdk.demo.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,11 +30,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.gigigo.orchextra.core.Orchextra;
 import gigigo.com.orchextrasdk.R;
-import gigigo.com.orchextrasdk.demo.geofences.GeofencesFragment;
-import gigigo.com.orchextrasdk.demo.scanner.ScannerFragment;
-import gigigo.com.orchextrasdk.demo.triggerlog.TriggerLogFragment;
-import gigigo.com.orchextrasdk.login.LoginActivity;
-import gigigo.com.orchextrasdk.settings.SettingsActivity;
+import gigigo.com.orchextrasdk.demo.ui.geofences.GeofencesFragment;
+import gigigo.com.orchextrasdk.demo.ui.login.LoginActivity;
+import gigigo.com.orchextrasdk.demo.ui.scanner.ScannerFragment;
+import gigigo.com.orchextrasdk.demo.ui.settings.SettingsActivity;
+import gigigo.com.orchextrasdk.demo.ui.triggerlog.TriggerLogFragment;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.demo.geofences;
+package gigigo.com.orchextrasdk.demo.ui.geofences;
 
 import com.google.android.gms.maps.model.LatLng;
 

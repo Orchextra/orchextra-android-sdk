@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.login;
+package gigigo.com.orchextrasdk.demo.ui.login;
 
 import android.Manifest;
 import android.content.Context;
@@ -46,9 +46,9 @@ import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import gigigo.com.orchextrasdk.R;
-import gigigo.com.orchextrasdk.demo.MainActivity;
-import gigigo.com.orchextrasdk.settings.CredentialsPreferenceManager;
-import gigigo.com.orchextrasdk.settings.SettingsActivity;
+import gigigo.com.orchextrasdk.demo.ui.MainActivity;
+import gigigo.com.orchextrasdk.demo.utils.CredentialsPreferenceManager;
+import gigigo.com.orchextrasdk.demo.ui.settings.SettingsActivity;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 

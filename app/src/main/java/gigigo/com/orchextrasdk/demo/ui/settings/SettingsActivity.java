@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.settings;
+package gigigo.com.orchextrasdk.demo.ui.settings;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +26,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,7 +34,8 @@ import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import gigigo.com.orchextrasdk.R;
-import gigigo.com.orchextrasdk.demo.MainActivity;
+import gigigo.com.orchextrasdk.demo.ui.MainActivity;
+import gigigo.com.orchextrasdk.demo.utils.CredentialsPreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsView {
 

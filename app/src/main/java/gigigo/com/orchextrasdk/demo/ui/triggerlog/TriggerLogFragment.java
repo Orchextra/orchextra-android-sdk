@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package gigigo.com.orchextrasdk.demo.triggerlog;
+package gigigo.com.orchextrasdk.demo.ui.triggerlog;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,9 +33,9 @@ import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import gigigo.com.orchextrasdk.R;
-import gigigo.com.orchextrasdk.demo.triggerlog.adapter.TriggerLog;
-import gigigo.com.orchextrasdk.demo.triggerlog.adapter.TriggersAdapter;
-import gigigo.com.orchextrasdk.demo.triggerlog.receiver.TriggerLogMemory;
+import gigigo.com.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
+import gigigo.com.orchextrasdk.demo.ui.triggerlog.adapter.TriggersAdapter;
+import gigigo.com.orchextrasdk.demo.ui.triggerlog.receiver.TriggerLogMemory;
 import java.util.Collection;
 
 public class TriggerLogFragment extends Fragment {
