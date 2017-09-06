@@ -68,16 +68,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
   private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
     @Override public void onStatusChange(boolean isReady) {
       if (isReady) {
-        orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create(LoginActivity.this));
-        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(LoginActivity.this));
+        orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create(getApplication()));
+        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
         orchextra.getTriggerManager()
             .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
 
-        Toast.makeText(LoginActivity.this, "SDK ready", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "SDK ready", Toast.LENGTH_SHORT).show();
         MainActivity.open(LoginActivity.this);
         finish();
       } else {
-        Toast.makeText(LoginActivity.this, "SDK finished", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "SDK finished", Toast.LENGTH_SHORT).show();
       }
     }
   };
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
         Log.e(TAG, error.toString());
-        Toast.makeText(LoginActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT)
+        Toast.makeText(getBaseContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT)
             .show();
       }
     });
@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
   @Override public boolean onOptionsItemSelected(MenuItem item) {
 
     if (item.getItemId() == R.id.action_settings) {
-      SettingsActivity.open(this);
+      SettingsActivity.open(getBaseContext());
       return true;
     } else {
       return super.onOptionsItemSelected(item);

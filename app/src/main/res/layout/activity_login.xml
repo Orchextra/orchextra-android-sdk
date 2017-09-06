@@ -17,64 +17,79 @@
   ~ limitations under the License.
 -->
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="gigigo.com.orchextrasdk.login.LoginActivity"
     >
 
-  <ImageView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:layout_marginTop="126dp"
-      android:src="@drawable/logo"
-      />
-  <TextView
+  <LinearLayout
+      android:id="@+id/logo_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="40dp"
-      android:layout_marginTop="7.5dp"
-      android:gravity="center"
-      android:textColor="@color/primary"
-      android:textSize="38.6sp"
-      android:text="@string/app_title"
-      />
+      android:orientation="vertical"
+      android:layout_alignParentStart="true"
+      >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="126dp"
+        android:src="@drawable/ic_logo"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="7.5dp"
+        android:gravity="center"
+        android:text="@string/app_title"
+        android:textColor="@color/primary"
+        android:textSize="38.6sp"
+        />
+  </LinearLayout>
 
-  <EditText
-      android:id="@+id/projectName_editText"
+  <LinearLayout
+      android:id="@+id/project_credentials_layout"
       android:layout_width="match_parent"
-      android:layout_height="46dp"
-      android:layout_marginLeft="33dp"
-      android:layout_marginRight="43dp"
-      style="@style/EditTextStyle"
-      android:enabled="false"
-      />
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_below="@id/logo_layout"
+      >
+    <EditText
+        android:id="@+id/projectName_editText"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="43dp"
+        android:enabled="false"
+        style="@style/EditTextStyle"
+        />
 
 
-  <EditText
-      android:id="@+id/apiKey_editText"
-      android:layout_width="match_parent"
-      android:layout_height="46dp"
-      android:layout_marginLeft="53dp"
-      android:layout_marginRight="43dp"
-      android:layout_marginTop="17dp"
-      style="@style/EditTextStyle"
-      android:hint="@string/api_key"
-      />
-  <EditText
-      android:id="@+id/apiSecret_editText"
-      android:layout_width="match_parent"
-      android:layout_height="46dp"
-      android:layout_marginLeft="53dp"
-      android:layout_marginRight="43dp"
-      android:layout_marginTop="15dp"
-      style="@style/EditTextStyle"
-      android:hint="@string/api_secret"
-      />
+    <EditText
+        android:id="@+id/apiKey_editText"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginLeft="53dp"
+        android:layout_marginRight="43dp"
+        android:layout_marginTop="17dp"
+        android:hint="@string/api_key"
+        style="@style/EditTextStyle"
+        />
+    <EditText
+        android:id="@+id/apiSecret_editText"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginLeft="53dp"
+        android:layout_marginRight="43dp"
+        android:layout_marginTop="15dp"
+        android:hint="@string/api_secret"
+        style="@style/EditTextStyle"
+        />
+  </LinearLayout>
 
   <Button
       android:id="@+id/start_button"
@@ -84,8 +99,9 @@
       android:layout_marginLeft="64dp"
       android:layout_marginRight="64dp"
       android:layout_marginTop="40dp"
+      android:layout_alignParentBottom="true"
       android:text="@string/start_orchextra"
       style="@style/ButtonLoginStyle"
       />
 
-</LinearLayout>
+</RelativeLayout>

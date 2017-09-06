@@ -60,7 +60,14 @@
     <item name="android:textColorHint">@color/secondary_text</item>
     <item name="android:textColor">@color/primary_text</item>
     <item name="android:background">@drawable/edit_text_shape_selector</item>
+  </style>
 
+  <style name="SettingsTextStyle" parent="android:Widget.EditText">
+    <item name="android:enabled">false</item>
+    <item name="android:focusable">false</item>
+    <item name="android:inputType">none</item>
+    <item name="android:textColor">@color/grey7</item>
+    <item name="android:textColorHint">@color/secondary_text</item>
   </style>
 
   <style name="ButtonLoginStyle" parent="Base.Widget.AppCompat.Button">

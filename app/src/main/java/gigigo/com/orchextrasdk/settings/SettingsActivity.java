@@ -73,8 +73,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
       @Override public void onStatusChange(boolean isReady) {
         if (isReady) {
           enableLogout();
-          apiKeyTextView.setEnabled(!isReady);
-          apiSecretTextView.setEnabled(!isReady);
         } else {
           MainActivity.open(SettingsActivity.this);
           finish();
@@ -121,9 +119,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
   @Override public void showProjectCredentials(String apiKey, String apiSecret) {
     apiKeyTextView.setText(apiKey);
     apiSecretTextView.setText(apiSecret);
-
-    apiKeyTextView.setEnabled(!orchextra.isReady());
-    apiSecretTextView.setEnabled(!orchextra.isReady());
   }
 
   private void initToolbar() {

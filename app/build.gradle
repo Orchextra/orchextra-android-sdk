@@ -37,7 +37,7 @@ android {
 
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
-    minSdkVersion 16
+    minSdkVersion 17
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode
     versionName "7.0.3"
