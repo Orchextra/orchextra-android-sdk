@@ -28,9 +28,41 @@
 
   <include layout="@layout/ox_toolbar"/>
 
-  <FrameLayout
-      android:id="@+id/content_frame"
+  <RelativeLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      />
+      android:background="@color/ox_scanner_background"
+      >
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="85dp"
+        android:layout_marginRight="22dp"
+        android:orientation="vertical"
+        >
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/ox_scanner_logo_title"
+          android:textColor="#ffffff"
+          android:textSize="10.2sp"
+          />
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="1.4dp"
+          android:src="@drawable/ic_orchextra_logo_scanner"
+          />
+
+    </LinearLayout>
+  </RelativeLayout>
 </LinearLayout>

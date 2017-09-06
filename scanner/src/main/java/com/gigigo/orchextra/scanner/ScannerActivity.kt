@@ -40,15 +40,15 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   private val PERMISSIONS_REQUEST_CAMERA = 1
   private val handler = Handler()
-  private lateinit var mScannerView: ZBarScannerView
+  private lateinit var scannerView: ZBarScannerView
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_scanner)
 
-    mScannerView = ZBarScannerView(this)
+    scannerView = ZBarScannerView(this)
     val contentFrame = findViewById(R.id.content_frame) as ViewGroup
-    contentFrame.addView(mScannerView)
+    contentFrame.addView(scannerView)
 
     initToolbar()
   }
@@ -63,7 +63,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
     toolbar.setNavigationOnClickListener { onBackPressed() }
 
-    title = getString(R.string.app_name)
+    title = getString(R.string.ox_scanner_title)
   }
 
   override fun handleResult(rawResult: Result) {
@@ -76,17 +76,17 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
       finish()
     }
 
-    handler.postDelayed({ mScannerView.resumeCameraPreview(this@ScannerActivity) }, 2000)
+    handler.postDelayed({ scannerView.resumeCameraPreview(this@ScannerActivity) }, 2000)
   }
 
   public override fun onResume() {
     super.onResume()
     scannerActivity = this
-    mScannerView.setResultHandler(this)
+    scannerView.setResultHandler(this)
 
     if (ContextCompat.checkSelfPermission(this,
         Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-      mScannerView.startCamera()
+      scannerView.startCamera()
     } else {
       requestPermission()
     }
@@ -100,7 +100,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
         // Show an expanation to the user *asynchronously* -- don't block
         // this thread waiting for the user's response! After the user
         // sees the explanation, try again to request the permission.
-        Toast.makeText(this, "Expanation!!!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Explanation!!!", Toast.LENGTH_SHORT).show()
       } else {
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
             PERMISSIONS_REQUEST_CAMERA)
@@ -110,7 +110,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   public override fun onPause() {
     super.onPause()
-    mScannerView.stopCamera()
+    scannerView.stopCamera()
   }
 
   public override fun onDestroy() {
@@ -123,7 +123,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
     when (requestCode) {
       PERMISSIONS_REQUEST_CAMERA -> {
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          mScannerView.startCamera()
+          scannerView.startCamera()
         } else {
           ScannerActivity.finish()
         }
