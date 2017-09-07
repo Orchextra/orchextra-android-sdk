@@ -87,11 +87,11 @@ class SessionManagerTest {
     val sharedPreferencesMock = mock<SharedPreferences> {
       on { edit() } doReturn editor
       on { getString(TOKEN_KEY, "") } doReturn tokenJsonAdapter.toJson(token)
-
     }
 
-    SessionManagerImp.sharedPreferences = sharedPreferencesMock
+    val moshi: Moshi = Moshi.Builder().build()
+    val tokenJsonAdapter = moshi.adapter(Token::class.java)
 
-    return SessionManagerImp
+    return SessionManagerImp(sharedPreferencesMock, tokenJsonAdapter)
   }
 }

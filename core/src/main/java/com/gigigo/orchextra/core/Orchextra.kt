@@ -56,12 +56,10 @@ object Orchextra : OrchextraErrorListener {
   private var debuggable = false
 
   @JvmOverloads
-  fun init(context: Application, apiKey: String, apiSecret: String,
-      orchextraStatusListener: OrchextraStatusListener? = null, debuggable: Boolean = false) {
+  fun init(context: Application, apiKey: String, apiSecret: String, debuggable: Boolean = false) {
 
     this.context = context
     this.debuggable = debuggable
-    this.orchextraStatusListener = orchextraStatusListener
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
@@ -134,8 +132,12 @@ object Orchextra : OrchextraErrorListener {
     }
   }
 
-  fun setOrchextraStatusListener(orchextraStatusListener: OrchextraStatusListener) {
+  fun setStatusListener(orchextraStatusListener: OrchextraStatusListener) {
     this.orchextraStatusListener = orchextraStatusListener
+  }
+
+  fun removeStatusListener() {
+    this.orchextraStatusListener = null
   }
 
   fun setErrorListener(errorListener: OrchextraErrorListener) {
@@ -153,7 +155,7 @@ object Orchextra : OrchextraErrorListener {
   fun finish() {
     this.context = null
     this.credentials = Credentials()
-    triggerManager.finish()
+    this.triggerManager.finish()
 
     changeStatus(false)
   }

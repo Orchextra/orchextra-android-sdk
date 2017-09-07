@@ -1,10 +1,24 @@
+/*
+ * Created by Orchextra
+ *
+ * Copyright (C) 2017 Gigigo Mobile Services SL
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.gigigo.orchextrasdk.demo.ui.settings;
 
 import com.gigigo.orchextrasdk.demo.utils.CredentialsPreferenceManager;
-
-/**
- * Created by rui.alonso on 5/9/17.
- */
 
 public class SettingsPresenter {
 
@@ -15,7 +29,8 @@ public class SettingsPresenter {
   private String apiSecret = "";
   private String projectName = "";
 
-  public SettingsPresenter(SettingsView view, CredentialsPreferenceManager credentialsPreferenceManager) {
+  public SettingsPresenter(SettingsView view,
+      CredentialsPreferenceManager credentialsPreferenceManager) {
     this.view = view;
     this.credentialsPreferenceManager = credentialsPreferenceManager;
   }

@@ -51,10 +51,10 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
 
   @ColorInt public static final int fillColor = 0x555677FC;
   @ColorInt public static final int strokeColor = 0xFF5677FC;
-  private int zoomLevel = 15;
+  int zoomLevel = 15;
 
   private MapView mapView;
-  private GoogleMap googleMap;
+  GoogleMap googleMap;
   private FusedLocationProviderClient fusedLocationClient;
 
   public GeofencesFragment() {

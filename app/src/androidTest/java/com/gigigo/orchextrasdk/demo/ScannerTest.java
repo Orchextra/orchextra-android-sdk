@@ -16,16 +16,23 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.demo.ui.settings;
+package com.gigigo.orchextrasdk.demo;
 
-interface SettingsView {
-  void setupOrchextra();
+import android.support.test.runner.AndroidJUnit4;
+import com.gigigo.orchextrasdk.demo.pages.MainPage;
+import com.gigigo.orchextrasdk.demo.pages.ScannerPage;
+import com.gigigo.orchextrasdk.demo.utils.BaseSectionTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-  void finishOrchextra();
+@RunWith(AndroidJUnit4.class) public class ScannerTest extends BaseSectionTest {
 
-  void enableLogout();
+  @Test public void shouldSeeIfOxScannerButtonIsDisplayed() {
 
-  void showProjectName(String projectName);
+    startActivity();
 
-  void showProjectCredentials(String apiKey, String apiSecret);
+    ScannerPage scannerPage = (new MainPage(getContext())).startOrchextra();
+
+    scannerPage.checkIfOxScannerButtonIsDisplayed();
+  }
 }

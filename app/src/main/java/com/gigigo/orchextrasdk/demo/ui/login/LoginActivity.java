@@ -67,13 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
   private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
     @Override public void onStatusChange(boolean isReady) {
       if (isReady) {
-        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
-        orchextra.getTriggerManager()
-            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
-
-        Toast.makeText(getBaseContext(), "SDK ready", Toast.LENGTH_SHORT).show();
-        MainActivity.open(LoginActivity.this);
-        finish();
+        startOrchextra();
       } else {
         Toast.makeText(getBaseContext(), "SDK finished", Toast.LENGTH_SHORT).show();
       }
@@ -83,6 +77,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
   public static void open(Context context) {
     Intent intent = new Intent(context, LoginActivity.class);
     context.startActivity(intent);
+  }
+
+  void startOrchextra() {
+    orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
+    orchextra.getTriggerManager()
+        .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
+
+    Toast.makeText(getBaseContext(), "SDK ready", Toast.LENGTH_SHORT).show();
+    MainActivity.open(LoginActivity.this);
+    finish();
   }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +147,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
   }
 
   @Override public void initOrchextra(String apiKey, String apiSecret) {
-    orchextra.init(getApplication(), apiKey, apiSecret, orchextraStatusListener);
+    orchextra.setStatusListener(orchextraStatusListener);
+    orchextra.init(getApplication(), apiKey, apiSecret, true);
   }
 
   @Override public void showCredentialsError(String message) {
@@ -216,5 +221,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         loginPresenter.permissionGranted(granted);
       }
     }
+  }
+
+  @Override protected void onDestroy() {
+    orchextra.removeStatusListener();
+    super.onDestroy();
   }
 }

@@ -40,7 +40,7 @@
 
     <receiver
         android:name=".receiver.TriggerBroadcastReceiver"
-        android:exported="true">
+        android:exported="false">
       <intent-filter>
         <action android:name="com.gigigo.orchextra.TRIGGER_RECEIVER"/>
       </intent-filter>

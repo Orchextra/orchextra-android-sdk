@@ -1,7 +1,7 @@
 /*
  * Created by Orchextra
  *
- * Copyright (C) 2016 Gigigo Mobile Services SL
+ * Copyright (C) 2017 Gigigo Mobile Services SL
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,4 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-include ':app', ':core', ':scanner', ':geofence', ':indoorpositioning'
+
+package com.gigigo.orchextrasdk.demo.pages;
+
+import android.content.Context;
+
+public class GeofencesPage extends DemoPage {
+
+  public GeofencesPage(Context context) {
+    super(context);
+  }
+}
