@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
 import com.gigigo.orchextrasdk.demo.R;
+import com.gigigo.orchextrasdk.demo.utils.TextUtils;
 
 public class TriggersViewHolder extends RecyclerView.ViewHolder {
 
@@ -54,7 +55,9 @@ public class TriggersViewHolder extends RecyclerView.ViewHolder {
     final Trigger trigger = triggerLog.getTrigger();
 
     String triggerName = trigger.getType().name();
-    triggerName = triggerName.substring(0,1).toUpperCase() + triggerName.substring(1).toLowerCase();
+    triggerName = TextUtils.normalize(triggerName);
+    triggerName = TextUtils.capitalize(triggerName);
+
     triggerNameTv.setText(triggerName);
     dateTypeTv.setText(getContext().getString(R.string.trigger_date_format, triggerLog.getDate()));
     triggerTypeTv.setText(trigger.getType().name());

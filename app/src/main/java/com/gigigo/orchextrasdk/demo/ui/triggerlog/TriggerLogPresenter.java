@@ -2,6 +2,7 @@ package com.gigigo.orchextrasdk.demo.ui.triggerlog;
 
 import android.support.annotation.NonNull;
 import com.gigigo.orchextra.core.domain.entities.TriggerType;
+import com.gigigo.orchextrasdk.demo.ui.filters.entities.TriggerFilter;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.receiver.TriggerLogMemory;
 import java.util.ArrayList;
@@ -39,16 +40,6 @@ public class TriggerLogPresenter {
     }
   }
 
-  public void showFilter() {
-    ArrayList<TriggerType> filters = new ArrayList<>();
-    filters.add(TriggerType.BEACON);
-    filters.add(TriggerType.QR);
-    filters.add(TriggerType.IMAGE_RECOGNITION);
-    filterList(triggerLogMemory.getTriggerLogs(), filters);
-
-    view.showFilterSelection();
-  }
-
   public void clearFilter() {
     cleanFilterList();
     view.showFilterCleared();
@@ -73,5 +64,24 @@ public class TriggerLogPresenter {
 
   private void cleanFilterList() {
     view.updateFilterList(triggerLogMemory.getTriggerLogs());
+  }
+
+  public void showFilterSelection() {
+
+    view.showFilterSelection();
+  }
+
+  public void setFilters(List<TriggerFilter> filters) {
+    List<TriggerType> filterTypes = new ArrayList<>();
+    for (TriggerFilter filter : filters) {
+      if (filter.isActive()) {
+        filterTypes.add(filter.getType());
+      }
+    }
+    filterList(triggerLogMemory.getTriggerLogs(), filterTypes);
+  }
+
+  public void cancelFilterEdition() {
+
   }
 }

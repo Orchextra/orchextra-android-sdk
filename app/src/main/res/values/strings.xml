@@ -27,6 +27,7 @@
   <string name="title_scanner">Camera</string>
   <string name="title_geofences">Geofence</string>
   <string name="title_triggers_log">Triggers</string>
+  <string name="title_triggers_filter">Filters</string>
 
   <string name="open_orchextra_scanner">Orchextra scanner</string>
   <string name="open_custom_scanner">Custom scanner</string>
@@ -44,6 +45,8 @@
   <string name="trigger_major">Major:</string>
   <string name="trigger_minor">Minor:</string>
   <string name="trigger_uuid">UUID:</string>
+
+  <string name="apply_filter">Apply</string>
 
 
   <string name="project">Project</string>

@@ -50,21 +50,31 @@
     </activity>
     <activity
         android:name=".ui.scanner.custom.CustomScannerActivity"
-        android:parentActivityName=".ui.login.LoginActivity"
+        android:parentActivityName=".ui.MainActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value=".ui.login.LoginActivity"/>
+          android:value=".ui.MainActivity"/>
     </activity>
     <activity
         android:name=".ui.settings.SettingsActivity"
         android:label="@string/title_settings"
-        android:parentActivityName=".ui.login.LoginActivity"
+        android:parentActivityName=".ui.MainActivity"
         android:theme="@style/AppTheme.NoActionBar">
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
-          android:value=".ui.login.LoginActivity"/>
+          android:value=".ui.MainActivity"/>
     </activity>
+    <activity
+        android:name=".ui.filters.FilterActivity"
+        android:label="@string/title_triggers_filter"
+        android:parentActivityName=".ui.MainActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".ui.MainActivity"/>
+    </activity>
+
 
     <receiver
         android:name=".ui.triggerlog.receiver.TriggerLogBroadcastReceiver"

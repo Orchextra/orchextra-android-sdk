@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white2"
+    android:orientation="vertical"
+    tools:context=".ui.filters.FilterActivity"
+    >
+
+  <include layout="@layout/toolbar"/>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+    <Button
+        android:id="@+id/apply_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:enabled="false"
+        android:text="@string/apply_filter"
+        style="@style/ButtonStyle"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/trigger_filter_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/apply_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"
+        tools:listitem="@layout/item_filter"
+        />
+  </RelativeLayout>
+</LinearLayout>

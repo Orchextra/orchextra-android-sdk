@@ -18,6 +18,8 @@
 
 package com.gigigo.orchextrasdk.demo.ui.triggerlog;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,6 +40,8 @@ import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextrasdk.demo.R;
+import com.gigigo.orchextrasdk.demo.ui.filters.FilterActivity;
+import com.gigigo.orchextrasdk.demo.ui.filters.entities.TriggerFilter;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggersAdapter;
 import java.util.Collection;
@@ -45,6 +49,7 @@ import java.util.List;
 
 public class TriggerLogFragment extends Fragment implements TriggerLogView {
 
+  public static final int TRIGGER_REQUEST_CODE = 1;
   private static final String TAG = "TriggerLogFragment";
   private CheckedTextView modifyFilterView;
   private Button filterCleanButton;
@@ -102,7 +107,7 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
   private void initFilter() {
     modifyFilterView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        triggerLogPresenter.showFilter();
+        triggerLogPresenter.showFilterSelection();
       }
     });
 
@@ -154,6 +159,7 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
   }
 
   @Override public void showFilterSelection() {
+    FilterActivity.open(getActivity(), TRIGGER_REQUEST_CODE);
     filterCleanButton.setVisibility(View.VISIBLE);
     modifyFilterView.setChecked(true);
   }
@@ -164,5 +170,22 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
 
   @Override public void updateFilterList(List<TriggerLog> triggerLogs) {
     triggersAdapter.animateTo(triggerLogs);
+  }
+
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (resultCode == Activity.RESULT_OK) {
+      if (data != null) {
+        Bundle bundle = data.getExtras();
+        if (bundle != null) {
+          List<TriggerFilter> filters =
+              (List<TriggerFilter>) bundle.get(FilterActivity.TRIGGER_FILTERS_EXTRA);
+          triggerLogPresenter.setFilters(filters);
+        }
+      }
+    } else {
+      triggerLogPresenter.cancelFilterEdition();
+    }
   }
 }
