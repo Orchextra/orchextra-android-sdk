@@ -46,6 +46,7 @@ import java.util.List;
 public class TriggerLogFragment extends Fragment implements TriggerLogView {
 
   private static final String TAG = "TriggerLogFragment";
+  private Orchextra orchextra;
   private CheckedTextView modifyFilterView;
   private Button filterCleanButton;
   private TriggersAdapter triggersAdapter;
@@ -83,7 +84,7 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
   }
 
   @Override public void setupOrchextra() {
-    Orchextra orchextra = Orchextra.INSTANCE;
+    orchextra = Orchextra.INSTANCE;
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
         Log.e(TAG, error.toString());
@@ -164,5 +165,10 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
 
   @Override public void updateFilterList(List<TriggerLog> triggerLogs) {
     triggersAdapter.animateTo(triggerLogs);
+  }
+
+  @Override public void onDestroyView() {
+    orchextra.removeErrorListener();
+    super.onDestroyView();
   }
 }

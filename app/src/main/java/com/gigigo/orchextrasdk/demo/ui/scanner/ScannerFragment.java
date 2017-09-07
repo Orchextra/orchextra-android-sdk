@@ -84,7 +84,8 @@ public class ScannerFragment extends Fragment {
     oxScannerButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (orchextra.isReady()) {
-          orchextra.getTriggerManager().setScanner(OxScannerImp.Factory.create(getActivity().getApplication()));
+          orchextra.getTriggerManager()
+              .setScanner(OxScannerImp.Factory.create(getActivity().getApplication()));
           orchextra.openScanner();
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
@@ -95,7 +96,8 @@ public class ScannerFragment extends Fragment {
     oxCustomScannerButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (orchextra.isReady()) {
-          orchextra.getTriggerManager().setScanner(CustomScannerImp.Factory.create(getActivity().getApplication()));
+          orchextra.getTriggerManager()
+              .setScanner(CustomScannerImp.Factory.create(getActivity().getApplication()));
           orchextra.openScanner();
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
@@ -108,5 +110,10 @@ public class ScannerFragment extends Fragment {
         Toast.makeText(getContext(), "Operation is not implemented", Toast.LENGTH_SHORT).show();
       }
     });
+  }
+
+  @Override public void onDestroyView() {
+    orchextra.removeErrorListener();
+    super.onDestroyView();
   }
 }

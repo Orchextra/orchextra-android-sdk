@@ -191,6 +191,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
   @Override protected void onDestroy() {
     orchextra.removeStatusListener();
+    orchextra.removeErrorListener();
     super.onDestroy();
   }
 }

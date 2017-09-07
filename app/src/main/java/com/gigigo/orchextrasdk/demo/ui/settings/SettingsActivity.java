@@ -139,6 +139,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
 
   @Override protected void onDestroy() {
     orchextra.removeStatusListener();
+    orchextra.removeErrorListener();
     super.onDestroy();
   }
 }
