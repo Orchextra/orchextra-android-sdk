@@ -22,7 +22,7 @@ import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.support.test.espresso.ViewInteraction;
 import android.view.View;
-import com.gigigo.orchextrasdk.R;
+import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.utils.TestUtils;
 import org.hamcrest.core.IsInstanceOf;
 
@@ -68,7 +68,7 @@ public class SettingsPage extends BasePage {
   }
 
   public SettingsPage checkIfApiKeyIsEqualsTo(String apiKey) {
-    ViewInteraction editText = onView(allOf(withId(R.id.api_key_tv), TestUtils.childAtPosition(
+    ViewInteraction editText = onView(allOf(withId(R.id.apiKey_editText), TestUtils.childAtPosition(
         TestUtils.childAtPosition(IsInstanceOf.<View>instanceOf(TextInputLayout.class), 0), 0),
         isDisplayed()));
     editText.check(matches(withText(apiKey)));
@@ -77,7 +77,7 @@ public class SettingsPage extends BasePage {
   }
 
   public SettingsPage checkIfApiSecretIsEqualsTo(String apiSecret) {
-    ViewInteraction editText = onView(allOf(withId(R.id.api_secret_tv), TestUtils.childAtPosition(
+    ViewInteraction editText = onView(allOf(withId(R.id.apiSecret_editText), TestUtils.childAtPosition(
         TestUtils.childAtPosition(IsInstanceOf.<View>instanceOf(TextInputLayout.class), 0), 0),
         isDisplayed()));
     editText.check(matches(withText(apiSecret)));

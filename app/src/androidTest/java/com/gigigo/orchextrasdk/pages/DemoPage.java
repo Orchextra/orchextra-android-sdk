@@ -23,7 +23,7 @@ import android.support.test.espresso.ViewInteraction;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
 import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver;
-import com.gigigo.orchextrasdk.R;
+import com.gigigo.orchextrasdk.demo.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -77,7 +77,7 @@ public class DemoPage extends BasePage {
   public WebViewPage detectQRCodeWithOpenWebViewActionAssociated() {
 
     context.sendBroadcast(TriggerBroadcastReceiver.Navigator.getTriggerIntent(
-        new Trigger(TriggerType.QR, "google", null, null, null, null, null, null, null, null)));
+        new Trigger(TriggerType.QR, "google", null, null, null, null, null, null, null, null, 1)));
 
     return new WebViewPage(context);
   }
