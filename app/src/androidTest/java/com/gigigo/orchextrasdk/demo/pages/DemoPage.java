@@ -16,23 +16,24 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.pages;
+package com.gigigo.orchextrasdk.demo.pages;
 
 import android.content.Context;
 import android.support.test.espresso.ViewInteraction;
+import com.gigigo.orchextra.core.domain.entities.Trigger;
+import com.gigigo.orchextra.core.domain.entities.TriggerType;
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver;
 import com.gigigo.orchextrasdk.R;
-import com.gigigo.orchextrasdk.utils.TestUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
-public class MainPage extends BasePage {
+public class DemoPage extends BasePage {
 
-  public MainPage(Context context) {
+  public DemoPage(Context context) {
     super(context);
 
     try {
@@ -42,14 +43,28 @@ public class MainPage extends BasePage {
     }
   }
 
-  public ScannerPage startOrchextra() {
-
-    ViewInteraction button = onView(allOf(withId(R.id.start_button),
-        TestUtils.childAtPosition(TestUtils.childAtPosition(withId(android.R.id.content), 0), 2),
-        isDisplayed()));
-    button.perform(click());
+  public ScannerPage openScannerDemoView() {
+    ViewInteraction bottomNavigationItemView =
+        onView(allOf(withId(R.id.navigation_scanner), isDisplayed()));
+    bottomNavigationItemView.perform(click());
 
     return new ScannerPage(context);
+  }
+
+  public GeofencesPage openGeofencesDemoView() {
+    ViewInteraction bottomNavigationItemView =
+        onView(allOf(withId(R.id.navigation_geofences), isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    return new GeofencesPage(context);
+  }
+
+  public TriggerLogPage openTriggerLogDemoView() {
+    ViewInteraction bottomNavigationItemView =
+        onView(allOf(withId(R.id.navigation_triggers_log), isDisplayed()));
+    bottomNavigationItemView.perform(click());
+
+    return new TriggerLogPage(context);
   }
 
   public SettingsPage openSettingsView() {
@@ -59,12 +74,11 @@ public class MainPage extends BasePage {
     return new SettingsPage(context);
   }
 
-  public MainPage checkIfStartButtonExist() {
-    ViewInteraction button = onView(allOf(withId(R.id.start_button),
-        TestUtils.childAtPosition(TestUtils.childAtPosition(withId(android.R.id.content), 0), 2),
-        isDisplayed()));
-    button.check(matches(isDisplayed()));
+  public WebViewPage detectQRCodeWithOpenWebViewActionAssociated() {
 
-    return this;
+    context.sendBroadcast(TriggerBroadcastReceiver.Navigator.getTriggerIntent(
+        new Trigger(TriggerType.QR, "google", null, null, null, null, null, null, null, null)));
+
+    return new WebViewPage(context);
   }
 }

@@ -16,19 +16,23 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.pages;
+package com.gigigo.orchextrasdk.demo;
 
-import android.content.Context;
+import android.support.test.runner.AndroidJUnit4;
+import com.gigigo.orchextrasdk.demo.pages.MainPage;
+import com.gigigo.orchextrasdk.demo.pages.ScannerPage;
+import com.gigigo.orchextrasdk.demo.utils.BaseSectionTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class WebViewPage extends BasePage {
+@RunWith(AndroidJUnit4.class) public class ScannerTest extends BaseSectionTest {
 
-  public WebViewPage(Context context) {
-    super(context);
+  @Test public void shouldSeeIfOxScannerButtonIsDisplayed() {
 
-    try {
-      Thread.sleep(10000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    startActivity();
+
+    ScannerPage scannerPage = (new MainPage(getContext())).startOrchextra();
+
+    scannerPage.checkIfOxScannerButtonIsDisplayed();
   }
 }

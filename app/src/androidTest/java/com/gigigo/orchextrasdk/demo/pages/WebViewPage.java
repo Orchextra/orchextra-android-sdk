@@ -16,24 +16,19 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk;
+package com.gigigo.orchextrasdk.demo.pages;
 
-import android.support.test.runner.AndroidJUnit4;
-import com.gigigo.orchextrasdk.pages.MainPage;
-import com.gigigo.orchextrasdk.pages.WebViewPage;
-import com.gigigo.orchextrasdk.utils.BaseSectionTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import android.content.Context;
 
-@RunWith(AndroidJUnit4.class) public class ActionsTest extends BaseSectionTest {
+public class WebViewPage extends BasePage {
 
-  @Test public void shouldExecuteBrowserActionOnDetectQRCode() {
+  public WebViewPage(Context context) {
+    super(context);
 
-    startActivity();
-
-    WebViewPage webViewPage =
-        (new MainPage(getContext())).startOrchextra().detectQRCodeWithOpenWebViewActionAssociated();
-
-    webViewPage.checkIfPageTitleIsEqualsTo("google.es");
+    try {
+      Thread.sleep(10000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 }

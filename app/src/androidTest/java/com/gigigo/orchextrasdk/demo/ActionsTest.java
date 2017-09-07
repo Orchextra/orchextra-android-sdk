@@ -16,23 +16,24 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk;
+package com.gigigo.orchextrasdk.demo;
 
 import android.support.test.runner.AndroidJUnit4;
-import com.gigigo.orchextrasdk.pages.MainPage;
-import com.gigigo.orchextrasdk.pages.ScannerPage;
-import com.gigigo.orchextrasdk.utils.BaseSectionTest;
+import com.gigigo.orchextrasdk.demo.pages.MainPage;
+import com.gigigo.orchextrasdk.demo.pages.WebViewPage;
+import com.gigigo.orchextrasdk.demo.utils.BaseSectionTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@RunWith(AndroidJUnit4.class) public class ScannerTest extends BaseSectionTest {
+@RunWith(AndroidJUnit4.class) public class ActionsTest extends BaseSectionTest {
 
-  @Test public void shouldSeeIfOxScannerButtonIsDisplayed() {
+  @Test public void shouldExecuteBrowserActionOnDetectQRCode() {
 
     startActivity();
 
-    ScannerPage scannerPage = (new MainPage(getContext())).startOrchextra();
+    WebViewPage webViewPage =
+        (new MainPage(getContext())).startOrchextra().detectQRCodeWithOpenWebViewActionAssociated();
 
-    scannerPage.checkIfOxScannerButtonIsDisplayed();
+    webViewPage.checkIfPageTitleIsEqualsTo("google.es");
   }
 }

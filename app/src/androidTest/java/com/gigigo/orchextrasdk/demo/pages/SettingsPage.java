@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.pages;
+package com.gigigo.orchextrasdk.demo.pages;
 
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.support.test.espresso.ViewInteraction;
 import android.view.View;
 import com.gigigo.orchextrasdk.R;
-import com.gigigo.orchextrasdk.utils.TestUtils;
+import com.gigigo.orchextrasdk.demo.utils.TestUtils;
 import org.hamcrest.core.IsInstanceOf;
 
 import static android.support.test.espresso.Espresso.onView;

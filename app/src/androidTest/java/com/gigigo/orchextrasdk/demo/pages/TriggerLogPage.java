@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.pages;
+package com.gigigo.orchextrasdk.demo.pages;
 
 import android.content.Context;
 import android.support.test.espresso.ViewInteraction;
 import com.gigigo.orchextrasdk.R;
-import com.gigigo.orchextrasdk.utils.TestUtils;
+import com.gigigo.orchextrasdk.demo.utils.TestUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -29,17 +29,18 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 
-public class ScannerPage extends DemoPage {
+public class TriggerLogPage extends DemoPage {
 
-  public ScannerPage(Context context) {
+  public TriggerLogPage(Context context) {
     super(context);
   }
 
-  public ScannerPage checkIfOxScannerButtonIsDisplayed() {
-    ViewInteraction button = onView(allOf(withId(R.id.ox_scanner_button),
+  public TriggerLogPage checkIfLogListIsEmpty() {
+
+    ViewInteraction linearLayout = onView(allOf(withId(R.id.empty_list_view),
         TestUtils.childAtPosition(TestUtils.childAtPosition(withId(R.id.fragment_container), 0), 0),
         isDisplayed()));
-    button.check(matches(isDisplayed()));
+    linearLayout.check(matches(isDisplayed()));
 
     return this;
   }

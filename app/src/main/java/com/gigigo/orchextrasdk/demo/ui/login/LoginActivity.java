@@ -147,7 +147,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
   }
 
   @Override public void initOrchextra(String apiKey, String apiSecret) {
-    orchextra.init(getApplication(), apiKey, apiSecret, orchextraStatusListener, true);
+    orchextra.setStatusListener(orchextraStatusListener);
+    orchextra.init(getApplication(), apiKey, apiSecret, true);
   }
 
   @Override public void showCredentialsError(String message) {
@@ -220,5 +221,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         loginPresenter.permissionGranted(granted);
       }
     }
+  }
+
+  @Override protected void onDestroy() {
+    orchextra.removeStatusListener();
+    super.onDestroy();
   }
 }

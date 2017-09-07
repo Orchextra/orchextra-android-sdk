@@ -1,4 +1,4 @@
-package com.gigigo.orchextrasdk;
+package com.gigigo.orchextrasdk.demo;
 
 import org.junit.Test;
 

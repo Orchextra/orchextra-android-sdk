@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.pages;
+package com.gigigo.orchextrasdk.demo.pages;
 
 import android.content.Context;
 import android.support.test.espresso.ViewInteraction;

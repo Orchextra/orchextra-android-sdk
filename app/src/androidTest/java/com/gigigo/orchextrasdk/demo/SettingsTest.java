@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk;
+package com.gigigo.orchextrasdk.demo;
 
 import android.support.test.runner.AndroidJUnit4;
-import com.gigigo.orchextrasdk.pages.MainPage;
-import com.gigigo.orchextrasdk.pages.SettingsPage;
-import com.gigigo.orchextrasdk.utils.BaseSectionTest;
+import com.gigigo.orchextrasdk.demo.pages.MainPage;
+import com.gigigo.orchextrasdk.demo.pages.SettingsPage;
+import com.gigigo.orchextrasdk.demo.utils.BaseSectionTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

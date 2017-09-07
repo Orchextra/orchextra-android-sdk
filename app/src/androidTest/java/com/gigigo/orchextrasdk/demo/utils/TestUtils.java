@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.utils;
+package com.gigigo.orchextrasdk.demo.utils;
 
 import android.view.View;
 import android.view.ViewGroup;

@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
 
   @Override public void setupOrchextra() {
     orchextra = Orchextra.INSTANCE;
-    orchextra.setOrchextraStatusListener(new OrchextraStatusListener() {
+    orchextra.setStatusListener(new OrchextraStatusListener() {
       @Override public void onStatusChange(boolean isReady) {
         if (isReady) {
           enableLogout();
@@ -115,7 +115,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
     projectNameTextView.setText(projectName);
   }
 
-
   @Override public void showProjectCredentials(String apiKey, String apiSecret) {
     apiKeyTextView.setText(apiKey);
     apiSecretTextView.setText(apiSecret);
@@ -136,5 +135,10 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
         onBackPressed();
       }
     });
+  }
+
+  @Override protected void onDestroy() {
+    orchextra.removeStatusListener();
+    super.onDestroy();
   }
 }
