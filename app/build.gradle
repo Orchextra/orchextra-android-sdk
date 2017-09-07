@@ -23,6 +23,7 @@ buildscript {
 
   dependencies {
     classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
+    classpath 'com.applivery.gradle:applivery-deploy:1.0.0'
   }
 }
 
@@ -31,6 +32,7 @@ apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'applivery-plugin'
 
 android {
   compileSdkVersion 25
@@ -119,6 +121,11 @@ dependencies {
   androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   }
+}
+
+applivery {
+  appId = "59a69f14b143c2640ffb5418"
+  apiKey = "$System.env.APPLIVERY_API_KEY"
 }
 
 android.applicationVariants.all { variant ->
