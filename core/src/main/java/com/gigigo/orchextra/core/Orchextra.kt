@@ -144,6 +144,10 @@ object Orchextra : OrchextraErrorListener {
     this.orchextraErrorListener = errorListener
   }
 
+  fun removeErrorListener() {
+    this.orchextraErrorListener = null
+  }
+
   override fun onError(error: Error) {
     orchextraErrorListener?.onError(error)
 

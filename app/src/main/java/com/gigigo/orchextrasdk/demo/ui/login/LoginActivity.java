@@ -28,11 +28,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -46,7 +42,6 @@ import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
-import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
 import com.gigigo.orchextrasdk.demo.utils.CredentialsPreferenceManager;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -196,6 +191,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
   @Override protected void onDestroy() {
     orchextra.removeStatusListener();
+    orchextra.removeErrorListener();
     super.onDestroy();
   }
 }

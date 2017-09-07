@@ -51,6 +51,7 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
 
   public static final int TRIGGER_REQUEST_CODE = 1;
   private static final String TAG = "TriggerLogFragment";
+  private Orchextra orchextra;
   private CheckedTextView modifyFilterView;
   private Button filterCleanButton;
   private TriggersAdapter triggersAdapter;
@@ -88,7 +89,7 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
   }
 
   @Override public void setupOrchextra() {
-    Orchextra orchextra = Orchextra.INSTANCE;
+    orchextra = Orchextra.INSTANCE;
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
         Log.e(TAG, error.toString());

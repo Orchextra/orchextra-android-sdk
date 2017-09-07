@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import com.gigigo.orchextrasdk.demo.R;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class TriggersAdapter extends RecyclerView.Adapter<TriggersViewHolder> {
@@ -53,6 +54,7 @@ public class TriggersAdapter extends RecyclerView.Adapter<TriggersViewHolder> {
   public void addAll(Collection<TriggerLog> collection) {
     triggerList.clear();
     triggerList.addAll(collection);
+    Collections.sort(triggerList);
     notifyDataSetChanged();
   }
 

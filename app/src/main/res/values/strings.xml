@@ -42,6 +42,7 @@
   <string name="trigger_type">Type:</string>
   <string name="trigger_value">Value:</string>
   <string name="trigger_event">Event:</string>
+  <string name="trigger_distance">Distance:</string>
   <string name="trigger_major">Major:</string>
   <string name="trigger_minor">Minor:</string>
   <string name="trigger_uuid">UUID:</string>
