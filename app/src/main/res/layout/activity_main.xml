@@ -43,6 +43,7 @@
       android:layout_width="match_parent"
       android:layout_height="52dp"
       android:layout_gravity="bottom"
+      android:background="@color/divider"
       app:itemBackground="@drawable/navigation_item_background_selector"
       app:itemIconTint="@color/navigation_item_icon_tint_selector"
       app:itemTextColor="@color/navigation_item_text_color_selector"

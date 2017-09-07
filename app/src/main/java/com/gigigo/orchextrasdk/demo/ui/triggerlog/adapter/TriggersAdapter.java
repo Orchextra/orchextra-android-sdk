@@ -101,6 +101,12 @@ public class TriggersAdapter extends RecyclerView.Adapter<TriggersViewHolder> {
     return model;
   }
 
+  public void clear() {
+    int size = triggerList.size();
+    triggerList.clear();
+    notifyItemRangeRemoved(0, size);
+  }
+
   public void addItem(int position, TriggerLog model) {
     triggerList.add(position, model);
     notifyItemInserted(position);
