@@ -18,24 +18,29 @@
 
 package com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter;
 
+import android.support.annotation.NonNull;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
 import java.util.Date;
 
-public final class TriggerLog {
+public final class TriggerLog implements Comparable<TriggerLog> {
 
-  private final Date date;
-  private final Trigger trigger;
+  @NonNull private final Date date;
+  @NonNull private final Trigger trigger;
 
-  public TriggerLog(Date date, Trigger trigger) {
+  public TriggerLog(@NonNull Date date, @NonNull Trigger trigger) {
     this.date = date;
     this.trigger = trigger;
   }
 
-  public Date getDate() {
+  @NonNull public Date getDate() {
     return date;
   }
 
-  public Trigger getTrigger() {
+  @NonNull public Trigger getTrigger() {
     return trigger;
+  }
+
+  @Override public int compareTo(@NonNull TriggerLog o) {
+    return getDate().compareTo(o.getDate());
   }
 }

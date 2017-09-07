@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
+import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import com.gigigo.orchextrasdk.demo.R;
 
 public class TriggersViewHolder extends RecyclerView.ViewHolder {
@@ -32,21 +33,18 @@ public class TriggersViewHolder extends RecyclerView.ViewHolder {
   private ImageView triggerTypeImageView;
   private TextView triggerNameTv;
   private TextView dateTypeTv;
-  private TextView triggerTypeTv;
   private TextView triggerValueTv;
-  private TextView triggerEventTv;
-  private View triggerEventView;
+  private TextView distanceTv;
+  private View triggerDistanceView;
 
   public TriggersViewHolder(View itemView) {
     super(itemView);
     triggerTypeImageView = (ImageView) itemView.findViewById(R.id.trigger_type_iv);
     triggerNameTv = (TextView) itemView.findViewById(R.id.trigger_name_tv);
     dateTypeTv = (TextView) itemView.findViewById(R.id.date_type_tv);
-    triggerTypeTv = (TextView) itemView.findViewById(R.id.trigger_type_tv);
     triggerValueTv = (TextView) itemView.findViewById(R.id.trigger_value_tv);
-    triggerEventTv = (TextView) itemView.findViewById(R.id.trigger_event_tv);
-
-    triggerEventView = itemView.findViewById(R.id.trigger_event_layout);
+    distanceTv = (TextView) itemView.findViewById(R.id.trigger_distance_tv);
+    triggerDistanceView = itemView.findViewById(R.id.trigger_distance_layout);
   }
 
   public void render(final TriggerLog triggerLog) {
@@ -54,45 +52,40 @@ public class TriggersViewHolder extends RecyclerView.ViewHolder {
     final Trigger trigger = triggerLog.getTrigger();
 
     String triggerName = trigger.getType().name();
-    triggerName = triggerName.substring(0,1).toUpperCase() + triggerName.substring(1).toLowerCase();
+    triggerName =
+        triggerName.substring(0, 1).toUpperCase() + triggerName.substring(1).toLowerCase();
     triggerNameTv.setText(triggerName);
     dateTypeTv.setText(getContext().getString(R.string.trigger_date_format, triggerLog.getDate()));
-    triggerTypeTv.setText(trigger.getType().name());
-
-    @DrawableRes int imageRes;
-    switch (trigger.getType()) {
-      case BEACON:
-        imageRes = R.drawable.ic_beacon_log;
-        triggerEventView.setVisibility(View.VISIBLE);
-        break;
-      case BEACON_REGION:
-        imageRes = R.drawable.ic_beacon_region_log;
-        triggerEventView.setVisibility(View.VISIBLE);
-        break;
-      case EDDYSTONE:
-        imageRes = R.drawable.ic_eddystone_log;
-        break;
-      case GEOFENCE:
-        imageRes = R.drawable.ic_geofence_log;
-        triggerEventView.setVisibility(View.VISIBLE);
-        break;
-      case QR:
-        imageRes = R.drawable.ic_qr_log;
-        break;
-      case BARCODE:
-        imageRes = R.drawable.ic_barcode_log;
-        break;
-      case IMAGE_RECOGNITION:
-        imageRes = R.drawable.ic_image_recognition_log;
-        break;
-      default:
-        imageRes = -1;
-        break;
-    }
-    triggerTypeImageView.setBackgroundResource(imageRes);
-
+    triggerTypeImageView.setBackgroundResource(getTriggerImage(trigger.getType()));
     triggerValueTv.setText(trigger.getValue());
-    triggerEventTv.setText(trigger.getEvent());
+
+    if (trigger.getDistance() != null) {
+      triggerDistanceView.setVisibility(View.VISIBLE);
+      distanceTv.setText(trigger.getDistance());
+    } else {
+      triggerDistanceView.setVisibility(View.GONE);
+    }
+  }
+
+  @DrawableRes private int getTriggerImage(TriggerType triggerType) {
+    switch (triggerType) {
+      case BEACON:
+        return R.drawable.ic_beacon_log;
+      case BEACON_REGION:
+        return R.drawable.ic_beacon_region_log;
+      case EDDYSTONE:
+        return R.drawable.ic_eddystone_log;
+      case GEOFENCE:
+        return R.drawable.ic_geofence_log;
+      case QR:
+        return R.drawable.ic_qr_log;
+      case BARCODE:
+        return R.drawable.ic_barcode_log;
+      case IMAGE_RECOGNITION:
+        return R.drawable.ic_image_recognition_log;
+      default:
+        return -1;
+    }
   }
 
   private Context getContext() {

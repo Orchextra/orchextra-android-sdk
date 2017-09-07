@@ -69,9 +69,9 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginRight="2dp"
+          android:text="@string/trigger_date"
           android:textColor="@color/secondary_text"
           android:textSize="14sp"
-          android:text="@string/trigger_date"
           />
       <TextView
           android:id="@+id/date_type_tv"
@@ -93,33 +93,9 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginRight="2dp"
-          android:textColor="@color/secondary_text"
-          android:textSize="14sp"
-          android:text="@string/trigger_type"
-          />
-      <TextView
-          android:id="@+id/trigger_type_tv"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textColor="@color/primary_text"
-          android:textSize="14sp"
-          tools:text="loremipsum"
-          />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1.8dp"
-        android:orientation="horizontal"
-        >
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginRight="2dp"
-          android:textColor="@color/secondary_text"
-          android:textSize="14sp"
           android:text="@string/trigger_value"
+          android:textColor="@color/secondary_text"
+          android:textSize="14sp"
           />
       <TextView
           android:id="@+id/trigger_value_tv"
@@ -132,28 +108,29 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/trigger_event_layout"
+        android:id="@+id/trigger_distance_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1.8dp"
         android:orientation="horizontal"
         android:visibility="gone"
+        tools:visibility="visible"
         >
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginRight="2dp"
+          android:text="@string/trigger_distance"
           android:textColor="@color/secondary_text"
           android:textSize="14sp"
-          android:text="@string/trigger_event"
           />
       <TextView
-          android:id="@+id/trigger_event_tv"
+          android:id="@+id/trigger_distance_tv"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:textColor="@color/primary_text"
           android:textSize="14sp"
-          tools:text="Enter"
+          tools:text="Near"
           />
     </LinearLayout>
   </LinearLayout>
