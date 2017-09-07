@@ -28,11 +28,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -46,7 +42,6 @@ import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
-import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
 import com.gigigo.orchextrasdk.demo.utils.CredentialsPreferenceManager;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -105,20 +100,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     apiKeyEditText = (EditText) findViewById(R.id.apiKey_editText);
     apiSecretEditText = (EditText) findViewById(R.id.apiSecret_editText);
 
-    apiKeyEditText.addTextChangedListener(new TextWatcher() {
-      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-      }
-
-      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-      }
-
-      @Override public void afterTextChanged(Editable s) {
-
-      }
-    });
-
     startButton = (Button) findViewById(R.id.start_button);
     startButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -176,21 +157,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
   @Override public void enableLogin(boolean enabled) {
     startButton.setEnabled(enabled);
-  }
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_settings, menu);
-    return true;
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-
-    if (item.getItemId() == R.id.action_settings) {
-      SettingsActivity.open(getBaseContext());
-      return true;
-    } else {
-      return super.onOptionsItemSelected(item);
-    }
   }
 
   @Override public boolean checkPermissions() {
