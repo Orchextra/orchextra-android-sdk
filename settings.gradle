@@ -16,5 +16,3 @@
  * limitations under the License.
  */
 include ':app', ':core', ':scanner', ':geofence', ':indoorpositioning'
-//    ':orchextrasdk', ':orchextrasdk-control', ':orchextrasdk-domain', ':orchextrasdk-dataprovision',
-//    ':orchextrasdk-data'
