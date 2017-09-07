@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
@@ -50,7 +51,7 @@ public class TriggerLogFragment extends Fragment {
 
   private static final String TAG = "ScannerFragment";
   private TriggerLogMemory triggerLogMemory;
-  private View modifyFilterView;
+  private CheckedTextView modifyFilterView;
   private Button filterCleanButton;
   private TriggersAdapter triggersAdapter;
   private RecyclerView triggerLogList;
@@ -68,7 +69,7 @@ public class TriggerLogFragment extends Fragment {
 
     View view = inflater.inflate(R.layout.fragment_trigger_log, container, false);
 
-    modifyFilterView = view.findViewById(R.id.modify_filter_button);
+    modifyFilterView = (CheckedTextView)view.findViewById(R.id.modify_filter_button);
     filterCleanButton = (Button) view.findViewById(R.id.filter_clean_button);
     triggerLogList = (RecyclerView) view.findViewById(R.id.trigger_log_list);
     emptyListView = view.findViewById(R.id.empty_list_view);
@@ -123,6 +124,7 @@ public class TriggerLogFragment extends Fragment {
       @Override public void onClick(View v) {
         showFilterView();
         filterCleanButton.setVisibility(View.VISIBLE);
+        modifyFilterView.setChecked(true);
       }
     });
 
@@ -130,6 +132,7 @@ public class TriggerLogFragment extends Fragment {
       @Override public void onClick(View v) {
         cleanFilterList();
         filterCleanButton.setVisibility(View.GONE);
+        modifyFilterView.setChecked(false);
       }
     });
   }

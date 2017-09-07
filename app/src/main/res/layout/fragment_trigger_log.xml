@@ -20,28 +20,19 @@
         android:paddingRight="20dp"
         android:paddingTop="12dp"
         >
-      <LinearLayout
+      <CheckedTextView
           android:id="@+id/modify_filter_button"
           android:layout_width="wrap_content"
-          android:layout_height="match_parent"
+          android:layout_height="wrap_content"
           android:layout_alignParentLeft="true"
           android:layout_centerVertical="true"
-          >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="Filter"
-            android:textColor="@color/primary_text"
-            android:textSize="17sp"
-            />
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_close"
-            />
-      </LinearLayout>
+          android:layout_marginRight="10dp"
+          android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+          android:gravity="center"
+          android:text="Filter"
+          android:textColor="@color/primary_text"
+          android:textSize="17sp"
+          />
       <Button
           android:id="@+id/filter_clean_button"
           android:layout_width="14dp"
