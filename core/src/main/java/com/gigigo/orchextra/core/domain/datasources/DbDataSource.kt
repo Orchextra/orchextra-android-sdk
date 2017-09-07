@@ -34,6 +34,15 @@ interface DbDataSource {
 
   companion object Factory {
 
-    fun create(): DbDataSource = DbDataSourceImp(DatabaseHelper.create(Orchextra.provideContext()))
+    var dbDataSource: DbDataSource? = null
+
+    fun create(): DbDataSource {
+
+      if (dbDataSource == null) {
+        dbDataSource = DbDataSourceImp(DatabaseHelper.create(Orchextra.provideContext()))
+      }
+
+      return dbDataSource as DbDataSource
+    }
   }
 }

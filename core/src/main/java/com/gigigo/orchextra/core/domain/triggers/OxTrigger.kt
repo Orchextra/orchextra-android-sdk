@@ -39,7 +39,6 @@ class VoidTrigger<in T> : OxTrigger<T> {
   }
 
   override fun finish() {
-    throw NotImplementedError("Operation is not implemented")
   }
 
 }

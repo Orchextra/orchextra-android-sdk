@@ -41,7 +41,7 @@ import java.util.Collection;
 public class TriggerLogFragment extends Fragment {
 
   private static final String TAG = "ScannerFragment";
-  private TriggerLogMemory triggerLogMemory;
+  TriggerLogMemory triggerLogMemory;
   private TriggersAdapter triggersAdapter;
   private RecyclerView triggerLogList;
   private View emptyListView;
@@ -93,7 +93,7 @@ public class TriggerLogFragment extends Fragment {
     });
   }
 
-  private void updateList(@NonNull Collection<TriggerLog> collection) {
+  void updateList(@NonNull Collection<TriggerLog> collection) {
 
     if (collection.isEmpty()) {
       emptyListView.setVisibility(View.VISIBLE);

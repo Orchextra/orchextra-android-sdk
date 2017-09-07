@@ -52,8 +52,6 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   private val orchextraApi: OrchextraApi
 
   init {
-    val loggingInterceptor = HttpLoggingInterceptor()
-    loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
     val okHttpBuilder = OkHttpClient.Builder()
         .writeTimeout(10, TimeUnit.SECONDS)
@@ -63,6 +61,8 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     okHttpBuilder.addInterceptor(SessionInterceptor(sessionManager))
 
     if (Orchextra.isDebuggable()) {
+      val loggingInterceptor = HttpLoggingInterceptor()
+      loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
       okHttpBuilder.addInterceptor(loggingInterceptor)
     }
 
@@ -82,7 +82,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
 
     val apiClientCredentials = ApiAuthRequest("auth_user", ApiCredentials(
         clientToken = apiResponse?.data?.value ?: "-1",
-        instanceId = "hola")) // InstanceID.getInstance(orchextra.provideContext()).getId()
+        instanceId = "hola")) // TODO InstanceID.getInstance(orchextra.provideContext()).getId()
     val apiClientResponse = orchextraApi.getAuthentication(apiClientCredentials).execute().body()
 
     return apiClientResponse?.data?.toToken() as Token
