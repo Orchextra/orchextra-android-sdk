@@ -37,25 +37,22 @@ import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
-import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggersAdapter;
-import com.gigigo.orchextrasdk.demo.ui.triggerlog.receiver.TriggerLogMemory;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-public class TriggerLogFragment extends Fragment {
+public class TriggerLogFragment extends Fragment implements TriggerLogView {
 
-  private static final String TAG = "ScannerFragment";
-  private TriggerLogMemory triggerLogMemory;
+  private static final String TAG = "TriggerLogFragment";
   private CheckedTextView modifyFilterView;
   private Button filterCleanButton;
   private TriggersAdapter triggersAdapter;
   private RecyclerView triggerLogList;
   private View emptyListView;
+
+  private TriggerLogPresenter triggerLogPresenter;
 
   public TriggerLogFragment() {
   }
@@ -69,7 +66,7 @@ public class TriggerLogFragment extends Fragment {
 
     View view = inflater.inflate(R.layout.fragment_trigger_log, container, false);
 
-    modifyFilterView = (CheckedTextView)view.findViewById(R.id.modify_filter_button);
+    modifyFilterView = (CheckedTextView) view.findViewById(R.id.modify_filter_button);
     filterCleanButton = (Button) view.findViewById(R.id.filter_clean_button);
     triggerLogList = (RecyclerView) view.findViewById(R.id.trigger_log_list);
     emptyListView = view.findViewById(R.id.empty_list_view);
@@ -80,12 +77,12 @@ public class TriggerLogFragment extends Fragment {
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    triggerLogMemory = TriggerLogMemory.getInstance();
-    initOrchextra();
+    triggerLogPresenter = new TriggerLogPresenter(this);
+
     initView();
   }
 
-  private void initOrchextra() {
+  @Override public void setupOrchextra() {
     Orchextra orchextra = Orchextra.INSTANCE;
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
@@ -97,96 +94,75 @@ public class TriggerLogFragment extends Fragment {
 
   private void initView() {
     initRecyclerView();
-
     initFilter();
 
-    updateList(triggerLogMemory.getTriggerLogs());
-    triggerLogMemory.setTriggerLogListener(new TriggerLogMemory.TriggerLogListener() {
-      @Override public void onNewTriggerLog(TriggerLog triggerLog) {
-        updateList(triggerLogMemory.getTriggerLogs());
-      }
-    });
-  }
-
-  private void updateList(@NonNull Collection<TriggerLog> collection) {
-    if (collection.isEmpty()) {
-      emptyListView.setVisibility(View.VISIBLE);
-      triggerLogList.setVisibility(View.GONE);
-    } else {
-      emptyListView.setVisibility(View.GONE);
-      triggerLogList.setVisibility(View.VISIBLE);
-      triggersAdapter.addAll(collection);
-    }
+    triggerLogPresenter.uiReady();
   }
 
   private void initFilter() {
     modifyFilterView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        showFilterView();
-        filterCleanButton.setVisibility(View.VISIBLE);
-        modifyFilterView.setChecked(true);
+        triggerLogPresenter.showFilter();
       }
     });
 
     filterCleanButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        cleanFilterList();
-        filterCleanButton.setVisibility(View.GONE);
-        modifyFilterView.setChecked(false);
+        triggerLogPresenter.clearFilter();
       }
     });
   }
 
-  private void showFilterView() {
-    ArrayList<TriggerType> filters = new ArrayList<>();
-    filters.add(TriggerType.BEACON);
-    filters.add(TriggerType.QR);
-    filters.add(TriggerType.IMAGE_RECOGNITION);
-    filterList(triggerLogMemory.getTriggerLogs(), filters);
-  }
-
-  private void filterList(@NonNull Collection<TriggerLog> collection, List<TriggerType> filterTypes) {
-    triggersAdapter.clear();
-
-    Collection<TriggerLog> collectionFiltered = new ArrayList<>();
-
-    Iterator<TriggerLog> iterator = collection.iterator();
-    while (iterator.hasNext()) {
-      TriggerLog triggerLog = iterator.next();
-      if(filterTypes.contains(triggerLog.getTrigger().getType())) {
-        collectionFiltered.add(triggerLog);
-      }
-    }
-
-    triggersAdapter.animateTo((ArrayList)collectionFiltered);
-  }
-
-  private void cleanFilterList() {
-    triggersAdapter.animateTo((ArrayList)triggerLogMemory.getTriggerLogs());
-  }
-
   private void initRecyclerView() {
-    DividerItemDecoration
-        divider = new DividerItemDecoration(triggerLogList.getContext(), DividerItemDecoration.VERTICAL) {
-      @Override public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-          RecyclerView.State state) {
-        int position = parent.getChildAdapterPosition(view);
-        if (position == parent.getAdapter().getItemCount() - 1) {
-          outRect.setEmpty();
-        } else {
-          super.getItemOffsets(outRect, view, parent, state);
-        }
-      }
-    };
+    DividerItemDecoration divider =
+        new DividerItemDecoration(triggerLogList.getContext(), DividerItemDecoration.VERTICAL) {
+          @Override public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+              RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view);
+            if (position == parent.getAdapter().getItemCount() - 1) {
+              outRect.setEmpty();
+            } else {
+              super.getItemOffsets(outRect, view, parent, state);
+            }
+          }
+        };
 
-
-    divider.setDrawable(ContextCompat.getDrawable(getActivity().getBaseContext(), R.drawable.item_separator));
+    divider.setDrawable(
+        ContextCompat.getDrawable(getActivity().getBaseContext(), R.drawable.item_separator));
 
     triggerLogList.addItemDecoration(divider);
-
 
     triggerLogList.setLayoutManager(new LinearLayoutManager(getContext()));
     triggersAdapter = new TriggersAdapter();
     triggerLogList.setAdapter(triggersAdapter);
+  }
+
+  @Override public void showEmptyView() {
+    emptyListView.setVisibility(View.VISIBLE);
+    triggerLogList.setVisibility(View.GONE);
+  }
+
+  @Override public void showData(Collection<TriggerLog> triggerLogCollection) {
+    emptyListView.setVisibility(View.GONE);
+    triggerLogList.setVisibility(View.VISIBLE);
+    triggersAdapter.addAll(triggerLogCollection);
+  }
+
+  @Override public void showFilterCleared() {
+    filterCleanButton.setVisibility(View.GONE);
+    modifyFilterView.setChecked(false);
+  }
+
+  @Override public void showFilterSelection() {
+    filterCleanButton.setVisibility(View.VISIBLE);
+    modifyFilterView.setChecked(true);
+  }
+
+  @Override public void cleanFilterList() {
+    triggersAdapter.clear();
+  }
+
+  @Override public void updateFilterList(List<TriggerLog> triggerLogs) {
+    triggersAdapter.animateTo(triggerLogs);
   }
 }
