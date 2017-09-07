@@ -109,7 +109,7 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
 
   @SuppressWarnings("MissingPermission") @Override public void onMapReady(GoogleMap googleMap) {
     this.googleMap = googleMap;
-    this.googleMap.setMyLocationEnabled(true);
+    //this.googleMap.setMyLocationEnabled(true);
 
     getGeofences();
     showMyLocation();
@@ -124,6 +124,7 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
               CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel);
               googleMap.addMarker(new MarkerOptions().position(latLng)
                   .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_myposition)));
+
 
               googleMap.animateCamera(cameraUpdate);
             }
@@ -151,7 +152,13 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
 
     for (Geofence geofence : geofences) {
       googleMap.addMarker(new MarkerOptions().position(geofence.getCenter())
-          .icon(markerIcon));
+          .icon(markerIcon).anchor(0.5f, 0.5f));
+
+      googleMap.addCircle(new CircleOptions().center(geofence.getCenter())
+          .radius(geofence.getRadius())
+          .strokeWidth(2f)
+          .strokeColor(strokeColor)
+          .fillColor(fillColor));
     }
   }
 
