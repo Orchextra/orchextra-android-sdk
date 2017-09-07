@@ -44,6 +44,7 @@ import com.gigigo.orchextrasdk.demo.ui.filters.FilterActivity;
 import com.gigigo.orchextrasdk.demo.ui.filters.entities.TriggerFilter;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggersAdapter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -176,17 +177,19 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
-    if (resultCode == Activity.RESULT_OK) {
-      if (data != null) {
-        Bundle bundle = data.getExtras();
-        if (bundle != null) {
-          List<TriggerFilter> filters =
-              (List<TriggerFilter>) bundle.get(FilterActivity.TRIGGER_FILTERS_EXTRA);
-          triggerLogPresenter.setFilters(filters);
-        }
+    List<TriggerFilter> filters = new ArrayList<>();
+
+    if (data != null) {
+      Bundle bundle = data.getExtras();
+      if (bundle != null) {
+        filters = (List<TriggerFilter>) bundle.get(FilterActivity.TRIGGER_FILTERS_EXTRA);
       }
+    }
+
+    if (resultCode == Activity.RESULT_OK) {
+      triggerLogPresenter.setFilters(filters);
     } else {
-      triggerLogPresenter.cancelFilterEdition();
+      triggerLogPresenter.cancelFilterEdition(filters);
     }
   }
 }

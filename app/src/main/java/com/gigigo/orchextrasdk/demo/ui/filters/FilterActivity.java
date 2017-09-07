@@ -16,6 +16,7 @@ import android.widget.Button;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.filters.adapter.FilterAdapter;
 import com.gigigo.orchextrasdk.demo.ui.filters.entities.TriggerFilter;
+import com.gigigo.orchextrasdk.demo.utils.FiltersPreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class FilterActivity extends AppCompatActivity implements FilterView {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_filter_selection);
 
-    filterPresenter = new FilterPresenter(this);
+    filterPresenter = new FilterPresenter(this, new FiltersPreferenceManager(this));
 
     triggerFilterRecyclerView = (RecyclerView) findViewById(R.id.trigger_filter_list);
     applyButton = (Button) findViewById(R.id.apply_button);
@@ -117,12 +118,17 @@ public class FilterActivity extends AppCompatActivity implements FilterView {
         TRIGGER_FILTERS_EXTRA,
         (ArrayList<TriggerFilter>) filterCollection);
 
-    setResult(Activity.RESULT_OK, returnIntent);
+    setResult(RESULT_OK, returnIntent);
     finish();
   }
 
-  @Override public void cancelFiltersEdition() {
-    setResult(RESULT_CANCELED);
+  @Override public void cancelFiltersEdition(List<TriggerFilter> filterCollection) {
+    Intent returnIntent = new Intent();
+    returnIntent.putParcelableArrayListExtra(
+        TRIGGER_FILTERS_EXTRA,
+        (ArrayList<TriggerFilter>) filterCollection);
+
+    setResult(RESULT_CANCELED, returnIntent);
     finish();
   }
 

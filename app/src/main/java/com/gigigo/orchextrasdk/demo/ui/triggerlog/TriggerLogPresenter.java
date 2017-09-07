@@ -85,7 +85,6 @@ public class TriggerLogPresenter {
   }
 
   public void showFilterSelection() {
-
     view.showFilterSelection();
   }
 
@@ -99,7 +98,17 @@ public class TriggerLogPresenter {
     filterList(triggerLogMemory.getTriggerLogs(), filterTypes);
   }
 
-  public void cancelFilterEdition() {
+  public void cancelFilterEdition(List<TriggerFilter> filters) {
+    boolean filtered = false;
+    for (TriggerFilter filter : filters) {
+      if (filter.isActive()) {
+        filtered = true;
+      }
+    }
 
+    if (!filtered) {
+      cleanFilterList();
+      view.showFilterCleared();
+    }
   }
 }

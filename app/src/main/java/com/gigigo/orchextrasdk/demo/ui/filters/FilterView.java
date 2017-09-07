@@ -12,7 +12,7 @@ public interface FilterView {
 
   void applyFilters(List<TriggerFilter> filterCollection);
 
-  void cancelFiltersEdition();
+  void cancelFiltersEdition(List<TriggerFilter> filterCollection);
 
   void updateFilter(boolean checked, int position);
 
