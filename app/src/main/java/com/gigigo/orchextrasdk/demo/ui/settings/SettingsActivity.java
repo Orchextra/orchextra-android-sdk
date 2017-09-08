@@ -20,6 +20,7 @@ package com.gigigo.orchextrasdk.demo.ui.settings;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,8 @@ import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
+import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
+import com.gigigo.orchextrasdk.demo.ui.login.ProjectData;
 import com.gigigo.orchextrasdk.demo.utils.CredentialsPreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsView {
@@ -95,6 +98,19 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
   private void initView() {
     initToolbar();
 
+    ProjectData projectData =
+        ProjectData.getProjectDataByApiKey(ProjectData.getDefaultProjectDataList(), getApiKey());
+
+    if (projectData != null) {
+      projectNameTextView.setText(projectData.getName());
+      apiKeyTextView.setText(projectData.getApiKey());
+      apiSecretTextView.setText(projectData.getApiSecret());
+    } else {
+      projectNameTextView.setText("Custom");
+      apiKeyTextView.setText(getApiKey());
+      apiSecretTextView.setText("***");
+    }
+
     settingsPresenter.uiReady();
   }
 
@@ -112,12 +128,11 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
   }
 
   @Override public void showProjectName(String projectName) {
-    projectNameTextView.setText(projectName);
+
   }
 
   @Override public void showProjectCredentials(String apiKey, String apiSecret) {
-    apiKeyTextView.setText(apiKey);
-    apiSecretTextView.setText(apiSecret);
+
   }
 
   private void initToolbar() {
@@ -135,6 +150,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsView 
         onBackPressed();
       }
     });
+  }
+
+  private String getApiKey() {
+    SharedPreferences sharedPreferences =
+        getSharedPreferences("orchextra_demo", Context.MODE_PRIVATE);
+    return sharedPreferences.getString(LoginActivity.API_KEY_KEY, "");
   }
 
   @Override protected void onDestroy() {

@@ -21,6 +21,7 @@ package com.gigigo.orchextrasdk.demo.ui.login;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class LoginActivity extends AppCompatActivity {
 
+  public static final String API_KEY_KEY = "api_key_key";
   private static final int PERMISSIONS_REQUEST_LOCATION = 1;
   Orchextra orchextra;
   private String apiKey = "";
@@ -187,9 +189,18 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private void initOrchextra() {
+    saveApiKey(apiKey);
     orchextra = Orchextra.INSTANCE;
     orchextra.setStatusListener(orchextraStatusListener);
     orchextra.init(getApplication(), apiKey, apiSecret, true);
+  }
+
+  private void saveApiKey(String apiKey) {
+    SharedPreferences sharedPreferences =
+        getSharedPreferences("orchextra_demo", Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putString(API_KEY_KEY, apiKey);
+    editor.apply();
   }
 
   private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
