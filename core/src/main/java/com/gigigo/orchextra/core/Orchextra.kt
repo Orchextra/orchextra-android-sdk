@@ -21,6 +21,7 @@ package com.gigigo.orchextra.core
 import android.app.Application
 import android.content.Context
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
+import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.Configuration
@@ -54,6 +55,7 @@ object Orchextra : OrchextraErrorListener {
   private var orchextraStatusListener: OrchextraStatusListener? = null
   private var orchextraErrorListener: OrchextraErrorListener? = null
   private var debuggable = false
+  private var sessionManager: SessionManager? = null
 
   @JvmOverloads
   fun init(context: Application, apiKey: String, apiSecret: String, debuggable: Boolean = false) {
@@ -65,6 +67,7 @@ object Orchextra : OrchextraErrorListener {
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
     this.locationProvider = LocationProvider(context)
     this.locationProvider.getLocation { point -> getConfiguration(point) }
+    this.sessionManager = SessionManager.create(Orchextra.provideContext())
 
     initLogger(context)
 
@@ -160,6 +163,7 @@ object Orchextra : OrchextraErrorListener {
     this.context = null
     this.credentials = Credentials()
     this.triggerManager.finish()
+    sessionManager?.clearSession()
 
     changeStatus(false)
   }

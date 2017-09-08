@@ -28,112 +28,74 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
-import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
-import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
-import com.gigigo.orchextrasdk.demo.utils.CredentialsPreferenceManager;
+import java.util.List;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class LoginActivity extends AppCompatActivity implements LoginView {
+public class LoginActivity extends AppCompatActivity {
 
-  private static final String TAG = "LoginActivity";
   private static final int PERMISSIONS_REQUEST_LOCATION = 1;
-  private Orchextra orchextra;
-
-  private EditText projectNameEditText;
-  private EditText apiKeyEditText;
-  private EditText apiSecretEditText;
-  private Button startButton;
-
-  private LoginPresenter loginPresenter;
-
-  private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
-    @Override public void onStatusChange(boolean isReady) {
-      if (isReady) {
-        startOrchextra();
-      } else {
-        Toast.makeText(getBaseContext(), "SDK finished", Toast.LENGTH_SHORT).show();
-      }
-    }
-  };
-
-  public static void open(Context context) {
-    Intent intent = new Intent(context, LoginActivity.class);
-    context.startActivity(intent);
-  }
-
-  void startOrchextra() {
-    orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
-    orchextra.getTriggerManager()
-        .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
-
-    Toast.makeText(getBaseContext(), "SDK ready", Toast.LENGTH_SHORT).show();
-    MainActivity.open(LoginActivity.this);
-    finish();
-  }
+  Orchextra orchextra;
+  private String apiKey = "";
+  private String apiSecret = "";
+  List<ProjectData> projectDataList;
+  EditText projectNameEditText;
+  EditText apiKeyEditText;
+  EditText apiSecretEditText;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
-    loginPresenter = new LoginPresenter(this, new CredentialsPreferenceManager(this));
-
+    projectDataList = ProjectData.getDefaultProjectDataList();
     initView();
+    loadInitialData();
   }
 
   private void initView() {
     initToolbar();
 
     projectNameEditText = (EditText) findViewById(R.id.projectName_editText);
-    apiKeyEditText = (EditText) findViewById(R.id.apiKey_editText);
     apiSecretEditText = (EditText) findViewById(R.id.apiSecret_editText);
+    apiKeyEditText = (EditText) findViewById(R.id.apiKey_editText);
+    apiKeyEditText.addTextChangedListener(new TextWatcher() {
+      @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    startButton = (Button) findViewById(R.id.start_button);
+      }
+
+      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+      }
+
+      @Override public void afterTextChanged(Editable s) {
+
+        ProjectData projectData = ProjectData.getProjectDataByApiKey(projectDataList, s.toString());
+        if (projectData != null) {
+          projectNameEditText.setText(projectData.getName());
+        } else {
+          projectNameEditText.setText("Custom");
+        }
+      }
+    });
+
+    Button startButton = (Button) findViewById(R.id.start_button);
     startButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        loginPresenter.doLogin();
+        makeLogin();
       }
     });
-
-    loginPresenter.uiReady();
-  }
-
-  @Override public void loadDefaultProject() {
-    ArrayAdapter<CharSequence> projectsArray =
-        ArrayAdapter.createFromResource(this, R.array.projects_array, R.layout.simple_spinner_item);
-
-    loginPresenter.readDefaultProject(projectsArray);
-  }
-
-  @Override public void createOrchextra() {
-    orchextra = Orchextra.INSTANCE;
-    orchextra.setErrorListener(new OrchextraErrorListener() {
-      @Override public void onError(@NonNull Error error) {
-        Log.e(TAG, error.toString());
-        Toast.makeText(getBaseContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-      }
-    });
-  }
-
-  @Override public void initOrchextra(String apiKey, String apiSecret) {
-    orchextra.setStatusListener(orchextraStatusListener);
-    orchextra.init(getApplication(), apiKey, apiSecret, true);
-  }
-
-  @Override public void showCredentialsError(String message) {
-    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
   }
 
   private void initToolbar() {
@@ -146,30 +108,36 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
   }
 
-  @Override public void showProjectName(String projectName) {
-    projectNameEditText.setText(projectName);
+  private void loadInitialData() {
+
+    apiKeyEditText.setText(projectDataList.get(0).getApiKey());
+    apiSecretEditText.setText(projectDataList.get(0).getApiSecret());
   }
 
-  @Override public void showProjectCredentials(String apiKey, String apiSecret) {
-    apiKeyEditText.setText(apiKey);
-    apiSecretEditText.setText(apiSecret);
+  void makeLogin() {
+
+    apiKey = apiKeyEditText.getText().toString();
+    apiSecret = apiSecretEditText.getText().toString();
+
+    if (apiKey.isEmpty() || apiSecret.isEmpty()) {
+      Toast.makeText(this, "Invalid data", Toast.LENGTH_SHORT).show();
+    } else {
+
+      if (ContextCompat.checkSelfPermission(LoginActivity.this, ACCESS_FINE_LOCATION)
+          == PackageManager.PERMISSION_GRANTED) {
+        initOrchextra();
+      } else {
+        requestPermission();
+      }
+    }
   }
 
-  @Override public void enableLogin(boolean enabled) {
-    startButton.setEnabled(enabled);
-  }
-
-  @Override public boolean checkPermissions() {
-    return ContextCompat.checkSelfPermission(LoginActivity.this, ACCESS_FINE_LOCATION)
-        == PackageManager.PERMISSION_GRANTED;
-  }
-
-  @Override public void requestPermission() {
+  private void requestPermission() {
     if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION)
         != PackageManager.PERMISSION_GRANTED) {
 
       if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-        Toast.makeText(this, "Explanation!!!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Expanation!!!", Toast.LENGTH_SHORT).show();
       } else {
         ActivityCompat.requestPermissions(this, new String[] { ACCESS_FINE_LOCATION },
             PERMISSIONS_REQUEST_LOCATION);
@@ -182,16 +150,45 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     switch (requestCode) {
       case PERMISSIONS_REQUEST_LOCATION: {
-        boolean granted =
-            grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
-        loginPresenter.permissionGranted(granted);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          initOrchextra();
+        } else {
+          Toast.makeText(LoginActivity.this, "Lo necesitamos!!!", Toast.LENGTH_SHORT).show();
+        }
       }
     }
   }
+
+  private void initOrchextra() {
+    orchextra = Orchextra.INSTANCE;
+    orchextra.setStatusListener(orchextraStatusListener);
+    orchextra.init(getApplication(), apiKey, apiSecret, true);
+  }
+
+  private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
+    @Override public void onStatusChange(boolean isReady) {
+      if (isReady) {
+        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
+        orchextra.getTriggerManager()
+            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
+
+        Toast.makeText(getBaseContext(), "SDK ready", Toast.LENGTH_SHORT).show();
+        MainActivity.open(LoginActivity.this);
+        finish();
+      } else {
+        Toast.makeText(getBaseContext(), "SDK finished", Toast.LENGTH_SHORT).show();
+      }
+    }
+  };
 
   @Override protected void onDestroy() {
     orchextra.removeStatusListener();
     orchextra.removeErrorListener();
     super.onDestroy();
+  }
+
+  public static void open(Context context) {
+    Intent intent = new Intent(context, LoginActivity.class);
+    context.startActivity(intent);
   }
 }
