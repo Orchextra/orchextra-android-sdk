@@ -2,7 +2,7 @@
 <!--
   ~ Created by Orchextra
   ~
-  ~ Copyright (C) 2016 Gigigo Mobile Services SL
+  ~ Copyright (C) 2017 Gigigo Mobile Services SL
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white2"
+    android:orientation="vertical"
     tools:context=".ui.MainActivity"
     >
 
