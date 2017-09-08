@@ -18,11 +18,13 @@
 
 package com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
 import java.util.Date;
 
-public final class TriggerLog implements Comparable<TriggerLog> {
+public final class TriggerLog implements Comparable<TriggerLog>, Parcelable {
 
   @NonNull private final Date date;
   @NonNull private final Trigger trigger;
@@ -43,4 +45,30 @@ public final class TriggerLog implements Comparable<TriggerLog> {
   @Override public int compareTo(@NonNull TriggerLog o) {
     return getDate().compareTo(o.getDate());
   }
+
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel dest, int flags) {
+    dest.writeLong(this.date.getTime());
+    dest.writeParcelable(this.trigger, flags);
+  }
+
+  protected TriggerLog(Parcel in) {
+    long tmpDate = in.readLong();
+    this.date = new Date(tmpDate);
+    this.trigger = in.readParcelable(Trigger.class.getClassLoader());
+  }
+
+  public static final Parcelable.Creator<TriggerLog> CREATOR =
+      new Parcelable.Creator<TriggerLog>() {
+        @Override public TriggerLog createFromParcel(Parcel source) {
+          return new TriggerLog(source);
+        }
+
+        @Override public TriggerLog[] newArray(int size) {
+          return new TriggerLog[size];
+        }
+      };
 }

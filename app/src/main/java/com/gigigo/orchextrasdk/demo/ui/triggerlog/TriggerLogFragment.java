@@ -39,26 +39,26 @@ import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
+import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import com.gigigo.orchextrasdk.demo.R;
-import com.gigigo.orchextrasdk.demo.ui.filters.FilterActivity;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggersAdapter;
-import com.gigigo.orchextrasdk.demo.utils.FiltersPreferenceManager;
-import java.util.Collection;
+import com.gigigo.orchextrasdk.demo.ui.triggerlog.filter.FilterActivity;
+import com.gigigo.orchextrasdk.demo.ui.triggerlog.receiver.TriggerLogMemory;
+import java.util.ArrayList;
 import java.util.List;
 
-public class TriggerLogFragment extends Fragment implements TriggerLogView {
+public class TriggerLogFragment extends Fragment {
 
-  public static final int TRIGGER_REQUEST_CODE = 1;
   private static final String TAG = "TriggerLogFragment";
   private Orchextra orchextra;
-  private CheckedTextView modifyFilterView;
-  private Button filterCleanButton;
-  private TriggersAdapter triggersAdapter;
-  private RecyclerView triggerLogList;
-  private View emptyListView;
-
-  private TriggerLogPresenter triggerLogPresenter;
+  List<TriggerLog> triggerLogs;
+  List<TriggerType> filterTriggerTypes;
+  CheckedTextView modifyFilterView;
+  Button filterCleanButton;
+  TriggersAdapter triggersAdapter;
+  RecyclerView triggerLogList;
+  View emptyListView;
 
   public TriggerLogFragment() {
   }
@@ -83,12 +83,13 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    triggerLogPresenter = new TriggerLogPresenter(this, new FiltersPreferenceManager(getActivity().getBaseContext()));
-
     initView();
+    initOrchextra();
+    initTriggerLogMemory();
+    updateView();
   }
 
-  @Override public void setupOrchextra() {
+  private void initOrchextra() {
     orchextra = Orchextra.INSTANCE;
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
@@ -98,23 +99,56 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
     });
   }
 
+  private void initTriggerLogMemory() {
+    TriggerLogMemory triggerLogMemory = TriggerLogMemory.getInstance();
+    triggerLogs = triggerLogMemory.getTriggerLogs();
+    filterTriggerTypes = new ArrayList<>();
+
+    triggerLogMemory.setTriggerLogListener(new TriggerLogMemory.TriggerLogListener() {
+      @Override public void onNewTriggerLog(TriggerLog triggerLog) {
+        triggerLogs.add(triggerLog);
+        updateView();
+      }
+    });
+  }
+
+  void updateView() {
+    if (triggerLogs.isEmpty()) {
+
+      emptyListView.setVisibility(View.VISIBLE);
+      triggerLogList.setVisibility(View.GONE);
+    } else {
+
+      emptyListView.setVisibility(View.GONE);
+      triggerLogList.setVisibility(View.VISIBLE);
+      triggersAdapter.addAll(filter(triggerLogs, filterTriggerTypes));
+    }
+
+    if (filterTriggerTypes.isEmpty()) {
+      modifyFilterView.setChecked(false);
+      filterCleanButton.setVisibility(View.GONE);
+    } else {
+      modifyFilterView.setChecked(true);
+      filterCleanButton.setVisibility(View.VISIBLE);
+    }
+  }
+
   private void initView() {
     initRecyclerView();
     initFilter();
-
-    triggerLogPresenter.uiReady();
   }
 
   private void initFilter() {
     modifyFilterView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        triggerLogPresenter.showFilterSelection();
+        FilterActivity.openForResult(getContext(), TriggerLogFragment.this);
       }
     });
 
     filterCleanButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        triggerLogPresenter.cancelFilterEdition();
+        filterTriggerTypes = new ArrayList<>();
+        updateView();
       }
     });
   }
@@ -143,43 +177,46 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
     triggerLogList.setAdapter(triggersAdapter);
   }
 
-  @Override public void showEmptyView() {
-    emptyListView.setVisibility(View.VISIBLE);
-    triggerLogList.setVisibility(View.GONE);
-  }
-
-  @Override public void showData(Collection<TriggerLog> triggerLogCollection) {
-    emptyListView.setVisibility(View.GONE);
-    triggerLogList.setVisibility(View.VISIBLE);
-    triggersAdapter.addAll(triggerLogCollection);
-  }
-
-  @Override public void showFilterCleared() {
-    filterCleanButton.setVisibility(View.GONE);
-    modifyFilterView.setChecked(false);
-  }
-
-  @Override public void showFilterSelection() {
-    FilterActivity.open(getActivity(), TRIGGER_REQUEST_CODE);
-    filterCleanButton.setVisibility(View.VISIBLE);
-    modifyFilterView.setChecked(true);
-  }
-
-  @Override public void cleanFilterList() {
-    triggersAdapter.clear();
-  }
-
-  @Override public void updateFilterList(List<TriggerLog> triggerLogs) {
-    triggersAdapter.animateTo(triggerLogs);
-  }
-
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
-    if (resultCode == Activity.RESULT_OK) {
-      triggerLogPresenter.applyFilters();
-    } else {
-      triggerLogPresenter.cancelFilterEdition();
+    if (requestCode == FilterActivity.FILTER_REQUEST_CODE) {
+      if (resultCode == Activity.RESULT_OK) {
+
+        ArrayList<String> triggerTypes =
+            data.getStringArrayListExtra(FilterActivity.FILTER_DATA_EXTRA);
+
+        filterTriggerTypes.clear();
+
+        for (String triggerType : triggerTypes) {
+          filterTriggerTypes.add(TriggerType.valueOf(triggerType));
+        }
+
+        updateView();
+      }
     }
+  }
+
+  @Override public void onDestroyView() {
+    orchextra.removeErrorListener();
+    super.onDestroyView();
+  }
+
+  private List<TriggerLog> filter(@NonNull List<TriggerLog> origin,
+      @NonNull List<TriggerType> filter) {
+
+    if (filter.isEmpty()) {
+      return origin;
+    }
+
+    List<TriggerLog> triggerLogs = new ArrayList<>();
+
+    for (TriggerLog triggerLog : origin) {
+      if (filter.contains(triggerLog.getTrigger().getType())) {
+        triggerLogs.add(triggerLog);
+      }
+    }
+
+    return triggerLogs;
   }
 }

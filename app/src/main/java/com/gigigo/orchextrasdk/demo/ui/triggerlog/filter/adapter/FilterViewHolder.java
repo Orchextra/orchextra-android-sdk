@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.demo.ui.filters.adapter;
+package com.gigigo.orchextrasdk.demo.ui.triggerlog.filter.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckedTextView;
 import com.gigigo.orchextrasdk.demo.R;
-import com.gigigo.orchextrasdk.demo.ui.filters.entities.TriggerFilter;
 import com.gigigo.orchextrasdk.demo.utils.TextUtils;
 
 public class FilterViewHolder extends RecyclerView.ViewHolder {

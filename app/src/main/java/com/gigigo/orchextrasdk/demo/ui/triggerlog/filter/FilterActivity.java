@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.demo.ui.filters;
+package com.gigigo.orchextrasdk.demo.ui.triggerlog.filter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -31,38 +32,31 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import com.gigigo.orchextrasdk.demo.R;
-import com.gigigo.orchextrasdk.demo.ui.filters.adapter.FilterAdapter;
-import com.gigigo.orchextrasdk.demo.ui.filters.entities.TriggerFilter;
-import com.gigigo.orchextrasdk.demo.utils.FiltersPreferenceManager;
+import com.gigigo.orchextrasdk.demo.ui.triggerlog.filter.adapter.FilterAdapter;
+import com.gigigo.orchextrasdk.demo.ui.triggerlog.filter.adapter.TriggerFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilterActivity extends AppCompatActivity implements FilterView {
+public class FilterActivity extends AppCompatActivity {
 
-  public static final String TRIGGER_FILTERS_EXTRA = "TRIGGER_FILTERS_EXTRA";
-
-  private FilterAdapter filterAdapter;
+  public static final int FILTER_REQUEST_CODE = 0x123;
+  public static final String FILTER_DATA_EXTRA = "filter_data_extra";
+  FilterAdapter filterAdapter;
   private RecyclerView triggerFilterRecyclerView;
   private Button applyButton;
-
-  private FilterPresenter filterPresenter;
-
-  public static void open(FragmentActivity context, int requestCode) {
-    Intent intent = new Intent(context, FilterActivity.class);
-    context.startActivityForResult(intent, requestCode);
-  }
+  List<TriggerFilter> triggerFilterList;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_filter_selection);
 
-    filterPresenter = new FilterPresenter(this, new FiltersPreferenceManager(getBaseContext()));
-
     triggerFilterRecyclerView = (RecyclerView) findViewById(R.id.trigger_filter_list);
     applyButton = (Button) findViewById(R.id.apply_button);
 
     initView();
+    loadFilters();
   }
 
   private void initView() {
@@ -71,11 +65,26 @@ public class FilterActivity extends AppCompatActivity implements FilterView {
 
     applyButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        filterPresenter.applyFilters();
+
+        Intent returnIntent = new Intent();
+        returnIntent.putStringArrayListExtra(FILTER_DATA_EXTRA, getFilteredTypes());
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
       }
     });
+  }
 
-    filterPresenter.uiReady();
+  private void loadFilters() {
+    triggerFilterList = new ArrayList<>();
+    triggerFilterList.add(new TriggerFilter(TriggerType.BARCODE));
+    triggerFilterList.add(new TriggerFilter(TriggerType.QR));
+    triggerFilterList.add(new TriggerFilter(TriggerType.IMAGE_RECOGNITION));
+    triggerFilterList.add(new TriggerFilter(TriggerType.BEACON));
+    triggerFilterList.add(new TriggerFilter(TriggerType.BEACON_REGION));
+    triggerFilterList.add(new TriggerFilter(TriggerType.GEOFENCE));
+    triggerFilterList.add(new TriggerFilter(TriggerType.EDDYSTONE));
+
+    filterAdapter.addAll(triggerFilterList);
   }
 
   private void initToolbar() {
@@ -89,7 +98,7 @@ public class FilterActivity extends AppCompatActivity implements FilterView {
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        filterPresenter.cancelFiltersEdition();
+        onBackPressed();
       }
     });
   }
@@ -116,27 +125,26 @@ public class FilterActivity extends AppCompatActivity implements FilterView {
     filterAdapter = new FilterAdapter();
     filterAdapter.setOnItemCheckedClickListener(new FilterAdapter.OnItemCheckedClickListener() {
       @Override public void OnItemCheckedClicked(boolean checked, int position) {
-        filterPresenter.checkFilter(checked, position);
+        triggerFilterList.get(position).setActive(checked);
+        filterAdapter.addAll(triggerFilterList);
       }
     });
     triggerFilterRecyclerView.setAdapter(filterAdapter);
   }
 
-  @Override public void showFilters(List<TriggerFilter> filterCollection) {
-    filterAdapter.addAll(filterCollection);
+  ArrayList<String> getFilteredTypes() {
+    ArrayList<String> triggerTypes = new ArrayList<>();
+
+    for (TriggerFilter triggerFilter : triggerFilterList) {
+      if (triggerFilter.isActive()) {
+        triggerTypes.add(triggerFilter.getType().name());
+      }
+    }
+    return triggerTypes;
   }
 
-  @Override public void applyFilters() {
-    setResult(RESULT_OK);
-    finish();
-  }
-
-  @Override public void cancelFiltersEdition() {
-    setResult(RESULT_CANCELED);
-    finish();
-  }
-
-  @Override public void updateFilter(boolean checked, int position) {
-    filterAdapter.updateItem(position, checked);
+  public static void openForResult(Context context, Fragment fragment) {
+    Intent intent = new Intent(context, FilterActivity.class);
+    fragment.startActivityForResult(intent, FILTER_REQUEST_CODE);
   }
 }

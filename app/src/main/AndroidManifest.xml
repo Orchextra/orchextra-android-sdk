@@ -66,7 +66,7 @@
           android:value=".ui.MainActivity"/>
     </activity>
     <activity
-        android:name=".ui.filters.FilterActivity"
+        android:name=".ui.triggerlog.filter.FilterActivity"
         android:label="@string/title_triggers_filter"
         android:parentActivityName=".ui.MainActivity"
         android:theme="@style/AppTheme.NoActionBar">

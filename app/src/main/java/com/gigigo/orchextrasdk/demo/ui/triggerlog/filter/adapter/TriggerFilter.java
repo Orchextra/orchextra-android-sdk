@@ -16,24 +16,30 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextrasdk.demo.ui.triggerlog;
+package com.gigigo.orchextrasdk.demo.ui.triggerlog.filter.adapter;
 
-import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
-import java.util.Collection;
-import java.util.List;
+import android.support.annotation.NonNull;
+import com.gigigo.orchextra.core.domain.entities.TriggerType;
 
-public interface TriggerLogView {
-  void setupOrchextra();
+public class TriggerFilter {
 
-  void showEmptyView();
+  @NonNull private boolean active;
+  @NonNull private final TriggerType type;
 
-  void showData(Collection<TriggerLog> triggerLogCollection);
+  public TriggerFilter(@NonNull TriggerType type) {
+    this.active = false;
+    this.type = type;
+  }
 
-  void updateFilterList(List<TriggerLog> triggerLogs);
+  @NonNull public boolean isActive() {
+    return active;
+  }
 
-  void cleanFilterList();
+  public void setActive(@NonNull boolean active) {
+    this.active = active;
+  }
 
-  void showFilterCleared();
-
-  void showFilterSelection();
+  @NonNull public TriggerType getType() {
+    return type;
+  }
 }
