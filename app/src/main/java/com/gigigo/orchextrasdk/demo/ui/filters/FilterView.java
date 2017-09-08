@@ -24,11 +24,9 @@ import java.util.List;
 public interface FilterView {
   void showFilters(List<TriggerFilter> filterCollection);
 
-  void applyFilters(List<TriggerFilter> filterCollection);
+  void applyFilters();
 
-  void cancelFiltersEdition(List<TriggerFilter> filterCollection);
+  void cancelFiltersEdition();
 
   void updateFilter(boolean checked, int position);
-
-  void enableApplyButton(boolean enabled);
 }

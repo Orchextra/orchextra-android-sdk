@@ -20,6 +20,7 @@ package com.gigigo.orchextrasdk.demo.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -36,9 +37,9 @@ public final class FiltersPreferenceManager {
 
   private final SharedPreferences sharedPreferences;
 
-  public FiltersPreferenceManager(Activity activity) {
+  public FiltersPreferenceManager(Context context) {
     this.sharedPreferences =
-        activity.getSharedPreferences("orchextra_trigger_filters", MODE_PRIVATE);
+        context.getSharedPreferences("orchextra_trigger_filters", MODE_PRIVATE);
   }
 
   public boolean getBarcode() {

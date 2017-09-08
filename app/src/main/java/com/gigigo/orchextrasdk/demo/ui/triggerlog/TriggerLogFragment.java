@@ -41,10 +41,9 @@ import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.filters.FilterActivity;
-import com.gigigo.orchextrasdk.demo.ui.filters.entities.TriggerFilter;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggersAdapter;
-import java.util.ArrayList;
+import com.gigigo.orchextrasdk.demo.utils.FiltersPreferenceManager;
 import java.util.Collection;
 import java.util.List;
 
@@ -84,7 +83,7 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    triggerLogPresenter = new TriggerLogPresenter(this);
+    triggerLogPresenter = new TriggerLogPresenter(this, new FiltersPreferenceManager(getActivity().getBaseContext()));
 
     initView();
   }
@@ -115,7 +114,7 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
 
     filterCleanButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        triggerLogPresenter.clearFilter();
+        triggerLogPresenter.cancelFilterEdition();
       }
     });
   }
@@ -177,19 +176,10 @@ public class TriggerLogFragment extends Fragment implements TriggerLogView {
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
-    List<TriggerFilter> filters = new ArrayList<>();
-
-    if (data != null) {
-      Bundle bundle = data.getExtras();
-      if (bundle != null) {
-        filters = (List<TriggerFilter>) bundle.get(FilterActivity.TRIGGER_FILTERS_EXTRA);
-      }
-    }
-
     if (resultCode == Activity.RESULT_OK) {
-      triggerLogPresenter.setFilters(filters);
+      triggerLogPresenter.applyFilters();
     } else {
-      triggerLogPresenter.cancelFilterEdition(filters);
+      triggerLogPresenter.cancelFilterEdition();
     }
   }
 }

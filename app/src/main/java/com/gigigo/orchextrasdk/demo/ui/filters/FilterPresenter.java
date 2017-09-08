@@ -26,29 +26,33 @@ import java.util.List;
 
 public class FilterPresenter {
   private FiltersPreferenceManager filtersPreferenceManager;
-  private List<TriggerFilter> filterCollection;
+  private List<TriggerFilter> triggerFilterList;
   private FilterView view;
 
   public FilterPresenter(FilterView view, FiltersPreferenceManager filtersPreferenceManager) {
     this.view = view;
     this.filtersPreferenceManager = filtersPreferenceManager;
 
-    filterCollection = new ArrayList<>();
-    filterCollection.add(new TriggerFilter(filtersPreferenceManager.getBarcode(), TriggerType.BARCODE));
-    filterCollection.add(new TriggerFilter(filtersPreferenceManager.getQr(), TriggerType.QR));
-    filterCollection.add(new TriggerFilter(filtersPreferenceManager.getImageRecognition(), TriggerType.IMAGE_RECOGNITION));
-    filterCollection.add(new TriggerFilter(filtersPreferenceManager.getBeacon(), TriggerType.BEACON));
-    filterCollection.add(new TriggerFilter(filtersPreferenceManager.getBeaconRegion(), TriggerType.BEACON_REGION));
-    filterCollection.add(new TriggerFilter(filtersPreferenceManager.getGeofence(), TriggerType.GEOFENCE));
-    filterCollection.add(new TriggerFilter(filtersPreferenceManager.getEddystone(), TriggerType.EDDYSTONE));
+    loadFilters();
+  }
+
+  private void loadFilters() {
+    triggerFilterList = new ArrayList<>();
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getBarcode(), TriggerType.BARCODE));
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getQr(), TriggerType.QR));
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getImageRecognition(), TriggerType.IMAGE_RECOGNITION));
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getBeacon(), TriggerType.BEACON));
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getBeaconRegion(), TriggerType.BEACON_REGION));
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getGeofence(), TriggerType.GEOFENCE));
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getEddystone(), TriggerType.EDDYSTONE));
   }
 
   public void uiReady() {
-    view.showFilters(filterCollection);
+    view.showFilters(triggerFilterList);
   }
 
   public void applyFilters() {
-    for (TriggerFilter filter : filterCollection) {
+    for (TriggerFilter filter : triggerFilterList) {
       switch (filter.getType()){
         case BEACON:
           filtersPreferenceManager.saveBeacon(filter.isActive());
@@ -76,25 +80,16 @@ public class FilterPresenter {
       }
     }
 
-    view.applyFilters(filterCollection);
+    view.applyFilters();
   }
 
   public void cancelFiltersEdition() {
-    view.cancelFiltersEdition(filterCollection);
+    view.cancelFiltersEdition();
   }
 
   public void checkFilter(boolean checked, int position) {
-    TriggerFilter triggerFilter = filterCollection.get(position);
+    TriggerFilter triggerFilter = triggerFilterList.get(position);
     triggerFilter.setActive(checked);
     view.updateFilter(checked, position);
-
-    boolean enabled = false;
-    for (int i = 0; !enabled && i < filterCollection.size(); i++) {
-      TriggerFilter filter = filterCollection.get(i);
-      if (filter.isActive()) {
-        enabled = true;
-      }
-    }
-    view.enableApplyButton(enabled);
   }
 }

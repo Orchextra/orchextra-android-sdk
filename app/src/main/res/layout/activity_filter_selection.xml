@@ -39,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="20dp"
-        android:enabled="false"
         android:text="@string/apply_filter"
         style="@style/ButtonStyle"
         />

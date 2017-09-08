@@ -23,20 +23,27 @@ import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import com.gigigo.orchextrasdk.demo.ui.filters.entities.TriggerFilter;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.receiver.TriggerLogMemory;
+import com.gigigo.orchextrasdk.demo.utils.FiltersPreferenceManager;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 public class TriggerLogPresenter {
 
   private TriggerLogView view;
   private TriggerLogMemory triggerLogMemory;
+  private FiltersPreferenceManager filtersPreferenceManager;
+  private List<TriggerFilter> triggerFilterList;
+  private boolean filterActivated;
 
-  public TriggerLogPresenter(TriggerLogView view) {
+  public TriggerLogPresenter(TriggerLogView view,
+      FiltersPreferenceManager filtersPreferenceManager) {
     this.view = view;
+    this.filtersPreferenceManager = filtersPreferenceManager;
 
     this.triggerLogMemory = TriggerLogMemory.getInstance();
+
+    this.filterActivated = false;
   }
 
   public void uiReady() {
@@ -58,57 +65,66 @@ public class TriggerLogPresenter {
     }
   }
 
-  public void clearFilter() {
-    cleanFilterList();
-    view.showFilterCleared();
-  }
-
-  private void filterList(@NonNull Collection<TriggerLog> collection,
-      List<TriggerType> filterTypes) {
+  private void filterList() {
     view.cleanFilterList();
 
-    List<TriggerLog> collectionFiltered = new ArrayList<>();
+    Collection<TriggerLog> filteredList = new ArrayList<>();
 
-    Iterator<TriggerLog> iterator = collection.iterator();
-    while (iterator.hasNext()) {
-      TriggerLog triggerLog = iterator.next();
-      if (filterTypes.contains(triggerLog.getTrigger().getType())) {
-        collectionFiltered.add(triggerLog);
+    for (TriggerLog triggerLog : triggerLogMemory.getTriggerLogs()) {
+      for (TriggerFilter triggerFilter : triggerFilterList) {
+        if (triggerFilter.isActive() == filterActivated
+            && triggerFilter.getType() == triggerLog.getTrigger().getType()) {
+          filteredList.add(triggerLog);
+        }
       }
     }
 
-    view.updateFilterList(collectionFiltered);
-  }
-
-  private void cleanFilterList() {
-    view.updateFilterList(triggerLogMemory.getTriggerLogs());
+    view.updateFilterList((List)filteredList);
   }
 
   public void showFilterSelection() {
     view.showFilterSelection();
   }
 
-  public void setFilters(List<TriggerFilter> filters) {
-    List<TriggerType> filterTypes = new ArrayList<>();
-    for (TriggerFilter filter : filters) {
-      if (filter.isActive()) {
-        filterTypes.add(filter.getType());
-      }
-    }
-    filterList(triggerLogMemory.getTriggerLogs(), filterTypes);
+  public void applyFilters() {
+    this.filterActivated = true;
+    loadFilters();
+    filterList();
   }
 
-  public void cancelFilterEdition(List<TriggerFilter> filters) {
-    boolean filtered = false;
-    for (TriggerFilter filter : filters) {
-      if (filter.isActive()) {
-        filtered = true;
-      }
-    }
+  public void cancelFilterEdition() {
+    this.filterActivated = false;
+    cleanFilters();
+    filterList();
+    view.showFilterCleared();
+  }
 
-    if (!filtered) {
-      cleanFilterList();
-      view.showFilterCleared();
-    }
+  private void loadFilters() {
+    this.triggerFilterList = new ArrayList<>();
+    triggerFilterList.add(
+        new TriggerFilter(filtersPreferenceManager.getBarcode(), TriggerType.BARCODE));
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getQr(), TriggerType.QR));
+    triggerFilterList.add(new TriggerFilter(filtersPreferenceManager.getImageRecognition(),
+        TriggerType.IMAGE_RECOGNITION));
+    triggerFilterList.add(
+        new TriggerFilter(filtersPreferenceManager.getBeacon(), TriggerType.BEACON));
+    triggerFilterList.add(
+        new TriggerFilter(filtersPreferenceManager.getBeaconRegion(), TriggerType.BEACON_REGION));
+    triggerFilterList.add(
+        new TriggerFilter(filtersPreferenceManager.getGeofence(), TriggerType.GEOFENCE));
+    triggerFilterList.add(
+        new TriggerFilter(filtersPreferenceManager.getEddystone(), TriggerType.EDDYSTONE));
+  }
+
+  private void cleanFilters() {
+    filtersPreferenceManager.saveBarcode(false);
+    filtersPreferenceManager.saveQr(false);
+    filtersPreferenceManager.saveImageRecognition(false);
+    filtersPreferenceManager.saveBeacon(false);
+    filtersPreferenceManager.saveBeaconRegion(false);
+    filtersPreferenceManager.saveGeofence(false);
+    filtersPreferenceManager.saveEddystone(false);
+
+    loadFilters();
   }
 }

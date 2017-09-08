@@ -57,7 +57,7 @@ public class FilterActivity extends AppCompatActivity implements FilterView {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_filter_selection);
 
-    filterPresenter = new FilterPresenter(this, new FiltersPreferenceManager(this));
+    filterPresenter = new FilterPresenter(this, new FiltersPreferenceManager(getBaseContext()));
 
     triggerFilterRecyclerView = (RecyclerView) findViewById(R.id.trigger_filter_list);
     applyButton = (Button) findViewById(R.id.apply_button);
@@ -126,31 +126,17 @@ public class FilterActivity extends AppCompatActivity implements FilterView {
     filterAdapter.addAll(filterCollection);
   }
 
-  @Override public void applyFilters(List<TriggerFilter> filterCollection) {
-    Intent returnIntent = new Intent();
-    returnIntent.putParcelableArrayListExtra(
-        TRIGGER_FILTERS_EXTRA,
-        (ArrayList<TriggerFilter>) filterCollection);
-
-    setResult(RESULT_OK, returnIntent);
+  @Override public void applyFilters() {
+    setResult(RESULT_OK);
     finish();
   }
 
-  @Override public void cancelFiltersEdition(List<TriggerFilter> filterCollection) {
-    Intent returnIntent = new Intent();
-    returnIntent.putParcelableArrayListExtra(
-        TRIGGER_FILTERS_EXTRA,
-        (ArrayList<TriggerFilter>) filterCollection);
-
-    setResult(RESULT_CANCELED, returnIntent);
+  @Override public void cancelFiltersEdition() {
+    setResult(RESULT_CANCELED);
     finish();
   }
 
   @Override public void updateFilter(boolean checked, int position) {
     filterAdapter.updateItem(position, checked);
-  }
-
-  @Override public void enableApplyButton(boolean enabled) {
-    applyButton.setEnabled(enabled);
   }
 }
