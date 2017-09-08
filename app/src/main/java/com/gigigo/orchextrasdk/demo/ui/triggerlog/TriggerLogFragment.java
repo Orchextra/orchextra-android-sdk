@@ -46,13 +46,16 @@ import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggersAdapter;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.filter.FilterActivity;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.receiver.TriggerLogMemory;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TriggerLogFragment extends Fragment {
 
   private static final String TAG = "TriggerLogFragment";
   private Orchextra orchextra;
-  List<TriggerLog> triggerLogs;
+  Set<TriggerLog> triggerLogs;
   List<TriggerType> filterTriggerTypes;
   CheckedTextView modifyFilterView;
   Button filterCleanButton;
@@ -101,12 +104,18 @@ public class TriggerLogFragment extends Fragment {
 
   private void initTriggerLogMemory() {
     TriggerLogMemory triggerLogMemory = TriggerLogMemory.getInstance();
-    triggerLogs = triggerLogMemory.getTriggerLogs();
+    triggerLogs = new HashSet<>();
+    triggerLogs.addAll(triggerLogMemory.getTriggerLogs());
     filterTriggerTypes = new ArrayList<>();
 
     triggerLogMemory.setTriggerLogListener(new TriggerLogMemory.TriggerLogListener() {
       @Override public void onNewTriggerLog(TriggerLog triggerLog) {
         triggerLogs.add(triggerLog);
+
+        if (!triggerLogs.add(triggerLog)) {
+          triggerLogs.remove(triggerLog);
+          triggerLogs.add(triggerLog);
+        }
         updateView();
       }
     });
@@ -202,14 +211,16 @@ public class TriggerLogFragment extends Fragment {
     super.onDestroyView();
   }
 
-  private List<TriggerLog> filter(@NonNull List<TriggerLog> origin,
+  private List<TriggerLog> filter(@NonNull Collection<TriggerLog> origin,
       @NonNull List<TriggerType> filter) {
 
-    if (filter.isEmpty()) {
-      return origin;
-    }
-
     List<TriggerLog> triggerLogs = new ArrayList<>();
+
+    if (filter.isEmpty()) {
+
+      triggerLogs.addAll(origin);
+      return triggerLogs;
+    }
 
     for (TriggerLog triggerLog : origin) {
       if (filter.contains(triggerLog.getTrigger().getType())) {

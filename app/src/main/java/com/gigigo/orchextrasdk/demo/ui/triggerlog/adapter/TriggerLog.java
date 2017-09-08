@@ -55,6 +55,19 @@ public final class TriggerLog implements Comparable<TriggerLog>, Parcelable {
     dest.writeParcelable(this.trigger, flags);
   }
 
+  @Override public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    TriggerLog that = (TriggerLog) o;
+
+    return trigger.getValue().equals(that.getTrigger().getValue());
+  }
+
+  @Override public int hashCode() {
+    return 31 * trigger.getValue().hashCode();
+  }
+
   protected TriggerLog(Parcel in) {
     long tmpDate = in.readLong();
     this.date = new Date(tmpDate);
