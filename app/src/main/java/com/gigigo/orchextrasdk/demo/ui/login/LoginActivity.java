@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -54,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
   EditText projectNameEditText;
   EditText apiKeyEditText;
   EditText apiSecretEditText;
+  boolean doubleTap = false;
+  int currentProject = 0;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -61,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
     projectDataList = ProjectData.getDefaultProjectDataList();
     initView();
-    loadInitialData();
+    loadProjectData();
   }
 
   private void initView() {
@@ -96,6 +99,30 @@ public class LoginActivity extends AppCompatActivity {
         makeLogin();
       }
     });
+
+    View logoIv = findViewById(R.id.logo_iv);
+    logoIv.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        if (doubleTap) {
+
+          if (currentProject >= 2) {
+            currentProject = 0;
+          } else {
+            currentProject++;
+          }
+
+          loadProjectData();
+          return;
+        }
+
+        doubleTap = true;
+        new Handler().postDelayed(new Runnable() {
+          @Override public void run() {
+            doubleTap = false;
+          }
+        }, 500);
+      }
+    });
   }
 
   private void initToolbar() {
@@ -108,10 +135,10 @@ public class LoginActivity extends AppCompatActivity {
     }
   }
 
-  private void loadInitialData() {
+  void loadProjectData() {
 
-    apiKeyEditText.setText(projectDataList.get(0).getApiKey());
-    apiSecretEditText.setText(projectDataList.get(0).getApiSecret());
+    apiKeyEditText.setText(projectDataList.get(currentProject).getApiKey());
+    apiSecretEditText.setText(projectDataList.get(currentProject).getApiSecret());
   }
 
   void makeLogin() {
