@@ -18,4 +18,4 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-data class Credentials constructor(val apiKey: String = "-1", val apiSecret: String = "-1")
+data class Credentials(val apiKey: String = "-1", val apiSecret: String = "-1")

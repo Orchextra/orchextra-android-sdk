@@ -25,7 +25,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
 import com.gigigo.orchextra.core.domain.entities.AppData
-import com.gigigo.orchextra.core.domain.entities.DeviceData
+import com.gigigo.orchextra.core.domain.entities.OxDevice
 import java.util.Locale
 import java.util.TimeZone
 
@@ -38,13 +38,13 @@ fun Context.getAppData(): AppData = with(this) {
       bundleId = packageName)
 }
 
-fun Context.getDeviceData(): DeviceData = with(this) {
+fun Context.getDeviceData(): OxDevice = with(this) {
 
   val timeZone = TimeZone.getDefault()
   val wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
   val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
-  return DeviceData(
+  return OxDevice(
       handset = if (Build.MODEL.startsWith(Build.MANUFACTURER)) {
         Build.MODEL.capitalize()
       } else {

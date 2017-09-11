@@ -18,21 +18,15 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-data class LoadConfiguration(
-    val app: AppData? = null,
-    val device: OxDevice? = null,
-    val geoLocation: GeoLocation? = null,
-    val crm: OxUser? = null)
-
-data class AppData(
-    val appVersion: String,
-    val buildVersion: String,
-    val bundleId: String)
-
-data class GeoLocation(
-    var country: String = "",
-    var countryCode: String = "",
-    var locality: String = "",
-    var zip: String = "",
-    var street: String = "",
-    var point: Point)
+data class OxDevice(
+    val handset: String,
+    val language: String,
+    val osVersion: String,
+    val timeZone: String,
+    val instanceId: String,
+    val secureId: String,
+    val serialNumber: String,
+    val bluetoothMacAddress: String,
+    val wifiMacAddress: String,
+    val tags: List<String>,
+    val businessUnits: List<String>)
