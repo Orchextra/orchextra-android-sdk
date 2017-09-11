@@ -41,9 +41,9 @@ android {
   defaultConfig {
     applicationId "com.gigigo.orchextrasdk.demo"
     minSdkVersion 16
-    targetSdkVersion parent.ext.androidTargetSdkVersion
-    versionCode parent.ext.androidVersionCode
-    versionName "1.0.0"
+    targetSdkVersion 25
+    versionCode computeVersionCode()
+    versionName "3.0.0-rc." + computeVersionCode()
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
@@ -124,7 +124,8 @@ dependencies {
 }
 
 applivery {
-  appId = "59a69f14b143c2640ffb5418"
+  appId = "59a69f3ae2272dd77951a75b"
+  buildPath = "./app/build/outputs/apk/app-release.apk"
   apiKey = "$System.env.APPLIVERY_API_KEY"
 }
 
@@ -143,4 +144,16 @@ android.applicationVariants.all { variant ->
       }
     }
   }
+}
+
+/**
+ * Gets the commit number from the current Git commit. E.g. 538
+ */
+def computeVersionCode() {
+  def stdout = new ByteArrayOutputStream()
+  exec {
+    commandLine 'git', 'rev-list', '--count', 'HEAD'
+    standardOutput = stdout
+  }
+  return stdout.toString().trim().toInteger()
 }
