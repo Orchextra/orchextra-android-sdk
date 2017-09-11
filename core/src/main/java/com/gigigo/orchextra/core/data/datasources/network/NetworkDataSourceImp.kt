@@ -28,6 +28,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
+import com.gigigo.orchextra.core.data.datasources.network.models.toOxCrm
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
@@ -36,6 +37,7 @@ import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
+import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
@@ -118,6 +120,15 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     makeCallWithRetry({ ->
       orchextraApi.confirmAction(id).execute().body()
     })
+  }
+
+  override fun getCrm(): OxCRM {
+
+    val apiResponse = makeCallWithRetry({ ->
+      orchextraApi.getCrm().execute().body()
+    })
+
+    return apiResponse?.data?.toOxCrm() as OxCRM
   }
 
   private fun <T> makeCallWithRetry(call: () -> OxResponse<T>?): OxResponse<T>? {

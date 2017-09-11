@@ -22,7 +22,7 @@ data class LoadConfiguration(
     val app: AppData? = null,
     val device: OxDevice? = null,
     val geoLocation: GeoLocation? = null,
-    val crm: OxUser? = null)
+    val crm: OxCRM? = null)
 
 data class AppData(
     val appVersion: String,

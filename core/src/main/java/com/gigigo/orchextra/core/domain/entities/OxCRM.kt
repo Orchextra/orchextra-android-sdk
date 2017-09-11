@@ -18,9 +18,9 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-data class OxUser(
-    val gender: String,
-    val birthDate: String,
-    val tags: List<String>,
-    val businessUnits: List<String>,
-    val customFields: Map<String, String>)
+data class OxCRM(
+    val gender: String = "",
+    val birthDate: String = "",
+    val tags: List<String> = ArrayList(),
+    val businessUnits: List<String> = ArrayList(),
+    val customFields: Map<String, String> = HashMap())

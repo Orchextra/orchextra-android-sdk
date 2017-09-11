@@ -16,17 +16,19 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
+package com.gigigo.orchextra.core.data.datasources.network.models
 
-data class OxDevice(
-    val handset: String = "",
-    val language: String = "",
-    val osVersion: String = "",
-    val timeZone: String = "",
-    val instanceId: String = "",
-    val secureId: String = "",
-    val serialNumber: String = "",
-    val bluetoothMacAddress: String = "",
-    val wifiMacAddress: String = "",
-    val tags: List<String> = ArrayList(),
-    val businessUnits: List<String> = ArrayList())
+class ApiCrm(
+    val crmId: String?,
+    val gender: String?,
+    val birthDate: String?)
+
+class Loyalty(
+    val points: Int?,
+    val pointsExpiration: PointsExpiration?
+)
+
+class PointsExpiration(
+    val points: Int?,
+    val expirationDate: String?
+)

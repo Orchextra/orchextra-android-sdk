@@ -21,6 +21,7 @@ package com.gigigo.orchextra.core.data.datasources.network
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiAction
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiConfiguration
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiCrm
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiToken
 import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
@@ -52,4 +53,7 @@ interface OrchextraApi {
 
   @POST("v1/action/confirm/{id}")
   fun confirmAction(@Path("id") id: String): Call<OxResponse<ApiAction>>
+
+  @GET("v1/consumer")
+  fun getCrm(): Call<OxResponse<ApiCrm>>
 }

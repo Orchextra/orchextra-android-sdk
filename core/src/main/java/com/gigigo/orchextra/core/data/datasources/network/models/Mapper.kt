@@ -26,6 +26,7 @@ import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Notification
+import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.Token
@@ -145,6 +146,12 @@ fun NetworkException.toError(): Error =
       return Error(
           code = code,
           message = error)
+    }
+
+fun ApiCrm.toOxCrm(): OxCRM =
+    with(this) {
+      return OxCRM(gender = gender ?: "",
+          birthDate = birthDate ?: "")
     }
 
 fun TriggerType.toOxType(): String = when (this) {

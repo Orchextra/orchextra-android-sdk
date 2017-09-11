@@ -56,6 +56,7 @@ object Orchextra : OrchextraErrorListener {
   private var orchextraErrorListener: OrchextraErrorListener? = null
   private var debuggable = false
   private var sessionManager: SessionManager? = null
+  private var crmManager: CrmManager? = null
 
   @JvmOverloads
   fun init(context: Application, apiKey: String, apiSecret: String, debuggable: Boolean = false) {
@@ -68,6 +69,7 @@ object Orchextra : OrchextraErrorListener {
     this.locationProvider = LocationProvider(context)
     this.locationProvider.getLocation { point -> getConfiguration(point) }
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
+    this.crmManager = CrmManager.create()
 
     initLogger(context)
 
