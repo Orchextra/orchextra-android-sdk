@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.core.utils
 
 import android.content.Context
+import android.location.Location
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.google.android.gms.location.LocationServices
 
@@ -30,8 +31,15 @@ class LocationProvider(context: Context) {
   fun getLocation(listener: (Point) -> Unit) {
 
     fusedLocationClient.lastLocation
-        .addOnSuccessListener { location ->
-          listener(Point(lat = location.latitude, lng = location.longitude))
+        .addOnSuccessListener { location: Location? ->
+
+          val point = if (location != null) {
+            Point(lat = location.latitude, lng = location.longitude)
+          } else {
+            Point(lat = -1.0, lng = -1.0)
+          }
+
+          listener(point)
         }
   }
 }
