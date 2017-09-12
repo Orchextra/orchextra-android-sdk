@@ -20,48 +20,32 @@ package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
+import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class ConfirmAction(private val threadExecutor: ThreadExecutor,
-    private val postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Runnable {
+class ConfirmAction(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
+    private val networkDataSource: NetworkDataSource) : Interactor<Unit>(threadExecutor,
+    postExecutionThread) {
 
   private lateinit var id: String
-  private var callback: Callback? = null
 
-  fun get(id: String, callback: Callback) {
+  fun get(id: String, onSuccess: (Unit) -> Unit = onSuccessStub,
+      onError: (OxException) -> Unit = onErrorStub) {
+
     this.id = id
-    this.callback = callback
+    this.onSuccess = onSuccess
+    this.onError = onError
 
     threadExecutor.execute(this)
   }
 
-  override fun run() {
-    try {
-      networkDataSource.confirmAction(id)
-
-      notifySuccess()
-    } catch (error: NetworkException) {
-      notifyError(error)
-    }
-  }
-
-  private fun notifySuccess() {
-    postExecutionThread.execute(Runnable { callback?.onSuccess() })
-  }
-
-  private fun notifyError(error: NetworkException) {
-    postExecutionThread.execute(Runnable { callback?.onError(error) })
-  }
-
-  interface Callback {
-
-    fun onSuccess()
-
-    fun onError(error: NetworkException)
+  override fun run() = try {
+    notifySuccess(networkDataSource.confirmAction(id))
+  } catch (error: NetworkException) {
+    notifyError(error)
   }
 
   companion object Factory {

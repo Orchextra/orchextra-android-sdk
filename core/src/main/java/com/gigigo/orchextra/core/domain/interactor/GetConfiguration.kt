@@ -22,48 +22,32 @@ import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
+import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class GetConfiguration constructor(private val threadExecutor: ThreadExecutor,
-    private val postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Runnable {
+class GetConfiguration(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
+    private val networkDataSource: NetworkDataSource) : Interactor<Configuration>(threadExecutor,
+    postExecutionThread) {
 
   private lateinit var loadConfiguration: LoadConfiguration
-  private var callback: Callback? = null
 
-  fun get(loadConfiguration: LoadConfiguration, callback: Callback) {
+  fun get(loadConfiguration: LoadConfiguration, onSuccess: (Configuration) -> Unit = onSuccessStub,
+      onError: (OxException) -> Unit = onErrorStub) {
+
     this.loadConfiguration = loadConfiguration
-    this.callback = callback
+    this.onSuccess = onSuccess
+    this.onError = onError
 
     threadExecutor.execute(this)
   }
 
-  override fun run() {
-    try {
-      val configuration = networkDataSource.getConfiguration(loadConfiguration)
-
-      notifySuccess(configuration)
-    } catch (error: NetworkException) {
-      notifyError(error)
-    }
-  }
-
-  private fun notifySuccess(configuration: Configuration) {
-    postExecutionThread.execute(Runnable { callback?.onSuccess(configuration) })
-  }
-
-  private fun notifyError(error: NetworkException) {
-    postExecutionThread.execute(Runnable { callback?.onError(error) })
-  }
-
-  interface Callback {
-
-    fun onSuccess(configuration: Configuration)
-
-    fun onError(error: NetworkException)
+  override fun run() = try {
+    notifySuccess(networkDataSource.getConfiguration(loadConfiguration))
+  } catch (error: NetworkException) {
+    notifyError(error)
   }
 
   companion object Factory {

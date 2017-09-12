@@ -40,14 +40,10 @@ class GetDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExecuti
     threadExecutor.execute(this)
   }
 
-  override fun run() {
-    try {
-      val device = networkDataSource.getDevice()
-
-      notifySuccess(device)
-    } catch (error: NetworkException) {
-      notifyError(error)
-    }
+  override fun run() = try {
+    notifySuccess(networkDataSource.getDevice())
+  } catch (error: NetworkException) {
+    notifyError(error)
   }
 
   companion object Factory {

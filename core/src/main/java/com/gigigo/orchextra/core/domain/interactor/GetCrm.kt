@@ -40,14 +40,10 @@ class GetCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionT
     threadExecutor.execute(this)
   }
 
-  override fun run() {
-    try {
-      val crm = networkDataSource.getCrm()
-
-      notifySuccess(crm)
-    } catch (error: NetworkException) {
-      notifyError(error)
-    }
+  override fun run() = try {
+    notifySuccess(networkDataSource.getCrm())
+  } catch (error: NetworkException) {
+    notifyError(error)
   }
 
   companion object Factory {

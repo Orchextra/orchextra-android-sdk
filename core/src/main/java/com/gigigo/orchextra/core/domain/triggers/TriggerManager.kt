@@ -24,13 +24,11 @@ import com.gigigo.orchextra.core.OrchextraErrorListener
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
-import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
-import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import kotlin.properties.Delegates
@@ -83,34 +81,21 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
     indoorPositioning.finish()
   }
 
-  override fun onTriggerDetected(trigger: Trigger) {
-
-    validateTrigger.validate(trigger, object : ValidateTrigger.Callback {
-      override fun onSuccess(validTrigger: Trigger) {
-        if (!validTrigger.isVoid()) {
-          getActionByTrigger(trigger)
+  override fun onTriggerDetected(trigger: Trigger) = validateTrigger.validate(trigger,
+      onSuccess = {
+        if (!it.isVoid()) {
+          getActionByTrigger(it)
         }
-      }
-
-      override fun onError(error: Error) {
-        if (error.isValid()) {
-          orchextraErrorListener.onError(error)
+      },
+      onError = {
+        if (it.toError().isValid()) {
+          orchextraErrorListener.onError(it.toError())
         }
-      }
-    })
-  }
+      })
 
-  private fun getActionByTrigger(trigger: Trigger) {
-    getAction.get(trigger, object : GetAction.Callback {
-      override fun onSuccess(action: Action) {
-        actionHandlerServiceExecutor.execute(context = context, action = action)
-      }
-
-      override fun onError(error: NetworkException) {
-        orchextraErrorListener.onError(error.toError())
-      }
-    })
-  }
+  private fun getActionByTrigger(trigger: Trigger) = getAction.get(trigger,
+      onSuccess = { actionHandlerServiceExecutor.execute(context = context, action = it) },
+      onError = { orchextraErrorListener.onError(it.toError()) })
 
   companion object Factory {
 

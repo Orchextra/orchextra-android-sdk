@@ -24,13 +24,11 @@ import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
-import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoLocation
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.Point
-import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
@@ -85,18 +83,15 @@ object Orchextra : OrchextraErrorListener {
         geoLocation = GeoLocation(point = point))
 
     val getConfiguration = GetConfiguration.create()
+
     getConfiguration.get(loadConfiguration,
-        object : GetConfiguration.Callback {
-          override fun onSuccess(configuration: Configuration) {
-            triggerManager.configuration = configuration
-
-            changeStatus(true)
-          }
-
-          override fun onError(error: NetworkException) {
-            changeStatus(false)
-            LogUtils.LOGE(TAG, "getConfiguration: ${error.error}")
-          }
+        onSuccess = {
+          triggerManager.configuration = it
+          changeStatus(true)
+        },
+        onError = {
+          changeStatus(false)
+          LogUtils.LOGE(TAG, "getConfiguration: ${it.error}")
         })
   }
 

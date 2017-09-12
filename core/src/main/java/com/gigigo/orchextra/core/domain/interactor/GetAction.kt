@@ -22,48 +22,33 @@ import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
+import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class GetAction constructor(private val threadExecutor: ThreadExecutor,
-    private val postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Runnable {
+class GetAction constructor(threadExecutor: ThreadExecutor,
+    postExecutionThread: PostExecutionThread,
+    private val networkDataSource: NetworkDataSource) : Interactor<Action>(threadExecutor,
+    postExecutionThread) {
 
   private lateinit var trigger: Trigger
-  private var callback: Callback? = null
 
-  fun get(trigger: Trigger, callback: Callback) {
+  fun get(trigger: Trigger, onSuccess: (Action) -> Unit = onSuccessStub,
+      onError: (OxException) -> Unit = onErrorStub) {
+
     this.trigger = trigger
-    this.callback = callback
+    this.onSuccess = onSuccess
+    this.onError = onError
 
     threadExecutor.execute(this)
   }
 
-  override fun run() {
-    try {
-      val action = networkDataSource.getAction(trigger)
-
-      notifySuccess(action)
-    } catch (error: NetworkException) {
-      notifyError(error)
-    }
-  }
-
-  private fun notifySuccess(action: Action) {
-    postExecutionThread.execute(Runnable { callback?.onSuccess(action) })
-  }
-
-  private fun notifyError(error: NetworkException) {
-    postExecutionThread.execute(Runnable { callback?.onError(error) })
-  }
-
-  interface Callback {
-
-    fun onSuccess(action: Action)
-
-    fun onError(error: NetworkException)
+  override fun run() = try {
+    notifySuccess(networkDataSource.getAction(trigger))
+  } catch (error: NetworkException) {
+    notifyError(error)
   }
 
   companion object Factory {

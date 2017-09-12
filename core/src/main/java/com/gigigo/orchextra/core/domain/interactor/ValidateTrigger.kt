@@ -24,38 +24,38 @@ import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 import com.gigigo.orchextra.core.domain.exceptions.DbException
+import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 import java.util.concurrent.TimeUnit
 
-class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
-    private val postExecutionThread: PostExecutionThread,
-    private val dbDataSource: DbDataSource) : Runnable {
+class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
+    private val dbDataSource: DbDataSource) : Interactor<Trigger>(threadExecutor,
+    postExecutionThread) {
 
   private lateinit var trigger: Trigger
-  private lateinit var callback: Callback
 
   // TODO set request wait time from server
   private val waitTime: Long = TimeUnit.MINUTES.toMillis(2)
 
-  fun validate(trigger: Trigger, callback: Callback) {
+  fun validate(trigger: Trigger, onSuccess: (Trigger) -> Unit = onSuccessStub,
+      onError: (OxException) -> Unit = onErrorStub) {
+
     this.trigger = trigger
-    this.callback = callback
+    this.onSuccess = onSuccess
+    this.onError = onError
 
     threadExecutor.execute(this)
   }
 
-  override fun run() {
-    try {
-      notifySuccess(validate(trigger))
-
-    } catch (error: DbException) {
-      notifySuccess(trigger)
-    } catch (e: Exception) {
-      notifyError(Error(Error.INVALID_ERROR, ""))
-    }
+  override fun run() = try {
+    notifySuccess(validate(trigger))
+  } catch (error: DbException) {
+    notifySuccess(trigger)
+  } catch (e: Exception) {
+    notifyError(OxException(Error.INVALID_ERROR, ""))
   }
 
   @WorkerThread
@@ -71,30 +71,14 @@ class ValidateTrigger constructor(private val threadExecutor: ThreadExecutor,
 
     dbDataSource.saveTrigger(trigger)
 
-    if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
-      return trigger
+    return if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
+      trigger
     } else {
-      return Trigger(VOID, "")
+      Trigger(VOID, "")
     }
   }
 
-  private fun notifySuccess(validTrigger: Trigger) {
-    postExecutionThread.execute(Runnable { callback.onSuccess(validTrigger) })
-  }
-
-  private fun notifyError(error: Error) {
-    postExecutionThread.execute(Runnable { callback.onError(error) })
-  }
-
-  interface Callback {
-
-    fun onSuccess(validTrigger: Trigger)
-
-    fun onError(error: Error)
-  }
-
   companion object Factory {
-
     fun create(): ValidateTrigger = ValidateTrigger(ThreadExecutorImp, PostExecutionThreadImp,
         DbDataSource.create())
   }
