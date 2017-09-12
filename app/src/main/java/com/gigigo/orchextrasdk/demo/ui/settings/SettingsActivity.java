@@ -31,6 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.gigigo.orchextra.core.CrmManager;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
@@ -41,10 +42,8 @@ import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.ProjectData;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -54,6 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
   private EditText apiSecretTextView;
   private Button finishButton;
   Orchextra orchextra;
+  CrmManager crmManager;
 
   public static void open(Context context) {
     Intent intent = new Intent(context, SettingsActivity.class);
@@ -76,6 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
 
   private void initOrchextra() {
     orchextra = Orchextra.INSTANCE;
+    crmManager = orchextra.getCrmManager();
     orchextra.setStatusListener(new OrchextraStatusListener() {
       @Override public void onStatusChange(boolean isReady) {
         if (!isReady) {
@@ -128,38 +129,39 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   private void showData() {
+    crmManager.getCurrentUser(new Function1<OxCRM, Unit>() {
+      @Override public Unit invoke(OxCRM user) {
+        bindData(user);
+        return null;
+      }
+    });
 
-    List<String> tags = new ArrayList<>();
-    tags.add("color::green");
-    tags.add("color");
-    tags.add("56b0839435cb2741118b459f");
+    crmManager.getDevice(new Function1<OxDevice, Unit>() {
+      @Override public Unit invoke(OxDevice device) {
+        bindData(device);
+        return null;
+      }
+    });
+  }
 
-    List<String> businessUnits = new ArrayList<>();
-    businessUnits.add("spain");
-    businessUnits.add("56b0839435cb2741118b459f");
-
-    Map<String, String> customFields = new HashMap<>();
-    customFields.put("name", "Mike");
-    customFields.put("surname", "O'Brien");
-    customFields.put("hasGoldCard", "true");
-
-    OxCRM user = new OxCRM("f", "21-12-1984", tags, businessUnits, customFields);
-    OxDevice oxDevice = new OxDevice("", "", "", "", "", "", "", "", "", tags, businessUnits);
-
+  void bindData(@NonNull OxCRM user) {
     EditText genderEt = (EditText) findViewById(R.id.genderEt);
     EditText birthDateEt = (EditText) findViewById(R.id.birthDateEt);
     EditText tagsEt = (EditText) findViewById(R.id.tagsEt);
     EditText businessUnitsEt = (EditText) findViewById(R.id.businessUnitsEt);
-    EditText deviceTagsEt = (EditText) findViewById(R.id.deviceTagsEt);
-    EditText deviceBusinessUnitsEt = (EditText) findViewById(R.id.deviceBusinessUnitsEt);
 
     genderEt.setText(user.getGender());
     birthDateEt.setText(user.getBirthDate());
     tagsEt.setText(TextUtils.join(", ", user.getTags()));
     businessUnitsEt.setText(TextUtils.join(", ", user.getBusinessUnits()));
+  }
 
-    deviceTagsEt.setText(TextUtils.join(", ", oxDevice.getTags()));
-    deviceBusinessUnitsEt.setText(TextUtils.join(", ", oxDevice.getBusinessUnits()));
+  void bindData(@NonNull OxDevice device) {
+    EditText deviceTagsEt = (EditText) findViewById(R.id.deviceTagsEt);
+    EditText deviceBusinessUnitsEt = (EditText) findViewById(R.id.deviceBusinessUnitsEt);
+
+    deviceTagsEt.setText(TextUtils.join(", ", device.getTags()));
+    deviceBusinessUnitsEt.setText(TextUtils.join(", ", device.getBusinessUnits()));
   }
 
   private void initToolbar() {

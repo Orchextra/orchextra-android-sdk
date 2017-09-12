@@ -23,7 +23,7 @@ import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetCrm
-import com.gigigo.orchextra.core.utils.LogUtils
+import java.util.ArrayList
 
 class CrmManager(private val getCrm: GetCrm,
     private var errorListener: OrchextraErrorListener) {
@@ -39,20 +39,16 @@ class CrmManager(private val getCrm: GetCrm,
     crm = OxCRM()
   }
 
-  fun getCurrentUser(): OxCRM {
-
+  fun getCurrentUser(bind: (user: OxCRM) -> Unit) {
     getCrm.get(object : GetCrm.Callback {
-
       override fun onSuccess(crm: OxCRM) {
-        LogUtils.LOGD("CrmManager", "data: $crm")
+        bind(crm)
       }
 
       override fun onError(error: NetworkException) {
         errorListener.onError(error.toError())
       }
     })
-
-    return crm
   }
 
   fun getAvailableCustomFields() {
@@ -81,16 +77,33 @@ class CrmManager(private val getCrm: GetCrm,
     crm = crm.copy(businessUnits = businessUnits)
   }
 
-  fun getDeviceTags(): List<String> = device.tags
+  fun getDevice(bind: (device: OxDevice) -> Unit) {
+    val tags = ArrayList<String>()
+    tags.add("color::green")
+    tags.add("color")
+    tags.add("56b0839435cb2741118b459f")
+    val businessUnits = ArrayList<String>()
+    businessUnits.add("spain")
+    businessUnits.add("56b0839435cb2741118b459f")
+    val device = OxDevice("", "", "", "", "", "", "", "", "", tags, businessUnits)
+
+    bind(device)
+  }
 
   fun setDeviceTags(tags: List<String>) {
     device = device.copy(tags = tags)
   }
 
-  fun getDeviceBussinesUnits(): List<String> = device.businessUnits
-
   fun setDeviceBussinesUnits(businessUnits: List<String>) {
     device = device.copy(businessUnits = businessUnits)
+  }
+
+  interface CrmCallback {
+    fun onGetCrm(crm: OxCRM)
+  }
+
+  interface DeviceCallback {
+    fun onGetDevice(device: OxDevice)
   }
 
   companion object Factory {

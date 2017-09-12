@@ -174,6 +174,8 @@ object Orchextra : OrchextraErrorListener {
     this.context = context
   }
 
+  fun getCrmManager(): CrmManager = crmManager as CrmManager
+
   fun isDebuggable(): Boolean = debuggable
 
   fun isActivityRunning() = isActivityRunning

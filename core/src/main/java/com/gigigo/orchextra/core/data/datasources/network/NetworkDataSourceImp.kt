@@ -28,7 +28,6 @@ import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
-import com.gigigo.orchextra.core.data.datasources.network.models.toOxCrm
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
@@ -45,6 +44,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.ArrayList
+import java.util.HashMap
 import java.util.concurrent.TimeUnit
 
 
@@ -124,11 +125,21 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
 
   override fun getCrm(): OxCRM {
 
-    val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.getCrm().execute().body()
-    })
+    val tags = ArrayList<String>()
+    tags.add("color::green")
+    tags.add("color")
+    tags.add("56b0839435cb2741118b459f")
 
-    return apiResponse?.data?.toOxCrm() as OxCRM
+    val businessUnits = ArrayList<String>()
+    businessUnits.add("spain")
+    businessUnits.add("56b0839435cb2741118b459f")
+
+    val customFields = HashMap<String, String>()
+    customFields.put("name", "Mike")
+    customFields.put("surname", "O'Brien")
+    customFields.put("hasGoldCard", "true")
+
+    return OxCRM("f", "21-12-1984", tags, businessUnits, customFields)
   }
 
   private fun <T> makeCallWithRetry(call: () -> OxResponse<T>?): OxResponse<T>? {
