@@ -37,6 +37,7 @@ import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
@@ -140,6 +141,19 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     customFields.put("hasGoldCard", "true")
 
     return OxCRM("f", "21-12-1984", tags, businessUnits, customFields)
+  }
+
+  override fun getDevice(): OxDevice {
+    val tags = ArrayList<String>()
+    tags.add("color::green")
+    tags.add("color")
+    tags.add("56b0839435cb2741118b459f")
+    val businessUnits = ArrayList<String>()
+    businessUnits.add("spain")
+    businessUnits.add("56b0839435cb2741118b459f")
+    val device = OxDevice("", "", "", "", "", "", "", "", "", tags, businessUnits)
+
+    return device
   }
 
   private fun <T> makeCallWithRetry(call: () -> OxResponse<T>?): OxResponse<T>? {

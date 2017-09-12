@@ -19,14 +19,14 @@
 package com.gigigo.orchextra.core
 
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
+import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
-import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetCrm
-import java.util.ArrayList
+import com.gigigo.orchextra.core.domain.interactor.GetDevice
 
-class CrmManager(private val getCrm: GetCrm,
-    private var errorListener: OrchextraErrorListener) {
+class CrmManager(private val getCrm: GetCrm, private val getDevice: GetDevice,
+    private val showError: (error: Error) -> Unit) {
 
   var crm: OxCRM = OxCRM()
   var device: OxDevice = OxDevice()
@@ -40,15 +40,7 @@ class CrmManager(private val getCrm: GetCrm,
   }
 
   fun getCurrentUser(bind: (user: OxCRM) -> Unit) {
-    getCrm.get(object : GetCrm.Callback {
-      override fun onSuccess(crm: OxCRM) {
-        bind(crm)
-      }
-
-      override fun onError(error: NetworkException) {
-        errorListener.onError(error.toError())
-      }
-    })
+    getCrm.get(onSuccess = { bind(it) }, onError = { showError(it.toError()) })
   }
 
   fun getAvailableCustomFields() {
@@ -78,16 +70,7 @@ class CrmManager(private val getCrm: GetCrm,
   }
 
   fun getDevice(bind: (device: OxDevice) -> Unit) {
-    val tags = ArrayList<String>()
-    tags.add("color::green")
-    tags.add("color")
-    tags.add("56b0839435cb2741118b459f")
-    val businessUnits = ArrayList<String>()
-    businessUnits.add("spain")
-    businessUnits.add("56b0839435cb2741118b459f")
-    val device = OxDevice("", "", "", "", "", "", "", "", "", tags, businessUnits)
-
-    bind(device)
+    getDevice.get(onSuccess = { bind(it) }, onError = { showError(it.toError()) })
   }
 
   fun setDeviceTags(tags: List<String>) {
@@ -108,6 +91,7 @@ class CrmManager(private val getCrm: GetCrm,
 
   companion object Factory {
 
-    fun create(): CrmManager = CrmManager(GetCrm.create(), Orchextra)
+    fun create(showError: (error: Error) -> Unit): CrmManager = CrmManager(GetCrm.create(),
+        GetDevice.create(), showError)
   }
 }

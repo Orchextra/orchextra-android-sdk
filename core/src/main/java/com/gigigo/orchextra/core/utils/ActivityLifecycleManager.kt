@@ -23,16 +23,18 @@ import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
 
-class ActivityLifecycleManager(val app: Application, val callback: ActivityLifecycleCallback) {
+class ActivityLifecycleManager(app: Application,
+    private val onActivityResumed: () -> Unit,
+    private val onActivityPaused: () -> Unit) {
 
   init {
     app.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
       override fun onActivityPaused(activity: Activity?) {
-        callback.onActivityPaused()
+        onActivityPaused()
       }
 
       override fun onActivityResumed(activity: Activity?) {
-        callback.onActivityResumed()
+        onActivityResumed()
       }
 
       override fun onActivityStarted(activity: Activity?) {
@@ -55,12 +57,5 @@ class ActivityLifecycleManager(val app: Application, val callback: ActivityLifec
 
       }
     })
-  }
-
-  interface ActivityLifecycleCallback {
-
-    fun onActivityResumed()
-
-    fun onActivityPaused()
   }
 }

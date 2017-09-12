@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
-import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
@@ -27,11 +27,11 @@ import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class GetCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Interactor<OxCRM>(threadExecutor,
+class GetDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
+    private val networkDataSource: NetworkDataSource) : Interactor<OxDevice>(threadExecutor,
     postExecutionThread) {
 
-  fun get(onSuccess: (OxCRM) -> Unit = onSuccessStub,
+  fun get(onSuccess: (OxDevice) -> Unit = onSuccessStub,
       onError: (OxException) -> Unit = onErrorStub) {
 
     this.onSuccess = onSuccess
@@ -42,9 +42,9 @@ class GetCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionT
 
   override fun run() {
     try {
-      val crm = networkDataSource.getCrm()
+      val device = networkDataSource.getDevice()
 
-      notifySuccess(crm)
+      notifySuccess(device)
     } catch (error: NetworkException) {
       notifyError(error)
     }
@@ -52,7 +52,7 @@ class GetCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionT
 
   companion object Factory {
 
-    fun create(): GetCrm = GetCrm(ThreadExecutorImp, PostExecutionThreadImp,
+    fun create(): GetDevice = GetDevice(ThreadExecutorImp, PostExecutionThreadImp,
         NetworkDataSource.create())
   }
 }

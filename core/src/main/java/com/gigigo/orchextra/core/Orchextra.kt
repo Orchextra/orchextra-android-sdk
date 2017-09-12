@@ -34,7 +34,6 @@ import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
-import com.gigigo.orchextra.core.utils.ActivityLifecycleManager.ActivityLifecycleCallback
 import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
@@ -69,20 +68,13 @@ object Orchextra : OrchextraErrorListener {
     this.locationProvider = LocationProvider(context)
     this.locationProvider.getLocation { point -> getConfiguration(point) }
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
-    this.crmManager = CrmManager.create()
+    this.crmManager = CrmManager.create { onError(it) }
 
     initLogger(context)
 
-    ActivityLifecycleManager(context,
-        object : ActivityLifecycleCallback {
-          override fun onActivityResumed() {
-            isActivityRunning = true
-          }
-
-          override fun onActivityPaused() {
-            isActivityRunning = false
-          }
-        })
+    ActivityLifecycleManager(app = context,
+        onActivityResumed = { isActivityRunning = true },
+        onActivityPaused = { isActivityRunning = false })
   }
 
   private fun getConfiguration(point: Point) {

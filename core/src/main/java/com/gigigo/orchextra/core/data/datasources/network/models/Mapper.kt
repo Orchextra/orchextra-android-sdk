@@ -32,6 +32,7 @@ import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
+import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
 import com.squareup.moshi.Moshi
 import okhttp3.Response as OkResponse
@@ -141,7 +142,7 @@ fun ApiSchedule.toSchedule(): Schedule =
           cancelable = cancelable ?: true)
     }
 
-fun NetworkException.toError(): Error =
+fun OxException.toError(): Error =
     with(this) {
       return Error(
           code = code,

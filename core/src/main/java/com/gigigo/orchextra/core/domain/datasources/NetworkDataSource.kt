@@ -25,6 +25,7 @@ import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -45,6 +46,9 @@ interface NetworkDataSource {
 
   @Throws(NetworkException::class)
   fun getCrm(): OxCRM
+
+  @Throws(NetworkException::class)
+  fun getDevice(): OxDevice
 
   companion object Factory {
 

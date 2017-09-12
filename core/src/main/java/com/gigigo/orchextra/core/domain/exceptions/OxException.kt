@@ -18,5 +18,4 @@
 
 package com.gigigo.orchextra.core.domain.exceptions
 
-open class NetworkException(code: Int, error: String) : OxException(code, error)
-
+open class OxException(val code: Int, val error: String) : Exception()
