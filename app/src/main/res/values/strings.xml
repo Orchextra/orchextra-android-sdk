@@ -55,5 +55,11 @@
   <string name="api_key">Api key</string>
   <string name="api_secret">Api secret</string>
   <string name="empty_list">Empty list</string>
+  <string name="user">User</string>
+  <string name="device">Device</string>
+  <string name="gender">Gender</string>
+  <string name="birth_date">Birth date</string>
+  <string name="tags">Tags</string>
+  <string name="business_units">Business units</string>
 
 </resources>

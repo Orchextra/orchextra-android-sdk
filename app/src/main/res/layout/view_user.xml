@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Orchextra
+  ~
+  ~ Copyright (C) 2017 Gigigo Mobile Services SL
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_huge"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/spacing_small"
+    android:paddingTop="@dimen/spacing_small"
+    >
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="20dp"
+      android:layout_marginStart="20dp"
+      android:text="@string/user"
+      android:textColor="@color/grey7"
+      android:textSize="17sp"
+      />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="40dp"
+      android:layout_marginRight="40dp"
+      android:orientation="vertical"
+      >
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <EditText
+          android:id="@+id/genderEt"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/gender"
+          android:textSize="14sp"
+          tools:text="f"
+          style="@style/SettingsTextStyle"
+          />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <EditText
+          android:id="@+id/birthDateEt"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/birth_date"
+          android:textSize="14sp"
+          tools:text="27-11-1990"
+          style="@style/SettingsTextStyle"
+          />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <EditText
+          android:id="@+id/tagsEt"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/tags"
+          android:textSize="14sp"
+          tools:text="color, blue"
+          style="@style/SettingsTextStyle"
+          />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+      <EditText
+          android:id="@+id/businessUnitsEt"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="@string/business_units"
+          android:textSize="14sp"
+          tools:text="spain, color"
+          style="@style/SettingsTextStyle"
+          />
+    </android.support.design.widget.TextInputLayout>
+  </LinearLayout>
+</LinearLayout>

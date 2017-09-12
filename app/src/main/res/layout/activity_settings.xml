@@ -17,6 +17,7 @@
   ~ limitations under the License.
 -->
 
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,118 +30,99 @@
 
   <include layout="@layout/toolbar"/>
 
-  <RelativeLayout
+  <ScrollView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       >
-    <LinearLayout
-        android:id="@+id/project_info_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingTop="20dp"
-        >
 
-      <android.support.design.widget.TextInputLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="20dp"
-          android:layout_marginRight="20dp"
-          >
-        <EditText
-            android:id="@+id/project_name_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/project"
-            android:textSize="14sp"
-            tools:text="Project example name"
-            style="@style/SettingsTextStyle"
-            />
-      </android.support.design.widget.TextInputLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
       <LinearLayout
+          android:id="@+id/project_info_layout"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="40dp"
-          android:layout_marginRight="40dp"
+          android:layout_alignParentTop="true"
+          android:background="@color/white"
           android:orientation="vertical"
+          android:paddingTop="20dp"
           >
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            >
-          <EditText
-              android:id="@+id/apiKey_editText"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:hint="@string/api_key"
-              android:textSize="12sp"
-              tools:text="keidjqqdmaon3847713e"
-              style="@style/SettingsTextStyle"
-              />
-        </android.support.design.widget.TextInputLayout>
-
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             >
           <EditText
-              android:id="@+id/apiSecret_editText"
+              android:id="@+id/project_name_editText"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:hint="@string/api_secret"
-              android:textSize="12sp"
-              tools:text="keidjqqdmaon3847713e"
+              android:hint="@string/project"
+              android:textSize="14sp"
+              tools:text="Project example name"
               style="@style/SettingsTextStyle"
               />
         </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:orientation="vertical"
+            >
+          <android.support.design.widget.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="15dp"
+              >
+            <EditText
+                android:id="@+id/apiKey_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/api_key"
+                android:textSize="12sp"
+                tools:text="keidjqqdmaon3847713e"
+                style="@style/SettingsTextStyle"
+                />
+          </android.support.design.widget.TextInputLayout>
+
+
+          <android.support.design.widget.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="20dp"
+              >
+            <EditText
+                android:id="@+id/apiSecret_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/api_secret"
+                android:textSize="12sp"
+                tools:text="keidjqqdmaon3847713e"
+                style="@style/SettingsTextStyle"
+                />
+          </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
       </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/crm_info_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/project_info_layout"
-        android:layout_marginTop="60dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        >
+      <include layout="@layout/view_user"/>
 
-      <TextView
+      <include layout="@layout/view_device"/>
+
+      <Button
+          android:id="@+id/finish_button"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginLeft="20dp"
-          android:layout_marginTop="5dp"
-          android:text="User"
-          android:textColor="@color/grey7"
-          android:textSize="17sp"
-          />
-      <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="20dp"
-          android:layout_marginTop="5dp"
-          android:text="Device"
-          android:textColor="@color/grey7"
-          android:textSize="17sp"
+          android:layout_alignParentBottom="true"
+          android:layout_marginTop="50dp"
+          android:text="@string/finish_orchextra"
+          style="@style/ButtonStyle"
           />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/finish_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="50dp"
-        android:text="@string/finish_orchextra"
-        style="@style/ButtonStyle"
-        />
-  </RelativeLayout>
-
+  </ScrollView>
 </LinearLayout>
