@@ -30,6 +30,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.CrmManager;
 import com.gigigo.orchextra.core.Orchextra;
@@ -42,6 +44,7 @@ import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.ProjectData;
+import java.util.Map;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -145,6 +148,7 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   void bindData(@NonNull OxCRM user) {
+    LinearLayout container = (LinearLayout) findViewById(R.id.container);
     EditText genderEt = (EditText) findViewById(R.id.genderEt);
     EditText birthDateEt = (EditText) findViewById(R.id.birthDateEt);
     EditText tagsEt = (EditText) findViewById(R.id.tagsEt);
@@ -154,6 +158,13 @@ public class SettingsActivity extends AppCompatActivity {
     birthDateEt.setText(user.getBirthDate());
     tagsEt.setText(TextUtils.join(", ", user.getTags()));
     businessUnitsEt.setText(TextUtils.join(", ", user.getBusinessUnits()));
+
+    TextView textView;
+    for (Map.Entry<String, String> entry : user.getCustomFields().entrySet()) {
+      textView = new TextView(this);
+      textView.setText(entry.getKey() + ": " + entry.getValue());
+      container.addView(textView);
+    }
   }
 
   void bindData(@NonNull OxDevice device) {
