@@ -18,11 +18,12 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-data class Configuration constructor(
+data class Configuration(
     val geoMarketing: List<GeoMarketing> = listOf(),
-    val indoorPositionConfig: List<IndoorPositionConfig> = listOf())
+    val indoorPositionConfig: List<IndoorPositionConfig> = listOf(),
+    val availableCustomFields: List<CustomField> = listOf())
 
-data class GeoMarketing constructor(
+data class GeoMarketing(
     val code: String,
     val point: Point,
     val radius: Int,
@@ -30,6 +31,10 @@ data class GeoMarketing constructor(
     val notifyOnExit: Boolean,
     val stayTime: Int)
 
-data class Point constructor(
+data class Point(
     val lat: Double,
     val lng: Double)
+
+data class CustomField(
+    val type: String,
+    val label: String)

@@ -22,6 +22,7 @@ import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.CustomField
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
@@ -78,7 +79,8 @@ fun ApiConfiguration.toConfiguration(): Configuration =
 
       return Configuration(
           geoMarketing = geoMarketing?.toGeoMarketingList() ?: listOf(),
-          indoorPositionConfig = indoorPositionConfig)
+          indoorPositionConfig = indoorPositionConfig,
+          availableCustomFields = availableCustomFields?.map { it.toCustomField() } ?: listOf())
     }
 
 fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {
@@ -93,6 +95,11 @@ fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing =
           notifyOnEntry = notifyOnEntry ?: false,
           notifyOnExit = notifyOnExit ?: false,
           stayTime = stayTime ?: -1)
+    }
+
+fun ApiCustomField.toCustomField(): CustomField =
+    with(this) {
+      return CustomField(type = type ?: "", label = label ?: "")
     }
 
 fun ApiProximity.toIndoorPositionConfig(): IndoorPositionConfig =

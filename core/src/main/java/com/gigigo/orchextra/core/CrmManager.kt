@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.core
 
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
+import com.gigigo.orchextra.core.domain.entities.CustomField
 import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
 import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
 import com.gigigo.orchextra.core.domain.entities.Error
@@ -35,6 +36,7 @@ class CrmManager(private val getTokenData: GetTokenData, private val updateCrm: 
   var crm: OxCRM = EMPTY_CRM
   var device: OxDevice = EMPTY_DEVICE
   val onError: (OxException) -> Unit = { showError(it.toError()) }
+  var availableCustomFields: List<CustomField> = listOf()
 
   fun bindUser(crm: OxCRM) {
     updateCrm.update(crm, onSuccess = { this.crm = it }, onError = onError)
@@ -50,10 +52,6 @@ class CrmManager(private val getTokenData: GetTokenData, private val updateCrm: 
     } else {
       updatedData { bind(crm) }
     }
-  }
-
-  fun getAvailableCustomFields() {
-    TODO("Not implemented")
   }
 
   fun getCustomFields(): Map<String, String> = crm.customFields

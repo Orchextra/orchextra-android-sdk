@@ -39,6 +39,7 @@ import com.gigigo.orchextra.core.CrmManager;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
+import com.gigigo.orchextra.core.domain.entities.CustomField;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.core.domain.entities.OxCRM;
 import com.gigigo.orchextra.core.domain.entities.OxDevice;
@@ -46,6 +47,7 @@ import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.ProjectData;
+import java.util.List;
 import java.util.Map;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -168,6 +170,12 @@ public class SettingsActivity extends AppCompatActivity {
     container.removeAllViews();
     for (Map.Entry<String, String> entry : user.getCustomFields().entrySet()) {
       container.addView(getCustomFieldView(entry.getKey(), entry.getValue()));
+    }
+
+    List<CustomField> customFields = crmManager.getAvailableCustomFields();
+
+    for (CustomField customField : customFields) {
+      container.addView(getCustomFieldView(customField.getLabel(), ""));
     }
   }
 

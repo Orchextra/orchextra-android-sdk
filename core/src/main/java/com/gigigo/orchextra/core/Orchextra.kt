@@ -87,6 +87,7 @@ object Orchextra : OrchextraErrorListener {
     getConfiguration.get(loadConfiguration,
         onSuccess = {
           triggerManager.configuration = it
+          crmManager?.availableCustomFields = it.availableCustomFields
           changeStatus(true)
         },
         onError = {
