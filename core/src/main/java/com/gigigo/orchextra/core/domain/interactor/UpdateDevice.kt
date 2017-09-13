@@ -27,28 +27,28 @@ import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class GetDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
+class UpdateDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
     private val networkDataSource: NetworkDataSource) : Interactor<OxDevice>(threadExecutor,
     postExecutionThread) {
 
-  fun get(onSuccess: (OxDevice) -> Unit = onSuccessStub,
+  private lateinit var device: OxDevice
+
+  fun update(device: OxDevice, onSuccess: (OxDevice) -> Unit = onSuccessStub,
       onError: (OxException) -> Unit = onErrorStub) {
 
-    this.onSuccess = onSuccess
-    this.onError = onError
-
-    threadExecutor.execute(this)
+    this.device = device
+    executeInteractor(onSuccess, onError)
   }
 
   override fun run() = try {
-    notifySuccess(networkDataSource.getDevice())
+    notifySuccess(networkDataSource.updateDevice(device))
   } catch (error: NetworkException) {
     notifyError(error)
   }
 
   companion object Factory {
 
-    fun create(): GetDevice = GetDevice(ThreadExecutorImp, PostExecutionThreadImp,
+    fun create(): UpdateDevice = UpdateDevice(ThreadExecutorImp, PostExecutionThreadImp,
         NetworkDataSource.create())
   }
 }

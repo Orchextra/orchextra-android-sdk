@@ -19,32 +19,37 @@
 package com.gigigo.orchextra.core
 
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
+import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
+import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.exceptions.OxException
-import com.gigigo.orchextra.core.domain.interactor.GetCrm
-import com.gigigo.orchextra.core.domain.interactor.GetDevice
+import com.gigigo.orchextra.core.domain.interactor.GetTokenData
 import com.gigigo.orchextra.core.domain.interactor.UpdateCrm
+import com.gigigo.orchextra.core.domain.interactor.UpdateDevice
 
-class CrmManager(private val getCrm: GetCrm, private val updateCrm: UpdateCrm,
-    private val getDevice: GetDevice,
-    private val showError: (error: Error) -> Unit) {
+class CrmManager(private val getTokenData: GetTokenData, private val updateCrm: UpdateCrm,
+    private val updateDevice: UpdateDevice, private val showError: (error: Error) -> Unit) {
 
-  var crm: OxCRM = OxCRM()
-  var device: OxDevice = OxDevice()
+  var crm: OxCRM = EMPTY_CRM
+  var device: OxDevice = EMPTY_DEVICE
   val onError: (OxException) -> Unit = { showError(it.toError()) }
 
   fun bindUser(crm: OxCRM) {
-    updateCrm.update(crm, onSuccess = {}, onError = onError)
+    updateCrm.update(crm, onSuccess = { this.crm = it }, onError = onError)
   }
 
   fun unbindUser() {
-    updateCrm.update(OxCRM(), onSuccess = {}, onError = onError)
+    updateCrm.update(EMPTY_CRM, onSuccess = { this.crm = it }, onError = onError)
   }
 
   fun getCurrentUser(bind: (user: OxCRM) -> Unit) {
-    getCrm.get(onSuccess = { bind(it) }, onError = onError)
+    if (crm.isNotEmpty()) {
+      bind(crm)
+    } else {
+      updatedData { bind(crm) }
+    }
   }
 
   fun getAvailableCustomFields() {
@@ -74,30 +79,37 @@ class CrmManager(private val getCrm: GetCrm, private val updateCrm: UpdateCrm,
   }
 
   fun getDevice(bind: (device: OxDevice) -> Unit) {
-    getDevice.get(onSuccess = { bind(it) }, onError = onError)
+    if (device.isNotEmpty()) {
+      bind(device)
+    } else {
+      updatedData { bind(device) }
+    }
   }
 
   fun setDeviceTags(tags: List<String>) {
     device = device.copy(tags = tags)
+    updateDevice.update(device, onSuccess = {}, onError = onError)
   }
 
   fun setDeviceBussinesUnits(businessUnits: List<String>) {
     device = device.copy(businessUnits = businessUnits)
+    updateDevice.update(device, onSuccess = {}, onError = onError)
   }
 
-  interface CrmCallback {
-    fun onGetCrm(crm: OxCRM)
-  }
-
-  interface DeviceCallback {
-    fun onGetDevice(device: OxDevice)
+  private fun updatedData(onUpdate: () -> Unit) {
+    getTokenData.get(onSuccess = {
+      crm = it.crm
+      device = it.device
+      onUpdate()
+    }, onError = onError)
   }
 
   companion object Factory {
 
     fun create(showError: (error: Error) -> Unit): CrmManager = CrmManager(
-        GetCrm.create(),
+        GetTokenData.create(),
         UpdateCrm.create(),
-        GetDevice.create(), showError)
+        UpdateDevice.create(),
+        showError)
   }
 }

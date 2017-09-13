@@ -23,21 +23,35 @@ import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 
 
-abstract class Interactor<T>(internal val threadExecutor: ThreadExecutor,
+abstract class Interactor<T>(private val threadExecutor: ThreadExecutor,
     private val postExecutionThread: PostExecutionThread) : Runnable {
 
   internal val onSuccessStub: (T) -> Unit = {}
   internal val onErrorStub: (OxException) -> Unit = {}
 
-  internal lateinit var onSuccess: (T) -> Unit
-  internal lateinit var onError: (OxException) -> Unit
+  private var onSuccessList: MutableList<(T) -> Unit> = ArrayList()
+  private var onErrorList: MutableList<(OxException) -> Unit> = ArrayList()
 
+  internal fun executeInteractor(onSuccess: (T) -> Unit = onSuccessStub,
+      onError: (OxException) -> Unit = onErrorStub) {
+
+    onSuccessList.add(onSuccess)
+    onErrorList.add(onError)
+
+    threadExecutor.execute(this)
+  }
 
   internal fun notifySuccess(data: T) {
-    postExecutionThread.execute(Runnable { onSuccess(data) })
+    postExecutionThread.execute(Runnable {
+      onSuccessList.map { it.invoke(data) }
+      onSuccessList.clear()
+    })
   }
 
   internal fun notifyError(error: OxException) {
-    postExecutionThread.execute(Runnable { onError(error) })
+    postExecutionThread.execute(Runnable {
+      onErrorList.map { it.invoke(error) }
+      onErrorList.clear()
+    })
   }
 }

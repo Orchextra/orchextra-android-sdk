@@ -44,10 +44,7 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
       onError: (OxException) -> Unit = onErrorStub) {
 
     this.trigger = trigger
-    this.onSuccess = onSuccess
-    this.onError = onError
-
-    threadExecutor.execute(this)
+    executeInteractor(onSuccess, onError)
   }
 
   override fun run() = try {

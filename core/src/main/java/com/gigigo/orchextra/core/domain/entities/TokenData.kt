@@ -18,16 +18,4 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-val EMPTY_CRM = OxCRM()
-
-data class OxCRM(
-    val gender: String = "",
-    val birthDate: String = "",
-    val tags: List<String> = ArrayList(),
-    val businessUnits: List<String> = ArrayList(),
-    val customFields: Map<String, String> = HashMap()) {
-
-  fun isEmpty(): Boolean = this == EMPTY_CRM
-
-  fun isNotEmpty(): Boolean = !isEmpty()
-}
+class TokenData(val crm: OxCRM, val device: OxDevice)

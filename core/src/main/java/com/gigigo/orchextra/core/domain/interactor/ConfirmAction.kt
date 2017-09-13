@@ -36,10 +36,7 @@ class ConfirmAction(threadExecutor: ThreadExecutor, postExecutionThread: PostExe
       onError: (OxException) -> Unit = onErrorStub) {
 
     this.id = id
-    this.onSuccess = onSuccess
-    this.onError = onError
-
-    threadExecutor.execute(this)
+    executeInteractor(onSuccess, onError)
   }
 
   override fun run() = try {

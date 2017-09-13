@@ -38,10 +38,7 @@ class GetConfiguration(threadExecutor: ThreadExecutor, postExecutionThread: Post
       onError: (OxException) -> Unit = onErrorStub) {
 
     this.loadConfiguration = loadConfiguration
-    this.onSuccess = onSuccess
-    this.onError = onError
-
-    threadExecutor.execute(this)
+    executeInteractor(onSuccess, onError)
   }
 
   override fun run() = try {

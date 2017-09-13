@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
-import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
@@ -27,28 +27,25 @@ import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class GetCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Interactor<OxCRM>(threadExecutor,
+class GetTokenData(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
+    private val networkDataSource: NetworkDataSource) : Interactor<TokenData>(threadExecutor,
     postExecutionThread) {
 
-  fun get(onSuccess: (OxCRM) -> Unit = onSuccessStub,
+  fun get(onSuccess: (TokenData) -> Unit = onSuccessStub,
       onError: (OxException) -> Unit = onErrorStub) {
 
-    this.onSuccess = onSuccess
-    this.onError = onError
-
-    threadExecutor.execute(this)
+    executeInteractor(onSuccess, onError)
   }
 
   override fun run() = try {
-    notifySuccess(networkDataSource.getCrm())
+    notifySuccess(networkDataSource.getTokenData())
   } catch (error: NetworkException) {
     notifyError(error)
   }
 
   companion object Factory {
 
-    fun create(): GetCrm = GetCrm(ThreadExecutorImp, PostExecutionThreadImp,
+    fun create(): GetTokenData = GetTokenData(ThreadExecutorImp, PostExecutionThreadImp,
         NetworkDataSource.create())
   }
 }

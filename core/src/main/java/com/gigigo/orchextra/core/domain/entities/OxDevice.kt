@@ -18,6 +18,8 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
+val EMPTY_DEVICE = OxDevice()
+
 data class OxDevice(
     val handset: String = "",
     val language: String = "",
@@ -29,4 +31,9 @@ data class OxDevice(
     val bluetoothMacAddress: String = "",
     val wifiMacAddress: String = "",
     val tags: List<String> = ArrayList(),
-    val businessUnits: List<String> = ArrayList())
+    val businessUnits: List<String> = ArrayList()) {
+
+  fun isEmpty(): Boolean = this == EMPTY_DEVICE
+
+  fun isNotEmpty(): Boolean = !isEmpty()
+}

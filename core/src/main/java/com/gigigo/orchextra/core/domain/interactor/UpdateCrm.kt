@@ -37,10 +37,7 @@ class UpdateCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecuti
       onError: (OxException) -> Unit = onErrorStub) {
 
     this.crm = crm
-    this.onSuccess = onSuccess
-    this.onError = onError
-
-    threadExecutor.execute(this)
+    executeInteractor(onSuccess, onError)
   }
 
   override fun run() = try {

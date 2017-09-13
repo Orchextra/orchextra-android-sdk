@@ -39,6 +39,7 @@ import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Token
+import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
 import okhttp3.OkHttpClient
@@ -124,8 +125,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     })
   }
 
-  override fun getCrm(): OxCRM {
-
+  override fun getTokenData(): TokenData {
     val tags = ArrayList<String>()
     tags.add("color::green")
     tags.add("color")
@@ -140,25 +140,20 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     customFields.put("surname", "O'Brien")
     customFields.put("hasGoldCard", "true")
 
-    return OxCRM("f", "21-12-1984", tags, businessUnits, customFields)
+    val device = OxDevice("", "", "", "", "", "", "", "", "", tags, businessUnits)
+    val crm = OxCRM("f", "21-12-1984", tags, businessUnits, customFields)
+
+    return TokenData(crm, device)
   }
 
   override fun updateCrm(crm: OxCRM): OxCRM {
     return crm
   }
 
-  override fun getDevice(): OxDevice {
-    val tags = ArrayList<String>()
-    tags.add("color::green")
-    tags.add("color")
-    tags.add("56b0839435cb2741118b459f")
-    val businessUnits = ArrayList<String>()
-    businessUnits.add("spain")
-    businessUnits.add("56b0839435cb2741118b459f")
-    val device = OxDevice("", "", "", "", "", "", "", "", "", tags, businessUnits)
-
+  override fun updateDevice(device: OxDevice): OxDevice {
     return device
   }
+
 
   private fun <T> makeCallWithRetry(call: () -> OxResponse<T>?): OxResponse<T>? {
     return if (sessionManager.hasSession()) {

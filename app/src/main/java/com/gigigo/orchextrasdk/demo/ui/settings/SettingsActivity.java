@@ -74,6 +74,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     initOrchextra();
     initView();
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
     showData();
   }
 
