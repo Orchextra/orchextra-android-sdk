@@ -27,9 +27,11 @@ import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.Token
+import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
@@ -149,10 +151,29 @@ fun OxException.toError(): Error =
           message = error)
     }
 
-fun ApiCrm.toOxCrm(): OxCRM =
+fun ApiTokenData.toTokenData(): TokenData =
     with(this) {
-      return OxCRM(gender = gender ?: "",
-          birthDate = birthDate ?: "")
+      return TokenData(crm = crm?.toOxCrm() ?: OxCRM(),
+          device = device?.toOxDevice() ?: OxDevice())
+    }
+
+// TODO map custom fields
+fun ApiOxCrm.toOxCrm(): OxCRM =
+    with(this) {
+      return OxCRM(
+          crmId = crmId ?: "",
+          gender = gender ?: "",
+          birthDate = birthDate ?: "",
+          tags = tags ?: ArrayList(),
+          businessUnits = businessUnits ?: ArrayList(),
+          customFields = customFields ?: HashMap())
+    }
+
+fun ApiOxDevice.toOxDevice(): OxDevice =
+    with(this) {
+      return OxDevice(
+          tags = tags ?: ArrayList(),
+          businessUnits = businessUnits ?: ArrayList())
     }
 
 fun TriggerType.toOxType(): String = when (this) {

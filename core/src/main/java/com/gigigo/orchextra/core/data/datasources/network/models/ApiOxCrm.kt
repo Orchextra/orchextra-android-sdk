@@ -16,19 +16,12 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.entities
+package com.gigigo.orchextra.core.data.datasources.network.models
 
-val EMPTY_CRM = OxCRM()
-
-data class OxCRM(
-    val crmId: String = "",
-    val gender: String = "",
-    val birthDate: String = "",
-    val tags: List<String> = ArrayList(),
-    val businessUnits: List<String> = ArrayList(),
-    val customFields: Map<String, String> = HashMap()) {
-
-  fun isEmpty(): Boolean = this == EMPTY_CRM
-
-  fun isNotEmpty(): Boolean = !isEmpty()
-}
+class ApiOxCrm(
+    val crmId: String?,
+    val gender: String?,
+    val birthDate: String?,
+    val tags: List<String>?,
+    val businessUnits: List<String>?,
+    val customFields: Map<String, String>?)

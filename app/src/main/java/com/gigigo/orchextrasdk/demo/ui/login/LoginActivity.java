@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
       @Override public void onClick(View v) {
         if (doubleTap) {
 
-          if (currentProject >= 2) {
+          if (currentProject >= projectDataList.size() - 1) {
             currentProject = 0;
           } else {
             currentProject++;

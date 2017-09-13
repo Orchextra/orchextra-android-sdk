@@ -43,12 +43,6 @@ public class MainActivity extends AppCompatActivity {
   GeofencesFragment geofencesFragment;
   private BottomNavigationView navigation;
 
-  public static void open(Context context) {
-    Intent intent = new Intent(context, MainActivity.class);
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    context.startActivity(intent);
-  }
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -131,5 +125,11 @@ public class MainActivity extends AppCompatActivity {
     getSupportFragmentManager().beginTransaction()
         .replace(R.id.fragment_container, fragment)
         .commit();
+  }
+
+  public static void open(Context context) {
+    Intent intent = new Intent(context, MainActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    context.startActivity(intent);
   }
 }

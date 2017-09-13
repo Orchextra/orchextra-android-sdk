@@ -24,12 +24,12 @@ import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInter
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiCredentials
-import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toToken
+import com.gigigo.orchextra.core.data.datasources.network.models.toTokenData
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -46,10 +46,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.ArrayList
-import java.util.HashMap
 import java.util.concurrent.TimeUnit
-
 
 class NetworkDataSourceImp(private val orchextra: Orchextra,
     private val sessionManager: SessionManager) : NetworkDataSource {
@@ -94,9 +91,9 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
-
+    val id = orchextra.getCredentials().apiKey
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.getConfiguration(loadConfiguration).execute().body()
+      orchextraApi.getConfiguration(id).execute().body()
     })
 
     return apiResponse?.data?.toConfiguration() as Configuration
@@ -126,24 +123,11 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun getTokenData(): TokenData {
-    val tags = ArrayList<String>()
-    tags.add("color::green")
-    tags.add("color")
-    tags.add("56b0839435cb2741118b459f")
+    val apiResponse = makeCallWithRetry({ ->
+      orchextraApi.getTokenData().execute().body()
+    })
 
-    val businessUnits = ArrayList<String>()
-    businessUnits.add("spain")
-    businessUnits.add("56b0839435cb2741118b459f")
-
-    val customFields = HashMap<String, String>()
-    customFields.put("name", "Mike")
-    customFields.put("surname", "O'Brien")
-    customFields.put("hasGoldCard", "true")
-
-    val device = OxDevice("", "", "", "", "", "", "", "", "", tags, businessUnits)
-    val crm = OxCRM("f", "21-12-1984", tags, businessUnits, customFields)
-
-    return TokenData(crm, device)
+    return apiResponse?.toTokenData() as TokenData
   }
 
   override fun updateCrm(crm: OxCRM): OxCRM {
@@ -154,8 +138,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return device
   }
 
-
-  private fun <T> makeCallWithRetry(call: () -> OxResponse<T>?): OxResponse<T>? {
+  private fun <T> makeCallWithRetry(call: () -> T?): T? {
     return if (sessionManager.hasSession()) {
       makeCallWithRetryOnSessionFailed(call)
     } else {
@@ -164,7 +147,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     }
   }
 
-  private fun <T> makeCallWithRetryOnSessionFailed(call: () -> OxResponse<T>?): OxResponse<T>? {
+  private fun <T> makeCallWithRetryOnSessionFailed(call: () -> T?): T? {
     return try {
       call()
     } catch (exception: UnauthorizedException) {

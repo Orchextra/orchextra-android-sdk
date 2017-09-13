@@ -62,6 +62,9 @@ public final class ProjectData {
         new ProjectData("[Internal] Orchextra Demo 2", "d797e0c4adcfb3de7f434991227d1e7904029130",
             "cead068e2c70000c0d7c8e5395292a77fba59d3a"));
 
+    projectDataList.add(
+        new ProjectData("Mockable", "key", "677cf75a17aeec144ee402c281ad3a732d736a8a"));
+
     return projectDataList;
   }
 
