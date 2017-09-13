@@ -23,15 +23,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.CrmManager;
 import com.gigigo.orchextra.core.Orchextra;
@@ -163,12 +165,28 @@ public class SettingsActivity extends AppCompatActivity {
     tagsEt.setText(TextUtils.join(", ", user.getTags()));
     businessUnitsEt.setText(TextUtils.join(", ", user.getBusinessUnits()));
 
-    TextView textView;
+    container.removeAllViews();
     for (Map.Entry<String, String> entry : user.getCustomFields().entrySet()) {
-      textView = new TextView(this);
-      textView.setText(entry.getKey() + ": " + entry.getValue());
-      container.addView(textView);
+      container.addView(getCustomFieldView(entry.getKey(), entry.getValue()));
     }
+  }
+
+  private View getCustomFieldView(String key, String value) {
+    EditText editText = new EditText(this, null, R.style.SettingsTextStyle);
+    TextInputLayout textInputLayout = new TextInputLayout(this);
+
+    editText.setHint(key);
+    editText.setText(value);
+    editText.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+        getResources().getDimension(R.dimen.font_normal));
+    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT));
+    textInputLayout.setLayoutParams(
+        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT));
+
+    textInputLayout.addView(editText);
+    return textInputLayout;
   }
 
   void bindData(@NonNull OxDevice device) {

@@ -56,7 +56,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:hint="@string/tags"
-          android:textSize="14sp"
+          android:textSize="@dimen/font_normal"
           tools:text="color, blue"
           style="@style/SettingsTextStyle"
           />
@@ -71,7 +71,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:hint="@string/business_units"
-          android:textSize="14sp"
+          android:textSize="@dimen/font_normal"
           tools:text="spain, color"
           style="@style/SettingsTextStyle"
           />
