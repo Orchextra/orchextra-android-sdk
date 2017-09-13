@@ -22,25 +22,29 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
+import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.interactor.GetCrm
 import com.gigigo.orchextra.core.domain.interactor.GetDevice
+import com.gigigo.orchextra.core.domain.interactor.UpdateCrm
 
-class CrmManager(private val getCrm: GetCrm, private val getDevice: GetDevice,
+class CrmManager(private val getCrm: GetCrm, private val updateCrm: UpdateCrm,
+    private val getDevice: GetDevice,
     private val showError: (error: Error) -> Unit) {
 
   var crm: OxCRM = OxCRM()
   var device: OxDevice = OxDevice()
+  val onError: (OxException) -> Unit = { showError(it.toError()) }
 
-  fun bindUser(user: OxCRM) {
-    crm = user
+  fun bindUser(crm: OxCRM) {
+    updateCrm.update(crm, onSuccess = {}, onError = onError)
   }
 
   fun unbindUser() {
-    crm = OxCRM()
+    updateCrm.update(OxCRM(), onSuccess = {}, onError = onError)
   }
 
   fun getCurrentUser(bind: (user: OxCRM) -> Unit) {
-    getCrm.get(onSuccess = { bind(it) }, onError = { showError(it.toError()) })
+    getCrm.get(onSuccess = { bind(it) }, onError = onError)
   }
 
   fun getAvailableCustomFields() {
@@ -70,7 +74,7 @@ class CrmManager(private val getCrm: GetCrm, private val getDevice: GetDevice,
   }
 
   fun getDevice(bind: (device: OxDevice) -> Unit) {
-    getDevice.get(onSuccess = { bind(it) }, onError = { showError(it.toError()) })
+    getDevice.get(onSuccess = { bind(it) }, onError = onError)
   }
 
   fun setDeviceTags(tags: List<String>) {
@@ -91,7 +95,9 @@ class CrmManager(private val getCrm: GetCrm, private val getDevice: GetDevice,
 
   companion object Factory {
 
-    fun create(showError: (error: Error) -> Unit): CrmManager = CrmManager(GetCrm.create(),
+    fun create(showError: (error: Error) -> Unit): CrmManager = CrmManager(
+        GetCrm.create(),
+        UpdateCrm.create(),
         GetDevice.create(), showError)
   }
 }

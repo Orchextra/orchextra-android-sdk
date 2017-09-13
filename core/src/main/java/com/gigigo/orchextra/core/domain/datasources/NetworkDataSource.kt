@@ -50,6 +50,9 @@ interface NetworkDataSource {
   @Throws(NetworkException::class)
   fun getDevice(): OxDevice
 
+  @Throws(NetworkException::class)
+  fun updateCrm(crm: OxCRM): OxCRM
+
   companion object Factory {
 
     var networkDataSource: NetworkDataSource? = null

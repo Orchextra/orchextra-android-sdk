@@ -143,6 +143,10 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return OxCRM("f", "21-12-1984", tags, businessUnits, customFields)
   }
 
+  override fun updateCrm(crm: OxCRM): OxCRM {
+    return crm
+  }
+
   override fun getDevice(): OxDevice {
     val tags = ArrayList<String>()
     tags.add("color::green")
