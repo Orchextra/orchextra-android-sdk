@@ -80,7 +80,7 @@ fun ApiConfiguration.toConfiguration(): Configuration =
       return Configuration(
           geoMarketing = geoMarketing?.toGeoMarketingList() ?: listOf(),
           indoorPositionConfig = indoorPositionConfig,
-          availableCustomFields = availableCustomFields?.map { it.toCustomField() } ?: listOf())
+          availableCustomFields = availableCustomFields?.toCustomFieldList() ?: listOf())
     }
 
 fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {
@@ -97,10 +97,14 @@ fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing =
           stayTime = stayTime ?: -1)
     }
 
-fun ApiCustomField.toCustomField(): CustomField =
-    with(this) {
-      return CustomField(type = type ?: "", label = label ?: "")
-    }
+fun Map<String, ApiCustomField>.toCustomFieldList(): List<CustomField> {
+  val list: MutableList<CustomField> = ArrayList()
+  for ((key, value) in this) {
+    list.add(CustomField(key = key, type = value.type ?: "",
+        label = value.label ?: ""))
+  }
+  return list
+}
 
 fun ApiProximity.toIndoorPositionConfig(): IndoorPositionConfig =
     with(this) {

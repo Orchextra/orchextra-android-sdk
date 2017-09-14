@@ -36,5 +36,6 @@ data class Point(
     val lng: Double)
 
 data class CustomField(
+    val key: String,
     val type: String,
     val label: String)
