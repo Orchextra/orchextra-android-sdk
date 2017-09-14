@@ -31,7 +31,6 @@ import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Schedule
-import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -41,61 +40,49 @@ import com.squareup.moshi.Moshi
 import okhttp3.Response as OkResponse
 
 
-fun Credentials.toApiAuthRequest(grantType: String): ApiAuthRequest =
-    with(this) {
-      ApiAuthRequest(grantType,
-          ApiCredentials(apiKey, apiSecret))
-    }
+fun Credentials.toApiAuthRequest(): ApiAuthRequest = with(this) {
+  ApiAuthRequest(apiKey, apiSecret)
+}
 
-fun ApiToken.toToken(): Token =
-    with(this) {
-      Token(value ?: "", type ?: "", expiresIn ?: -1L, expiresAt ?: "", projectId ?: "")
-    }
+fun OkResponse.parseError(): ApiError = with(this) {
+  val moshi = Moshi.Builder().build()
+  val errorJsonAdapter = moshi.adapter(OxErrorResponse::class.java)
+  val response = errorJsonAdapter.fromJson(body()?.string())
+  return response.error ?: ApiError(-1, "")
+}
 
-fun OkResponse.parseError(): ApiError =
-    with(this) {
-      val moshi = Moshi.Builder().build()
-      val errorJsonAdapter = moshi.adapter(OxErrorResponse::class.java)
-      val response = errorJsonAdapter.fromJson(body()?.string())
-      return response.error ?: ApiError(-1, "")
-    }
+fun ApiError.toNetworkException(): NetworkException = with(this) {
+  return NetworkException(code ?: -1, message ?: "")
+}
 
-fun ApiError.toNetworkException(): NetworkException =
-    with(this) {
-      return NetworkException(code ?: -1, message ?: "")
-    }
+fun ApiError.toUnauthorizedException(): UnauthorizedException = with(this) {
+  return UnauthorizedException(code ?: -1, message ?: "")
+}
 
-fun ApiError.toUnauthorizedException(): UnauthorizedException =
-    with(this) {
-      return UnauthorizedException(code ?: -1, message ?: "")
-    }
+fun ApiConfiguration.toConfiguration(): Configuration = with(this) {
 
-fun ApiConfiguration.toConfiguration(): Configuration =
-    with(this) {
+  val proximity = proximity?.map { it.toIndoorPositionConfig() } ?: listOf()
+  val eddystoneRegions = eddystoneRegions?.map { it.toIndoorPositionConfig() } ?: listOf()
+  val indoorPositionConfig = proximity + eddystoneRegions
 
-      val proximity = proximity?.map { it.toIndoorPositionConfig() } ?: listOf()
-      val eddystoneRegions = eddystoneRegions?.map { it.toIndoorPositionConfig() } ?: listOf()
-      val indoorPositionConfig = proximity + eddystoneRegions
-
-      return Configuration(
-          geoMarketing = geoMarketing?.toGeoMarketingList() ?: listOf(),
-          indoorPositionConfig = indoorPositionConfig,
-          availableCustomFields = availableCustomFields?.toCustomFieldList() ?: listOf())
-    }
+  return Configuration(
+      geoMarketing = geoMarketing?.toGeoMarketingList() ?: listOf(),
+      indoorPositionConfig = indoorPositionConfig,
+      availableCustomFields = availableCustomFields?.toCustomFieldList() ?: listOf())
+}
 
 fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {
   it.toGeoMarketing()
 }
 
-fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing =
-    with(this) {
-      return GeoMarketing(code = code ?: "",
-          point = point?.toPoint() ?: Point(-1.0, -1.0),
-          radius = radius ?: -1,
-          notifyOnEntry = notifyOnEntry ?: false,
-          notifyOnExit = notifyOnExit ?: false,
-          stayTime = stayTime ?: -1)
-    }
+fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing = with(this) {
+  return GeoMarketing(code = code ?: "",
+      point = point?.toPoint() ?: Point(-1.0, -1.0),
+      radius = radius ?: -1,
+      notifyOnEntry = notifyOnEntry ?: false,
+      notifyOnExit = notifyOnExit ?: false,
+      stayTime = stayTime ?: -1)
+}
 
 fun Map<String, ApiCustomField>.toCustomFieldList(): List<CustomField> {
   val list: MutableList<CustomField> = ArrayList()
@@ -117,29 +104,26 @@ fun ApiProximity.toIndoorPositionConfig(): IndoorPositionConfig =
           notifyOnExit = notifyOnExit ?: false)
     }
 
-fun ApiEddystoneRegions.toIndoorPositionConfig(): IndoorPositionConfig =
-    with(this) {
-      return IndoorPositionConfig(
-          code = code ?: "",
-          namespace = namespace ?: "",
-          notifyOnEntry = notifyOnEntry ?: false,
-          notifyOnExit = notifyOnExit ?: false)
-    }
+fun ApiEddystoneRegions.toIndoorPositionConfig(): IndoorPositionConfig = with(this) {
+  return IndoorPositionConfig(
+      code = code ?: "",
+      namespace = namespace ?: "",
+      notifyOnEntry = notifyOnEntry ?: false,
+      notifyOnExit = notifyOnExit ?: false)
+}
 
-fun ApiPoint.toPoint(): Point =
-    with(this) {
-      return Point(lat, lng)
-    }
+fun ApiPoint.toPoint(): Point = with(this) {
+  return Point(lat, lng)
+}
 
-fun ApiAction.toAction(): Action =
-    with(this) {
-      return Action(
-          trackId = trackId ?: "",
-          type = ActionType.fromOxType(type ?: ""),
-          url = url ?: "",
-          notification = notification?.toNotification() ?: Notification(),
-          schedule = schedule?.toSchedule() ?: Schedule())
-    }
+fun ApiAction.toAction(): Action = with(this) {
+  return Action(
+      trackId = trackId ?: "",
+      type = ActionType.fromOxType(type ?: ""),
+      url = url ?: "",
+      notification = notification?.toNotification() ?: Notification(),
+      schedule = schedule?.toSchedule() ?: Schedule())
+}
 
 fun ApiNotification.toNotification(): Notification =
     with(this) {
@@ -148,44 +132,39 @@ fun ApiNotification.toNotification(): Notification =
           body = body ?: "")
     }
 
-fun ApiSchedule.toSchedule(): Schedule =
-    with(this) {
-      return Schedule(
-          seconds = seconds ?: -1,
-          cancelable = cancelable ?: true)
-    }
+fun ApiSchedule.toSchedule(): Schedule = with(this) {
+  return Schedule(
+      seconds = seconds ?: -1,
+      cancelable = cancelable ?: true)
+}
 
-fun OxException.toError(): Error =
-    with(this) {
-      return Error(
-          code = code,
-          message = error)
-    }
+fun OxException.toError(): Error = with(this) {
+  return Error(
+      code = code,
+      message = error)
+}
 
-fun ApiTokenData.toTokenData(): TokenData =
-    with(this) {
-      return TokenData(crm = crm?.toOxCrm() ?: OxCRM(),
-          device = device?.toOxDevice() ?: OxDevice())
-    }
+fun ApiTokenData.toTokenData(): TokenData = with(this) {
+  return TokenData(crm = crm?.toOxCrm() ?: OxCRM(),
+      device = device?.toOxDevice() ?: OxDevice())
+}
 
 // TODO map custom fields
-fun ApiOxCrm.toOxCrm(): OxCRM =
-    with(this) {
-      return OxCRM(
-          crmId = crmId ?: "",
-          gender = gender ?: "",
-          birthDate = birthDate ?: "",
-          tags = tags ?: ArrayList(),
-          businessUnits = businessUnits ?: ArrayList(),
-          customFields = customFields ?: HashMap())
-    }
+fun ApiOxCrm.toOxCrm(): OxCRM = with(this) {
+  return OxCRM(
+      crmId = crmId ?: "",
+      gender = gender ?: "",
+      birthDate = birthDate ?: "",
+      tags = tags ?: ArrayList(),
+      businessUnits = businessUnits ?: ArrayList(),
+      customFields = customFields ?: HashMap())
+}
 
-fun ApiOxDevice.toOxDevice(): OxDevice =
-    with(this) {
-      return OxDevice(
-          tags = tags ?: ArrayList(),
-          businessUnits = businessUnits ?: ArrayList())
-    }
+fun ApiOxDevice.toOxDevice(): OxDevice = with(this) {
+  return OxDevice(
+      tags = tags ?: ArrayList(),
+      businessUnits = businessUnits ?: ArrayList())
+}
 
 fun TriggerType.toOxType(): String = when (this) {
   TriggerType.BEACON -> "beacon"

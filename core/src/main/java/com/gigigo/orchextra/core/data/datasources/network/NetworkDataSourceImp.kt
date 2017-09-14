@@ -22,13 +22,10 @@ import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
-import com.gigigo.orchextra.core.data.datasources.network.models.ApiAuthRequest
-import com.gigigo.orchextra.core.data.datasources.network.models.ApiCredentials
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
-import com.gigigo.orchextra.core.data.datasources.network.models.toToken
 import com.gigigo.orchextra.core.data.datasources.network.models.toTokenData
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
@@ -38,7 +35,6 @@ import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
-import com.gigigo.orchextra.core.domain.entities.Token
 import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
@@ -77,24 +73,17 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     orchextraApi = retrofit.create(OrchextraApi::class.java)
   }
 
-  override fun getAuthentication(credentials: Credentials): Token {
+  override fun getAuthentication(credentials: Credentials): String {
+    val apiClientResponse = orchextraApi.getAuthentication(
+        credentials.toApiAuthRequest()).execute().body()
 
-    val apiCredential = credentials.toApiAuthRequest("auth_sdk")
-    val apiResponse = orchextraApi.getAuthentication(apiCredential).execute().body()
-
-    val apiClientCredentials = ApiAuthRequest("auth_user", ApiCredentials(
-        clientToken = apiResponse?.data?.value ?: "-1",
-        instanceId = "hola")) // TODO InstanceID.getInstance(orchextra.provideContext()).getId()
-    val apiClientResponse = orchextraApi.getAuthentication(apiClientCredentials).execute().body()
-
-    return apiClientResponse?.data?.toToken() as Token
+    return apiClientResponse?.data?.token ?: ""
   }
 
   override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
     val id = orchextra.getCredentials().apiKey
-    val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.getConfiguration(id).execute().body()
-    })
+
+    val apiResponse = orchextraApi.getConfiguration(id).execute().body()
 
     return apiResponse?.data?.toConfiguration() as Configuration
   }

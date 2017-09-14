@@ -21,47 +21,35 @@ package com.gigigo.orchextra.core.data.datasources.session
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
-import com.gigigo.orchextra.core.domain.entities.Token
-import com.squareup.moshi.JsonAdapter
 
-class SessionManagerImp(private val sharedPreferences: SharedPreferences,
-    private val tokenJsonAdapter: JsonAdapter<Token>) : SessionManager {
+class SessionManagerImp(private val sharedPreferences: SharedPreferences) : SessionManager {
 
   private val TOKEN_KEY = "token_key"
-  private var token = Token("")
+  private var token = ""
 
   @SuppressLint("CommitPrefEdits")
-  override fun saveSession(token: Token) {
+  override fun saveSession(token: String) {
     this.token = token
     val editor = sharedPreferences.edit()
-    editor?.putString(TOKEN_KEY, tokenJsonAdapter.toJson(token))
+    editor?.putString(TOKEN_KEY, token)
     editor?.commit()
   }
 
-  override fun getSession(): Token {
-    if (token.isValid()) {
-      return token
+  override fun getSession(): String {
+    return if (token.isNotEmpty()) {
+      token
     } else {
-
-      val tokenJson = sharedPreferences.getString(TOKEN_KEY, "")
-
-      if (tokenJson == null || tokenJson.isBlank()) {
-        return Token("")
-      }
-
-      token = tokenJsonAdapter.fromJson(tokenJson) ?: Token("")
-
-      return token
+      sharedPreferences.getString(TOKEN_KEY, "")
     }
   }
 
-  override fun hasSession(): Boolean = getSession().isValid()
+  override fun hasSession(): Boolean = getSession().isNotEmpty()
 
   @SuppressLint("CommitPrefEdits")
   override fun clearSession() {
-    token = Token("")
+    token = ""
     val editor = sharedPreferences.edit()
-    editor?.putString(TOKEN_KEY, tokenJsonAdapter.toJson(token))
+    editor?.putString(TOKEN_KEY, token)
     editor?.commit()
   }
 }

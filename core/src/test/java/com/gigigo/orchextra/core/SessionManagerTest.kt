@@ -22,11 +22,9 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import com.gigigo.orchextra.core.data.datasources.session.SessionManagerImp
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
-import com.gigigo.orchextra.core.domain.entities.Token
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import com.squareup.moshi.Moshi
 import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldEqual
 import org.junit.Test
@@ -34,24 +32,22 @@ import org.junit.Test
 class SessionManagerTest {
 
   private val TOKEN_KEY = "token_key"
-  private val moshi: Moshi = Moshi.Builder().build()
-  private val tokenJsonAdapter = moshi.adapter(Token::class.java)
 
   @Test
   fun shouldSaveSession() {
     val editorMock: Editor = mock()
-    val token = Token("test", "test", 12, "test", "test")
+    val token = "test"
     val sessionManager: SessionManager = getSessionManager(editor = editorMock)
 
     sessionManager.saveSession(token)
 
-    verify(editorMock).putString(TOKEN_KEY, tokenJsonAdapter.toJson(token))
+    verify(editorMock).putString(TOKEN_KEY, token)
     verify(editorMock).commit()
   }
 
   @Test
   fun shouldGetSessionFromPreferences() {
-    val token = Token("test", "test", 12, "test", "test")
+    val token = "test"
     val sessionManager: SessionManager = getSessionManager(token)
 
     val currentToken = sessionManager.getSession()
@@ -63,17 +59,17 @@ class SessionManagerTest {
   fun shouldClearSession() {
     val editorMock: Editor = mock()
     val sessionManager: SessionManager = getSessionManager(editor = editorMock)
-    val token = Token("")
+    val token = ""
 
     sessionManager.clearSession()
 
-    verify(editorMock).putString(TOKEN_KEY, tokenJsonAdapter.toJson(token))
+    verify(editorMock).putString(TOKEN_KEY, token)
     verify(editorMock).commit()
   }
 
   @Test
   fun shouldHasValidSession() {
-    val token = Token("test", "test", 12, "test", "test")
+    val token = "test"
     val sessionManager: SessionManager = getSessionManager(token)
 
     val hasSession = sessionManager.hasSession()
@@ -81,17 +77,13 @@ class SessionManagerTest {
     hasSession.shouldBeTrue()
   }
 
-  private fun getSessionManager(token: Token = Token(""),
-      editor: Editor = mock()): SessionManager {
+  private fun getSessionManager(token: String = "", editor: Editor = mock()): SessionManager {
 
     val sharedPreferencesMock = mock<SharedPreferences> {
       on { edit() } doReturn editor
-      on { getString(TOKEN_KEY, "") } doReturn tokenJsonAdapter.toJson(token)
+      on { getString(TOKEN_KEY, "") } doReturn token
     }
 
-    val moshi: Moshi = Moshi.Builder().build()
-    val tokenJsonAdapter = moshi.adapter(Token::class.java)
-
-    return SessionManagerImp(sharedPreferencesMock, tokenJsonAdapter)
+    return SessionManagerImp(sharedPreferencesMock)
   }
 }

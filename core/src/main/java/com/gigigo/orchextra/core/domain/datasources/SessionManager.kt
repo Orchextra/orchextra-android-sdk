@@ -20,14 +20,12 @@ package com.gigigo.orchextra.core.domain.datasources
 
 import android.content.Context
 import com.gigigo.orchextra.core.data.datasources.session.SessionManagerImp
-import com.gigigo.orchextra.core.domain.entities.Token
-import com.squareup.moshi.Moshi
 
 interface SessionManager {
 
-  fun saveSession(token: Token)
+  fun saveSession(token: String)
 
-  fun getSession(): Token
+  fun getSession(): String
 
   fun hasSession(): Boolean
 
@@ -42,10 +40,8 @@ interface SessionManager {
       if (sessionManager == null) {
 
         val sharedPreferences = context.getSharedPreferences("orchextra", Context.MODE_PRIVATE)
-        val moshi: Moshi = Moshi.Builder().build()
-        val tokenJsonAdapter = moshi.adapter(Token::class.java)
 
-        sessionManager = SessionManagerImp(sharedPreferences, tokenJsonAdapter)
+        sessionManager = SessionManagerImp(sharedPreferences)
       }
 
       return sessionManager as SessionManager

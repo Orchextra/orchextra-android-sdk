@@ -45,8 +45,9 @@ android {
     versionCode 1
     versionName "3.0.0"
 
-    //      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
-    buildConfigField STRING, "API_URL", '"https://demo4432972.mockable.io/"'
+    //    buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
+    //    buildConfigField STRING, "API_URL", '"https://demo4432972.mockable.io/"'
+    buildConfigField STRING, "API_URL", '"https://core.s.orchextra.io/"'
     buildConfigField BOOLEAN, "NETWORK_LOG", "true"
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

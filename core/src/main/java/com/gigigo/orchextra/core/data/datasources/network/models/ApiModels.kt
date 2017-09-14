@@ -34,26 +34,10 @@ class ApiError(
 )
 
 class ApiToken(
-    val value: String?,
-    val type: String?,
-    val expiresIn: Long?,
-    val expiresAt: String?,
-    val projectId: String?
+    val token: String?
 )
 
 class ApiAuthRequest(
-    val grantType: String?,
-    val credentials: ApiCredentials?
-)
-
-class ApiCredentials(
-    val apiKey: String? = null,
-    val apiSecret: String? = null,
-    val clientToken: String? = null,
-    val crmId: String? = null,
-    val instanceId: String? = null,
-    val secureId: String? = null,
-    val serialNumber: String? = null,
-    val bluetoothMacAddress: String? = null,
-    val wifiMacAddress: String? = null
+    val apiKey: String?,
+    val apiSecret: String?
 )

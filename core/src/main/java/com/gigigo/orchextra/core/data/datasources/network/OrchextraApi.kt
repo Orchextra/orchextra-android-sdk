@@ -33,13 +33,11 @@ import retrofit2.http.Query
 
 interface OrchextraApi {
 
-
-  //  @POST("v1/security/token")
-  @POST("core/token")
+  @POST("/token")
   fun getAuthentication(@Body apiAuthRequest: ApiAuthRequest): Call<OxResponse<ApiToken>>
 
   //  @POST("v1/configuration")
-  @GET("core/configuration/{id}")
+  @GET("/configuration/{id}")
       //  fun getConfiguration(@Body loadConfiguration: LoadConfiguration): Call<OxResponse<ApiConfiguration>>
   fun getConfiguration(@Path("id") id: String): Call<OxResponse<ApiConfiguration>>
 
@@ -56,6 +54,6 @@ interface OrchextraApi {
   @POST("v1/action/confirm/{id}")
   fun confirmAction(@Path("id") id: String): Call<OxResponse<ApiAction>>
 
-  @GET("core/token/data")
+  @GET("/token/data")
   fun getTokenData(): Call<ApiTokenData>
 }
