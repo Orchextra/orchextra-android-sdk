@@ -31,7 +31,6 @@ public class CustomFieldView extends LinearLayout {
   private EditText customFieldEt;
   private TextInputLayout textInputLayout;
   private CustomField customField;
-  private String value;
 
   public CustomFieldView(Context context) {
     super(context);
@@ -66,11 +65,10 @@ public class CustomFieldView extends LinearLayout {
   }
 
   public String getValue() {
-    return value;
+    return customFieldEt.getText().toString();
   }
 
   public void setValue(String value) {
-    this.value = value;
     customFieldEt.setText(value);
   }
 

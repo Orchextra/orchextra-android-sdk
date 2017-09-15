@@ -19,6 +19,6 @@
 package com.gigigo.orchextra.core.data.datasources.network.models
 
 class ApiTokenData(
-    val crm: ApiOxCrm?,
-    val device: ApiOxDevice?
+    val crm: ApiOxCrm? = null,
+    val device: ApiOxDevice? = null
 )

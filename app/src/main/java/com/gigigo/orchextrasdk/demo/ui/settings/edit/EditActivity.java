@@ -1,5 +1,6 @@
 package com.gigigo.orchextrasdk.demo.ui.settings.edit;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,8 +23,12 @@ import com.gigigo.orchextra.core.domain.entities.OxDevice;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
 public class EditActivity extends AppCompatActivity {
@@ -32,10 +37,17 @@ public class EditActivity extends AppCompatActivity {
   private static final String TYPE_EXTRA = "type_extra";
   public static final String CRM = "crm";
   public static final String DEVICE = "device";
-  private View userView;
-  private View deviceView;
+  private LinearLayout container;
+  private CustomFieldView genderCf;
+  private CustomFieldView birthDateCf;
+  private CustomFieldView tagsCf;
+  private CustomFieldView businessUnitsCf;
+  private CustomFieldView deviceTagsCf;
+  private CustomFieldView deviceBusinessUnitsCf;
+  private ProgressDialog loadingDialog;
   Orchextra orchextra;
   CrmManager crmManager;
+  Boolean crmUpdated = false, tagsUpdated = false, businessUnitUpdated = false;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -56,6 +68,7 @@ public class EditActivity extends AppCompatActivity {
     orchextra.setStatusListener(new OrchextraStatusListener() {
       @Override public void onStatusChange(boolean isReady) {
         if (!isReady) {
+          hideLoading();
           MainActivity.open(EditActivity.this);
           finish();
         }
@@ -63,6 +76,7 @@ public class EditActivity extends AppCompatActivity {
     });
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
+        hideLoading();
         Log.e(TAG, error.toString());
         Toast.makeText(EditActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT)
             .show();
@@ -72,17 +86,24 @@ public class EditActivity extends AppCompatActivity {
 
   private void initView() {
     initToolbar();
-    userView = findViewById(R.id.userView);
-    deviceView = findViewById(R.id.deviceView);
+    View userView = findViewById(R.id.userView);
+    View deviceView = findViewById(R.id.deviceView);
+    container = (LinearLayout) findViewById(R.id.container);
+    genderCf = (CustomFieldView) findViewById(R.id.genderCf);
+    birthDateCf = (CustomFieldView) findViewById(R.id.birthDateCf);
+    tagsCf = (CustomFieldView) findViewById(R.id.tagsCf);
+    businessUnitsCf = (CustomFieldView) findViewById(R.id.businessUnitsCf);
+    deviceTagsCf = (CustomFieldView) findViewById(R.id.deviceTagsCf);
+    deviceBusinessUnitsCf = (CustomFieldView) findViewById(R.id.deviceBusinessUnitsCf);
 
     if (getType().equals(CRM)) {
       userView.setVisibility(View.VISIBLE);
       deviceView.setVisibility(View.GONE);
-      setTitle("User");
+      setTitle(getString(R.string.user));
     } else {
       userView.setVisibility(View.GONE);
       deviceView.setVisibility(View.VISIBLE);
-      setTitle("Device");
+      setTitle(getString(R.string.device));
     }
   }
 
@@ -98,7 +119,11 @@ public class EditActivity extends AppCompatActivity {
 
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        onBackPressed();
+        crmUpdated = false;
+        tagsUpdated = false;
+        businessUnitUpdated = false;
+
+        saveData();
       }
     });
   }
@@ -119,13 +144,69 @@ public class EditActivity extends AppCompatActivity {
     });
   }
 
-  void bindData(@NonNull OxCRM user) {
-    LinearLayout container = (LinearLayout) findViewById(R.id.container);
-    CustomFieldView genderCf = (CustomFieldView) findViewById(R.id.genderCf);
-    CustomFieldView birthDateCf = (CustomFieldView) findViewById(R.id.birthDateCf);
-    CustomFieldView tagsCf = (CustomFieldView) findViewById(R.id.tagsCf);
-    CustomFieldView businessUnitsCf = (CustomFieldView) findViewById(R.id.businessUnitsCf);
+  void saveData() {
+    showLoading();
+    if (getType().equals(CRM)) {
 
+      String gender = genderCf.getValue();
+      String birthDate = birthDateCf.getValue();
+      String tags = tagsCf.getValue();
+      String businessUnits = businessUnitsCf.getValue();
+
+      OxCRM user = new OxCRM("", gender, birthDate, Collections.<String>emptyList(),
+          Collections.<String>emptyList(), Collections.<String, String>emptyMap());
+
+      crmManager.bindUser(user);
+    } else {
+
+      crmUpdated = true;
+
+      String deviceTagsString = deviceTagsCf.getValue();
+      List<String> deviceTags = new ArrayList<>();
+      if (!deviceTagsString.isEmpty()) {
+        deviceTags = new ArrayList<>(Arrays.asList(deviceTagsString.split(",")));
+      }
+
+      String deviceBusinessUnitsString = deviceBusinessUnitsCf.getValue();
+      List<String> deviceBusinessUnits = new ArrayList<>();
+      if (!deviceBusinessUnitsString.isEmpty()) {
+        deviceBusinessUnits = new ArrayList<>(Arrays.asList(deviceBusinessUnitsString.split(",")));
+      }
+
+      if (!deviceTags.isEmpty()) {
+        crmManager.setDeviceTags(deviceTags, new Function0<Unit>() {
+          @Override public Unit invoke() {
+            tagsUpdated = true;
+            finishOnUpdate();
+            return null;
+          }
+        });
+      } else {
+        tagsUpdated = true;
+      }
+
+      if (!deviceBusinessUnits.isEmpty()) {
+        crmManager.setDeviceBussinesUnits(deviceBusinessUnits, new Function0<Unit>() {
+          @Override public Unit invoke() {
+            businessUnitUpdated = true;
+            finishOnUpdate();
+            return null;
+          }
+        });
+      } else {
+        businessUnitUpdated = true;
+      }
+    }
+  }
+
+  void finishOnUpdate() {
+    if (crmUpdated && tagsUpdated && businessUnitUpdated) {
+      hideLoading();
+      onBackPressed();
+    }
+  }
+
+  void bindData(@NonNull OxCRM user) {
     genderCf.setCustomField(new CustomField("", "", getString(R.string.gender)));
     genderCf.setValue(user.getGender());
 
@@ -150,10 +231,6 @@ public class EditActivity extends AppCompatActivity {
   }
 
   void bindData(@NonNull OxDevice device) {
-    CustomFieldView deviceTagsCf = (CustomFieldView) findViewById(R.id.deviceTagsCf);
-    CustomFieldView deviceBusinessUnitsCf =
-        (CustomFieldView) findViewById(R.id.deviceBusinessUnitsCf);
-
     deviceTagsCf.setCustomField(new CustomField("", "", "Tags"));
     deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
     deviceBusinessUnitsCf.setCustomField(new CustomField("", "", "Business units"));
@@ -162,6 +239,16 @@ public class EditActivity extends AppCompatActivity {
 
   private String getType() {
     return getIntent().getStringExtra(TYPE_EXTRA);
+  }
+
+  void showLoading() {
+    loadingDialog = ProgressDialog.show(EditActivity.this, "", "Loading. Please wait...", true);
+  }
+
+  void hideLoading() {
+    if (loadingDialog != null) {
+      loadingDialog.dismiss();
+    }
   }
 
   public static void open(Context context, String type) {

@@ -84,14 +84,13 @@ class CrmManager(private val getTokenData: GetTokenData, private val updateCrm: 
     }
   }
 
-  fun setDeviceTags(tags: List<String>) {
-    device = device.copy(tags = tags)
-    updateDevice.update(device, onSuccess = {}, onError = onError)
+  fun setDeviceTags(tags: List<String>, onSuccess: () -> Unit) {
+    updateDevice.update(OxDevice(tags = tags), onSuccess = { onSuccess() }, onError = onError)
   }
 
-  fun setDeviceBussinesUnits(businessUnits: List<String>) {
-    device = device.copy(businessUnits = businessUnits)
-    updateDevice.update(device, onSuccess = {}, onError = onError)
+  fun setDeviceBussinesUnits(businessUnits: List<String>, onSuccess: () -> Unit) {
+    updateDevice.update(OxDevice(businessUnits = businessUnits), onSuccess = { onSuccess() },
+        onError = onError)
   }
 
   private fun updatedData(onUpdate: () -> Unit) {

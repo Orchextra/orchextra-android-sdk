@@ -22,8 +22,10 @@ import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiTokenData
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
+import com.gigigo.orchextra.core.data.datasources.network.models.toApiOxDevice
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toTokenData
@@ -124,7 +126,12 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun updateDevice(device: OxDevice): OxDevice {
-    return device
+
+    val apiResponse = makeCallWithRetry({ ->
+      orchextraApi.updateTokenData(ApiTokenData(device = device.toApiOxDevice())).execute().body()
+    })
+
+    return apiResponse?.toTokenData()?.device as OxDevice
   }
 
   private fun <T> makeCallWithRetry(call: () -> T?): T? {
