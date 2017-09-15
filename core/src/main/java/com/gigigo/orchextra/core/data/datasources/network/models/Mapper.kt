@@ -68,7 +68,7 @@ fun ApiConfiguration.toConfiguration(): Configuration = with(this) {
   return Configuration(
       geoMarketing = geoMarketing?.toGeoMarketingList() ?: listOf(),
       indoorPositionConfig = indoorPositionConfig,
-      availableCustomFields = availableCustomFields?.toCustomFieldList() ?: listOf())
+      customFields = customFields?.toCustomFieldList() ?: listOf())
 }
 
 fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {

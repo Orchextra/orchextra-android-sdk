@@ -22,7 +22,7 @@ data class ApiConfiguration(
     val geoMarketing: List<ApiGeoMarketing>?,
     val proximity: List<ApiProximity>?,
     val eddystoneRegions: List<ApiEddystoneRegions>?,
-    val availableCustomFields: Map<String, ApiCustomField>?)
+    val customFields: Map<String, ApiCustomField>?)
 
 data class ApiGeoMarketing(
     val code: String?,

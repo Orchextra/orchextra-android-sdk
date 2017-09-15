@@ -21,7 +21,7 @@ package com.gigigo.orchextra.core.domain.entities
 data class Configuration(
     val geoMarketing: List<GeoMarketing> = listOf(),
     val indoorPositionConfig: List<IndoorPositionConfig> = listOf(),
-    val availableCustomFields: List<CustomField> = listOf())
+    val customFields: List<CustomField> = listOf())
 
 data class GeoMarketing(
     val code: String,
