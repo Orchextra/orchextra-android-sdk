@@ -159,8 +159,8 @@ public class SettingsActivity extends AppCompatActivity {
     CustomFieldView birthDateCf = (CustomFieldView) findViewById(R.id.birthDateCf);
     CustomFieldView tagsCf = (CustomFieldView) findViewById(R.id.tagsCf);
     CustomFieldView businessUnitsCf = (CustomFieldView) findViewById(R.id.businessUnitsCf);
-    View userView = findViewById(R.id.userView);
-    userView.setOnClickListener(new View.OnClickListener() {
+    View editCrmBtn = findViewById(R.id.editCrmBtn);
+    editCrmBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         EditActivity.open(SettingsActivity.this, EditActivity.CRM);
       }
@@ -198,8 +198,8 @@ public class SettingsActivity extends AppCompatActivity {
     CustomFieldView deviceTagsCf = (CustomFieldView) findViewById(R.id.deviceTagsCf);
     CustomFieldView deviceBusinessUnitsCf =
         (CustomFieldView) findViewById(R.id.deviceBusinessUnitsCf);
-    View deviceView = findViewById(R.id.deviceView);
-    deviceView.setOnClickListener(new View.OnClickListener() {
+    View editDeviceBtn = findViewById(R.id.editDeviceBtn);
+    editDeviceBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         EditActivity.open(SettingsActivity.this, EditActivity.DEVICE);
       }

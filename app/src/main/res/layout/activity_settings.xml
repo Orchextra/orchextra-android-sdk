@@ -20,6 +20,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -115,18 +116,28 @@
           android:layout_height="wrap_content"
           android:layout_marginTop="@dimen/spacing_huge"
           android:background="@color/white"
-          android:orientation="vertical"
+          android:orientation="horizontal"
           android:paddingTop="@dimen/spacing_small"
           >
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
+            android:layout_weight="1"
             android:text="@string/user"
             android:textColor="@color/grey7"
             android:textSize="17sp"
+            />
+
+        <ImageButton
+            android:id="@+id/editCrmBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/spacing_small"
+            app:srcCompat="@drawable/ic_edit"
             />
       </LinearLayout>
 
@@ -137,18 +148,28 @@
           android:layout_height="wrap_content"
           android:layout_marginTop="@dimen/spacing_huge"
           android:background="@color/white"
-          android:orientation="vertical"
+          android:orientation="horizontal"
           android:paddingTop="@dimen/spacing_small"
           >
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
             android:text="@string/device"
             android:textColor="@color/grey7"
             android:textSize="17sp"
+            />
+
+        <ImageButton
+            android:id="@+id/editDeviceBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/spacing_small"
+            app:srcCompat="@drawable/ic_edit"
             />
       </LinearLayout>
 

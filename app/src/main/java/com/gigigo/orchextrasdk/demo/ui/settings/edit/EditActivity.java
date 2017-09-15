@@ -157,46 +157,53 @@ public class EditActivity extends AppCompatActivity {
           Collections.<String>emptyList(), Collections.<String, String>emptyMap());
 
       crmManager.bindUser(user);
+
+      hideLoading();
     } else {
-
-      crmUpdated = true;
-
-      String deviceTagsString = deviceTagsCf.getValue();
-      List<String> deviceTags = new ArrayList<>();
-      if (!deviceTagsString.isEmpty()) {
-        deviceTags = new ArrayList<>(Arrays.asList(deviceTagsString.split(",")));
-      }
-
-      String deviceBusinessUnitsString = deviceBusinessUnitsCf.getValue();
-      List<String> deviceBusinessUnits = new ArrayList<>();
-      if (!deviceBusinessUnitsString.isEmpty()) {
-        deviceBusinessUnits = new ArrayList<>(Arrays.asList(deviceBusinessUnitsString.split(",")));
-      }
-
-      if (!deviceTags.isEmpty()) {
-        crmManager.setDeviceTags(deviceTags, new Function0<Unit>() {
-          @Override public Unit invoke() {
-            tagsUpdated = true;
-            finishOnUpdate();
-            return null;
-          }
-        });
-      } else {
-        tagsUpdated = true;
-      }
-
-      if (!deviceBusinessUnits.isEmpty()) {
-        crmManager.setDeviceBussinesUnits(deviceBusinessUnits, new Function0<Unit>() {
-          @Override public Unit invoke() {
-            businessUnitUpdated = true;
-            finishOnUpdate();
-            return null;
-          }
-        });
-      } else {
-        businessUnitUpdated = true;
-      }
+      saveDevice();
     }
+  }
+
+  private void saveDevice() {
+    crmUpdated = true;
+
+    String deviceTagsString = deviceTagsCf.getValue();
+    List<String> deviceTags = new ArrayList<>();
+    if (!deviceTagsString.isEmpty()) {
+      deviceTags = new ArrayList<>(Arrays.asList(deviceTagsString.split(",")));
+    }
+
+    String deviceBusinessUnitsString = deviceBusinessUnitsCf.getValue();
+    List<String> deviceBusinessUnits = new ArrayList<>();
+    if (!deviceBusinessUnitsString.isEmpty()) {
+      deviceBusinessUnits = new ArrayList<>(Arrays.asList(deviceBusinessUnitsString.split(",")));
+    }
+
+    if (!deviceTags.isEmpty()) {
+      crmManager.setDeviceTags(deviceTags, new Function0<Unit>() {
+        @Override public Unit invoke() {
+          tagsUpdated = true;
+          finishOnUpdate();
+          return null;
+        }
+      });
+    } else {
+      tagsUpdated = true;
+    }
+
+    if (!deviceBusinessUnits.isEmpty()) {
+      crmManager.setDeviceBussinesUnits(deviceBusinessUnits, new Function0<Unit>() {
+        @Override public Unit invoke() {
+          businessUnitUpdated = true;
+          finishOnUpdate();
+          return null;
+        }
+      });
+    } else {
+      businessUnitUpdated = true;
+    }
+
+    finishOnUpdate();
   }
 
   void finishOnUpdate() {
