@@ -47,6 +47,7 @@ import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.ProjectData;
+import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.List;
 import java.util.Map;
 import kotlin.Unit;
@@ -173,9 +174,12 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     List<CustomField> customFields = crmManager.getAvailableCustomFields();
+    CustomFieldView customFieldView;
 
     for (CustomField customField : customFields) {
-      container.addView(getCustomFieldView(customField.getLabel(), ""));
+      customFieldView = new CustomFieldView(this);
+      customFieldView.setCustomField(customField);
+      container.addView(customFieldView);
     }
   }
 
