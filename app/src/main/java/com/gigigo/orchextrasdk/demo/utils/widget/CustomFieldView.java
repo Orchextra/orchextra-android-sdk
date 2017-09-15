@@ -73,4 +73,8 @@ public class CustomFieldView extends LinearLayout {
     this.value = value;
     customFieldEt.setText(value);
   }
+
+  public void setEnabled(boolean enabled) {
+    customFieldEt.setEnabled(enabled);
+  }
 }

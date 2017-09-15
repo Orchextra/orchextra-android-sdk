@@ -32,4 +32,5 @@
   <dimen name="spacing_normal">14dp</dimen>
   <dimen name="spacing_small">10dp</dimen>
   <dimen name="spacing_tiny">4dp</dimen>
+  <dimen name="fab_margin">16dp</dimen>
 </resources>

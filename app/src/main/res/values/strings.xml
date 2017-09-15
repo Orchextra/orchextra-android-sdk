@@ -61,5 +61,6 @@
   <string name="birth_date">Birth date</string>
   <string name="tags">Tags</string>
   <string name="business_units">Business units</string>
+  <string name="title_activity_edit">EditActivity</string>
 
 </resources>

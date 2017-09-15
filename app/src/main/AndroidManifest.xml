@@ -75,7 +75,6 @@
           android:value=".ui.MainActivity"/>
     </activity>
 
-
     <receiver
         android:name=".ui.triggerlog.receiver.TriggerLogBroadcastReceiver"
         android:exported="true">
@@ -88,5 +87,15 @@
         android:name="com.google.android.geo.API_KEY"
         android:value="@string/google_maps_key"/>
 
+    <activity
+        android:name=".ui.settings.edit.EditActivity"
+        android:label="@string/title_activity_edit"
+        android:parentActivityName=".ui.settings.SettingsActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity"/>
+    </activity>
   </application>
+
 </manifest>

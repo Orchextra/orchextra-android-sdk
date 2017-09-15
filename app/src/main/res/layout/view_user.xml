@@ -19,25 +19,14 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/userView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/spacing_huge"
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingBottom="@dimen/spacing_small"
     android:paddingTop="@dimen/spacing_small"
     >
-
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginLeft="20dp"
-      android:layout_marginStart="20dp"
-      android:text="@string/user"
-      android:textColor="@color/grey7"
-      android:textSize="17sp"
-      />
 
   <LinearLayout
       android:layout_width="match_parent"
@@ -47,65 +36,30 @@
       android:orientation="vertical"
       >
 
-    <android.support.design.widget.TextInputLayout
+    <com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView
+        android:id="@+id/genderCf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-      <EditText
-          android:id="@+id/genderEt"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:hint="@string/gender"
-          android:textSize="@dimen/font_normal"
-          tools:text="f"
-          style="@style/SettingsTextStyle"
-          />
-    </android.support.design.widget.TextInputLayout>
+        />
 
-    <android.support.design.widget.TextInputLayout
+    <com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView
+        android:id="@+id/birthDateCf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-      <EditText
-          android:id="@+id/birthDateEt"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:hint="@string/birth_date"
-          android:textSize="@dimen/font_normal"
-          tools:text="27-11-1990"
-          style="@style/SettingsTextStyle"
-          />
-    </android.support.design.widget.TextInputLayout>
+        />
 
-    <android.support.design.widget.TextInputLayout
+    <com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView
+        android:id="@+id/tagsCf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-      <EditText
-          android:id="@+id/tagsEt"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:hint="@string/tags"
-          android:textSize="@dimen/font_normal"
-          tools:text="color, blue"
-          style="@style/SettingsTextStyle"
-          />
-    </android.support.design.widget.TextInputLayout>
+        />
 
-    <android.support.design.widget.TextInputLayout
+    <com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView
+        android:id="@+id/businessUnitsCf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-      <EditText
-          android:id="@+id/businessUnitsEt"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:hint="@string/business_units"
-          android:textSize="@dimen/font_normal"
-          tools:text="spain, color"
-          style="@style/SettingsTextStyle"
-          />
-    </android.support.design.widget.TextInputLayout>
+        />
+
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"

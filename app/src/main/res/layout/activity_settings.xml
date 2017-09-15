@@ -110,7 +110,47 @@
         </LinearLayout>
       </LinearLayout>
 
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/spacing_huge"
+          android:background="@color/white"
+          android:orientation="vertical"
+          android:paddingTop="@dimen/spacing_small"
+          >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/user"
+            android:textColor="@color/grey7"
+            android:textSize="17sp"
+            />
+      </LinearLayout>
+
       <include layout="@layout/view_user"/>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/spacing_huge"
+          android:background="@color/white"
+          android:orientation="vertical"
+          android:paddingTop="@dimen/spacing_small"
+          >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/device"
+            android:textColor="@color/grey7"
+            android:textSize="17sp"
+            />
+      </LinearLayout>
 
       <include layout="@layout/view_device"/>
 

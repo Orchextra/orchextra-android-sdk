@@ -23,14 +23,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -47,9 +44,9 @@ import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
 import com.gigigo.orchextrasdk.demo.ui.login.ProjectData;
+import com.gigigo.orchextrasdk.demo.ui.settings.edit.EditActivity;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.List;
-import java.util.Map;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -158,55 +155,63 @@ public class SettingsActivity extends AppCompatActivity {
 
   void bindData(@NonNull OxCRM user) {
     LinearLayout container = (LinearLayout) findViewById(R.id.container);
-    EditText genderEt = (EditText) findViewById(R.id.genderEt);
-    EditText birthDateEt = (EditText) findViewById(R.id.birthDateEt);
-    EditText tagsEt = (EditText) findViewById(R.id.tagsEt);
-    EditText businessUnitsEt = (EditText) findViewById(R.id.businessUnitsEt);
+    CustomFieldView genderCf = (CustomFieldView) findViewById(R.id.genderCf);
+    CustomFieldView birthDateCf = (CustomFieldView) findViewById(R.id.birthDateCf);
+    CustomFieldView tagsCf = (CustomFieldView) findViewById(R.id.tagsCf);
+    CustomFieldView businessUnitsCf = (CustomFieldView) findViewById(R.id.businessUnitsCf);
+    View userView = findViewById(R.id.userView);
+    userView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        EditActivity.open(SettingsActivity.this, EditActivity.CRM);
+      }
+    });
 
-    genderEt.setText(user.getGender());
-    birthDateEt.setText(user.getBirthDate());
-    tagsEt.setText(TextUtils.join(", ", user.getTags()));
-    businessUnitsEt.setText(TextUtils.join(", ", user.getBusinessUnits()));
+    genderCf.setCustomField(new CustomField("", "", getString(R.string.gender)));
+    genderCf.setValue(user.getGender());
+    genderCf.setEnabled(false);
+
+    birthDateCf.setCustomField(new CustomField("", "", getString(R.string.birth_date)));
+    birthDateCf.setValue(user.getBirthDate());
+    birthDateCf.setEnabled(false);
+
+    tagsCf.setCustomField(new CustomField("", "", getString(R.string.tags)));
+    tagsCf.setValue(TextUtils.join(", ", user.getTags()));
+    tagsCf.setEnabled(false);
+
+    businessUnitsCf.setCustomField(new CustomField("", "", getString(R.string.business_units)));
+    businessUnitsCf.setValue(TextUtils.join(", ", user.getTags()));
+    businessUnitsCf.setEnabled(false);
 
     container.removeAllViews();
-    for (Map.Entry<String, String> entry : user.getCustomFields().entrySet()) {
-      container.addView(getCustomFieldView(entry.getKey(), entry.getValue()));
-    }
-
     List<CustomField> customFields = crmManager.getAvailableCustomFields();
     CustomFieldView customFieldView;
 
     for (CustomField customField : customFields) {
       customFieldView = new CustomFieldView(this);
       customFieldView.setCustomField(customField);
+      customFieldView.setEnabled(false);
       container.addView(customFieldView);
     }
   }
 
-  private View getCustomFieldView(String key, String value) {
-    EditText editText = new EditText(this, null, R.style.SettingsTextStyle);
-    TextInputLayout textInputLayout = new TextInputLayout(this);
-
-    editText.setHint(key);
-    editText.setText(value);
-    editText.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-        getResources().getDimension(R.dimen.font_normal));
-    editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.WRAP_CONTENT));
-    textInputLayout.setLayoutParams(
-        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT));
-
-    textInputLayout.addView(editText);
-    return textInputLayout;
-  }
-
   void bindData(@NonNull OxDevice device) {
-    EditText deviceTagsEt = (EditText) findViewById(R.id.deviceTagsEt);
-    EditText deviceBusinessUnitsEt = (EditText) findViewById(R.id.deviceBusinessUnitsEt);
+    CustomFieldView deviceTagsCf = (CustomFieldView) findViewById(R.id.deviceTagsCf);
+    CustomFieldView deviceBusinessUnitsCf =
+        (CustomFieldView) findViewById(R.id.deviceBusinessUnitsCf);
+    View deviceView = findViewById(R.id.deviceView);
+    deviceView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        EditActivity.open(SettingsActivity.this, EditActivity.DEVICE);
+      }
+    });
 
-    deviceTagsEt.setText(TextUtils.join(", ", device.getTags()));
-    deviceBusinessUnitsEt.setText(TextUtils.join(", ", device.getBusinessUnits()));
+    deviceTagsCf.setCustomField(new CustomField("", "", getString(R.string.tags)));
+    deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
+    deviceTagsCf.setEnabled(false);
+    deviceBusinessUnitsCf.setCustomField(
+        new CustomField("", "", getString(R.string.business_units)));
+    deviceBusinessUnitsCf.setValue(TextUtils.join(", ", device.getBusinessUnits()));
+    deviceBusinessUnitsCf.setEnabled(false);
   }
 
   private void initToolbar() {
