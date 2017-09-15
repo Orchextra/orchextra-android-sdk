@@ -30,7 +30,8 @@ import com.gigigo.orchextra.core.domain.interactor.GetTokenData
 import com.gigigo.orchextra.core.domain.interactor.UpdateCrm
 import com.gigigo.orchextra.core.domain.interactor.UpdateDevice
 
-class CrmManager(private val getTokenData: GetTokenData, private val updateCrm: UpdateCrm,
+class CrmManager(private val instanceId: String, private val getTokenData: GetTokenData,
+    private val updateCrm: UpdateCrm,
     private val updateDevice: UpdateDevice, private val showError: (error: Error) -> Unit) {
 
   var crm: OxCRM = EMPTY_CRM
@@ -85,11 +86,13 @@ class CrmManager(private val getTokenData: GetTokenData, private val updateCrm: 
   }
 
   fun setDeviceTags(tags: List<String>, onSuccess: () -> Unit) {
-    updateDevice.update(OxDevice(tags = tags), onSuccess = { onSuccess() }, onError = onError)
+    updateDevice.update(OxDevice(instanceId = instanceId, tags = tags), onSuccess = { onSuccess() },
+        onError = onError)
   }
 
   fun setDeviceBussinesUnits(businessUnits: List<String>, onSuccess: () -> Unit) {
-    updateDevice.update(OxDevice(businessUnits = businessUnits), onSuccess = { onSuccess() },
+    updateDevice.update(OxDevice(instanceId = instanceId, businessUnits = businessUnits),
+        onSuccess = { onSuccess() },
         onError = onError)
   }
 
@@ -103,7 +106,8 @@ class CrmManager(private val getTokenData: GetTokenData, private val updateCrm: 
 
   companion object Factory {
 
-    fun create(showError: (error: Error) -> Unit): CrmManager = CrmManager(
+    fun create(instanceId: String, showError: (error: Error) -> Unit): CrmManager = CrmManager(
+        instanceId,
         GetTokenData.create(),
         UpdateCrm.create(),
         UpdateDevice.create(),

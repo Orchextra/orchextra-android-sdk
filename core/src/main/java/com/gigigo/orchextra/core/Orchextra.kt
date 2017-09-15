@@ -66,7 +66,9 @@ object Orchextra : OrchextraErrorListener {
     this.locationProvider = LocationProvider(context)
     this.locationProvider.getLocation { point -> getConfiguration(point) }
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
-    this.crmManager = CrmManager.create { onError(it) }
+
+    val iid = "hola" //InstanceID.getInstance(context).getId()
+    this.crmManager = CrmManager.create(iid, { onError(it) })
 
     initLogger(context)
 

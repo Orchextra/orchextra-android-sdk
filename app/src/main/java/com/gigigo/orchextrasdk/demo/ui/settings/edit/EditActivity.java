@@ -15,13 +15,11 @@ import android.widget.Toast;
 import com.gigigo.orchextra.core.CrmManager;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
-import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.CustomField;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.core.domain.entities.OxCRM;
 import com.gigigo.orchextra.core.domain.entities.OxDevice;
 import com.gigigo.orchextrasdk.demo.R;
-import com.gigigo.orchextrasdk.demo.ui.MainActivity;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,15 +63,6 @@ public class EditActivity extends AppCompatActivity {
   private void initOrchextra() {
     orchextra = Orchextra.INSTANCE;
     crmManager = orchextra.getCrmManager();
-    orchextra.setStatusListener(new OrchextraStatusListener() {
-      @Override public void onStatusChange(boolean isReady) {
-        if (!isReady) {
-          hideLoading();
-          MainActivity.open(EditActivity.this);
-          finish();
-        }
-      }
-    });
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NonNull Error error) {
         hideLoading();
@@ -256,6 +245,11 @@ public class EditActivity extends AppCompatActivity {
     if (loadingDialog != null) {
       loadingDialog.dismiss();
     }
+  }
+
+  @Override protected void onDestroy() {
+    orchextra.removeErrorListener();
+    super.onDestroy();
   }
 
   public static void open(Context context, String type) {

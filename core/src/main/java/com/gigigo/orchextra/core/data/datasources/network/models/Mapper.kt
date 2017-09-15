@@ -233,6 +233,7 @@ fun OxDevice.toApiOxDevice(): ApiOxDevice = with(this) {
         businessUnits
       } else {
         null
-      }
+      },
+      device = ApiDeviceInfo()
   )
 }

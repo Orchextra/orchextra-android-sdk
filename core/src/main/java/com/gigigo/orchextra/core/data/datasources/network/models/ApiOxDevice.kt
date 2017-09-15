@@ -29,4 +29,8 @@ class ApiOxDevice(
     val bluetoothMacAddress: String?,
     val wifiMacAddress: String?,
     val tags: List<String>?,
-    val businessUnits: List<String>?)
+    val businessUnits: List<String>?,
+    val device: ApiDeviceInfo?)
+
+
+class ApiDeviceInfo(val type: String = "ANDROID")
