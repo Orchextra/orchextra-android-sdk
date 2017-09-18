@@ -23,7 +23,6 @@ import com.gigigo.orchextra.core.data.datasources.network.NetworkDataSourceImp
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
-import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.TokenData
@@ -36,7 +35,7 @@ interface NetworkDataSource {
   fun getAuthentication(credentials: Credentials): String
 
   @Throws(NetworkException::class)
-  fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration
+  fun getConfiguration(apiKey: String): Configuration
 
   @Throws(NetworkException::class)
   fun getAction(trigger: Trigger): Action

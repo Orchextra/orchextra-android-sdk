@@ -24,44 +24,59 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
-import com.gigigo.orchextra.core.domain.entities.AppData
-import com.gigigo.orchextra.core.domain.entities.OxDevice
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiClientApp
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiDeviceInfo
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiOxDevice
 import java.util.Locale
 import java.util.TimeZone
 
-fun Context.getAppData(): AppData = with(this) {
-  val packageInfo = applicationContext.packageManager.getPackageInfo(packageName, 0)
+fun Context.getApiOxDevice(projectId: String, tags: List<String>,
+    businessUnits: List<String>): ApiOxDevice = with(this) {
 
-  return AppData(
-      appVersion = packageInfo.versionName,
-      buildVersion = packageInfo.versionCode.toString(),
-      bundleId = packageName)
-}
-
-fun Context.getDeviceData(): OxDevice = with(this) {
-
-  val timeZone = TimeZone.getDefault()
   val wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
   val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+  val bluetoothMacAddress = if (bluetoothAdapter != null) {
+    bluetoothAdapter.address
+  } else {
+    ""
+  }
 
-  return OxDevice(
-      handset = if (Build.MODEL.startsWith(Build.MANUFACTURER)) {
-        Build.MODEL.capitalize()
-      } else {
-        "${Build.MANUFACTURER.capitalize()} ${Build.MODEL}"
-      },
-      osVersion = Build.VERSION.SDK_INT.toString(),
-      language = Locale.getDefault().toString(),
-      timeZone = "${timeZone.getDisplayName(false, TimeZone.SHORT)} ${timeZone.id}",
-      instanceId = "",
+  return ApiOxDevice(projectId = projectId,
+      instanceId = "TODO", // TODO set instanceId
       secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
       serialNumber = Build.SERIAL,
-      bluetoothMacAddress = if (bluetoothAdapter != null) {
-        bluetoothAdapter.address
-      } else {
-        ""
-      },
+      bluetoothMacAddress = bluetoothMacAddress,
       wifiMacAddress = wifiManager.connectionInfo.macAddress,
-      tags = listOf(),
-      businessUnits = listOf())
+      clientApp = getApiClientApp(),
+      notificationPush = null, // TODO set notificationPush
+      device = getApiDeviceInfo(),
+      tags = tags,
+      businessUnits = businessUnits)
+}
+
+fun Context.getApiClientApp(): ApiClientApp = with(this) {
+  val packageInfo = applicationContext.packageManager.getPackageInfo(packageName, 0)
+
+  return ApiClientApp(
+      bundleId = packageName,
+      buildVersion = packageInfo.versionCode.toString(),
+      appVersion = packageInfo.versionName,
+      sdkVersion = "-",
+      sdkDevice = "-")
+}
+
+fun Context.getApiDeviceInfo(): ApiDeviceInfo = with(this) {
+  val timeZone = TimeZone.getDefault()
+  val handset = if (Build.MODEL.startsWith(Build.MANUFACTURER)) {
+    Build.MODEL.capitalize()
+  } else {
+    "${Build.MANUFACTURER.capitalize()} ${Build.MODEL}"
+  }
+
+  return ApiDeviceInfo(
+      timeZone = "${timeZone.getDisplayName(false, TimeZone.SHORT)} ${timeZone.id}",
+      osVersion = Build.VERSION.SDK_INT.toString(),
+      language = Locale.getDefault().toString(),
+      handset = handset,
+      type = "ANDROID")
 }

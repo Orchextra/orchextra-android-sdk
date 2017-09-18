@@ -26,17 +26,12 @@ import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
-import com.gigigo.orchextra.core.domain.entities.GeoLocation
-import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
-import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
-import com.gigigo.orchextra.core.utils.extensions.getAppData
-import com.gigigo.orchextra.core.utils.extensions.getDeviceData
 import java.lang.IllegalStateException
 
 object Orchextra : OrchextraErrorListener {
@@ -63,30 +58,26 @@ object Orchextra : OrchextraErrorListener {
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
-    this.locationProvider = LocationProvider(context)
-    this.locationProvider.getLocation { point -> getConfiguration(point) }
+//    this.locationProvider = LocationProvider(context)
+//    this.locationProvider.getLocation { point -> getConfiguration(point) }
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
-
-    val iid = "hola" //InstanceID.getInstance(context).getId()
-    this.crmManager = CrmManager.create(iid, { onError(it) })
+    this.crmManager = CrmManager.create(apiKey, { onError(it) })
 
     initLogger(context)
 
     ActivityLifecycleManager(app = context,
         onActivityResumed = { isActivityRunning = true },
         onActivityPaused = { isActivityRunning = false })
+
+    getConfiguration(apiKey)
   }
 
-  private fun getConfiguration(point: Point) {
+  private fun getConfiguration(apiKey: String) {
 
-    val loadConfiguration = LoadConfiguration(
-        app = context?.getAppData(),
-        device = context?.getDeviceData(),
-        geoLocation = GeoLocation(point = point))
 
     val getConfiguration = GetConfiguration.create()
 
-    getConfiguration.get(loadConfiguration,
+    getConfiguration.get(apiKey,
         onSuccess = {
           triggerManager.configuration = it
           crmManager?.availableCustomFields = it.customFields

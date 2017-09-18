@@ -19,18 +19,32 @@
 package com.gigigo.orchextra.core.data.datasources.network.models
 
 class ApiOxDevice(
-    val handset: String?,
-    val language: String?,
-    val osVersion: String?,
-    val timeZone: String?,
+    val projectId: String?,
     val instanceId: String?,
     val secureId: String?,
     val serialNumber: String?,
     val bluetoothMacAddress: String?,
     val wifiMacAddress: String?,
+    val clientApp: ApiClientApp?,
+    val notificationPush: ApiNotificationPush?,
+    val device: ApiDeviceInfo?,
     val tags: List<String>?,
-    val businessUnits: List<String>?,
-    val device: ApiDeviceInfo?)
+    val businessUnits: List<String>?)
 
+class ApiDeviceInfo(
+    val timeZone: String?,
+    val osVersion: String?,
+    val language: String?,
+    val handset: String?,
+    val type: String?)
 
-class ApiDeviceInfo(val type: String = "ANDROID")
+class ApiClientApp(
+    val bundleId: String,
+    val buildVersion: String,
+    val appVersion: String,
+    val sdkVersion: String,
+    val sdkDevice: String)
+
+class ApiNotificationPush(
+    val senderId: String,
+    val token: String)

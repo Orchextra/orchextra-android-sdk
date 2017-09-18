@@ -20,7 +20,6 @@ package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Configuration
-import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
@@ -32,17 +31,17 @@ class GetConfiguration(threadExecutor: ThreadExecutor, postExecutionThread: Post
     private val networkDataSource: NetworkDataSource) : Interactor<Configuration>(threadExecutor,
     postExecutionThread) {
 
-  private lateinit var loadConfiguration: LoadConfiguration
+  private lateinit var apiKey: String
 
-  fun get(loadConfiguration: LoadConfiguration, onSuccess: (Configuration) -> Unit = onSuccessStub,
+  fun get(apiKey: String, onSuccess: (Configuration) -> Unit = onSuccessStub,
       onError: (OxException) -> Unit = onErrorStub) {
 
-    this.loadConfiguration = loadConfiguration
+    this.apiKey = apiKey
     executeInteractor(onSuccess, onError)
   }
 
   override fun run() = try {
-    notifySuccess(networkDataSource.getConfiguration(loadConfiguration))
+    notifySuccess(networkDataSource.getConfiguration(apiKey))
   } catch (error: NetworkException) {
     notifyError(error)
   }

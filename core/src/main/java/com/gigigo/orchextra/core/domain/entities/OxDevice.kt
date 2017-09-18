@@ -21,15 +21,7 @@ package com.gigigo.orchextra.core.domain.entities
 val EMPTY_DEVICE = OxDevice()
 
 data class OxDevice(
-    val handset: String = "",
-    val language: String = "",
-    val osVersion: String = "",
-    val timeZone: String = "",
-    val instanceId: String = "",
-    val secureId: String = "",
-    val serialNumber: String = "",
-    val bluetoothMacAddress: String = "",
-    val wifiMacAddress: String = "",
+    val apiKey: String = "",
     val tags: List<String> = ArrayList(),
     val businessUnits: List<String> = ArrayList()) {
 

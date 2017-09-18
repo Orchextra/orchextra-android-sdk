@@ -25,7 +25,6 @@ import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInt
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiTokenData
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
-import com.gigigo.orchextra.core.data.datasources.network.models.toApiOxDevice
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toTokenData
@@ -34,12 +33,12 @@ import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
-import com.gigigo.orchextra.core.domain.entities.LoadConfiguration
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
+import com.gigigo.orchextra.core.utils.extensions.getApiOxDevice
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -82,10 +81,9 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return apiClientResponse?.data?.token ?: ""
   }
 
-  override fun getConfiguration(loadConfiguration: LoadConfiguration): Configuration {
-    val id = orchextra.getCredentials().apiKey
+  override fun getConfiguration(apiKey: String): Configuration {
 
-    val apiResponse = orchextraApi.getConfiguration(id).execute().body()
+    val apiResponse = orchextraApi.getConfiguration(apiKey).execute().body()
 
     return apiResponse?.data?.toConfiguration() as Configuration
   }
@@ -127,8 +125,12 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
 
   override fun updateDevice(device: OxDevice): OxDevice {
 
+    val context = Orchextra.provideContext()
+
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.updateTokenData(ApiTokenData(device = device.toApiOxDevice())).execute().body()
+      orchextraApi.updateTokenData(ApiTokenData(
+          device = context.getApiOxDevice(device.apiKey, device.tags, device.businessUnits)))
+          .execute().body()
     })
 
     return apiResponse?.toTokenData()?.device as OxDevice
