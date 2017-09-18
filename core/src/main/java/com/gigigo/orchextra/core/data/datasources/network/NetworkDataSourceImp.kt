@@ -26,6 +26,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.ApiTokenData
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
+import com.gigigo.orchextra.core.data.datasources.network.models.toOxCrm
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toTokenData
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
@@ -116,11 +117,16 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
       orchextraApi.getTokenData().execute().body()
     })
 
-    return apiResponse?.toTokenData() as TokenData
+    return apiResponse?.data?.toTokenData() as TokenData
   }
 
   override fun updateCrm(crm: OxCRM): OxCRM {
-    return crm
+
+    val apiResponse = makeCallWithRetry({ ->
+      orchextraApi.updateTokenData(ApiTokenData(crm = crm.toOxCrm())).execute().body()
+    })
+
+    return apiResponse?.toTokenData()?.crm as OxCRM
   }
 
   override fun updateDevice(device: OxDevice): OxDevice {

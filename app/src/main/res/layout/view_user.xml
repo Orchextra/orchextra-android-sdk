@@ -37,6 +37,12 @@
       >
 
     <com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView
+        android:id="@+id/idCf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView
         android:id="@+id/genderCf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

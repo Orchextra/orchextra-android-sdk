@@ -37,9 +37,7 @@ interface OrchextraApi {
   @POST("/token")
   fun getAuthentication(@Body apiAuthRequest: ApiAuthRequest): Call<OxResponse<ApiToken>>
 
-  //  @POST("v1/configuration")
   @GET("/configuration/{id}")
-      //  fun getConfiguration(@Body loadConfiguration: LoadConfiguration): Call<OxResponse<ApiConfiguration>>
   fun getConfiguration(@Path("id") id: String): Call<OxResponse<ApiConfiguration>>
 
   @GET("v1/action")
@@ -56,7 +54,7 @@ interface OrchextraApi {
   fun confirmAction(@Path("id") id: String): Call<OxResponse<ApiAction>>
 
   @GET("/token/data")
-  fun getTokenData(): Call<ApiTokenData>
+  fun getTokenData(): Call<OxResponse<ApiTokenData>>
 
   @PUT("/token/data")
   fun updateTokenData(@Body apiTokenData: ApiTokenData): Call<ApiTokenData>

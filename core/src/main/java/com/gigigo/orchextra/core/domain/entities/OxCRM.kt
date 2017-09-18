@@ -18,15 +18,16 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-val EMPTY_CRM = OxCRM()
+val EMPTY_CRM = OxCRM("EMPTY")
 
-data class OxCRM(
-    val crmId: String = "",
-    val gender: String = "",
-    val birthDate: String = "",
-    val tags: List<String> = ArrayList(),
-    val businessUnits: List<String> = ArrayList(),
-    val customFields: Map<String, String> = HashMap()) {
+
+data class OxCRM @JvmOverloads constructor(
+    val crmId: String,
+    val gender: String? = null,
+    val birthDate: String? = null,
+    val tags: List<String>? = null,
+    val businessUnits: List<String>? = null,
+    val customFields: Map<String, String>? = null) {
 
   fun isEmpty(): Boolean = this == EMPTY_CRM
 

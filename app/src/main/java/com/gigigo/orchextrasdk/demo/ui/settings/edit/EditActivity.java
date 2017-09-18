@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -23,10 +24,8 @@ import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
 public class EditActivity extends AppCompatActivity {
@@ -36,6 +35,7 @@ public class EditActivity extends AppCompatActivity {
   public static final String CRM = "crm";
   public static final String DEVICE = "device";
   private LinearLayout container;
+  private CustomFieldView idCf;
   private CustomFieldView genderCf;
   private CustomFieldView birthDateCf;
   private CustomFieldView tagsCf;
@@ -78,6 +78,7 @@ public class EditActivity extends AppCompatActivity {
     View userView = findViewById(R.id.userView);
     View deviceView = findViewById(R.id.deviceView);
     container = (LinearLayout) findViewById(R.id.container);
+    idCf = (CustomFieldView) findViewById(R.id.idCf);
     genderCf = (CustomFieldView) findViewById(R.id.genderCf);
     birthDateCf = (CustomFieldView) findViewById(R.id.birthDateCf);
     tagsCf = (CustomFieldView) findViewById(R.id.tagsCf);
@@ -136,41 +137,68 @@ public class EditActivity extends AppCompatActivity {
   void saveData() {
     showLoading();
     if (getType().equals(CRM)) {
-
-      String gender = genderCf.getValue();
-      String birthDate = birthDateCf.getValue();
-      String tags = tagsCf.getValue();
-      String businessUnits = businessUnitsCf.getValue();
-
-      OxCRM user = new OxCRM("", gender, birthDate, Collections.<String>emptyList(),
-          Collections.<String>emptyList(), Collections.<String, String>emptyMap());
-
-      crmManager.bindUser(user);
-
-      hideLoading();
+      saveCRM();
     } else {
       saveDevice();
     }
   }
 
+  private void saveCRM() {
+
+    String id = idCf.getValue().isEmpty() ? null : idCf.getValue();
+    String gender = genderCf.getValue().isEmpty() ? null : genderCf.getValue();
+    String birthDate = birthDateCf.getValue().isEmpty() ? null : birthDateCf.getValue();
+
+    if (id == null) {
+      Toast.makeText(this, "Id can not be empty", Toast.LENGTH_SHORT).show();
+      hideLoading();
+      return;
+    }
+
+    String crmTagsString = tagsCf.getValue().replace(" ", "");
+    List<String> crmTags = null;
+    if (!crmTagsString.isEmpty()) {
+      crmTags = new ArrayList<>(Arrays.asList(crmTagsString.split(",")));
+    }
+
+    String crmBusinessUnitsString = businessUnitsCf.getValue().replace(" ", "");
+    List<String> crmBusinessUnits = null;
+    if (!crmBusinessUnitsString.isEmpty()) {
+      crmBusinessUnits = new ArrayList<>(Arrays.asList(crmBusinessUnitsString.split(",")));
+    }
+
+    OxCRM oxCRM = new OxCRM(id, gender, birthDate, crmTags, crmBusinessUnits, null);
+    crmManager.bindUser(oxCRM, new Function1<OxCRM, Unit>() {
+      @Override public Unit invoke(OxCRM oxCRM) {
+        crmUpdated = true;
+        tagsUpdated = true;
+        businessUnitUpdated = true;
+        finishOnUpdate();
+        return null;
+      }
+    });
+
+    finishOnUpdate();
+  }
+
   private void saveDevice() {
     crmUpdated = true;
 
-    String deviceTagsString = deviceTagsCf.getValue();
+    String deviceTagsString = deviceTagsCf.getValue().replace(" ", "");
     List<String> deviceTags = new ArrayList<>();
     if (!deviceTagsString.isEmpty()) {
       deviceTags = new ArrayList<>(Arrays.asList(deviceTagsString.split(",")));
     }
 
-    String deviceBusinessUnitsString = deviceBusinessUnitsCf.getValue();
+    String deviceBusinessUnitsString = deviceBusinessUnitsCf.getValue().replace(" ", "");
     List<String> deviceBusinessUnits = new ArrayList<>();
     if (!deviceBusinessUnitsString.isEmpty()) {
       deviceBusinessUnits = new ArrayList<>(Arrays.asList(deviceBusinessUnitsString.split(",")));
     }
 
     if (!deviceTags.isEmpty()) {
-      crmManager.setDeviceTags(deviceTags, new Function0<Unit>() {
-        @Override public Unit invoke() {
+      crmManager.setDeviceTags(deviceTags, new Function1<OxDevice, Unit>() {
+        @Override public Unit invoke(OxDevice oxDevice) {
           tagsUpdated = true;
           finishOnUpdate();
           return null;
@@ -181,8 +209,8 @@ public class EditActivity extends AppCompatActivity {
     }
 
     if (!deviceBusinessUnits.isEmpty()) {
-      crmManager.setDeviceBussinesUnits(deviceBusinessUnits, new Function0<Unit>() {
-        @Override public Unit invoke() {
+      crmManager.setDeviceBussinesUnits(deviceBusinessUnits, new Function1<OxDevice, Unit>() {
+        @Override public Unit invoke(OxDevice oxDevice) {
           businessUnitUpdated = true;
           finishOnUpdate();
           return null;
@@ -202,18 +230,25 @@ public class EditActivity extends AppCompatActivity {
     }
   }
 
-  void bindData(@NonNull OxCRM user) {
+  void bindData(@Nullable OxCRM user) {
+    idCf.setCustomField(new CustomField("", "", getString(R.string.crm_id)));
     genderCf.setCustomField(new CustomField("", "", getString(R.string.gender)));
-    genderCf.setValue(user.getGender());
-
     birthDateCf.setCustomField(new CustomField("", "", getString(R.string.birth_date)));
-    birthDateCf.setValue(user.getBirthDate());
-
     tagsCf.setCustomField(new CustomField("", "", getString(R.string.tags)));
-    tagsCf.setValue(TextUtils.join(", ", user.getTags()));
-
     businessUnitsCf.setCustomField(new CustomField("", "", getString(R.string.business_units)));
-    businessUnitsCf.setValue(TextUtils.join(", ", user.getTags()));
+
+    if (user != null) {
+      idCf.setValue(user.getCrmId());
+      genderCf.setValue(user.getGender());
+      birthDateCf.setValue(user.getBirthDate());
+
+      if (user.getTags() != null) {
+        tagsCf.setValue(TextUtils.join(", ", user.getTags()));
+      }
+      if (user.getBusinessUnits() != null) {
+        businessUnitsCf.setValue(TextUtils.join(", ", user.getBusinessUnits()));
+      }
+    }
 
     container.removeAllViews();
     List<CustomField> customFields = crmManager.getAvailableCustomFields();

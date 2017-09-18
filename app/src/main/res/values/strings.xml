@@ -62,5 +62,6 @@
   <string name="tags">Tags</string>
   <string name="business_units">Business units</string>
   <string name="title_activity_edit">EditActivity</string>
+  <string name="crm_id">CRM id</string>
 
 </resources>

@@ -31,50 +31,74 @@ import com.gigigo.orchextra.core.domain.interactor.UpdateCrm
 import com.gigigo.orchextra.core.domain.interactor.UpdateDevice
 
 class CrmManager(private val apiKey: String, private val getTokenData: GetTokenData,
-    private val updateCrm: UpdateCrm,
-    private val updateDevice: UpdateDevice, private val showError: (error: Error) -> Unit) {
+    private val updateCrm: UpdateCrm, private val updateDevice: UpdateDevice,
+    private val showError: (error: Error) -> Unit) {
 
   var crm: OxCRM = EMPTY_CRM
   var device: OxDevice = EMPTY_DEVICE
   val onError: (OxException) -> Unit = { showError(it.toError()) }
   var availableCustomFields: List<CustomField> = listOf()
 
-  fun bindUser(crm: OxCRM) {
-    updateCrm.update(crm, onSuccess = { this.crm = it }, onError = onError)
+  fun bindUser(crm: OxCRM, onSuccess: (user: OxCRM) -> Unit) {
+    updateCrm.update(crm, onSuccess = {
+      this.crm = it
+      onSuccess(it)
+    }, onError = onError)
   }
 
-  fun unbindUser() {
-    updateCrm.update(EMPTY_CRM, onSuccess = { this.crm = it }, onError = onError)
+  fun unbindUser(onSuccess: () -> Unit) {
+    // TODO use crmId
+    updateCrm.update(EMPTY_CRM, onSuccess = {
+      this.crm = it
+      onSuccess()
+    }, onError = onError)
   }
 
-  fun getCurrentUser(bind: (user: OxCRM) -> Unit) {
+  fun getCurrentUser(bind: (user: OxCRM?) -> Unit) {
     if (crm.isNotEmpty()) {
       bind(crm)
     } else {
-      updatedData { bind(crm) }
+      updatedData {
+        if (crm.isNotEmpty()) {
+          bind(crm)
+        } else {
+          bind(null)
+        }
+      }
     }
   }
 
-  fun getCustomFields(): Map<String, String> = crm.customFields
-
-  fun setCustomFields(customFields: Map<String, String>) {
-    crm = crm.copy(customFields = customFields)
+  fun setCustomFields(customFields: Map<String, String>, onUpdate: (user: OxCRM) -> Unit) {
+    executeWithValidCrm {
+      updateCrm.update(OxCRM(crmId = crm.crmId, customFields = customFields),
+          onSuccess = {
+            this.crm = it
+            onUpdate(crm)
+          },
+          onError = onError)
+    }
   }
 
-  fun updateCustomFields() {
-    TODO("Not implemented")
+  fun setUserTags(tags: List<String>, onSuccess: (user: OxCRM) -> Unit) {
+    executeWithValidCrm {
+      updateCrm.update(OxCRM(crmId = crm.crmId, tags = tags),
+          onSuccess = {
+            this.crm = it
+            onSuccess(crm)
+          },
+          onError = onError)
+    }
   }
 
-  fun getUserTags(): List<String> = crm.tags
-
-  fun setUserTags(tags: List<String>) {
-    crm = crm.copy(tags = tags)
-  }
-
-  fun getUserBussinesUnits(): List<String> = crm.businessUnits
-
-  fun setUserBussinesUnits(businessUnits: List<String>) {
-    crm = crm.copy(businessUnits = businessUnits)
+  fun setUserBussinesUnits(businessUnits: List<String>, onSuccess: (user: OxCRM) -> Unit) {
+    executeWithValidCrm {
+      updateCrm.update(OxCRM(crmId = crm.crmId, businessUnits = businessUnits),
+          onSuccess = {
+            this.crm = it
+            onSuccess(crm)
+          },
+          onError = onError)
+    }
   }
 
   fun getDevice(bind: (device: OxDevice) -> Unit) {
@@ -85,15 +109,31 @@ class CrmManager(private val apiKey: String, private val getTokenData: GetTokenD
     }
   }
 
-  fun setDeviceTags(tags: List<String>, onSuccess: () -> Unit) {
-    updateDevice.update(OxDevice(apiKey = apiKey, tags = tags), onSuccess = { onSuccess() },
+  fun setDeviceTags(tags: List<String>, onSuccess: (device: OxDevice) -> Unit) {
+    updateDevice.update(OxDevice(apiKey = apiKey, tags = tags), onSuccess = {
+      this.device = it
+      onSuccess(it)
+    },
         onError = onError)
   }
 
-  fun setDeviceBussinesUnits(businessUnits: List<String>, onSuccess: () -> Unit) {
+  fun setDeviceBussinesUnits(businessUnits: List<String>, onSuccess: (device: OxDevice) -> Unit) {
     updateDevice.update(OxDevice(apiKey = apiKey, businessUnits = businessUnits),
-        onSuccess = { onSuccess() },
+        onSuccess = {
+          this.device = it
+          onSuccess(it)
+        },
         onError = onError)
+  }
+
+  private fun executeWithValidCrm(updater: () -> Unit) {
+    if (crm.isNotEmpty()) {
+      updater()
+    } else {
+      updatedData {
+        updater()
+      }
+    }
   }
 
   private fun updatedData(onUpdate: () -> Unit) {
