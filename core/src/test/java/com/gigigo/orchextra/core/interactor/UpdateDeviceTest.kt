@@ -34,7 +34,7 @@ import org.junit.Test
 
 class UpdateDeviceTest {
 
-  private val validDevice = OxDevice(timeZone = "EU/Madrid")
+  private val validDevice = OxDevice(apiKey = "apikey")
   private val invalidDevice = OxDevice()
 
   @Test

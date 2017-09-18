@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.core.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
@@ -34,8 +35,8 @@ import org.junit.Test
 
 class UpdateCrmTest {
 
-  private val validCrm = OxCRM(gender = "f", birthDate = "12-3-1998")
-  private val invalidCrm = OxCRM()
+  private val validCrm = OxCRM(crmId = "id", gender = "f", birthDate = "12-3-1998")
+  private val invalidCrm = EMPTY_CRM
 
   @Test
   fun shouldUpdateCrm() {
