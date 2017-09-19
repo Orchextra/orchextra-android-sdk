@@ -26,6 +26,7 @@ import com.gigigo.orchextrasdk.demo.utils.CustomFieldViewUtils;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import kotlin.Unit;
@@ -244,6 +245,8 @@ public class EditActivity extends AppCompatActivity {
     tagsCf.setCustomField(new CustomField("", "", getString(R.string.tags)));
     businessUnitsCf.setCustomField(new CustomField("", "", getString(R.string.business_units)));
 
+    Map<String, String> customFields = new HashMap<>();
+
     if (user != null) {
       idCf.setValue(user.getCrmId());
       genderCf.setValue(user.getGender());
@@ -255,17 +258,19 @@ public class EditActivity extends AppCompatActivity {
       if (user.getBusinessUnits() != null) {
         businessUnitsCf.setValue(TextUtils.join(", ", user.getBusinessUnits()));
       }
+      customFields = user.getCustomFields();
     }
 
     container.removeAllViews();
-    List<CustomField> customFields = crmManager.getAvailableCustomFields();
+    List<CustomField> availableCustomFields = crmManager.getAvailableCustomFields();
     CustomFieldView customFieldView;
     customFieldCfList = new ArrayList<>();
 
-    for (CustomField customField : customFields) {
+    for (CustomField customField : availableCustomFields) {
       customFieldView = new CustomFieldView(this);
       customFieldView.setCustomField(customField);
       container.addView(customFieldView);
+      customFieldView.setValue(customFields.get(customField.getKey()));
       customFieldCfList.add(customFieldView);
     }
   }
