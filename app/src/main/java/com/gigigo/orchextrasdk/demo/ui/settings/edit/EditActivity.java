@@ -1,5 +1,6 @@
 package com.gigigo.orchextrasdk.demo.ui.settings.edit;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.CrmManager;
@@ -27,6 +29,7 @@ import com.gigigo.orchextrasdk.demo.utils.CustomFieldViewUtils;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +46,14 @@ public class EditActivity extends AppCompatActivity {
   private LinearLayout container;
   private CustomFieldView idCf;
   private CustomFieldView genderCf;
-  private CustomFieldView birthDateCf;
+  CustomFieldView birthDateCf;
   private CustomFieldView tagsCf;
   private CustomFieldView businessUnitsCf;
   private CustomFieldView deviceTagsCf;
   private CustomFieldView deviceBusinessUnitsCf;
   private List<CustomFieldView> customFieldCfList;
   private ProgressDialog loadingDialog;
+  Date selectedDate = null;
   Orchextra orchextra;
   CrmManager crmManager;
   Boolean crmUpdated = false, tagsUpdated = false, businessUnitUpdated = false;
@@ -170,8 +174,6 @@ public class EditActivity extends AppCompatActivity {
 
     String id = idCf.getValue().isEmpty() ? null : idCf.getValue();
     String gender = genderCf.getValue().isEmpty() ? null : genderCf.getValue();
-    Date birthDate =
-        new Date(); // birthDateCf.getValue().isEmpty() ? null : birthDateCf.getValue();
 
     if (id == null) {
       Toast.makeText(this, "Id can not be empty", Toast.LENGTH_SHORT).show();
@@ -194,7 +196,7 @@ public class EditActivity extends AppCompatActivity {
     Map<String, String> customFields =
         CustomFieldViewUtils.getCustomFieldsFromViewList(customFieldCfList);
 
-    OxCRM oxCRM = new OxCRM(id, gender, birthDate, crmTags, crmBusinessUnits, customFields);
+    OxCRM oxCRM = new OxCRM(id, gender, selectedDate, crmTags, crmBusinessUnits, customFields);
     crmManager.bindUser(oxCRM, new Function1<OxCRM, Unit>() {
       @Override public Unit invoke(OxCRM oxCRM) {
         crmUpdated = true;
@@ -269,6 +271,7 @@ public class EditActivity extends AppCompatActivity {
     if (user != null) {
       idCf.setValue(user.getCrmId());
       genderCf.setValue(user.getGender());
+      selectedDate = user.getBirthDate();
       birthDateCf.setValue(getString(R.string.date_format, user.getBirthDate()));
 
       if (user.getTags() != null) {
@@ -286,6 +289,13 @@ public class EditActivity extends AppCompatActivity {
       businessUnitsCf.setValue("");
     }
 
+    birthDateCf.setEnabled(false);
+    birthDateCf.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        showDatePickerDialog();
+      }
+    });
+
     container.removeAllViews();
     List<CustomField> availableCustomFields = crmManager.getAvailableCustomFields();
     CustomFieldView customFieldView;
@@ -301,6 +311,27 @@ public class EditActivity extends AppCompatActivity {
       customFieldCfList.add(customFieldView);
     }
   }
+
+  void showDatePickerDialog() {
+
+    Calendar calendar = Calendar.getInstance();
+    DatePickerDialog datePickerDialog =
+        new DatePickerDialog(this, myDateListener, calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+    datePickerDialog.show();
+  }
+
+  private DatePickerDialog.OnDateSetListener myDateListener =
+      new DatePickerDialog.OnDateSetListener() {
+        @Override public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+          Calendar calendar = Calendar.getInstance();
+          calendar.set(year, month, dayOfMonth);
+          selectedDate = calendar.getTime();
+          birthDateCf.setValue(getString(R.string.date_format, selectedDate));
+        }
+      };
 
   private void hideKeyboard() {
     View view = this.getCurrentFocus();

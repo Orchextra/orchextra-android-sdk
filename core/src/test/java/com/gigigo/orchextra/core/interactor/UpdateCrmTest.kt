@@ -35,10 +35,11 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyZeroInteractions
 import org.junit.Test
+import java.util.Date
 
 class UpdateCrmTest {
 
-  private val validCrm = OxCRM(crmId = "id", gender = "f", birthDate = "12-3-1998")
+  private val validCrm = OxCRM(crmId = "id", gender = "f", birthDate = Date())
   private val validTokenData = TokenData(crm = validCrm, device = EMPTY_DEVICE)
   private val invalidCrm = EMPTY_CRM
   private val invalidTokenData = TokenData(crm = EMPTY_CRM, device = EMPTY_DEVICE)
