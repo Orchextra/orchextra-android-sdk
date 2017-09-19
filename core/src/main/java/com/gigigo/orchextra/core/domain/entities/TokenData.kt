@@ -18,4 +18,13 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-class TokenData(val crm: OxCRM, val device: OxDevice)
+class TokenData(val crm: OxCRM, val device: OxDevice) {
+
+  override fun equals(other: Any?): Boolean {
+    return if (other is TokenData) {
+      crm == other.crm && device == other.device
+    } else {
+      false
+    }
+  }
+}

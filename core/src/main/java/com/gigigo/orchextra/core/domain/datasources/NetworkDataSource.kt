@@ -47,6 +47,9 @@ interface NetworkDataSource {
   @Throws(NetworkException::class)
   fun updateTokenData(tokenData: TokenData): TokenData
 
+  @Throws(NetworkException::class)
+  fun unbindCrm()
+
   companion object Factory {
 
     var networkDataSource: NetworkDataSource? = null

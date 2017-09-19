@@ -27,16 +27,20 @@ import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.interactor.GetTokenData
+import com.gigigo.orchextra.core.domain.interactor.UnbindCrm
 import com.gigigo.orchextra.core.domain.interactor.UpdateCrm
 import com.gigigo.orchextra.core.domain.interactor.UpdateDevice
 
 class CrmManager(private val apiKey: String, private val getTokenData: GetTokenData,
     private val updateCrm: UpdateCrm, private val updateDevice: UpdateDevice,
+    private val unbindCrm: UnbindCrm,
     private val showError: (error: Error) -> Unit) {
 
   var crm: OxCRM = EMPTY_CRM
   var device: OxDevice = EMPTY_DEVICE
-  val onError: (OxException) -> Unit = { showError(it.toError()) }
+  val onError: (OxException) -> Unit = {
+      showError(it.toError())
+}
   var availableCustomFields: List<CustomField> = listOf()
 
   fun bindUser(crm: OxCRM, onSuccess: (user: OxCRM) -> Unit) {
@@ -47,8 +51,8 @@ class CrmManager(private val apiKey: String, private val getTokenData: GetTokenD
   }
 
   fun unbindUser(onSuccess: () -> Unit) {
-    updateCrm.update(EMPTY_CRM, onSuccess = {
-      this.crm = it
+    unbindCrm.upbind(onSuccess = {
+      this.crm = EMPTY_CRM
       onSuccess()
     }, onError = onError)
   }
@@ -150,6 +154,7 @@ class CrmManager(private val apiKey: String, private val getTokenData: GetTokenD
         GetTokenData.create(),
         UpdateCrm.create(),
         UpdateDevice.create(),
+        UnbindCrm.create(),
         showError)
   }
 }

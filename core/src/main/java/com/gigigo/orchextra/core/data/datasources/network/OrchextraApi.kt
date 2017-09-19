@@ -24,6 +24,8 @@ import com.gigigo.orchextra.core.data.datasources.network.models.ApiConfiguratio
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiToken
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiTokenData
 import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
+import okhttp3.RequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -58,4 +60,7 @@ interface OrchextraApi {
 
   @PUT("/token/data")
   fun updateTokenData(@Body apiTokenData: ApiTokenData): Call<OxResponse<ApiTokenData>>
+
+  @PUT("/token/data")
+  fun updateTokenData(@Body requestBody: RequestBody): Call<OxResponse<ApiTokenData>>
 }
