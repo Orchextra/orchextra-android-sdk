@@ -24,6 +24,7 @@ import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.CustomField
 import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
+import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
@@ -150,6 +151,23 @@ fun ApiTokenData.toTokenData(): TokenData = with(this) {
       device = device?.toOxDevice() ?: OxDevice())
 }
 
+fun TokenData.toApiTokenData(): ApiTokenData = with(this) {
+
+  val apiCrm: ApiOxCrm? = if (crm != EMPTY_CRM) {
+    crm.toApiOxCrm()
+  } else {
+    null
+  }
+
+  val apiDevice: ApiOxDevice? = if (device != EMPTY_DEVICE) {
+    device.toApiOxDevice()
+  } else {
+    null
+  }
+
+  return ApiTokenData(crm = apiCrm, device = apiDevice)
+}
+
 fun OxCRM.toApiOxCrm(): ApiOxCrm = with(this) {
   return ApiOxCrm(
       crmId = crmId,
@@ -158,6 +176,13 @@ fun OxCRM.toApiOxCrm(): ApiOxCrm = with(this) {
       tags = tags,
       businessUnits = businessUnits,
       customFields = customFields)
+}
+
+fun OxDevice.toApiOxDevice(): ApiOxDevice = with(this) {
+  return ApiOxDevice(
+      projectId = apiKey,
+      tags = tags,
+      businessUnits = businessUnits)
 }
 
 fun ApiOxCrm.toOxCrm(): OxCRM = with(this) {

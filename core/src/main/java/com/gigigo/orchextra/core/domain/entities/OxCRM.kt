@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-val EMPTY_CRM = OxCRM("EMPTY")
+val EMPTY_CRM = OxCRM("")
 
 
 data class OxCRM @JvmOverloads constructor(

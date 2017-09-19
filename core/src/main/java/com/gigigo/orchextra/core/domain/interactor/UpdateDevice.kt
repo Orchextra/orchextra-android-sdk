@@ -20,7 +20,9 @@ package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
+import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
@@ -44,7 +46,8 @@ class UpdateDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExec
 
   override fun run() = try {
 
-    val updatedDevice = networkDataSource.updateDevice(device)
+    val updatedDevice = networkDataSource.updateTokenData(
+        TokenData(crm = EMPTY_CRM, device = device)).device
     dbDataSource.saveDevice(updatedDevice)
     notifySuccess(updatedDevice)
   } catch (error: NetworkException) {

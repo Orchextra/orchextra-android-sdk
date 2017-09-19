@@ -22,24 +22,21 @@ import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
-import com.gigigo.orchextra.core.data.datasources.network.models.ApiTokenData
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
-import com.gigigo.orchextra.core.data.datasources.network.models.toApiOxCrm
+import com.gigigo.orchextra.core.data.datasources.network.models.toApiTokenData
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toTokenData
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
-import com.gigigo.orchextra.core.domain.entities.OxCRM
-import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
-import com.gigigo.orchextra.core.utils.extensions.getApiOxDevice
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -47,7 +44,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
 class NetworkDataSourceImp(private val orchextra: Orchextra,
-    private val sessionManager: SessionManager) : NetworkDataSource {
+    private val sessionManager: SessionManager,
+    private val dbDataSource: DbDataSource) : NetworkDataSource {
 
   private val orchextraApi: OrchextraApi
 
@@ -120,33 +118,20 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return apiResponse?.data?.toTokenData() as TokenData
   }
 
-  override fun updateCrm(crm: OxCRM): OxCRM {
-
+  override fun updateTokenData(tokenData: TokenData): TokenData {
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.updateTokenData(ApiTokenData(crm = crm.toApiOxCrm())).execute().body()
+      orchextraApi.updateTokenData(tokenData.toApiTokenData()).execute().body()
     })
 
-    return apiResponse?.data?.toTokenData()?.crm as OxCRM
-  }
-
-  override fun updateDevice(device: OxDevice): OxDevice {
-
-    val context = Orchextra.provideContext()
-
-    val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.updateTokenData(ApiTokenData(
-          device = context.getApiOxDevice(device.apiKey, device.tags, device.businessUnits)))
-          .execute().body()
-    })
-
-    return apiResponse?.data?.toTokenData()?.device as OxDevice
+    return apiResponse?.data?.toTokenData() as TokenData
   }
 
   private fun <T> makeCallWithRetry(call: () -> T?): T? {
     return if (sessionManager.hasSession()) {
       makeCallWithRetryOnSessionFailed(call)
     } else {
-      sessionManager.saveSession(getAuthentication(orchextra.getCredentials()))
+      val credentials = getAuthentication(orchextra.getCredentials())
+      sessionManager.saveSession(credentials)
       call()
     }
   }
@@ -155,7 +140,13 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return try {
       call()
     } catch (exception: UnauthorizedException) {
-      sessionManager.saveSession(getAuthentication(orchextra.getCredentials()))
+      val credentials = getAuthentication(orchextra.getCredentials())
+      sessionManager.saveSession(credentials)
+
+      val crm = dbDataSource.getCrm()
+      val device = dbDataSource.getDevice()
+      updateTokenData(TokenData(crm = crm, device = device))
+
       call()
     }
   }

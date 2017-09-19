@@ -20,7 +20,10 @@ package com.gigigo.orchextra.core.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
+import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
+import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
 import com.gigigo.orchextra.core.domain.entities.OxDevice
+import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.interactor.UpdateDevice
@@ -36,7 +39,9 @@ import org.junit.Test
 class UpdateDeviceTest {
 
   private val validDevice = OxDevice(apiKey = "apikey")
-  private val invalidDevice = OxDevice()
+  private val validTokenData = TokenData(crm = EMPTY_CRM, device = validDevice)
+  private val invalidDevice = EMPTY_DEVICE
+  private val invalidTokenData = TokenData(crm = EMPTY_CRM, device = EMPTY_DEVICE)
 
   @Test
   fun shouldUpdateCrm() {
@@ -73,8 +78,8 @@ class UpdateDeviceTest {
     val dbDataSource: DbDataSource = mock()
 
     val networkDataSourceMock = mock<NetworkDataSource> {
-      on { updateDevice(validDevice) } doReturn validDevice
-      on { updateDevice(invalidDevice) } doThrow error
+      on { updateTokenData(validTokenData) } doReturn validTokenData
+      on { updateTokenData(invalidTokenData) } doThrow error
     }
 
     return UpdateDevice(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSourceMock,

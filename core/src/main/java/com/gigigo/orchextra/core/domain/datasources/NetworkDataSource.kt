@@ -23,8 +23,6 @@ import com.gigigo.orchextra.core.data.datasources.network.NetworkDataSourceImp
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
-import com.gigigo.orchextra.core.domain.entities.OxCRM
-import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -47,10 +45,7 @@ interface NetworkDataSource {
   fun getTokenData(): TokenData
 
   @Throws(NetworkException::class)
-  fun updateCrm(crm: OxCRM): OxCRM
-
-  @Throws(NetworkException::class)
-  fun updateDevice(device: OxDevice): OxDevice
+  fun updateTokenData(tokenData: TokenData): TokenData
 
   companion object Factory {
 
@@ -60,7 +55,7 @@ interface NetworkDataSource {
 
       if (networkDataSource == null) {
         networkDataSource = NetworkDataSourceImp(Orchextra,
-            SessionManager.create(Orchextra.provideContext()))
+            SessionManager.create(Orchextra.provideContext()), DbDataSource.create())
       }
 
       return networkDataSource as NetworkDataSource

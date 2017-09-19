@@ -28,6 +28,8 @@ import com.gigigo.orchextra.core.data.datasources.db.models.toTrigger
 import com.gigigo.orchextra.core.data.datasources.db.persistors.Persistor
 import com.gigigo.orchextra.core.data.datasources.db.persistors.TriggerPersistor
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
+import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
+import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Trigger
@@ -82,10 +84,10 @@ class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: 
 
     val stringCrm = sharedPreferences.getString(CRM_KEY, "")
 
-    if (stringCrm.isNotEmpty()) {
-      return crmJsonAdapter.fromJson(stringCrm)
+    return if (stringCrm.isNotEmpty()) {
+      crmJsonAdapter.fromJson(stringCrm)
     } else {
-      throw DbException(-1, "crm null")
+      EMPTY_CRM
     }
   }
 
@@ -99,10 +101,10 @@ class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: 
   override fun getDevice(): OxDevice {
     val stringDevice = sharedPreferences.getString(DEVICE_KEY, "")
 
-    if (stringDevice.isNotEmpty()) {
-      return deviceJsonAdapter.fromJson(stringDevice)
+    return if (stringDevice.isNotEmpty()) {
+      deviceJsonAdapter.fromJson(stringDevice)
     } else {
-      throw DbException(-1, "device null")
+      EMPTY_DEVICE
     }
   }
 

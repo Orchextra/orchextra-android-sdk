@@ -21,7 +21,9 @@ package com.gigigo.orchextra.core.interactor
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
+import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
 import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.interactor.UpdateCrm
@@ -37,7 +39,9 @@ import org.junit.Test
 class UpdateCrmTest {
 
   private val validCrm = OxCRM(crmId = "id", gender = "f", birthDate = "12-3-1998")
+  private val validTokenData = TokenData(crm = validCrm, device = EMPTY_DEVICE)
   private val invalidCrm = EMPTY_CRM
+  private val invalidTokenData = TokenData(crm = EMPTY_CRM, device = EMPTY_DEVICE)
 
   @Test
   fun shouldUpdateCrm() {
@@ -74,8 +78,8 @@ class UpdateCrmTest {
     val dbDataSource: DbDataSource = mock()
 
     val networkDataSourceMock = mock<NetworkDataSource> {
-      on { updateCrm(validCrm) } doReturn validCrm
-      on { updateCrm(invalidCrm) } doThrow error
+      on { updateTokenData(validTokenData) } doReturn validTokenData
+      on { updateTokenData(invalidTokenData) } doThrow error
     }
 
     return UpdateCrm(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSourceMock,
