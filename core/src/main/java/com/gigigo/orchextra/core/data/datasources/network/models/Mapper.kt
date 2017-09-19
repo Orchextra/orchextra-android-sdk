@@ -38,6 +38,7 @@ import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
+import com.gigigo.orchextra.core.utils.Iso8601Utils
 import com.squareup.moshi.Moshi
 import okhttp3.Response as OkResponse
 
@@ -50,7 +51,7 @@ fun OkResponse.parseError(): ApiError = with(this) {
   val moshi = Moshi.Builder().build()
   val errorJsonAdapter = moshi.adapter(OxErrorResponse::class.java)
   val response = errorJsonAdapter.fromJson(body()?.string())
-  return response.error ?: ApiError(-1, "")
+  return response?.error ?: ApiError(-1, "")
 }
 
 fun ApiError.toNetworkException(): NetworkException = with(this) {
@@ -169,10 +170,17 @@ fun TokenData.toApiTokenData(): ApiTokenData = with(this) {
 }
 
 fun OxCRM.toApiOxCrm(): ApiOxCrm = with(this) {
+
+  val date = try {
+    Iso8601Utils.format(birthDate)
+  } catch (e: Exception) {
+    null
+  }
+
   return ApiOxCrm(
       crmId = crmId,
       gender = gender,
-      birthDate = birthDate,
+      birthDate = date,
       tags = tags,
       businessUnits = businessUnits,
       customFields = customFields)
@@ -186,10 +194,16 @@ fun OxDevice.toApiOxDevice(): ApiOxDevice = with(this) {
 }
 
 fun ApiOxCrm.toOxCrm(): OxCRM = with(this) {
+
+  val date = try {
+    Iso8601Utils.parse(birthDate)
+  } catch (e: Exception) {
+    null
+  }
   return OxCRM(
       crmId = crmId ?: "ERROR",
       gender = gender,
-      birthDate = birthDate,
+      birthDate = date,
       tags = tags,
       businessUnits = businessUnits,
       customFields = customFields)

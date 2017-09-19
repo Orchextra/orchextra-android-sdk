@@ -18,13 +18,15 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
+import java.util.Date
+
 val EMPTY_CRM = OxCRM("")
 
 
 data class OxCRM @JvmOverloads constructor(
     val crmId: String,
     val gender: String? = null,
-    val birthDate: String? = null,
+    val birthDate: Date? = null,
     val tags: List<String>? = null,
     val businessUnits: List<String>? = null,
     val customFields: Map<String, String>? = null) {

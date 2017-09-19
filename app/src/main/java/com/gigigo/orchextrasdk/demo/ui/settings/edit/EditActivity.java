@@ -10,11 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.CrmManager;
@@ -29,6 +27,7 @@ import com.gigigo.orchextrasdk.demo.utils.CustomFieldViewUtils;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import kotlin.Unit;
@@ -63,30 +62,6 @@ public class EditActivity extends AppCompatActivity {
     initView();
   }
 
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.menu_unbind, menu);
-    return true;
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.action_unbind:
-        crmManager.unbindUser(new Function0<Unit>() {
-          @Override public Unit invoke() {
-            crmUpdated = true;
-            tagsUpdated = true;
-            businessUnitUpdated = true;
-            finishOnUpdate();
-            return null;
-          }
-        });
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
-    }
-  }
-
   @Override protected void onResume() {
     super.onResume();
     showData();
@@ -117,13 +92,29 @@ public class EditActivity extends AppCompatActivity {
     businessUnitsCf = (CustomFieldView) findViewById(R.id.businessUnitsCf);
     deviceTagsCf = (CustomFieldView) findViewById(R.id.deviceTagsCf);
     deviceBusinessUnitsCf = (CustomFieldView) findViewById(R.id.deviceBusinessUnitsCf);
+    Button unBindButton = (Button) findViewById(R.id.unbind_button);
 
     if (getType().equals(CRM)) {
       userView.setVisibility(View.VISIBLE);
+      unBindButton.setVisibility(View.VISIBLE);
       deviceView.setVisibility(View.GONE);
       setTitle(getString(R.string.user));
+      unBindButton.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View v) {
+          crmManager.unbindUser(new Function0<Unit>() {
+            @Override public Unit invoke() {
+              crmUpdated = true;
+              tagsUpdated = true;
+              businessUnitUpdated = true;
+              finishOnUpdate();
+              return null;
+            }
+          });
+        }
+      });
     } else {
       userView.setVisibility(View.GONE);
+      unBindButton.setVisibility(View.GONE);
       deviceView.setVisibility(View.VISIBLE);
       setTitle(getString(R.string.device));
     }
@@ -179,7 +170,8 @@ public class EditActivity extends AppCompatActivity {
 
     String id = idCf.getValue().isEmpty() ? null : idCf.getValue();
     String gender = genderCf.getValue().isEmpty() ? null : genderCf.getValue();
-    String birthDate = birthDateCf.getValue().isEmpty() ? null : birthDateCf.getValue();
+    Date birthDate =
+        new Date(); // birthDateCf.getValue().isEmpty() ? null : birthDateCf.getValue();
 
     if (id == null) {
       Toast.makeText(this, "Id can not be empty", Toast.LENGTH_SHORT).show();
@@ -277,7 +269,7 @@ public class EditActivity extends AppCompatActivity {
     if (user != null) {
       idCf.setValue(user.getCrmId());
       genderCf.setValue(user.getGender());
-      birthDateCf.setValue(user.getBirthDate());
+      birthDateCf.setValue(getString(R.string.date_format, user.getBirthDate()));
 
       if (user.getTags() != null) {
         tagsCf.setValue(TextUtils.join(", ", user.getTags()));

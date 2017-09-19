@@ -44,6 +44,15 @@
       <include layout="@layout/view_user"/>
 
       <include layout="@layout/view_device"/>
+
+      <Button
+          android:id="@+id/unbind_button"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/spacing_huge"
+          android:text="@string/unbind"
+          style="@style/ButtonStyle"
+          />
     </LinearLayout>
   </ScrollView>
 </LinearLayout>

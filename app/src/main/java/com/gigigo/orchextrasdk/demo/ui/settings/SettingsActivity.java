@@ -185,7 +185,7 @@ public class SettingsActivity extends AppCompatActivity {
     if (user != null) {
       idCf.setValue(user.getCrmId());
       genderCf.setValue(user.getGender());
-      birthDateCf.setValue(user.getBirthDate());
+      birthDateCf.setValue(getString(R.string.date_format, user.getBirthDate()));
 
       if (user.getTags() != null) {
         tagsCf.setValue(TextUtils.join(", ", user.getTags()));

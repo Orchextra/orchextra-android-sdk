@@ -27,6 +27,12 @@ import com.gigigo.orchextra.core.data.datasources.db.models.toDbTrigger
 import com.gigigo.orchextra.core.data.datasources.db.models.toTrigger
 import com.gigigo.orchextra.core.data.datasources.db.persistors.Persistor
 import com.gigigo.orchextra.core.data.datasources.db.persistors.TriggerPersistor
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiOxCrm
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiOxDevice
+import com.gigigo.orchextra.core.data.datasources.network.models.toApiOxCrm
+import com.gigigo.orchextra.core.data.datasources.network.models.toApiOxDevice
+import com.gigigo.orchextra.core.data.datasources.network.models.toOxCrm
+import com.gigigo.orchextra.core.data.datasources.network.models.toOxDevice
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
 import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
@@ -50,8 +56,8 @@ class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: 
   private val triggerListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbTrigger>(15, DAYS))
   private val triggerPersistor: Persistor<DbTrigger> = TriggerPersistor(helper)
-  private val crmJsonAdapter = moshi.adapter(OxCRM::class.java)
-  private val deviceJsonAdapter = moshi.adapter(OxDevice::class.java)
+  private val crmJsonAdapter = moshi.adapter(ApiOxCrm::class.java)
+  private val deviceJsonAdapter = moshi.adapter(ApiOxDevice::class.java)
 
 
   override fun getTrigger(value: String): Trigger {
@@ -85,7 +91,7 @@ class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: 
     val stringCrm = sharedPreferences.getString(CRM_KEY, "")
 
     return if (stringCrm.isNotEmpty()) {
-      crmJsonAdapter.fromJson(stringCrm)
+      crmJsonAdapter.fromJson(stringCrm).toOxCrm()
     } else {
       EMPTY_CRM
     }
@@ -94,7 +100,7 @@ class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: 
   @SuppressLint("CommitPrefEdits")
   override fun saveCrm(crm: OxCRM) {
     val editor = sharedPreferences.edit()
-    editor?.putString(CRM_KEY, crmJsonAdapter.toJson(crm))
+    editor?.putString(CRM_KEY, crmJsonAdapter.toJson(crm.toApiOxCrm()))
     editor?.commit()
   }
 
@@ -102,7 +108,7 @@ class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: 
     val stringDevice = sharedPreferences.getString(DEVICE_KEY, "")
 
     return if (stringDevice.isNotEmpty()) {
-      deviceJsonAdapter.fromJson(stringDevice)
+      deviceJsonAdapter.fromJson(stringDevice).toOxDevice()
     } else {
       EMPTY_DEVICE
     }
@@ -111,7 +117,7 @@ class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: 
   @SuppressLint("CommitPrefEdits")
   override fun saveDevice(device: OxDevice) {
     val editor = sharedPreferences.edit()
-    editor?.putString(DEVICE_KEY, deviceJsonAdapter.toJson(device))
+    editor?.putString(DEVICE_KEY, deviceJsonAdapter.toJson(device.toApiOxDevice()))
     editor?.commit()
   }
 
