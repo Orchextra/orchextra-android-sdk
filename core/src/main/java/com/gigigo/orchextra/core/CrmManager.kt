@@ -47,7 +47,6 @@ class CrmManager(private val apiKey: String, private val getTokenData: GetTokenD
   }
 
   fun unbindUser(onSuccess: () -> Unit) {
-    // TODO use crmId
     updateCrm.update(EMPTY_CRM, onSuccess = {
       this.crm = it
       onSuccess()

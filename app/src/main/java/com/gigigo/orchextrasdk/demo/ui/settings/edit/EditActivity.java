@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
@@ -30,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
 public class EditActivity extends AppCompatActivity {
@@ -58,6 +62,30 @@ public class EditActivity extends AppCompatActivity {
 
     initOrchextra();
     initView();
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.menu_unbind, menu);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_unbind:
+        crmManager.unbindUser(new Function0<Unit>() {
+          @Override public Unit invoke() {
+            crmUpdated = true;
+            tagsUpdated = true;
+            businessUnitUpdated = true;
+            finishOnUpdate();
+            return null;
+          }
+        });
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
   }
 
   @Override protected void onResume() {
