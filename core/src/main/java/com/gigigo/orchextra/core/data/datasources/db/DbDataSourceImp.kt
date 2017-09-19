@@ -18,6 +18,8 @@
 
 package com.gigigo.orchextra.core.data.datasources.db
 
+import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.list.ListCachingStrategy
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl.TtlCachingStrategy
 import com.gigigo.orchextra.core.data.datasources.db.models.DbTrigger
@@ -32,15 +34,23 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 import com.gigigo.orchextra.core.domain.exceptions.DbException
 import com.j256.ormlite.dao.Dao
+import com.squareup.moshi.Moshi
 import java.sql.SQLException
 import java.util.concurrent.TimeUnit.DAYS
 
-class DbDataSourceImp(helper: DatabaseHelper) : DbDataSource {
 
+class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: DatabaseHelper,
+    moshi: Moshi) : DbDataSource {
+
+  private val CRM_KEY = "crm_key"
+  private val DEVICE_KEY = "device_key"
   private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()
   private val triggerListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbTrigger>(15, DAYS))
   private val triggerPersistor: Persistor<DbTrigger> = TriggerPersistor(helper)
+  private val crmJsonAdapter = moshi.adapter(OxCRM::class.java)
+  private val deviceJsonAdapter = moshi.adapter(OxDevice::class.java)
+
 
   override fun getTrigger(value: String): Trigger {
     try {
@@ -69,19 +79,38 @@ class DbDataSourceImp(helper: DatabaseHelper) : DbDataSource {
   }
 
   override fun getCrm(): OxCRM {
-    TODO("not implemented")
+
+    val stringCrm = sharedPreferences.getString(CRM_KEY, "")
+
+    if (stringCrm.isNotEmpty()) {
+      return crmJsonAdapter.fromJson(stringCrm)
+    } else {
+      throw DbException(-1, "crm null")
+    }
   }
 
+  @SuppressLint("CommitPrefEdits")
   override fun saveCrm(crm: OxCRM) {
-    TODO("not implemented")
+    val editor = sharedPreferences.edit()
+    editor?.putString(CRM_KEY, crmJsonAdapter.toJson(crm))
+    editor?.commit()
   }
 
   override fun getDevice(): OxDevice {
-    TODO("not implemented")
+    val stringDevice = sharedPreferences.getString(DEVICE_KEY, "")
+
+    if (stringDevice.isNotEmpty()) {
+      return deviceJsonAdapter.fromJson(stringDevice)
+    } else {
+      throw DbException(-1, "device null")
+    }
   }
 
+  @SuppressLint("CommitPrefEdits")
   override fun saveDevice(device: OxDevice) {
-    TODO("not implemented")
+    val editor = sharedPreferences.edit()
+    editor?.putString(DEVICE_KEY, deviceJsonAdapter.toJson(device))
+    editor?.commit()
   }
 
   @Throws(SQLException::class)

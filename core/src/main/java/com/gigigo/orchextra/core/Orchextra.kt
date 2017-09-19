@@ -20,6 +20,7 @@ package com.gigigo.orchextra.core
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -162,4 +163,8 @@ object Orchextra : OrchextraErrorListener {
   fun isActivityRunning() = isActivityRunning
 
   fun provideContext(): Context = context as Context
+
+  fun provideSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences(
+      "orchextra",
+      Context.MODE_PRIVATE)
 }

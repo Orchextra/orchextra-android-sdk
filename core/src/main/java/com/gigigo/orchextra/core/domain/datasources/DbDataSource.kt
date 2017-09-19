@@ -25,6 +25,8 @@ import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.DbException
+import com.squareup.moshi.Moshi
+
 
 interface DbDataSource {
 
@@ -53,7 +55,11 @@ interface DbDataSource {
     fun create(): DbDataSource {
 
       if (dbDataSource == null) {
-        dbDataSource = DbDataSourceImp(DatabaseHelper.create(Orchextra.provideContext()))
+        val sharedPreferences = Orchextra.provideSharedPreferences(Orchextra.provideContext())
+        val moshi = Moshi.Builder().build()
+
+        dbDataSource = DbDataSourceImp(sharedPreferences,
+            DatabaseHelper.create(Orchextra.provideContext()), moshi)
       }
 
       return dbDataSource as DbDataSource

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.CrmManager;
@@ -261,6 +262,14 @@ public class EditActivity extends AppCompatActivity {
     }
   }
 
+  private void hideKeyboard() {
+    View view = this.getCurrentFocus();
+    if (view != null) {
+      InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+      imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+  }
+
   void bindData(@NonNull OxDevice device) {
     deviceTagsCf.setCustomField(new CustomField("", "", "Tags"));
     deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
@@ -280,6 +289,11 @@ public class EditActivity extends AppCompatActivity {
     if (loadingDialog != null) {
       loadingDialog.dismiss();
     }
+  }
+
+  @Override protected void onPause() {
+    super.onPause();
+    hideKeyboard();
   }
 
   @Override protected void onDestroy() {

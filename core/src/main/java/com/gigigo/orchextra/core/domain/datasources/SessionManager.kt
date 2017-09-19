@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.core.domain.datasources
 
 import android.content.Context
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.session.SessionManagerImp
 
 interface SessionManager {
@@ -38,9 +39,7 @@ interface SessionManager {
     fun create(context: Context): SessionManager {
 
       if (sessionManager == null) {
-
-        val sharedPreferences = context.getSharedPreferences("orchextra", Context.MODE_PRIVATE)
-
+        val sharedPreferences = Orchextra.provideSharedPreferences(context)
         sessionManager = SessionManagerImp(sharedPreferences)
       }
 
