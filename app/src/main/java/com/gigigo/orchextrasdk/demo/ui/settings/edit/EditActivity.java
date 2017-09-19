@@ -22,10 +22,12 @@ import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.core.domain.entities.OxCRM;
 import com.gigigo.orchextra.core.domain.entities.OxDevice;
 import com.gigigo.orchextrasdk.demo.R;
+import com.gigigo.orchextrasdk.demo.utils.CustomFieldViewUtils;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
@@ -43,6 +45,7 @@ public class EditActivity extends AppCompatActivity {
   private CustomFieldView businessUnitsCf;
   private CustomFieldView deviceTagsCf;
   private CustomFieldView deviceBusinessUnitsCf;
+  private List<CustomFieldView> customFieldCfList;
   private ProgressDialog loadingDialog;
   Orchextra orchextra;
   CrmManager crmManager;
@@ -168,7 +171,10 @@ public class EditActivity extends AppCompatActivity {
       crmBusinessUnits = new ArrayList<>(Arrays.asList(crmBusinessUnitsString.split(",")));
     }
 
-    OxCRM oxCRM = new OxCRM(id, gender, birthDate, crmTags, crmBusinessUnits, null);
+    Map<String, String> customFields =
+        CustomFieldViewUtils.getCustomFieldsFromViewList(customFieldCfList);
+
+    OxCRM oxCRM = new OxCRM(id, gender, birthDate, crmTags, crmBusinessUnits, customFields);
     crmManager.bindUser(oxCRM, new Function1<OxCRM, Unit>() {
       @Override public Unit invoke(OxCRM oxCRM) {
         crmUpdated = true;
@@ -254,11 +260,13 @@ public class EditActivity extends AppCompatActivity {
     container.removeAllViews();
     List<CustomField> customFields = crmManager.getAvailableCustomFields();
     CustomFieldView customFieldView;
+    customFieldCfList = new ArrayList<>();
 
     for (CustomField customField : customFields) {
       customFieldView = new CustomFieldView(this);
       customFieldView.setCustomField(customField);
       container.addView(customFieldView);
+      customFieldCfList.add(customFieldView);
     }
   }
 

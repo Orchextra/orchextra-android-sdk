@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.interactor
 
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -69,11 +70,14 @@ class UpdateDeviceTest {
   private fun getUpdateDeviceInteractor(
       error: NetworkException = NetworkException(-1, "")): UpdateDevice {
 
+    val dbDataSource: DbDataSource = mock()
+
     val networkDataSourceMock = mock<NetworkDataSource> {
       on { updateDevice(validDevice) } doReturn validDevice
       on { updateDevice(invalidDevice) } doThrow error
     }
 
-    return UpdateDevice(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSourceMock)
+    return UpdateDevice(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSourceMock,
+        dbDataSource)
   }
 }

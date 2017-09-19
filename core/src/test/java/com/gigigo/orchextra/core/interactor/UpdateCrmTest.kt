@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.interactor
 
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
 import com.gigigo.orchextra.core.domain.entities.OxCRM
@@ -70,11 +71,14 @@ class UpdateCrmTest {
   private fun getUpdateCrmInteractor(
       error: NetworkException = NetworkException(-1, "")): UpdateCrm {
 
+    val dbDataSource: DbDataSource = mock()
+
     val networkDataSourceMock = mock<NetworkDataSource> {
       on { updateCrm(validCrm) } doReturn validCrm
       on { updateCrm(invalidCrm) } doThrow error
     }
 
-    return UpdateCrm(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSourceMock)
+    return UpdateCrm(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSourceMock,
+        dbDataSource)
   }
 }
