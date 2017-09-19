@@ -57,5 +57,5 @@ interface OrchextraApi {
   fun getTokenData(): Call<OxResponse<ApiTokenData>>
 
   @PUT("/token/data")
-  fun updateTokenData(@Body apiTokenData: ApiTokenData): Call<ApiTokenData>
+  fun updateTokenData(@Body apiTokenData: ApiTokenData): Call<OxResponse<ApiTokenData>>
 }

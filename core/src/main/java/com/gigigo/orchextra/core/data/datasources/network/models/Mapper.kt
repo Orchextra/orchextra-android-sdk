@@ -150,7 +150,7 @@ fun ApiTokenData.toTokenData(): TokenData = with(this) {
       device = device?.toOxDevice() ?: OxDevice())
 }
 
-fun OxCRM.toOxCrm(): ApiOxCrm = with(this) {
+fun OxCRM.toApiOxCrm(): ApiOxCrm = with(this) {
   return ApiOxCrm(
       crmId = crmId,
       gender = gender,

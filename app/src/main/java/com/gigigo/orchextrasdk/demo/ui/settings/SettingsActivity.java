@@ -142,13 +142,13 @@ public class SettingsActivity extends AppCompatActivity {
     crmManager.getCurrentUser(new Function1<OxCRM, Unit>() {
       @Override public Unit invoke(OxCRM user) {
         bindData(user);
-        return null;
-      }
-    });
 
-    crmManager.getDevice(new Function1<OxDevice, Unit>() {
-      @Override public Unit invoke(OxDevice device) {
-        bindData(device);
+        crmManager.getDevice(new Function1<OxDevice, Unit>() {
+          @Override public Unit invoke(OxDevice device) {
+            bindData(device);
+            return null;
+          }
+        });
         return null;
       }
     });
