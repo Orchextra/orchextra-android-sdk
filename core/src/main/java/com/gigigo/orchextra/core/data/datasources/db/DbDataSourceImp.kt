@@ -26,6 +26,8 @@ import com.gigigo.orchextra.core.data.datasources.db.models.toTrigger
 import com.gigigo.orchextra.core.data.datasources.db.persistors.Persistor
 import com.gigigo.orchextra.core.data.datasources.db.persistors.TriggerPersistor
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
+import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 import com.gigigo.orchextra.core.domain.exceptions.DbException
@@ -64,6 +66,22 @@ class DbDataSourceImp(helper: DatabaseHelper) : DbDataSource {
     } catch (e: SQLException) {
       throw DbException(-1, e.message ?: "")
     }
+  }
+
+  override fun getCrm(): OxCRM {
+    TODO("not implemented")
+  }
+
+  override fun saveCrm(crm: OxCRM) {
+    TODO("not implemented")
+  }
+
+  override fun getDevice(): OxDevice {
+    TODO("not implemented")
+  }
+
+  override fun saveDevice(device: OxDevice) {
+    TODO("not implemented")
   }
 
   @Throws(SQLException::class)

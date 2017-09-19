@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -28,7 +29,8 @@ import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
 class UpdateDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Interactor<OxDevice>(threadExecutor,
+    private val networkDataSource: NetworkDataSource,
+    private val dbDataSource: DbDataSource) : Interactor<OxDevice>(threadExecutor,
     postExecutionThread) {
 
   private lateinit var device: OxDevice
@@ -41,7 +43,10 @@ class UpdateDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExec
   }
 
   override fun run() = try {
-    notifySuccess(networkDataSource.updateDevice(device))
+
+    val updatedDevice = networkDataSource.updateDevice(device)
+    dbDataSource.saveDevice(updatedDevice)
+    notifySuccess(updatedDevice)
   } catch (error: NetworkException) {
     notifyError(error)
   }
@@ -49,6 +54,6 @@ class UpdateDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExec
   companion object Factory {
 
     fun create(): UpdateDevice = UpdateDevice(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+        NetworkDataSource.create(), DbDataSource.create())
   }
 }

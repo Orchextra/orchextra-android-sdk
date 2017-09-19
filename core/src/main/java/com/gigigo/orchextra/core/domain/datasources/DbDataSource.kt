@@ -21,6 +21,8 @@ package com.gigigo.orchextra.core.domain.datasources
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
 import com.gigigo.orchextra.core.data.datasources.db.DbDataSourceImp
+import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.DbException
 
@@ -31,6 +33,18 @@ interface DbDataSource {
 
   @Throws(DbException::class)
   fun saveTrigger(trigger: Trigger)
+
+  @Throws(DbException::class)
+  fun getCrm(): OxCRM
+
+  @Throws(DbException::class)
+  fun saveCrm(crm: OxCRM)
+
+  @Throws(DbException::class)
+  fun getDevice(): OxDevice
+
+  @Throws(DbException::class)
+  fun saveDevice(device: OxDevice)
 
   companion object Factory {
 

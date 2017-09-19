@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -28,7 +29,8 @@ import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
 class GetTokenData(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Interactor<TokenData>(threadExecutor,
+    private val networkDataSource: NetworkDataSource,
+    private val dbDataSource: DbDataSource) : Interactor<TokenData>(threadExecutor,
     postExecutionThread) {
 
   fun get(onSuccess: (TokenData) -> Unit = onSuccessStub,
@@ -38,7 +40,12 @@ class GetTokenData(threadExecutor: ThreadExecutor, postExecutionThread: PostExec
   }
 
   override fun run() = try {
-    notifySuccess(networkDataSource.getTokenData())
+
+    val tokenData = networkDataSource.getTokenData()
+
+    dbDataSource.saveCrm(tokenData.crm)
+    dbDataSource.saveDevice(tokenData.device)
+    notifySuccess(tokenData)
   } catch (error: NetworkException) {
     notifyError(error)
   }
@@ -46,6 +53,6 @@ class GetTokenData(threadExecutor: ThreadExecutor, postExecutionThread: PostExec
   companion object Factory {
 
     fun create(): GetTokenData = GetTokenData(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+        NetworkDataSource.create(), DbDataSource.create())
   }
 }

@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -28,7 +29,8 @@ import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
 class UpdateCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Interactor<OxCRM>(threadExecutor,
+    private val networkDataSource: NetworkDataSource,
+    private val dbDataSource: DbDataSource) : Interactor<OxCRM>(threadExecutor,
     postExecutionThread) {
 
   private lateinit var crm: OxCRM
@@ -41,7 +43,10 @@ class UpdateCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecuti
   }
 
   override fun run() = try {
-    notifySuccess(networkDataSource.updateCrm(crm))
+
+    val updatedCrm = networkDataSource.updateCrm(crm)
+    dbDataSource.saveCrm(updatedCrm)
+    notifySuccess(updatedCrm)
   } catch (error: NetworkException) {
     notifyError(error)
   }
@@ -49,6 +54,6 @@ class UpdateCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecuti
   companion object Factory {
 
     fun create(): UpdateCrm = UpdateCrm(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+        NetworkDataSource.create(), DbDataSource.create())
   }
 }
