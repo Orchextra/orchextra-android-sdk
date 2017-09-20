@@ -21,7 +21,6 @@ package com.gigigo.orchextra.core.domain.entities
 val EMPTY_DEVICE = OxDevice()
 
 data class OxDevice(
-    val apiKey: String = "",
     val tags: List<String> = ArrayList(),
     val businessUnits: List<String> = ArrayList()) {
 

@@ -140,13 +140,16 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   private void showData() {
+    bindUserData(null);
+    bindDeviceData(null);
+
     crmManager.getCurrentUser(new Function1<OxCRM, Unit>() {
       @Override public Unit invoke(OxCRM user) {
-        bindData(user);
+        bindUserData(user);
 
         crmManager.getDevice(new Function1<OxDevice, Unit>() {
           @Override public Unit invoke(OxDevice device) {
-            bindData(device);
+            bindDeviceData(device);
             return null;
           }
         });
@@ -155,7 +158,7 @@ public class SettingsActivity extends AppCompatActivity {
     });
   }
 
-  void bindData(@Nullable OxCRM user) {
+  void bindUserData(@Nullable OxCRM user) {
     LinearLayout container = (LinearLayout) findViewById(R.id.container);
     CustomFieldView idCf = (CustomFieldView) findViewById(R.id.idCf);
     CustomFieldView genderCf = (CustomFieldView) findViewById(R.id.genderCf);
@@ -218,7 +221,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
   }
 
-  void bindData(@NonNull OxDevice device) {
+  void bindDeviceData(@Nullable OxDevice device) {
     CustomFieldView deviceTagsCf = (CustomFieldView) findViewById(R.id.deviceTagsCf);
     CustomFieldView deviceBusinessUnitsCf =
         (CustomFieldView) findViewById(R.id.deviceBusinessUnitsCf);
@@ -230,12 +233,16 @@ public class SettingsActivity extends AppCompatActivity {
     });
 
     deviceTagsCf.setCustomField(new CustomField("", "", getString(R.string.tags)));
-    deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
     deviceTagsCf.setEnabled(false);
+
     deviceBusinessUnitsCf.setCustomField(
         new CustomField("", "", getString(R.string.business_units)));
-    deviceBusinessUnitsCf.setValue(TextUtils.join(", ", device.getBusinessUnits()));
     deviceBusinessUnitsCf.setEnabled(false);
+
+    if (device != null) {
+      deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
+      deviceBusinessUnitsCf.setValue(TextUtils.join(", ", device.getBusinessUnits()));
+    }
   }
 
   private void initToolbar() {

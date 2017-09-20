@@ -188,7 +188,6 @@ fun OxCRM.toApiOxCrm(): ApiOxCrm = with(this) {
 
 fun OxDevice.toApiOxDevice(): ApiOxDevice = with(this) {
   return ApiOxDevice(
-      projectId = apiKey,
       tags = tags,
       businessUnits = businessUnits)
 }

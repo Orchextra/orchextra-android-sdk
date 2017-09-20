@@ -31,7 +31,7 @@ import com.gigigo.orchextra.core.domain.interactor.UnbindCrm
 import com.gigigo.orchextra.core.domain.interactor.UpdateCrm
 import com.gigigo.orchextra.core.domain.interactor.UpdateDevice
 
-class CrmManager(private val apiKey: String, private val getTokenData: GetTokenData,
+class CrmManager(private val getTokenData: GetTokenData,
     private val updateCrm: UpdateCrm, private val updateDevice: UpdateDevice,
     private val unbindCrm: UnbindCrm,
     private val showError: (error: Error) -> Unit) {
@@ -39,8 +39,8 @@ class CrmManager(private val apiKey: String, private val getTokenData: GetTokenD
   var crm: OxCRM = EMPTY_CRM
   var device: OxDevice = EMPTY_DEVICE
   val onError: (OxException) -> Unit = {
-      showError(it.toError())
-}
+    showError(it.toError())
+  }
   var availableCustomFields: List<CustomField> = listOf()
 
   fun bindUser(crm: OxCRM, onSuccess: (user: OxCRM) -> Unit) {
@@ -113,7 +113,7 @@ class CrmManager(private val apiKey: String, private val getTokenData: GetTokenD
   }
 
   fun setDeviceTags(tags: List<String>, onSuccess: (device: OxDevice) -> Unit) {
-    updateDevice.update(OxDevice(apiKey = apiKey, tags = tags), onSuccess = {
+    updateDevice.update(OxDevice(tags = tags), onSuccess = {
       this.device = it
       onSuccess(it)
     },
@@ -121,7 +121,7 @@ class CrmManager(private val apiKey: String, private val getTokenData: GetTokenD
   }
 
   fun setDeviceBussinesUnits(businessUnits: List<String>, onSuccess: (device: OxDevice) -> Unit) {
-    updateDevice.update(OxDevice(apiKey = apiKey, businessUnits = businessUnits),
+    updateDevice.update(OxDevice(businessUnits = businessUnits),
         onSuccess = {
           this.device = it
           onSuccess(it)
@@ -149,8 +149,7 @@ class CrmManager(private val apiKey: String, private val getTokenData: GetTokenD
 
   companion object Factory {
 
-    fun create(apiKey: String, showError: (error: Error) -> Unit): CrmManager = CrmManager(
-        apiKey,
+    fun create(showError: (error: Error) -> Unit): CrmManager = CrmManager(
         GetTokenData.create(),
         UpdateCrm.create(),
         UpdateDevice.create(),

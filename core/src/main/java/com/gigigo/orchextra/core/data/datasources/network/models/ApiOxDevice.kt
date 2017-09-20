@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.core.data.datasources.network.models
 
 class ApiOxDevice(
-    val projectId: String?,
     val instanceId: String? = null,
     val secureId: String? = null,
     val serialNumber: String? = null,

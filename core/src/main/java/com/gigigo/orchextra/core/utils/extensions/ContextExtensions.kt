@@ -30,7 +30,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.ApiOxDevice
 import java.util.Locale
 import java.util.TimeZone
 
-fun Context.getApiOxDevice(projectId: String, tags: List<String>,
+fun Context.getApiOxDevice(tags: List<String>,
     businessUnits: List<String>): ApiOxDevice = with(this) {
 
   val wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
@@ -41,7 +41,7 @@ fun Context.getApiOxDevice(projectId: String, tags: List<String>,
     ""
   }
 
-  return ApiOxDevice(projectId = projectId,
+  return ApiOxDevice(
       instanceId = "TODO", // TODO set instanceId
       secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
       serialNumber = Build.SERIAL,

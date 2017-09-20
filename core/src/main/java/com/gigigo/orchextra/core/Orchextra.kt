@@ -62,7 +62,7 @@ object Orchextra : OrchextraErrorListener {
 //    this.locationProvider = LocationProvider(context)
 //    this.locationProvider.getLocation { point -> getConfiguration(point) }
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
-    this.crmManager = CrmManager.create(apiKey, { onError(it) })
+    this.crmManager = CrmManager.create{ onError(it) }
 
     initLogger(context)
 
