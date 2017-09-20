@@ -27,8 +27,8 @@ import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.interactor.UpdateDevice
-import com.gigigo.orchextra.core.utils.PostExecutionThreadMock
-import com.gigigo.orchextra.core.utils.ThreadExecutorMock
+import com.gigigo.orchextra.core.testutils.PostExecutionThreadMock
+import com.gigigo.orchextra.core.testutils.ThreadExecutorMock
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.doThrow
 import com.nhaarman.mockito_kotlin.mock
@@ -82,7 +82,8 @@ class UpdateDeviceTest {
       on { updateTokenData(invalidTokenData) } doThrow error
     }
 
-    return UpdateDevice(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSourceMock,
+    return UpdateDevice(ThreadExecutorMock(),
+        PostExecutionThreadMock(), networkDataSourceMock,
         dbDataSource)
   }
 }

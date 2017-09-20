@@ -32,8 +32,8 @@ import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
-import com.gigigo.orchextra.core.utils.PostExecutionThreadMock
-import com.gigigo.orchextra.core.utils.ThreadExecutorMock
+import com.gigigo.orchextra.core.testutils.PostExecutionThreadMock
+import com.gigigo.orchextra.core.testutils.ThreadExecutorMock
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.doThrow
@@ -84,8 +84,10 @@ class TriggerManagerTest {
       on { getTrigger(any()) } doReturn Trigger(VOID, "")
     }
 
-    val getAction = GetAction(ThreadExecutorMock(), PostExecutionThreadMock(), networkDataSource)
-    val validateTrigger = ValidateTrigger(ThreadExecutorMock(), PostExecutionThreadMock(),
+    val getAction = GetAction(ThreadExecutorMock(),
+        PostExecutionThreadMock(), networkDataSource)
+    val validateTrigger = ValidateTrigger(ThreadExecutorMock(),
+        PostExecutionThreadMock(),
         dbDataSource)
 
     return TriggerManager(context = mock(), getAction = getAction,

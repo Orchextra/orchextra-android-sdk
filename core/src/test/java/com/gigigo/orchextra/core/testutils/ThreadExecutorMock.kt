@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.utils
+package com.gigigo.orchextra.core.testutils
 
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 

@@ -31,8 +31,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -326,7 +328,7 @@ public class EditActivity extends AppCompatActivity {
       new DatePickerDialog.OnDateSetListener() {
         @Override public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-          Calendar calendar = Calendar.getInstance();
+          Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
           calendar.set(year, month, dayOfMonth);
           selectedDate = calendar.getTime();
           birthDateCf.setValue(getString(R.string.date_format, selectedDate));
