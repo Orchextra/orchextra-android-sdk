@@ -49,7 +49,8 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     private val sessionManager: SessionManager,
     private val dbDataSource: DbDataSource) : NetworkDataSource {
 
-  private val orchextraApi: OrchextraApi
+  private val orchextraCoreApi: OrchextraCoreApi
+  private val orchextraTriggerApi: OrchextraTriggerApi
 
   init {
 
@@ -66,17 +67,24 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
       okHttpBuilder.addInterceptor(loggingInterceptor)
     }
 
-    val retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.API_URL)
+    val retrofitCore = Retrofit.Builder()
+        .baseUrl(BuildConfig.CORE_API_URL)
         .client(okHttpBuilder.build())
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
 
-    orchextraApi = retrofit.create(OrchextraApi::class.java)
+    val retrofitTrigger = Retrofit.Builder()
+        .baseUrl(BuildConfig.TRIGGER_API_URL)
+        .client(okHttpBuilder.build())
+        .addConverterFactory(MoshiConverterFactory.create())
+        .build()
+
+    orchextraCoreApi = retrofitCore.create(OrchextraCoreApi::class.java)
+    orchextraTriggerApi = retrofitTrigger.create(OrchextraTriggerApi::class.java)
   }
 
   override fun getAuthentication(credentials: Credentials): String {
-    val apiClientResponse = orchextraApi.getAuthentication(
+    val apiClientResponse = orchextraCoreApi.getAuthentication(
         credentials.toApiAuthRequest()).execute().body()
 
     return apiClientResponse?.data?.token ?: ""
@@ -84,7 +92,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
 
   override fun getConfiguration(apiKey: String): Configuration {
 
-    val apiResponse = orchextraApi.getConfiguration(apiKey).execute().body()
+    val apiResponse = orchextraCoreApi.getConfiguration(apiKey).execute().body()
 
     return apiResponse?.data?.toConfiguration() as Configuration
   }
@@ -92,7 +100,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   override fun getAction(trigger: Trigger): Action {
 
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.getAction(trigger.type.toOxType(),
+      orchextraTriggerApi.getAction(trigger.type.toOxType(),
           value = trigger.value,
           event = trigger.event,
           phoneStatus = trigger.phoneStatus,
@@ -108,13 +116,13 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
 
   override fun confirmAction(id: String) {
     makeCallWithRetry({ ->
-      orchextraApi.confirmAction(id).execute().body()
+      orchextraTriggerApi.confirmAction(id).execute().body()
     })
   }
 
   override fun getTokenData(): TokenData {
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.getTokenData().execute().body()
+      orchextraCoreApi.getTokenData().execute().body()
     })
 
     return apiResponse?.data?.toTokenData() as TokenData
@@ -122,7 +130,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
 
   override fun updateTokenData(tokenData: TokenData): TokenData {
     val apiResponse = makeCallWithRetry({ ->
-      orchextraApi.updateTokenData(tokenData.toApiTokenData()).execute().body()
+      orchextraCoreApi.updateTokenData(tokenData.toApiTokenData()).execute().body()
     })
 
     return apiResponse?.data?.toTokenData() as TokenData
@@ -132,7 +140,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     makeCallWithRetry({ ->
       val requestBody: RequestBody = RequestBody.create(MediaType.parse("application/json"),
           "{\"crm\":null }")
-      orchextraApi.updateTokenData(requestBody).execute().body()
+      orchextraCoreApi.updateTokenData(requestBody).execute().body()
     })
   }
 
