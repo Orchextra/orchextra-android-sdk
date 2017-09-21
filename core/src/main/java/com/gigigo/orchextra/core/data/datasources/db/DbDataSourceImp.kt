@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.core.data.datasources.db
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.list.ListCachingStrategy
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl.TtlCachingStrategy
@@ -35,19 +36,21 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toOxCrm
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxDevice
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
-import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 import com.gigigo.orchextra.core.domain.exceptions.DbException
+import com.gigigo.orchextra.core.utils.extensions.getBaseApiOxDevice
 import com.j256.ormlite.dao.Dao
 import com.squareup.moshi.Moshi
 import java.sql.SQLException
 import java.util.concurrent.TimeUnit.DAYS
 
 
-class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: DatabaseHelper,
+class DbDataSourceImp(private val context: Context,
+    private val sharedPreferences: SharedPreferences,
+    helper: DatabaseHelper,
     moshi: Moshi) : DbDataSource {
 
   private val CRM_KEY = "crm_key"
@@ -110,7 +113,9 @@ class DbDataSourceImp(private val sharedPreferences: SharedPreferences, helper: 
     return if (stringDevice.isNotEmpty()) {
       deviceJsonAdapter.fromJson(stringDevice).toOxDevice()
     } else {
-      EMPTY_DEVICE
+      val newDevice = context.getBaseApiOxDevice().toOxDevice()
+      saveDevice(newDevice)
+      newDevice
     }
   }
 

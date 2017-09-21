@@ -142,6 +142,11 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     } else {
       val credentials = getAuthentication(orchextra.getCredentials())
       sessionManager.saveSession(credentials)
+
+      val crm = dbDataSource.getCrm()
+      val device = dbDataSource.getDevice()
+      updateTokenData(TokenData(crm = crm, device = device))
+
       call()
     }
   }

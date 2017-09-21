@@ -30,7 +30,10 @@ import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.OxClientApp
 import com.gigigo.orchextra.core.domain.entities.OxDevice
+import com.gigigo.orchextra.core.domain.entities.OxDeviceInfo
+import com.gigigo.orchextra.core.domain.entities.OxNotificationPush
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.TokenData
@@ -149,7 +152,7 @@ fun OxException.toError(): Error = with(this) {
 
 fun ApiTokenData.toTokenData(): TokenData = with(this) {
   return TokenData(crm = crm?.toOxCrm() ?: EMPTY_CRM,
-      device = device?.toOxDevice() ?: OxDevice())
+      device = device?.toOxDevice() ?: EMPTY_DEVICE)
 }
 
 fun TokenData.toApiTokenData(): ApiTokenData = with(this) {
@@ -188,6 +191,14 @@ fun OxCRM.toApiOxCrm(): ApiOxCrm = with(this) {
 
 fun OxDevice.toApiOxDevice(): ApiOxDevice = with(this) {
   return ApiOxDevice(
+      instanceId = deviceId,
+      secureId = secureId,
+      serialNumber = serialNumber,
+      bluetoothMacAddress = bluetoothMacAddress,
+      wifiMacAddress = wifiMacAddress,
+      clientApp = clientApp?.toApiClientApp(),
+      notificationPush = notificationPush?.toApiNotificationPush(),
+      device = device?.toApiDeviceInfo(),
       tags = tags,
       businessUnits = businessUnits)
 }
@@ -210,8 +221,64 @@ fun ApiOxCrm.toOxCrm(): OxCRM = with(this) {
 
 fun ApiOxDevice.toOxDevice(): OxDevice = with(this) {
   return OxDevice(
-      tags = tags ?: ArrayList(),
-      businessUnits = businessUnits ?: ArrayList())
+      deviceId = instanceId,
+      secureId = secureId,
+      serialNumber = serialNumber,
+      bluetoothMacAddress = bluetoothMacAddress,
+      wifiMacAddress = wifiMacAddress,
+      clientApp = clientApp?.toOxClientApp(),
+      notificationPush = notificationPush?.toOxNotificationPush(),
+      device = device?.toOxDeviceInfo(),
+      tags = tags,
+      businessUnits = businessUnits)
+}
+
+fun ApiDeviceInfo.toOxDeviceInfo(): OxDeviceInfo = with(this) {
+  return OxDeviceInfo(
+      timeZone = timeZone,
+      osVersion = osVersion,
+      language = language,
+      handset = handset,
+      type = type)
+}
+
+fun OxDeviceInfo.toApiDeviceInfo(): ApiDeviceInfo = with(this) {
+  return ApiDeviceInfo(
+      timeZone = timeZone,
+      osVersion = osVersion,
+      language = language,
+      handset = handset,
+      type = type)
+}
+
+fun ApiClientApp.toOxClientApp(): OxClientApp = with(this) {
+  return OxClientApp(
+      bundleId = bundleId,
+      buildVersion = buildVersion,
+      appVersion = appVersion,
+      sdkVersion = sdkVersion,
+      sdkDevice = sdkDevice)
+}
+
+fun OxClientApp.toApiClientApp(): ApiClientApp = with(this) {
+  return ApiClientApp(
+      bundleId = bundleId,
+      buildVersion = buildVersion,
+      appVersion = appVersion,
+      sdkVersion = sdkVersion,
+      sdkDevice = sdkDevice)
+}
+
+fun ApiNotificationPush.toOxNotificationPush(): OxNotificationPush = with(this) {
+  return OxNotificationPush(
+      senderId = senderId,
+      token = token)
+}
+
+fun OxNotificationPush.toApiNotificationPush(): ApiNotificationPush = with(this) {
+  return ApiNotificationPush(
+      senderId = senderId,
+      token = token)
 }
 
 fun TriggerType.toOxType(): String = when (this) {

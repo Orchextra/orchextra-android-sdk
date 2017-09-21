@@ -77,30 +77,18 @@ class CrmManager(private val getTokenData: GetTokenData,
           onSuccess = {
             this.crm = it
             onUpdate(crm)
-          },
-          onError = onError)
+          }, onError = onError)
     }
   }
 
-  fun setUserTags(tags: List<String>, onSuccess: (user: OxCRM) -> Unit) {
+  fun setUserData(tags: List<String>?, businessUnits: List<String>?,
+      onSuccess: (user: OxCRM) -> Unit) {
     executeWithValidCrm {
-      updateCrm.update(OxCRM(crmId = crm.crmId, tags = tags),
+      updateCrm.update(OxCRM(crmId = crm.crmId, tags = tags, businessUnits = businessUnits),
           onSuccess = {
             this.crm = it
             onSuccess(crm)
-          },
-          onError = onError)
-    }
-  }
-
-  fun setUserBussinesUnits(businessUnits: List<String>, onSuccess: (user: OxCRM) -> Unit) {
-    executeWithValidCrm {
-      updateCrm.update(OxCRM(crmId = crm.crmId, businessUnits = businessUnits),
-          onSuccess = {
-            this.crm = it
-            onSuccess(crm)
-          },
-          onError = onError)
+          }, onError = onError)
     }
   }
 
@@ -112,21 +100,13 @@ class CrmManager(private val getTokenData: GetTokenData,
     }
   }
 
-  fun setDeviceTags(tags: List<String>, onSuccess: (device: OxDevice) -> Unit) {
-    updateDevice.update(OxDevice(tags = tags), onSuccess = {
-      this.device = it
-      onSuccess(it)
-    },
-        onError = onError)
-  }
-
-  fun setDeviceBussinesUnits(businessUnits: List<String>, onSuccess: (device: OxDevice) -> Unit) {
-    updateDevice.update(OxDevice(businessUnits = businessUnits),
+  fun setDeviceData(tags: List<String>?, businessUnits: List<String>?,
+      onSuccess: (device: OxDevice) -> Unit) {
+    updateDevice.update(tags = tags, businessUnits = businessUnits,
         onSuccess = {
           this.device = it
           onSuccess(it)
-        },
-        onError = onError)
+        }, onError = onError)
   }
 
   private fun executeWithValidCrm(updater: () -> Unit) {

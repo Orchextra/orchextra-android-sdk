@@ -19,7 +19,7 @@
 package com.gigigo.orchextra.core.data.datasources.network.models
 
 class ApiOxDevice(
-    val instanceId: String? = null,
+    val instanceId: String,
     val secureId: String? = null,
     val serialNumber: String? = null,
     val bluetoothMacAddress: String? = null,
@@ -27,8 +27,8 @@ class ApiOxDevice(
     val clientApp: ApiClientApp? = null,
     val notificationPush: ApiNotificationPush? = null,
     val device: ApiDeviceInfo? = null,
-    val tags: List<String>?,
-    val businessUnits: List<String>?)
+    val tags: List<String>? = null,
+    val businessUnits: List<String>? = null)
 
 class ApiDeviceInfo(
     val timeZone: String?,

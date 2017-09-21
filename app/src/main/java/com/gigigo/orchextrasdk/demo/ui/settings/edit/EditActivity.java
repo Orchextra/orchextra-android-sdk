@@ -227,29 +227,14 @@ public class EditActivity extends AppCompatActivity {
       deviceBusinessUnits = new ArrayList<>(Arrays.asList(deviceBusinessUnitsString.split(",")));
     }
 
-    if (!deviceTags.isEmpty()) {
-      crmManager.setDeviceTags(deviceTags, new Function1<OxDevice, Unit>() {
-        @Override public Unit invoke(OxDevice oxDevice) {
-          tagsUpdated = true;
-          finishOnUpdate();
-          return null;
-        }
-      });
-    } else {
-      tagsUpdated = true;
-    }
-
-    if (!deviceBusinessUnits.isEmpty()) {
-      crmManager.setDeviceBussinesUnits(deviceBusinessUnits, new Function1<OxDevice, Unit>() {
-        @Override public Unit invoke(OxDevice oxDevice) {
-          businessUnitUpdated = true;
-          finishOnUpdate();
-          return null;
-        }
-      });
-    } else {
-      businessUnitUpdated = true;
-    }
+    crmManager.setDeviceData(deviceTags, deviceBusinessUnits, new Function1<OxDevice, Unit>() {
+      @Override public Unit invoke(OxDevice oxDevice) {
+        tagsUpdated = true;
+        businessUnitUpdated = true;
+        finishOnUpdate();
+        return null;
+      }
+    });
 
     finishOnUpdate();
   }

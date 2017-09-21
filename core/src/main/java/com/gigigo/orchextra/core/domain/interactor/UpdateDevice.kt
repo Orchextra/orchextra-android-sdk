@@ -35,19 +35,23 @@ class UpdateDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExec
     private val dbDataSource: DbDataSource) : Interactor<OxDevice>(threadExecutor,
     postExecutionThread) {
 
-  private lateinit var device: OxDevice
+  private var tags: List<String>? = null
+  private var businessUnits: List<String>? = null
 
-  fun update(device: OxDevice, onSuccess: (OxDevice) -> Unit = onSuccessStub,
+  fun update(tags: List<String>? = null, businessUnits: List<String>? = null,
+      onSuccess: (OxDevice) -> Unit = onSuccessStub,
       onError: (OxException) -> Unit = onErrorStub) {
 
-    this.device = device
+    this.tags = tags
+    this.businessUnits = businessUnits
     executeInteractor(onSuccess, onError)
   }
 
   override fun run() = try {
+    val currentDevice = dbDataSource.getDevice().copy(tags = tags, businessUnits = businessUnits)
 
     val updatedDevice = networkDataSource.updateTokenData(
-        TokenData(crm = EMPTY_CRM, device = device)).device
+        TokenData(crm = EMPTY_CRM, device = currentDevice)).device
     dbDataSource.saveDevice(updatedDevice)
     notifySuccess(updatedDevice)
   } catch (error: NetworkException) {

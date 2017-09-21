@@ -58,7 +58,7 @@ interface DbDataSource {
         val sharedPreferences = Orchextra.provideSharedPreferences(Orchextra.provideContext())
         val moshi = Moshi.Builder().build()
 
-        dbDataSource = DbDataSourceImp(sharedPreferences,
+        dbDataSource = DbDataSourceImp(Orchextra.provideContext(), sharedPreferences,
             DatabaseHelper.create(Orchextra.provideContext()), moshi)
       }
 

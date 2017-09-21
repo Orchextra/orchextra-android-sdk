@@ -27,11 +27,11 @@ import android.provider.Settings
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiClientApp
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiDeviceInfo
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiOxDevice
+import com.google.android.gms.iid.InstanceID
 import java.util.Locale
 import java.util.TimeZone
 
-fun Context.getApiOxDevice(tags: List<String>,
-    businessUnits: List<String>): ApiOxDevice = with(this) {
+fun Context.getBaseApiOxDevice(): ApiOxDevice = with(this) {
 
   val wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
   val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -42,16 +42,14 @@ fun Context.getApiOxDevice(tags: List<String>,
   }
 
   return ApiOxDevice(
-      instanceId = "TODO", // TODO set instanceId
+      instanceId = InstanceID.getInstance(this).id,
       secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
       serialNumber = Build.SERIAL,
       bluetoothMacAddress = bluetoothMacAddress,
       wifiMacAddress = wifiManager.connectionInfo.macAddress,
       clientApp = getApiClientApp(),
       notificationPush = null, // TODO set notificationPush
-      device = getApiDeviceInfo(),
-      tags = tags,
-      businessUnits = businessUnits)
+      device = getApiDeviceInfo())
 }
 
 fun Context.getApiClientApp(): ApiClientApp = with(this) {
