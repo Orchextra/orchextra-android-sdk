@@ -30,6 +30,9 @@ interface IPDbDataSource {
   fun getBeacon(id: String): OxBeacon?
 
   @Throws(DbException::class)
+  fun getBeacons(): List<OxBeacon>
+
+  @Throws(DbException::class)
   fun saveOrUpdateBeacon(beacon: OxBeacon)
 
   @Throws(DbException::class)

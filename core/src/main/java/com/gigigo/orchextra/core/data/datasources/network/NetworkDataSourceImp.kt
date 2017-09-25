@@ -34,6 +34,7 @@ import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
@@ -94,7 +95,20 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
 
     val apiResponse = orchextraCoreApi.getConfiguration(apiKey).execute().body()
 
-    return apiResponse?.data?.toConfiguration() as Configuration
+    val indoorPositionConfig = IndoorPositionConfig(
+        code = "test",
+        uuid = "06b81f85-1297-457d-a4b6-c54bba827ae1",
+        minor = 1,
+        major = 2,
+        notifyOnExit = true,
+        notifyOnEntry = true)
+
+    val indoorPositionConfigList: MutableList<IndoorPositionConfig> = ArrayList()
+    indoorPositionConfigList.add(indoorPositionConfig)
+
+    val config = apiResponse?.data?.toConfiguration() as Configuration
+
+    return config.copy(indoorPositionConfig = indoorPositionConfigList)
   }
 
   override fun getAction(trigger: Trigger): Action {

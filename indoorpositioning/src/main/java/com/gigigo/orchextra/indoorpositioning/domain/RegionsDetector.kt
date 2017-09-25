@@ -33,7 +33,10 @@ class RegionsDetector(private val ipdbDataSource: IPDbDataSource,
     private val onRegionDetect: (beaconRegion: OxBeaconRegion) -> Unit) {
 
   fun onBeaconDetect(beacon: OxBeacon) {
-    onRegionDetect(getRegionFromBeacon(beacon))
+    val region = getRegionFromBeacon(beacon)
+    if (region.event != STAY_EVENT) {
+      onRegionDetect(region)
+    }
   }
 
   fun getRegionFromBeacon(beacon: OxBeacon, isFromTimer: Boolean = false): OxBeaconRegion {
@@ -44,12 +47,23 @@ class RegionsDetector(private val ipdbDataSource: IPDbDataSource,
       ipdbDataSource.saveOrUpdateBeacon(beacon)
       OxBeaconRegion(ENTER_EVENT, beacon)
     } else {
+      // TODO filter same beacons region
       if (isFromTimer && isExpired(savedBeacon)) {
         ipdbDataSource.removeBeacon(beacon.getValue())
         OxBeaconRegion(EXIT_EVENT, beacon)
       } else {
         ipdbDataSource.saveOrUpdateBeacon(beacon)
         OxBeaconRegion(STAY_EVENT, beacon)
+      }
+    }
+  }
+
+  fun checkForExitEvents() {
+    val beacons = ipdbDataSource.getBeacons()
+    beacons.forEach {
+      val region = getRegionFromBeacon(it, true)
+      if (region.event != STAY_EVENT) {
+        onRegionDetect(region)
       }
     }
   }

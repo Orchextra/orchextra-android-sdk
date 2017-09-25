@@ -15,7 +15,7 @@ android {
     versionCode 1
     versionName "1.0"
 
-    buildConfigField INT, "EXIT_TRIGGER_TIME_IN_SECONDS", '10'
+    buildConfigField INT, "EXIT_TRIGGER_TIME_IN_SECONDS", '120'
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }

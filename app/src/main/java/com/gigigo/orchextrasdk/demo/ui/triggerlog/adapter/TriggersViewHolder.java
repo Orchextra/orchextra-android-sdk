@@ -36,7 +36,9 @@ public class TriggersViewHolder extends RecyclerView.ViewHolder {
   private TextView dateTypeTv;
   private TextView triggerValueTv;
   private TextView distanceTv;
+  private TextView eventTv;
   private View triggerDistanceView;
+  private View triggerEventView;
 
   public TriggersViewHolder(View itemView) {
     super(itemView);
@@ -45,7 +47,9 @@ public class TriggersViewHolder extends RecyclerView.ViewHolder {
     dateTypeTv = (TextView) itemView.findViewById(R.id.date_type_tv);
     triggerValueTv = (TextView) itemView.findViewById(R.id.trigger_value_tv);
     distanceTv = (TextView) itemView.findViewById(R.id.trigger_distance_tv);
+    eventTv = (TextView) itemView.findViewById(R.id.trigger_event_tv);
     triggerDistanceView = itemView.findViewById(R.id.trigger_distance_layout);
+    triggerEventView = itemView.findViewById(R.id.trigger_event_layout);
   }
 
   public void render(final TriggerLog triggerLog) {
@@ -66,6 +70,13 @@ public class TriggersViewHolder extends RecyclerView.ViewHolder {
       distanceTv.setText(trigger.getDistance());
     } else {
       triggerDistanceView.setVisibility(View.GONE);
+    }
+
+    if (trigger.getEvent() != null) {
+      triggerEventView.setVisibility(View.VISIBLE);
+      eventTv.setText(trigger.getEvent());
+    } else {
+      triggerEventView.setVisibility(View.GONE);
     }
   }
 

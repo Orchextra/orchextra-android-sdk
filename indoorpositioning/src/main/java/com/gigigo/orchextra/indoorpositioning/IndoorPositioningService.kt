@@ -24,6 +24,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Build.VERSION_CODES
+import android.os.Handler
 import android.os.IBinder
 import android.support.annotation.RequiresApi
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
@@ -51,6 +52,8 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   private lateinit var regionsDetector: RegionsDetector
   private lateinit var config: List<IndoorPositionConfig>
   private var isRunning: Boolean = false
+  private var timerStarted = false
+  private val handler = Handler()
 
   private val SCAN_DELAY_IN_SECONDS = 30
   private val CHECK_SERVICE_TIME_IN_SECONDS = 60 * 5
@@ -80,6 +83,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     }
 
     setAlarmService()
+    startTimer()
 
     return START_STICKY
   }
@@ -88,7 +92,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
 
   override fun onDestroy() {
     beaconScanner.stop()
-
+    stopTimer()
     super.onDestroy()
   }
 
@@ -120,14 +124,29 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   }
 
   private fun sendOxBeaconRegionEvent(beaconRegion: OxBeaconRegion) {
-
-    // TODO completar trigger
     val trigger = Trigger(
         type = BEACON_REGION,
-        value = "???",
+        value = beaconRegion.beacon.uuid,
         event = beaconRegion.event)
 
     sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+  }
+
+  private val runnable = Runnable {
+    regionsDetector.checkForExitEvents()
+    if (timerStarted) {
+      startTimer()
+    }
+  }
+
+  private fun stopTimer() {
+    timerStarted = false
+    handler.removeCallbacks(runnable)
+  }
+
+  private fun startTimer() {
+    timerStarted = true
+    handler.postDelayed(runnable, 30 * 1000)
   }
 
   companion object Navigator {

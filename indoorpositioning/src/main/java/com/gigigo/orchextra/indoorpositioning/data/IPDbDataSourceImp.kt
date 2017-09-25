@@ -45,6 +45,16 @@ class IPDbDataSourceImp(helper: IPDatabaseHelper) : IPDbDataSource {
     }
   }
 
+  override fun getBeacons(): List<OxBeacon> {
+    try {
+      val dbOXBeacon = daoOxBeacons.queryForAll()
+
+      return dbOXBeacon.map { it.toOxBeacon() }
+    } catch (e: SQLException) {
+      throw DbException(-1, e.message ?: "")
+    }
+  }
+
   @Throws(DbException::class)
   override fun saveOrUpdateBeacon(beacon: OxBeacon) {
     try {

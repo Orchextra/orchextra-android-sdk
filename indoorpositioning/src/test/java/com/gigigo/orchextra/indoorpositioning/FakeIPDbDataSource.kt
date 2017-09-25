@@ -37,6 +37,8 @@ class FakeIPDbDataSource : IPDbDataSource {
     return null
   }
 
+  override fun getBeacons(): List<OxBeacon> = beaconDb
+
   override fun saveOrUpdateBeacon(beacon: OxBeacon) {
     beaconDb.add(beacon)
   }
