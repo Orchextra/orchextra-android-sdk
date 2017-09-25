@@ -18,7 +18,10 @@
 
 package com.gigigo.orchextra.indoorpositioning.domain.datasource
 
+import android.content.Context
 import com.gigigo.orchextra.core.domain.exceptions.DbException
+import com.gigigo.orchextra.indoorpositioning.data.IPDatabaseHelper
+import com.gigigo.orchextra.indoorpositioning.data.IPDbDataSourceImp
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 
 interface IPDbDataSource {
@@ -31,4 +34,17 @@ interface IPDbDataSource {
 
   @Throws(DbException::class)
   fun removeBeacon(id: String)
+
+  companion object Factory {
+
+    var ipdbDataSource: IPDbDataSource? = null
+
+    fun create(context: Context): IPDbDataSource {
+
+      if (ipdbDataSource == null) {
+        ipdbDataSource = IPDbDataSourceImp(IPDatabaseHelper.create(context))
+      }
+      return ipdbDataSource as IPDbDataSource
+    }
+  }
 }

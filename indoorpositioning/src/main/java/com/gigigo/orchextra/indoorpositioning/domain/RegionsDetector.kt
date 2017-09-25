@@ -18,6 +18,8 @@
 
 package com.gigigo.orchextra.indoorpositioning.domain
 
+import android.content.Context
+import com.gigigo.orchextra.indoorpositioning.BuildConfig
 import com.gigigo.orchextra.indoorpositioning.domain.datasource.IPDbDataSource
 import com.gigigo.orchextra.indoorpositioning.domain.models.ENTER_EVENT
 import com.gigigo.orchextra.indoorpositioning.domain.models.EXIT_EVENT
@@ -27,10 +29,8 @@ import com.gigigo.orchextra.indoorpositioning.domain.models.STAY_EVENT
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getValue
 import java.util.Date
 
-class RegionsDetector(val ipdbDataSource: IPDbDataSource,
-    val onRegionDetect: (beaconRegion: OxBeaconRegion) -> Unit) {
-
-  val EXIT_TRIGGER_TIME_IN_SECONDS = 10
+class RegionsDetector(private val ipdbDataSource: IPDbDataSource,
+    private val onRegionDetect: (beaconRegion: OxBeaconRegion) -> Unit) {
 
   fun onBeaconDetect(beacon: OxBeacon) {
     onRegionDetect(getRegionFromBeacon(beacon))
@@ -55,5 +55,19 @@ class RegionsDetector(val ipdbDataSource: IPDbDataSource,
   }
 
   private fun isExpired(beacon: OxBeacon): Boolean =
-      beacon.lastDetection.time < Date().time - (EXIT_TRIGGER_TIME_IN_SECONDS * 1000)
+      beacon.lastDetection.time < Date().time - (BuildConfig.EXIT_TRIGGER_TIME_IN_SECONDS * 1000)
+
+  companion object Factory {
+
+    var regionsDetector: RegionsDetector? = null
+
+    fun create(context: Context,
+        onRegionDetect: (beaconRegion: OxBeaconRegion) -> Unit): RegionsDetector {
+
+      if (regionsDetector == null) {
+        regionsDetector = RegionsDetector(IPDbDataSource.create(context), onRegionDetect)
+      }
+      return regionsDetector as RegionsDetector
+    }
+  }
 }

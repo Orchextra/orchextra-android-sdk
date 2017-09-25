@@ -18,20 +18,53 @@
 
 package com.gigigo.orchextra.indoorpositioning.data
 
+import com.gigigo.orchextra.core.data.datasources.db.persistors.Persistor
+import com.gigigo.orchextra.core.domain.exceptions.DbException
+import com.gigigo.orchextra.indoorpositioning.data.models.DbOxBeacon
+import com.gigigo.orchextra.indoorpositioning.data.models.toDbOxBeacon
+import com.gigigo.orchextra.indoorpositioning.data.models.toOxBeacon
+import com.gigigo.orchextra.indoorpositioning.data.persistors.OxBeaconPersistor
 import com.gigigo.orchextra.indoorpositioning.domain.datasource.IPDbDataSource
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
+import com.j256.ormlite.dao.Dao
+import java.sql.SQLException
 
-class IPDbDataSourceImp : IPDbDataSource {
+class IPDbDataSourceImp(helper: IPDatabaseHelper) : IPDbDataSource {
 
+  private val daoOxBeacons: Dao<DbOxBeacon, Int> = helper.getOxBeaconDao()
+  private val oxBeaconPersistor: Persistor<DbOxBeacon> = OxBeaconPersistor(helper)
+
+  @Throws(DbException::class)
   override fun getBeacon(id: String): OxBeacon? {
-    TODO("not implemented")
+    try {
+      val dbOXBeacon = daoOxBeacons.queryBuilder().where().eq("value", id).queryForFirst()
+
+      return dbOXBeacon?.toOxBeacon()
+    } catch (e: SQLException) {
+      throw DbException(-1, e.message ?: "")
+    }
   }
 
+  @Throws(DbException::class)
   override fun saveOrUpdateBeacon(beacon: OxBeacon) {
-    TODO("not implemented")
+    try {
+      val dbBeacon = beacon.toDbOxBeacon()
+      oxBeaconPersistor.persist(dbBeacon)
+
+    } catch (e: SQLException) {
+      throw DbException(-1, e.message ?: "")
+    }
   }
 
+  @Throws(DbException::class)
   override fun removeBeacon(id: String) {
-    TODO("not implemented")
+    try {
+      val deleteBuilder = daoOxBeacons.deleteBuilder()
+      deleteBuilder.where().`in`("value", id)
+      deleteBuilder.delete()
+
+    } catch (e: SQLException) {
+      throw DbException(-1, e.message ?: "")
+    }
   }
 }

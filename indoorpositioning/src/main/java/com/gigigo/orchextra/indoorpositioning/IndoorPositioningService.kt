@@ -28,10 +28,13 @@ import android.os.IBinder
 import android.support.annotation.RequiresApi
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON_REGION
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGW
+import com.gigigo.orchextra.indoorpositioning.domain.RegionsDetector
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
+import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeaconRegion
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconListener
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScanner
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScannerImp
@@ -45,6 +48,7 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
   private lateinit var alarmManager: AlarmManager
   private lateinit var beaconScanner: BeaconScanner
+  private lateinit var regionsDetector: RegionsDetector
   private lateinit var config: List<IndoorPositionConfig>
   private var isRunning: Boolean = false
 
@@ -53,8 +57,9 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
 
   override fun onCreate() {
     super.onCreate()
-    isRunning = false
-    alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    this.isRunning = false
+    this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    this.regionsDetector = RegionsDetector.create(this, { sendOxBeaconRegionEvent(it) })
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -96,7 +101,10 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   override fun onBeaconServiceConnect() = beaconScanner.onBeaconServiceConnect()
 
   override fun onBeaconsDetect(oxBeacons: List<OxBeacon>) {
-    oxBeacons.forEach { sendOxBeaconEvent(it) }
+    oxBeacons.forEach {
+      regionsDetector.onBeaconDetect(it)
+      sendOxBeaconEvent(it)
+    }
   }
 
   private fun sendOxBeaconEvent(oxBeacon: OxBeacon) {
@@ -107,6 +115,17 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
         temperature = oxBeacon.getTemperatureInCelsius(),
         battery = oxBeacon.batteryMilliVolts,
         uptime = oxBeacon.uptime)
+
+    sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+  }
+
+  private fun sendOxBeaconRegionEvent(beaconRegion: OxBeaconRegion) {
+
+    // TODO completar trigger
+    val trigger = Trigger(
+        type = BEACON_REGION,
+        value = "???",
+        event = beaconRegion.event)
 
     sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
   }

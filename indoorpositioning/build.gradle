@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../config/jacoco.gradle'
 
+def INT = "int"
+
 android {
   compileSdkVersion 25
   buildToolsVersion "26.0.0"
@@ -12,6 +14,8 @@ android {
     targetSdkVersion 25
     versionCode 1
     versionName "1.0"
+
+    buildConfigField INT, "EXIT_TRIGGER_TIME_IN_SECONDS", '10'
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
@@ -35,6 +39,7 @@ dependencies {
 
   compile 'com.android.support:appcompat-v7:25.3.1'
   compile project(':core')
+  compile 'com.j256.ormlite:ormlite-android:5.0'
   compile 'org.altbeacon:android-beacon-library:2.12.1'
 
   testCompile 'junit:junit:4.12'
