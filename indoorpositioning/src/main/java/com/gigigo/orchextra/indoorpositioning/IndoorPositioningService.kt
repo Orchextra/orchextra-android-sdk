@@ -31,7 +31,7 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGW
-import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
+import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconListener
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScanner
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScannerImp

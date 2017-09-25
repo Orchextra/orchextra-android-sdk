@@ -22,7 +22,7 @@ import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
 import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE
-import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
+import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.utils.HASH
 import org.altbeacon.beacon.Beacon
 import org.altbeacon.beacon.utils.UrlBeaconUrlCompressor
@@ -42,7 +42,8 @@ fun Beacon.toOxBeacon(): OxBeacon = with(this) {
       manufacturer = manufacturer,
       txPower = txPower,
       distance = distance,
-      hasTelemetryData = hasTelemetryData)
+      hasTelemetryData = hasTelemetryData,
+      lastDetection = Date())
 
   if (serviceUuid == 0xfeaa) { // This is an Eddystone beacon
     // Do we have telemetry data?

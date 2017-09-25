@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.indoorpositioning.models
+package com.gigigo.orchextra.indoorpositioning.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.Date
 
 data class OxBeacon(
     var hashcode: Int = 0, // hashcode()
@@ -42,8 +43,8 @@ data class OxBeacon(
     var batteryMilliVolts: Long = 0,
     var temperature: Float = 0F,
     var pduCount: Long = 0,
-    var uptime: Long = 0) : Parcelable {
-
+    var uptime: Long = 0,
+    val lastDetection: Date) : Parcelable {
 
   fun getTemperatureInCelsius(): Float {
     val tmp = temperature / 256F
@@ -82,7 +83,8 @@ data class OxBeacon(
       source.readLong(),
       source.readFloat(),
       source.readLong(),
-      source.readLong()
+      source.readLong(),
+      source.readSerializable() as Date
   )
 
   override fun describeContents() = 0
@@ -109,6 +111,7 @@ data class OxBeacon(
     writeFloat(temperature)
     writeLong(pduCount)
     writeLong(uptime)
+    writeSerializable(lastDetection)
   }
 
   companion object {

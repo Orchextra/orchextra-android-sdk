@@ -16,21 +16,12 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.indoorpositioning.scanner
+package com.gigigo.orchextra.indoorpositioning.domain.models
 
-import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
+val ENTER_EVENT = "enter"
+val STAY_EVENT = "stay"
+val EXIT_EVENT = "exit"
 
-
-interface BeaconScanner {
-
-  fun start()
-
-  fun stop()
-
-  fun onBeaconServiceConnect()
-}
-
-interface BeaconListener {
-
-  fun onBeaconsDetect(oxBeacons: List<OxBeacon>)
-}
+data class OxBeaconRegion(
+    val event: String,
+    val beacon: OxBeacon)

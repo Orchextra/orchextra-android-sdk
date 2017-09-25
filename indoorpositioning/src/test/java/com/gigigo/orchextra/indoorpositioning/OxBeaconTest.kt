@@ -19,10 +19,11 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
-import com.gigigo.orchextra.indoorpositioning.models.OxBeacon
+import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.isInRegion
 import org.amshove.kluent.shouldBe
 import org.junit.Test
+import java.util.Date
 
 class OxBeaconTest {
 
@@ -32,7 +33,8 @@ class OxBeaconTest {
     val config = getConfig()
     val testOxBeacon = OxBeacon(uuid = "uuid1",
         major = "2",
-        minor = "1")
+        minor = "1",
+        lastDetection = Date())
 
     val isInRegion = testOxBeacon.isInRegion(config)
 
@@ -43,7 +45,8 @@ class OxBeaconTest {
   fun eddystoneShouldBeInRegion() {
 
     val config = getConfig()
-    val testOxEddystone = OxBeacon(namespaceId = "namespace1")
+    val testOxEddystone = OxBeacon(namespaceId = "namespace1",
+        lastDetection = Date())
 
     val isInRegion = testOxEddystone.isInRegion(config)
 
@@ -56,7 +59,8 @@ class OxBeaconTest {
     val config = getConfig()
     val testOxBeacon = OxBeacon(uuid = "uuid1",
         major = "6",
-        minor = "1")
+        minor = "1",
+        lastDetection = Date())
 
     val isInRegion = testOxBeacon.isInRegion(config)
 
@@ -67,7 +71,8 @@ class OxBeaconTest {
   fun eddystoneShouldNotBeInRegion() {
 
     val config = getConfig()
-    val testOxEddystone = OxBeacon(namespaceId = "namespace2")
+    val testOxEddystone = OxBeacon(namespaceId = "namespace2",
+        lastDetection = Date())
 
     val isInRegion = testOxEddystone.isInRegion(config)
 

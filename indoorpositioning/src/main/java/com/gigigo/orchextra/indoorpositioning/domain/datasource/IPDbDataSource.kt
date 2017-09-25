@@ -16,21 +16,19 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.indoorpositioning.scanner
+package com.gigigo.orchextra.indoorpositioning.domain.datasource
 
+import com.gigigo.orchextra.core.domain.exceptions.DbException
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 
+interface IPDbDataSource {
 
-interface BeaconScanner {
+  @Throws(DbException::class)
+  fun getBeacon(id: String): OxBeacon?
 
-  fun start()
+  @Throws(DbException::class)
+  fun saveOrUpdateBeacon(beacon: OxBeacon)
 
-  fun stop()
-
-  fun onBeaconServiceConnect()
-}
-
-interface BeaconListener {
-
-  fun onBeaconsDetect(oxBeacons: List<OxBeacon>)
+  @Throws(DbException::class)
+  fun removeBeacon(id: String)
 }

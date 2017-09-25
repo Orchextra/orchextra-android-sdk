@@ -68,11 +68,7 @@ class DbDataSourceImp(private val context: Context,
       val dbTrigger = daoTriggers.queryBuilder().where().eq("value", value).queryForFirst()
       removeOldTriggers()
 
-      return if (dbTrigger == null) {
-        Trigger(VOID, "")
-      } else {
-        dbTrigger.toTrigger()
-      }
+      return dbTrigger?.toTrigger() ?: Trigger(VOID, "")
     } catch (e: SQLException) {
       throw DbException(-1, e.message ?: "")
     }
