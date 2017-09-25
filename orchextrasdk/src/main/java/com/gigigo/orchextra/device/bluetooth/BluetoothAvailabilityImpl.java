@@ -35,7 +35,7 @@ public class BluetoothAvailabilityImpl implements BluetoothAvailability {
 
     try {
       beaconManager.checkAvailability();
-    }catch (BleNotAvailableException blteSupported){
+    }catch (Exception blteSupported){
       return false;
     }
 
