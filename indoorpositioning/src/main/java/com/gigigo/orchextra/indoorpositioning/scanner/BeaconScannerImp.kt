@@ -49,7 +49,7 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
   override fun onBeaconServiceConnect() {
     LOGD(TAG, "beaconManager is bound, ready to start scanning")
 
-    beaconManager.addRangeNotifier { beacons, region ->
+    beaconManager.addRangeNotifier { beacons, _ ->
       val filteredBeacons = beacons.map { it.toOxBeacon() }.filter { it.isInRegion(config) }
       beaconListener.onBeaconsDetect(filteredBeacons)
     }

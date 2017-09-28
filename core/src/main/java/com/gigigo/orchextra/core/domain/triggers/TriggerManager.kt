@@ -28,17 +28,28 @@ import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
+import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.interactor.GetAction
+import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfig
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import kotlin.properties.Delegates
 
-class TriggerManager(private val context: Context, private val getAction: GetAction,
-    private val validateTrigger: ValidateTrigger,
+class TriggerManager(private val context: Context, private val getTriggerConfig: GetTriggerConfig,
+    private val getAction: GetAction, private val validateTrigger: ValidateTrigger,
     private val actionHandlerServiceExecutor: ActionHandlerServiceExecutor,
     private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
 
   var configuration: Configuration = Configuration()
+  var point: OxPoint by Delegates.observable(OxPoint(0.0, 0.0)) { _, _, _ ->
+    getTriggerConfig.get(
+        point = point,
+        onSuccess = {
+          configuration = it
+          initTrigger()
+        },
+        onError = { orchextraErrorListener.onError(it.toError()) })
+  }
 
   var scanner by Delegates.observable(VoidTrigger<Any>() as OxTrigger<Any>)
   { _, _, new ->
@@ -46,28 +57,30 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
   }
 
   var geofence by Delegates.observable(
-      VoidTrigger<List<GeoMarketing>>() as OxTrigger<List<GeoMarketing>>)
-  { _, _, new ->
-    if (configuration.geoMarketing.isNotEmpty()) {
-      new.setConfig(configuration.geoMarketing)
+      VoidTrigger<List<GeoMarketing>>() as OxTrigger<List<GeoMarketing>>) { _, _, _ ->
+    initTrigger()
+  }
 
+  var indoorPositioning by Delegates.observable(
+      VoidTrigger<List<IndoorPositionConfig>>() as OxTrigger<List<IndoorPositionConfig>>) { _, _, _ ->
+    initTrigger()
+  }
+
+  private fun initTrigger() {
+    if (configuration.geoMarketing.isNotEmpty()) {
+      geofence.setConfig(configuration.geoMarketing)
       try {
-        new.init()
+        geofence.init()
       } catch (exception: SecurityException) {
         orchextraErrorListener.onError(
             Error(code = Error.FATAL_ERROR, message = exception.message as String))
       }
     }
-  }
 
-  var indoorPositioning by Delegates.observable(
-      VoidTrigger<List<IndoorPositionConfig>>() as OxTrigger<List<IndoorPositionConfig>>)
-  { _, _, new ->
     if (configuration.indoorPositionConfig.isNotEmpty()) {
-      new.setConfig(configuration.indoorPositionConfig)
-
+      indoorPositioning.setConfig(configuration.indoorPositionConfig)
       try {
-        new.init()
+        indoorPositioning.init()
       } catch (exception: SecurityException) {
         orchextraErrorListener.onError(
             Error(code = Error.FATAL_ERROR, message = exception.message as String))
@@ -99,7 +112,8 @@ class TriggerManager(private val context: Context, private val getAction: GetAct
 
   companion object Factory {
 
-    fun create(context: Context): TriggerManager = TriggerManager(context, GetAction.create(),
+    fun create(context: Context): TriggerManager = TriggerManager(context,
+        GetTriggerConfig.create(), GetAction.create(),
         ValidateTrigger.create(), ActionHandlerServiceExecutor.create(), Orchextra)
   }
 }

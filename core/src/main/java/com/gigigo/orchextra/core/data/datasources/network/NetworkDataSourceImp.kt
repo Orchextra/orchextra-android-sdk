@@ -22,6 +22,9 @@ import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiGeoLocation
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiList
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiPoint
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiTokenData
@@ -35,6 +38,7 @@ import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
+import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
@@ -109,6 +113,15 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     val config = apiResponse?.data?.toConfiguration() as Configuration
 
     return config.copy(indoorPositionConfig = indoorPositionConfigList)
+  }
+
+  override fun getTriggerConfig(point: OxPoint): Configuration {
+
+    val request = ApiList(ApiGeoLocation(ApiPoint(lat = point.lat, lng = point.lng)))
+    val apiResponse = makeCallWithRetry(
+        { -> orchextraTriggerApi.getList(request).execute().body() })
+
+    return apiResponse?.data?.toConfiguration() as Configuration
   }
 
   override fun getAction(trigger: Trigger): Action {

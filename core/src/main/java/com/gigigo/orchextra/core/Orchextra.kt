@@ -27,6 +27,7 @@ import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
+import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
@@ -59,8 +60,10 @@ object Orchextra : OrchextraErrorListener {
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
-//    this.locationProvider = LocationProvider(context)
-//    this.locationProvider.getLocation { point -> getConfiguration(point) }
+    this.locationProvider = LocationProvider(context)
+    this.locationProvider.getLocation { point ->
+      triggerManager.point = OxPoint(lat = point.lat, lng = point.lng)
+    }
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
     this.crmManager = CrmManager.create { onError(it) }
 
@@ -74,13 +77,10 @@ object Orchextra : OrchextraErrorListener {
   }
 
   private fun getConfiguration(apiKey: String) {
-
-
     val getConfiguration = GetConfiguration.create()
 
     getConfiguration.get(apiKey,
         onSuccess = {
-          triggerManager.configuration = it
           crmManager?.availableCustomFields = it.customFields
           changeStatus(true)
         },

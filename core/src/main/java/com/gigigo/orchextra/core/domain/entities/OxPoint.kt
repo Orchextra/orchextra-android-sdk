@@ -16,30 +16,8 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.triggers
+package com.gigigo.orchextra.core.domain.entities
 
-import com.gigigo.orchextra.core.domain.entities.Trigger
-
-interface OxTrigger<in T> {
-
-  fun init()
-
-  fun setConfig(config: T)
-
-  fun finish()
-}
-
-class VoidTrigger<in T> : OxTrigger<T> {
-  override fun init() {
-  }
-
-  override fun setConfig(config: T) {
-  }
-
-  override fun finish() {
-  }
-}
-
-interface TriggerListener {
-  fun onTriggerDetected(trigger: Trigger)
-}
+data class OxPoint(
+    val lat: Double,
+    val lng: Double)

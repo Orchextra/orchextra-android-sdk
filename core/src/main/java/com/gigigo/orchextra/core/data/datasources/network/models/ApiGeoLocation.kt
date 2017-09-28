@@ -16,30 +16,13 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.domain.triggers
+package com.gigigo.orchextra.core.data.datasources.network.models
 
-import com.gigigo.orchextra.core.domain.entities.Trigger
 
-interface OxTrigger<in T> {
+data class ApiList(
+    val geoLocation: ApiGeoLocation
+)
 
-  fun init()
-
-  fun setConfig(config: T)
-
-  fun finish()
-}
-
-class VoidTrigger<in T> : OxTrigger<T> {
-  override fun init() {
-  }
-
-  override fun setConfig(config: T) {
-  }
-
-  override fun finish() {
-  }
-}
-
-interface TriggerListener {
-  fun onTriggerDetected(trigger: Trigger)
-}
+data class ApiGeoLocation(
+    val point: ApiPoint
+)

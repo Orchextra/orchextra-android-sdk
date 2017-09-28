@@ -32,10 +32,6 @@ data class ApiGeoMarketing(
     val notifyOnExit: Boolean?,
     val stayTime: Int?)
 
-data class ApiPoint(
-    val lat: Double,
-    val lng: Double)
-
 data class ApiProximity(
     val code: String?,
     val uuid: String?,

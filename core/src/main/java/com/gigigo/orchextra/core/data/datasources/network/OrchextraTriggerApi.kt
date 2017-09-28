@@ -19,14 +19,20 @@
 package com.gigigo.orchextra.core.data.datasources.network
 
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiAction
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiConfiguration
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiList
 import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface OrchextraTriggerApi {
+
+  @POST("list")
+  fun getList(@Body listData: ApiList): Call<OxResponse<ApiConfiguration>>
 
   @GET("v1/action")
   fun getAction(@Query("type") type: String,
