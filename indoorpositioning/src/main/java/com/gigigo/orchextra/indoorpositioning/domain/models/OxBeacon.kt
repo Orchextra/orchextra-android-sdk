@@ -24,7 +24,7 @@ import java.util.Date
 
 data class OxBeacon(
     var hashcode: Int = 0, // hashcode()
-    var beaconType: Int = 0, // Eddystone, altBeacon, iBeacon
+    var beaconType: Int = -1, // Eddystone, altBeacon, iBeacon
     var beaconAddress: String = "", // MAC address of the bluetooth emitter
     var uuid: String = "",
     var major: String = "",

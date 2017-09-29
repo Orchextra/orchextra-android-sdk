@@ -18,28 +18,13 @@
 
 package com.gigigo.orchextra.core.data.datasources.network.models
 
-data class ApiConfiguration(
-    val geofences: List<ApiGeofence>?,
-    val beaconRegions: List<ApiRegion>?,
-    val eddystoneRegions: List<ApiRegion>?,
-    val customFields: Map<String, ApiCustomField>?)
-
-data class ApiGeofence(
-    val code: String?,
-    val point: ApiPoint?,
-    val radius: Int?,
-    val notifyOnEntry: Boolean?,
-    val notifyOnExit: Boolean?,
-    val stayTime: Int?)
-
-data class ApiRegion(
-    val code: String?,
-    val uuid: String?,
-    val major: Int?,
-    val namespace: String?,
-    val notifyOnEntry: Boolean?,
-    val notifyOnExit: Boolean?)
-
-data class ApiCustomField(
-    val type: String?,
-    val label: String?)
+data class ApiTrigger(
+    val type: String,
+    val value: String,
+    val event: String? = null,
+    val distance: String? = null,
+    val phoneStatus: String? = null,
+    val temperature: String? = null,
+    val battery: String? = null,
+    val uptime: String? = null
+)

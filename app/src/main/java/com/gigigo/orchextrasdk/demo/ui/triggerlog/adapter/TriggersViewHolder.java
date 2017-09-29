@@ -88,6 +88,8 @@ public class TriggersViewHolder extends RecyclerView.ViewHolder {
         return R.drawable.ic_beacon_region_log;
       case EDDYSTONE:
         return R.drawable.ic_eddystone_log;
+      case EDDYSTONE_REGION:
+        return R.drawable.ic_beacon_region_log;
       case GEOFENCE:
         return R.drawable.ic_geofence_log;
       case QR:

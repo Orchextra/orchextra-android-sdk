@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.indoorpositioning
 
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.indoorpositioning.domain.RegionsDetector
 import com.gigigo.orchextra.indoorpositioning.domain.models.ENTER_EVENT
 import com.gigigo.orchextra.indoorpositioning.domain.models.EXIT_EVENT
@@ -69,5 +70,25 @@ class RegionsDetectorTest {
     region.event.shouldEqualTo(EXIT_EVENT)
   }
 
-  private fun getRegionsDetector(): RegionsDetector = RegionsDetector(FakeIPDbDataSource(), {})
+  private fun getRegionsDetector(): RegionsDetector = RegionsDetector(getConfig(),
+      FakeIPDbDataSource(), {})
+
+  private fun getConfig(): List<IndoorPositionConfig> {
+
+    val entryBeaconConfig = IndoorPositionConfig(
+        uuid = "entry",
+        major = 1,
+        minor = -1,
+        notifyOnEntry = true,
+        notifyOnExit = false)
+
+    val exitBeaconConfig = IndoorPositionConfig(
+        uuid = "exit",
+        major = 2,
+        minor = -1,
+        notifyOnEntry = false,
+        notifyOnExit = true)
+
+    return listOf(entryBeaconConfig, exitBeaconConfig)
+  }
 }

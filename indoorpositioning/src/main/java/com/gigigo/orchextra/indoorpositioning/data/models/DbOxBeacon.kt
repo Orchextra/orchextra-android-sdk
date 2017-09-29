@@ -31,6 +31,9 @@ class DbOxBeacon {
   var value: String = ""
 
   @DatabaseField
+  var type: Int = -1
+
+  @DatabaseField
   var uuid: String = ""
 
   @DatabaseField

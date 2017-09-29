@@ -28,8 +28,8 @@ import com.gigigo.orchextra.core.data.datasources.network.models.ApiPoint
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
 import com.gigigo.orchextra.core.data.datasources.network.models.toApiTokenData
+import com.gigigo.orchextra.core.data.datasources.network.models.toApiTrigger
 import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
-import com.gigigo.orchextra.core.data.datasources.network.models.toOxType
 import com.gigigo.orchextra.core.data.datasources.network.models.toTokenData
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
@@ -118,25 +118,16 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   override fun getTriggerConfig(point: OxPoint): Configuration {
 
     val request = ApiList(ApiGeoLocation(ApiPoint(lat = point.lat, lng = point.lng)))
-    val apiResponse = makeCallWithRetry(
-        { -> orchextraTriggerApi.getList(request).execute().body() })
+    val apiResponse = makeCallWithRetry { orchextraTriggerApi.getList(request).execute().body() }
 
     return apiResponse?.data?.toConfiguration() as Configuration
   }
 
   override fun getAction(trigger: Trigger): Action {
 
-    val apiResponse = makeCallWithRetry({ ->
-      orchextraTriggerApi.getAction(trigger.type.toOxType(),
-          value = trigger.value,
-          event = trigger.event,
-          phoneStatus = trigger.phoneStatus,
-          distance = trigger.distance,
-          temperature = "${trigger.temperature}",
-          battery = "${trigger.battery}",
-          uptime = "${trigger.uptime}")
-          .execute().body()
-    })
+    val apiResponse = makeCallWithRetry {
+      orchextraTriggerApi.getAction(trigger.toApiTrigger()).execute().body()
+    }
 
     return apiResponse?.data?.toAction() as Action
   }

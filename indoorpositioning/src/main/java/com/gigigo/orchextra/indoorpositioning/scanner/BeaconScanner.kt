@@ -23,14 +23,9 @@ import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 
 interface BeaconScanner {
 
-  fun start()
+  fun start(listener: (OxBeacon) -> Unit)
 
   fun stop()
 
   fun onBeaconServiceConnect()
-}
-
-interface BeaconListener {
-
-  fun onBeaconsDetect(oxBeacons: List<OxBeacon>)
 }

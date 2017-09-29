@@ -20,6 +20,7 @@ package com.gigigo.orchextra.geofence.utils
 
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingRequest
 
 
 fun GeoMarketing.toGeofence(): Geofence = with(this) {
@@ -27,19 +28,20 @@ fun GeoMarketing.toGeofence(): Geofence = with(this) {
   var event = 0
 
   if (notifyOnEntry && !notifyOnExit) {
-    event = Geofence.GEOFENCE_TRANSITION_ENTER
+    event = Geofence.GEOFENCE_TRANSITION_ENTER or GeofencingRequest.INITIAL_TRIGGER_DWELL
 
   } else if (!notifyOnEntry && notifyOnExit) {
-    event = Geofence.GEOFENCE_TRANSITION_EXIT
+    event = Geofence.GEOFENCE_TRANSITION_EXIT or GeofencingRequest.INITIAL_TRIGGER_DWELL
 
   } else if (notifyOnEntry && notifyOnExit) {
-    event = Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT
+    event = Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT or GeofencingRequest.INITIAL_TRIGGER_DWELL
   }
 
   return Geofence.Builder()
       .setRequestId(code)
       .setCircularRegion(point.lat, point.lng, radius.toFloat())
-      .setExpirationDuration(stayTime.toLong() * 1000)
+      .setLoiteringDelay(stayTime * 1000)
+      .setExpirationDuration(Geofence.NEVER_EXPIRE)
       .setTransitionTypes(event)
       .build()
 }

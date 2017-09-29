@@ -44,10 +44,11 @@ class CrmManager(private val getTokenData: GetTokenData,
   var availableCustomFields: List<CustomField> = listOf()
 
   fun bindUser(crm: OxCRM, onSuccess: (user: OxCRM) -> Unit) {
-    updateCrm.update(crm, onSuccess = {
-      this.crm = it
-      onSuccess(it)
-    }, onError = onError)
+    updateCrm.update(crm,
+        onSuccess = {
+          this.crm = it
+          onSuccess(it)
+        }, onError = onError)
   }
 
   fun unbindUser(onSuccess: () -> Unit) {

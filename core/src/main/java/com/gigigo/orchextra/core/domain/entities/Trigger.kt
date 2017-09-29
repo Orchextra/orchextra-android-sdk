@@ -31,6 +31,7 @@ enum class TriggerType {
   BEACON,
   BEACON_REGION,
   EDDYSTONE,
+  EDDYSTONE_REGION,
   GEOFENCE,
   QR,
   BARCODE,
