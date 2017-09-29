@@ -133,9 +133,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun confirmAction(id: String) {
-    makeCallWithRetry({ ->
-      orchextraTriggerApi.confirmAction(id).execute().body()
-    })
+    makeCallWithRetry { orchextraTriggerApi.confirmAction(id).execute().body() }
   }
 
   override fun getTokenData(): TokenData {

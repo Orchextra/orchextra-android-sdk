@@ -34,7 +34,7 @@ class MapperTest {
         radius = 2,
         notifyOnEntry = true,
         notifyOnExit = true,
-        stayTime = -1)
+        stayTime = 10)
 
     val geofence = geoMarketing.toGeofence()
 
