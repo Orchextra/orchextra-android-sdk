@@ -23,6 +23,7 @@ import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.OrchextraErrorListener
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Error
@@ -55,6 +56,12 @@ class TriggerManager(private val context: Context, private val getTriggerConfig:
   { _, _, new ->
     ScannerActionExecutor.scanner = new
   }
+
+  var imageRecognizer by Delegates.observable(VoidTrigger<Any>() as OxTrigger<Any>)
+  { _, _, newValue ->
+    ImageRecognitionActionExecutor.imageRecognizer = newValue
+  }
+
 
   var geofence by Delegates.observable(
       VoidTrigger<List<GeoMarketing>>() as OxTrigger<List<GeoMarketing>>) { _, _, _ ->

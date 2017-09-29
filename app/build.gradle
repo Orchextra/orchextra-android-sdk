@@ -97,9 +97,10 @@ dexcount {
 dependencies {
 
   compile project(':core')
-  compile project(':scanner')
   compile project(':geofence')
   compile project(':indoorpositioning')
+  compile project(':imagerecognizer')
+  compile project(':scanner')
 
   compile 'com.android.support:appcompat-v7:25.3.1'
   compile 'com.android.support:design:25.3.1'

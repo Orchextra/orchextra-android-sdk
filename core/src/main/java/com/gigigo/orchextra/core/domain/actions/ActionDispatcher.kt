@@ -69,7 +69,7 @@ class ActionDispatcher constructor(
       WEBVIEW -> webViewActionExecutor.open(url)
       CUSTOM_SCHEME -> customActionExecutor.open(url)
       SCANNER -> scannerActionExecutor.open()
-      IMAGE_RECOGNITION -> imageRecognitionActionExecutor.open(url)
+      IMAGE_RECOGNITION -> imageRecognitionActionExecutor.open()
     }
   }
 
@@ -80,7 +80,7 @@ class ActionDispatcher constructor(
         WebViewActionExecutor.create(context),
         CustomActionExecutor.create(),
         ScannerActionExecutor,
-        ImageRecognitionActionExecutor.create(),
+        ImageRecognitionActionExecutor,
         NotificationActionExecutor.create(context),
         ActionSchedulerManager.create(context))
   }

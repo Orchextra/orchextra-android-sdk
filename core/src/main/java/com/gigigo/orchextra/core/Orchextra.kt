@@ -24,6 +24,7 @@ import android.content.SharedPreferences
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
@@ -97,6 +98,11 @@ object Orchextra : OrchextraErrorListener {
   fun openScanner() {
     checkInitialization()
     actionHandlerServiceExecutor.execute(context as Context, Action(type = SCANNER))
+  }
+
+  fun openImageRecognition() {
+    checkInitialization()
+    actionHandlerServiceExecutor.execute(context as Context, Action(type = IMAGE_RECOGNITION))
   }
 
   fun getTriggerManager(): TriggerManager {

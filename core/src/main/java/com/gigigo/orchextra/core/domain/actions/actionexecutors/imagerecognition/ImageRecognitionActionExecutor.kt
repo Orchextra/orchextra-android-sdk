@@ -18,14 +18,13 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition
 
-class ImageRecognitionActionExecutor {
+import com.gigigo.orchextra.core.domain.triggers.OxTrigger
+import com.gigigo.orchextra.core.domain.triggers.VoidTrigger
 
-  fun open(url: String) {
+object ImageRecognitionActionExecutor {
+  var imageRecognizer: OxTrigger<Any> = VoidTrigger()
 
-  }
-
-  companion object Factory {
-
-    fun create(): ImageRecognitionActionExecutor = ImageRecognitionActionExecutor()
+  fun open() {
+    imageRecognizer.init()
   }
 }

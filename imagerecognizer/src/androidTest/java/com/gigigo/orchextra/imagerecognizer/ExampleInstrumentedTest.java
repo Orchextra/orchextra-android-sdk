@@ -1,4 +1,4 @@
-package com.gigigo.orchextra.scanner;
+package com.gigigo.orchextra.imagerecognizer;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -19,6 +19,6 @@ import static org.junit.Assert.*;
     // Context of the app under test.
     Context appContext = InstrumentationRegistry.getTargetContext();
 
-    assertEquals("com.gigigo.orchextra.imageRecognizer.test", appContext.getPackageName());
+    assertEquals("com.orchextra.imagerecognizer.test", appContext.getPackageName());
   }
 }

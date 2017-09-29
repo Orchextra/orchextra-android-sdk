@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
+import com.gigigo.orchextra.imagerecognizer.OxImageRecognizerImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.scanner.custom.CustomScannerImp;
@@ -107,7 +108,13 @@ public class ScannerFragment extends Fragment {
 
     oxImageRecognitionButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        Toast.makeText(getContext(), "Operation is not implemented", Toast.LENGTH_SHORT).show();
+        if (orchextra.isReady()) {
+          orchextra.getTriggerManager()
+              .setImageRecognizer(OxImageRecognizerImp.Factory.create(getActivity().getApplication()));
+          orchextra.openImageRecognition();
+        } else {
+          Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
+        }
       }
     });
   }
