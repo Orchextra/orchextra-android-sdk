@@ -87,16 +87,11 @@ fun Beacon.toOxBeacon(): OxBeacon = with(this) {
 }
 
 fun OxBeacon.isInRegion(config: List<IndoorPositionConfig>): Boolean =
-    config.any {
-      (it.uuid.isNotEmpty() && it.uuid == this.uuid && it.major.toString() == this.major)
-          || it.namespace.isNotEmpty() && it.namespace == this.namespaceId.replace("0x", "")
-    }
+    config.any { this.isInRegion(it) }
 
-fun OxBeacon.isSameRegion(beacon: OxBeacon): Boolean = with(this) {
-  (this.uuid.isNotEmpty() && this.uuid == beacon.uuid && this.major == beacon.major)
-      || this.namespaceId.isNotEmpty() && this.namespaceId.replace("0x",
-      "") == this.namespaceId.replace("0x", "")
-}
+fun OxBeacon.isInRegion(config: IndoorPositionConfig): Boolean =
+    (this.uuid.isNotEmpty() && config.uuid == this.uuid && config.major.toString() == this.major)
+        || (this.namespaceId.isNotEmpty() && config.namespace == this.namespaceId.replace("0x", ""))
 
 fun OxBeacon.getType(): TriggerType = when (this.beaconType) {
   OxBeacon.TYPE_EDDYSTONE_UID -> EDDYSTONE

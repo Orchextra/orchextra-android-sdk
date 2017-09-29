@@ -23,5 +23,6 @@ val STAY_EVENT = "stay"
 val EXIT_EVENT = "exit"
 
 data class OxBeaconRegion(
+    val value: String,
     val event: String,
     val beacon: OxBeacon)

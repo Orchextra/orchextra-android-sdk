@@ -25,12 +25,14 @@ data class IndoorPositionConfig constructor(
     val code: String = "",
     val uuid: String = "",
     val namespace: String = "",
+    val instanceId: String = "",
     val minor: Int = -1,
     val major: Int = -1,
-    val notifyOnEntry: Boolean,
-    val notifyOnExit: Boolean) : Parcelable {
+    val notifyOnEntry: Boolean = true,
+    val notifyOnExit: Boolean = true) : Parcelable {
 
   constructor(source: Parcel) : this(
+      source.readString(),
       source.readString(),
       source.readString(),
       source.readString(),
@@ -46,6 +48,7 @@ data class IndoorPositionConfig constructor(
     writeString(code)
     writeString(uuid)
     writeString(namespace)
+    writeString(instanceId)
     writeInt(minor)
     writeInt(major)
     writeInt((if (notifyOnEntry) 1 else 0))

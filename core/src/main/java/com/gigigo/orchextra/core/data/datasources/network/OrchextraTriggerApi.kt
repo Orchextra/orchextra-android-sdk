@@ -21,29 +21,21 @@ package com.gigigo.orchextra.core.data.datasources.network
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiAction
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiConfiguration
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiList
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiTrigger
 import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface OrchextraTriggerApi {
 
   @POST("list")
   fun getList(@Body listData: ApiList): Call<OxResponse<ApiConfiguration>>
 
-  @GET("v1/action")
-  fun getAction(@Query("type") type: String,
-      @Query("value") value: String,
-      @Query("event") event: String?,
-      @Query("phoneStatus") phoneStatus: String?,
-      @Query("distance") distance: String?,
-      @Query("temperature") temperature: String?,
-      @Query("battery") battery: String?,
-      @Query("uptime") uptime: String?): Call<OxResponse<ApiAction>>
+  @POST("action")
+  fun getAction(@Body trigger: ApiTrigger): Call<OxResponse<ApiAction>>
 
-  @POST("v1/action/confirm/{id}")
+  @POST("action/confirm/{id}")
   fun confirmAction(@Path("id") id: String): Call<OxResponse<ApiAction>>
 }

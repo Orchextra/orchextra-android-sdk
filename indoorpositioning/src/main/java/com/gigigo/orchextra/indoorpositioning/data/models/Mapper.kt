@@ -37,6 +37,7 @@ fun OxBeacon.toDbOxBeacon(): DbOxBeacon = with(this) {
   val dbOxBeacon = DbOxBeacon()
   dbOxBeacon.value = this.getValue()
   dbOxBeacon.uuid = this.uuid
+  dbOxBeacon.type = this.beaconType
   dbOxBeacon.major = this.major
   dbOxBeacon.minor = this.minor
   dbOxBeacon.namespaceId = this.namespaceId

@@ -29,14 +29,16 @@ import android.os.IBinder
 import android.support.annotation.RequiresApi
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON_REGION
+import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE_REGION
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGW
+import com.gigigo.orchextra.indoorpositioning.domain.IndoorPositioningValidator
 import com.gigigo.orchextra.indoorpositioning.domain.RegionsDetector
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeaconRegion
-import com.gigigo.orchextra.indoorpositioning.scanner.BeaconListener
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScanner
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScannerImp
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getBeaconManager
@@ -44,13 +46,14 @@ import com.gigigo.orchextra.indoorpositioning.utils.extensions.getType
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getValue
 import org.altbeacon.beacon.BeaconConsumer
 
-class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
+class IndoorPositioningService : Service(), BeaconConsumer {
 
   private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
   private lateinit var alarmManager: AlarmManager
   private lateinit var beaconScanner: BeaconScanner
   private lateinit var regionsDetector: RegionsDetector
   private lateinit var config: List<IndoorPositionConfig>
+  private lateinit var validator: IndoorPositioningValidator
   private var isRunning: Boolean = false
   private var timerStarted = false
   private val handler = Handler()
@@ -62,7 +65,6 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
     super.onCreate()
     this.isRunning = false
     this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    this.regionsDetector = RegionsDetector.create(this, { sendOxBeaconRegionEvent(it) })
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -75,9 +77,13 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
       isRunning = true
 
       config = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
-      beaconScanner = BeaconScannerImp(getBeaconManager(SCAN_DELAY_IN_SECONDS * 1000L), config,
-          this, this)
-      beaconScanner.start()
+      validator = IndoorPositioningValidator(config)
+      beaconScanner = BeaconScannerImp(getBeaconManager(SCAN_DELAY_IN_SECONDS * 1000L), this)
+      regionsDetector = RegionsDetector.create(config, this, { sendOxBeaconRegionEvent(it) })
+      beaconScanner.start {
+        regionsDetector.onBeaconDetect(it)
+        sendOxBeaconEvent(it)
+      }
     } else {
       LOGW(TAG, "IndoorPositioningService is already running")
     }
@@ -104,32 +110,37 @@ class IndoorPositioningService : Service(), BeaconConsumer, BeaconListener {
   @RequiresApi(VERSION_CODES.JELLY_BEAN_MR2)
   override fun onBeaconServiceConnect() = beaconScanner.onBeaconServiceConnect()
 
-  override fun onBeaconsDetect(oxBeacons: List<OxBeacon>) {
-    oxBeacons.forEach {
-      regionsDetector.onBeaconDetect(it)
-      sendOxBeaconEvent(it)
+  private fun sendOxBeaconEvent(beacon: OxBeacon) {
+
+    if (validator.isValid(beacon)) {
+      val trigger = Trigger(
+          type = beacon.getType(),
+          value = beacon.getValue(),
+          distance = beacon.getDistanceQualifier(),
+          temperature = beacon.getTemperatureInCelsius(),
+          battery = beacon.batteryMilliVolts,
+          uptime = beacon.uptime)
+
+      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
     }
   }
 
-  private fun sendOxBeaconEvent(oxBeacon: OxBeacon) {
-    val trigger = Trigger(
-        type = oxBeacon.getType(),
-        value = oxBeacon.getValue(),
-        distance = oxBeacon.getDistanceQualifier(),
-        temperature = oxBeacon.getTemperatureInCelsius(),
-        battery = oxBeacon.batteryMilliVolts,
-        uptime = oxBeacon.uptime)
-
-    sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
-  }
-
   private fun sendOxBeaconRegionEvent(beaconRegion: OxBeaconRegion) {
-    val trigger = Trigger(
-        type = BEACON_REGION,
-        value = beaconRegion.beacon.uuid,
-        event = beaconRegion.event)
 
-    sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+    if (validator.isValid(beaconRegion)) {
+      val type = if (beaconRegion.beacon.getType() == BEACON) {
+        BEACON_REGION
+      } else {
+        EDDYSTONE_REGION
+      }
+
+      val trigger = Trigger(
+          type = type,
+          value = beaconRegion.value,
+          event = beaconRegion.event)
+
+      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+    }
   }
 
   private val runnable = Runnable {

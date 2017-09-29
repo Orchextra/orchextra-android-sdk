@@ -37,6 +37,7 @@ import com.gigigo.orchextra.core.domain.entities.OxNotificationPush
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.gigigo.orchextra.core.domain.entities.Schedule
 import com.gigigo.orchextra.core.domain.entities.TokenData
+import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
@@ -67,27 +68,31 @@ fun ApiError.toUnauthorizedException(): UnauthorizedException = with(this) {
 
 fun ApiConfiguration.toConfiguration(): Configuration = with(this) {
 
-  val proximity = proximity?.map { it.toIndoorPositionConfig() } ?: listOf()
+  val beaconsRegions = beaconRegions?.map { it.toIndoorPositionConfig() } ?: listOf()
   val eddystoneRegions = eddystoneRegions?.map { it.toIndoorPositionConfig() } ?: listOf()
-  val indoorPositionConfig = proximity + eddystoneRegions
+  val indoorPositionConfig = beaconsRegions + eddystoneRegions
 
   return Configuration(
-      geoMarketing = geoMarketing?.toGeoMarketingList() ?: listOf(),
+      geoMarketing = geofences?.toGeoMarketingList() ?: listOf(),
       indoorPositionConfig = indoorPositionConfig,
       customFields = customFields?.toCustomFieldList() ?: listOf())
 }
 
-fun List<ApiGeoMarketing>.toGeoMarketingList(): List<GeoMarketing> = map {
+fun List<ApiGeofence>.toGeoMarketingList(): List<GeoMarketing> = map {
   it.toGeoMarketing()
 }
 
-fun ApiGeoMarketing.toGeoMarketing(): GeoMarketing = with(this) {
+fun ApiGeofence.toGeoMarketing(): GeoMarketing = with(this) {
   return GeoMarketing(code = code ?: "",
       point = point?.toPoint() ?: Point(-1.0, -1.0),
       radius = radius ?: -1,
       notifyOnEntry = notifyOnEntry ?: false,
       notifyOnExit = notifyOnExit ?: false,
       stayTime = stayTime ?: -1)
+}
+
+fun ApiPoint.toPoint(): Point = with(this) {
+  return Point(lat = lat, lng = lng)
 }
 
 fun Map<String, ApiCustomField>.toCustomFieldList(): List<CustomField> {
@@ -99,27 +104,14 @@ fun Map<String, ApiCustomField>.toCustomFieldList(): List<CustomField> {
   return list
 }
 
-fun ApiProximity.toIndoorPositionConfig(): IndoorPositionConfig =
-    with(this) {
-      return IndoorPositionConfig(
-          code = code ?: "",
-          uuid = uuid ?: "",
-          minor = minor ?: -1,
-          major = major ?: -1,
-          notifyOnEntry = notifyOnEntry ?: false,
-          notifyOnExit = notifyOnExit ?: false)
-    }
-
-fun ApiEddystoneRegions.toIndoorPositionConfig(): IndoorPositionConfig = with(this) {
+fun ApiRegion.toIndoorPositionConfig(): IndoorPositionConfig = with(this) {
   return IndoorPositionConfig(
       code = code ?: "",
+      uuid = uuid ?: "",
+      major = major ?: -1,
       namespace = namespace ?: "",
       notifyOnEntry = notifyOnEntry ?: false,
       notifyOnExit = notifyOnExit ?: false)
-}
-
-fun ApiPoint.toPoint(): Point = with(this) {
-  return Point(lat, lng)
 }
 
 fun ApiAction.toAction(): Action = with(this) {
@@ -281,10 +273,24 @@ fun OxNotificationPush.toApiNotificationPush(): ApiNotificationPush = with(this)
       token = token)
 }
 
+fun Trigger.toApiTrigger(): ApiTrigger = with(this) {
+  return ApiTrigger(
+      type = type.toOxType(),
+      value = value,
+      event = event,
+      distance = distance,
+      phoneStatus = phoneStatus,
+      temperature = "$temperature",
+      battery = "$battery",
+      uptime = "$uptime"
+  )
+}
+
 fun TriggerType.toOxType(): String = when (this) {
   TriggerType.BEACON -> "beacon"
   TriggerType.BEACON_REGION -> "beacon_region"
   TriggerType.EDDYSTONE -> "eddystone"
+  TriggerType.EDDYSTONE_REGION -> "eddystone_region"
   TriggerType.GEOFENCE -> "geofence"
   TriggerType.QR -> "qr"
   TriggerType.BARCODE -> "barcode"
