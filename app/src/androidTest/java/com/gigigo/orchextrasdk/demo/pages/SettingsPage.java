@@ -23,7 +23,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.test.espresso.ViewInteraction;
 import android.view.View;
 import com.gigigo.orchextrasdk.demo.R;
-import com.gigigo.orchextrasdk.utils.TestUtils;
+import com.gigigo.orchextrasdk.demo.utils.TestUtils;
 import org.hamcrest.core.IsInstanceOf;
 
 import static android.support.test.espresso.Espresso.onView;

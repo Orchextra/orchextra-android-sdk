@@ -21,7 +21,7 @@ package com.gigigo.orchextrasdk.demo.pages;
 import android.content.Context;
 import android.support.test.espresso.ViewInteraction;
 import com.gigigo.orchextrasdk.demo.R;
-import com.gigigo.orchextrasdk.utils.TestUtils;
+import com.gigigo.orchextrasdk.demo.utils.TestUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
