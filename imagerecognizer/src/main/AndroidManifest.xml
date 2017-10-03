@@ -1,13 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
-    package="com.orchextra.imagerecognizer"
+    package="com.gigigo.orchextra.imagerecognizer"
 >
 
   <application android:allowBackup="true"
-      android:label="@string/app_name"
       android:supportsRtl="true"
   >
-
+    <activity
+        android:name=".ImageRecognizerActivity"
+        android:theme="@style/OxAppTheme.NoActionBar"
+        android:screenOrientation="portrait">
+    </activity>
   </application>
 
 </manifest>

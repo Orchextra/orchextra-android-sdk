@@ -110,7 +110,7 @@ class ActionDispatcherTest {
 
     actionDispatcher.executeAction(action)
 
-    verify(imageRecognitionActionExecutor).open(action.url)
+    verify(imageRecognitionActionExecutor).open()
   }
 
   @Test

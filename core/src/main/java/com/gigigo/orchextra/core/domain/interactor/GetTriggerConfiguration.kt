@@ -20,7 +20,6 @@ package com.gigigo.orchextra.core.domain.interactor
 
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Configuration
-import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
@@ -28,28 +27,28 @@ import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
-class GetTriggerConfig(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
+class GetTriggerConfiguration(threadExecutor: ThreadExecutor,
+    postExecutionThread: PostExecutionThread,
     private val networkDataSource: NetworkDataSource) : Interactor<Configuration>(threadExecutor,
     postExecutionThread) {
 
-  private lateinit var point: OxPoint
+  private lateinit var apiKey: String
 
-  fun get(point: OxPoint, onSuccess: (Configuration) -> Unit = onSuccessStub,
+  fun get(apiKey: String, onSuccess: (Configuration) -> Unit = onSuccessStub,
       onError: (OxException) -> Unit = onErrorStub) {
-
-    this.point = point
+    this.apiKey = apiKey
     executeInteractor(onSuccess, onError)
   }
 
-  override fun run() = try {
-    notifySuccess(networkDataSource.getTriggerConfig(point))
-  } catch (error: NetworkException) {
-    notifyError(error)
-  }
+  override fun run() =
+      try {
+        notifySuccess(networkDataSource.getTriggerConfiguration(apiKey))
+      } catch (error: NetworkException) {
+        notifyError(error)
+      }
 
   companion object Factory {
-
-    fun create(): GetTriggerConfig = GetTriggerConfig(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+    fun create(): GetTriggerConfiguration = GetTriggerConfiguration(ThreadExecutorImp,
+        PostExecutionThreadImp, NetworkDataSource.create())
   }
 }

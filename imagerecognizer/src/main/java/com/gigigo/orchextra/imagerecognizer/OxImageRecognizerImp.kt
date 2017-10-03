@@ -19,22 +19,24 @@
 package com.gigigo.orchextra.imagerecognizer
 
 import android.app.Application
+import com.gigigo.orchextra.core.domain.entities.ImageRecognizerCredentials
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
 
-class OxImageRecognizerImp private constructor(private val context: Application) : OxTrigger<Any> {
+class OxImageRecognizerImp private constructor(
+    private val context: Application) : OxTrigger<ImageRecognizerCredentials> {
+
+  private lateinit var credentials: ImageRecognizerCredentials
+
   override fun init() {
-    TODO(
-        "not implemented") //To change body of created functions use File | Settings | File Templates.
+    ImageRecognizerActivity.open(context, credentials)
   }
 
-  override fun setConfig(config: Any) {
-    TODO(
-        "not implemented") //To change body of created functions use File | Settings | File Templates.
+  override fun setConfig(config: ImageRecognizerCredentials) {
+    this.credentials = config
   }
 
   override fun finish() {
-    TODO(
-        "not implemented") //To change body of created functions use File | Settings | File Templates.
+    ImageRecognizerActivity.finish()
   }
 
   companion object Factory {

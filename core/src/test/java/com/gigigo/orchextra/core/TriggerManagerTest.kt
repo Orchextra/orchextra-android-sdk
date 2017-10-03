@@ -30,7 +30,7 @@ import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
-import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfig
+import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.testutils.PostExecutionThreadMock
@@ -85,7 +85,7 @@ class TriggerManagerTest {
       on { getTrigger(any()) } doReturn Trigger(VOID, "")
     }
 
-    val getTriggerConfig = GetTriggerConfig(ThreadExecutorMock(),
+    val getTriggerConfig = GetTriggerList(ThreadExecutorMock(),
         PostExecutionThreadMock(), networkDataSource)
     val getAction = GetAction(ThreadExecutorMock(),
         PostExecutionThreadMock(), networkDataSource)
@@ -93,7 +93,7 @@ class TriggerManagerTest {
         PostExecutionThreadMock(),
         dbDataSource)
 
-    return TriggerManager(context = mock(), getTriggerConfig = getTriggerConfig,
+    return TriggerManager(context = mock(), getTriggerList = getTriggerConfig,
         getAction = getAction,
         validateTrigger = validateTrigger,
         actionHandlerServiceExecutor = actionHandlerServiceExecutor,

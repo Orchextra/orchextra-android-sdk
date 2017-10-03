@@ -33,4 +33,10 @@ dependencies {
   compile 'com.android.support:appcompat-v7:25.3.1'
   testCompile 'junit:junit:4.12'
   compile project(path: ':core')
+
+/*
+  compile 'com.github.GigigoGreenLabs:imagerecognition.core:3.0'
+  compile 'com.github.Gigigo-Android-Devs:imagerecognition.vuforia:3.0'
+  compile 'com.github.GigigoGreenLabs:vuforia.core:3.0'
+*/
 }

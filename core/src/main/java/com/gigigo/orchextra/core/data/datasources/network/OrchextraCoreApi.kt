@@ -33,18 +33,18 @@ import retrofit2.http.Path
 
 interface OrchextraCoreApi {
 
-  @GET("/configuration/{id}")
+  @GET("configuration/{id}")
   fun getConfiguration(@Path("id") id: String): Call<OxResponse<ApiConfiguration>>
 
-  @POST("/token")
+  @POST("token")
   fun getAuthentication(@Body apiAuthRequest: ApiAuthRequest): Call<OxResponse<ApiToken>>
 
-  @GET("/token/data")
+  @GET("token/data")
   fun getTokenData(): Call<OxResponse<ApiTokenData>>
 
-  @PUT("/token/data")
+  @PUT("token/data")
   fun updateTokenData(@Body apiTokenData: ApiTokenData): Call<OxResponse<ApiTokenData>>
 
-  @PUT("/token/data")
+  @PUT("token/data")
   fun updateTokenData(@Body requestBody: RequestBody): Call<OxResponse<ApiTokenData>>
 }

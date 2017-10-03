@@ -18,10 +18,15 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
+import android.os.Parcel
+import android.os.Parcelable
+
 data class Configuration(
     val geoMarketing: List<GeoMarketing> = listOf(),
     val indoorPositionConfig: List<IndoorPositionConfig> = listOf(),
-    val customFields: List<CustomField> = listOf())
+    val customFields: List<CustomField> = listOf(),
+    val requestWaitTime: Int? = 0,
+    var imageRecognizerCredentials: ImageRecognizerCredentials? = null)
 
 data class GeoMarketing(
     val code: String,
@@ -39,3 +44,33 @@ data class CustomField(
     val key: String,
     val type: String,
     val label: String)
+
+data class ImageRecognizerCredentials(
+    val licenseKey: String? = "",
+    val clientAccessKey: String? = "",
+    val clientSecretKey: String? = ""): Parcelable {
+  constructor(parcel: Parcel) : this(
+      parcel.readString(),
+      parcel.readString(),
+      parcel.readString())
+
+  override fun writeToParcel(parcel: Parcel, flags: Int) {
+    parcel.writeString(licenseKey)
+    parcel.writeString(clientAccessKey)
+    parcel.writeString(clientSecretKey)
+  }
+
+  override fun describeContents(): Int {
+    return 0
+  }
+
+  companion object CREATOR : Parcelable.Creator<ImageRecognizerCredentials> {
+    override fun createFromParcel(parcel: Parcel): ImageRecognizerCredentials {
+      return ImageRecognizerCredentials(parcel)
+    }
+
+    override fun newArray(size: Int): Array<ImageRecognizerCredentials?> {
+      return arrayOfNulls(size)
+    }
+  }
+}

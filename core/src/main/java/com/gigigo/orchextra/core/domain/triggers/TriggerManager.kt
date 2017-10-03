@@ -25,29 +25,32 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
-import com.gigigo.orchextra.core.domain.entities.Configuration
-import com.gigigo.orchextra.core.domain.entities.Error
-import com.gigigo.orchextra.core.domain.entities.GeoMarketing
-import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
-import com.gigigo.orchextra.core.domain.entities.OxPoint
-import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.entities.*
 import com.gigigo.orchextra.core.domain.interactor.GetAction
-import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfig
+import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
+import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
+import com.gigigo.orchextra.core.utils.LogUtils
 import kotlin.properties.Delegates
 
-class TriggerManager(private val context: Context, private val getTriggerConfig: GetTriggerConfig,
+class TriggerManager(private val context: Context,
+    private val getTriggerConfiguration: GetTriggerConfiguration,
+    private val getTriggerList: GetTriggerList,
     private val getAction: GetAction, private val validateTrigger: ValidateTrigger,
     private val actionHandlerServiceExecutor: ActionHandlerServiceExecutor,
     private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
 
+
+  private val TAG = LogUtils.makeLogTag(TriggerManager::class.java)
+
   var configuration: Configuration = Configuration()
   var point: OxPoint by Delegates.observable(OxPoint(0.0, 0.0)) { _, _, _ ->
-    getTriggerConfig.get(
+    getTriggerList.get(
         point = point,
         onSuccess = {
           configuration = it
-          initTrigger()
+          initGeofenceTrigger()
+          initIndoorPositioningTrigger()
         },
         onError = { orchextraErrorListener.onError(it.toError()) })
   }
@@ -57,23 +60,33 @@ class TriggerManager(private val context: Context, private val getTriggerConfig:
     ScannerActionExecutor.scanner = new
   }
 
-  var imageRecognizer by Delegates.observable(VoidTrigger<Any>() as OxTrigger<Any>)
-  { _, _, newValue ->
-    ImageRecognitionActionExecutor.imageRecognizer = newValue
-  }
+  var imageRecognizerCredentials: ImageRecognizerCredentials? = null
 
+  var imageRecognizer by Delegates.observable(
+      VoidTrigger<Any>() as OxTrigger<ImageRecognizerCredentials?>)
+  { _, _, new ->
+
+    ImageRecognitionActionExecutor.imageRecognizer = new
+    initImageRecognizer()
+  }
 
   var geofence by Delegates.observable(
       VoidTrigger<List<GeoMarketing>>() as OxTrigger<List<GeoMarketing>>) { _, _, _ ->
-    initTrigger()
+    initGeofenceTrigger()
   }
 
   var indoorPositioning by Delegates.observable(
       VoidTrigger<List<IndoorPositionConfig>>() as OxTrigger<List<IndoorPositionConfig>>) { _, _, _ ->
-    initTrigger()
+    initIndoorPositioningTrigger()
   }
 
-  private fun initTrigger() {
+  private fun initImageRecognizer() {
+    imageRecognizerCredentials?.let {
+      imageRecognizer.setConfig(it)
+    }
+  }
+
+  private fun initGeofenceTrigger() {
     if (configuration.geoMarketing.isNotEmpty()) {
       geofence.setConfig(configuration.geoMarketing)
       try {
@@ -83,7 +96,9 @@ class TriggerManager(private val context: Context, private val getTriggerConfig:
             Error(code = Error.FATAL_ERROR, message = exception.message as String))
       }
     }
+  }
 
+  private fun initIndoorPositioningTrigger() {
     if (configuration.indoorPositionConfig.isNotEmpty()) {
       indoorPositioning.setConfig(configuration.indoorPositionConfig)
       try {
@@ -97,6 +112,7 @@ class TriggerManager(private val context: Context, private val getTriggerConfig:
 
   fun finish() {
     scanner.finish()
+    imageRecognizer.finish()
     geofence.finish()
     indoorPositioning.finish()
   }
@@ -120,7 +136,8 @@ class TriggerManager(private val context: Context, private val getTriggerConfig:
   companion object Factory {
 
     fun create(context: Context): TriggerManager = TriggerManager(context,
-        GetTriggerConfig.create(), GetAction.create(),
+        GetTriggerConfiguration.create(),
+        GetTriggerList.create(), GetAction.create(),
         ValidateTrigger.create(), ActionHandlerServiceExecutor.create(), Orchextra)
   }
 }

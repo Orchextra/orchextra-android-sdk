@@ -22,7 +22,9 @@ data class ApiConfiguration(
     val geofences: List<ApiGeofence>?,
     val beaconRegions: List<ApiRegion>?,
     val eddystoneRegions: List<ApiRegion>?,
-    val customFields: Map<String, ApiCustomField>?)
+    val customFields: Map<String, ApiCustomField>?,
+    val requestWaitTime: Int?,
+    val vuforia: ApiVuforia?)
 
 data class ApiGeofence(
     val code: String?,
@@ -43,3 +45,8 @@ data class ApiRegion(
 data class ApiCustomField(
     val type: String?,
     val label: String?)
+
+data class ApiVuforia(
+    val licenseKey: String?,
+    val clientAccessKey: String?,
+    val clientSecretKey: String?)

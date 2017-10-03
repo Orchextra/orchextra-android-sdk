@@ -37,7 +37,10 @@ interface NetworkDataSource {
   fun getConfiguration(apiKey: String): Configuration
 
   @Throws(NetworkException::class)
-  fun getTriggerConfig(point: OxPoint): Configuration
+  fun getTriggerConfiguration(apiKey: String): Configuration
+
+  @Throws(NetworkException::class)
+  fun getTriggerList(point: OxPoint): Configuration
 
   @Throws(NetworkException::class)
   fun getAction(trigger: Trigger): Action

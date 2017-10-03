@@ -22,25 +22,11 @@ import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.ErrorInterceptor
 import com.gigigo.orchextra.core.data.datasources.network.interceptor.SessionInterceptor
-import com.gigigo.orchextra.core.data.datasources.network.models.ApiGeoLocation
-import com.gigigo.orchextra.core.data.datasources.network.models.ApiList
-import com.gigigo.orchextra.core.data.datasources.network.models.ApiPoint
-import com.gigigo.orchextra.core.data.datasources.network.models.toAction
-import com.gigigo.orchextra.core.data.datasources.network.models.toApiAuthRequest
-import com.gigigo.orchextra.core.data.datasources.network.models.toApiTokenData
-import com.gigigo.orchextra.core.data.datasources.network.models.toApiTrigger
-import com.gigigo.orchextra.core.data.datasources.network.models.toConfiguration
-import com.gigigo.orchextra.core.data.datasources.network.models.toTokenData
+import com.gigigo.orchextra.core.data.datasources.network.models.*
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
-import com.gigigo.orchextra.core.domain.entities.Action
-import com.gigigo.orchextra.core.domain.entities.Configuration
-import com.gigigo.orchextra.core.domain.entities.Credentials
-import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
-import com.gigigo.orchextra.core.domain.entities.OxPoint
-import com.gigigo.orchextra.core.domain.entities.TokenData
-import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.entities.*
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -48,6 +34,7 @@ import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class NetworkDataSourceImp(private val orchextra: Orchextra,
@@ -96,7 +83,6 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun getConfiguration(apiKey: String): Configuration {
-
     val apiResponse = orchextraCoreApi.getConfiguration(apiKey).execute().body()
 
     val indoorPositionConfig = IndoorPositionConfig(
@@ -115,8 +101,13 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return config.copy(indoorPositionConfig = indoorPositionConfigList)
   }
 
-  override fun getTriggerConfig(point: OxPoint): Configuration {
+  override fun getTriggerConfiguration(apiKey: String): Configuration {
+    val apiResponse = orchextraTriggerApi.getConfiguration(apiKey).execute().body()
 
+    return apiResponse?.data?.toConfiguration() as Configuration
+  }
+
+  override fun getTriggerList(point: OxPoint): Configuration {
     val request = ApiList(ApiGeoLocation(ApiPoint(lat = point.lat, lng = point.lng)))
     val apiResponse = makeCallWithRetry { orchextraTriggerApi.getList(request).execute().body() }
 
@@ -124,7 +115,6 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun getAction(trigger: Trigger): Action {
-
     val apiResponse = makeCallWithRetry {
       orchextraTriggerApi.getAction(trigger.toApiTrigger()).execute().body()
     }

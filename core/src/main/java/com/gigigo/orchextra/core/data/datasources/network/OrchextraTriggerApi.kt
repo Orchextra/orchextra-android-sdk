@@ -25,10 +25,14 @@ import com.gigigo.orchextra.core.data.datasources.network.models.ApiTrigger
 import com.gigigo.orchextra.core.data.datasources.network.models.OxResponse
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface OrchextraTriggerApi {
+
+  @GET("configuration/{id}")
+  fun getConfiguration(@Path("id") id: String): Call<OxResponse<ApiConfiguration>>
 
   @POST("list")
   fun getList(@Body listData: ApiList): Call<OxResponse<ApiConfiguration>>

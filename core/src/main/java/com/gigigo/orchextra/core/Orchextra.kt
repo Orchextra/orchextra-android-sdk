@@ -30,12 +30,12 @@ import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
+import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
-import java.lang.IllegalStateException
 
 object Orchextra : OrchextraErrorListener {
 
@@ -85,9 +85,20 @@ object Orchextra : OrchextraErrorListener {
           crmManager?.availableCustomFields = it.customFields
           changeStatus(true)
         },
+
         onError = {
           changeStatus(false)
           LogUtils.LOGE(TAG, "getConfiguration: ${it.error}")
+        })
+
+    val getTriggerConfiguration = GetTriggerConfiguration.create()
+
+    getTriggerConfiguration.get(apiKey,
+        onSuccess = {
+          triggerManager.imageRecognizerCredentials = it.imageRecognizerCredentials
+        },
+        onError = {
+          LogUtils.LOGE(TAG, "getTriggerConfiguration: ${it.error}")
         })
   }
 

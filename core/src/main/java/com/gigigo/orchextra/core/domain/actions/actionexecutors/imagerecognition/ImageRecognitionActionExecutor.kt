@@ -18,11 +18,12 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition
 
+import com.gigigo.orchextra.core.domain.entities.ImageRecognizerCredentials
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
 import com.gigigo.orchextra.core.domain.triggers.VoidTrigger
 
 object ImageRecognitionActionExecutor {
-  var imageRecognizer: OxTrigger<Any> = VoidTrigger()
+  var imageRecognizer: OxTrigger<ImageRecognizerCredentials> = VoidTrigger()
 
   fun open() {
     imageRecognizer.init()
