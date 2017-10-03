@@ -61,12 +61,11 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
 
     val savedTrigger = dbDataSource.getTrigger(trigger.value)
 
+    dbDataSource.saveTrigger(trigger)
+
     if (savedTrigger.isVoid()) {
-      dbDataSource.saveTrigger(trigger)
       return trigger
     }
-
-    dbDataSource.saveTrigger(trigger)
 
     return if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
       trigger
