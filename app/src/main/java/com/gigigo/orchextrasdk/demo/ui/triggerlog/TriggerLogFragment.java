@@ -104,7 +104,7 @@ public class TriggerLogFragment extends Fragment {
 
   private void initTriggerLogMemory() {
     TriggerLogMemory triggerLogMemory = TriggerLogMemory.getInstance();
-    triggerLogs = new HashSet<>();
+    triggerLogs = new HashSet<>(triggerLogMemory.getTriggerLogs());
     triggerLogs.addAll(triggerLogMemory.getTriggerLogs());
     filterTriggerTypes = new ArrayList<>();
 

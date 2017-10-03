@@ -39,7 +39,7 @@
   <string name="custom_scanner_title">Custom scanner</string>
 
   <string name="trigger_date">Detected:</string>
-  <string name="trigger_date_format">%1$tRh - %1$te %1$tB %1$tY</string>
+  <string name="trigger_date_format">%1$tT - %1$te %1$tB %1$tY</string>
   <string name="date_format">%1$te %1$tB %1$tY</string>
   <string name="trigger_type">Type:</string>
   <string name="trigger_value">Value:</string>

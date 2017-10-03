@@ -65,7 +65,7 @@ public final class TriggerLog implements Comparable<TriggerLog>, Parcelable {
   }
 
   @Override public int hashCode() {
-    return 31 * trigger.getValue().hashCode();
+    return 31 * (date.hashCode() + trigger.getValue().hashCode());
   }
 
   protected TriggerLog(Parcel in) {
