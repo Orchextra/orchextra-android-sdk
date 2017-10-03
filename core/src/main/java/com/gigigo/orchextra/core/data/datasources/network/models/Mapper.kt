@@ -57,7 +57,7 @@ fun ApiConfiguration.toConfiguration(): Configuration = with(this) {
       indoorPositionConfig = indoorPositionConfig,
       customFields = customFields?.toCustomFieldList() ?: listOf(),
       requestWaitTime = requestWaitTime,
-      imageRecognizerCredentials = vuforia?.toVuforia())
+      imageRecognizerCredentials = vuforia?.toImageRecognizerCredentials())
 }
 
 fun List<ApiGeofence>.toGeoMarketingList(): List<GeoMarketing> = map {
@@ -77,7 +77,7 @@ fun ApiPoint.toPoint(): Point = with(this) {
   return Point(lat = lat, lng = lng)
 }
 
-fun ApiVuforia.toVuforia(): ImageRecognizerCredentials = with(this) {
+fun ApiVuforia.toImageRecognizerCredentials(): ImageRecognizerCredentials = with(this) {
   return ImageRecognizerCredentials(
       licenseKey = licenseKey ?: "",
       clientAccessKey = clientAccessKey ?: "",
