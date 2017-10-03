@@ -31,9 +31,11 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.CUSTOM_SCHEME
 import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
+import com.gigigo.orchextra.core.domain.interactor.ConfirmAction
 import com.gigigo.orchextra.core.schedule.ActionSchedulerManager
 
 class ActionDispatcher constructor(
+    private val confirmAction: ConfirmAction,
     private val browserActionExecutor: BrowserActionExecutor,
     private val webViewActionExecutor: WebViewActionExecutor,
     private val customActionExecutor: CustomActionExecutor,
@@ -56,6 +58,9 @@ class ActionDispatcher constructor(
   }
 
   private fun dispatchAction(action: Action) {
+
+    confirmAction.get(action.trackId)
+
     if (action.hasNotification()) {
       notificationActionExecutor.showNotification(action.notification, action)
     } else {
@@ -76,6 +81,7 @@ class ActionDispatcher constructor(
   companion object Factory {
 
     fun create(context: Context): ActionDispatcher = ActionDispatcher(
+        ConfirmAction.create(),
         BrowserActionExecutor.create(context),
         WebViewActionExecutor.create(context),
         CustomActionExecutor.create(),
