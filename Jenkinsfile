@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('github.com/pedroamador/jenkins-pipeline-library@develop') _
+@Library('github.com/red-panda-ci/jenkins-pipeline-library@develop') _
 
 // Initialize global condig
 cfg = jplConfig('orchextra-sdk', 'android', '', [ hipchat:'', slack:'#integrations', email:'qa+orchextra@gigigo.com' ])
@@ -20,11 +20,8 @@ pipeline {
             agent { label 'docker' }
             when { branch 'feature/core_module' }
             steps  {
-                timestamps {
-                    ansiColor('xterm') {
-                        sh 'ci-scripts/bin/doTest.sh'
-                    }
-                }
+                // sh 'ci-scripts/bin/doTest.sh'
+                echo "Disable interface test temporally"
             }
         }
         stage ('Release confirm') {
@@ -59,6 +56,8 @@ pipeline {
     }
 
     options {
+        timestamps()
+        ansiColor('xterm')
         buildDiscarder(logRotator(artifactNumToKeepStr: '20',artifactDaysToKeepStr: '30'))
         disableConcurrentBuilds()
         skipDefaultCheckout()

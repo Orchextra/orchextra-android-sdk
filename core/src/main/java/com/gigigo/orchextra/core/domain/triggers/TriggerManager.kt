@@ -25,12 +25,17 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
-import com.gigigo.orchextra.core.domain.entities.*
+import com.gigigo.orchextra.core.domain.entities.Configuration
+import com.gigigo.orchextra.core.domain.entities.Error
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.gigigo.orchextra.core.domain.entities.ImageRecognizerCredentials
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
+import com.gigigo.orchextra.core.domain.entities.OxPoint
+import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
-import com.gigigo.orchextra.core.utils.LogUtils
 import kotlin.properties.Delegates
 
 class TriggerManager(private val context: Context,
@@ -38,10 +43,7 @@ class TriggerManager(private val context: Context,
     private val getTriggerList: GetTriggerList,
     private val getAction: GetAction, private val validateTrigger: ValidateTrigger,
     private val actionHandlerServiceExecutor: ActionHandlerServiceExecutor,
-    private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
-
-
-  private val TAG = LogUtils.makeLogTag(TriggerManager::class.java)
+    private var errorListener: OrchextraErrorListener) : TriggerListener {
 
   var configuration: Configuration = Configuration()
   var point: OxPoint by Delegates.observable(OxPoint(0.0, 0.0)) { _, _, _ ->
@@ -52,7 +54,14 @@ class TriggerManager(private val context: Context,
           initGeofenceTrigger()
           initIndoorPositioningTrigger()
         },
-        onError = { orchextraErrorListener.onError(it.toError()) })
+        onError = { errorListener.onError(it.toError()) })
+  }
+  var apiKey: String by Delegates.observable("") { _, _, _ ->
+    getTriggerConfiguration.get(apiKey,
+        onSuccess = {
+          imageRecognizerCredentials = it.imageRecognizerCredentials
+        },
+        onError = { errorListener.onError(it.toError()) })
   }
 
   var scanner by Delegates.observable(VoidTrigger<Any>() as OxTrigger<Any>)
@@ -63,7 +72,7 @@ class TriggerManager(private val context: Context,
   var imageRecognizerCredentials: ImageRecognizerCredentials? = null
 
   var imageRecognizer by Delegates.observable(
-      VoidTrigger<Any>() as OxTrigger<ImageRecognizerCredentials?>)
+      VoidTrigger<ImageRecognizerCredentials>() as OxTrigger<ImageRecognizerCredentials>)
   { _, _, new ->
 
     ImageRecognitionActionExecutor.imageRecognizer = new
@@ -92,7 +101,7 @@ class TriggerManager(private val context: Context,
       try {
         geofence.init()
       } catch (exception: SecurityException) {
-        orchextraErrorListener.onError(
+        errorListener.onError(
             Error(code = Error.FATAL_ERROR, message = exception.message as String))
       }
     }
@@ -104,7 +113,7 @@ class TriggerManager(private val context: Context,
       try {
         indoorPositioning.init()
       } catch (exception: SecurityException) {
-        orchextraErrorListener.onError(
+        errorListener.onError(
             Error(code = Error.FATAL_ERROR, message = exception.message as String))
       }
     }
@@ -125,13 +134,13 @@ class TriggerManager(private val context: Context,
       },
       onError = {
         if (it.toError().isValid()) {
-          orchextraErrorListener.onError(it.toError())
+          errorListener.onError(it.toError())
         }
       })
 
   private fun getActionByTrigger(trigger: Trigger) = getAction.get(trigger,
       onSuccess = { actionHandlerServiceExecutor.execute(context = context, action = it) },
-      onError = { orchextraErrorListener.onError(it.toError()) })
+      onError = { errorListener.onError(it.toError()) })
 
   companion object Factory {
 

@@ -28,7 +28,10 @@ class OxImageRecognizerImp private constructor(
   private lateinit var credentials: ImageRecognizerCredentials
 
   override fun init() {
-    ImageRecognizerActivity.open(context, credentials)
+    ImageRecognizerActivity.open(context,
+        licenseKey = credentials.licenseKey,
+        clientAccessKey = credentials.clientAccessKey,
+        clientSecretKey = credentials.clientSecretKey)
   }
 
   override fun setConfig(config: ImageRecognizerCredentials) {

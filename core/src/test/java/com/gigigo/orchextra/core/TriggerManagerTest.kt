@@ -70,6 +70,8 @@ class TriggerManagerTest {
   private fun getTriggerManager(actionHandlerServiceExecutor: ActionHandlerServiceExecutor = mock(),
       orchextraErrorListener: OrchextraErrorListener = mock()): TriggerManager {
 
+    val getTriggerConfiguration: GetTriggerConfiguration = mock()
+
     val networkDataSource = mock<NetworkDataSource> {
       on { getAction(TEST_SUCCESS_TRIGGER) } doReturn TEST_ACTION
       on { getAction(TEST_ERROR_TRIGGER) } doThrow TEST_NETWORK_EXCEPTION
@@ -89,11 +91,12 @@ class TriggerManagerTest {
         PostExecutionThreadMock(),
         dbDataSource)
 
-    return TriggerManager(context = mock(), getTriggerConfiguration = getTriggerConfig,
-        getTriggerList = getTriggerList,
+    return TriggerManager(context = mock(),
+        getTriggerConfiguration = getTriggerConfiguration,
+        getTriggerList = getTriggerConfig,
         getAction = getAction,
         validateTrigger = validateTrigger,
         actionHandlerServiceExecutor = actionHandlerServiceExecutor,
-        orchextraErrorListener = orchextraErrorListener)
+        errorListener = orchextraErrorListener)
   }
 }

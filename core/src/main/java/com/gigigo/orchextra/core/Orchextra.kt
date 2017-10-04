@@ -30,7 +30,6 @@ import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
-import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.FileLogging
@@ -67,6 +66,7 @@ object Orchextra : OrchextraErrorListener {
     }
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
     this.crmManager = CrmManager.create { onError(it) }
+    this.triggerManager.apiKey = apiKey
 
     initLogger(context)
 
@@ -89,16 +89,6 @@ object Orchextra : OrchextraErrorListener {
         onError = {
           changeStatus(false)
           LogUtils.LOGE(TAG, "getConfiguration: ${it.error}")
-        })
-
-    val getTriggerConfiguration = GetTriggerConfiguration.create()
-
-    getTriggerConfiguration.get(apiKey,
-        onSuccess = {
-          triggerManager.imageRecognizerCredentials = it.imageRecognizerCredentials
-        },
-        onError = {
-          LogUtils.LOGE(TAG, "getTriggerConfiguration: ${it.error}")
         })
   }
 
