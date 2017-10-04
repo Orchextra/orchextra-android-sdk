@@ -25,9 +25,7 @@ import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Trigger
-import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
-import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
-import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
+import com.gigigo.orchextra.core.domain.entities.TriggerType.*
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
@@ -36,12 +34,7 @@ import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.testutils.PostExecutionThreadMock
 import com.gigigo.orchextra.core.testutils.ThreadExecutorMock
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.doThrow
-import com.nhaarman.mockito_kotlin.eq
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import org.junit.Test
 
 
@@ -88,8 +81,10 @@ class TriggerManagerTest {
       on { getTrigger(any()) } doReturn Trigger(VOID, "")
     }
 
-    val getTriggerConfig = GetTriggerList(ThreadExecutorMock(),
+    val getTriggerList = GetTriggerList(ThreadExecutorMock(),
         PostExecutionThreadMock(), networkDataSource)
+    val getTriggerConfig = GetTriggerConfiguration(ThreadExecutorMock(), PostExecutionThreadMock(),
+        networkDataSource)
     val getAction = GetAction(ThreadExecutorMock(),
         PostExecutionThreadMock(), networkDataSource)
     val validateTrigger = ValidateTrigger(ThreadExecutorMock(),

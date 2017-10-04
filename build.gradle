@@ -15,6 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+apply from: 'dependencies.gradle'
+apply from: 'common_methods.gradle'
 
 buildscript {
   ext.kotlin_version = '1.1.50'
@@ -33,6 +35,12 @@ buildscript {
 }
 
 allprojects {
+  ext {
+    androidBuildToolsVersion = '26.0.0'
+    androidMinSdkVersion = 16
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
+  }
 
   repositories {
     jcenter()
