@@ -30,6 +30,7 @@ import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.interactor.GetAction
+import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
@@ -76,6 +77,8 @@ class TriggerManagerTest {
   private fun getTriggerManager(actionHandlerServiceExecutor: ActionHandlerServiceExecutor = mock(),
       orchextraErrorListener: OrchextraErrorListener = mock()): TriggerManager {
 
+    val getTriggerConfiguration: GetTriggerConfiguration = mock()
+
     val networkDataSource = mock<NetworkDataSource> {
       on { getAction(TEST_SUCCESS_TRIGGER) } doReturn TEST_ACTION
       on { getAction(TEST_ERROR_TRIGGER) } doThrow TEST_NETWORK_EXCEPTION
@@ -93,7 +96,9 @@ class TriggerManagerTest {
         PostExecutionThreadMock(),
         dbDataSource)
 
-    return TriggerManager(context = mock(), getTriggerList = getTriggerConfig,
+    return TriggerManager(context = mock(),
+        getTriggerConfiguration = getTriggerConfiguration,
+        getTriggerList = getTriggerConfig,
         getAction = getAction,
         validateTrigger = validateTrigger,
         actionHandlerServiceExecutor = actionHandlerServiceExecutor,

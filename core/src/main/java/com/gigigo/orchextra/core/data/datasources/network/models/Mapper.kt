@@ -18,7 +18,29 @@
 
 package com.gigigo.orchextra.core.data.datasources.network.models
 
-import com.gigigo.orchextra.core.domain.entities.*
+import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.ActionType
+import com.gigigo.orchextra.core.domain.entities.Configuration
+import com.gigigo.orchextra.core.domain.entities.Credentials
+import com.gigigo.orchextra.core.domain.entities.CustomField
+import com.gigigo.orchextra.core.domain.entities.DEFAULT_REQUEST_WAIT_TIME
+import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
+import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
+import com.gigigo.orchextra.core.domain.entities.Error
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.gigigo.orchextra.core.domain.entities.ImageRecognizerCredentials
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
+import com.gigigo.orchextra.core.domain.entities.Notification
+import com.gigigo.orchextra.core.domain.entities.OxCRM
+import com.gigigo.orchextra.core.domain.entities.OxClientApp
+import com.gigigo.orchextra.core.domain.entities.OxDevice
+import com.gigigo.orchextra.core.domain.entities.OxDeviceInfo
+import com.gigigo.orchextra.core.domain.entities.OxNotificationPush
+import com.gigigo.orchextra.core.domain.entities.Point
+import com.gigigo.orchextra.core.domain.entities.Schedule
+import com.gigigo.orchextra.core.domain.entities.TokenData
+import com.gigigo.orchextra.core.domain.entities.Trigger
+import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
@@ -56,7 +78,7 @@ fun ApiConfiguration.toConfiguration(): Configuration = with(this) {
       geoMarketing = geofences?.toGeoMarketingList() ?: listOf(),
       indoorPositionConfig = indoorPositionConfig,
       customFields = customFields?.toCustomFieldList() ?: listOf(),
-      requestWaitTime = requestWaitTime,
+      requestWaitTime = requestWaitTime ?: DEFAULT_REQUEST_WAIT_TIME,
       imageRecognizerCredentials = vuforia?.toImageRecognizerCredentials())
 }
 

@@ -25,12 +25,17 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
-import com.gigigo.orchextra.core.domain.entities.*
+import com.gigigo.orchextra.core.domain.entities.Configuration
+import com.gigigo.orchextra.core.domain.entities.Error
+import com.gigigo.orchextra.core.domain.entities.GeoMarketing
+import com.gigigo.orchextra.core.domain.entities.ImageRecognizerCredentials
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
+import com.gigigo.orchextra.core.domain.entities.OxPoint
+import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
-import com.gigigo.orchextra.core.utils.LogUtils
 import kotlin.properties.Delegates
 
 class TriggerManager(private val context: Context,
@@ -39,9 +44,6 @@ class TriggerManager(private val context: Context,
     private val getAction: GetAction, private val validateTrigger: ValidateTrigger,
     private val actionHandlerServiceExecutor: ActionHandlerServiceExecutor,
     private var orchextraErrorListener: OrchextraErrorListener) : TriggerListener {
-
-
-  private val TAG = LogUtils.makeLogTag(TriggerManager::class.java)
 
   var configuration: Configuration = Configuration()
   var point: OxPoint by Delegates.observable(OxPoint(0.0, 0.0)) { _, _, _ ->
