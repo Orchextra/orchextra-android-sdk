@@ -33,6 +33,7 @@ import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Schedule
+import com.gigigo.orchextra.core.domain.interactor.ConfirmAction
 import com.gigigo.orchextra.core.schedule.ActionSchedulerManager
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
@@ -146,6 +147,7 @@ class ActionDispatcherTest {
   }
 
   private fun getActionDispatcher(
+      confirmAction: ConfirmAction = mock(),
       browserActionExecutor: BrowserActionExecutor = mock(),
       webViewActionExecutor: WebViewActionExecutor = mock(),
       customActionExecutor: CustomActionExecutor = mock(),
@@ -155,7 +157,7 @@ class ActionDispatcherTest {
       actionSchedulerManager: ActionSchedulerManager = mock()
   ): ActionDispatcher {
 
-    return ActionDispatcher(browserActionExecutor, webViewActionExecutor,
+    return ActionDispatcher(confirmAction, browserActionExecutor, webViewActionExecutor,
         customActionExecutor, scannerActionExecutor, imageRecognitionActionExecutor,
         notificationActionExecutor, actionSchedulerManager)
   }
