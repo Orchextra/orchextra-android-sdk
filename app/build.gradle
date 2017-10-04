@@ -35,15 +35,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'applivery-plugin'
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion '26'
+  compileSdkVersion rootProject.ext.androidCompileSdkVersion
+  buildToolsVersion rootProject.ext.androidBuildToolsVersion
 
   defaultConfig {
     applicationId "com.gigigo.orchextrasdk.demo"
-    minSdkVersion 16
-    targetSdkVersion 25
-    versionCode computeVersionCode()
-    versionName "3.0.0-rc." + computeVersionCode()
+    minSdkVersion rootProject.ext.androidMinSdkVersion
+    targetSdkVersion rootProject.ext.androidTargetSdkVersion
+    versionCode generateAutoVersionCode()
+    versionName "3.0.0-rc." + generateAutoVersionCode()
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
@@ -95,30 +95,29 @@ dexcount {
 }
 
 dependencies {
+  compile rootProject.ext.modules.core
+  compile rootProject.ext.modules.geofence
+  compile rootProject.ext.modules.indoorPositioning
+  compile rootProject.ext.modules.imageRecognizer
+  compile rootProject.ext.modules.scanner
 
-  compile project(':core')
-  compile project(':geofence')
-  compile project(':indoorpositioning')
-  compile project(':imagerecognizer')
-  compile project(':scanner')
+  compile rootProject.ext.libraries.supportAppCompatV7
+  compile rootProject.ext.libraries.supportDesign
+  compile rootProject.ext.libraries.suppportVectorDrawable
+  compile rootProject.ext.libraries.supportV4
+  compile rootProject.ext.libraries.supportCardViewV7
+  compile rootProject.ext.libraries.supportRecyclerViewV7
+  compile rootProject.ext.libraries.playServicesMaps
+  compile rootProject.ext.libraries.stetho
+  compile rootProject.ext.libraries.calligraphy
 
-  compile 'com.android.support:appcompat-v7:25.3.1'
-  compile 'com.android.support:design:25.3.1'
-  compile 'com.android.support:support-vector-drawable:25.3.1'
-  compile 'com.android.support:support-v4:25.3.1'
-  compile 'com.android.support:cardview-v7:25.3.1'
-  compile 'com.android.support:recyclerview-v7:25.3.1'
-  compile 'com.google.android.gms:play-services-maps:11.0.4'
-  compile 'com.facebook.stetho:stetho:1.5.0'
-  compile 'uk.co.chrisjenx:calligraphy:2.3.0'
-
-  testCompile 'junit:junit:4.12'
-  debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-  releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-  androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+  testCompile rootProject.ext.testLibraries.junit
+  debugCompile rootProject.ext.libraries.leakcanary
+  releaseCompile rootProject.ext.libraries.leakcanaryNoop
+  androidTestCompile rootProject.ext.testLibraries.espressoCore, {
     exclude group: 'com.android.support', module: 'support-annotations'
   }
-  androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2', {
+  androidTestCompile rootProject.ext.testLibraries.espressoIntents, {
     exclude group: 'com.android.support', module: 'support-annotations'
   }
 }
@@ -133,6 +132,7 @@ android.applicationVariants.all { variant ->
   def applicationId = variant.applicationId
   def adb = android.getAdbExe().toString()
   def variantName = variant.name.capitalize()
+
   def grantPermissionTask = tasks.create("grant${variantName}Permissions") << {
     "${adb} devices".execute().text.eachLine {
       if (it.endsWith("device")) {
@@ -144,15 +144,4 @@ android.applicationVariants.all { variant ->
       }
     }
   }
-}
-
-/**
- * Gets the commit number from the current Git commit. E.g. 538*/
-def computeVersionCode() {
-  def stdout = new ByteArrayOutputStream()
-  exec {
-    commandLine 'git', 'rev-list', '--count', 'HEAD'
-    standardOutput = stdout
-  }
-  return stdout.toString().trim().toInteger()
 }

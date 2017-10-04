@@ -1,0 +1,147 @@
+/*
+ * Created by Orchextra
+ *
+ * Copyright (C) 2017 Gigigo Mobile Services SL
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ext {
+  STRING = "String"
+  BOOLEAN = "boolean"
+  INT = "int"
+
+  generateVersionCode = { major, minor, patch ->
+    def majorFactor = 10000
+    def minorFactor = 100
+    def patchFactor = 1
+
+    if(patch > 99) {
+      println("warning patch number to high! "+patch)
+
+    }
+    if(minor > 99) {
+      println("warning minor number to high! "+minor)
+
+    }
+
+    def versionCode = major*majorFactor + minor*minorFactor + patch*patchFactor
+    println("+++++++++++++++versionCode: "+versionCode)
+    return versionCode
+  };
+
+  generateAutoVersionCode = {
+    try {
+      def stdout = new ByteArrayOutputStream()
+      exec {
+        commandLine 'git', 'rev-list', '--count', 'HEAD'
+        standardOutput = stdout
+      }
+      def commitCount = stdout.toString().trim().toInteger()
+
+      println("commitCount: "+commitCount)
+
+      return commitCount;
+    }
+    catch (ignored) {
+      return 0;
+    }
+  };
+
+  generateVersionName = { major, minor, patch ->
+    def versionName = "${major}.${minor}.${patch}"
+    println("versionName: "+versionName)
+    return versionName
+  };
+
+  getVariantFieldValue = { field, buildType ->
+    def value
+
+    if (field instanceof Map) {
+      if (field["$buildType"] == null) {
+        println("not defined explicit param value for \'${field}\' in \'${buildType}\' configuration. Using first value founded")
+        value = field.entrySet().toList().first().getValue()
+      } else {
+        value = field["$buildType"]
+      }
+    } else {
+      value = field
+    }
+
+    return "${value}"
+  };
+
+
+  getVariantFieldValueWithType = { field, buildType, type ->
+    def value
+
+    if (field instanceof Map) {
+      if (field["$buildType"] == null) {
+        println("not defined explicit param value for \'${field}\' in \'${buildType}\' configuration. Using first value founded")
+        value = field.entrySet().toList().first().getValue()
+      } else {
+        value = field["$buildType"]
+      }
+    } else {
+      value = field
+    }
+
+    if (value != null) {
+      if (type.toLowerCase().equals("string")) {
+        value = "\"${value}\""
+      }
+      else {
+        value = "${value}"
+      }
+    }
+
+    return value
+  };
+
+  setVariantApplicationId = { variant, appId ->
+    def mergedFlavor = variant.getVariantData().getVariantConfiguration().getMergedFlavor()
+    mergedFlavor.setApplicationId(appId)
+    println("applicationId: " + appId)
+  };
+
+  setVariantModeDebugValue = { variant, key, type ->
+    def value = (variant.buildType.name == 'debug' || variant.buildType.name == 'staging')
+    setVariantBuildConfigField(variant, value, key, type)
+  };
+
+  setVariantBuildConfigField = { variant, field, key, type ->
+    def value = getVariantFieldValueWithType(field, variant.buildType.name, type)
+
+    if (value != null) {
+      try {
+        variant.buildConfigField(type, key, value)
+        println("BuildConfig -> " + type + ":" + key + " = " + value)
+      } catch (Exception ex) {
+
+        println("Null value: BuildConfig -> " + type + ":" + key + " not added!")
+      }
+    } else {
+      println("Null value: BuildConfig -> " + type + ":" + key + " not added!")
+    }
+  };
+
+  setVariantResValue = { variant, field, key, type ->
+    def value = getVariantFieldValueWithType(field, variant.buildType.name, type)
+    try {
+      variant.resValue(type, key, value)
+      println("Res -> " + type + ":" + key + " = " + value)
+    } catch (Exception ex) {
+      println("Null value: Res -> " + type + ":" + key + " = " + value)
+    }
+  };
+}
