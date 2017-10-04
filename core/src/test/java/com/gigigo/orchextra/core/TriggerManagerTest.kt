@@ -102,6 +102,6 @@ class TriggerManagerTest {
         getAction = getAction,
         validateTrigger = validateTrigger,
         actionHandlerServiceExecutor = actionHandlerServiceExecutor,
-        orchextraErrorListener = orchextraErrorListener)
+        errorListener = orchextraErrorListener)
   }
 }
