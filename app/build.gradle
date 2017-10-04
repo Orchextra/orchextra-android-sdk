@@ -96,7 +96,8 @@ dexcount {
 
 dependencies {
 
-  compile project(':core')
+  compile 'com.gigigo.orchextra:core:0.0.1'
+  //    compile project(':core')
   compile project(':geofence')
   compile project(':indoorpositioning')
   compile project(':imagerecognizer')
