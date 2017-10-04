@@ -82,16 +82,22 @@ android {
   }
 }
 
-dexcount {
-  format = "list"
-  includeClasses = false
-  includeFieldCount = true
-  includeTotalMethodCount = true
-  orderByMethodCount = false
-  verbose = true
-  maxTreeDepth = Integer.MAX_VALUE
-  enableForInstantRun = false
-  runOnEachAssemble = false
+android.applicationVariants.all { variant ->
+  def applicationId = variant.applicationId
+  def adb = android.getAdbExe().toString()
+  def variantName = variant.name.capitalize()
+
+  def grantPermissionTask = tasks.create("grant${variantName}Permissions") << {
+    "${adb} devices".execute().text.eachLine {
+      if (it.endsWith("device")) {
+        def device = it.split()[0]
+        println "Granting permissions on devices ${device}"
+        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.CAMERA".execute()
+        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.ACCESS_FINE_LOCATION".
+            execute()
+      }
+    }
+  }
 }
 
 dependencies {
@@ -122,26 +128,21 @@ dependencies {
   }
 }
 
+dexcount {
+  format = "list"
+  includeClasses = false
+  includeFieldCount = true
+  includeTotalMethodCount = true
+  orderByMethodCount = false
+  verbose = true
+  maxTreeDepth = Integer.MAX_VALUE
+  enableForInstantRun = false
+  runOnEachAssemble = false
+}
+
 applivery {
   appId = "59a69f3ae2272dd77951a75b"
   buildPath = "./app/build/outputs/apk/app-release.apk"
   apiKey = "$System.env.APPLIVERY_API_KEY"
 }
 
-android.applicationVariants.all { variant ->
-  def applicationId = variant.applicationId
-  def adb = android.getAdbExe().toString()
-  def variantName = variant.name.capitalize()
-
-  def grantPermissionTask = tasks.create("grant${variantName}Permissions") << {
-    "${adb} devices".execute().text.eachLine {
-      if (it.endsWith("device")) {
-        def device = it.split()[0]
-        println "Granting permissions on devices ${device}"
-        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.CAMERA".execute()
-        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.ACCESS_FINE_LOCATION".
-            execute()
-      }
-    }
-  }
-}

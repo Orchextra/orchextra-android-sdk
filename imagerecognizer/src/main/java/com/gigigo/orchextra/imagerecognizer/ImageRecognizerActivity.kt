@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.widget.Button
 import android.widget.TextView
 
 class ImageRecognizerActivity : AppCompatActivity() {
@@ -30,6 +31,9 @@ class ImageRecognizerActivity : AppCompatActivity() {
     licenseKeyTv = findViewById(R.id.imagerecognizer_license_tv) as TextView
     accessKeyTv = findViewById(R.id.imagerecognizer_accessKey_tv) as TextView
     secretKeyTv = findViewById(R.id.imagerecognizer_secretKey_tv) as TextView
+
+    val startButton = findViewById(R.id.start_vuforia_button) as Button
+    startButton.setOnClickListener({ startVuforia() })
   }
 
   private fun initToolbar() {
@@ -60,6 +64,12 @@ class ImageRecognizerActivity : AppCompatActivity() {
   private fun getClientAccessKey(): String = intent.getStringExtra(CLIENT_ACCESS_KEY)
 
   private fun getClientSecretKey(): String = intent.getStringExtra(CLIENT_SECRET_KEY)
+
+  private fun startVuforia() {
+
+
+
+  }
 
   companion object Navigator {
     private val LICENSE_KEY = "license_key"
