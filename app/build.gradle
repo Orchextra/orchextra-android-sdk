@@ -97,11 +97,15 @@ dexcount {
 dependencies {
 
   compile 'com.gigigo.orchextra:core:0.0.1'
-  //    compile project(':core')
-  compile project(':geofence')
-  compile project(':indoorpositioning')
+  compile 'com.gigigo.orchextra:geofence:0.0.1'
+  compile 'com.gigigo.orchextra:indoorpositioning:0.0.1'
+  compile 'com.gigigo.orchextra:scanner:0.0.1'
+
+  //  compile project(':core')
+  //  compile project(':geofence')
+  //  compile project(':indoorpositioning')
   compile project(':imagerecognizer')
-  compile project(':scanner')
+  //  compile project(':scanner')
 
   compile 'com.android.support:appcompat-v7:25.3.1'
   compile 'com.android.support:design:25.3.1'

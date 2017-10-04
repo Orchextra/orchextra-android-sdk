@@ -56,3 +56,15 @@ allprojects {
 task clean(type: Delete) {
   delete rootProject.buildDir
 }
+
+import org.gradle.internal.os.OperatingSystem;
+
+task deployLib(type: Exec) {
+  workingDir "./"
+  def command = "./gradlew"
+  if (OperatingSystem.current().isWindows()) {
+    command = command + ".bat"
+  }
+
+  commandLine command, "install", 'bintrayUpload'
+}

@@ -31,7 +31,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../config/jacoco.gradle'
 apply plugin: 'com.getkeepsafe.dexcount'
-apply plugin: 'com.jfrog.bintray'
 
 group = 'com.gigigo.orchextra'
 version = '0.0.1'
