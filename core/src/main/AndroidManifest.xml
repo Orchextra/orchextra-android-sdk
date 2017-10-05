@@ -27,7 +27,8 @@
   <application
       android:allowBackup="true"
       android:label="@string/app_name"
-      android:supportsRtl="true">
+      android:supportsRtl="true"
+      android:theme="@style/OxAppTheme">
     <activity
         android:name=".domain.actions.actionexecutors.webview.WebViewActivity"
         android:theme="@style/OxAppTheme.NoActionBar">
