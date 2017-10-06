@@ -26,17 +26,15 @@ ext {
     def minorFactor = 100
     def patchFactor = 1
 
-    if(patch > 99) {
-      println("warning patch number to high! "+patch)
-
+    if (patch > 99) {
+      println("warning patch number to high! " + patch)
     }
-    if(minor > 99) {
-      println("warning minor number to high! "+minor)
-
+    if (minor > 99) {
+      println("warning minor number to high! " + minor)
     }
 
-    def versionCode = major*majorFactor + minor*minorFactor + patch*patchFactor
-    println("+++++++++++++++versionCode: "+versionCode)
+    def versionCode = major * majorFactor + minor * minorFactor + patch * patchFactor
+    println("+++++++++++++++versionCode: " + versionCode)
     return versionCode
   };
 
@@ -49,18 +47,17 @@ ext {
       }
       def commitCount = stdout.toString().trim().toInteger()
 
-      println("commitCount: "+commitCount)
+      println("commitCount: " + commitCount)
 
       return commitCount;
-    }
-    catch (ignored) {
+    } catch (ignored) {
       return 0;
     }
   };
 
   generateVersionName = { major, minor, patch ->
     def versionName = "${major}.${minor}.${patch}"
-    println("versionName: "+versionName)
+    println("versionName: " + versionName)
     return versionName
   };
 
@@ -69,7 +66,8 @@ ext {
 
     if (field instanceof Map) {
       if (field["$buildType"] == null) {
-        println("not defined explicit param value for \'${field}\' in \'${buildType}\' configuration. Using first value founded")
+        println(
+            "not defined explicit param value for \'${field}\' in \'${buildType}\' configuration. Using first value founded")
         value = field.entrySet().toList().first().getValue()
       } else {
         value = field["$buildType"]
@@ -87,7 +85,8 @@ ext {
 
     if (field instanceof Map) {
       if (field["$buildType"] == null) {
-        println("not defined explicit param value for \'${field}\' in \'${buildType}\' configuration. Using first value founded")
+        println(
+            "not defined explicit param value for \'${field}\' in \'${buildType}\' configuration. Using first value founded")
         value = field.entrySet().toList().first().getValue()
       } else {
         value = field["$buildType"]
@@ -99,8 +98,7 @@ ext {
     if (value != null) {
       if (type.toLowerCase().equals("string")) {
         value = "\"${value}\""
-      }
-      else {
+      } else {
         value = "${value}"
       }
     }

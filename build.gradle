@@ -15,14 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-apply from : 'dependencies.gradle'
-apply from : 'common_methods.gradle'
+apply from: 'dependencies.gradle'
+apply from: 'common_methods.gradle'
 
 buildscript {
   ext.kotlin_version = '1.1.50'
   repositories {
     jcenter()
-    mavenCentral()
   }
 
   dependencies {
@@ -30,6 +29,8 @@ buildscript {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
     classpath 'com.google.gms:google-services:3.1.0'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
   }
 }
 
@@ -43,8 +44,30 @@ allprojects {
 
   repositories {
     jcenter()
+    maven { url "http://jcenter.bintray.com" }
+    maven { url 'https://dl.bintray.com/gigigo-desarrollo/maven' }
     maven { url 'https://jitpack.io' }
     maven { url 'https://maven.google.com' }
     mavenCentral()
   }
+
+  tasks.withType(Javadoc).all {
+    enabled = false
+  }
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}
+
+import org.gradle.internal.os.OperatingSystem;
+
+task deployLib(type: Exec) {
+  workingDir "./"
+  def command = "./gradlew"
+  if (OperatingSystem.current().isWindows()) {
+    command = command + ".bat"
+  }
+
+  commandLine command, "install", 'bintrayUpload'
 }

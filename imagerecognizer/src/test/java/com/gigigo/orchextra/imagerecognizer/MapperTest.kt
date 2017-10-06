@@ -20,6 +20,7 @@ package com.gigigo.orchextra.imagerecognizer
 
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiVuforia
 import com.gigigo.orchextra.core.data.datasources.network.models.toImageRecognizerCredentials
+import org.amshove.kluent.shouldEqual
 import org.junit.Test
 
 class MapperTest {
