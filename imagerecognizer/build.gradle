@@ -59,4 +59,7 @@ dependencies {
   androidTestCompile(rootProject.ext.testLibraries.espressoCore, {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
+
+  compile 'com.github.GigigoGreenLabs.imgRecogModule:imagerecognitioninterface:2.6'
+  compile 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
 }

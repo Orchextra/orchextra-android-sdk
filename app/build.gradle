@@ -33,6 +33,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'applivery-plugin'
+apply from: '../config/jacoco.gradle'
 
 android {
   compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -44,6 +45,11 @@ android {
     targetSdkVersion rootProject.ext.androidTargetSdkVersion
     versionCode generateAutoVersionCode()
     versionName "3.0.0-rc." + generateAutoVersionCode()
+    multiDexEnabled true
+
+    ndk {
+      abiFilters "armeabi-v7a"
+    }
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
@@ -101,6 +107,15 @@ android.applicationVariants.all { variant ->
 }
 
 dependencies {
+  compile rootProject.ext.libraries.multidex
+  androidTestCompile rootProject.ext.libraries.multidex
+  androidTestCompile rootProject.ext.libraries.multidexInstrumentation
+
+  compile rootProject.ext.modules.core
+  compile rootProject.ext.modules.geofence
+  compile rootProject.ext.modules.indoorPositioning
+  compile rootProject.ext.modules.imageRecognizer
+  compile rootProject.ext.modules.scanner
 
   //  compile 'com.gigigo.orchextra:core:0.0.1'
   //  compile 'com.gigigo.orchextra:geofence:0.0.1'
@@ -151,4 +166,3 @@ applivery {
   buildPath = "./app/build/outputs/apk/app-release.apk"
   apiKey = "$System.env.APPLIVERY_API_KEY"
 }
-

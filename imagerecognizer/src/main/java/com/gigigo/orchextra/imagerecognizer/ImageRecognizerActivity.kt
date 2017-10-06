@@ -1,5 +1,6 @@
 package com.gigigo.orchextra.imagerecognizer
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +8,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.Button
 import android.widget.TextView
+import com.gigigo.ggglib.ContextProvider
+import com.gigigo.imagerecognitioninterface.ImageRecognitionCredentials
+import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl
 
 class ImageRecognizerActivity : AppCompatActivity() {
 
@@ -66,9 +70,29 @@ class ImageRecognizerActivity : AppCompatActivity() {
   private fun getClientSecretKey(): String = intent.getStringExtra(CLIENT_SECRET_KEY)
 
   private fun startVuforia() {
+    var imageRecognition = ImageRecognitionVuforiaImpl()
 
+    val contextProvider = object : ContextProvider {
+      override fun getApplicationContext(): Context = this@ImageRecognizerActivity.application.applicationContext
 
+      override fun getCurrentActivity(): Activity = this@ImageRecognizerActivity
 
+      override fun isApplicationContextAvailable(): Boolean = true
+
+      override fun isActivityContextAvailable(): Boolean = true
+    }
+
+    imageRecognition.setContextProvider(contextProvider)
+
+    val vuforiaCredentials = object : ImageRecognitionCredentials {
+      override fun getLicensekey(): String = this@ImageRecognizerActivity.getLicenseKey()
+
+      override fun getClientSecretKey(): String = this@ImageRecognizerActivity.getClientSecretKey()
+
+      override fun getClientAccessKey(): String = this@ImageRecognizerActivity.getClientAccessKey()
+    }
+
+    imageRecognition.startImageRecognition(vuforiaCredentials)
   }
 
   companion object Navigator {
