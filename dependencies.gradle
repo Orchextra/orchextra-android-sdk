@@ -17,6 +17,10 @@
  */
 
 ext {
+
+  group = 'com.gigigo.orchextra'
+  version = '0.0.2'
+
   libraries = [kotlinStdLib             : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
                supportAppCompatV7       : 'com.android.support:appcompat-v7:25.3.1',
                supportDesign            : 'com.android.support:design:25.3.1',
