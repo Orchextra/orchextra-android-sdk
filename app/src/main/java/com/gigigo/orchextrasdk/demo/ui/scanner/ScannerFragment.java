@@ -31,6 +31,9 @@ import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
+import com.gigigo.orchextra.core.domain.entities.Trigger;
+import com.gigigo.orchextra.core.domain.entities.TriggerType;
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver;
 import com.gigigo.orchextra.imagerecognizer.OxImageRecognizerImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import com.gigigo.orchextrasdk.demo.R;
@@ -43,6 +46,7 @@ public class ScannerFragment extends Fragment {
   private Button oxScannerButton;
   private Button oxCustomScannerButton;
   private Button oxImageRecognitionButton;
+  private Button dispatchQRbutton;
 
   public ScannerFragment() {
   }
@@ -59,6 +63,7 @@ public class ScannerFragment extends Fragment {
     oxScannerButton = (Button) view.findViewById(R.id.ox_scanner_button);
     oxCustomScannerButton = (Button) view.findViewById(R.id.ox_custom_scanner_button);
     oxImageRecognitionButton = (Button) view.findViewById(R.id.ox_image_recognition_button);
+    dispatchQRbutton = (Button) view.findViewById(R.id.dispatch_qr_button);
 
     return view;
   }
@@ -110,11 +115,19 @@ public class ScannerFragment extends Fragment {
       @Override public void onClick(View v) {
         if (orchextra.isReady()) {
           orchextra.getTriggerManager()
-              .setImageRecognizer(OxImageRecognizerImp.Factory.create(getActivity().getApplication()));
+              .setImageRecognizer(
+                  OxImageRecognizerImp.Factory.create(getActivity().getApplication()));
           orchextra.openImageRecognition();
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
         }
+      }
+    });
+
+    dispatchQRbutton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Trigger qrTrigger = TriggerType.QR.withValue("qrcustomaction");
+        getActivity().sendBroadcast(TriggerBroadcastReceiver.Navigator.getTriggerIntent(qrTrigger));
       }
     });
   }

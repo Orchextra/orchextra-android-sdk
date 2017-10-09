@@ -18,15 +18,36 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction
 
+import android.os.Handler
+import android.os.Looper
+import android.support.annotation.UiThread
 
-class CustomActionExecutor {
+
+class CustomActionExecutor(private val handler: Handler) {
+
+  var customActionListener: CustomActionListener? = null
 
   fun open(url: String) {
-
+    handler.post { customActionListener?.onCustomSchema(url) }
   }
 
   companion object Factory {
 
-    fun create(): CustomActionExecutor = CustomActionExecutor()
+    var customActionExecutor: CustomActionExecutor? = null
+
+    fun getInstance(): CustomActionExecutor {
+
+      if (customActionExecutor == null) {
+        val handler = Handler(Looper.getMainLooper())
+        customActionExecutor = CustomActionExecutor(handler)
+      }
+
+      return customActionExecutor as CustomActionExecutor
+    }
   }
+}
+
+interface CustomActionListener {
+  @UiThread
+  fun onCustomSchema(customSchema: String)
 }

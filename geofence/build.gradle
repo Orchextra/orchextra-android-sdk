@@ -21,8 +21,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../config/jacoco.gradle'
 
-group = 'com.gigigo.orchextra'
-version = '0.0.1'
+group = rootProject.ext.group
+version = rootProject.ext.version
 
 ext {
   bintrayRepo = 'maven'
@@ -37,7 +37,7 @@ ext {
   siteUrl = 'https://github.com/Orchextra/orchextra-android-sdk'
   gitUrl = 'https://github.com/Orchextra/orchextra-android-sdk.git'
 
-  libraryVersion = '0.0.1'
+  libraryVersion = rootProject.ext.version
 
   developerId = 'gigigo-desarrollo'
   developerName = 'Android Gigigo'

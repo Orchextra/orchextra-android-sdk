@@ -23,6 +23,7 @@ import android.os.Parcelable
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON_REGION
 import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE
+import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE_REGION
 import com.gigigo.orchextra.core.domain.entities.TriggerType.GEOFENCE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 
@@ -68,6 +69,12 @@ data class Trigger constructor(
   )
 
   fun isVoid(): Boolean = type == VOID
+
+  fun isBackgroundTrigger(): Boolean = (type == BEACON
+      || type == BEACON_REGION
+      || type == EDDYSTONE
+      || type == EDDYSTONE_REGION
+      || type == GEOFENCE)
 
   fun needEvent(): Boolean = type == BEACON || type == BEACON_REGION
       || type == EDDYSTONE || type == GEOFENCE

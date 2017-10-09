@@ -28,7 +28,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
+import com.gigigo.orchextra.core.OrchextraTokenReceiver;
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionListener;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.geofences.GeofencesFragment;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
   TriggerLogFragment triggerLogFragment;
   GeofencesFragment geofencesFragment;
   private BottomNavigationView navigation;
+  private Orchextra orchextra;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -56,6 +60,20 @@ public class MainActivity extends AppCompatActivity {
     if (savedInstanceState == null) {
       navigation.setSelectedItemId(R.id.navigation_scanner);
     }
+
+    orchextra = Orchextra.INSTANCE;
+    orchextra.setCustomActionListener(new CustomActionListener() {
+      @Override public void onCustomSchema(@NonNull String customSchema) {
+        Toast.makeText(MainActivity.this, "CustomSchema: " + customSchema, Toast.LENGTH_LONG)
+            .show();
+      }
+    });
+
+    orchextra.getToken(new OrchextraTokenReceiver() {
+      @Override public void onGetToken(@NonNull String oxToken) {
+        Toast.makeText(MainActivity.this, "Token:" + oxToken, Toast.LENGTH_SHORT).show();
+      }
+    });
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
   @Override protected void onResume() {
     super.onResume();
-    Orchextra orchextra = Orchextra.INSTANCE;
     if (!orchextra.isReady()) {
       LoginActivity.open(this);
       finish();

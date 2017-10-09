@@ -21,7 +21,10 @@ package com.gigigo.orchextra.core
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionListener
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
@@ -30,6 +33,7 @@ import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
+import com.gigigo.orchextra.core.domain.interactor.GetOxToken
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.FileLogging
@@ -40,6 +44,7 @@ object Orchextra : OrchextraErrorListener {
 
   private val TAG = LogUtils.makeLogTag(Orchextra::class.java)
   private var context: Application? = null
+  private var getOxToken: GetOxToken? = null
   private lateinit var triggerManager: TriggerManager
   private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
   private lateinit var locationProvider: LocationProvider
@@ -67,6 +72,7 @@ object Orchextra : OrchextraErrorListener {
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
     this.crmManager = CrmManager.create { onError(it) }
     this.triggerManager.apiKey = apiKey
+    this.getOxToken = GetOxToken.create()
 
     initLogger(context)
 
@@ -142,12 +148,26 @@ object Orchextra : OrchextraErrorListener {
     this.orchextraErrorListener = null
   }
 
+  fun setCustomActionListener(customActionListener: CustomActionListener) {
+    CustomActionExecutor.getInstance().customActionListener = customActionListener
+  }
+
   override fun onError(error: Error) {
     orchextraErrorListener?.onError(error)
 
     if (error.code == Error.FATAL_ERROR) {
       finish()
     }
+  }
+
+  fun getToken(tokenReceiver: OrchextraTokenReceiver) {
+    getOxToken?.get(getCredentials(),
+        onSuccess = {
+          tokenReceiver.onGetToken(it)
+        },
+        onError = {
+          onError(it.toError())
+        })
   }
 
   fun finish() {
