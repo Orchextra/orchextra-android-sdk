@@ -1,17 +1,14 @@
 # Orchextra SDK for Android
 [![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=ocm_integration)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
-![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
-![Version](https://img.shields.io/badge/Version-4.1.0RC-blue.svg)
- ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
- [ ![Download](https://api.bintray.com/packages/gigigo-desarrollo/maven/com.gigigo.orchextra%3Acore/images/download.svg) ](https://bintray.com/gigigo-desarrollo/maven/com.gigigo.orchextra%3Acore/_latestVersion)
+[![Download](https://api.bintray.com/packages/gigigo-desarrollo/maven/com.gigigo.orchextra%3Acore/images/download.svg)](https://bintray.com/gigigo-desarrollo/maven/com.gigigo.orchextra%3Acore/_latestVersion)
 
 A library that gives you access to Orchextra platform from your Android sdkVersionAppInfo.
 
-## Getting started
+# Getting started
 Start by creating a project in [Orchextra Dashboard](https://dashboard.orchextra.io/start/login), if you haven't done it yet. Go to "Setting" > "SDK Configuration" to get the **api key** and **api secret**, you will need these values to start Orchextra SDK.
 
-## Overview
+# Overview
 Orchextra SDK is composed of **Orchextra Core**, and add-ons
 
 #### Orchextra Core
@@ -44,19 +41,22 @@ Add dependencies you need
   compile 'com.gigigo.orchextra:scanner:x.x.x'
 ```
 
-#Init Orchextra
+## Init Orchextra
+
 ```java
     Orchextra orchextra = Orchextra.INSTANCE;
     orchextra.setStatusListener(orchextraStatusListener);
     orchextra.init(getApplication(), apiKey, apiSecret, true);
 ```
 
-#Add trigger implementation
+## Add trigger implementation
+
 ```java
   orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
 ```
 
-#Get Orchextra errors
+## Get Orchextra errors
+
 ```java
   orchextra.setErrorListener(new OrchextraErrorListener() {
     @Override public void onError(@NonNull Error error) {
@@ -68,7 +68,8 @@ Add dependencies you need
   });
 ```
 
-#Custom actions
+## Custom actions
+
 ```java
   orchextra.setCustomActionListener(new CustomActionListener() {
     @Override public void onCustomSchema(@NonNull String customSchema) {
