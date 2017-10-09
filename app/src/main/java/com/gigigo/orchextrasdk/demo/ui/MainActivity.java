@@ -30,7 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor;
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionListener;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.geofences.GeofencesFragment;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     orchextra = Orchextra.INSTANCE;
-    orchextra.setCustomActionListener(new CustomActionExecutor.CustomActionListener() {
+    orchextra.setCustomActionListener(new CustomActionListener() {
       @Override public void onCustomSchema(@NonNull String customSchema) {
         Toast.makeText(MainActivity.this, "CustomSchema: " + customSchema, Toast.LENGTH_LONG)
             .show();

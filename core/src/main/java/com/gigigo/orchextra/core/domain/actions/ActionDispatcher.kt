@@ -84,7 +84,7 @@ class ActionDispatcher constructor(
         ConfirmAction.create(),
         BrowserActionExecutor.create(context),
         WebViewActionExecutor.create(context),
-        CustomActionExecutor,
+        CustomActionExecutor.getInstance(),
         ScannerActionExecutor,
         ImageRecognitionActionExecutor,
         NotificationActionExecutor.create(context),

@@ -23,7 +23,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor.CustomActionListener
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionListener
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
@@ -145,7 +145,7 @@ object Orchextra : OrchextraErrorListener {
   }
 
   fun setCustomActionListener(customActionListener: CustomActionListener) {
-    CustomActionExecutor.customActionListener = customActionListener
+    CustomActionExecutor.getInstance().customActionListener = customActionListener
   }
 
   override fun onError(error: Error) {

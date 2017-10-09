@@ -23,17 +23,31 @@ import android.os.Looper
 import android.support.annotation.UiThread
 
 
-object CustomActionExecutor {
+class CustomActionExecutor(private val handler: Handler) {
 
-  val handler = Handler(Looper.getMainLooper())
   var customActionListener: CustomActionListener? = null
 
   fun open(url: String) {
     handler.post { customActionListener?.onCustomSchema(url) }
   }
 
-  interface CustomActionListener {
-    @UiThread
-    fun onCustomSchema(customSchema: String)
+  companion object Factory {
+
+    var customActionExecutor: CustomActionExecutor? = null
+
+    fun getInstance(): CustomActionExecutor {
+
+      if (customActionExecutor == null) {
+        val handler = Handler(Looper.getMainLooper())
+        customActionExecutor = CustomActionExecutor(handler)
+      }
+
+      return customActionExecutor as CustomActionExecutor
+    }
   }
+}
+
+interface CustomActionListener {
+  @UiThread
+  fun onCustomSchema(customSchema: String)
 }
