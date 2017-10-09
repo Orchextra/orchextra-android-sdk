@@ -4,6 +4,7 @@
 ![Language](https://img.shields.io/badge/Language-Android-brightgreen.svg)
 ![Version](https://img.shields.io/badge/Version-4.1.0RC-blue.svg)
  ![](https://img.shields.io/badge/Min%20SDK-18-green.svg)
+ [ ![Download](https://api.bintray.com/packages/gigigo-desarrollo/maven/com.gigigo.orchextra%3Acore/images/download.svg) ](https://bintray.com/gigigo-desarrollo/maven/com.gigigo.orchextra%3Acore/_latestVersion)
 
 A library that gives you access to Orchextra platform from your Android sdkVersionAppInfo.
 
@@ -37,10 +38,10 @@ allprojects {
 Add dependencies you need
 
 ```groovy
-  compile 'com.gigigo.orchextra:core:0.0.1'
-  compile 'com.gigigo.orchextra:geofence:0.0.1'
-  compile 'com.gigigo.orchextra:indoorpositioning:0.0.1'
-  compile 'com.gigigo.orchextra:scanner:0.0.1'
+  compile 'com.gigigo.orchextra:core:x.x.x'
+  compile 'com.gigigo.orchextra:geofence:x.x.x'
+  compile 'com.gigigo.orchextra:indoorpositioning:x.x.x'
+  compile 'com.gigigo.orchextra:scanner:x.x.x'
 ```
 
 #Init Orchextra
@@ -62,6 +63,16 @@ Add dependencies you need
       hideLoading();
       Log.e(TAG, error.toString());
       Toast.makeText(EditActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT)
+          .show();
+    }
+  });
+```
+
+#Custom actions
+```java
+  orchextra.setCustomActionListener(new CustomActionListener() {
+    @Override public void onCustomSchema(@NonNull String customSchema) {
+      Toast.makeText(MainActivity.this, "CustomSchema: " + customSchema, Toast.LENGTH_LONG)
           .show();
     }
   });
