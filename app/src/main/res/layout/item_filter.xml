@@ -39,8 +39,8 @@
       android:layout_marginRight="10dp"
       android:checkMark="?android:attr/listChoiceIndicatorMultiple"
       android:gravity="center"
-      tools:text="Image recognition"
       android:textColor="@color/primary_text"
       android:textSize="17sp"
+      tools:text="Image recognition"
       />
 </LinearLayout>

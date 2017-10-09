@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.TextView
 import com.gigigo.ggglib.ContextProvider
 import com.gigigo.imagerecognitioninterface.ImageRecognitionCredentials
+import com.gigigo.orchextra.core.domain.entities.TriggerType
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl
 
 class ImageRecognizerActivity : AppCompatActivity() {
@@ -17,6 +19,7 @@ class ImageRecognizerActivity : AppCompatActivity() {
   private lateinit var licenseKeyTv: TextView
   private lateinit var accessKeyTv: TextView
   private lateinit var secretKeyTv: TextView
+  private lateinit var codeTv: TextView
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -35,6 +38,7 @@ class ImageRecognizerActivity : AppCompatActivity() {
     licenseKeyTv = findViewById(R.id.imagerecognizer_license_tv) as TextView
     accessKeyTv = findViewById(R.id.imagerecognizer_accessKey_tv) as TextView
     secretKeyTv = findViewById(R.id.imagerecognizer_secretKey_tv) as TextView
+    codeTv = findViewById(R.id.imagerecognizer_code_tv) as TextView
 
     val startButton = findViewById(R.id.start_vuforia_button) as Button
     startButton.setOnClickListener({ startVuforia() })
@@ -68,6 +72,12 @@ class ImageRecognizerActivity : AppCompatActivity() {
   private fun getClientAccessKey(): String = intent.getStringExtra(CLIENT_ACCESS_KEY)
 
   private fun getClientSecretKey(): String = intent.getStringExtra(CLIENT_SECRET_KEY)
+
+  private fun showResponseCode(code: String) {
+    codeTv.text = "CODE= $code"
+    sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(TriggerType.IMAGE_RECOGNITION withValue code))
+
+  }
 
   private fun startVuforia() {
     var imageRecognition = ImageRecognitionVuforiaImpl()
@@ -109,6 +119,10 @@ class ImageRecognizerActivity : AppCompatActivity() {
       intent.putExtra(CLIENT_ACCESS_KEY, clientAccessKey)
       intent.putExtra(CLIENT_SECRET_KEY, clientSecretKey)
       context.startActivity(intent)
+    }
+
+    fun showCode(code: String) {
+      imageRecognizerActivity?.showResponseCode(code)
     }
 
     fun finish() {
