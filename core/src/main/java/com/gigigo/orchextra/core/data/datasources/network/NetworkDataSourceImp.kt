@@ -162,7 +162,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun unbindCrm() {
-    makeCallWithRetry({ ->
+    makeCallWithRetry({
       val requestBody: RequestBody = RequestBody.create(MediaType.parse("application/json"),
           "{\"crm\":null }")
       orchextraCoreApi.updateTokenData(requestBody).execute().body()
