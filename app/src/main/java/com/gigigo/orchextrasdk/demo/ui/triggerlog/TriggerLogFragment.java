@@ -59,6 +59,7 @@ public class TriggerLogFragment extends Fragment {
   List<TriggerType> filterTriggerTypes;
   CheckedTextView modifyFilterView;
   Button filterCleanButton;
+  Button cleanButton;
   TriggersAdapter triggersAdapter;
   RecyclerView triggerLogList;
   View emptyListView;
@@ -77,6 +78,7 @@ public class TriggerLogFragment extends Fragment {
 
     modifyFilterView = (CheckedTextView) view.findViewById(R.id.modify_filter_button);
     filterCleanButton = (Button) view.findViewById(R.id.filter_clean_button);
+    cleanButton = (Button) view.findViewById(R.id.clean_button);
     triggerLogList = (RecyclerView) view.findViewById(R.id.trigger_log_list);
     emptyListView = view.findViewById(R.id.empty_list_view);
 
@@ -145,6 +147,15 @@ public class TriggerLogFragment extends Fragment {
   private void initView() {
     initRecyclerView();
     initFilter();
+
+    cleanButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        TriggerLogMemory triggerLogMemory = TriggerLogMemory.getInstance();
+        triggerLogMemory.clearTriggerLogs();
+        triggerLogs = new HashSet<>();
+        updateView();
+      }
+    });
   }
 
   private void initFilter() {

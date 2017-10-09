@@ -30,24 +30,31 @@
       android:layout_width="match_parent"
       android:layout_height="50dp"
       android:layout_marginTop="58dp"
-      style="@style/ButtonStyle"
       android:text="@string/open_orchextra_scanner"
+      style="@style/ButtonStyle"
       />
 
   <Button
       android:id="@+id/ox_custom_scanner_button"
       android:layout_width="match_parent"
       android:layout_height="50dp"
-      style="@style/ButtonStyle"
       android:text="@string/open_custom_scanner"
+      style="@style/ButtonStyle"
       />
 
   <Button
       android:id="@+id/ox_image_recognition_button"
       android:layout_width="match_parent"
       android:layout_height="50dp"
-      style="@style/ButtonStyle"
       android:text="@string/open_image_recognition"
+      style="@style/ButtonStyle"
       />
 
+  <Button
+      android:id="@+id/dispatch_qr_button"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:text="Dispatch QR Code"
+      style="@style/ButtonStyle"
+      />
 </LinearLayout>

@@ -59,6 +59,10 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
   fun validate(trigger: Trigger): Trigger {
     this.trigger = trigger
 
+    if (!trigger.isBackgroundTrigger()) {
+      return trigger
+    }
+
     val savedTrigger = dbDataSource.getTrigger(trigger.value)
 
     dbDataSource.saveTrigger(trigger)
