@@ -23,7 +23,7 @@ data class ApiConfiguration(
     val beaconRegions: List<ApiRegion>?,
     val eddystoneRegions: List<ApiRegion>?,
     val customFields: Map<String, ApiCustomField>?,
-    val requestWaitTime: Int?,
+    val requestWaitTime: Long?,
     val vuforia: ApiVuforia?)
 
 data class ApiGeofence(

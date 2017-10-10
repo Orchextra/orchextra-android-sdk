@@ -39,6 +39,7 @@ import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
+import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
 
@@ -56,6 +57,7 @@ object Orchextra : OrchextraErrorListener {
   private var debuggable = false
   private var sessionManager: SessionManager? = null
   private var crmManager: CrmManager? = null
+  var waitTime: Long = TimeUnit.SECONDS.toMillis(120)
 
   @JvmOverloads
   fun init(context: Application, apiKey: String, apiSecret: String, debuggable: Boolean = false) {
@@ -89,6 +91,7 @@ object Orchextra : OrchextraErrorListener {
     getConfiguration.get(apiKey,
         onSuccess = {
           crmManager?.availableCustomFields = it.customFields
+          waitTime = TimeUnit.SECONDS.toMillis(it.requestWaitTime)
           changeStatus(true)
         },
 

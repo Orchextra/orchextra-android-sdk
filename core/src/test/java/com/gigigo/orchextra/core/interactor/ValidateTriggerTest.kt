@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.interactor
 
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
@@ -69,6 +70,6 @@ class ValidateTriggerTest {
       on { getTrigger(any()) } doReturn savedTrigger
     }
 
-    return ValidateTrigger(mock(), mock(), dbDataSource)
+    return ValidateTrigger(mock(), mock(), dbDataSource, Orchextra)
   }
 }

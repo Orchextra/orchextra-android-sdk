@@ -18,13 +18,13 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-val DEFAULT_REQUEST_WAIT_TIME = 120
+val DEFAULT_REQUEST_WAIT_TIME = 120L
 
 data class Configuration(
     val geoMarketing: List<GeoMarketing> = listOf(),
     val indoorPositionConfig: List<IndoorPositionConfig> = listOf(),
     val customFields: List<CustomField> = listOf(),
-    val requestWaitTime: Int = DEFAULT_REQUEST_WAIT_TIME,
+    val requestWaitTime: Long = DEFAULT_REQUEST_WAIT_TIME,
     var imageRecognizerCredentials: ImageRecognizerCredentials? = null)
 
 data class GeoMarketing(

@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.core.domain.interactor
 
 import android.support.annotation.WorkerThread
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.Trigger
@@ -29,16 +30,13 @@ import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
-import java.util.concurrent.TimeUnit
 
 class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
-    private val dbDataSource: DbDataSource) : Interactor<Trigger>(threadExecutor,
+    private val dbDataSource: DbDataSource, private val orchextra: Orchextra) : Interactor<Trigger>(
+    threadExecutor,
     postExecutionThread) {
 
   private lateinit var trigger: Trigger
-
-  // TODO set request wait time from server
-  private val waitTime: Long = TimeUnit.MINUTES.toMillis(2)
 
   fun validate(trigger: Trigger, onSuccess: (Trigger) -> Unit = onSuccessStub,
       onError: (OxException) -> Unit = onErrorStub) {
@@ -71,7 +69,7 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
       return trigger
     }
 
-    return if (savedTrigger.detectedTime + waitTime < System.currentTimeMillis()) {
+    return if (savedTrigger.detectedTime + orchextra.waitTime < System.currentTimeMillis()) {
       trigger
     } else {
       Trigger(VOID, "")
@@ -92,6 +90,6 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
 
   companion object Factory {
     fun create(): ValidateTrigger = ValidateTrigger(ThreadExecutorImp, PostExecutionThreadImp,
-        DbDataSource.create())
+        DbDataSource.create(), Orchextra)
   }
 }
