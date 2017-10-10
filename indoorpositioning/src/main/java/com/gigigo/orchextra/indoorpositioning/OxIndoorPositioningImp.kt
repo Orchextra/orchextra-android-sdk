@@ -21,6 +21,7 @@ package com.gigigo.orchextra.indoorpositioning
 import android.app.Application
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
+import java.util.*
 
 class OxIndoorPositioningImp private constructor(private val context: Application) :
     OxTrigger<List<IndoorPositionConfig>> {

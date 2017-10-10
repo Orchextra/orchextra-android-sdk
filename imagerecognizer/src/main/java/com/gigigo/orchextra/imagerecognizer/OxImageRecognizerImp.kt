@@ -44,5 +44,9 @@ class OxImageRecognizerImp private constructor(
 
   companion object Factory {
     fun create(context: Application): OxImageRecognizerImp = OxImageRecognizerImp(context)
+
+    fun recognizedPattern(code: String) {
+      ImageRecognizerActivity.showCode(code)
+    }
   }
 }

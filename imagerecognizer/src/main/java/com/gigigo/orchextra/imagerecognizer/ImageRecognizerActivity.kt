@@ -1,17 +1,25 @@
 package com.gigigo.orchextra.imagerecognizer
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.widget.Button
 import android.widget.TextView
+import com.gigigo.ggglib.ContextProvider
+import com.gigigo.imagerecognitioninterface.ImageRecognitionCredentials
+import com.gigigo.orchextra.core.domain.entities.TriggerType
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
+import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl
 
 class ImageRecognizerActivity : AppCompatActivity() {
 
   private lateinit var licenseKeyTv: TextView
   private lateinit var accessKeyTv: TextView
   private lateinit var secretKeyTv: TextView
+  private lateinit var codeTv: TextView
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -30,6 +38,10 @@ class ImageRecognizerActivity : AppCompatActivity() {
     licenseKeyTv = findViewById(R.id.imagerecognizer_license_tv) as TextView
     accessKeyTv = findViewById(R.id.imagerecognizer_accessKey_tv) as TextView
     secretKeyTv = findViewById(R.id.imagerecognizer_secretKey_tv) as TextView
+    codeTv = findViewById(R.id.imagerecognizer_code_tv) as TextView
+
+    val startButton = findViewById(R.id.start_vuforia_button) as Button
+    startButton.setOnClickListener({ startVuforia() })
   }
 
   private fun initToolbar() {
@@ -61,6 +73,38 @@ class ImageRecognizerActivity : AppCompatActivity() {
 
   private fun getClientSecretKey(): String = intent.getStringExtra(CLIENT_SECRET_KEY)
 
+  private fun showResponseCode(code: String) {
+    codeTv.text = "CODE= $code"
+    sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(TriggerType.IMAGE_RECOGNITION withValue code))
+
+  }
+
+  private fun startVuforia() {
+    var imageRecognition = ImageRecognitionVuforiaImpl()
+
+    val contextProvider = object : ContextProvider {
+      override fun getApplicationContext(): Context = this@ImageRecognizerActivity.application.applicationContext
+
+      override fun getCurrentActivity(): Activity = this@ImageRecognizerActivity
+
+      override fun isApplicationContextAvailable(): Boolean = true
+
+      override fun isActivityContextAvailable(): Boolean = true
+    }
+
+    imageRecognition.setContextProvider(contextProvider)
+
+    val vuforiaCredentials = object : ImageRecognitionCredentials {
+      override fun getLicensekey(): String = this@ImageRecognizerActivity.getLicenseKey()
+
+      override fun getClientSecretKey(): String = this@ImageRecognizerActivity.getClientSecretKey()
+
+      override fun getClientAccessKey(): String = this@ImageRecognizerActivity.getClientAccessKey()
+    }
+
+    imageRecognition.startImageRecognition(vuforiaCredentials)
+  }
+
   companion object Navigator {
     private val LICENSE_KEY = "license_key"
     private val CLIENT_ACCESS_KEY = "client_access_key"
@@ -75,6 +119,10 @@ class ImageRecognizerActivity : AppCompatActivity() {
       intent.putExtra(CLIENT_ACCESS_KEY, clientAccessKey)
       intent.putExtra(CLIENT_SECRET_KEY, clientSecretKey)
       context.startActivity(intent)
+    }
+
+    fun showCode(code: String) {
+      imageRecognizerActivity?.showResponseCode(code)
     }
 
     fun finish() {

@@ -29,9 +29,7 @@ import android.os.IBinder
 import android.support.annotation.RequiresApi
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
-import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
-import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON_REGION
-import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE_REGION
+import com.gigigo.orchextra.core.domain.entities.TriggerType.*
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGW
@@ -45,6 +43,7 @@ import com.gigigo.orchextra.indoorpositioning.utils.extensions.getBeaconManager
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getType
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getValue
 import org.altbeacon.beacon.BeaconConsumer
+import java.util.*
 
 class IndoorPositioningService : Service(), BeaconConsumer {
 
@@ -59,7 +58,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   private val handler = Handler()
 
   private val SCAN_DELAY_IN_SECONDS = 30
-  private val CHECK_SERVICE_TIME_IN_SECONDS = 60 * 5
+  private val CHECK_SERVICE_TIME_IN_SECONDS = 1 //60 * 5
 
   override fun onCreate() {
     super.onCreate()

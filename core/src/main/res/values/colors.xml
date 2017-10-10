@@ -18,12 +18,12 @@
   -->
 
 <resources>
-  <color name="ox_primary">#F44336</color>
-  <color name="ox_primary_dark">#D32F2F</color>
+  <color name="ox_primary">#ee524f</color>
+  <color name="ox_primary_dark">#d44947</color>
   <color name="ox_primary_light">#FFCDD2</color>
-  <color name="ox_accent">#03A9F4</color>
+  <color name="ox_accent">#3399ff</color>
   <color name="ox_primary_text">#212121</color>
-  <color name="ox_secondary_text">#757575</color>
+  <color name="ox_secondary_text">#9d9da3</color>
   <color name="ox_icons">#FFFFFF</color>
   <color name="ox_divider">#BDBDBD</color>
 </resources>

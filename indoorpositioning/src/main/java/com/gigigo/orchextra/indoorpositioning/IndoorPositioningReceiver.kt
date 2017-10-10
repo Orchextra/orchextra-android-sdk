@@ -23,13 +23,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
+import java.util.*
 
 class IndoorPositioningReceiver : BroadcastReceiver() {
 
   override fun onReceive(context: Context, intent: Intent) {
-    val config: List<IndoorPositionConfig> = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
+    val config: List<IndoorPositionConfig>? = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
 
-    IndoorPositioningService.start(context, config as ArrayList<IndoorPositionConfig>)
+    config?.let {
+      IndoorPositioningService.start(context, config as ArrayList<IndoorPositionConfig>)
+    }
   }
 
   companion object {

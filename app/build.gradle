@@ -33,6 +33,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'applivery-plugin'
+apply from: '../config/jacoco.gradle'
 
 android {
   compileSdkVersion rootProject.ext.androidCompileSdkVersion
@@ -44,6 +45,11 @@ android {
     targetSdkVersion rootProject.ext.androidTargetSdkVersion
     versionCode generateAutoVersionCode()
     versionName "3.0.0-rc." + generateAutoVersionCode()
+    multiDexEnabled true
+
+    ndk {
+      abiFilters "armeabi-v7a"
+    }
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
@@ -82,19 +88,34 @@ android {
   }
 }
 
-dexcount {
-  format = "list"
-  includeClasses = false
-  includeFieldCount = true
-  includeTotalMethodCount = true
-  orderByMethodCount = false
-  verbose = true
-  maxTreeDepth = Integer.MAX_VALUE
-  enableForInstantRun = false
-  runOnEachAssemble = false
+android.applicationVariants.all { variant ->
+  def applicationId = variant.applicationId
+  def adb = android.getAdbExe().toString()
+  def variantName = variant.name.capitalize()
+
+  def grantPermissionTask = tasks.create("grant${variantName}Permissions") << {
+    "${adb} devices".execute().text.eachLine {
+      if (it.endsWith("device")) {
+        def device = it.split()[0]
+        println "Granting permissions on devices ${device}"
+        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.CAMERA".execute()
+        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.ACCESS_FINE_LOCATION".
+            execute()
+      }
+    }
+  }
 }
 
 dependencies {
+  compile rootProject.ext.libraries.multidex
+  androidTestCompile rootProject.ext.libraries.multidex
+  androidTestCompile rootProject.ext.libraries.multidexInstrumentation
+
+  compile rootProject.ext.modules.core
+  compile rootProject.ext.modules.geofence
+  compile rootProject.ext.modules.indoorPositioning
+  compile rootProject.ext.modules.imageRecognizer
+  compile rootProject.ext.modules.scanner
 
   //  compile 'com.gigigo.orchextra:core:0.0.1'
   //  compile 'com.gigigo.orchextra:geofence:0.0.1'
@@ -128,26 +149,20 @@ dependencies {
   }
 }
 
+dexcount {
+  format = "list"
+  includeClasses = false
+  includeFieldCount = true
+  includeTotalMethodCount = true
+  orderByMethodCount = false
+  verbose = true
+  maxTreeDepth = Integer.MAX_VALUE
+  enableForInstantRun = false
+  runOnEachAssemble = false
+}
+
 applivery {
   appId = "59a69f3ae2272dd77951a75b"
   buildPath = "./app/build/outputs/apk/app-release.apk"
   apiKey = "$System.env.APPLIVERY_API_KEY"
-}
-
-android.applicationVariants.all { variant ->
-  def applicationId = variant.applicationId
-  def adb = android.getAdbExe().toString()
-  def variantName = variant.name.capitalize()
-
-  def grantPermissionTask = tasks.create("grant${variantName}Permissions") << {
-    "${adb} devices".execute().text.eachLine {
-      if (it.endsWith("device")) {
-        def device = it.split()[0]
-        println "Granting permissions on devices ${device}"
-        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.CAMERA".execute()
-        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.ACCESS_FINE_LOCATION".
-            execute()
-      }
-    }
-  }
 }

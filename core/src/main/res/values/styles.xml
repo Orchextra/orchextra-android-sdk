@@ -18,7 +18,6 @@
   -->
 
 <resources>
-
   <style name="OxAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
     <item name="colorPrimary">@color/ox_primary</item>
     <item name="colorPrimaryDark">@color/ox_primary_dark</item>
@@ -34,7 +33,7 @@
 
   <style name="OxAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-  <style name="OxAppTheme.Transparent">
+  <style name="OxAppTheme.Transparent" parent="OxAppTheme.NoActionBar">
     <item name="android:windowIsTranslucent">true</item>
     <item name="android:windowBackground">@android:color/transparent</item>
     <item name="android:windowContentOverlay">@null</item>
