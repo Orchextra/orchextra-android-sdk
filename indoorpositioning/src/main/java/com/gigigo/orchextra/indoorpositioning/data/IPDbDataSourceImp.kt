@@ -18,6 +18,8 @@
 
 package com.gigigo.orchextra.indoorpositioning.data
 
+import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.list.ListCachingStrategy
+import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl.TtlCachingStrategy
 import com.gigigo.orchextra.core.data.datasources.db.persistors.Persistor
 import com.gigigo.orchextra.core.domain.exceptions.DbException
 import com.gigigo.orchextra.indoorpositioning.data.models.DbOxBeacon
@@ -28,16 +30,20 @@ import com.gigigo.orchextra.indoorpositioning.domain.datasource.IPDbDataSource
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.j256.ormlite.dao.Dao
 import java.sql.SQLException
+import java.util.concurrent.TimeUnit.DAYS
 
 class IPDbDataSourceImp(helper: IPDatabaseHelper) : IPDbDataSource {
 
   private val daoOxBeacons: Dao<DbOxBeacon, Int> = helper.getOxBeaconDao()
   private val oxBeaconPersistor: Persistor<DbOxBeacon> = OxBeaconPersistor(helper)
+  private val beaconListCachingStrategy = ListCachingStrategy(
+      TtlCachingStrategy<DbOxBeacon>(30, DAYS))
 
   @Throws(DbException::class)
   override fun getBeacon(id: String): OxBeacon? {
     try {
       val dbOXBeacon = daoOxBeacons.queryBuilder().where().eq("value", id).queryForFirst()
+      removeOldBeacons()
 
       return dbOXBeacon?.toOxBeacon()
     } catch (e: SQLException) {
@@ -59,6 +65,7 @@ class IPDbDataSourceImp(helper: IPDatabaseHelper) : IPDbDataSource {
   override fun saveOrUpdateBeacon(beacon: OxBeacon) {
     try {
       val dbBeacon = beacon.toDbOxBeacon()
+      dbBeacon.dbPersistedTime = System.currentTimeMillis()
       oxBeaconPersistor.persist(dbBeacon)
 
     } catch (e: SQLException) {
@@ -76,5 +83,26 @@ class IPDbDataSourceImp(helper: IPDatabaseHelper) : IPDbDataSource {
     } catch (e: SQLException) {
       throw DbException(-1, e.message ?: "")
     }
+  }
+
+  @Throws(SQLException::class)
+  private fun removeOldBeacons() {
+    val dbTriggers = daoOxBeacons.queryForAll()
+
+    if (!beaconListCachingStrategy.isValid(dbTriggers)) {
+      deleteDbBeacons(beaconListCachingStrategy.candidatesToPurgue(dbTriggers))
+    }
+  }
+
+  @Throws(SQLException::class)
+  private fun deleteDbBeacons(purgue: List<DbOxBeacon>) {
+    internalDeleteBeacons(purgue.map { it.value })
+  }
+
+  @Throws(SQLException::class)
+  private fun internalDeleteBeacons(beaconIds: List<String>) {
+    val deleteBuilder = daoOxBeacons.deleteBuilder()
+    deleteBuilder.where().`in`("value", beaconIds)
+    deleteBuilder.delete()
   }
 }

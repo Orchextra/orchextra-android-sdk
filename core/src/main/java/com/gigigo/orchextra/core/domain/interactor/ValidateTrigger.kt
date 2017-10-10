@@ -78,6 +78,18 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
     }
   }
 
+  @WorkerThread
+  fun isValid(trigger: Trigger): Boolean {
+    return try {
+      val validatedTrigger = validate(trigger)
+      !validatedTrigger.isVoid()
+    } catch (error: DbException) {
+      true
+    } catch (e: Exception) {
+      false
+    }
+  }
+
   companion object Factory {
     fun create(): ValidateTrigger = ValidateTrigger(ThreadExecutorImp, PostExecutionThreadImp,
         DbDataSource.create())

@@ -35,13 +35,12 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
-import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import kotlin.properties.Delegates
 
 class TriggerManager(private val context: Context,
     private val getTriggerConfiguration: GetTriggerConfiguration,
     private val getTriggerList: GetTriggerList,
-    private val getAction: GetAction, private val validateTrigger: ValidateTrigger,
+    private val getAction: GetAction,
     private val actionHandlerServiceExecutor: ActionHandlerServiceExecutor,
     private var errorListener: OrchextraErrorListener) : TriggerListener {
 
@@ -126,27 +125,22 @@ class TriggerManager(private val context: Context,
     indoorPositioning.finish()
   }
 
-  override fun onTriggerDetected(trigger: Trigger) = validateTrigger.validate(trigger,
+  override fun onTriggerDetected(trigger: Trigger) = getAction.get(trigger,
       onSuccess = {
-        if (!it.isVoid()) {
-          getActionByTrigger(it)
-        }
+        actionHandlerServiceExecutor.execute(context = context, action = it)
       },
       onError = {
-        if (it.toError().isValid()) {
-          errorListener.onError(it.toError())
-        }
+        errorListener.onError(it.toError())
       })
-
-  private fun getActionByTrigger(trigger: Trigger) = getAction.get(trigger,
-      onSuccess = { actionHandlerServiceExecutor.execute(context = context, action = it) },
-      onError = { errorListener.onError(it.toError()) })
 
   companion object Factory {
 
-    fun create(context: Context): TriggerManager = TriggerManager(context,
+    fun create(context: Context): TriggerManager = TriggerManager(
+        context,
         GetTriggerConfiguration.create(),
-        GetTriggerList.create(), GetAction.create(),
-        ValidateTrigger.create(), ActionHandlerServiceExecutor.create(), Orchextra)
+        GetTriggerList.create(),
+        GetAction.create(),
+        ActionHandlerServiceExecutor.create(),
+        Orchextra)
   }
 }

@@ -18,11 +18,12 @@
 
 package com.gigigo.orchextra.indoorpositioning.data.models
 
+import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl.TtlCachingObject
 import com.j256.ormlite.field.DatabaseField
 import com.j256.ormlite.table.DatabaseTable
 
 @DatabaseTable(tableName = "trigger")
-class DbOxBeacon {
+class DbOxBeacon : TtlCachingObject {
 
   @DatabaseField(generatedId = true, columnName = "id")
   var id: Int = 0
@@ -50,4 +51,9 @@ class DbOxBeacon {
 
   @DatabaseField
   var lastDetection: Long = 0
+
+  @DatabaseField
+  var dbPersistedTime: Long = 0
+
+  override fun getPersistedTime(): Long = dbPersistedTime
 }

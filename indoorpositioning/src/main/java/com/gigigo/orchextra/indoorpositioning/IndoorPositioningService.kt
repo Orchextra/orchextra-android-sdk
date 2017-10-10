@@ -32,6 +32,7 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON_REGION
 import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE_REGION
+import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGW
@@ -55,6 +56,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   private lateinit var regionsDetector: RegionsDetector
   private lateinit var config: List<IndoorPositionConfig>
   private lateinit var validator: IndoorPositioningValidator
+  private lateinit var validateTrigger: ValidateTrigger
   private var isRunning: Boolean = false
   private var timerStarted = false
   private val handler = Handler()
@@ -79,6 +81,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
 
       config = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
       validator = IndoorPositioningValidator(config)
+      validateTrigger = ValidateTrigger.create()
       beaconScanner = BeaconScannerImp(getBeaconManager(SCAN_DELAY_IN_SECONDS * 1000L), this)
       regionsDetector = RegionsDetector.create(config, this, { sendOxBeaconRegionEvent(it) })
       beaconScanner.start {
@@ -122,7 +125,9 @@ class IndoorPositioningService : Service(), BeaconConsumer {
           battery = beacon.batteryMilliVolts,
           uptime = beacon.uptime)
 
-      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+      if (validateTrigger.isValid(trigger)) {
+        sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+      }
     }
   }
 
@@ -140,7 +145,9 @@ class IndoorPositioningService : Service(), BeaconConsumer {
           value = beaconRegion.value,
           event = beaconRegion.event)
 
-      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+      if (validateTrigger.isValid(trigger)) {
+        sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+      }
     }
   }
 

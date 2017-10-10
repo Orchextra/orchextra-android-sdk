@@ -35,13 +35,13 @@ fun DbOxBeacon.toOxBeacon(): OxBeacon = with(this) {
 
 fun OxBeacon.toDbOxBeacon(): DbOxBeacon = with(this) {
   val dbOxBeacon = DbOxBeacon()
-  dbOxBeacon.value = this.getValue()
-  dbOxBeacon.uuid = this.uuid
-  dbOxBeacon.type = this.beaconType
-  dbOxBeacon.major = this.major
-  dbOxBeacon.minor = this.minor
-  dbOxBeacon.namespaceId = this.namespaceId
-  dbOxBeacon.instanceId = this.instanceId
+  dbOxBeacon.value = getValue()
+  dbOxBeacon.uuid = uuid
+  dbOxBeacon.type = beaconType
+  dbOxBeacon.major = major
+  dbOxBeacon.minor = minor
+  dbOxBeacon.namespaceId = namespaceId
+  dbOxBeacon.instanceId = instanceId
   dbOxBeacon.lastDetection = lastDetection.time
 
   return dbOxBeacon
