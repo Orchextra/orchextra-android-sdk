@@ -78,9 +78,8 @@ fun Beacon.toOxBeacon(): OxBeacon = with(this) {
       OxBeacon.TYPE_IBEACON // 0x4c000215 is iBeacon
     }
     oxBeacon.uuid = id1.toString()
-    oxBeacon.major = id2.toString()
-    oxBeacon.minor = id3.toString()
-
+    oxBeacon.major = id2.toInt()
+    oxBeacon.minor = id3.toInt()
   }
 
   return oxBeacon
@@ -90,7 +89,7 @@ fun OxBeacon.isInRegion(config: List<IndoorPositionConfig>): Boolean =
     config.any { this.isInRegion(it) }
 
 fun OxBeacon.isInRegion(config: IndoorPositionConfig): Boolean =
-    (this.uuid.isNotEmpty() && config.uuid == this.uuid && config.major.toString() == this.major)
+    (this.uuid.isNotEmpty() && config.uuid == this.uuid && config.major == this.major)
         || (this.namespaceId.isNotEmpty() && config.namespace == this.namespaceId.replace("0x", ""))
 
 fun OxBeacon.getType(): TriggerType = when (this.beaconType) {

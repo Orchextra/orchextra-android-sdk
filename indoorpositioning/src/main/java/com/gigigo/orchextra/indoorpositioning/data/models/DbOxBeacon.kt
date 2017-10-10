@@ -37,10 +37,10 @@ class DbOxBeacon {
   var uuid: String = ""
 
   @DatabaseField
-  var major: String = ""
+  var major: Int = -1
 
   @DatabaseField
-  var minor: String = ""
+  var minor: Int = -1
 
   @DatabaseField
   var namespaceId: String = ""

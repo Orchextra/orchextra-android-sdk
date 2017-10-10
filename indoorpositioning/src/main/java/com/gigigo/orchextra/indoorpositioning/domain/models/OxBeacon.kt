@@ -27,8 +27,8 @@ data class OxBeacon(
     var beaconType: Int = -1, // Eddystone, altBeacon, iBeacon
     var beaconAddress: String = "", // MAC address of the bluetooth emitter
     var uuid: String = "",
-    var major: String = "",
-    var minor: String = "",
+    var major: Int = -1,
+    var minor: Int = -1,
     var txPower: Int = 0,
     var rssi: Int = 0,
     var distance: Double = 0.toDouble(),
@@ -67,8 +67,8 @@ data class OxBeacon(
       source.readInt(),
       source.readString(),
       source.readString(),
-      source.readString(),
-      source.readString(),
+      source.readInt(),
+      source.readInt(),
       source.readInt(),
       source.readInt(),
       source.readDouble(),
@@ -94,8 +94,8 @@ data class OxBeacon(
     writeInt(beaconType)
     writeString(beaconAddress)
     writeString(uuid)
-    writeString(major)
-    writeString(minor)
+    writeInt(major)
+    writeInt(minor)
     writeInt(txPower)
     writeInt(rssi)
     writeDouble(distance)

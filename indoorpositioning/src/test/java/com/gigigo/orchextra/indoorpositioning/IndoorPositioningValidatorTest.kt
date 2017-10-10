@@ -31,18 +31,18 @@ import java.util.Date
 class IndoorPositioningValidatorTest {
 
   private val ENTRY_BEACON = OxBeacon(uuid = "entry",
-      major = "1",
-      minor = "1",
+      major = 1,
+      minor = 1,
       lastDetection = Date())
 
   private val EXIT_BEACON = OxBeacon(uuid = "exit",
-      major = "2",
-      minor = "2",
+      major = 2,
+      minor = 2,
       lastDetection = Date())
 
   private val UNKNOW_BEACON = OxBeacon(uuid = "unknow",
-      major = "2",
-      minor = "2",
+      major = 2,
+      minor = 2,
       lastDetection = Date())
 
   @Test

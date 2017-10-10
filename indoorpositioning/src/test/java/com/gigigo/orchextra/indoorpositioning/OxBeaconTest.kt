@@ -32,8 +32,8 @@ class OxBeaconTest {
 
     val config = getConfig()
     val testOxBeacon = OxBeacon(uuid = "uuid1",
-        major = "2",
-        minor = "1",
+        major = 2,
+        minor = 1,
         lastDetection = Date())
 
     val isInRegion = testOxBeacon.isInRegion(config)
@@ -58,8 +58,8 @@ class OxBeaconTest {
 
     val config = getConfig()
     val testOxBeacon = OxBeacon(uuid = "uuid1",
-        major = "6",
-        minor = "1",
+        major = 6,
+        minor = 1,
         lastDetection = Date())
 
     val isInRegion = testOxBeacon.isInRegion(config)

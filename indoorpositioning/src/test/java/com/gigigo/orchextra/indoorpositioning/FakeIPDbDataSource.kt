@@ -53,14 +53,14 @@ class FakeIPDbDataSource : IPDbDataSource {
   companion object {
     val SAVED_BEACON = OxBeacon(
         uuid = "test_uuid",
-        minor = "test_minor",
-        major = "test_major",
+        minor = 4,
+        major = 9,
         lastDetection = Date())
 
     val SAVED_OLD_BEACON = OxBeacon(
         uuid = "test_uuid_old",
-        minor = "test_minor_old",
-        major = "test_major_old",
+        minor = 5,
+        major = 10,
         lastDetection = Date(50 * 1000))
   }
 }
