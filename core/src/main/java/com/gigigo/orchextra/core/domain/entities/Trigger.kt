@@ -55,6 +55,7 @@ data class Trigger constructor(
     val uptime: Long? = null,
     val detectedTime: Long = System.currentTimeMillis()
 ) : Parcelable {
+
   constructor(source: Parcel) : this(
       TriggerType.values()[source.readInt()],
       source.readString(),
@@ -92,6 +93,18 @@ data class Trigger constructor(
     writeValue(temperature)
     writeValue(battery)
     writeValue(uptime)
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+    other as Trigger
+
+    if (type != other.type) return false
+    if (value != other.value) return false
+    if (event != other.event) return false
+    if (distance != other.distance) return false
+    return true
   }
 
   companion object {

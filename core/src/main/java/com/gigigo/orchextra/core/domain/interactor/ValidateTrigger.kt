@@ -67,7 +67,7 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
 
     dbDataSource.saveTrigger(trigger)
 
-    if (savedTrigger.isVoid()) {
+    if (savedTrigger.isVoid() || trigger != savedTrigger) {
       return trigger
     }
 
