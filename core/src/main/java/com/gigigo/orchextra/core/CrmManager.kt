@@ -43,7 +43,8 @@ class CrmManager(private val getTokenData: GetTokenData,
   }
   var availableCustomFields: List<CustomField> = listOf()
 
-  fun bindUser(crm: OxCRM, onSuccess: (user: OxCRM) -> Unit) {
+  @JvmOverloads
+  fun bindUser(crm: OxCRM, onSuccess: (user: OxCRM) -> Unit = {}) {
     updateCrm.update(crm,
         onSuccess = {
           this.crm = it
@@ -51,7 +52,8 @@ class CrmManager(private val getTokenData: GetTokenData,
         }, onError = onError)
   }
 
-  fun unbindUser(onSuccess: () -> Unit) {
+  @JvmOverloads
+  fun unbindUser(onSuccess: () -> Unit = {}) {
     unbindCrm.upbind(onSuccess = {
       this.crm = EMPTY_CRM
       onSuccess()
@@ -72,7 +74,8 @@ class CrmManager(private val getTokenData: GetTokenData,
     }
   }
 
-  fun setCustomFields(customFields: Map<String, String>, onUpdate: (user: OxCRM) -> Unit) {
+  @JvmOverloads
+  fun setCustomFields(customFields: Map<String, String>, onUpdate: (user: OxCRM) -> Unit = {}) {
     executeWithValidCrm {
       updateCrm.update(OxCRM(crmId = crm.crmId, customFields = customFields),
           onSuccess = {
@@ -82,8 +85,9 @@ class CrmManager(private val getTokenData: GetTokenData,
     }
   }
 
+  @JvmOverloads
   fun setUserData(tags: List<String>?, businessUnits: List<String>?,
-      onSuccess: (user: OxCRM) -> Unit) {
+      onSuccess: (user: OxCRM) -> Unit = {}) {
     executeWithValidCrm {
       updateCrm.update(OxCRM(crmId = crm.crmId, tags = tags, businessUnits = businessUnits),
           onSuccess = {
@@ -101,8 +105,9 @@ class CrmManager(private val getTokenData: GetTokenData,
     }
   }
 
+  @JvmOverloads
   fun setDeviceData(tags: List<String>?, businessUnits: List<String>?,
-      onSuccess: (device: OxDevice) -> Unit) {
+      onSuccess: (device: OxDevice) -> Unit = {}) {
     updateDevice.update(tags = tags, businessUnits = businessUnits,
         onSuccess = {
           this.device = it
