@@ -13,7 +13,7 @@ pipeline {
             agent { label 'docker' }
             steps  {
                 jplCheckoutSCM(cfg)
-                jplBuildAPK(cfg,"gradlew assembleDebug")
+                jplBuildAPK(cfg,"./gradlew assembleDebug")
             }
         }
         stage ('Instrumentation Test') {
