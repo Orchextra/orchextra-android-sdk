@@ -24,6 +24,8 @@ data class Error(val code: Int, val message: String) {
 
   companion object {
     val INVALID_ERROR = -1
-    val FATAL_ERROR = 9991
+    val PERMISSION_ERROR = 0x9990
+    val PERMISSION_RATIONALE_ERROR = 0x9991
+    val FATAL_ERROR = 0x9991
   }
 }

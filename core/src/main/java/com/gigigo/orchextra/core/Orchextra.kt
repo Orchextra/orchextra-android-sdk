@@ -39,6 +39,7 @@ import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.PermissionsActivity
 import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
@@ -68,9 +69,6 @@ object Orchextra : OrchextraErrorListener {
     this.triggerManager = TriggerManager.create(context)
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
     this.locationProvider = LocationProvider(context)
-    this.locationProvider.getLocation { point ->
-      triggerManager.point = OxPoint(lat = point.lat, lng = point.lng)
-    }
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
     this.crmManager = CrmManager.create { onError(it) }
     this.triggerManager.apiKey = apiKey
@@ -82,11 +80,21 @@ object Orchextra : OrchextraErrorListener {
         onActivityResumed = { isActivityRunning = true },
         onActivityPaused = { isActivityRunning = false })
 
-    getConfiguration(apiKey)
+    PermissionsActivity.open(context,
+        onSuccess = {
+          getConfiguration(apiKey)
+        },
+        onError = {
+          orchextraErrorListener?.onError(it.toError())
+          changeStatus(false)
+        })
   }
 
   private fun getConfiguration(apiKey: String) {
     val getConfiguration = GetConfiguration.create()
+    this.locationProvider.getLocation { point ->
+      triggerManager.point = OxPoint(lat = point.lat, lng = point.lng)
+    }
 
     getConfiguration.get(apiKey,
         onSuccess = {

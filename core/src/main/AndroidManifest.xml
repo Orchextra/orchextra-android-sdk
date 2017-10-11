@@ -27,8 +27,7 @@
   <application
       android:allowBackup="true"
       android:label="@string/app_name"
-      android:supportsRtl="true"
-      android:theme="@style/OxAppTheme">
+      android:supportsRtl="true">
     <activity
         android:name=".domain.actions.actionexecutors.webview.WebViewActivity"
         android:theme="@style/OxAppTheme.NoActionBar">
@@ -36,6 +35,11 @@
 
     <activity
         android:name=".domain.actions.actionexecutors.notification.NotificationActivity"
+        android:theme="@style/OxAppTheme.Transparent">
+    </activity>
+
+    <activity
+        android:name=".utils.PermissionsActivity"
         android:theme="@style/OxAppTheme.Transparent">
     </activity>
 
