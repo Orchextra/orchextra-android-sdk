@@ -36,6 +36,7 @@ import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE_REGION
 import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGD
 import com.gigigo.orchextra.core.utils.LogUtils.LOGW
 import com.gigigo.orchextra.indoorpositioning.domain.IndoorPositioningValidator
 import com.gigigo.orchextra.indoorpositioning.domain.RegionsDetector
@@ -51,7 +52,6 @@ import java.util.ArrayList
 
 class IndoorPositioningService : Service(), BeaconConsumer {
 
-  private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
   private lateinit var alarmManager: AlarmManager
   private lateinit var beaconScanner: BeaconScanner
   private lateinit var regionsDetector: RegionsDetector
@@ -63,7 +63,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   private val handler = Handler()
 
   private val SCAN_DELAY_IN_SECONDS = 30
-  private val CHECK_SERVICE_TIME_IN_SECONDS = 60 * 5
+  private val CHECK_SERVICE_TIME_IN_SECONDS = 60
 
   override fun onCreate() {
     super.onCreate()
@@ -72,6 +72,8 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+    LOGD(TAG, "onStartCommand")
 
     if (intent == null) {
       return START_NOT_STICKY
@@ -82,7 +84,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
 
       config = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
       validator = IndoorPositioningValidator(config)
-      validateTrigger = ValidateTrigger.create(DbDataSource.create(this))
+      validateTrigger = ValidateTrigger.create(DbDataSource.create(applicationContext))
       beaconScanner = BeaconScannerImp(getBeaconManager(SCAN_DELAY_IN_SECONDS * 1000L), this)
       regionsDetector = RegionsDetector.create(config, this, { sendOxBeaconRegionEvent(it) })
       beaconScanner.start {
@@ -102,6 +104,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   override fun onBind(intent: Intent?): IBinder? = null
 
   override fun onDestroy() {
+    LOGD(TAG, "onDestroy")
     beaconScanner.stop()
     stopTimer()
     super.onDestroy()
@@ -129,6 +132,8 @@ class IndoorPositioningService : Service(), BeaconConsumer {
       if (validateTrigger.isValid(trigger)) {
         sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
       }
+    } else {
+      LOGD(TAG, "Invalid beacon: $beacon")
     }
   }
 
@@ -149,6 +154,8 @@ class IndoorPositioningService : Service(), BeaconConsumer {
       if (validateTrigger.isValid(trigger)) {
         sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
       }
+    } else {
+      LOGD(TAG, "Invalid region: $beaconRegion")
     }
   }
 
@@ -170,6 +177,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   }
 
   companion object Navigator {
+    private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
     private val CONFIG_EXTRA = "config_extra"
     private var intent: Intent? = null
     private var pendingIntent: PendingIntent? = null
@@ -182,6 +190,9 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     }
 
     fun stop(context: Context) {
+
+      LOGD(TAG, "Stop indoorPositioningService")
+
       if (intent != null) {
         context.stopService(intent)
       }

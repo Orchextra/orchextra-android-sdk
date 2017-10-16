@@ -59,6 +59,7 @@ object Orchextra : OrchextraErrorListener {
   private var debuggable = false
   private var sessionManager: SessionManager? = null
   private var crmManager: CrmManager? = null
+  var notificationActivityName: String? = null
   var waitTime: Long = TimeUnit.SECONDS.toMillis(120)
 
   @JvmOverloads
@@ -189,6 +190,10 @@ object Orchextra : OrchextraErrorListener {
     sessionManager?.clearSession()
 
     changeStatus(false)
+  }
+
+  fun setNotificationActivityClass(notificationActivityClass: Class<*>) {
+    notificationActivityName = notificationActivityClass.canonicalName
   }
 
   fun setContext(context: Application) {

@@ -23,10 +23,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Notification
+import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 
 class NotificationActivity : AppCompatActivity() {
 
@@ -51,7 +54,22 @@ class NotificationActivity : AppCompatActivity() {
         })
         .show()
 
-    dialog.setOnDismissListener { finish() }
+    dialog.setOnDismissListener {
+      // TODO get notificationActivityName from preferences
+      Orchextra.notificationActivityName?.let {
+        openCustomNotificationActivity(it)
+      }
+      finish()
+    }
+  }
+
+  private fun openCustomNotificationActivity(activityToStart: String) = try {
+    val cls = Class.forName(activityToStart)
+    val intent = Intent(this, cls)
+    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    startActivity(intent)
+  } catch (exception: ClassNotFoundException) {
+    LOGE(TAG, "openCustomNotificationActivity($activityToStart)", exception)
   }
 
   private fun getNotification(): Notification = intent.getParcelableExtra(NOTIFICATION_EXTRA)
@@ -60,6 +78,7 @@ class NotificationActivity : AppCompatActivity() {
 
   companion object Navigator {
 
+    private val TAG = LogUtils.makeLogTag(NotificationActivity::class.java)
     private val NOTIFICATION_EXTRA = "notification_extra"
     private val ACTION_EXTRA = "action_extra"
 

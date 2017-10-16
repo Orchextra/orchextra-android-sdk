@@ -20,6 +20,7 @@ package com.gigigo.orchextrasdk.demo.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -64,8 +65,17 @@ public class MainActivity extends AppCompatActivity {
     orchextra = Orchextra.INSTANCE;
     orchextra.setCustomActionListener(new CustomActionListener() {
       @Override public void onCustomSchema(@NonNull String customSchema) {
-        Toast.makeText(MainActivity.this, "CustomSchema: " + customSchema, Toast.LENGTH_LONG)
-            .show();
+
+        if ("custom://calculator".equals(customSchema)) {
+
+          Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+              Uri.parse("https://www.google.es/search?q=2%2B2&oq=2%2B2"));
+          browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          startActivity(browserIntent);
+        } else {
+          Toast.makeText(MainActivity.this, "CustomSchema: " + customSchema, Toast.LENGTH_LONG)
+              .show();
+        }
       }
     });
 

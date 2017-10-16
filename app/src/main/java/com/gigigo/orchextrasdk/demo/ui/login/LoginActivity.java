@@ -40,6 +40,7 @@ import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
+import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -172,6 +173,8 @@ public class LoginActivity extends AppCompatActivity {
         orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
         orchextra.getTriggerManager()
             .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
+
+        orchextra.setNotificationActivityClass(SettingsActivity.class);
 
         Toast.makeText(getBaseContext(), "SDK ready", Toast.LENGTH_SHORT).show();
         MainActivity.open(LoginActivity.this);

@@ -57,8 +57,11 @@ interface DbDataSource {
 
       if (dbDataSource == null) {
         val sharedPreferences = Orchextra.provideSharedPreferences(context)
-        dbDataSource = DbDataSourceImp(Orchextra.provideContext(), sharedPreferences,
-            DatabaseHelper.create(Orchextra.provideContext()), Moshi.Builder().build())
+
+        dbDataSource = DbDataSourceImp(context,
+            sharedPreferences,
+            DatabaseHelper.create(context),
+            Moshi.Builder().build())
       }
 
       return dbDataSource as DbDataSource
