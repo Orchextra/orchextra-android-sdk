@@ -25,6 +25,7 @@ import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.webview.WebViewActionExecutor
+import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
 import com.gigigo.orchextra.core.domain.entities.ActionType.CUSTOM_SCHEME
@@ -80,14 +81,19 @@ class ActionDispatcher constructor(
 
   companion object Factory {
 
-    fun create(context: Context): ActionDispatcher = ActionDispatcher(
-        ConfirmAction.create(),
-        BrowserActionExecutor.create(context),
-        WebViewActionExecutor.create(context),
-        CustomActionExecutor.getInstance(),
-        ScannerActionExecutor,
-        ImageRecognitionActionExecutor,
-        NotificationActionExecutor.create(context),
-        ActionSchedulerManager.create(context))
+    fun create(context: Context): ActionDispatcher {
+
+      val networkDataSource = NetworkDataSource.create(context)
+
+      return ActionDispatcher(
+          ConfirmAction.create(networkDataSource),
+          BrowserActionExecutor.create(context),
+          WebViewActionExecutor.create(context),
+          CustomActionExecutor.getInstance(),
+          ScannerActionExecutor,
+          ImageRecognitionActionExecutor,
+          NotificationActionExecutor.create(context),
+          ActionSchedulerManager.create(context))
+    }
   }
 }

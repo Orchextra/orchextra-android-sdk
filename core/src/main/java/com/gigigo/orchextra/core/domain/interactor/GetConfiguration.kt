@@ -48,7 +48,9 @@ class GetConfiguration(threadExecutor: ThreadExecutor, postExecutionThread: Post
 
   companion object Factory {
 
-    fun create(): GetConfiguration = GetConfiguration(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+    fun create(networkDataSource: NetworkDataSource): GetConfiguration = GetConfiguration(
+        ThreadExecutorImp,
+        PostExecutionThreadImp,
+        networkDataSource)
   }
 }

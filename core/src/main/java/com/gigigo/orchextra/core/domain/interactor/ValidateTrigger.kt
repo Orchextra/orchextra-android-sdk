@@ -69,6 +69,7 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
       return trigger
     }
 
+    // TODO get time from preferences
     return if (savedTrigger.detectedTime + orchextra.waitTime < System.currentTimeMillis()) {
       trigger
     } else {
@@ -89,7 +90,9 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
   }
 
   companion object Factory {
-    fun create(): ValidateTrigger = ValidateTrigger(ThreadExecutorImp, PostExecutionThreadImp,
-        DbDataSource.create(), Orchextra)
+    fun create(dbDataSource: DbDataSource): ValidateTrigger = ValidateTrigger(ThreadExecutorImp,
+        PostExecutionThreadImp,
+        dbDataSource,
+        Orchextra)
   }
 }

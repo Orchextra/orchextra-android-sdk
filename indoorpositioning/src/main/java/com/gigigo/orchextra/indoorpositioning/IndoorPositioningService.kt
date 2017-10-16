@@ -27,6 +27,7 @@ import android.os.Build.VERSION_CODES
 import android.os.Handler
 import android.os.IBinder
 import android.support.annotation.RequiresApi
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
@@ -81,7 +82,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
 
       config = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
       validator = IndoorPositioningValidator(config)
-      validateTrigger = ValidateTrigger.create()
+      validateTrigger = ValidateTrigger.create(DbDataSource.create(this))
       beaconScanner = BeaconScannerImp(getBeaconManager(SCAN_DELAY_IN_SECONDS * 1000L), this)
       regionsDetector = RegionsDetector.create(config, this, { sendOxBeaconRegionEvent(it) })
       beaconScanner.start {

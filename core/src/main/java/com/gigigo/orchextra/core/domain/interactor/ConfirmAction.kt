@@ -47,7 +47,9 @@ class ConfirmAction(threadExecutor: ThreadExecutor, postExecutionThread: PostExe
 
   companion object Factory {
 
-    fun create(): ConfirmAction = ConfirmAction(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+    fun create(networkDataSource: NetworkDataSource): ConfirmAction = ConfirmAction(
+        ThreadExecutorImp,
+        PostExecutionThreadImp,
+        networkDataSource)
   }
 }

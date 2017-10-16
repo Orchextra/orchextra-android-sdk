@@ -25,6 +25,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionListener
+import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
@@ -70,9 +71,9 @@ object Orchextra : OrchextraErrorListener {
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
     this.locationProvider = LocationProvider(context)
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
-    this.crmManager = CrmManager.create { onError(it) }
+    this.crmManager = CrmManager.create(context, { onError(it) })
     this.triggerManager.apiKey = apiKey
-    this.getOxToken = GetOxToken.create()
+    this.getOxToken = GetOxToken.create(NetworkDataSource.create(context))
 
     initLogger(context)
 
@@ -91,7 +92,7 @@ object Orchextra : OrchextraErrorListener {
   }
 
   private fun getConfiguration(apiKey: String) {
-    val getConfiguration = GetConfiguration.create()
+    val getConfiguration = GetConfiguration.create(NetworkDataSource.create(context as Context))
     this.locationProvider.getLocation { point ->
       triggerManager.point = OxPoint(lat = point.lat, lng = point.lng)
     }

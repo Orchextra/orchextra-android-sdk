@@ -48,7 +48,10 @@ class GetTriggerConfiguration(threadExecutor: ThreadExecutor,
       }
 
   companion object Factory {
-    fun create(): GetTriggerConfiguration = GetTriggerConfiguration(ThreadExecutorImp,
-        PostExecutionThreadImp, NetworkDataSource.create())
+    fun create(networkDataSource: NetworkDataSource): GetTriggerConfiguration =
+        GetTriggerConfiguration(
+            ThreadExecutorImp,
+            PostExecutionThreadImp,
+            networkDataSource)
   }
 }

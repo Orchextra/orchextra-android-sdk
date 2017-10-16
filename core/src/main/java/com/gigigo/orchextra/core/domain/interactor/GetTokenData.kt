@@ -52,7 +52,11 @@ class GetTokenData(threadExecutor: ThreadExecutor, postExecutionThread: PostExec
 
   companion object Factory {
 
-    fun create(): GetTokenData = GetTokenData(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create(), DbDataSource.create())
+    fun create(networkDataSource: NetworkDataSource,
+        dbDataSource: DbDataSource): GetTokenData = GetTokenData(
+        ThreadExecutorImp,
+        PostExecutionThreadImp,
+        networkDataSource,
+        dbDataSource)
   }
 }

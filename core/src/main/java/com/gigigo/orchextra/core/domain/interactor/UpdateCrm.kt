@@ -56,7 +56,10 @@ class UpdateCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecuti
 
   companion object Factory {
 
-    fun create(): UpdateCrm = UpdateCrm(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create(), DbDataSource.create())
+    fun create(networkDataSource: NetworkDataSource, dbDataSource: DbDataSource): UpdateCrm =
+        UpdateCrm(ThreadExecutorImp,
+            PostExecutionThreadImp,
+            networkDataSource,
+            dbDataSource)
   }
 }

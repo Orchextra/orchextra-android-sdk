@@ -25,6 +25,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
+import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.GeoMarketing
@@ -135,12 +136,17 @@ class TriggerManager(private val context: Context,
 
   companion object Factory {
 
-    fun create(context: Context): TriggerManager = TriggerManager(
-        context,
-        GetTriggerConfiguration.create(),
-        GetTriggerList.create(),
-        GetAction.create(),
-        ActionHandlerServiceExecutor.create(),
-        Orchextra)
+    fun create(context: Context): TriggerManager {
+
+      val networkDataSource = NetworkDataSource.create(context)
+
+      return TriggerManager(
+          context,
+          GetTriggerConfiguration.create(networkDataSource),
+          GetTriggerList.create(networkDataSource),
+          GetAction.create(networkDataSource),
+          ActionHandlerServiceExecutor.create(),
+          Orchextra)
+    }
   }
 }

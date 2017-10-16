@@ -18,7 +18,10 @@
 
 package com.gigigo.orchextra.core
 
+import android.content.Context
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
+import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.CustomField
 import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
 import com.gigigo.orchextra.core.domain.entities.EMPTY_DEVICE
@@ -135,11 +138,18 @@ class CrmManager(private val getTokenData: GetTokenData,
 
   companion object Factory {
 
-    fun create(showError: (error: Error) -> Unit): CrmManager = CrmManager(
-        GetTokenData.create(),
-        UpdateCrm.create(),
-        UpdateDevice.create(),
-        UnbindCrm.create(),
-        showError)
+    fun create(context: Context, showError: (error: Error) -> Unit): CrmManager {
+
+      val networkDataSource = NetworkDataSource.create(context)
+      val dbDataSource = DbDataSource.create(context)
+
+      return CrmManager(
+          GetTokenData.create(networkDataSource, dbDataSource),
+          UpdateCrm.create(networkDataSource, dbDataSource),
+          UpdateDevice.create(networkDataSource, dbDataSource),
+          UnbindCrm.create(networkDataSource, dbDataSource),
+          showError)
+
+    }
   }
 }

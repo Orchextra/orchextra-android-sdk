@@ -60,7 +60,10 @@ class UpdateDevice(threadExecutor: ThreadExecutor, postExecutionThread: PostExec
 
   companion object Factory {
 
-    fun create(): UpdateDevice = UpdateDevice(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create(), DbDataSource.create())
+    fun create(networkDataSource: NetworkDataSource, dbDataSource: DbDataSource): UpdateDevice =
+        UpdateDevice(ThreadExecutorImp,
+            PostExecutionThreadImp,
+            networkDataSource,
+            dbDataSource)
   }
 }
