@@ -20,7 +20,10 @@ package gigigo.com.orchextrasdk;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.OrchextraBuilder;
@@ -40,8 +43,12 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
 
   // public static MotionServiceUtility mMotionServiceUtility;
   //eddystone test
-  public static String API_KEY = "34a4654b9804eab82aae05b2a5f949eb2a9f412c";
-  public static String API_SECRET = "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3";
+  //public static String API_KEY = "97f4c2325557f4bfcb508fff587a3f4a5a7dffb0";
+  //public static String API_SECRET = "d4a2c0f5b725f83b20d561768c80e09c39602a49";
+
+  //eddystone test with real configuration
+  public static String API_KEY = "ef08c4dccb7649b9956296a863db002a68240be2";
+  public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
 
   @Override public void onCreate() {
     super.onCreate();
@@ -49,14 +56,10 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   }
 
   public void initOrchextra() {
-
     System.out.println(
         "REALM /////////////////////////////////////\n\n\n\n\n\n\n REALM se ejecuta el onCreate ");
-    //String oxKey = "30a2d1032d623dadd345db6c7631fbaac704af45";
-    //String oxSecret = "329e98d088e0cfaac1a190ee9fafb44cbea92b59";
-
-    String oxKey = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
-    String oxSecret = "eab37080130215ced60eb9d5ff729049749ec205";
+    String oxKey = API_KEY;
+    String oxSecret = API_SECRET;
     //oxKey = "fake";
     //oxSecret = "fake ";
     OrchextraBuilder builder = new OrchextraBuilder(this)
@@ -72,7 +75,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     //your can re set custom Scheme in other places(activities,services..)
     Orchextra.setCustomSchemeReceiver(this);
     //start Orchextra running, you can call stop() if you need
-    // Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
+     Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
 
     //region AdOns
     // mMotionServiceUtility = new MotionServiceUtility(this);
@@ -144,11 +147,11 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     Log.i("", "Access Token:" + s);
     Log.d("APP", "onInit: " + s);
 System.out.println("Access Token:" + s);
-    //new Handler(Looper.getMainLooper()).post(new Runnable() {
-    //  @Override public void run() {
-    //    Toast.makeText(App.this, "onConfigurationReceive:  app" + s, Toast.LENGTH_LONG).show();
-    //  }
-    //});
+    new Handler(Looper.getMainLooper()).post(new Runnable() {
+      @Override public void run() {
+        Toast.makeText(App.this, "onConfigurationReceive:  app" + s, Toast.LENGTH_LONG).show();
+      }
+    });
   }
 
   @Override public void onReceive(final String scheme) {

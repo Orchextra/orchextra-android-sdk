@@ -81,7 +81,7 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
   static HashMap<String, Long> mEddyStoneUrlTimeStamp;
   // static HashMap<String, Long> mEddyStoneTimeStamp; guardar el nombre del eddystone y la hora, para deperminar si esta complete o no
   static boolean mIslookingForUrlFrame = false;
-
+  static long mLastTimeUrlEddystoneComplete = 0;
   // region RangeNotifier Interface
 
   /**
@@ -114,15 +114,18 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
         //aqui deberia controlar si se ha lanzado este scanner, para evitar volver a lanzarlo y una
         //vez q vuelva hacer el stoopranging, con lo cual lo mejor una booleana static
         if (!mIslookingForUrlFrame) {
-          if (mEddyStoneUrlFrameMap == null) {
-            mEddyStoneUrlFrameMap = new HashMap<String, String>();
-          }
-          try {
-
-            beaconManager.startRangingBeaconsInRegion(new Region("UrlEddyStone", null, null, null));
-            mIslookingForUrlFrame = true;
-          } catch (RemoteException e) {
-            e.printStackTrace();
+          if (isTimeForNewUrlRanging()) {
+            if (mEddyStoneUrlFrameMap == null) {
+              mEddyStoneUrlFrameMap = new HashMap<String, String>();
+            }
+            try {
+              beaconManager.startRangingBeaconsInRegion(
+                  new Region("UrlEddyStone", null, null, null));
+              System.out.println("START EDDY_STONE REGION");
+              mIslookingForUrlFrame = true;
+            } catch (RemoteException e) {
+              e.printStackTrace();
+            }
           }
         }
       }
@@ -139,14 +142,15 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
           mEddyStoneUrlFrameMap.put(beacon.getBluetoothAddress(), currentUrl);
 
           System.out.println("eddystone url: " + currentUrl);
+          mLastTimeUrlEddystoneComplete = System.currentTimeMillis();
         }
       }
       if (isCompleteDataInside(beaconsList)) {
         try {
-
           mIslookingForUrlFrame = false;
           beaconManager.stopRangingBeaconsInRegion(
               region); //un scaneo y listo, si no encuentra la url no la envia y listo
+          System.out.println("STOP EDDY_STONE REGION");
         } catch (RemoteException e) {
           e.printStackTrace();
         }
@@ -166,6 +170,16 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       }
     }
     //endregion
+  }
+
+  private boolean isTimeForNewUrlRanging() {
+    if (mLastTimeUrlEddystoneComplete == 0) return true;
+    if (System.currentTimeMillis() > (mLastTimeUrlEddystoneComplete + (30 * 1000)))
+    {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private boolean isUrlFrame(Beacon beacon) {

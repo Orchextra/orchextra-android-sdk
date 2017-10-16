@@ -13,12 +13,15 @@ import com.gigigo.orchextra.CrmUser;
 import com.gigigo.orchextra.CustomSchemeReceiver;
 import com.gigigo.orchextra.Orchextra;
 import com.gigigo.orchextra.ui.webview.OxWebViewActivity;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.gigigo.orchextra.Orchextra.stop;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
   @Override protected void onStop() {
@@ -32,14 +35,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //orchextraSDK
     getViews();
     setListeners();
-   Orchextra.start();//step 2 start with bad credentials for ask permission
+   // Orchextra.start();//step 2 start with bad credentials for ask permission
     //Ad-Ons Motion and Bluetooth the UpdateConfig in on Mainactivity
     //App.mMotionServiceUtility.stop();//motion
   }
 
   //region Orchextra
   private boolean isRunning = false;
-  private Button button, button2, button3, button4, button5, button6, button7, button8;
+  private Button button, button2, button3, button4, button5, button6, button7, button8, button9;
   private TextView statusText;
 
   //region getViews/Buttons onClick
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     button6 = (Button) findViewById(R.id.button6);
     button7 = (Button) findViewById(R.id.button7);
     button8 = (Button) findViewById(R.id.button8);
+    button9 = (Button) findViewById(R.id.button9);
 
     statusText = (TextView) findViewById(R.id.statusText);
   }
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     button6.setOnClickListener(this);
     button7.setOnClickListener(this);
     button8.setOnClickListener(this);
+    button9.setOnClickListener(this);
   }
 
   @Override public void onClick(View v) {
@@ -79,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       //if (isRunning) {
       //  stopOrchextra();
       //} else {
-        startOrchextra();
+      startOrchextra();
       //}
     }
     //region orchextraWebview
@@ -146,14 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     //endregion
 
-    //region unBindUser
-    if (v.getId() == R.id.button7) {
-      //for reset the CRMUser
-      Orchextra.unBindUser();
-      //rin?
-      Orchextra.commitConfiguration();
-    }
-    //endregion
+
 
     //region BindUser
     if (v.getId() == R.id.button8) {
@@ -166,7 +164,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       Orchextra.commitConfiguration();
     }
     //endregion
+
+    //region ChangeCredentials
+    if (v.getId() == R.id.button9) {
+      //for reset the CRMUser
+      String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
+      String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
+      Orchextra.start();
+      Orchextra.updateSDKCredentials(API_KEY,API_SECRET,true);
+    }
+    //endregion
+
+    //region BindUser
+    if (v.getId() == R.id.button10) {
+      clearDataAndGoToChangeCountryView();
+    }
+    //endregion
   }
+
+  private void clearDataAndGoToChangeCountryView() {
+    clearApplicationData();
+    Orchextra.stop(); //asv V.I.Code
+  }
+
+  public void clearApplicationData() {
+    File cache = getCacheDir();
+    File appDir = new File(cache.getParent());
+    if (appDir.exists()) {
+      String[] children = appDir.list();
+      for (String s : children) {
+        if (!s.equals("lib")) {
+          deleteDir(new File(appDir, s));
+        }
+      }
+    }
+  }
+
+  public static boolean deleteDir(File dir) {
+    if (dir != null && dir.isDirectory()) {
+      String[] children = dir.list();
+      for (int i = 0; i < children.length; i++) {
+        boolean success = deleteDir(new File(dir, children[i]));
+        if (!success) {
+          return false;
+        }
+      }
+    }
+
+    return dir.delete();
+  }
+
+
 
   private String getUniqueCRMID() {
     String secureAndroidId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
@@ -180,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   private void startOrchextra() {
     new Handler().post(new Runnable() {
       @Override public void run() {
-        Orchextra.updateSDKCredentials(App.API_KEY,App.API_SECRET);
+        Orchextra.updateSDKCredentials(App.API_KEY, App.API_SECRET);
       }
     });
 
@@ -192,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   private void stopOrchextra() {
     new Handler().post(new Runnable() {
       @Override public void run() {
-        Orchextra.stop();
+        stop();
       }
     });
     isRunning = false;

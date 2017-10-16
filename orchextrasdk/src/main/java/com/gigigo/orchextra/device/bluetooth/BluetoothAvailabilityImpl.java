@@ -20,7 +20,6 @@ package com.gigigo.orchextra.device.bluetooth;
 
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothAvailability;
 import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.BleNotAvailableException;
 
 
 public class BluetoothAvailabilityImpl implements BluetoothAvailability {

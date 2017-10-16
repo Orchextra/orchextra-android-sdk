@@ -33,8 +33,9 @@
   <uses-permission-sdk-23 tools:node="removeAll" />
 
   <application
-      android:allowBackup="true"
-      android:supportsRtl="true">
+    android:allowBackup="false"
+    android:supportsRtl="true"
+    tools:replace="android:allowBackup">
 
       <activity
           android:name=".ui.webview.OxWebViewActivity"

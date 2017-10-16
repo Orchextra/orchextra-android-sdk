@@ -16,11 +16,32 @@
     />
 
     <Button
+      android:id="@+id/button9"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginBottom="20dp"
+      android:layout_marginLeft="20dp"
+      android:layout_marginRight="20dp"
+      android:text="@string/ox_change_credentials"
+      />
+    <Button
+      android:id="@+id/button10"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_marginBottom="20dp"
+      android:layout_marginLeft="20dp"
+      android:layout_marginRight="20dp"
+      android:text="@string/ox_clean_credentials"
+      />
+
+    <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
+
         android:text="Launch Scanner"
     />
 
@@ -97,5 +118,7 @@
         android:layout_marginRight="20dp"
         android:text="@string/ox_unbind"
         />
+
+
 
 </LinearLayout>
