@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core
 
+import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
@@ -81,7 +82,7 @@ object Orchextra : OrchextraErrorListener {
         onActivityResumed = { isActivityRunning = true },
         onActivityPaused = { isActivityRunning = false })
 
-    PermissionsActivity.open(context,
+    PermissionsActivity.open(context, Manifest.permission.ACCESS_FINE_LOCATION,
         onSuccess = {
           getConfiguration(apiKey)
         },
