@@ -49,6 +49,12 @@ interface DbDataSource {
   @Throws(DbException::class)
   fun saveDevice(device: OxDevice)
 
+  @Throws(DbException::class)
+  fun saveWaitTime(waitTime: Long)
+
+  @Throws(DbException::class)
+  fun getWaitTime(): Long
+
   companion object Factory {
 
     var dbDataSource: DbDataSource? = null

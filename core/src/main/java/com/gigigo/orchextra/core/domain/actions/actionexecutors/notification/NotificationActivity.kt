@@ -49,16 +49,16 @@ class NotificationActivity : AppCompatActivity() {
         .setIcon(R.drawable.ox_notification_large_icon)
         .setPositiveButton(android.R.string.ok, { dialog, _ ->
           dialog.dismiss()
+          //TODO get notificationActivityName from preferences
+          Orchextra.notificationActivityName?.let {
+            openCustomNotificationActivity(it)
+          }
           actionHandlerServiceExecutor.execute(this@NotificationActivity,
               action.copy(notification = Notification()))
         })
         .show()
 
     dialog.setOnDismissListener {
-      // TODO get notificationActivityName from preferences
-      Orchextra.notificationActivityName?.let {
-        openCustomNotificationActivity(it)
-      }
       finish()
     }
   }

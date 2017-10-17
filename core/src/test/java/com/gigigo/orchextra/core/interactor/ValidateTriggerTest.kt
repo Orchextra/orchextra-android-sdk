@@ -68,6 +68,7 @@ class ValidateTriggerTest {
 
     val dbDataSource = mock<DbDataSource> {
       on { getTrigger(any()) } doReturn savedTrigger
+      on { getWaitTime() } doReturn 120000L
     }
 
     return ValidateTrigger(mock(), mock(), dbDataSource, Orchextra)

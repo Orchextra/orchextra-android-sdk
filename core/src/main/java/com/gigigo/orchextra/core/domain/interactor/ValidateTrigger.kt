@@ -69,8 +69,7 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
       return trigger
     }
 
-    // TODO get time from preferences
-    return if (savedTrigger.detectedTime + orchextra.waitTime < System.currentTimeMillis()) {
+    return if (savedTrigger.detectedTime + dbDataSource.getWaitTime() < System.currentTimeMillis()) {
       trigger
     } else {
       Trigger(VOID, "")

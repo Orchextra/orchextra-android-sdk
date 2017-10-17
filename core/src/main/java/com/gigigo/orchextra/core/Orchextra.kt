@@ -25,6 +25,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionListener
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -41,7 +42,6 @@ import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.PermissionsActivity
-import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
 
@@ -60,7 +60,6 @@ object Orchextra : OrchextraErrorListener {
   private var sessionManager: SessionManager? = null
   private var crmManager: CrmManager? = null
   var notificationActivityName: String? = null
-  var waitTime: Long = TimeUnit.SECONDS.toMillis(120)
 
   @JvmOverloads
   fun init(context: Application, apiKey: String, apiSecret: String, debuggable: Boolean = false) {
@@ -93,7 +92,8 @@ object Orchextra : OrchextraErrorListener {
   }
 
   private fun getConfiguration(apiKey: String) {
-    val getConfiguration = GetConfiguration.create(NetworkDataSource.create(context as Context))
+    val getConfiguration = GetConfiguration.create(NetworkDataSource.create(context as Context),
+        DbDataSource.create(context as Context))
     this.locationProvider.getLocation { point ->
       triggerManager.point = OxPoint(lat = point.lat, lng = point.lng)
     }
@@ -101,7 +101,6 @@ object Orchextra : OrchextraErrorListener {
     getConfiguration.get(apiKey,
         onSuccess = {
           crmManager?.availableCustomFields = it.customFields
-          waitTime = TimeUnit.SECONDS.toMillis(it.requestWaitTime)
           changeStatus(true)
         },
 

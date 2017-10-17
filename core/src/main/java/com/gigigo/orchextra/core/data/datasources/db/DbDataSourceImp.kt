@@ -45,6 +45,7 @@ import com.gigigo.orchextra.core.utils.extensions.getBaseApiOxDevice
 import com.j256.ormlite.dao.Dao
 import com.squareup.moshi.Moshi
 import java.sql.SQLException
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.DAYS
 
 
@@ -55,6 +56,7 @@ class DbDataSourceImp(private val context: Context,
 
   private val CRM_KEY = "crm_key"
   private val DEVICE_KEY = "device_key"
+  private val WAIT_TIME_KEY = "wait_time_key"
   private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()
   private val triggerListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbTrigger>(15, DAYS))
@@ -121,6 +123,16 @@ class DbDataSourceImp(private val context: Context,
     editor?.putString(DEVICE_KEY, deviceJsonAdapter.toJson(device.toApiOxDevice()))
     editor?.commit()
   }
+
+  @SuppressLint("CommitPrefEdits")
+  override fun saveWaitTime(waitTime: Long) {
+    val editor = sharedPreferences.edit()
+    editor?.putLong(WAIT_TIME_KEY, waitTime)
+    editor?.commit()
+  }
+
+  override fun getWaitTime(): Long =
+      sharedPreferences.getLong(WAIT_TIME_KEY, TimeUnit.SECONDS.toMillis(120))
 
   @Throws(SQLException::class)
   private fun removeOldTriggers() {
