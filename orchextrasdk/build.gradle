@@ -56,24 +56,26 @@ android {
 
     buildConfigField INT, "BACKGROUND_BEACONS_RANGING_TIME", MIN_RAGGING_TIME
     buildConfigField LONG, "BACKGROUND_BEACONS_SCAN_TIME", BACKGROUND_BEACONS_SCAN_TIME
-    buildConfigField LONG, "BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME", BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME
+    buildConfigField LONG, "BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME",
+        BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME
     buildConfigField STRING, "API_VERSION", '"v1/"'
     buildConfigField INT, "CONCURRENT_INTERACTORS", '3'
     buildConfigField STRING, "X_APP_SDK", '"ANDROID"'
     buildConfigField STRING, "TOKEN_TYPE_BEARER", '"Bearer"'
-    buildConfigField STRING, "IBEACON_LAYOUT_PARSING", '"m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"'
+    buildConfigField STRING, "IBEACON_LAYOUT_PARSING",
+        '"m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"'
 
     buildConfigField STRING, "API_URL", '"https://sdk.orchextra.io/"'
   }
 
   buildTypes {
-    staging{
+    staging {
       signingConfig android.signingConfigs.debug
-       buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
+      buildConfigField STRING, "API_URL", '"https://sdk.s.orchextra.io/"'
       //  buildConfigField STRING, "API_URL", '"https://sdk-demo-1.s.orchextra.io/"'
       debuggable true
     }
-    debug{
+    debug {
       buildConfigField STRING, "API_URL", '"https://sdk.q.orchextra.io/"'
       debuggable true
     }
@@ -107,12 +109,12 @@ android {
 
   productFlavors {
 
-    play9 {dimension "play"}
-    play10 {dimension "play"}
-    play8 {dimension "play"}
-    play7 {dimension "play"}
-    playno {dimension "play"}
-
+    play9 { dimension "play" }
+    play10 { dimension "play" }
+    play11 { dimension "play" }
+    play8 { dimension "play" }
+    play7 { dimension "play" }
+    playno { dimension "play" }
   }
   sourceSets {
     play7 {
@@ -127,6 +129,9 @@ android {
     play10 {
       java.srcDirs = ['src/play/java', 'src/play/java/']
     }
+    play11 {
+      java.srcDirs = ['src/play/java', 'src/play/java/']
+    }
     playno {
       java.srcDirs = ['src/playno/java', 'src/playno/java/']
     }
@@ -134,7 +139,7 @@ android {
   // true to publish all flavour artifacts
   publishNonDefault true
   // default build flavour
-   defaultPublishConfig "play10Release"
+  defaultPublishConfig "play10Release"
 }
 
 configurations {
@@ -142,20 +147,22 @@ configurations {
   play8StagingCompile
   play9StagingCompile
   play10StagingCompile
+  play11StagingCompile
   playnoStagingCompile
 
   play7DebugCompile
   play8DebugCompile
   play9DebugCompile
   play10DebugCompile
+  play11DebugCompile
   playnoDebugCompile
 
   play7ReleaseCompile
   play8ReleaseCompile
   play9ReleaseCompile
   play10ReleaseCompile
+  play11ReleaseCompile
   playnoReleaseCompile
-
 }
 
 
@@ -169,24 +176,29 @@ dependencies {
 
   apt(parent.ext.dependencies.daggerCompiler) {
     transitive = false
-    exclude group:'com.google.dagger', module:'dagger'
-    exclude group:'javax.inject'
+    exclude group: 'com.google.dagger', module: 'dagger'
+    exclude group: 'javax.inject'
   }
 
   compile parent.ext.dependencies.loggingInterceptor
   compile parent.ext.dependencies.altBeacon
-  compile(parent.ext.dependencies.barcodescanner)
-          { exclude module: 'support-v4'
-            // com.android.support:support-annotations:23.1.1
-          }
+  compile(parent.ext.dependencies.barcodescanner) {
+    exclude module: 'support-v4'
+    // com.android.support:support-annotations:23.1.1
+  }
 
 
-   compile parent.ext.dependencies.imageRecognitionInterface
+  compile parent.ext.dependencies.imageRecognitionInterface
 
   compile project(':orchextrasdk-control')
   compile project(':orchextrasdk-data')
 
   /*GooglePlayServices*/
+
+
+  play11StagingCompile('com.google.android.gms:play-services-location:11.0.2')
+  play11StagingCompile('com.google.android.gms:play-services-gcm:11.0.2')
+
   play10StagingCompile('com.google.android.gms:play-services-location:10.0.1')
   play10StagingCompile('com.google.android.gms:play-services-gcm:10.0.1')
 
@@ -199,7 +211,10 @@ dependencies {
   play7StagingCompile('com.google.android.gms:play-services-location:7.8.0')
   play7StagingCompile('com.google.android.gms:play-services-gcm:7.8.0')
 
-  play10DebugCompile( 'com.google.android.gms:play-services-location:10.0.1')
+  play11DebugCompile('com.google.android.gms:play-services-location:11.0.2')
+  play11DebugCompile('com.google.android.gms:play-services-gcm:11.0.2')
+
+  play10DebugCompile('com.google.android.gms:play-services-location:10.0.1')
   play10DebugCompile('com.google.android.gms:play-services-gcm:10.0.1')
 
   play9DebugCompile('com.google.android.gms:play-services-location:9.0.0')
@@ -211,8 +226,10 @@ dependencies {
   play7DebugCompile('com.google.android.gms:play-services-location:7.8.0')
   play7DebugCompile('com.google.android.gms:play-services-gcm:7.8.0')
 
+  play11ReleaseCompile('com.google.android.gms:play-services-location:11.0.2')
+  play11ReleaseCompile('com.google.android.gms:play-services-gcm:11.0.2')
 
-  play10ReleaseCompile( 'com.google.android.gms:play-services-location:10.0.1')
+  play10ReleaseCompile('com.google.android.gms:play-services-location:10.0.1')
   play10ReleaseCompile('com.google.android.gms:play-services-gcm:10.0.1')
 
   play9ReleaseCompile('com.google.android.gms:play-services-location:9.0.0')

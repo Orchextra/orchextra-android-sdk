@@ -25,7 +25,7 @@ android {
   buildToolsVersion = "23.0.1"
   defaultConfig {
     applicationId "gigigo.com.orchextrasdk"
-    minSdkVersion 11
+    minSdkVersion 14
     //parent.ext.androidMinSdkVersion //you can change that, but you need API >=10 for fabmenu
     targetSdkVersion parent.ext.androidTargetSdkVersion
     versionCode parent.ext.androidVersionCode
@@ -82,6 +82,7 @@ android {
     play8 {}
     play9 {}
     play10 {}
+    play11 {}
     playno {}
   }
 }
@@ -91,18 +92,21 @@ configurations {
   play8StagingCompile
   play9StagingCompile
   play10StagingCompile
+  play11StagingCompile
   playnoStagingCompile
 
   play7DebugCompile
   play8DebugCompile
   play9DebugCompile
   play10DebugCompile
+  play11DebugCompile
   playnoDebugCompile
 
   play7ReleaseCompile
   play8ReleaseCompile
   play9ReleaseCompile
   play10ReleaseCompile
+  play11ReleaseCompile
   playnoReleaseCompile
 }
 
@@ -119,6 +123,7 @@ dependencies {
   play8StagingCompile project(path: ':orchextrasdk', configuration: 'play8Staging')
   play9StagingCompile project(path: ':orchextrasdk', configuration: 'play9Staging')
   play10StagingCompile project(path: ':orchextrasdk', configuration: 'play10Staging')
+  play11StagingCompile project(path: ':orchextrasdk', configuration: 'play11Staging')
   //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
   playnoStagingCompile project(path: ':orchextrasdk', configuration: 'playnoStaging')
 
@@ -126,6 +131,7 @@ dependencies {
   play8DebugCompile project(path: ':orchextrasdk', configuration: 'play8Debug')
   play9DebugCompile project(path: ':orchextrasdk', configuration: 'play9Debug')
   play10DebugCompile project(path: ':orchextrasdk', configuration: 'play10Debug')
+  play11DebugCompile project(path: ':orchextrasdk', configuration: 'play11Debug')
   //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
   playnoDebugCompile project(path: ':orchextrasdk', configuration: 'playnoDebug')
 
@@ -133,6 +139,7 @@ dependencies {
   play8ReleaseCompile project(path: ':orchextrasdk', configuration: 'play8Release')
   play9ReleaseCompile project(path: ':orchextrasdk', configuration: 'play9Release')
   play10ReleaseCompile project(path: ':orchextrasdk', configuration: 'play10Release')
+  play11ReleaseCompile project(path: ':orchextrasdk', configuration: 'play11Release')
   //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
   playnoReleaseCompile project(path: ':orchextrasdk', configuration: 'playnoRelease')
 

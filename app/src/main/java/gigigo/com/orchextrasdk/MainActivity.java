@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.gigigo.orchextra.Orchextra.stop;
+import static gigigo.com.orchextrasdk.App.API_KEY;
+import static gigigo.com.orchextrasdk.App.API_SECRET;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
   @Override protected void onStop() {
@@ -168,8 +170,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //region ChangeCredentials
     if (v.getId() == R.id.button9) {
       //for reset the CRMUser
-      String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
-      String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
+      //String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
+      //String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
       Orchextra.start();
       Orchextra.updateSDKCredentials(API_KEY,API_SECRET,true);
     }
@@ -228,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   private void startOrchextra() {
     new Handler().post(new Runnable() {
       @Override public void run() {
-        Orchextra.updateSDKCredentials(App.API_KEY, App.API_SECRET);
+        Orchextra.updateSDKCredentials(API_KEY, API_SECRET);
       }
     });
 

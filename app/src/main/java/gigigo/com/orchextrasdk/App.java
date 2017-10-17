@@ -47,8 +47,13 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   //public static String API_SECRET = "d4a2c0f5b725f83b20d561768c80e09c39602a49";
 
   //eddystone test with real configuration
-  public static String API_KEY = "ef08c4dccb7649b9956296a863db002a68240be2";
-  public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
+  //public static String API_KEY = "ef08c4dccb7649b9956296a863db002a68240be2";
+  //public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
+
+  //test geofences
+  public static String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
+  public static String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
+
 
   @Override public void onCreate() {
     super.onCreate();

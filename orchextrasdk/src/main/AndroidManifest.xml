@@ -35,6 +35,7 @@
   <application
     android:allowBackup="false"
     android:supportsRtl="true"
+    tools:overrideLibrary="com.google.android.gms.location"
     tools:replace="android:allowBackup">
 
       <activity
