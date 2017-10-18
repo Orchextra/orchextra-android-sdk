@@ -41,6 +41,8 @@ ext {
                okhttp3                  : 'com.squareup.okhttp3:okhttp:3.8.0',
                okhttp3LoggingInterceptor: 'com.squareup.okhttp3:logging-interceptor:3.8.0',
 
+               imagerecognitionVuforia  : 'com.github.Gigigo-Android-Devs.gigigo-imageRecognition-library-android:imagerecognition.vuforia:1.0.4',
+
                ormLite                  : 'com.j256.ormlite:ormlite-android:5.0',
                altbeacon                : 'org.altbeacon:android-beacon-library:2.12.1',
                zbar                     : 'me.dm7.barcodescanner:zbar:1.8.4',

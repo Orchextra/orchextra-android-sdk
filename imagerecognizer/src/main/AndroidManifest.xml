@@ -10,12 +10,6 @@
         android:theme="@style/OxAppTheme.NoActionBar"
         android:screenOrientation="portrait">
     </activity>
-
-    <receiver android:name=".ImageRecognizerReceiver" >
-      <intent-filter>
-        <action android:name="com.gigigo.imagerecognition.intent.action.RECOGNIZED_IMAGE"/>
-      </intent-filter>
-    </receiver>
   </application>
 
 </manifest>

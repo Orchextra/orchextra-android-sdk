@@ -52,6 +52,8 @@ dependencies {
   compile rootProject.ext.libraries.kotlinStdLib
   compile rootProject.ext.libraries.supportAppCompatV7
 
+  compile rootProject.ext.libraries.imagerecognitionVuforia
+
   compile rootProject.ext.modules.core
 
   testCompile rootProject.ext.testLibraries.junit
@@ -59,7 +61,4 @@ dependencies {
   androidTestCompile(rootProject.ext.testLibraries.espressoCore, {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
-
-  compile 'com.github.GigigoGreenLabs.imgRecogModule:imagerecognitioninterface:2.6'
-  compile 'com.github.GigigoGreenLabs.imgRecogModule:vuforiaimplementation:2.6'
 }

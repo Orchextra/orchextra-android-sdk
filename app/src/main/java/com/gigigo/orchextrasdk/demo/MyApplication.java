@@ -18,11 +18,11 @@
 
 package com.gigigo.orchextrasdk.demo;
 
-import android.support.multidex.MultiDexApplication;
+import android.app.Application;
 import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 
-public class MyApplication extends MultiDexApplication {
+public class MyApplication extends Application {
 
   public void onCreate() {
     super.onCreate();

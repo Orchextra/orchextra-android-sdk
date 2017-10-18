@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.Button
 import android.widget.TextView
-import com.gigigo.ggglib.ContextProvider
-import com.gigigo.imagerecognitioninterface.ImageRecognitionCredentials
+import com.gigigo.imagerecognition.Credentials
+import com.gigigo.imagerecognition.vuforia.ContextProvider
+import com.gigigo.imagerecognition.vuforia.ImageRecognitionVuforia
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
-import com.gigigo.vuforiaimplementation.ImageRecognitionVuforiaImpl
 
 class ImageRecognizerActivity : AppCompatActivity() {
 
@@ -80,7 +80,10 @@ class ImageRecognizerActivity : AppCompatActivity() {
   }
 
   private fun startVuforia() {
-    var imageRecognition = ImageRecognitionVuforiaImpl()
+    var imageRecognition = ImageRecognitionVuforia()
+    ImageRecognitionVuforia.onRecognizedPattern {
+      showResponseCode(it)
+    }
 
     val contextProvider = object : ContextProvider {
       override fun getApplicationContext(): Context = this@ImageRecognizerActivity.application.applicationContext
@@ -94,7 +97,7 @@ class ImageRecognizerActivity : AppCompatActivity() {
 
     imageRecognition.setContextProvider(contextProvider)
 
-    val vuforiaCredentials = object : ImageRecognitionCredentials {
+    val vuforiaCredentials = object : Credentials {
       override fun getLicensekey(): String = this@ImageRecognizerActivity.getLicenseKey()
 
       override fun getClientSecretKey(): String = this@ImageRecognizerActivity.getClientSecretKey()
@@ -119,10 +122,6 @@ class ImageRecognizerActivity : AppCompatActivity() {
       intent.putExtra(CLIENT_ACCESS_KEY, clientAccessKey)
       intent.putExtra(CLIENT_SECRET_KEY, clientSecretKey)
       context.startActivity(intent)
-    }
-
-    fun showCode(code: String) {
-      imageRecognizerActivity?.showResponseCode(code)
     }
 
     fun finish() {

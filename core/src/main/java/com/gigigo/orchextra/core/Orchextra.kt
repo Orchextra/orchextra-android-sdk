@@ -35,11 +35,7 @@ import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetOxToken
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
-import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
-import com.gigigo.orchextra.core.utils.FileLogging
-import com.gigigo.orchextra.core.utils.LocationProvider
-import com.gigigo.orchextra.core.utils.LogUtils
-import com.gigigo.orchextra.core.utils.PermissionsActivity
+import com.gigigo.orchextra.core.utils.*
 import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {

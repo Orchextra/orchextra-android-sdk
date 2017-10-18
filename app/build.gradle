@@ -45,7 +45,6 @@ android {
     targetSdkVersion rootProject.ext.androidTargetSdkVersion
     versionCode generateAutoVersionCode()
     versionName "3.0.0-rc." + generateAutoVersionCode()
-    multiDexEnabled true
 
     ndk {
       abiFilters "armeabi-v7a"
@@ -107,10 +106,6 @@ android.applicationVariants.all { variant ->
 }
 
 dependencies {
-  compile rootProject.ext.libraries.multidex
-  androidTestCompile rootProject.ext.libraries.multidex
-  androidTestCompile rootProject.ext.libraries.multidexInstrumentation
-
   compile rootProject.ext.modules.core
   compile rootProject.ext.modules.geofence
   compile rootProject.ext.modules.indoorPositioning
