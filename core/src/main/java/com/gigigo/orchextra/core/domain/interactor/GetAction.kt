@@ -50,7 +50,9 @@ class GetAction constructor(threadExecutor: ThreadExecutor,
 
   companion object Factory {
 
-    fun create(): GetAction = GetAction(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+    fun create(networkDataSource: NetworkDataSource): GetAction = GetAction(
+        ThreadExecutorImp,
+        PostExecutionThreadImp,
+        networkDataSource)
   }
 }

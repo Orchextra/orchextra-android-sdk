@@ -49,7 +49,10 @@ class UnbindCrm(threadExecutor: ThreadExecutor, postExecutionThread: PostExecuti
 
   companion object Factory {
 
-    fun create(): UnbindCrm = UnbindCrm(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create(), DbDataSource.create())
+    fun create(networkDataSource: NetworkDataSource, dbDataSource: DbDataSource): UnbindCrm =
+        UnbindCrm(ThreadExecutorImp,
+            PostExecutionThreadImp,
+            networkDataSource,
+            dbDataSource)
   }
 }

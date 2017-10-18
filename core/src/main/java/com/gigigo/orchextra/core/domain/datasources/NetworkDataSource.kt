@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.datasources
 
+import android.content.Context
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.network.NetworkDataSourceImp
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -61,11 +62,11 @@ interface NetworkDataSource {
 
     var networkDataSource: NetworkDataSource? = null
 
-    fun create(): NetworkDataSource {
+    fun create(context: Context): NetworkDataSource {
 
       if (networkDataSource == null) {
         networkDataSource = NetworkDataSourceImp(Orchextra,
-            SessionManager.create(Orchextra.provideContext()), DbDataSource.create())
+            SessionManager.create(Orchextra.provideContext()), DbDataSource.create(context))
       }
 
       return networkDataSource as NetworkDataSource

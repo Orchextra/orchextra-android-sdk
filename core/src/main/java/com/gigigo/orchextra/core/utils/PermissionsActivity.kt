@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.core.utils
 
 import android.Manifest
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -34,7 +33,7 @@ import com.gigigo.orchextra.core.domain.exceptions.OxException
 
 class PermissionsActivity : AppCompatActivity() {
 
-  private val PERMISSIONS_REQUEST_LOCATION = 1
+  private val PERMISSIONS_REQUEST = 0x132
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -42,7 +41,7 @@ class PermissionsActivity : AppCompatActivity() {
     title = ""
 
     if (ContextCompat.checkSelfPermission(this@PermissionsActivity,
-        ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        getPermission()) == PackageManager.PERMISSION_GRANTED) {
       finishWithPermissionsGranted()
     } else {
       requestPermission()
@@ -51,15 +50,14 @@ class PermissionsActivity : AppCompatActivity() {
 
   private fun requestPermission() {
     if (ContextCompat.checkSelfPermission(this,
-        ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        getPermission()) != PackageManager.PERMISSION_GRANTED) {
 
-      if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-          Manifest.permission.ACCESS_FINE_LOCATION)) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(this, getPermission())) {
         finishWithoutPermissions(
             OxException(PERMISSION_RATIONALE_ERROR, "Should show request permission rationale"))
       } else {
-        ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION),
-            PERMISSIONS_REQUEST_LOCATION)
+        ActivityCompat.requestPermissions(this, arrayOf(getPermission()),
+            PERMISSIONS_REQUEST)
       }
     }
   }
@@ -68,12 +66,12 @@ class PermissionsActivity : AppCompatActivity() {
       grantResults: IntArray) {
 
     when (requestCode) {
-      PERMISSIONS_REQUEST_LOCATION -> {
+      PERMISSIONS_REQUEST -> {
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
           finishWithPermissionsGranted()
         } else {
           finishWithoutPermissions(
-              OxException(PERMISSION_ERROR, "Location permission is mandatory"))
+              OxException(PERMISSION_ERROR, "Permission is mandatory"))
         }
       }
     }
@@ -89,17 +87,23 @@ class PermissionsActivity : AppCompatActivity() {
     onError(exception)
   }
 
+  private fun getPermission(): String =
+      intent.getStringExtra(EXTRA_PERMISSION) ?: Manifest.permission.ACCESS_FINE_LOCATION
+
   companion object Navigator {
 
+    val EXTRA_PERMISSION = "extra_permission"
     var onSuccess: () -> Unit = {}
     var onError: (OxException) -> Unit = {}
 
-    fun open(context: Context, onSuccess: () -> Unit = {}, onError: (OxException) -> Unit = {}) {
+    fun open(context: Context, permission: String, onSuccess: () -> Unit = {},
+        onError: (OxException) -> Unit = {}) {
 
       this.onSuccess = onSuccess
       this.onError = onError
 
       val intent = Intent(context, PermissionsActivity::class.java)
+      intent.putExtra(EXTRA_PERMISSION, permission)
       intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
       context.startActivity(intent)
     }

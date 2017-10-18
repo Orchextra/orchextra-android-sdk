@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.datasources
 
+import android.content.Context
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
 import com.gigigo.orchextra.core.data.datasources.db.DbDataSourceImp
@@ -48,18 +49,25 @@ interface DbDataSource {
   @Throws(DbException::class)
   fun saveDevice(device: OxDevice)
 
+  @Throws(DbException::class)
+  fun saveWaitTime(waitTime: Long)
+
+  @Throws(DbException::class)
+  fun getWaitTime(): Long
+
   companion object Factory {
 
     var dbDataSource: DbDataSource? = null
 
-    fun create(): DbDataSource {
+    fun create(context: Context): DbDataSource {
 
       if (dbDataSource == null) {
-        val sharedPreferences = Orchextra.provideSharedPreferences(Orchextra.provideContext())
-        val moshi = Moshi.Builder().build()
+        val sharedPreferences = Orchextra.provideSharedPreferences(context)
 
-        dbDataSource = DbDataSourceImp(Orchextra.provideContext(), sharedPreferences,
-            DatabaseHelper.create(Orchextra.provideContext()), moshi)
+        dbDataSource = DbDataSourceImp(context,
+            sharedPreferences,
+            DatabaseHelper.create(context),
+            Moshi.Builder().build())
       }
 
       return dbDataSource as DbDataSource

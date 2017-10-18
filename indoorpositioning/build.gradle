@@ -65,8 +65,14 @@ android {
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
+    debug {
+      debuggable true
+      shrinkResources true
+    }
+
     release {
       minifyEnabled false
+      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }

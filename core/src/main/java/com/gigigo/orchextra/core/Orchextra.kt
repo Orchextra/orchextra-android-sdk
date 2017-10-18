@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core
 
+import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
@@ -25,6 +26,8 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionListener
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
+import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
@@ -35,7 +38,11 @@ import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetOxToken
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
-import com.gigigo.orchextra.core.utils.*
+import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
+import com.gigigo.orchextra.core.utils.FileLogging
+import com.gigigo.orchextra.core.utils.LocationProvider
+import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.PermissionsActivity
 import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
@@ -54,7 +61,7 @@ object Orchextra : OrchextraErrorListener {
   private var debuggable = false
   private var sessionManager: SessionManager? = null
   private var crmManager: CrmManager? = null
-  var waitTime: Long = TimeUnit.SECONDS.toMillis(120)
+  var notificationActivityName: String? = null
 
   @JvmOverloads
   fun init(context: Application, apiKey: String, apiSecret: String, debuggable: Boolean = false) {
@@ -66,9 +73,9 @@ object Orchextra : OrchextraErrorListener {
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
     this.locationProvider = LocationProvider(context)
     this.sessionManager = SessionManager.create(Orchextra.provideContext())
-    this.crmManager = CrmManager.create { onError(it) }
+    this.crmManager = CrmManager.create(context, { onError(it) })
     this.triggerManager.apiKey = apiKey
-    this.getOxToken = GetOxToken.create()
+    this.getOxToken = GetOxToken.create(NetworkDataSource.create(context))
 
     initLogger(context)
 
@@ -76,7 +83,7 @@ object Orchextra : OrchextraErrorListener {
         onActivityResumed = { isActivityRunning = true },
         onActivityPaused = { isActivityRunning = false })
 
-    PermissionsActivity.open(context,
+    PermissionsActivity.open(context, Manifest.permission.ACCESS_FINE_LOCATION,
         onSuccess = {
           getConfiguration(apiKey)
         },
@@ -87,7 +94,8 @@ object Orchextra : OrchextraErrorListener {
   }
 
   private fun getConfiguration(apiKey: String) {
-    val getConfiguration = GetConfiguration.create()
+    val getConfiguration = GetConfiguration.create(NetworkDataSource.create(context as Context),
+        DbDataSource.create(context as Context))
     this.locationProvider.getLocation { point ->
       triggerManager.point = OxPoint(lat = point.lat, lng = point.lng)
     }
@@ -95,7 +103,6 @@ object Orchextra : OrchextraErrorListener {
     getConfiguration.get(apiKey,
         onSuccess = {
           crmManager?.availableCustomFields = it.customFields
-          waitTime = TimeUnit.SECONDS.toMillis(it.requestWaitTime)
           changeStatus(true)
         },
 
@@ -184,6 +191,10 @@ object Orchextra : OrchextraErrorListener {
     sessionManager?.clearSession()
 
     changeStatus(false)
+  }
+
+  fun setNotificationActivityClass(notificationActivityClass: Class<*>) {
+    notificationActivityName = notificationActivityClass.canonicalName
   }
 
   fun setContext(context: Application) {

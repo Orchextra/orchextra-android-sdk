@@ -47,7 +47,9 @@ class GetOxToken(threadExecutor: ThreadExecutor, postExecutionThread: PostExecut
 
   companion object Factory {
 
-    fun create(): GetOxToken = GetOxToken(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+    fun create(networkDataSource: NetworkDataSource): GetOxToken = GetOxToken(
+        ThreadExecutorImp,
+        PostExecutionThreadImp,
+        networkDataSource)
   }
 }

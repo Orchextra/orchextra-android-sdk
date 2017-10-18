@@ -84,10 +84,12 @@ android {
   buildTypes {
     debug {
       debuggable true
+      shrinkResources true
     }
 
     release {
       minifyEnabled false
+      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }

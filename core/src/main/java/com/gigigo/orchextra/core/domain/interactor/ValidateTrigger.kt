@@ -69,7 +69,7 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
       return trigger
     }
 
-    return if (savedTrigger.detectedTime + orchextra.waitTime < System.currentTimeMillis()) {
+    return if (savedTrigger.detectedTime + dbDataSource.getWaitTime() < System.currentTimeMillis()) {
       trigger
     } else {
       Trigger(VOID, "")
@@ -89,7 +89,9 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
   }
 
   companion object Factory {
-    fun create(): ValidateTrigger = ValidateTrigger(ThreadExecutorImp, PostExecutionThreadImp,
-        DbDataSource.create(), Orchextra)
+    fun create(dbDataSource: DbDataSource): ValidateTrigger = ValidateTrigger(ThreadExecutorImp,
+        PostExecutionThreadImp,
+        dbDataSource,
+        Orchextra)
   }
 }

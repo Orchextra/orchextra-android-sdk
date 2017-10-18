@@ -49,7 +49,9 @@ class GetTriggerList(threadExecutor: ThreadExecutor, postExecutionThread: PostEx
 
   companion object Factory {
 
-    fun create(): GetTriggerList = GetTriggerList(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+    fun create(networkDataSource: NetworkDataSource): GetTriggerList = GetTriggerList(
+        ThreadExecutorImp,
+        PostExecutionThreadImp,
+        networkDataSource)
   }
 }

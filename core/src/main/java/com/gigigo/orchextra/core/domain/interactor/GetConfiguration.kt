@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
@@ -26,9 +27,11 @@ import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThreadImp
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
+import java.util.concurrent.TimeUnit
 
 class GetConfiguration(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
-    private val networkDataSource: NetworkDataSource) : Interactor<Configuration>(threadExecutor,
+    private val networkDataSource: NetworkDataSource,
+    private val dbDataSource: DbDataSource) : Interactor<Configuration>(threadExecutor,
     postExecutionThread) {
 
   private lateinit var apiKey: String
@@ -41,14 +44,20 @@ class GetConfiguration(threadExecutor: ThreadExecutor, postExecutionThread: Post
   }
 
   override fun run() = try {
-    notifySuccess(networkDataSource.getConfiguration(apiKey))
+    val configuration = networkDataSource.getConfiguration(apiKey)
+    dbDataSource.saveWaitTime(TimeUnit.SECONDS.toMillis(configuration.requestWaitTime))
+    notifySuccess(configuration)
   } catch (error: NetworkException) {
     notifyError(error)
   }
 
   companion object Factory {
 
-    fun create(): GetConfiguration = GetConfiguration(ThreadExecutorImp, PostExecutionThreadImp,
-        NetworkDataSource.create())
+    fun create(networkDataSource: NetworkDataSource, dbDataSource: DbDataSource):
+        GetConfiguration = GetConfiguration(
+        ThreadExecutorImp,
+        PostExecutionThreadImp,
+        networkDataSource,
+        dbDataSource)
   }
 }
