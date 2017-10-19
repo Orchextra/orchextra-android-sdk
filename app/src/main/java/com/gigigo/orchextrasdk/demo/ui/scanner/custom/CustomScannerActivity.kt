@@ -48,7 +48,7 @@ class CustomScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler
     setContentView(R.layout.activity_scanner)
 
     scannerView = ZBarScannerView(this)
-    val contentFrame = findViewById(R.id.content_frame) as ViewGroup
+    val contentFrame = findViewById<ViewGroup>(R.id.content_frame)
     contentFrame.addView(scannerView)
 
     initToolbar()
@@ -56,7 +56,7 @@ class CustomScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler
 
   private fun initToolbar() {
 
-    val toolbar = findViewById(R.id.toolbar) as Toolbar
+    val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
     setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)

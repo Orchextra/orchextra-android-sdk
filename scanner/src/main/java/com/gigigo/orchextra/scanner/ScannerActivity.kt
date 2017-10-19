@@ -45,7 +45,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
     setContentView(R.layout.ox_activity_scanner)
 
     scannerView = ZBarScannerView(this)
-    val contentFrame = findViewById(R.id.content_frame) as ViewGroup
+    val contentFrame = findViewById<ViewGroup>(R.id.content_frame)
     contentFrame.addView(scannerView)
 
     initToolbar()
@@ -53,7 +53,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   private fun initToolbar() {
 
-    val toolbar = findViewById(com.gigigo.orchextra.core.R.id.ox_toolbar) as Toolbar
+    val toolbar = findViewById<Toolbar>(com.gigigo.orchextra.core.R.id.ox_toolbar)
 
     setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)

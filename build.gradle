@@ -38,8 +38,8 @@ allprojects {
   ext {
     androidBuildToolsVersion = '26.0.0'
     androidMinSdkVersion = 16
-    androidTargetSdkVersion = 25
-    androidCompileSdkVersion = 25
+    androidTargetSdkVersion = 26
+    androidCompileSdkVersion = 26
   }
 
   repositories {
@@ -48,7 +48,6 @@ allprojects {
     maven { url 'https://dl.bintray.com/gigigo-desarrollo/maven' }
     maven { url 'https://jitpack.io' }
     maven { url 'https://maven.google.com' }
-    mavenCentral()
   }
 
   tasks.withType(Javadoc).all {

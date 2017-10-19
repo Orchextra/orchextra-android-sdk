@@ -35,18 +35,18 @@ class ImageRecognizerActivity : AppCompatActivity() {
   private fun initViews() {
     initToolbar()
 
-    licenseKeyTv = findViewById(R.id.imagerecognizer_license_tv) as TextView
-    accessKeyTv = findViewById(R.id.imagerecognizer_accessKey_tv) as TextView
-    secretKeyTv = findViewById(R.id.imagerecognizer_secretKey_tv) as TextView
-    codeTv = findViewById(R.id.imagerecognizer_code_tv) as TextView
+    licenseKeyTv = findViewById(R.id.imagerecognizer_license_tv)
+    accessKeyTv = findViewById(R.id.imagerecognizer_accessKey_tv)
+    secretKeyTv = findViewById(R.id.imagerecognizer_secretKey_tv)
+    codeTv = findViewById(R.id.imagerecognizer_code_tv)
 
-    val startButton = findViewById(R.id.start_vuforia_button) as Button
+    val startButton = findViewById<Button>(R.id.start_vuforia_button)
     startButton.setOnClickListener({ startVuforia() })
   }
 
   private fun initToolbar() {
 
-    val toolbar = findViewById(com.gigigo.orchextra.core.R.id.ox_toolbar) as Toolbar
+    val toolbar = findViewById<Toolbar>(com.gigigo.orchextra.core.R.id.ox_toolbar)
 
     setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -75,7 +75,8 @@ class ImageRecognizerActivity : AppCompatActivity() {
 
   private fun showResponseCode(code: String) {
     codeTv.text = "CODE= $code"
-    sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(TriggerType.IMAGE_RECOGNITION withValue code))
+    sendBroadcast(
+        TriggerBroadcastReceiver.getTriggerIntent(TriggerType.IMAGE_RECOGNITION withValue code))
 
   }
 

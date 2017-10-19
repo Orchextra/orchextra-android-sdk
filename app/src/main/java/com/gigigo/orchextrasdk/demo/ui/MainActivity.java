@@ -27,6 +27,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -42,6 +43,7 @@ import com.gigigo.orchextrasdk.demo.ui.triggerlog.TriggerLogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+  private static final String TAG = "MainActivity";
   ScannerFragment scannerFragment;
   TriggerLogFragment triggerLogFragment;
   GeofencesFragment geofencesFragment;
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     orchextra.getToken(new OrchextraTokenReceiver() {
       @Override public void onGetToken(@NonNull String oxToken) {
-        Toast.makeText(MainActivity.this, "Token:" + oxToken, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Token: " + oxToken);
       }
     });
   }

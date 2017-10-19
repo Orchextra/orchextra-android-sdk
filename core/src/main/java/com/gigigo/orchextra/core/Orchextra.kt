@@ -43,7 +43,6 @@ import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.PermissionsActivity
-import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
 
@@ -72,7 +71,7 @@ object Orchextra : OrchextraErrorListener {
     this.triggerManager = TriggerManager.create(context)
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
     this.locationProvider = LocationProvider(context)
-    this.sessionManager = SessionManager.create(Orchextra.provideContext())
+    this.sessionManager = SessionManager.create(context)
     this.crmManager = CrmManager.create(context, { onError(it) })
     this.triggerManager.apiKey = apiKey
     this.getOxToken = GetOxToken.create(NetworkDataSource.create(context))
@@ -112,7 +111,7 @@ object Orchextra : OrchextraErrorListener {
         })
   }
 
-  fun initLogger(context: Context) {
+  internal fun initLogger(context: Context) {
     LogUtils.fileLogging = FileLogging(context)
   }
 
@@ -136,7 +135,7 @@ object Orchextra : OrchextraErrorListener {
     orchextraStatusListener?.onStatusChange(isReady)
   }
 
-  fun getCredentials(): Credentials = credentials
+  internal fun getCredentials(): Credentials = credentials
 
   fun isReady(): Boolean = Orchextra.isReady
 
@@ -175,7 +174,7 @@ object Orchextra : OrchextraErrorListener {
   }
 
   fun getToken(tokenReceiver: OrchextraTokenReceiver) {
-    getOxToken?.get(getCredentials(),
+    getOxToken?.get(credentials,
         onSuccess = {
           tokenReceiver.onGetToken(it)
         },
@@ -197,19 +196,14 @@ object Orchextra : OrchextraErrorListener {
     notificationActivityName = notificationActivityClass.canonicalName
   }
 
-  fun setContext(context: Application) {
-    this.context = context
-  }
-
   fun getCrmManager(): CrmManager = crmManager as CrmManager
 
-  fun isDebuggable(): Boolean = debuggable
+  internal fun isDebuggable(): Boolean = debuggable
 
-  fun isActivityRunning() = isActivityRunning
+  internal fun isActivityRunning() = isActivityRunning
 
-  fun provideContext(): Context = context as Context
-
-  fun provideSharedPreferences(context: Context): SharedPreferences = context.getSharedPreferences(
+  internal fun provideSharedPreferences(
+      context: Context): SharedPreferences = context.getSharedPreferences(
       "orchextra",
       Context.MODE_PRIVATE)
 }

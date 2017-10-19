@@ -40,7 +40,7 @@ class WebViewActivity : AppCompatActivity() {
 
   private fun initToolbar() {
 
-    val toolbar = findViewById(R.id.ox_toolbar) as Toolbar
+    val toolbar = findViewById<Toolbar>(R.id.ox_toolbar)
 
     setSupportActionBar(toolbar)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -51,12 +51,10 @@ class WebViewActivity : AppCompatActivity() {
     title = getDomainName(getUrl())
   }
 
-  private fun getUrl(): String {
-    return intent.getStringExtra(EXTRA_URL) ?: ""
-  }
+  private fun getUrl(): String = intent.getStringExtra(EXTRA_URL) ?: ""
 
   @Throws(URISyntaxException::class)
-  fun getDomainName(url: String): String {
+  private fun getDomainName(url: String): String {
     val uri = URI(url)
     val domain = uri.host
     return if (domain.startsWith("www.")) domain.substring(4) else domain

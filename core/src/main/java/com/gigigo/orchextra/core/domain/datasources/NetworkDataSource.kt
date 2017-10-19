@@ -66,7 +66,7 @@ interface NetworkDataSource {
 
       if (networkDataSource == null) {
         networkDataSource = NetworkDataSourceImp(Orchextra,
-            SessionManager.create(Orchextra.provideContext()), DbDataSource.create(context))
+            SessionManager.create(context), DbDataSource.create(context))
       }
 
       return networkDataSource as NetworkDataSource

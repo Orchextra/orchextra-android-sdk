@@ -21,15 +21,12 @@ package com.gigigo.orchextra.core.domain.triggers
 import android.app.IntentService
 import android.content.Context
 import android.content.Intent
-import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.utils.LogUtils
 
 class TriggerHandlerService : IntentService(TAG) {
 
   override fun onHandleIntent(intent: Intent) {
-
-    Orchextra.setContext(application)
 
     val triggerListener: TriggerListener = TriggerManager.create(this)
     val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)
