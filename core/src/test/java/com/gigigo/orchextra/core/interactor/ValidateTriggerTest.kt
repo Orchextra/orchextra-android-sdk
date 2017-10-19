@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.core.interactor
 
-import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
@@ -36,7 +35,17 @@ class ValidateTriggerTest {
 
   @Test
   fun shouldBeAValidQRTrigger() {
-    val trigger = Trigger(QR, "e21dguywqbjs")
+    val trigger = Trigger(QR, "test")
+    val validateTrigger = getValidateTrigger()
+
+    val validTrigger = validateTrigger.validate(trigger)
+
+    validTrigger.shouldEqual(trigger)
+  }
+
+  @Test
+  fun shouldBeAValidANewBeaconTrigger() {
+    val trigger = Trigger(BEACON, "test")
     val validateTrigger = getValidateTrigger()
 
     val validTrigger = validateTrigger.validate(trigger)
@@ -46,7 +55,7 @@ class ValidateTriggerTest {
 
   @Test
   fun shouldBeAValidBeaconTriggerWithDistanceNear() {
-    val trigger = Trigger(BEACON, "e21dguywqbjs", distance = "near")
+    val trigger = Trigger(BEACON, "test", distance = "near")
     val validateTrigger = getValidateTrigger(trigger.copy(detectedTime = 0L))
 
     val validTrigger = validateTrigger.validate(trigger)
@@ -56,7 +65,7 @@ class ValidateTriggerTest {
 
   @Test
   fun shouldBeAInvalidBeaconTrigger() {
-    val trigger = Trigger(BEACON, "e21dguywqbjs", distance = "near")
+    val trigger = Trigger(BEACON, "test", distance = "near")
     val validateTrigger = getValidateTrigger(trigger)
 
     val validTrigger = validateTrigger.validate(trigger.copy(detectedTime = 0L))
@@ -71,6 +80,6 @@ class ValidateTriggerTest {
       on { getWaitTime() } doReturn 120000L
     }
 
-    return ValidateTrigger(mock(), mock(), dbDataSource, Orchextra)
+    return ValidateTrigger(mock(), mock(), dbDataSource)
   }
 }

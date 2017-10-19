@@ -19,7 +19,6 @@
 package com.gigigo.orchextra.core.domain.interactor
 
 import android.support.annotation.WorkerThread
-import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.Trigger
@@ -32,7 +31,7 @@ import com.gigigo.orchextra.core.domain.executor.ThreadExecutor
 import com.gigigo.orchextra.core.domain.executor.ThreadExecutorImp
 
 class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostExecutionThread,
-    private val dbDataSource: DbDataSource, private val orchextra: Orchextra) : Interactor<Trigger>(
+    private val dbDataSource: DbDataSource) : Interactor<Trigger>(
     threadExecutor,
     postExecutionThread) {
 
@@ -91,7 +90,6 @@ class ValidateTrigger(threadExecutor: ThreadExecutor, postExecutionThread: PostE
   companion object Factory {
     fun create(dbDataSource: DbDataSource): ValidateTrigger = ValidateTrigger(ThreadExecutorImp,
         PostExecutionThreadImp,
-        dbDataSource,
-        Orchextra)
+        dbDataSource)
   }
 }

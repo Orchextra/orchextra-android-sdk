@@ -20,6 +20,10 @@ package com.gigigo.orchextra.core.entities
 
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
+import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON_REGION
+import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE
+import com.gigigo.orchextra.core.domain.entities.TriggerType.EDDYSTONE_REGION
+import com.gigigo.orchextra.core.domain.entities.TriggerType.GEOFENCE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.domain.entities.TriggerType.VOID
 import org.amshove.kluent.shouldBeFalse
@@ -38,20 +42,56 @@ class TriggerTest {
   }
 
   @Test
-  fun beaconTriggerShouldNeedAEvent() {
-    val trigger = Trigger(BEACON, "sadkl32dwq")
+  fun beaconShouldBeABackgroundTrigger() {
+    val trigger = BEACON withValue "test"
 
-    val needEvent = trigger.needEvent()
+    val isBackgroundTrigger = trigger.isBackgroundTrigger()
 
-    needEvent.shouldBeTrue()
+    isBackgroundTrigger.shouldBeTrue()
   }
 
   @Test
-  fun qrTriggerShouldNotNeedAEvent() {
-    val trigger = Trigger(QR, "sadkl32dwq")
+  fun beaconRegionShouldBeABackgroundTrigger() {
+    val trigger = BEACON_REGION withValue "test"
 
-    val needEvent = trigger.needEvent()
+    val isBackgroundTrigger = trigger.isBackgroundTrigger()
 
-    needEvent.shouldBeFalse()
+    isBackgroundTrigger.shouldBeTrue()
+  }
+
+  @Test
+  fun eddystoneShouldBeABackgroundTrigger() {
+    val trigger = EDDYSTONE withValue "test"
+
+    val isBackgroundTrigger = trigger.isBackgroundTrigger()
+
+    isBackgroundTrigger.shouldBeTrue()
+  }
+
+  @Test
+  fun eddystoneRegionShouldBeABackgroundTrigger() {
+    val trigger = EDDYSTONE_REGION withValue "test"
+
+    val isBackgroundTrigger = trigger.isBackgroundTrigger()
+
+    isBackgroundTrigger.shouldBeTrue()
+  }
+
+  @Test
+  fun geofenceShouldBeABackgroundTrigger() {
+    val trigger = GEOFENCE withValue "test"
+
+    val isBackgroundTrigger = trigger.isBackgroundTrigger()
+
+    isBackgroundTrigger.shouldBeTrue()
+  }
+
+  @Test
+  fun qrShouldNotBeABackgroundTrigger() {
+    val trigger = QR withValue "test"
+
+    val isBackgroundTrigger = trigger.isBackgroundTrigger()
+
+    isBackgroundTrigger.shouldBeFalse()
   }
 }

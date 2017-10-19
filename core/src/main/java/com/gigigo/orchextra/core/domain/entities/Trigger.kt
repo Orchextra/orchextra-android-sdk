@@ -77,9 +77,6 @@ data class Trigger constructor(
       || type == EDDYSTONE_REGION
       || type == GEOFENCE)
 
-  fun needEvent(): Boolean = type == BEACON || type == BEACON_REGION
-      || type == EDDYSTONE || type == GEOFENCE
-
   override fun describeContents() = 0
 
   override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
