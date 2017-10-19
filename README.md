@@ -79,6 +79,17 @@ Add dependencies you need
   });
 ```
 
+## Get Auth token
+
+```java
+  orchextra.getToken(new OrchextraTokenReceiver() {
+    @Override public void onGetToken(@NonNull String oxToken) {
+      Toast.makeText(MainActivity.this, "Token:" + oxToken, Toast.LENGTH_SHORT).show();
+    }
+  });
+```
+
+
 License
 =======
 
