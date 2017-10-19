@@ -71,10 +71,10 @@ public class SettingsActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
 
-    projectNameTextView = (EditText) findViewById(R.id.project_name_editText);
-    apiKeyTextView = (EditText) findViewById(R.id.apiKey_editText);
-    apiSecretTextView = (EditText) findViewById(R.id.apiSecret_editText);
-    finishButton = (Button) findViewById(R.id.finish_button);
+    projectNameTextView = findViewById(R.id.project_name_editText);
+    apiKeyTextView = findViewById(R.id.apiKey_editText);
+    apiSecretTextView = findViewById(R.id.apiSecret_editText);
+    finishButton = findViewById(R.id.finish_button);
 
     initOrchextra();
     initView();
