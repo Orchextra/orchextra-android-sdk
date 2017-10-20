@@ -94,6 +94,8 @@ dependencies {
 
   testCompile rootProject.ext.testLibraries.kluent
   testCompile rootProject.ext.testLibraries.junit
+  androidTestCompile rootProject.ext.testLibraries.kluent
+  androidTestCompile 'com.android.support.test:runner:0.5'
   androidTestCompile(rootProject.ext.testLibraries.espressoCore, {
     exclude group: 'com.android.support', module: 'support-annotations'
   })

@@ -22,6 +22,7 @@ import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.isInRegion
 import org.amshove.kluent.shouldBe
+import org.amshove.kluent.shouldEqualTo
 import org.junit.Test
 import java.util.Date
 
@@ -79,6 +80,50 @@ class OxBeaconTest {
     isInRegion.shouldBe(false)
   }
 
+  @Test
+  fun testGetTemperatureInCelsius() {
+    val beacon = OxBeacon(temperature = 0F, lastDetection = Date())
+
+    val temperatureInCelsius = beacon.getTemperatureInCelsius()
+
+    temperatureInCelsius.shouldEqualTo(0F)
+  }
+
+  @Test
+  fun beaconShouldBeInmediate() {
+    val beacon = OxBeacon(distance = 0.0, lastDetection = Date())
+
+    val distance = beacon.getDistanceQualifier()
+
+    distance.shouldEqualTo("immediate")
+  }
+
+  @Test
+  fun beaconShouldBeNear() {
+    val beacon = OxBeacon(distance = 3.0, lastDetection = Date())
+
+    val distance = beacon.getDistanceQualifier()
+
+    distance.shouldEqualTo("near")
+  }
+
+  @Test
+  fun beaconShouldBeFar() {
+    val beacon = OxBeacon(distance = 7.0, lastDetection = Date())
+
+    val distance = beacon.getDistanceQualifier()
+
+    distance.shouldEqualTo("far")
+  }
+
+  @Test
+  fun beaconShouldBeUnknown() {
+    val beacon = OxBeacon(lastDetection = Date())
+
+    val distance = beacon.getDistanceQualifier()
+
+    distance.shouldEqualTo("unknown")
+  }
 
   fun getConfig(): List<IndoorPositionConfig> {
 

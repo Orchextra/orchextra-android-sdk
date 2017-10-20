@@ -31,7 +31,7 @@ data class OxBeacon(
     var minor: Int = -1,
     var txPower: Int = 0,
     var rssi: Int = 0,
-    var distance: Double = 0.toDouble(),
+    var distance: Double = Double.MAX_VALUE,
     var lastSeen: Long = 0,
     var lastMinuteSeen: Long = 0,
     var manufacturer: Int = 0,
