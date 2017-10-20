@@ -24,9 +24,7 @@ import android.os.Parcelable
 data class Schedule(val seconds: Int = -1,
     val cancelable: Boolean = true) : Parcelable {
 
-  fun isValid(): Boolean {
-    return seconds != -1
-  }
+  fun isValid(): Boolean = seconds != -1
 
   constructor(source: Parcel) : this(
       source.readInt(),
