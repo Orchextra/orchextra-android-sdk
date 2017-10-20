@@ -27,4 +27,10 @@ class TokenData(val crm: OxCRM, val device: OxDevice) {
       false
     }
   }
+
+  override fun hashCode(): Int {
+    var result = crm.hashCode()
+    result = 31 * result + device.hashCode()
+    return result
+  }
 }
