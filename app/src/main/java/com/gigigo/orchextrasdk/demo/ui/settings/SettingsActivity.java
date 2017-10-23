@@ -159,12 +159,12 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   void bindUserData(@Nullable OxCRM user) {
-    LinearLayout container = (LinearLayout) findViewById(R.id.container);
-    CustomFieldView idCf = (CustomFieldView) findViewById(R.id.idCf);
-    CustomFieldView genderCf = (CustomFieldView) findViewById(R.id.genderCf);
-    CustomFieldView birthDateCf = (CustomFieldView) findViewById(R.id.birthDateCf);
-    CustomFieldView tagsCf = (CustomFieldView) findViewById(R.id.tagsCf);
-    CustomFieldView businessUnitsCf = (CustomFieldView) findViewById(R.id.businessUnitsCf);
+    LinearLayout container = findViewById(R.id.container);
+    CustomFieldView idCf = findViewById(R.id.idCf);
+    CustomFieldView genderCf = findViewById(R.id.genderCf);
+    CustomFieldView birthDateCf = findViewById(R.id.birthDateCf);
+    CustomFieldView tagsCf = findViewById(R.id.tagsCf);
+    CustomFieldView businessUnitsCf = findViewById(R.id.businessUnitsCf);
     View editCrmBtn = findViewById(R.id.editCrmBtn);
     editCrmBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -222,9 +222,8 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   void bindDeviceData(@Nullable OxDevice device) {
-    CustomFieldView deviceTagsCf = (CustomFieldView) findViewById(R.id.deviceTagsCf);
-    CustomFieldView deviceBusinessUnitsCf =
-        (CustomFieldView) findViewById(R.id.deviceBusinessUnitsCf);
+    CustomFieldView deviceTagsCf = findViewById(R.id.deviceTagsCf);
+    CustomFieldView deviceBusinessUnitsCf = findViewById(R.id.deviceBusinessUnitsCf);
     View editDeviceBtn = findViewById(R.id.editDeviceBtn);
     editDeviceBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -240,14 +239,19 @@ public class SettingsActivity extends AppCompatActivity {
     deviceBusinessUnitsCf.setEnabled(false);
 
     if (device != null) {
-      deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
-      deviceBusinessUnitsCf.setValue(TextUtils.join(", ", device.getBusinessUnits()));
+      if (device.getTags() != null) {
+        deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
+      }
+      
+      if (device.getBusinessUnits() != null) {
+        deviceBusinessUnitsCf.setValue(TextUtils.join(", ", device.getBusinessUnits()));
+      }
     }
   }
 
   private void initToolbar() {
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar = findViewById(R.id.toolbar);
 
     setSupportActionBar(toolbar);
     if (getSupportActionBar() != null) {
