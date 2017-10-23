@@ -42,11 +42,11 @@ import com.gigigo.orchextrasdk.demo.ui.scanner.custom.CustomScannerImp;
 public class ScannerFragment extends Fragment {
 
   private static final String TAG = "ScannerFragment";
-  private Orchextra orchextra;
   private Button oxScannerButton;
   private Button oxCustomScannerButton;
   private Button oxImageRecognitionButton;
   private Button dispatchQRbutton;
+  Orchextra orchextra;
 
   public ScannerFragment() {
   }
@@ -60,10 +60,10 @@ public class ScannerFragment extends Fragment {
 
     View view = inflater.inflate(R.layout.fragment_scanner, container, false);
 
-    oxScannerButton = (Button) view.findViewById(R.id.ox_scanner_button);
-    oxCustomScannerButton = (Button) view.findViewById(R.id.ox_custom_scanner_button);
-    oxImageRecognitionButton = (Button) view.findViewById(R.id.ox_image_recognition_button);
-    dispatchQRbutton = (Button) view.findViewById(R.id.dispatch_qr_button);
+    oxScannerButton = view.findViewById(R.id.ox_scanner_button);
+    oxCustomScannerButton = view.findViewById(R.id.ox_custom_scanner_button);
+    oxImageRecognitionButton = view.findViewById(R.id.ox_image_recognition_button);
+    dispatchQRbutton = view.findViewById(R.id.dispatch_qr_button);
 
     return view;
   }
@@ -115,8 +115,7 @@ public class ScannerFragment extends Fragment {
       @Override public void onClick(View v) {
         if (orchextra.isReady()) {
           orchextra.getTriggerManager()
-              .setImageRecognizer(
-                  OxImageRecognizerImp.Factory.create(getActivity().getApplication()));
+              .setImageRecognizer(OxImageRecognizerImp.Factory.create(getActivity()));
           orchextra.openImageRecognition();
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();

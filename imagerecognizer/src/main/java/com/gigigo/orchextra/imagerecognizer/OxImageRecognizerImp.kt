@@ -18,20 +18,25 @@
 
 package com.gigigo.orchextra.imagerecognizer
 
-import android.app.Application
+import android.app.Activity
+import android.content.Context
+import com.gigigo.imagerecognition.Credentials
+import com.gigigo.imagerecognition.vuforia.ContextProvider
+import com.gigigo.imagerecognition.vuforia.ImageRecognitionVuforia
 import com.gigigo.orchextra.core.domain.entities.ImageRecognizerCredentials
+import com.gigigo.orchextra.core.domain.entities.TriggerType.IMAGE_RECOGNITION
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
+import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 
 class OxImageRecognizerImp private constructor(
-    private val context: Application) : OxTrigger<ImageRecognizerCredentials> {
+    private val activity: Activity) : OxTrigger<ImageRecognizerCredentials> {
 
   private lateinit var credentials: ImageRecognizerCredentials
 
   override fun init() {
-    ImageRecognizerActivity.open(context,
-        licenseKey = credentials.licenseKey,
-        clientAccessKey = credentials.clientAccessKey,
-        clientSecretKey = credentials.clientSecretKey)
+    startVuforia(licenseKey = credentials.licenseKey,
+        accessKey = credentials.clientAccessKey,
+        secretKey = credentials.clientSecretKey)
   }
 
   override fun setConfig(config: ImageRecognizerCredentials) {
@@ -39,10 +44,41 @@ class OxImageRecognizerImp private constructor(
   }
 
   override fun finish() {
-    ImageRecognizerActivity.finish()
+  }
+
+  private fun startVuforia(licenseKey: String, accessKey: String, secretKey: String) {
+
+    val imageRecognition = ImageRecognitionVuforia()
+
+    ImageRecognitionVuforia.onRecognizedPattern {
+      showResponseCode(it)
+    }
+
+    imageRecognition.setContextProvider(object : ContextProvider {
+      override fun getApplicationContext(): Context = activity.applicationContext
+
+      override fun getCurrentActivity(): Activity = activity
+
+      override fun isApplicationContextAvailable(): Boolean = true
+
+      override fun isActivityContextAvailable(): Boolean = true
+    })
+
+    imageRecognition.startImageRecognition(object : Credentials {
+      override fun getLicensekey(): String = licenseKey
+
+      override fun getClientSecretKey(): String = secretKey
+
+      override fun getClientAccessKey(): String = accessKey
+    })
+  }
+
+  private fun showResponseCode(code: String) {
+    activity.sendBroadcast(
+        TriggerBroadcastReceiver.getTriggerIntent(IMAGE_RECOGNITION withValue code))
   }
 
   companion object Factory {
-    fun create(context: Application): OxImageRecognizerImp = OxImageRecognizerImp(context)
+    fun create(activity: Activity): OxImageRecognizerImp = OxImageRecognizerImp(activity)
   }
 }
