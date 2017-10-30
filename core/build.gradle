@@ -65,12 +65,12 @@ def TRIGGER_API_URL = "TRIGGER_API_URL"
 def NETWORK_LOG = "NETWORK_LOG"
 
 android {
-  compileSdkVersion rootProject.ext.androidCompileSdkVersion
-  buildToolsVersion rootProject.ext.androidBuildToolsVersion
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion rootProject.ext.androidMinSdkVersion
-    targetSdkVersion rootProject.ext.androidTargetSdkVersion
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
     versionCode 1
     versionName "3.0.0"
 
@@ -84,12 +84,10 @@ android {
   buildTypes {
     debug {
       debuggable true
-      shrinkResources true
     }
 
     release {
       minifyEnabled false
-      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
@@ -114,27 +112,27 @@ dexcount {
 }
 
 dependencies {
-  compile rootProject.ext.libraries.kotlinStdLib
+  implementation rootProject.ext.libraries.kotlinStdLib
 
-  compile rootProject.ext.libraries.supportDesign
-  compile rootProject.ext.libraries.playServicesLocation
-  compile rootProject.ext.libraries.playServicesGcm
+  implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
+  implementation rootProject.ext.libraries.playServicesLocation
+  implementation rootProject.ext.libraries.playServicesGcm
 
-  compile rootProject.ext.libraries.retrofit
-  compile rootProject.ext.libraries.retrofitMoshiConverter
-  compile rootProject.ext.libraries.okhttp3
-  compile rootProject.ext.libraries.okhttp3LoggingInterceptor
+  implementation rootProject.ext.libraries.retrofit
+  implementation rootProject.ext.libraries.retrofitMoshiConverter
+  implementation rootProject.ext.libraries.okhttp3
+  implementation rootProject.ext.libraries.okhttp3LoggingInterceptor
 
-  compile rootProject.ext.libraries.ormLite
+  implementation rootProject.ext.libraries.ormLite
 
-  testCompile rootProject.ext.testLibraries.mockitoKotlin
-  testCompile rootProject.ext.testLibraries.kluent
+  testImplementation rootProject.ext.testLibraries.mockitoKotlin
+  testImplementation rootProject.ext.testLibraries.kluent
+  testImplementation rootProject.ext.testLibraries.junit
 
-  androidTestCompile rootProject.ext.testLibraries.mockitoKotlin
-  androidTestCompile rootProject.ext.testLibraries.supportTestRunner
-  androidTestCompile rootProject.ext.testLibraries.supportTestRules
-  testCompile rootProject.ext.testLibraries.junit
-  androidTestCompile(rootProject.ext.testLibraries.espressoCore, {
+  androidTestImplementation rootProject.ext.testLibraries.mockitoKotlin
+  androidTestImplementation rootProject.ext.testLibraries.supportTestRunner
+  androidTestImplementation rootProject.ext.testLibraries.supportTestRules
+  androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
 }

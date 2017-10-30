@@ -22,12 +22,12 @@ apply plugin: 'kotlin-android-extensions'
 apply from: '../config/jacoco.gradle'
 
 android {
-  compileSdkVersion rootProject.ext.androidCompileSdkVersion
-  buildToolsVersion rootProject.ext.androidBuildToolsVersion
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion rootProject.ext.androidMinSdkVersion
-    targetSdkVersion rootProject.ext.androidTargetSdkVersion
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
@@ -36,12 +36,10 @@ android {
   buildTypes {
     debug {
       debuggable true
-      shrinkResources true
     }
 
     release {
       minifyEnabled false
-      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
@@ -54,17 +52,17 @@ android {
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile rootProject.ext.libraries.kotlinStdLib
-  compile rootProject.ext.libraries.supportAppCompatV7
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation rootProject.ext.libraries.kotlinStdLib
+  implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
 
-  compile rootProject.ext.libraries.imagerecognitionVuforia
+  implementation rootProject.ext.libraries.imagerecognitionVuforia
 
-  compile rootProject.ext.modules.core
+  implementation rootProject.ext.modules.core
 
-  testCompile rootProject.ext.testLibraries.junit
-  testCompile rootProject.ext.testLibraries.kluent
-  androidTestCompile(rootProject.ext.testLibraries.espressoCore, {
+  testImplementation rootProject.ext.testLibraries.junit
+  testImplementation rootProject.ext.testLibraries.kluent
+  androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
 }

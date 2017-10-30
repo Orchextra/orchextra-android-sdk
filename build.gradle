@@ -19,13 +19,14 @@ apply from: 'dependencies.gradle'
 apply from: 'common_methods.gradle'
 
 buildscript {
-  ext.kotlin_version = '1.1.50'
+  ext.kotlin_version = '1.1.51'
   repositories {
     jcenter()
+    google()
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.3'
+    classpath 'com.android.tools.build:gradle:3.0.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
     classpath 'com.google.gms:google-services:3.1.0'
@@ -36,10 +37,12 @@ buildscript {
 
 allprojects {
   ext {
-    androidBuildToolsVersion = '26.0.0'
-    androidMinSdkVersion = 16
-    androidTargetSdkVersion = 26
-    androidCompileSdkVersion = 26
+    compileSdkVersion = 26
+    buildToolsVersion = "26.0.2"
+    minSdkVersion = 16
+    targetSdkVersion = 26
+
+    supportLibVersion = "26.1.0"
   }
 
   repositories {
@@ -59,7 +62,7 @@ task clean(type: Delete) {
   delete rootProject.buildDir
 }
 
-import org.gradle.internal.os.OperatingSystem;
+import org.gradle.internal.os.OperatingSystem
 
 task deployLib(type: Exec) {
   workingDir "./"

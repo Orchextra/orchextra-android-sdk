@@ -69,11 +69,11 @@ object Orchextra : OrchextraErrorListener {
     this.debuggable = debuggable
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
+    this.triggerManager.apiKey = apiKey
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
     this.locationProvider = LocationProvider(context)
     this.sessionManager = SessionManager.create(context)
     this.crmManager = CrmManager.create(context, { onError(it) })
-    this.triggerManager.apiKey = apiKey
     this.getOxToken = GetOxToken.create(NetworkDataSource.create(context))
     this.dbDataSource = DbDataSource.create(context)
 

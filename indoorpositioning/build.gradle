@@ -51,12 +51,12 @@ ext {
 }
 
 android {
-  compileSdkVersion rootProject.ext.androidCompileSdkVersion
-  buildToolsVersion rootProject.ext.androidBuildToolsVersion
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion rootProject.ext.androidMinSdkVersion
-    targetSdkVersion rootProject.ext.androidTargetSdkVersion
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
@@ -67,12 +67,10 @@ android {
   buildTypes {
     debug {
       debuggable true
-      shrinkResources true
     }
 
     release {
       minifyEnabled false
-      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
@@ -85,18 +83,18 @@ android {
 }
 
 dependencies {
-  compile rootProject.ext.libraries.kotlinStdLib
-  compile rootProject.ext.libraries.supportAppCompatV7
-  compile rootProject.ext.libraries.ormLite
-  compile rootProject.ext.libraries.altbeacon
+  implementation rootProject.ext.libraries.kotlinStdLib
+  implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+  implementation rootProject.ext.libraries.ormLite
+  implementation rootProject.ext.libraries.altbeacon
 
-  compile rootProject.ext.modules.core
+  implementation rootProject.ext.modules.core
 
-  testCompile rootProject.ext.testLibraries.kluent
-  testCompile rootProject.ext.testLibraries.junit
-  androidTestCompile rootProject.ext.testLibraries.kluent
-  androidTestCompile 'com.android.support.test:runner:0.5'
-  androidTestCompile(rootProject.ext.testLibraries.espressoCore, {
+  testImplementation rootProject.ext.testLibraries.kluent
+  testImplementation rootProject.ext.testLibraries.junit
+  androidTestImplementation rootProject.ext.testLibraries.kluent
+  androidTestImplementation 'com.android.support.test:runner:0.5'
+  androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
 }

@@ -49,12 +49,12 @@ ext {
 }
 
 android {
-  compileSdkVersion rootProject.ext.androidCompileSdkVersion
-  buildToolsVersion rootProject.ext.androidBuildToolsVersion
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
-    minSdkVersion rootProject.ext.androidMinSdkVersion
-    targetSdkVersion rootProject.ext.androidTargetSdkVersion
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.targetSdkVersion
     versionCode 1
     versionName "1.0"
 
@@ -63,12 +63,10 @@ android {
   buildTypes {
     debug {
       debuggable true
-      shrinkResources true
     }
 
     release {
       minifyEnabled false
-      shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
@@ -81,16 +79,16 @@ android {
 }
 
 dependencies {
-  compile rootProject.ext.libraries.kotlinStdLib
-  compile rootProject.ext.libraries.supportAppCompatV7
-  compile(rootProject.ext.libraries.zbar) {
+  implementation rootProject.ext.libraries.kotlinStdLib
+  implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+  implementation(rootProject.ext.libraries.zbar) {
     exclude module: 'support-v4'
   }
 
-  compile rootProject.ext.modules.core
+  implementation rootProject.ext.modules.core
 
-  testCompile rootProject.ext.testLibraries.junit
-  androidTestCompile(rootProject.ext.testLibraries.espressoCore, {
+  testImplementation rootProject.ext.testLibraries.junit
+  androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
 }

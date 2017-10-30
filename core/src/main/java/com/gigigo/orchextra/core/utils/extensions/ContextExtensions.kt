@@ -33,7 +33,7 @@ import java.util.TimeZone
 
 fun Context.getBaseApiOxDevice(): ApiOxDevice = with(this) {
 
-  val wifiManager = getSystemService(Context.WIFI_SERVICE) as WifiManager
+  val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
   val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
   val bluetoothMacAddress = if (bluetoothAdapter != null) {
     bluetoothAdapter.address
