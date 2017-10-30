@@ -55,6 +55,12 @@ interface DbDataSource {
   @Throws(DbException::class)
   fun getWaitTime(): Long
 
+  @Throws(DbException::class)
+  fun saveScanTime(scanTimeInMillis: Long)
+
+  @Throws(DbException::class)
+  fun getScanTime(): Long
+
   companion object Factory {
 
     var dbDataSource: DbDataSource? = null

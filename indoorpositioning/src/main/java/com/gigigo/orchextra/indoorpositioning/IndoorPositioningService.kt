@@ -61,8 +61,6 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   private var isRunning: Boolean = false
   private var timerStarted = false
   private val handler = Handler()
-
-  private val SCAN_DELAY_IN_SECONDS = 30
   private val CHECK_SERVICE_TIME_IN_SECONDS = 60
 
   override fun onCreate() {
@@ -82,10 +80,11 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     if (!isRunning) {
       isRunning = true
 
+      val dbDataSource = DbDataSource.create(this)
       config = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
       validator = IndoorPositioningValidator(config)
       validateTrigger = ValidateTrigger.create(DbDataSource.create(applicationContext))
-      beaconScanner = BeaconScannerImp(getBeaconManager(SCAN_DELAY_IN_SECONDS * 1000L), this)
+      beaconScanner = BeaconScannerImp(getBeaconManager(dbDataSource.getScanTime()), this)
       regionsDetector = RegionsDetector.create(config, this, { sendOxBeaconRegionEvent(it) })
       beaconScanner.start {
         regionsDetector.onBeaconDetect(it)

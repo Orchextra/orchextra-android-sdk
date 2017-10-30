@@ -57,6 +57,7 @@ class DbDataSourceImp(private val context: Context,
   private val CRM_KEY = "crm_key"
   private val DEVICE_KEY = "device_key"
   private val WAIT_TIME_KEY = "wait_time_key"
+  private val SCAN_TIME_KEY = "wait_time_key"
   private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()
   private val triggerListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbTrigger>(15, DAYS))
@@ -98,7 +99,7 @@ class DbDataSourceImp(private val context: Context,
     }
   }
 
-  @SuppressLint("CommitPrefEdits")
+  @SuppressLint("ApplySharedPref")
   override fun saveCrm(crm: OxCRM) {
     val editor = sharedPreferences.edit()
     editor?.putString(CRM_KEY, crmJsonAdapter.toJson(crm.toApiOxCrm()))
@@ -117,14 +118,14 @@ class DbDataSourceImp(private val context: Context,
     }
   }
 
-  @SuppressLint("CommitPrefEdits")
+  @SuppressLint("ApplySharedPref")
   override fun saveDevice(device: OxDevice) {
     val editor = sharedPreferences.edit()
     editor?.putString(DEVICE_KEY, deviceJsonAdapter.toJson(device.toApiOxDevice()))
     editor?.commit()
   }
 
-  @SuppressLint("CommitPrefEdits")
+  @SuppressLint("ApplySharedPref")
   override fun saveWaitTime(waitTime: Long) {
     val editor = sharedPreferences.edit()
     editor?.putLong(WAIT_TIME_KEY, waitTime)
@@ -133,6 +134,16 @@ class DbDataSourceImp(private val context: Context,
 
   override fun getWaitTime(): Long =
       sharedPreferences.getLong(WAIT_TIME_KEY, TimeUnit.SECONDS.toMillis(120))
+
+  @SuppressLint("ApplySharedPref")
+  override fun saveScanTime(scanTimeInMillis: Long) {
+    val editor = sharedPreferences.edit()
+    editor?.putLong(SCAN_TIME_KEY, scanTimeInMillis)
+    editor?.commit()
+  }
+
+  override fun getScanTime(): Long =
+      sharedPreferences.getLong(SCAN_TIME_KEY, TimeUnit.SECONDS.toMillis(60))
 
   @Throws(SQLException::class)
   private fun removeOldTriggers() {

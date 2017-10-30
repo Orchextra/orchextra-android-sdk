@@ -43,15 +43,16 @@ import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.PermissionsActivity
+import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
 
   private val TAG = LogUtils.makeLogTag(Orchextra::class.java)
-  private var context: Application? = null
   private var getOxToken: GetOxToken? = null
   private lateinit var triggerManager: TriggerManager
   private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
   private lateinit var locationProvider: LocationProvider
+  private lateinit var dbDataSource: DbDataSource
   private var credentials: Credentials = Credentials()
   private var isReady = false
   private var isActivityRunning = false
@@ -65,7 +66,6 @@ object Orchextra : OrchextraErrorListener {
   @JvmOverloads
   fun init(context: Application, apiKey: String, apiSecret: String, debuggable: Boolean = false) {
 
-    this.context = context
     this.debuggable = debuggable
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
@@ -75,6 +75,7 @@ object Orchextra : OrchextraErrorListener {
     this.crmManager = CrmManager.create(context, { onError(it) })
     this.triggerManager.apiKey = apiKey
     this.getOxToken = GetOxToken.create(NetworkDataSource.create(context))
+    this.dbDataSource = DbDataSource.create(context)
 
     initLogger(context)
 
@@ -84,7 +85,7 @@ object Orchextra : OrchextraErrorListener {
 
     PermissionsActivity.open(context, Manifest.permission.ACCESS_FINE_LOCATION,
         onSuccess = {
-          getConfiguration(apiKey)
+          getConfiguration(context, apiKey)
         },
         onError = {
           orchextraErrorListener?.onError(it.toError())
@@ -92,9 +93,9 @@ object Orchextra : OrchextraErrorListener {
         })
   }
 
-  private fun getConfiguration(apiKey: String) {
-    val getConfiguration = GetConfiguration.create(NetworkDataSource.create(context as Context),
-        DbDataSource.create(context as Context))
+  private fun getConfiguration(context: Context, apiKey: String) {
+    val getConfiguration = GetConfiguration.create(NetworkDataSource.create(context),
+        dbDataSource)
     this.locationProvider.getLocation { point ->
       triggerManager.point = OxPoint(lat = point.lat, lng = point.lng)
     }
@@ -111,18 +112,22 @@ object Orchextra : OrchextraErrorListener {
         })
   }
 
+  fun setScanTime(scanTimeInSeconds: Long) {
+    dbDataSource.saveScanTime(TimeUnit.SECONDS.toMillis(scanTimeInSeconds))
+  }
+
   internal fun initLogger(context: Context) {
     LogUtils.fileLogging = FileLogging(context)
   }
 
-  fun openScanner() {
+  fun openScanner(context: Context) {
     checkInitialization()
-    actionHandlerServiceExecutor.execute(context as Context, Action(type = SCANNER))
+    actionHandlerServiceExecutor.execute(context, Action(type = SCANNER))
   }
 
-  fun openImageRecognition() {
+  fun openImageRecognition(context: Context) {
     checkInitialization()
-    actionHandlerServiceExecutor.execute(context as Context, Action(type = IMAGE_RECOGNITION))
+    actionHandlerServiceExecutor.execute(context, Action(type = IMAGE_RECOGNITION))
   }
 
   fun getTriggerManager(): TriggerManager {
@@ -184,7 +189,6 @@ object Orchextra : OrchextraErrorListener {
   }
 
   fun finish() {
-    this.context = null
     this.credentials = Credentials()
     this.triggerManager.finish()
     sessionManager?.clearSession()

@@ -157,6 +157,7 @@ public class LoginActivity extends AppCompatActivity {
     orchextra.setStatusListener(orchextraStatusListener);
     orchextra.setErrorListener(orchextraErrorListener);
     orchextra.init(getApplication(), apiKey, apiSecret, true);
+    orchextra.setScanTime(30);
   }
 
   private void saveApiKey(String apiKey) {
