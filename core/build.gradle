@@ -74,21 +74,34 @@ android {
     versionCode 1
     versionName "3.0.0"
 
-    buildConfigField STRING, CORE_API_URL, '"https://core.s.orchextra.io/"'
-    buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
-    buildConfigField BOOLEAN, NETWORK_LOG, "true"
-
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
 
   buildTypes {
     debug {
       debuggable true
+
+      buildConfigField STRING, CORE_API_URL, '"https://core.s.orchextra.io/"'
+      buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
+      buildConfigField BOOLEAN, NETWORK_LOG, "true"
+    }
+
+    quality {
+      debuggable true
+
+      buildConfigField STRING, CORE_API_URL, '"https://core.q.orchextra.io/"'
+      buildConfigField STRING, TRIGGER_API_URL, '"https://tr.q.orchextra.io/"'
+      buildConfigField BOOLEAN, NETWORK_LOG, "true"
     }
 
     release {
+      debuggable false
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+      buildConfigField STRING, CORE_API_URL, '"https://core.orchextra.io/"'
+      buildConfigField STRING, TRIGGER_API_URL, '"https://tr.orchextra.io/"'
+      buildConfigField BOOLEAN, NETWORK_LOG, "false"
     }
   }
 

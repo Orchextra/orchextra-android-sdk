@@ -21,6 +21,8 @@ package com.gigigo.orchextra.core.data.datasources.network.interceptor
 import com.gigigo.orchextra.core.data.datasources.network.models.parseError
 import com.gigigo.orchextra.core.data.datasources.network.models.toNetworkException
 import com.gigigo.orchextra.core.data.datasources.network.models.toUnauthorizedException
+import com.gigigo.orchextra.core.domain.entities.Error.Companion.FATAL_ERROR
+import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Response
@@ -30,15 +32,21 @@ class ErrorInterceptor : Interceptor {
 
   override fun intercept(chain: Chain): Response {
 
-    val response = chain.proceed(chain.request())
+    val response = try {
+      chain.proceed(chain.request())
+    } catch (exception: Exception) {
+      throw NetworkException(FATAL_ERROR, exception.message ?: "Unknown")
+    }
 
     if (!response.isSuccessful) {
       val error = response.parseError()
 
-      if (error.code == 401) {
-        throw error.toUnauthorizedException()
-      } else {
-        throw error.toNetworkException()
+      error.let {
+        if (error.code == 401) {
+          throw error.toUnauthorizedException()
+        } else {
+          throw error.toNetworkException()
+        }
       }
     }
 

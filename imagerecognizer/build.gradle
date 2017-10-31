@@ -38,7 +38,12 @@ android {
       debuggable true
     }
 
+    quality {
+      debuggable true
+    }
+
     release {
+      debuggable false
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }

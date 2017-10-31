@@ -68,9 +68,9 @@ public class LoginActivity extends AppCompatActivity {
   private void initView() {
     initToolbar();
 
-    projectNameEditText = (EditText) findViewById(R.id.projectName_editText);
-    apiSecretEditText = (EditText) findViewById(R.id.apiSecret_editText);
-    apiKeyEditText = (EditText) findViewById(R.id.apiKey_editText);
+    projectNameEditText = findViewById(R.id.projectName_editText);
+    apiSecretEditText = findViewById(R.id.apiSecret_editText);
+    apiKeyEditText = findViewById(R.id.apiKey_editText);
     apiKeyEditText.addTextChangedListener(new TextWatcher() {
       @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
       }
     });
 
-    Button startButton = (Button) findViewById(R.id.start_button);
+    Button startButton = findViewById(R.id.start_button);
     startButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         makeLogin();
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private void initToolbar() {
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar = findViewById(R.id.toolbar);
 
     setSupportActionBar(toolbar);
     if (getSupportActionBar() != null) {

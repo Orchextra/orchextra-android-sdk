@@ -66,7 +66,8 @@ public final class ProjectData {
             "cead068e2c70000c0d7c8e5395292a77fba59d3a"));
 
     projectDataList.add(
-        new ProjectData("Mockable", "key", "677cf75a17aeec144ee402c281ad3a732d736a8a"));
+        new ProjectData("ANDROID TEST {{Staging}}", "122f51a9f80a93270dfbd61b027155936031bba9",
+            "54b0294038ae8118db6d996d4db4e082aa8447df"));
 
     return projectDataList;
   }
