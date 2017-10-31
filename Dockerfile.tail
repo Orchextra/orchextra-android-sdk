@@ -2,7 +2,7 @@
 #--------------------------------------------#
 
 RUN ( sleep 4 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --force -a --filter \
-    build-tools-26.0.0,android-26
+    build-tools-26.0.2,android-26
 
 RUN ( sleep 4 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --force -a --filter \
     build-tools-22.0.1,android-22
