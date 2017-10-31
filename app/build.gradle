@@ -161,7 +161,7 @@ dexcount {
 
 applivery {
   appId = "59a69f3ae2272dd77951a75b"
-  buildPath = "./app/build/outputs/apk/app-release.apk"
+  buildPath = "./app/build/outputs/apk/debug/app-debug.apk"
   apiKey = "$System.env.APPLIVERY_API_KEY"
 }
 repositories {
