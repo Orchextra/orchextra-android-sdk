@@ -46,6 +46,7 @@
       <activity
           android:name=".ui.scanner.OxScannerActivity"
           android:screenOrientation="portrait"
+         android:launchMode="singleInstance"
           android:theme="@style/OxAppThemeNoBar"/>
 
       <receiver android:name=".sdk.background.OrchextraBootBroadcastReceiver">

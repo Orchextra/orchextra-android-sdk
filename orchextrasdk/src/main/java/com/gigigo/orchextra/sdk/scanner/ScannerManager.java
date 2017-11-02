@@ -19,16 +19,13 @@
 package com.gigigo.orchextra.sdk.scanner;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
 import com.gigigo.orchextra.device.permissions.PermissionCameraImp;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.ui.scanner.OxScannerActivity;
-
 import orchextra.javax.inject.Inject;
 
 public class ScannerManager {
@@ -73,9 +70,8 @@ public class ScannerManager {
       };
 
   private void openActivity() {
-
     Intent intent = new Intent(context.getApplicationContext(), OxScannerActivity.class);
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
     context.getApplicationContext().startActivity(intent);
   }
 }
