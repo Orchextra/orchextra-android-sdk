@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('github.com/red-panda-ci/jenkins-pipeline-library@develop') _
+@Library('github.com/red-panda-ci/jenkins-pipeline-library@v1.4.2') _
 
 // Initialize global condig
 cfg = jplConfig('orchextra-sdk', 'android', '', [ hipchat:'', slack:'#integrations', email:'qa+orchextra@gigigo.com' ])
@@ -9,10 +9,15 @@ pipeline {
     agent none
 
     stages {
-        stage ('Build') {
+        stage ('Initialize') {
             agent { label 'docker' }
             steps  {
                 jplCheckoutSCM(cfg)
+            }
+        }
+        stage ('Build') {
+            agent { label 'docker' }
+            steps  {
                 jplBuildAPK(cfg,"./gradlew assembleDebug")
             }
         }
@@ -21,11 +26,11 @@ pipeline {
             when { branch 'feature/core_module' }
             steps  {
                 // sh 'ci-scripts/bin/doTest.sh'
-                echo "Disable interface test temporally"
+                echo "Volkswagen Test"
             }
         }
         stage ('Release confirm') {
-            when { branch 'release/*' }
+            when { branch 'release/v*' }
             steps {
                 // jplPromoteBuild(cfg)
                 echo "Mock release confirm"
@@ -33,18 +38,9 @@ pipeline {
         }
         stage ('Release finish') {
             agent { label 'docker' }
-            when { expression { env.BRANCH_NAME.startsWith('release/') && cfg.promoteBuild } }
+            when { branch 'release/v*' }
             steps {
-                //jplCloseRelease(cfg)
-                //deleteDir()
-                echo "Mock release finish"
-            }
-        }
-        stage ('PR Clean') {
-            agent { label 'docker' }
-            when { branch 'PR-*' }
-            steps {
-                deleteDir();
+                jplCloseRelease(cfg)
             }
         }
     }
