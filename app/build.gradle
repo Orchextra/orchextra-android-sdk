@@ -54,10 +54,6 @@ android {
     vectorDrawables.useSupportLibrary = true
   }
 
-  lintOptions {
-    abortOnError false
-  }
-
   buildTypes {
     debug {
       testCoverageEnabled = false
@@ -136,9 +132,9 @@ dependencies {
   }
 
   testImplementation 'junit:junit:4.12'
-  debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-  qualityImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-  releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+  debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+  qualityImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+  releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
   androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   }
@@ -164,6 +160,7 @@ applivery {
   buildPath = "./app/build/outputs/apk/debug/app-debug.apk"
   apiKey = "$System.env.APPLIVERY_API_KEY"
 }
+
 repositories {
   mavenCentral()
 }

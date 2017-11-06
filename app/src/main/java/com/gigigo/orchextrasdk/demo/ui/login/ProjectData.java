@@ -20,6 +20,7 @@ package com.gigigo.orchextrasdk.demo.ui.login;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import com.gigigo.orchextrasdk.demo.BuildConfig;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,23 +52,35 @@ public final class ProjectData {
 
     List<ProjectData> projectDataList = new ArrayList<>();
 
-    projectDataList.add(new ProjectData("AndroidSDK", "34a4654b9804eab82aae05b2a5f949eb2a9f412c",
-        "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3"));
+    if (BuildConfig.BUILD_TYPE == "release") {
 
-    projectDataList.add(new ProjectData("IOS", "d4a03e91a8d86db81b6981218e5782ef52800a12",
-        "21fa16e12ef489631c0b69406943c5ec811dd767"));
+      projectDataList.add(
+          new ProjectData("[UAT] WOAH MARKETS", "ef08c4dccb7649b9956296a863db002a68240be2",
+              "6bc18c500546f253699f61c11a62827679178400"));
+    } else if (BuildConfig.BUILD_TYPE == "quality") {
 
-    projectDataList.add(
-        new ProjectData("[Internal] Orchextra Demo", "b7be821b6b8183d4c5c203f46107abb324f7e656",
-            "5c6f929395742948a013456fcee2877132907bad"));
+      projectDataList.add(new ProjectData("Orchextra Demo - {{staging}}",
+          "3b1f7352079beaede1b234e798bdf05a0266a0ff", "df22059fd20c5b4b6e6465ab6b044628ea9a0726"));
+    } else {
 
-    projectDataList.add(
-        new ProjectData("[Internal] Orchextra Demo 2", "d797e0c4adcfb3de7f434991227d1e7904029130",
-            "cead068e2c70000c0d7c8e5395292a77fba59d3a"));
+      projectDataList.add(new ProjectData("AndroidSDK", "34a4654b9804eab82aae05b2a5f949eb2a9f412c",
+          "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3"));
 
-    projectDataList.add(
-        new ProjectData("ANDROID TEST {{Staging}}", "122f51a9f80a93270dfbd61b027155936031bba9",
-            "54b0294038ae8118db6d996d4db4e082aa8447df"));
+      projectDataList.add(new ProjectData("IOS", "d4a03e91a8d86db81b6981218e5782ef52800a12",
+          "21fa16e12ef489631c0b69406943c5ec811dd767"));
+
+      projectDataList.add(
+          new ProjectData("[Internal] Orchextra Demo", "b7be821b6b8183d4c5c203f46107abb324f7e656",
+              "5c6f929395742948a013456fcee2877132907bad"));
+
+      projectDataList.add(
+          new ProjectData("[Internal] Orchextra Demo 2", "d797e0c4adcfb3de7f434991227d1e7904029130",
+              "cead068e2c70000c0d7c8e5395292a77fba59d3a"));
+
+      projectDataList.add(
+          new ProjectData("ANDROID TEST", "122f51a9f80a93270dfbd61b027155936031bba9",
+              "54b0294038ae8118db6d996d4db4e082aa8447df"));
+    }
 
     return projectDataList;
   }

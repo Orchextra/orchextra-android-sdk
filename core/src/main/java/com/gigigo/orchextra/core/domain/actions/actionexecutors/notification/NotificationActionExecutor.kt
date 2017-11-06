@@ -53,7 +53,7 @@ class NotificationActionExecutor(private val context: Context) {
 
   private fun showBarNotification(notification: Notification, action: Action) = with(notification) {
 
-    val notificationBuilder = NotificationCompat.Builder(context)
+    val notificationBuilder = NotificationCompat.Builder(context, "OxChannel")
         .setSmallIcon(R.drawable.ox_notification_large_icon)
         .setContentTitle(title)
         .setContentText(body)

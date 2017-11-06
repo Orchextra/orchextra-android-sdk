@@ -194,8 +194,10 @@ public class LoginActivity extends AppCompatActivity {
   };
 
   @Override protected void onDestroy() {
-    orchextra.removeStatusListener();
-    orchextra.removeErrorListener();
+    if (orchextra != null) {
+      orchextra.removeStatusListener();
+      orchextra.removeErrorListener();
+    }
     super.onDestroy();
   }
 
