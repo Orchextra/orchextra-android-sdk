@@ -41,7 +41,7 @@ Add dependencies you need
   compile 'com.gigigo.orchextra:scanner:x.x.x'
 ```
 
-## Init Orchextra
+### Init Orchextra
 
 ```java
     Orchextra orchextra = Orchextra.INSTANCE;
@@ -49,13 +49,13 @@ Add dependencies you need
     orchextra.init(getApplication(), apiKey, apiSecret, true);
 ```
 
-## Add trigger implementation
+### Add trigger implementation
 
 ```java
   orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
 ```
 
-## Get Orchextra errors
+### Get Orchextra errors
 
 ```java
   orchextra.setErrorListener(new OrchextraErrorListener() {
@@ -68,7 +68,7 @@ Add dependencies you need
   });
 ```
 
-## Custom actions
+### Custom actions
 
 ```java
   orchextra.setCustomActionListener(new CustomActionListener() {
@@ -79,7 +79,7 @@ Add dependencies you need
   });
 ```
 
-## Get Auth token
+### Get Auth token
 
 ```java
   orchextra.getToken(new OrchextraTokenReceiver() {
@@ -89,11 +89,19 @@ Add dependencies you need
   });
 ```
 
+## Deploy Orchextra to [Gigigo repository](https://bintray.com/gigigo-desarrollo/maven)
+
+Update `version` in `dependencies.gradle` and execute `deployLib` gradle command.
+
+```gradle
+  ./gradlew deployLib
+```
+
 
 License
 =======
 
-    Copyright 2016 Orchextra
+    Copyright 2017 Orchextra
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
