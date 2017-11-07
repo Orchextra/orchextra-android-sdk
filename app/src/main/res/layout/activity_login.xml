@@ -70,7 +70,6 @@
         style="@style/EditTextStyle"
         />
 
-
     <EditText
         android:id="@+id/apiKey_editText"
         android:layout_width="match_parent"

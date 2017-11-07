@@ -154,9 +154,9 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun updateTokenData(tokenData: TokenData): TokenData {
-    val apiResponse = makeCallWithRetry({ ->
+    val apiResponse = makeCallWithRetry {
       orchextraCoreApi.updateTokenData(tokenData.toApiTokenData()).execute().body()
-    })
+    }
 
     return apiResponse?.data?.toTokenData() as TokenData
   }

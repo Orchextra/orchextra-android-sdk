@@ -141,6 +141,7 @@ dependencies {
   androidTestImplementation rootProject.ext.testLibraries.espressoIntents, {
     exclude group: 'com.android.support', module: 'support-annotations'
   }
+  androidTestImplementation 'com.agoda.kakao:kakao:1.0.1'
 }
 
 dexcount {
