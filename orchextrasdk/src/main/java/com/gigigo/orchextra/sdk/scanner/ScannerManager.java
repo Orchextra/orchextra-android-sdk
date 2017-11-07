@@ -70,7 +70,8 @@ public class ScannerManager {
       };
 
   private void openActivity() {
-    Intent intent = new Intent(context.getApplicationContext(), OxScannerActivity.class);
+    Intent intent = new Intent(context.getCurrentActivity(), OxScannerActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
     context.getApplicationContext().startActivity(intent);
   }

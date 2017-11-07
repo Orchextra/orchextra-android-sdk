@@ -22,7 +22,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <include layout="@layout/ox_toolbar_view"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/color_primary"
+      android:minHeight="@dimen/actionbar_size_ox"
+      android:orientation="horizontal">
+
+        <ImageView
+          android:id="@+id/closeToolbarButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_margin="@dimen/spacing_8"
+          android:src="@drawable/ox_close_button"
+          />
+        <TextView
+          android:id="@+id/titleToolbar"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="@dimen/spacing_2"
+          android:layout_gravity="center"
+          android:text="@string/ox_scanner_toolbar_title"
+          android:textColor="@color/color_accent"
+          android:textSize="@dimen/text_21"
+          android:textStyle="bold" />
+
+    </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
