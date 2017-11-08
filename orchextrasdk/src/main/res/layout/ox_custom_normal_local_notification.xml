@@ -34,6 +34,7 @@
             android:text="Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum"
             android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Title"
             android:textColor="#727272"
+            android:textSize="16dp"
             />
         <DateTimeView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ox_time_custom_local_notification"
@@ -47,6 +48,7 @@
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Time"
             android:textColor="#666666"
+            android:textSize="12dp"
              />
 
     </LinearLayout>
@@ -65,6 +67,7 @@
         android:text="Lorem ipsum Lorem m Lorem ipsum m ipsum Lorem m Lorem im ipsum Lorem m Lorem im ipsum Lorem m Lorem im ipsum Lorem m Lorem i"
         android:textAppearance="@style/TextAppearance.StatusBar.EventContent"
         android:textColor="#666666"
+        android:textSize="16dp"
         />
 
     <ImageView

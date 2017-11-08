@@ -41,7 +41,6 @@ public class AndroidNotificationBuilder {
   public static final String NOTIFICATION_ACTION_OX = "NOTIFICATION_ACTION_OX";
   public static final String HAVE_ACTIVITY_NOTIFICATION_OX = "HAVE_ACTIVITY_NOTIFICATION_OX";
 
-  private int notificationId = 0;
   private final Context context;
 
   public AndroidNotificationBuilder(Context context) {
@@ -67,7 +66,6 @@ public class AndroidNotificationBuilder {
             .putExtra(AndroidNotificationBuilder.HAVE_ACTIVITY_NOTIFICATION_OX, false)
             .setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
-    notificationId = androidBasicAction.hashCode();
 
     return PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
   }
