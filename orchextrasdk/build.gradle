@@ -125,7 +125,7 @@ android {
     }
   }
   // true to publish all flavour artifacts
-  publishNonDefault true
+  //publishNonDefault true
   // default build flavour
   defaultPublishConfig "play10Release"
 }
@@ -153,7 +153,24 @@ configurations {
   playnoReleaseImplementation
 }
 
+if( android.productFlavors.size() > 0 ) {
+  android.libraryVariants.all { variant ->
+    // Publish a main artifact, otherwise the maven pom is not generated
+    //if( variant.name == android.defaultPublishConfig ) {
+    def bundleTask = tasks["bundle${name.capitalize()}"]
+    artifacts {
+      println('BUNDLE!'+bundleTask.archivePath)
+      println('classifier!'+variant.name)
+      println('builtBy!'+bundleTask.name)
+      archives(bundleTask.archivePath) {
+        classifier variant.name
+        builtBy bundleTask
 
+      }
+    }
+  }
+  //}
+}
 dependencies {
 
   implementation(parent.ext.dependencies.dagger) {
