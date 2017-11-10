@@ -106,9 +106,9 @@ allprojects {
 //    }
 //}
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.12'
-}
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '2.12'
+//}
 /* add task clean in before run in project configuration
 task cleanAll(type: Delete) {
   println("Clean OX Executed")
