@@ -16,10 +16,6 @@
  * limitations under the License.
  */
 
-plugins {
-    id "net.ltgt.apt" version "0.3"
-}
-
 apply plugin: 'java'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'maven'
@@ -28,19 +24,17 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
-    compile project(':orchextrasdk-domain')
+    implementation project(':orchextrasdk-domain')
+    implementation parent.ext.dependencies.gggJavaLib
 
-    compile (parent.ext.dependencies.dagger){
+    implementation (parent.ext.dependencies.dagger){
         transitive = false
         exclude group:'com.google.dagger', module:'dagger'
         exclude group:'javax.inject'
     }
 
-//    compile rootProject.ext.dependencies.threaddecoratedview
-//    apt rootProject.ext.dependencies.threaddecoratedviewcompiler
-
-    testCompile rootProject.ext.testDependencies.junit
-    testCompile rootProject.ext.testDependencies.mockito
+    testImplementation rootProject.ext.testDependencies.junit
+    testImplementation rootProject.ext.testDependencies.mockito
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

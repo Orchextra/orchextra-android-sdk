@@ -17,7 +17,6 @@
  */
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'com.github.dcendents.android-maven'
 
@@ -31,17 +30,6 @@ def MIN_RAGGING_TIME = '10000'
 def MAX_RAGGING_TIME = '180000'
 def BACKGROUND_BEACONS_SCAN_TIME = '1100'
 def BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME = '5000'
-
-buildscript {
-  repositories {
-    mavenCentral()
-    jcenter()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.2'
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-  }
-}
 
 android {
 
@@ -143,112 +131,111 @@ android {
 }
 
 configurations {
-  play7StagingCompile
-  play8StagingCompile
-  play9StagingCompile
-  play10StagingCompile
-  play11StagingCompile
-  playnoStagingCompile
+  play7StagingImplementation
+  play8StagingImplementation
+  play9StagingImplementation
+  play10StagingImplementation
+  play11StagingImplementation
+  playnoStagingImplementation
 
-  play7DebugCompile
-  play8DebugCompile
-  play9DebugCompile
-  play10DebugCompile
-  play11DebugCompile
-  playnoDebugCompile
+  play7DebugImplementation
+  play8DebugImplementation
+  play9DebugImplementation
+  play10DebugImplementation
+  play11DebugImplementation
+  playnoDebugImplementation
 
-  play7ReleaseCompile
-  play8ReleaseCompile
-  play9ReleaseCompile
-  play10ReleaseCompile
-  play11ReleaseCompile
-  playnoReleaseCompile
+  play7ReleaseImplementation
+  play8ReleaseImplementation
+  play9ReleaseImplementation
+  play10ReleaseImplementation
+  play11ReleaseImplementation
+  playnoReleaseImplementation
 }
 
 
 dependencies {
 
-  compile(parent.ext.dependencies.dagger) {
+  implementation(parent.ext.dependencies.dagger) {
     transitive = false
     exclude group: 'com.google.dagger', module: 'dagger'
     exclude group: 'javax.inject'
   }
 
-  apt(parent.ext.dependencies.daggerCompiler) {
+  annotationProcessor(parent.ext.dependencies.daggerCompiler) {
     transitive = false
     exclude group: 'com.google.dagger', module: 'dagger'
     exclude group: 'javax.inject'
   }
 
-  compile parent.ext.dependencies.loggingInterceptor
-  compile parent.ext.dependencies.altBeacon
-  compile(parent.ext.dependencies.barcodescanner) {
+  implementation parent.ext.dependencies.loggingInterceptor
+  implementation parent.ext.dependencies.altBeacon
+  implementation(parent.ext.dependencies.barcodescanner) {
     exclude module: 'support-v4'
     // com.android.support:support-annotations:23.1.1
   }
 
+  api parent.ext.dependencies.imageRecognitionInterface
 
-  compile parent.ext.dependencies.imageRecognitionInterface
-
-  compile project(':orchextrasdk-control')
-  compile project(':orchextrasdk-data')
+  api project(':orchextrasdk-control')
+  api project(':orchextrasdk-data')
 
   /*GooglePlayServices*/
 
 
-  play11StagingCompile('com.google.android.gms:play-services-location:11.0.2')
-  play11StagingCompile('com.google.android.gms:play-services-gcm:11.0.2')
+  play11StagingImplementation('com.google.android.gms:play-services-location:11.0.2')
+  play11StagingImplementation('com.google.android.gms:play-services-gcm:11.0.2')
 
-  play10StagingCompile('com.google.android.gms:play-services-location:10.0.1')
-  play10StagingCompile('com.google.android.gms:play-services-gcm:10.0.1')
+  play10StagingImplementation('com.google.android.gms:play-services-location:10.0.1')
+  play10StagingImplementation('com.google.android.gms:play-services-gcm:10.0.1')
 
-  play9StagingCompile('com.google.android.gms:play-services-location:9.0.0')
-  play9StagingCompile('com.google.android.gms:play-services-gcm:9.0.0')
+  play9StagingImplementation('com.google.android.gms:play-services-location:9.0.0')
+  play9StagingImplementation('com.google.android.gms:play-services-gcm:9.0.0')
 
-  play8StagingCompile('com.google.android.gms:play-services-location:8.4.0')
-  play8StagingCompile('com.google.android.gms:play-services-gcm:8.4.0')
+  play8StagingImplementation('com.google.android.gms:play-services-location:8.4.0')
+  play8StagingImplementation('com.google.android.gms:play-services-gcm:8.4.0')
 
-  play7StagingCompile('com.google.android.gms:play-services-location:7.8.0')
-  play7StagingCompile('com.google.android.gms:play-services-gcm:7.8.0')
+  play7StagingImplementation('com.google.android.gms:play-services-location:7.8.0')
+  play7StagingImplementation('com.google.android.gms:play-services-gcm:7.8.0')
 
-  play11DebugCompile('com.google.android.gms:play-services-location:11.0.2')
-  play11DebugCompile('com.google.android.gms:play-services-gcm:11.0.2')
+  play11DebugImplementation('com.google.android.gms:play-services-location:11.0.2')
+  play11DebugImplementation('com.google.android.gms:play-services-gcm:11.0.2')
 
-  play10DebugCompile('com.google.android.gms:play-services-location:10.0.1')
-  play10DebugCompile('com.google.android.gms:play-services-gcm:10.0.1')
+  play10DebugImplementation('com.google.android.gms:play-services-location:10.0.1')
+  play10DebugImplementation('com.google.android.gms:play-services-gcm:10.0.1')
 
-  play9DebugCompile('com.google.android.gms:play-services-location:9.0.0')
-  play9DebugCompile('com.google.android.gms:play-services-gcm:9.0.0')
+  play9DebugImplementation('com.google.android.gms:play-services-location:9.0.0')
+  play9DebugImplementation('com.google.android.gms:play-services-gcm:9.0.0')
 
-  play8DebugCompile('com.google.android.gms:play-services-location:8.4.0')
-  play8DebugCompile('com.google.android.gms:play-services-gcm:8.4.0')
+  play8DebugImplementation('com.google.android.gms:play-services-location:8.4.0')
+  play8DebugImplementation('com.google.android.gms:play-services-gcm:8.4.0')
 
-  play7DebugCompile('com.google.android.gms:play-services-location:7.8.0')
-  play7DebugCompile('com.google.android.gms:play-services-gcm:7.8.0')
+  play7DebugImplementation('com.google.android.gms:play-services-location:7.8.0')
+  play7DebugImplementation('com.google.android.gms:play-services-gcm:7.8.0')
 
-  play11ReleaseCompile('com.google.android.gms:play-services-location:11.0.2')
-  play11ReleaseCompile('com.google.android.gms:play-services-gcm:11.0.2')
+  play11ReleaseImplementation('com.google.android.gms:play-services-location:11.0.2')
+  play11ReleaseImplementation('com.google.android.gms:play-services-gcm:11.0.2')
 
-  play10ReleaseCompile('com.google.android.gms:play-services-location:10.0.1')
-  play10ReleaseCompile('com.google.android.gms:play-services-gcm:10.0.1')
+  play10ReleaseImplementation('com.google.android.gms:play-services-location:10.0.1')
+  play10ReleaseImplementation('com.google.android.gms:play-services-gcm:10.0.1')
 
-  play9ReleaseCompile('com.google.android.gms:play-services-location:9.0.0')
-  play9ReleaseCompile('com.google.android.gms:play-services-gcm:9.0.0')
+  play9ReleaseImplementation('com.google.android.gms:play-services-location:9.0.0')
+  play9ReleaseImplementation('com.google.android.gms:play-services-gcm:9.0.0')
 
-  play8ReleaseCompile('com.google.android.gms:play-services-location:8.4.0')
-  play8ReleaseCompile('com.google.android.gms:play-services-gcm:8.4.0')
+  play8ReleaseImplementation('com.google.android.gms:play-services-location:8.4.0')
+  play8ReleaseImplementation('com.google.android.gms:play-services-gcm:8.4.0')
 
-  play7ReleaseCompile('com.google.android.gms:play-services-location:7.8.0')
-  play7ReleaseCompile('com.google.android.gms:play-services-gcm:7.8.0')
+  play7ReleaseImplementation('com.google.android.gms:play-services-location:7.8.0')
+  play7ReleaseImplementation('com.google.android.gms:play-services-gcm:7.8.0')
 
-  testCompile parent.ext.testDependencies.junit
-  testCompile parent.ext.testDependencies.mockito
+  testImplementation parent.ext.testDependencies.junit
+  testImplementation parent.ext.testDependencies.mockito
 
-  androidTestCompile parent.ext.testDependencies.testRunner
-  androidTestCompile parent.ext.testDependencies.testRules
+  androidTestImplementation parent.ext.testDependencies.testRunner
+  androidTestImplementation parent.ext.testDependencies.testRules
 
-  androidTestCompile parent.ext.testDependencies.dexMaker
-  androidTestCompile(parent.ext.testDependencies.dexMakerMockito) {
+  androidTestImplementation parent.ext.testDependencies.dexMaker
+  androidTestImplementation(parent.ext.testDependencies.dexMakerMockito) {
     exclude group: 'org.hamcrest', module: 'hamcrest-core'
   }
 }

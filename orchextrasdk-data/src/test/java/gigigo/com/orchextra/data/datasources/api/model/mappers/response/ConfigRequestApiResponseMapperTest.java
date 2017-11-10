@@ -41,6 +41,7 @@ public class ConfigRequestApiResponseMapperTest {
     DeviceCustomFieldsExternalClassToModelMapper deviceCustomFieldsResponseMapper = new DeviceCustomFieldsExternalClassToModelMapper();
 
 
+
     @Test
     public void testDataToModelOk() throws Exception {
         List<ApiGeofence> apiGeofencesList = new ArrayList<>();
@@ -59,7 +60,7 @@ public class ConfigRequestApiResponseMapperTest {
 
         ConfigApiExternalClassToModelMapper mapper =
                 new ConfigApiExternalClassToModelMapper(vuforiaResponseMapper,
-                        beaconResponseMapper, geofenceResponseMapper,
+                        beaconResponseMapper, null, geofenceResponseMapper,
                         availableCustomFieldResponseMapper,
                         crmCustomFieldsResponseMapper,
                         deviceCustomFieldsResponseMapper);

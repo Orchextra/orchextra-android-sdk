@@ -19,7 +19,7 @@
 
 apply plugin: 'com.android.library'
 apply plugin: 'realm-android'
-apply from: rootProject.file('gradle/checkstyle.gradle')
+//apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
@@ -35,6 +35,12 @@ android {
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
+    staging {
+      debuggable true
+    }
+    debug {
+      debuggable true
+    }
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt')
@@ -53,31 +59,31 @@ android {
 
 dependencies {
 
-  compile (parent.ext.dependencies.dagger){
+  implementation (parent.ext.dependencies.dagger){
     transitive = false
     exclude group:'com.google.dagger', module:'dagger'
     exclude group:'javax.inject'
   }
 
-  compile project(':orchextrasdk-dataprovision')
+  api project(':orchextrasdk-dataprovision')
 
-  compile( parent.ext.dependencies.gggLib)
+  api( parent.ext.dependencies.gggLib)
           {
             //transitive = true
             changing = true
           }
 
-  testCompile parent.ext.testDependencies.junit
-  testCompile parent.ext.testDependencies.mockito
+  testImplementation parent.ext.testDependencies.junit
+  testImplementation parent.ext.testDependencies.mockito
 
-  androidTestCompile parent.ext.testDependencies.testRunner
-  androidTestCompile parent.ext.testDependencies.testRules
+  androidTestImplementation parent.ext.testDependencies.testRunner
+  androidTestImplementation parent.ext.testDependencies.testRules
 
-  androidTestCompile parent.ext.testDependencies.dexMaker
-  androidTestCompile(parent.ext.testDependencies.dexMakerMockito) {
+  androidTestImplementation parent.ext.testDependencies.dexMaker
+  androidTestImplementation(parent.ext.testDependencies.dexMakerMockito) {
     exclude group: 'org.hamcrest', module: 'hamcrest-core'
   }
- // compile 'io.realm:realm-android:0.87.0'
+
 }
 
 tasks.withType(Test) {

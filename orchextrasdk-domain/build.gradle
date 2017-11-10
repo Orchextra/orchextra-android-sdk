@@ -17,14 +17,14 @@
  */
 
 apply plugin: 'java'
-apply from: rootProject.file('gradle/checkstyle.gradle')
+//apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'maven'
 
 dependencies {
-    compile parent.ext.dependencies.gggJavaLib
+    implementation parent.ext.dependencies.gggJavaLib
 
-    testCompile parent.ext.testDependencies.junit
-    testCompile parent.ext.testDependencies.mockito
+    testImplementation parent.ext.testDependencies.junit
+    testImplementation parent.ext.testDependencies.mockito
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

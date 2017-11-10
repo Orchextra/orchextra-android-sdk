@@ -27,8 +27,9 @@ public class RealmDefaultInstance {
 
     public synchronized Realm createRealmInstance(Context context) {
         System.out.println("REALM ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ createRealmInstance");
+        Realm.init(context);
         RealmConfiguration config =
-                new RealmConfiguration.Builder(context)
+                new RealmConfiguration.Builder()
                         .deleteRealmIfMigrationNeeded()
                         .name("oxnew2.realm")
                         .schemaVersion(4)
