@@ -20,16 +20,17 @@ package com.gigigo.orchextra.device.notifications;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4ox.app.NotificationCompat;
 import android.widget.RemoteViews;
-
 import com.gigigo.ggglib.device.AndroidSdkVersion;
 import com.gigigo.orchextra.R;
 import com.gigigo.orchextra.device.notifications.dtos.AndroidBasicAction;
@@ -40,6 +41,8 @@ public class AndroidNotificationBuilder {
   public static final String EXTRA_NOTIFICATION_ACTION = "OX_EXTRA_NOTIFICATION_ACTION";
   public static final String NOTIFICATION_ACTION_OX = "NOTIFICATION_ACTION_OX";
   public static final String HAVE_ACTIVITY_NOTIFICATION_OX = "HAVE_ACTIVITY_NOTIFICATION_OX";
+
+  private static final String NOTIFICATION_OREO_ID = "NOTIFICATION_OREO_ID";
 
   private final Context context;
 
@@ -66,7 +69,6 @@ public class AndroidNotificationBuilder {
             .putExtra(AndroidNotificationBuilder.HAVE_ACTIVITY_NOTIFICATION_OX, false)
             .setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
-
     return PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
   }
 
@@ -90,9 +92,26 @@ public class AndroidNotificationBuilder {
     NotificationManager notificationManager =
         (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-    //only 1 notification entry, for the same action notificationManager.notify((int) notificationId, notification);
-    //one notification for action response, no care if the same notification, this is the first implementation
-     notificationManager.notify((int) (System.currentTimeMillis() % Integer.MAX_VALUE), notification);
+    if (notificationManager != null) {
+
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        NotificationChannel notificationChannel =
+            new NotificationChannel(NOTIFICATION_OREO_ID, context.getPackageName(),
+                NotificationManager.IMPORTANCE_DEFAULT);
+
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.setShowBadge(true);
+        notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+
+        notificationManager.createNotificationChannel(notificationChannel);
+      }
+
+      //only 1 notification entry, for the same action notificationManager.notify((int) notificationId, notification);
+      //one notification for action response, no care if the same notification, this is the first implementation
+      notificationManager.notify((int) (System.currentTimeMillis() % Integer.MAX_VALUE),
+          notification);
+    }
   }
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -101,7 +120,14 @@ public class AndroidNotificationBuilder {
 
     Bitmap largeIcon =
         BitmapFactory.decodeResource(context.getResources(), R.drawable.ox_notification_large_icon);
-    Notification.Builder mNotifyBuilder = new Notification.Builder(context);
+
+    Notification.Builder mNotifyBuilder;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+      mNotifyBuilder = new Notification.Builder(context, NOTIFICATION_OREO_ID).setChannelId(
+          NOTIFICATION_OREO_ID);
+    } else {
+      mNotifyBuilder = new Notification.Builder(context);
+    }
 
     RemoteViews mContentView;
     if (isPush) {
