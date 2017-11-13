@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--64dp-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ox_layout_custom_local_notification"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +9,8 @@
     android:paddingBottom="2dp"
     android:paddingEnd="8dp"
     android:paddingRight="8dp"
-    android:paddingTop="2dp">
+    android:paddingTop="2dp"
+    >
     <ImageView
         android:id="@+id/ox_notifimage_custom_local_notification"
         android:layout_width="64dp"
@@ -33,7 +35,6 @@
             android:paddingLeft="8dp"
             android:paddingStart="8dp"
             android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Time"
             android:textColor="#666666"
             android:textSize="12dp"
             />
@@ -51,8 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="24dp"
-            android:text="Lorem ipsum Lorem m Lorem ipsum m ipsum Lorem m Lorem im ipsum Lorem m Lorem im ipsum Lorem m Lorem im ipsum Lorem m Lorem i"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent"
+            tools:text="Lorem ipsum Lorem m Lorem ipsum m ipsum Lorem m Lorem im ipsum Lorem m Lorem im ipsum Lorem m Lorem im ipsum Lorem m Lorem i"
             android:textColor="#666666"
             android:textSize="16dp"
             />
@@ -79,8 +79,7 @@
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:singleLine="true"
-            android:text="Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum"
-            android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Title"
+            tools:text="Lorem ipsum Lorem ipsum Lorem ipsumLorem ipsum"
             android:textColor="#727272"
             android:textSize="16dp"
             />
