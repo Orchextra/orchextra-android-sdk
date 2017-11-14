@@ -73,7 +73,7 @@ public class GeofenceIntentService extends IntentService {
 
             List<String> geofenceIds = geofenceHandler.getTriggeringGeofenceIds(geofencingEvent);
             GeoPointEventType transition = geofenceHandler.getGeofenceTransition(geofencingEvent);
-            orchextraLogger.log("Localizado: " + transition.getStringValue());
+            orchextraLogger.log("Geofence Localizado: " + transition.getStringValue());
             if (geofenceIds != null && !geofenceIds.isEmpty()) {
                 controller.processTriggers(geofenceIds, transition);
             }

@@ -36,6 +36,7 @@ public class AndroidGeofenceConverter {
         while (i < orchextraGeofenceList.size() && i < ConstantsAndroidGeofence.MAX_NUM_GEOFENCES) {
             OrchextraGeofence orchextraGeofence = orchextraGeofenceList.get(i);
 
+            System.out.println("Geofence Register:" + orchextraGeofence.getGeofenceId() + " Radius: "+orchextraGeofence.getRadius());
             Geofence geofence = new Geofence.Builder()
                     .setRequestId(orchextraGeofence.getCode())
                     .setCircularRegion(orchextraGeofence.getPoint().getLat(),

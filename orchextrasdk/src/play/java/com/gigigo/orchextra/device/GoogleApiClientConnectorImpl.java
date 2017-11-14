@@ -111,13 +111,13 @@ public class GoogleApiClientConnectorImpl
       if (isConnected()) {
         return true;
       } else {
-        orchextraLogger.log("GoogleApiClientConnector connection Status: " + isConnected(),
+        orchextraLogger.log(" Geofence GoogleApiClientConnector connection Status: " + isConnected(),
             OrchextraSDKLogLevel.ERROR);
 
         return false;
       }
     } else {
-      orchextraLogger.log("Google play services not ready, Status: " + gpss.getStringValue(),
+      orchextraLogger.log("Geofence Google play services not ready, Status: " + gpss.getStringValue(),
           OrchextraSDKLogLevel.ERROR);
       return false;
     }

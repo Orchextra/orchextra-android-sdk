@@ -32,9 +32,9 @@ android {
     versionName "7.0.3" // parent.ext.androidVersionName
     //for VuforiaCredentials,VuforiaCredentials Only work with armv7 lib.so, in this case we exclude all
     //less than armv7, but not with exclude, wit Ndk { abifilters
-//    ndk {
-//      abiFilters "armeabi-v7a"
-//    }
+    ndk {
+      abiFilters "armeabi-v7a"
+    }
     //java8
     //        jackOptions {
     //            enabled true
@@ -122,22 +122,29 @@ dependencies {
   implementation ('com.github.Gigigo-Android-Devs:fabmenu:proto') {
     exclude module: 'support-v4'
   }
-
+/* ASV NO BORRAR
+  api("com.github.Orchextra.orchextra-android-sdk:orchextrasdk:513Test:play10Release@aar") {
+    transitive = true
+  }
+ api('com.google.android.gms:play-services-location:10.0.1')
+  api('com.google.android.gms:play-services-gcm:10.0.1')
+*/
   //tiene refencia a otra ggglib 104/ahora la de nubo apunta a la 5.2 y sin support
     // compile parent.ext.dependencies.imageRecognitionImpl //vuforia new nuborisar version
  // compile project(':vuforiaimplementation')
   //flavour dependencies from project, for test(necesary for generate builtsvariants aars)
-  play7StagingImplementation project(path: ':orchextrasdk')
 
-  play8StagingImplementation project(path: ':orchextrasdk')
-
-  play9StagingImplementation project(path: ':orchextrasdk')
-  play10StagingImplementation project(path: ':orchextrasdk')
-  play11StagingImplementation project(path: ':orchextrasdk')
+  //TODO Asv. Falta el configuration y hacer los flavour con el configuration y el entorno
+  //
+  play7Api project(path: ':orchextrasdk')
+  play8Api project(path: ':orchextrasdk')
+  play9Api project(path: ':orchextrasdk')
+  play10Api project(path: ':orchextrasdk')
+  play11Api project(path: ':orchextrasdk')
   //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-  playnoStagingImplementation project(path: ':orchextrasdk')
+  playnoApi project(path: ':orchextrasdk')
 
-  play7DebugImplementation project(path: ':orchextrasdk')
+ /* play7DebugImplementation project(path: ':orchextrasdk')
   play8DebugImplementation project(path: ':orchextrasdk')
   play9DebugImplementation project(path: ':orchextrasdk')
   play10DebugImplementation project(path: ':orchextrasdk')
@@ -152,6 +159,6 @@ dependencies {
   play11ReleaseImplementation project(path: ':orchextrasdk')
   //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
   playnoReleaseImplementation project(path: ':orchextrasdk')
-
+*/
   testImplementation parent.ext.testDependencies.junit
 }
