@@ -146,7 +146,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun getTokenData(): TokenData {
-    val apiResponse = makeCallWithRetry({ ->
+    val apiResponse = makeCallWithRetry({
       orchextraCoreApi.getTokenData().execute().body()
     })
 

@@ -26,7 +26,9 @@ import android.os.Build
 import android.provider.Settings
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiClientApp
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiDeviceInfo
+import com.gigigo.orchextra.core.data.datasources.network.models.ApiNotificationPush
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiOxDevice
+import com.google.firebase.iid.FirebaseInstanceId
 import java.util.Locale
 import java.util.TimeZone
 
@@ -41,13 +43,14 @@ fun Context.getBaseApiOxDevice(): ApiOxDevice = with(this) {
   }
 
   return ApiOxDevice(
-      instanceId = "", // TODO  set instance id
+      instanceId = FirebaseInstanceId.getInstance().token ?: "", // TODO  set instance id
       secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
       serialNumber = Build.SERIAL,
       bluetoothMacAddress = bluetoothMacAddress,
       wifiMacAddress = wifiManager.connectionInfo.macAddress,
       clientApp = getApiClientApp(),
-      notificationPush = null, // TODO set notificationPush
+      notificationPush = ApiNotificationPush(senderId = "DEPRECATED",
+          token = FirebaseInstanceId.getInstance().token ?: "EMPTY"),
       device = getApiDeviceInfo())
 }
 

@@ -80,7 +80,9 @@ object Orchextra : OrchextraErrorListener {
     this.getOxToken = GetOxToken.create(NetworkDataSource.create(context))
     this.dbDataSource = DbDataSource.create(context)
 
-    initLogger(context)
+    if (options.debuggable) {
+      initLogger(context)
+    }
 
     ActivityLifecycleManager(app = context,
         onActivityResumed = { isActivityRunning = true },
