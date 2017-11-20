@@ -44,9 +44,19 @@ Add dependencies you need
 ### Init Orchextra
 
 ```java
-    Orchextra orchextra = Orchextra.INSTANCE;
-    orchextra.setStatusListener(orchextraStatusListener);
-    orchextra.init(getApplication(), apiKey, apiSecret, true);
+  Orchextra orchextra = Orchextra.INSTANCE;
+  orchextra.setStatusListener(orchextraStatusListener);
+  orchextra.setErrorListener(orchextraErrorListener);
+  
+  OrchextraOptions options =
+      new OrchextraOptions.Builder().firebaseApiKey("AIza_1234")
+          .firebaseApplicationId("xxxx")
+          .debuggable(true)
+          .build();
+  
+  orchextra.init(getApplication(), apiKey, apiSecret, options);
+  orchextra.setScanTime(30);
+    
 ```
 
 ### Add trigger implementation
