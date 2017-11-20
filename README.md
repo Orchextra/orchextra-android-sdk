@@ -65,6 +65,12 @@ Add dependencies you need
   orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
 ```
 
+### Set notification activity
+
+```java
+   orchextra.setNotificationActivityClass(MainActivity.class);
+```
+
 ### Get Orchextra errors
 
 ```java
