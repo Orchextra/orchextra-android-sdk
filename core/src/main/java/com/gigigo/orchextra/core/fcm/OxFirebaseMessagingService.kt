@@ -1,7 +1,9 @@
 package com.gigigo.orchextra.core.fcm
 
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
 import android.util.Log
@@ -9,6 +11,7 @@ import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -18,7 +21,14 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
 
   private val moshi = Moshi.Builder().build()
   private val apiActionAdapter = moshi.adapter(ApiAction::class.java)
-  private val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
+  private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
+  private lateinit var dbDataSource: DbDataSource
+
+  override fun onCreate() {
+    super.onCreate()
+    actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(this)
+    dbDataSource = DbDataSource.create(baseContext)
+  }
 
   override fun onMessageReceived(remoteMessage: RemoteMessage?) {
 
@@ -27,6 +37,11 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
     if (remoteMessage.data.isNotEmpty()) {
       Log.d(TAG, "Message data payload: " + remoteMessage.data)
 
+
+      if (remoteMessage.data.containsKey("isOrchextra")
+          && remoteMessage.data["isOrchextra"] != "true") {
+        return
+      }
 
       if (remoteMessage.data.containsKey("action")) {
         val action = apiActionAdapter.fromJson(remoteMessage.data["action"]).toAction()
@@ -45,16 +60,12 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
   }
 
   private fun handleAction(action: Action) {
-    actionHandlerServiceExecutor.execute(baseContext, action)
+    actionHandlerServiceExecutor.execute(action)
   }
 
   private fun sendNotification(title: String, body: String) {
-//    val intent = Intent(this, MainActivity::class.java)
-//    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//    val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-//        PendingIntent.FLAG_ONE_SHOT)
 
-    val channelId = "chanelId"
+    val channelId = "ox_push_notification"
     val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
     val notificationBuilder = NotificationCompat.Builder(this, channelId)
         .setSmallIcon(R.drawable.ox_close)
@@ -62,11 +73,27 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
         .setContentText(body)
         .setAutoCancel(true)
         .setSound(defaultSoundUri)
-//        .setContentIntent(pendingIntent)
+
+    val notificationActivityName = dbDataSource.getNotificationActivityName()
+    if (notificationActivityName.isNotEmpty()) {
+      if (getNotificationActivityClass(notificationActivityName) != null) {
+        val intent = Intent(this, getNotificationActivityClass(notificationActivityName))
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent,
+            PendingIntent.FLAG_ONE_SHOT)
+
+        notificationBuilder.setContentIntent(pendingIntent)
+      }
+    }
 
     val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.notify(0x9387, notificationBuilder.build())
+  }
 
-    notificationManager.notify(0 /* ID of notification */, notificationBuilder.build())
+  private fun getNotificationActivityClass(activityName: String): Class<*>? = try {
+    Class.forName(activityName)
+  } catch (exception: ClassNotFoundException) {
+    null
   }
 
   companion object {

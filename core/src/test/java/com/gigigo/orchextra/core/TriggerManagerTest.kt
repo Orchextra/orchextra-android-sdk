@@ -32,7 +32,6 @@ import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.testutils.PostExecutionThreadMock
 import com.gigigo.orchextra.core.testutils.ThreadExecutorMock
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.doThrow
 import com.nhaarman.mockito_kotlin.eq
@@ -57,7 +56,7 @@ class TriggerManagerTest {
 
     triggerManager.onTriggerDetected(TEST_SUCCESS_TRIGGER)
 
-    verify(actionHandlerServiceExecutor).execute(any(), eq(TEST_ACTION))
+    verify(actionHandlerServiceExecutor).execute(eq(TEST_ACTION))
   }
 
   @Test
@@ -85,7 +84,7 @@ class TriggerManagerTest {
     val getAction = GetAction(ThreadExecutorMock(),
         PostExecutionThreadMock(), networkDataSource)
 
-    return TriggerManager(context = mock(),
+    return TriggerManager(
         getTriggerConfiguration = getTriggerConfiguration,
         getTriggerList = getTriggerList,
         getAction = getAction,

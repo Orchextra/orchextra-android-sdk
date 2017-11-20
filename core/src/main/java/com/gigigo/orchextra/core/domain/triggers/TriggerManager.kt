@@ -38,7 +38,7 @@ import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
 import kotlin.properties.Delegates
 
-class TriggerManager(private val context: Context,
+class TriggerManager(
     private val getTriggerConfiguration: GetTriggerConfiguration,
     private val getTriggerList: GetTriggerList,
     private val getAction: GetAction,
@@ -128,7 +128,7 @@ class TriggerManager(private val context: Context,
 
   override fun onTriggerDetected(trigger: Trigger) = getAction.get(trigger,
       onSuccess = {
-        actionHandlerServiceExecutor.execute(context = context, action = it)
+        actionHandlerServiceExecutor.execute(action = it)
       },
       onError = {
         errorListener.onError(it.toError())
@@ -141,11 +141,10 @@ class TriggerManager(private val context: Context,
       val networkDataSource = NetworkDataSource.create(context)
 
       return TriggerManager(
-          context,
           GetTriggerConfiguration.create(networkDataSource),
           GetTriggerList.create(networkDataSource),
           GetAction.create(networkDataSource),
-          ActionHandlerServiceExecutor.create(),
+          ActionHandlerServiceExecutor.create(context),
           Orchextra)
     }
   }

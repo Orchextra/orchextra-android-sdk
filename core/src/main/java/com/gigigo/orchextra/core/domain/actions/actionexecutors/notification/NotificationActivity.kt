@@ -23,9 +23,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.utils.LogUtils
@@ -33,11 +33,14 @@ import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 
 class NotificationActivity : AppCompatActivity() {
 
-  private val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
+  private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
+  private lateinit var dbDataSource: DbDataSource
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_notification)
+    actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(this)
+    dbDataSource = DbDataSource.create(baseContext)
     title = ""
 
     val notification = getNotification()
@@ -49,12 +52,13 @@ class NotificationActivity : AppCompatActivity() {
         .setIcon(R.drawable.ox_notification_large_icon)
         .setPositiveButton(android.R.string.ok, { dialog, _ ->
           dialog.dismiss()
-          //TODO get notificationActivityName from preferences
-          Orchextra.notificationActivityName?.let {
-            openCustomNotificationActivity(it)
+
+          val notificationActivityName = dbDataSource.getNotificationActivityName()
+          if (notificationActivityName.isNotEmpty()) {
+            openCustomNotificationActivity(notificationActivityName)
           }
-          actionHandlerServiceExecutor.execute(this@NotificationActivity,
-              action.copy(notification = Notification()))
+
+          actionHandlerServiceExecutor.execute(action.copy(notification = Notification()))
         })
         .show()
 

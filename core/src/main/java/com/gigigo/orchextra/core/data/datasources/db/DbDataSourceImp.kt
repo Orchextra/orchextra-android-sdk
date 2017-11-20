@@ -58,6 +58,7 @@ class DbDataSourceImp(private val context: Context,
   private val DEVICE_KEY = "device_key"
   private val WAIT_TIME_KEY = "wait_time_key"
   private val SCAN_TIME_KEY = "wait_time_key"
+  private val NOTIFICATION_ACTIVITY_KEY = "notification_activity_key"
   private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()
   private val triggerListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbTrigger>(15, DAYS))
@@ -144,6 +145,16 @@ class DbDataSourceImp(private val context: Context,
 
   override fun getScanTime(): Long =
       sharedPreferences.getLong(SCAN_TIME_KEY, TimeUnit.SECONDS.toMillis(60))
+
+  @SuppressLint("ApplySharedPref")
+  override fun saveNotificationActivityName(notificationActivityName: String) {
+    val editor = sharedPreferences.edit()
+    editor?.putString(NOTIFICATION_ACTIVITY_KEY, notificationActivityName)
+    editor?.commit()
+  }
+
+  override fun getNotificationActivityName(): String = sharedPreferences.getString(
+      NOTIFICATION_ACTIVITY_KEY, "")
 
   @Throws(SQLException::class)
   private fun removeOldTriggers() {

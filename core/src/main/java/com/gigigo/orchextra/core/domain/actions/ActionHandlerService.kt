@@ -40,9 +40,9 @@ class ActionHandlerService : IntentService(TAG) {
   }
 }
 
-class ActionHandlerServiceExecutor {
+class ActionHandlerServiceExecutor(val context: Context) {
 
-  fun execute(context: Context, action: Action) {
+  fun execute(action: Action) {
     val intent = Intent(context, ActionHandlerService::class.java)
     intent.putExtra(ActionHandlerService.ACTION_EXTRA, action)
     context.startService(intent)
@@ -50,6 +50,7 @@ class ActionHandlerServiceExecutor {
 
   companion object Factory {
 
-    fun create(): ActionHandlerServiceExecutor = ActionHandlerServiceExecutor()
+    fun create(context: Context): ActionHandlerServiceExecutor
+        = ActionHandlerServiceExecutor(context)
   }
 }

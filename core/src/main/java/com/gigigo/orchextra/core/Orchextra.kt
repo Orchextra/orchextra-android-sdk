@@ -63,7 +63,6 @@ object Orchextra : OrchextraErrorListener {
   private var debuggable = false
   private var sessionManager: SessionManager? = null
   private var crmManager: CrmManager? = null
-  var notificationActivityName: String? = null
 
   @JvmOverloads
   fun init(context: Application, apiKey: String, apiSecret: String,
@@ -73,7 +72,7 @@ object Orchextra : OrchextraErrorListener {
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
     this.triggerManager.apiKey = apiKey
-    this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
+    this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(context)
     this.locationProvider = LocationProvider(context)
     this.sessionManager = SessionManager.create(context)
     this.crmManager = CrmManager.create(context, { onError(it) })
@@ -135,14 +134,14 @@ object Orchextra : OrchextraErrorListener {
     LogUtils.fileLogging = FileLogging(context)
   }
 
-  fun openScanner(context: Context) {
+  fun openScanner() {
     checkInitialization()
-    actionHandlerServiceExecutor.execute(context, Action(type = SCANNER))
+    actionHandlerServiceExecutor.execute(Action(type = SCANNER))
   }
 
-  fun openImageRecognition(context: Context) {
+  fun openImageRecognition() {
     checkInitialization()
-    actionHandlerServiceExecutor.execute(context, Action(type = IMAGE_RECOGNITION))
+    actionHandlerServiceExecutor.execute(Action(type = IMAGE_RECOGNITION))
   }
 
   fun getTriggerManager(): TriggerManager {
@@ -212,7 +211,7 @@ object Orchextra : OrchextraErrorListener {
   }
 
   fun setNotificationActivityClass(notificationActivityClass: Class<*>) {
-    notificationActivityName = notificationActivityClass.canonicalName
+    dbDataSource.saveNotificationActivityName(notificationActivityClass.canonicalName)
   }
 
   fun getCrmManager(): CrmManager = crmManager as CrmManager

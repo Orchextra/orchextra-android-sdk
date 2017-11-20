@@ -92,7 +92,7 @@ public class ScannerFragment extends Fragment {
         if (orchextra.isReady()) {
           orchextra.getTriggerManager()
               .setScanner(OxScannerImp.Factory.create(getActivity().getApplication()));
-          orchextra.openScanner(getContext());
+          orchextra.openScanner();
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
         }
@@ -104,7 +104,7 @@ public class ScannerFragment extends Fragment {
         if (orchextra.isReady()) {
           orchextra.getTriggerManager()
               .setScanner(CustomScannerImp.Factory.create(getActivity().getApplication()));
-          orchextra.openScanner(getContext());
+          orchextra.openScanner();
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
         }
@@ -116,7 +116,7 @@ public class ScannerFragment extends Fragment {
         if (orchextra.isReady()) {
           orchextra.getTriggerManager()
               .setImageRecognizer(OxImageRecognizerImp.Factory.create(getActivity()));
-          orchextra.openImageRecognition(getContext());
+          orchextra.openImageRecognition();
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
         }

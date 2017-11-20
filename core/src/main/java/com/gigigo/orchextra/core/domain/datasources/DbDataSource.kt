@@ -61,6 +61,12 @@ interface DbDataSource {
   @Throws(DbException::class)
   fun getScanTime(): Long
 
+  @Throws(DbException::class)
+  fun saveNotificationActivityName(notificationActivityName: String)
+
+  @Throws(DbException::class)
+  fun getNotificationActivityName(): String
+
   companion object Factory {
 
     var dbDataSource: DbDataSource? = null

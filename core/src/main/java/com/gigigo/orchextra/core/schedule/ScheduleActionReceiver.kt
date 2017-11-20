@@ -29,14 +29,15 @@ import com.gigigo.orchextra.core.domain.entities.Schedule
 
 class ScheduleActionReceiver : BroadcastReceiver() {
 
-  private val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create()
+  private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
 
   override fun onReceive(context: Context, intent: Intent) {
 
     val action = intent.getParcelableExtra<Action>(ACTION_EXTRA)
     Log.d(TAG, "onScheduledActionReceive: $action")
 
-    actionHandlerServiceExecutor.execute(context, action.copy(schedule = Schedule()))
+    actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(context)
+    actionHandlerServiceExecutor.execute(action.copy(schedule = Schedule()))
   }
 
   companion object {
