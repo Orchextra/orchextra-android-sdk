@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
+import android.util.Log
 import com.gigigo.orchextra.core.Orchextra
 import java.io.BufferedWriter
 import java.io.File
@@ -43,7 +44,7 @@ class FileLogging(private val context: Context) {
         logFile.createNewFile()
         writeHeader(logFile)
       } catch (e: IOException) {
-        e.printStackTrace()
+        Log.e("FileLogging", e.message)
       }
 
     }
@@ -62,7 +63,7 @@ class FileLogging(private val context: Context) {
       buf.newLine()
       buf.close()
     } catch (e: IOException) {
-      e.printStackTrace()
+      Log.e("FileLogging", e.message)
     }
   }
 
@@ -84,7 +85,7 @@ class FileLogging(private val context: Context) {
       buf.newLine()
       buf.close()
     } catch (e: IOException) {
-      e.printStackTrace()
+      Log.e("FileLogging", e.message)
     }
   }
 
@@ -109,8 +110,7 @@ class FileLogging(private val context: Context) {
     7 -> "ASSERT"
     else -> "UNKNOWN"
   }
-
-
+  
   companion object {
 
     private val TAG = FileLogging::class.java.simpleName
