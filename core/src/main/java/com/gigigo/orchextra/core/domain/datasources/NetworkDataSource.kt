@@ -32,7 +32,7 @@ import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 interface NetworkDataSource {
 
   @Throws(NetworkException::class)
-  fun getAuthentication(credentials: Credentials): String
+  fun getAuthentication(credentials: Credentials, forceNew: Boolean = false): String
 
   @Throws(NetworkException::class)
   fun getConfiguration(apiKey: String): Configuration

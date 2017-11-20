@@ -90,11 +90,18 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     orchextraTriggerApi = retrofitTrigger.create(OrchextraTriggerApi::class.java)
   }
 
-  override fun getAuthentication(credentials: Credentials): String {
-    val apiClientResponse = orchextraCoreApi.getAuthentication(
-        credentials.toApiAuthRequest()).execute().body()
+  override fun getAuthentication(credentials: Credentials, forceNew: Boolean): String {
 
-    return apiClientResponse?.data?.token ?: ""
+    return if (!forceNew && sessionManager.hasSession()) {
+      sessionManager.getSession()
+
+    } else {
+
+      val apiClientResponse = orchextraCoreApi.getAuthentication(
+          credentials.toApiAuthRequest()).execute().body()
+
+      apiClientResponse?.data?.token ?: ""
+    }
   }
 
   override fun getConfiguration(apiKey: String): Configuration {
@@ -173,7 +180,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return if (sessionManager.hasSession()) {
       makeCallWithRetryOnSessionFailed(call)
     } else {
-      val credentials = getAuthentication(orchextra.getCredentials())
+      val credentials = getAuthentication(orchextra.getCredentials(), true)
       sessionManager.saveSession(credentials)
 
       val crm = dbDataSource.getCrm()
@@ -188,7 +195,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return try {
       call()
     } catch (exception: UnauthorizedException) {
-      val credentials = getAuthentication(orchextra.getCredentials())
+      val credentials = getAuthentication(orchextra.getCredentials(), true)
       sessionManager.saveSession(credentials)
 
       val crm = dbDataSource.getCrm()
