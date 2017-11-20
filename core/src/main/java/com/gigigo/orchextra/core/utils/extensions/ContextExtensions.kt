@@ -27,7 +27,6 @@ import android.provider.Settings
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiClientApp
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiDeviceInfo
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiOxDevice
-import com.google.android.gms.iid.InstanceID
 import java.util.Locale
 import java.util.TimeZone
 
@@ -42,7 +41,7 @@ fun Context.getBaseApiOxDevice(): ApiOxDevice = with(this) {
   }
 
   return ApiOxDevice(
-      instanceId = InstanceID.getInstance(this).id,
+      instanceId = "", // TODO  set instance id
       secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
       serialNumber = Build.SERIAL,
       bluetoothMacAddress = bluetoothMacAddress,

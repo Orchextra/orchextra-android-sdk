@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
+import com.gigigo.orchextra.core.OrchextraOptions;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
@@ -156,7 +157,14 @@ public class LoginActivity extends AppCompatActivity {
     orchextra = Orchextra.INSTANCE;
     orchextra.setStatusListener(orchextraStatusListener);
     orchextra.setErrorListener(orchextraErrorListener);
-    orchextra.init(getApplication(), apiKey, apiSecret, true);
+
+    OrchextraOptions options =
+        new OrchextraOptions.Builder().firebaseApiKey("AIzaSyDlMIjwx2r0oc0W7O4WPb7CvRhjCVHOZBk")
+            .firebaseApplicationId("1:327008883283:android:5a0b51c3ef8892e0")
+            .debuggable(true)
+            .build();
+
+    orchextra.init(getApplication(), apiKey, apiSecret, options);
     orchextra.setScanTime(30);
   }
 

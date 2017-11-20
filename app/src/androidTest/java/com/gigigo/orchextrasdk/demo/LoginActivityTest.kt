@@ -3,6 +3,7 @@ package com.gigigo.orchextrasdk.demo
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.gigigo.orchextrasdk.demo.screen.LoginScreen
+import com.gigigo.orchextrasdk.demo.screen.ScannerScreen
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity
 import org.junit.Rule
 import org.junit.Test
@@ -16,11 +17,12 @@ class LoginActivityTest {
   @JvmField
   val rule = ActivityTestRule(LoginActivity::class.java)
 
-  val screen = LoginScreen()
+  val loginScreen = LoginScreen()
+  val scannerScreen = ScannerScreen()
 
   @Test
   fun testChangeProjectOnDoubleClick() {
-    screen {
+    loginScreen {
 
       logoLayout {
         click()
@@ -29,6 +31,26 @@ class LoginActivityTest {
 
       projectNameEditText {
         hasText("IOS")
+      }
+    }
+  }
+
+  @Test
+  fun testLoginInTestProject() {
+    loginScreen {
+
+      projectNameEditText {
+        hasText("AndroidSDK")
+      }
+
+      button {
+        click()
+      }
+    }
+
+    scannerScreen {
+      oxScannerButton {
+        isVisible()
       }
     }
   }

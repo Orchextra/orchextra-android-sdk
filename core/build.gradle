@@ -129,7 +129,9 @@ dependencies {
 
   implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
   implementation rootProject.ext.libraries.playServicesLocation
-  implementation rootProject.ext.libraries.playServicesGcm
+
+  compile 'com.google.firebase:firebase-core:11.0.4'
+  compile 'com.google.firebase:firebase-messaging:11.0.4'
 
   implementation rootProject.ext.libraries.retrofit
   implementation rootProject.ext.libraries.retrofitMoshiConverter

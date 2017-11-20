@@ -43,6 +43,8 @@ import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.PermissionsActivity
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
@@ -64,9 +66,10 @@ object Orchextra : OrchextraErrorListener {
   var notificationActivityName: String? = null
 
   @JvmOverloads
-  fun init(context: Application, apiKey: String, apiSecret: String, debuggable: Boolean = false) {
+  fun init(context: Application, apiKey: String, apiSecret: String,
+      options: OrchextraOptions = OrchextraOptions()) {
 
-    this.debuggable = debuggable
+    this.debuggable = options.debuggable
     this.credentials = Credentials(apiKey = apiKey, apiSecret = apiSecret)
     this.triggerManager = TriggerManager.create(context)
     this.triggerManager.apiKey = apiKey
@@ -91,6 +94,16 @@ object Orchextra : OrchextraErrorListener {
           orchextraErrorListener?.onError(it.toError())
           changeStatus(false)
         })
+
+    if (options.hasFirebaseConfig()) {
+
+      val firebaseOptions = FirebaseOptions.Builder()
+          .setApplicationId(options.firebaseApplicationId)
+          .setApiKey(options.firebaseApiKey)
+          .build()
+
+      FirebaseApp.initializeApp(context, firebaseOptions)
+    }
   }
 
   private fun getConfiguration(context: Context, apiKey: String) {

@@ -99,5 +99,4 @@
           android:value="com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity"/>
     </activity>
   </application>
-
 </manifest>
