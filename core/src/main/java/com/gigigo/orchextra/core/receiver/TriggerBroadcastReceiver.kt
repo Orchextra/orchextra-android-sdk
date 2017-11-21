@@ -31,7 +31,7 @@ class TriggerBroadcastReceiver : BroadcastReceiver() {
 
   override fun onReceive(context: Context, intent: Intent) {
 
-    Orchextra.initLogger(context)
+    Orchextra.initFileLogger(context)
 
     val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA).copy(
         phoneStatus = getStatus())

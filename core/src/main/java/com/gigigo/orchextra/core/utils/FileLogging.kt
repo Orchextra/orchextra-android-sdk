@@ -63,7 +63,7 @@ class FileLogging(private val context: Context) {
       buf.newLine()
       buf.close()
     } catch (e: IOException) {
-      Log.e("FileLogging", e.message)
+      Log.e("", e.message)
     }
   }
 
@@ -85,7 +85,7 @@ class FileLogging(private val context: Context) {
       buf.newLine()
       buf.close()
     } catch (e: IOException) {
-      Log.e("FileLogging", e.message)
+      e.printStackTrace()
     }
   }
 
@@ -110,7 +110,8 @@ class FileLogging(private val context: Context) {
     7 -> "ASSERT"
     else -> "UNKNOWN"
   }
-  
+
+
   companion object {
 
     private val TAG = FileLogging::class.java.simpleName

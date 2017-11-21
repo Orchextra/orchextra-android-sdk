@@ -330,9 +330,13 @@ public class EditActivity extends AppCompatActivity {
 
   void bindData(@NonNull OxDevice device) {
     deviceTagsCf.setCustomField(new CustomField("", "", "Tags"));
-    deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
+    if (device.getTags() != null) {
+      deviceTagsCf.setValue(TextUtils.join(", ", device.getTags()));
+    }
     deviceBusinessUnitsCf.setCustomField(new CustomField("", "", "Business units"));
-    deviceBusinessUnitsCf.setValue(TextUtils.join(", ", device.getBusinessUnits()));
+    if (device.getBusinessUnits() != null) {
+      deviceBusinessUnitsCf.setValue(TextUtils.join(", ", device.getBusinessUnits()));
+    }
   }
 
   private String getType() {

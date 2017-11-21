@@ -80,7 +80,7 @@ object Orchextra : OrchextraErrorListener {
     this.dbDataSource = DbDataSource.create(context)
 
     if (options.debuggable) {
-      initLogger(context)
+      initFileLogger(context)
     }
 
     ActivityLifecycleManager(app = context,
@@ -130,8 +130,8 @@ object Orchextra : OrchextraErrorListener {
     dbDataSource.saveScanTime(TimeUnit.SECONDS.toMillis(scanTimeInSeconds))
   }
 
-  internal fun initLogger(context: Context) {
-    LogUtils.fileLogging = FileLogging(context)
+  internal fun initFileLogger(context: Context) {
+//    LogUtils.fileLogging = FileLogging(context)
   }
 
   fun openScanner() {
