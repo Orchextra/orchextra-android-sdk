@@ -1,10 +1,15 @@
 package com.gigigo.orchextra.core.fcm
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.media.RingtoneManager
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
+import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.util.Log
 import com.gigigo.orchextra.core.R
@@ -13,9 +18,11 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.utils.LogUtils
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.squareup.moshi.Moshi
+
 
 class OxFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -40,6 +47,7 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
 
       if (remoteMessage.data.containsKey("isOrchextra")
           && remoteMessage.data["isOrchextra"] != "true") {
+        LogUtils.LOGD(TAG, "isOrchextra == false")
         return
       }
 
@@ -65,9 +73,12 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
 
   private fun sendNotification(title: String, body: String) {
 
-    val channelId = "ox_push_notification"
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      createNotificationChannel()
+    }
+
     val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    val notificationBuilder = NotificationCompat.Builder(this, channelId)
+    val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
         .setSmallIcon(R.drawable.ox_close)
         .setContentTitle(title)
         .setContentText(body)
@@ -90,6 +101,25 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
     notificationManager.notify(0x9387, notificationBuilder.build())
   }
 
+  @RequiresApi(VERSION_CODES.O)
+  private fun createNotificationChannel() {
+
+    val mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    val name = getString(R.string.app_name)
+    val description = getString(R.string.app_name)
+    val importance = NotificationManager.IMPORTANCE_DEFAULT
+    val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+
+    mChannel.description = description
+    mChannel.enableLights(true)
+
+    mChannel.lightColor = Color.RED
+    mChannel.enableVibration(true)
+    mChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+    mNotificationManager.createNotificationChannel(mChannel)
+  }
+
   private fun getNotificationActivityClass(activityName: String): Class<*>? = try {
     Class.forName(activityName)
   } catch (exception: ClassNotFoundException) {
@@ -97,6 +127,7 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
   }
 
   companion object {
-    private val TAG = "MyFirebaseMsgService"
+    private val TAG = "OxFirebaseMsgService"
+    private val CHANNEL_ID = "ox_push_notification"
   }
 }

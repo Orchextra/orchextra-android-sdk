@@ -29,7 +29,10 @@ class IndoorPositioningReceiver : BroadcastReceiver() {
 
   override fun onReceive(context: Context, intent: Intent) {
     val config: List<IndoorPositionConfig>? = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
-    IndoorPositioningService.start(context, config as ArrayList<IndoorPositionConfig>)
+
+    if (config is ArrayList<IndoorPositionConfig>) {
+      IndoorPositioningService.start(context, config)
+    }
   }
 
   companion object {
