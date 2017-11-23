@@ -125,7 +125,6 @@ public class DeviceModule {
                     orchextraLogger.log(businessError.getMessage(), OrchextraSDKLogLevel.ERROR);
                 else
                     orchextraLogger.log("Error: " + businessError.getCode(), OrchextraSDKLogLevel.ERROR);
-
             }
 
             @Override

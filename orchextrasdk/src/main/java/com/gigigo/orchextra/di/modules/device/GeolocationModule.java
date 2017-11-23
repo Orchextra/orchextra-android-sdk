@@ -46,7 +46,8 @@ import orchextra.javax.inject.Singleton;
       ContextProvider contextProvider, GoogleApiClientConnector googleApiClientConnector,
       PermissionChecker permissionChecker, PermissionLocationImp permissionLocationImp) {
 
-    RetrieveLocationByGpsOrNetworkProvider retrieveLocationByGpsOrNetworkProvider = new RetrieveLocationByGpsOrNetworkProvider(contextProvider.getApplicationContext());
+    RetrieveLocationByGpsOrNetworkProvider retrieveLocationByGpsOrNetworkProvider
+        = new RetrieveLocationByGpsOrNetworkProvider(contextProvider.getApplicationContext());
 
     return new RetrieveLastKnownLocation(contextProvider, googleApiClientConnector,
         retrieveLocationByGpsOrNetworkProvider, permissionChecker, permissionLocationImp);
