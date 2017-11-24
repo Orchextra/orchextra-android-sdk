@@ -22,4 +22,9 @@ open class LoginScreen : Screen<LoginScreen>() {
   val apiSecretEditText: KEditText = KEditText { withId(id.apiSecret_editText) }
 
   val errorTextView: KTextView = KTextView { withId(id.errorTextView) }
+
+
+  // Scanner
+
+  val oxScannerButton: KButton = KButton { withId(id.ox_scanner_button) }
 }

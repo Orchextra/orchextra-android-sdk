@@ -161,7 +161,7 @@ dependencies {
   androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.4'
 
   // Screenshots
-  androidTestCompile 'com.squareup.spoon:spoon-client:1.7.1'
+  androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
 }
 
 dexcount {

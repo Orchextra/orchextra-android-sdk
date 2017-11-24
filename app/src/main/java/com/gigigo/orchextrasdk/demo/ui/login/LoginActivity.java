@@ -32,7 +32,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraOptions;
@@ -188,12 +187,10 @@ public class LoginActivity extends AppCompatActivity {
             .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
 
         orchextra.setNotificationActivityClass(SettingsActivity.class);
-
-        Toast.makeText(getBaseContext(), "SDK ready", Toast.LENGTH_SHORT).show();
         MainActivity.open(LoginActivity.this);
         finish();
       } else {
-        Toast.makeText(getBaseContext(), "SDK finished", Toast.LENGTH_SHORT).show();
+        showError("SDK finished");
       }
     }
   };
