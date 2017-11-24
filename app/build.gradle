@@ -50,7 +50,8 @@ android {
       abiFilters "armeabi-v7a"
     }
 
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testApplicationId "com.gigigo.orchextrasdk.demo.test"
+    testInstrumentationRunner "com.gigigo.orchextrasdk.demo.test.CucumberTestRunner"
     vectorDrawables.useSupportLibrary = true
   }
 
@@ -86,6 +87,16 @@ android {
       outputs.upToDateWhen { false }
       showStandardStreams = true
     }
+  }
+
+  sourceSets {
+    androidTest {
+      assets.srcDirs = ['src/androidTest/assets']
+    }
+  }
+
+  packagingOptions {
+    exclude 'LICENSE.txt'
   }
 }
 
@@ -142,6 +153,15 @@ dependencies {
     exclude group: 'com.android.support', module: 'support-annotations'
   }
   androidTestImplementation 'com.agoda.kakao:kakao:1.0.1'
+
+  // Cucumber
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+  androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
+  androidTestImplementation 'info.cukes:cucumber-android:1.2.5@jar'
+  androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.4'
+
+  // Screenshots
+  androidTestCompile 'com.squareup.spoon:spoon-client:1.7.1'
 }
 
 dexcount {

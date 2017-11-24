@@ -1,4 +1,4 @@
-package com.gigigo.orchextrasdk.demo.screen
+package com.gigigo.orchextrasdk.demo.test.screen
 
 import com.agoda.kakao.KButton
 import com.agoda.kakao.Screen

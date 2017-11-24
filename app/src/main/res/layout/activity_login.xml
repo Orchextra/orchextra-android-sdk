@@ -90,6 +90,19 @@
         android:hint="@string/api_secret"
         style="@style/EditTextStyle"
         />
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="@dimen/font_large"
+        android:visibility="gone"
+        tools:text="Error"
+        tools:visibility="visible"
+        />
   </LinearLayout>
 
   <Button

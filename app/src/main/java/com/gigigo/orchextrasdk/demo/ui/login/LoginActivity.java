@@ -31,6 +31,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
   EditText projectNameEditText;
   EditText apiKeyEditText;
   EditText apiSecretEditText;
+  TextView errorTextView;
   boolean doubleTap = false;
   int currentProject = 0;
 
@@ -70,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     initToolbar();
 
     projectNameEditText = findViewById(R.id.projectName_editText);
+    errorTextView = findViewById(R.id.errorTextView);
     apiSecretEditText = findViewById(R.id.apiSecret_editText);
     apiKeyEditText = findViewById(R.id.apiKey_editText);
     apiKeyEditText.addTextChangedListener(new TextWatcher() {
@@ -95,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
     Button startButton = findViewById(R.id.start_button);
     startButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        hideError();
         makeLogin();
       }
     });
@@ -146,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
     apiSecret = apiSecretEditText.getText().toString();
 
     if (apiKey.isEmpty() || apiSecret.isEmpty()) {
-      Toast.makeText(this, "Invalid data", Toast.LENGTH_SHORT).show();
+      showError("Invalid data");
     } else {
       initOrchextra();
     }
@@ -196,10 +200,18 @@ public class LoginActivity extends AppCompatActivity {
 
   private OrchextraErrorListener orchextraErrorListener = new OrchextraErrorListener() {
     @Override public void onError(@NonNull Error error) {
-      Toast.makeText(getBaseContext(), "Error: " + error.getCode() + " - " + error.getMessage(),
-          Toast.LENGTH_SHORT).show();
+      showError(error.getCode() + " - " + error.getMessage());
     }
   };
+
+  private void showError(String error) {
+    errorTextView.setVisibility(View.VISIBLE);
+    errorTextView.setText("Error: " + error);
+  }
+
+  private void hideError() {
+    errorTextView.setVisibility(View.GONE);
+  }
 
   @Override protected void onDestroy() {
     if (orchextra != null) {
