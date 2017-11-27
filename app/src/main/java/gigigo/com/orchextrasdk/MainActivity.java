@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.gigigo.orchextra.Orchextra.stop;
+
 import static gigigo.com.orchextrasdk.App.API_KEY;
 import static gigigo.com.orchextrasdk.App.API_SECRET;
 
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   private void stopOrchextra() {
     new Handler().post(new Runnable() {
       @Override public void run() {
-        stop();
+        Orchextra.stop();
       }
     });
     isRunning = false;

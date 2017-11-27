@@ -19,15 +19,15 @@
 package com.gigigo.orchextra.device.geolocation.location;
 
 import android.location.Location;
+import android.support.annotation.NonNull;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.ggglib.permissions.UserPermissionRequestResponseListener;
 import com.gigigo.orchextra.device.GoogleApiClientConnector;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class RetrieveLastKnownLocation {
 
@@ -86,35 +86,61 @@ public class RetrieveLastKnownLocation {
     }
   }
 
+  /*
+     @SuppressWarnings("ResourceType") private void getLastKnownLocation() {
+      if (googleApiClientConnector != null
+          && googleApiClientConnector.getGoogleApiClient() != null
+          && googleApiClientConnector.isConnected()) {
+
+        LocationRequest locationRequest = LocationRequest.create()
+            .setInterval(2000)
+            .setFastestInterval(1000)
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        try {
+          LocationServices.FusedLocationApi.requestLocationUpdates(
+              (GoogleApiClient) googleApiClientConnector.getGoogleApiClient(),
+              locationRequest, new LocationListener() {
+                @Override public void onLocationChanged(Location location) {
+                  if (onLastKnownLocationListener != null)
+                    onLastKnownLocationListener.onLastKnownLocation(location);
+                    else
+                    onLastKnownLocationListener.onLastKnownLocation(null);
+                }
+              });
+        } catch (SecurityException e)
+        {
+
+        }
+      }
+
+        //Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+        //        googleApiClientConnector.getGoogleApiClient());
+
+      }
+
+  */
   @SuppressWarnings("ResourceType") private void getLastKnownLocation() {
     if (googleApiClientConnector != null
         && googleApiClientConnector.getGoogleApiClient() != null
         && googleApiClientConnector.isConnected()) {
+      Task<Location> lastLocation1 =
+          LocationServices.getFusedLocationProviderClient(contextProvider.getApplicationContext())
+              .getLastLocation();
+      lastLocation1.addOnCompleteListener(new OnCompleteListener<Location>() {
+        @Override public void onComplete(@NonNull Task<Location> task) {
+          if (onLastKnownLocationListener != null) {
+            onLastKnownLocationListener.onLastKnownLocation(task.getResult());
+          } else {
+            onLastKnownLocationListener.onLastKnownLocation(null);
+          }
+        }
+      });
 
-      LocationRequest locationRequest = LocationRequest.create()
-          .setInterval(2000)
-          .setFastestInterval(1000)
-          .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-      try {
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-            (GoogleApiClient) googleApiClientConnector.getGoogleApiClient(),
-            locationRequest, new LocationListener() {
-              @Override public void onLocationChanged(Location location) {
-                if (onLastKnownLocationListener != null)
-                  onLastKnownLocationListener.onLastKnownLocation(location);
-                  else
-                  onLastKnownLocationListener.onLastKnownLocation(null);
-              }
-            });
-      } catch (SecurityException e) {
-
-      }
-    }
-
-      //Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
-      //        googleApiClientConnector.getGoogleApiClient());
+      // Location lastLocation = LocationServices.getFusedLocationProviderClient(contextProvider.getApplicationContext())..FusedLocationApi.getLastLocation(
+      //   googleApiClientConnector.getGoogleApiClient());
 
     }
+  }
 
     private UserPermissionRequestResponseListener userPermissionResponseListener =
         new UserPermissionRequestResponseListener() {

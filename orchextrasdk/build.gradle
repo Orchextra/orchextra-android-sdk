@@ -192,8 +192,8 @@ dependencies {
   api project(':orchextrasdk-control')
   api project(':orchextrasdk-data')
   /*GooglePlayServices*/
-  play11Api('com.google.android.gms:play-services-location:11.0.4')
-  play11Api('com.google.android.gms:play-services-gcm:11.0.4')
+  play11Api('com.google.android.gms:play-services-location:11.6.0')
+  play11Api('com.google.android.gms:play-services-gcm:11.6.0')
   play10Api('com.google.android.gms:play-services-location:10.0.1')
   play10Api('com.google.android.gms:play-services-gcm:10.0.1')
   play9Api('com.google.android.gms:play-services-location:9.0.0')
