@@ -344,27 +344,30 @@ public class BeaconRangingScannerImpl implements RangeNotifier, BeaconRangingSca
       final BackgroundBeaconsRangingTimeType backgroundBeaconsRangingTimeType) {
 
     manageGeneralBackgroundScanTimes(backgroundBeaconsRangingTimeType);
-
+    try {
     new Thread(new Runnable() {
       @Override public void run() {
-        for (Region region : regions) {
-          try {
-            //asv in the future, if we want more eddystone frame, we need to
-            //check if the region is eddystone region(getid1 length 20-22 chars)
-            //and create a null null null region, because, the eddytone frame URL/EID/IBeacon
-            //dont have ids like UID frame, enjoy!
 
-            //maybe wecan create scanner only forparse url eddystone, we need to check
-            manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
-            //asv hay q rescanear de region null para detectar urls de eddystone(se hace en el didenter)
-            beaconManager.startRangingBeaconsInRegion(region);
-            ranging = true;
-          } catch (RemoteException e) {
-            e.printStackTrace();
+          for (Region region : regions) {
+            try {
+              //asv in the future, if we want more eddystone frame, we need to
+              //check if the region is eddystone region(getid1 length 20-22 chars)
+              //and create a null null null region, because, the eddytone frame URL/EID/IBeacon
+              //dont have ids like UID frame, enjoy!
+
+              //maybe wecan create scanner only forparse url eddystone, we need to check
+              manageRegionBackgroundScanTime(region, backgroundBeaconsRangingTimeType);
+              //asv hay q rescanear de region null para detectar urls de eddystone(se hace en el didenter)
+              beaconManager.startRangingBeaconsInRegion(region);
+              ranging = true;
+            } catch (RemoteException e) {
+              e.printStackTrace();
+            }
           }
-        }
+
       }
-    }).start();
+    }).start();}
+        catch (Throwable throwable){}
   }
 
   //asv ver con beni, lo del upgrade de tiempos troleaba ya q nunca conserbaba los valores x esto:

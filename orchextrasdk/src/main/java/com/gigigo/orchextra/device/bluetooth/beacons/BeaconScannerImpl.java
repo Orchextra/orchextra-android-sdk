@@ -21,17 +21,16 @@ package com.gigigo.orchextra.device.bluetooth.beacons;
 import com.gigigo.orchextra.control.controllers.config.ConfigObservable;
 import com.gigigo.orchextra.device.bluetooth.beacons.monitoring.RegionMonitoringScanner;
 import com.gigigo.orchextra.device.bluetooth.beacons.ranging.BeaconRangingScanner;
-import com.gigigo.orchextra.device.bluetooth.beacons.ranging.exceptions.RangingScanInBackgroundException;
 import com.gigigo.orchextra.domain.abstractions.beacons.BackgroundBeaconsRangingTimeType;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatus;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusInfo;
 import com.gigigo.orchextra.domain.abstractions.beacons.BluetoothStatusListener;
-import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
+import com.gigigo.orchextra.domain.abstractions.device.OrchextraSDKLogLevel;
+import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.abstractions.observer.Observer;
 import com.gigigo.orchextra.domain.abstractions.observer.OrchextraChanges;
-import com.gigigo.orchextra.domain.abstractions.lifecycle.AppRunningMode;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraRegionUpdates;
 import com.gigigo.orchextra.domain.model.entities.proximity.OrchextraUpdates;
 import com.gigigo.orchextra.domain.model.triggers.params.AppRunningModeType;
@@ -100,7 +99,7 @@ public class BeaconScannerImpl implements BeaconScanner, Observer, BluetoothStat
     if (OrchextraManager.getBackgroundModeScan()
         != BeaconBackgroundModeScan.HARDCORE.getIntensity()) {
       if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND) {
-        throw new RangingScanInBackgroundException(
+        System.out.println(
             "Infinite Ranging Scan in Background Mode is only allowed if your app set BeaconBackgroundModeScan.HARDCORE");
       }
     } else {
