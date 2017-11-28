@@ -96,8 +96,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     AuthCredentials authCredentials;
     if (session != null) {
       authCredentials = new SdkAuthCredentials(session.getApiKey(), session.getApiSecret());
-    } else
-    {
+    } else {
       authCredentials = new SdkAuthCredentials("", "");
     }
 

@@ -35,61 +35,59 @@ import java.util.List;
 
 public class GetActionDomainService implements DomainService {
 
-    private final ActionsDataProvider actionsDataProvider;
-    private final ServiceErrorChecker serviceErrorChecker;
-    private final AppRunningMode appRunningMode;
+  private final ActionsDataProvider actionsDataProvider;
+  private final ServiceErrorChecker serviceErrorChecker;
+  private final AppRunningMode appRunningMode;
 
-    public GetActionDomainService(ActionsDataProvider actionsDataProvider,
-                                  ServiceErrorChecker serviceErrorChecker, AppRunningMode appRunningMode) {
+  public GetActionDomainService(ActionsDataProvider actionsDataProvider,
+      ServiceErrorChecker serviceErrorChecker, AppRunningMode appRunningMode) {
 
-        this.actionsDataProvider = actionsDataProvider;
-        this.serviceErrorChecker = serviceErrorChecker;
-        this.appRunningMode = appRunningMode;
-    }
+    this.actionsDataProvider = actionsDataProvider;
+    this.serviceErrorChecker = serviceErrorChecker;
+    this.appRunningMode = appRunningMode;
+  }
 
-    private InteractorResponse<List<BasicAction>> getActions(List<Trigger> triggers, int numRetries) {
-        List<BasicAction> actions = new ArrayList<>();
+  private InteractorResponse<List<BasicAction>> getActions(List<Trigger> triggers, int numRetries) {
+    List<BasicAction> actions = new ArrayList<>();
 
-        BusinessObject<BasicAction> boBasicAction = null;
+    BusinessObject<BasicAction> boBasicAction = null;
 
-        for (Trigger actionCriteria : triggers) {
-            boBasicAction = actionsDataProvider.obtainAction(actionCriteria);
+    for (Trigger actionCriteria : triggers) {
+      boBasicAction = actionsDataProvider.obtainAction(actionCriteria);
 
-            if (boBasicAction.isSuccess()) {
-                BasicAction basicAction = (boBasicAction.getData() != null) ? boBasicAction.getData() : new EmptyAction();
-                basicAction.setEventCode(actionCriteria.getCode());
-                if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND
-                        && !basicAction.getHasNotification()) {
-                    basicAction.createFakeNotification();
-                }
-                actions.add(basicAction);
-            } else {
-                break;
-            }
+      if (boBasicAction.isSuccess()) {
+        BasicAction basicAction =
+            (boBasicAction.getData() != null) ? boBasicAction.getData() : new EmptyAction();
+        basicAction.setEventCode(actionCriteria.getCode());
+        if (appRunningMode.getRunningModeType() == AppRunningModeType.BACKGROUND
+            && !basicAction.getHasNotification()) {
+          basicAction.createFakeNotification();
         }
-
-        if (boBasicAction != null && !boBasicAction.isSuccess()) {
-            boolean retry = manageError(boBasicAction.getBusinessError());
-            if (retry && numRetries <= 3) {
-                return getActions(triggers, numRetries + 1);
-            }
-            else
-            {
-
-                System.out.println("ERROR asv");
-            }
-        }
-
-
-        return new InteractorResponse<>(actions);
+        actions.add(basicAction);
+      } else {
+        break;
+      }
     }
 
-    public InteractorResponse<List<BasicAction>> getActions(List<Trigger> triggers) {
-        return getActions(triggers, 0);
+    if (boBasicAction != null && !boBasicAction.isSuccess()) {
+      boolean retry = manageError(boBasicAction.getBusinessError());
+      if (retry && numRetries <= 3) {
+        return getActions(triggers, numRetries + 1);
+      } else {
+
+        System.out.println("ERROR asv");
+      }
     }
 
-    private boolean manageError(BusinessError businessError) {
-        InteractorResponse response = serviceErrorChecker.checkErrors(businessError);
-        return !response.hasError();
-    }
+    return new InteractorResponse<>(actions);
+  }
+
+  public InteractorResponse<List<BasicAction>> getActions(List<Trigger> triggers) {
+    return getActions(triggers, 0);
+  }
+
+  private boolean manageError(BusinessError businessError) {
+    InteractorResponse response = serviceErrorChecker.checkErrors(businessError);
+    return !response.hasError();
+  }
 }

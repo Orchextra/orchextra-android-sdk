@@ -64,7 +64,7 @@ public class FeatureList implements FeatureListener,
 
   private boolean areSuccess() {
     for (Feature feature : features) {
-       if (feature == null || !feature.isSuccess()) {
+      if (feature == null || !feature.isSuccess()) {
         return false;
       }
     }
@@ -82,7 +82,9 @@ public class FeatureList implements FeatureListener,
   @Override public String toString() {
     StringBuilder sb = new StringBuilder();
     for (Feature feature : features) {
-      if (feature != null) sb.append(feature.toString() + "\n");
+      if (feature != null) {
+        sb.append(feature.toString() + "\n");
+      }
     }
     return sb.toString();
   }
