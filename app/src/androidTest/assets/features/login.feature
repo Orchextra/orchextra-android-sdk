@@ -14,3 +14,8 @@ Feature: Login
         And I input apiSecret 2d5bce79e3e6e9cabf6d7b040d84519197dc22f3
         And I press start button
         Then I should see scanner view
+
+    Scenario: Input real apiKey and real apiSecret
+        Given I have a logged project with apiKey 34a4654b9804eab82aae05b2a5f949eb2a9f412c and apiSecret 2d5bce79e3e6e9cabf6d7b040d84519197dc22f3
+        And I press start button
+        Then I should see scanner view

@@ -47,6 +47,13 @@ class StepDefinitions {
     assertNotNull(activity)
   }
 
+  @Given("^I have a logged project with apiKey (\\S+) and apiSecret (\\S+)$")
+  fun I_have_a_logged_project(apiKey: String, apiSecret: String) {
+    I_input_apiKey(apiKey)
+    I_input_apiSecret(apiSecret)
+    I_press_start_button()
+  }
+
   @When("^I input apiKey (\\S+)$")
   fun I_input_apiKey(apiKey: String) {
     loginScreen.apiKeyEditText {
@@ -56,7 +63,7 @@ class StepDefinitions {
     Espresso.closeSoftKeyboard()
   }
 
-  @When("^I input apiSecret (\\S+)\$")
+  @When("^I input apiSecret (\\S+)$")
   fun I_input_apiSecret(apiSecret: String) {
     loginScreen.apiSecretEditText {
       clearText()
