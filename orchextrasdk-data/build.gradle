@@ -75,7 +75,7 @@ android {
 
 dependencies {
 
-  implementation (parent.ext.dependencies.dagger){
+  api (parent.ext.dependencies.dagger){
     transitive = false
     exclude group:'com.google.dagger', module:'dagger'
     exclude group:'javax.inject'
