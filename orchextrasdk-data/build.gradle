@@ -59,6 +59,18 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8 //this is 4 rx, no problem with ox 1_7
     targetCompatibility JavaVersion.VERSION_1_8
   }
+
+  flavorDimensions "play"
+
+  productFlavors {
+
+    play9 { dimension "play" }
+    play10 { dimension "play" }
+    play11 { dimension "play" }
+    play8 { dimension "play" }
+    play7 { dimension "play" }
+    playno { dimension "play" }
+  }
 }
 
 dependencies {

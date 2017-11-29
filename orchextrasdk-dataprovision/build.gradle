@@ -26,7 +26,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 dependencies {
 
     compile project(':orchextrasdk-domain')
-    implementation parent.ext.dependencies.gggJavaLib
+    compile parent.ext.dependencies.gggJavaLib
 
     testCompile parent.ext.testDependencies.junit
     testCompile parent.ext.testDependencies.mockito
