@@ -60,17 +60,17 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
-  flavorDimensions "play"
-
-  productFlavors {
-
-    play9 { dimension "play" }
-    play10 { dimension "play" }
-    play11 { dimension "play" }
-    play8 { dimension "play" }
-    play7 { dimension "play" }
-    playno { dimension "play" }
-  }
+//  flavorDimensions "play"
+//
+//  productFlavors {
+//
+//    play9 { dimension "play" }
+//    play10 { dimension "play" }
+//    play11 { dimension "play" }
+//    play8 { dimension "play" }
+//    play7 { dimension "play" }
+//    playno { dimension "play" }
+//  }
 }
 
 dependencies {
