@@ -87,7 +87,7 @@ Add dependencies you need
 ### Custom actions
 
 ```java
-  orchextra.setCustomActionListener(new CustomActionListener() {
+  orchextra.setOrchextraCustomActionListener(new CustomActionListener() {
     @Override public void onCustomSchema(@NonNull String customSchema) {
       Toast.makeText(MainActivity.this, "CustomSchema: " + customSchema, Toast.LENGTH_LONG)
           .show();

@@ -25,7 +25,7 @@ import android.content.SharedPreferences
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionListener
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.OrchextraCustomActionListener
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
@@ -183,8 +183,8 @@ object Orchextra : OrchextraErrorListener {
     this.orchextraErrorListener = null
   }
 
-  fun setCustomActionListener(customActionListener: CustomActionListener) {
-    CustomActionExecutor.getInstance().customActionListener = customActionListener
+  fun setCustomActionListener(orchextraCustomActionListener: OrchextraCustomActionListener) {
+    CustomActionExecutor.getInstance().orchextraCustomActionListener = orchextraCustomActionListener
   }
 
   override fun onError(error: Error) {

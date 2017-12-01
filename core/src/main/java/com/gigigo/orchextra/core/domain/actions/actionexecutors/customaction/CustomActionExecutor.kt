@@ -25,10 +25,10 @@ import android.support.annotation.UiThread
 
 class CustomActionExecutor(private val handler: Handler) {
 
-  var customActionListener: CustomActionListener? = null
+  var orchextraCustomActionListener: OrchextraCustomActionListener? = null
 
   fun open(url: String) {
-    handler.post { customActionListener?.onCustomSchema(url) }
+    handler.post { orchextraCustomActionListener?.onCustomSchema(url) }
   }
 
   companion object Factory {
@@ -47,7 +47,7 @@ class CustomActionExecutor(private val handler: Handler) {
   }
 }
 
-interface CustomActionListener {
+interface OrchextraCustomActionListener {
   @UiThread
   fun onCustomSchema(customSchema: String)
 }
