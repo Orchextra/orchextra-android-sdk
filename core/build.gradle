@@ -99,8 +99,8 @@ android {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-      buildConfigField STRING, CORE_API_URL, '"https://core.orchextra.io/"'
-      buildConfigField STRING, TRIGGER_API_URL, '"https://tr.orchextra.io/"'
+      buildConfigField STRING, CORE_API_URL, '"https://core.s.orchextra.io/"'
+      buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
       buildConfigField BOOLEAN, NETWORK_LOG, "false"
     }
   }
@@ -139,6 +139,7 @@ dependencies {
   implementation rootProject.ext.libraries.okhttp3LoggingInterceptor
 
   implementation rootProject.ext.libraries.ormLite
+  implementation rootProject.ext.libraries.ormLiteAndroid
 
   testImplementation rootProject.ext.testLibraries.mockitoKotlin
   testImplementation rootProject.ext.testLibraries.kluent

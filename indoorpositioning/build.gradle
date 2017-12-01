@@ -91,6 +91,7 @@ dependencies {
   implementation rootProject.ext.libraries.kotlinStdLib
   implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
   implementation rootProject.ext.libraries.ormLite
+  implementation rootProject.ext.libraries.ormLiteAndroid
   implementation rootProject.ext.libraries.altbeacon
 
   implementation rootProject.ext.modules.core

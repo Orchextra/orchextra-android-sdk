@@ -39,7 +39,6 @@ import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetOxToken
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
-import com.gigigo.orchextra.core.utils.FileLogging
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.PermissionsActivity
@@ -103,7 +102,11 @@ object Orchextra : OrchextraErrorListener {
           .setApiKey(options.firebaseApiKey)
           .build()
 
-      FirebaseApp.initializeApp(context, firebaseOptions)
+      try {
+        FirebaseApp.initializeApp(context, firebaseOptions)
+      } catch (e: Exception) {
+        e.printStackTrace()
+      }
     }
   }
 
