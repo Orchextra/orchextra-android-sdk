@@ -45,5 +45,5 @@ class ApiClientApp(
     val sdkDevice: String)
 
 class ApiNotificationPush(
-    val senderId: String,
+    val senderId: String = "DEPRECATED",
     val token: String)

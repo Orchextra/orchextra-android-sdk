@@ -105,7 +105,7 @@ class HelperSteps {
       try {
         screenshotStream = FileInputStream(screenshot)
         val fileContent = ByteArray(screenshot.length().toInt())
-        val readImageBytes = screenshotStream!!.read(
+        val readImageBytes = screenshotStream.read(
             fileContent) // Read data from input image file into an array of bytes
         if (readImageBytes != -1) {
           scenario!!.embed(fileContent,

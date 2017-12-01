@@ -42,16 +42,20 @@ fun Context.getBaseApiOxDevice(): ApiOxDevice = with(this) {
     ""
   }
 
-  return ApiOxDevice(
-      instanceId = FirebaseInstanceId.getInstance().token ?: "", // TODO  set instance id
-      secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
-      serialNumber = Build.SERIAL,
-      bluetoothMacAddress = bluetoothMacAddress,
-      wifiMacAddress = wifiManager.connectionInfo.macAddress,
-      clientApp = getApiClientApp(),
-      notificationPush = ApiNotificationPush(senderId = "DEPRECATED",
-          token = FirebaseInstanceId.getInstance().token ?: "EMPTY"),
-      device = getApiDeviceInfo())
+  if (FirebaseInstanceId.getInstance().token != null) {
+
+    return ApiOxDevice(
+        instanceId = FirebaseInstanceId.getInstance().token!!,
+        secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
+        serialNumber = Build.SERIAL,
+        bluetoothMacAddress = bluetoothMacAddress,
+        wifiMacAddress = wifiManager.connectionInfo.macAddress,
+        clientApp = getApiClientApp(),
+        notificationPush = ApiNotificationPush(token = FirebaseInstanceId.getInstance().token!!),
+        device = getApiDeviceInfo())
+  } else {
+    throw IllegalStateException("InstanceId can't be null")
+  }
 }
 
 fun Context.getApiClientApp(): ApiClientApp = with(this) {
