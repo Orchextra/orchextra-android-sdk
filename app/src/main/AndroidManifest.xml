@@ -98,5 +98,9 @@
           android:name="android.support.PARENT_ACTIVITY"
           android:value="com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity"/>
     </activity>
+    <meta-data
+        android:name="io.fabric.ApiKey"
+        android:value="5c1cf9e92eec9c44892bfbcf7d3d3d1f2a925bf4"
+        />
   </application>
 </manifest>

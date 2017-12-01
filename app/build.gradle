@@ -19,11 +19,13 @@
 buildscript {
   repositories {
     jcenter()
+    maven { url 'https://maven.fabric.io/public' }
   }
 
   dependencies {
     classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
     classpath 'com.applivery.gradle:applivery-deploy:1.0.0'
+    classpath 'io.fabric.tools:gradle:1.25.0'
   }
 }
 
@@ -34,6 +36,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'applivery-plugin'
 apply from: '../config/jacoco.gradle'
+apply plugin: 'io.fabric'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -162,6 +165,10 @@ dependencies {
 
   // Screenshots
   androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
+
+  compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+    transitive = true
+  }
 }
 
 dexcount {
@@ -184,4 +191,5 @@ applivery {
 
 repositories {
   mavenCentral()
+  maven { url 'https://maven.fabric.io/public' }
 }
