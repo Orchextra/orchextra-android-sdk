@@ -1,0 +1,3 @@
+[submodule "app/src/androidTest/assets/features"]
+	path = app/src/androidTest/assets/features
+	url = git@bitbucket.org:gigigo/gigigo-orchextra-sdk-features-gherkin.git
