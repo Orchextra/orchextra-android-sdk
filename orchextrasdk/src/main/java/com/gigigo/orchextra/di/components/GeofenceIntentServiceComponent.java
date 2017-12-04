@@ -21,11 +21,11 @@ package com.gigigo.orchextra.di.components;
 import com.gigigo.orchextra.device.geolocation.geofencing.pendingintent.GeofenceIntentService;
 import com.gigigo.orchextra.di.modules.device.ServicesModuleProvider;
 import com.gigigo.orchextra.di.modules.device.ServicesModule;
-import com.gigigo.orchextra.di.scopes.PerService;
+import com.gigigo.orchextra.di.scopes.PerServiceOx;
 import orchextra.dagger.Component;
 
 
-@PerService @Component(dependencies = OrchextraComponent.class, modules = ServicesModule.class)
+@PerServiceOx @Component(dependencies = OrchextraComponent.class, modules = ServicesModule.class)
 public interface GeofenceIntentServiceComponent extends ServicesModuleProvider{
     void injectGeofenceIntentService(GeofenceIntentService geofenceIntentService);
 }

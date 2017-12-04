@@ -23,9 +23,8 @@ import com.gigigo.ggglib.permissions.PermissionChecker;
 import com.gigigo.orchextra.device.geolocation.geofencing.AndroidGeofenceIntentServiceHandler;
 import com.gigigo.orchextra.device.geolocation.geofencing.mapper.LocationMapper;
 import com.gigigo.orchextra.device.permissions.PermissionLocationImp;
-import com.gigigo.orchextra.di.scopes.PerService;
+import com.gigigo.orchextra.di.scopes.PerServiceOx;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraTasksManager;
 import com.gigigo.orchextra.sdk.application.BackgroundTasksManagerImpl;
 
@@ -36,20 +35,20 @@ import orchextra.dagger.Provides;
 @Module
 public class ServicesModule {
 
-  @PerService @Provides BackgroundTasksManager provideBackgroundTasksManager(
+  @PerServiceOx @Provides BackgroundTasksManager provideBackgroundTasksManager(
       OrchextraTasksManager orchextraTasksManager,
       PermissionChecker permissionChecker,ContextProvider contextProvider){
 
     return new BackgroundTasksManagerImpl(orchextraTasksManager, permissionChecker,new PermissionLocationImp(contextProvider.getApplicationContext()));
   }
 
-  @PerService
+  @PerServiceOx
   @Provides
   LocationMapper provideLocationMapper() {
     return new LocationMapper();
   }
 
-  @PerService @Provides
+  @PerServiceOx @Provides
   AndroidGeofenceIntentServiceHandler provideAndroidGeofenceIntentServiceHandler(LocationMapper locationMapper) {
     return new AndroidGeofenceIntentServiceHandler(locationMapper);
   }

@@ -21,10 +21,10 @@ package com.gigigo.orchextra.di.components;
 import com.gigigo.orchextra.device.notificationpush.OrchextraGcmListenerService;
 import com.gigigo.orchextra.di.modules.device.ServicesModule;
 import com.gigigo.orchextra.di.modules.device.ServicesModuleProvider;
-import com.gigigo.orchextra.di.scopes.PerService;
+import com.gigigo.orchextra.di.scopes.PerServiceOx;
 import orchextra.dagger.Component;
 
-@PerService
+@PerServiceOx
 @Component(dependencies = OrchextraComponent.class, modules = ServicesModule.class)
 public interface GcmListenerServiceComponent extends ServicesModuleProvider {
   void injectGcmListenerService(OrchextraGcmListenerService orchextraGcmListenerService);
