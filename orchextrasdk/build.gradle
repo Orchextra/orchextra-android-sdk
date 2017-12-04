@@ -127,7 +127,7 @@ android {
   // true to publish all flavour artifacts
   //publishNonDefault true
   // default build flavour
-  defaultPublishConfig "play10Release"
+  defaultPublishConfig "play11Release"
 }
 
 configurations {
