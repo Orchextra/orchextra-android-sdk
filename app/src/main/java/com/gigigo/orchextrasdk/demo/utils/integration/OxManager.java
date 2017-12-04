@@ -28,9 +28,11 @@ public interface OxManager {
 
   void startScanner();
 
-  void init(Application application, Config config, ErrorListener errorListener);
+  void init(Application application, Config config, StatusListener statusListener);
 
   void finish();
+
+  void removeListeners();
 
   Boolean isReady();
 
@@ -46,6 +48,12 @@ public interface OxManager {
 
   interface CustomActionListener {
     void onCustomSchema(@NonNull String customSchema);
+  }
+
+  interface StatusListener {
+    void isReady();
+
+    void onError(@NonNull String error);
   }
 
   interface ErrorListener {

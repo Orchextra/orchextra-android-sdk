@@ -49,21 +49,27 @@ public class Ox3ManagerImp implements OxManager {
   }
 
   @Override public void init(final Application application, Config config,
-      final ErrorListener errorListener) {
+      final StatusListener statusListener) {
 
     orchextra.setStatusListener(new OrchextraStatusListener() {
       @Override public void onStatusChange(boolean isReady) {
-        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(application));
-        orchextra.getTriggerManager()
-            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(application));
+        if (isReady) {
+          orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(application));
+          orchextra.getTriggerManager()
+              .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(application));
 
-        orchextra.setNotificationActivityClass(SettingsActivity.class);
+          orchextra.setNotificationActivityClass(SettingsActivity.class);
+
+          statusListener.isReady();
+        } else {
+          statusListener.onError("SDK isn't ready");
+        }
       }
     });
 
     orchextra.setErrorListener(new OrchextraErrorListener() {
       @Override public void onError(@NotNull Error error) {
-        errorListener.onError(error.getMessage());
+        statusListener.onError(error.getMessage());
       }
     });
 
@@ -79,6 +85,13 @@ public class Ox3ManagerImp implements OxManager {
 
   @Override public void finish() {
     orchextra.finish();
+  }
+
+  @Override public void removeListeners() {
+    if (orchextra != null) {
+      orchextra.removeStatusListener();
+      orchextra.removeErrorListener();
+    }
   }
 
   @Override public Boolean isReady() {

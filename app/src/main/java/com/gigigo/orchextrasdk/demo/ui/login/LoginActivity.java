@@ -32,22 +32,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.gigigo.orchextra.core.Orchextra;
-import com.gigigo.orchextra.core.OrchextraErrorListener;
-import com.gigigo.orchextra.core.OrchextraOptions;
-import com.gigigo.orchextra.core.OrchextraStatusListener;
-import com.gigigo.orchextra.core.domain.entities.Error;
-import com.gigigo.orchextra.geofence.OxGeofenceImp;
-import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
-import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
+import com.gigigo.orchextrasdk.demo.utils.integration.Ox3ManagerImp;
+import com.gigigo.orchextrasdk.demo.utils.integration.OxManager;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
   public static final String API_KEY_KEY = "api_key_key";
-  Orchextra orchextra;
+  private OxManager oxManager;
   private String apiKey = "";
   private String apiSecret = "";
   List<ProjectData> projectDataList;
@@ -62,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    oxManager = new Ox3ManagerImp();
     projectDataList = ProjectData.getDefaultProjectDataList();
     initView();
     loadProjectData();
@@ -157,18 +152,23 @@ public class LoginActivity extends AppCompatActivity {
 
   private void initOrchextra() {
     saveApiKey(apiKey);
-    orchextra = Orchextra.INSTANCE;
-    orchextra.setStatusListener(orchextraStatusListener);
-    orchextra.setErrorListener(orchextraErrorListener);
 
-    OrchextraOptions options =
-        new OrchextraOptions.Builder().firebaseApiKey("AIzaSyDlMIjwx2r0oc0W7O4WPb7CvRhjCVHOZBk")
-            .firebaseApplicationId("1:327008883283:android:5a0b51c3ef8892e0")
-            .debuggable(true)
-            .build();
+    OxManager.Config config = new OxManager.Config.Builder().apiKey(apiKey)
+        .apiSecret(apiSecret)
+        .firebaseApiKey("AIzaSyDlMIjwx2r0oc0W7O4WPb7CvRhjCVHOZBk")
+        .firebaseApplicationId("1:327008883283:android:5a0b51c3ef8892e0")
+        .build();
 
-    orchextra.init(getApplication(), apiKey, apiSecret, options);
-    orchextra.setScanTime(30);
+    oxManager.init(getApplication(), config, new OxManager.StatusListener() {
+      @Override public void isReady() {
+        MainActivity.open(LoginActivity.this);
+        finish();
+      }
+
+      @Override public void onError(@NonNull String error) {
+        showError("Error - " + error);
+      }
+    });
   }
 
   private void saveApiKey(String apiKey) {
@@ -179,29 +179,7 @@ public class LoginActivity extends AppCompatActivity {
     editor.apply();
   }
 
-  private OrchextraStatusListener orchextraStatusListener = new OrchextraStatusListener() {
-    @Override public void onStatusChange(boolean isReady) {
-      if (isReady) {
-        orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(getApplication()));
-        orchextra.getTriggerManager()
-            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(getApplication()));
-
-        orchextra.setNotificationActivityClass(SettingsActivity.class);
-        MainActivity.open(LoginActivity.this);
-        finish();
-      } else {
-        showError("SDK finished");
-      }
-    }
-  };
-
-  private OrchextraErrorListener orchextraErrorListener = new OrchextraErrorListener() {
-    @Override public void onError(@NonNull Error error) {
-      showError(error.getCode() + " - " + error.getMessage());
-    }
-  };
-
-  private void showError(String error) {
+  void showError(String error) {
     errorTextView.setVisibility(View.VISIBLE);
     errorTextView.setText("Error: " + error);
   }
@@ -211,10 +189,7 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   @Override protected void onDestroy() {
-    if (orchextra != null) {
-      orchextra.removeStatusListener();
-      orchextra.removeErrorListener();
-    }
+    oxManager.removeListeners();
     super.onDestroy();
   }
 
