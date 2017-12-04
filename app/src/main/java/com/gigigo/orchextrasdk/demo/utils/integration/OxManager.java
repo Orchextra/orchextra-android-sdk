@@ -19,6 +19,7 @@
 package com.gigigo.orchextrasdk.demo.utils.integration;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
 import java.util.List;
 
 public interface OxManager {
@@ -31,6 +32,8 @@ public interface OxManager {
 
   void finish();
 
+  Boolean isReady();
+
   void getToken(TokenReceiver tokenReceiver);
 
   void setBusinessUnits(List<String> businessUnits);
@@ -38,15 +41,15 @@ public interface OxManager {
   void setCustomSchemeReceiver(CustomActionListener customSchemeReceiver);
 
   interface TokenReceiver {
-    void onGetToken(String token);
+    void onGetToken(@NonNull String token);
   }
 
   interface CustomActionListener {
-    void onCustomSchema(String customSchema);
+    void onCustomSchema(@NonNull String customSchema);
   }
 
   interface ErrorListener {
-    void onError(String error);
+    void onError(@NonNull String error);
   }
 
   final class Config {

@@ -31,15 +31,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import com.gigigo.orchextra.core.Orchextra;
-import com.gigigo.orchextra.core.OrchextraTokenReceiver;
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.OrchextraCustomActionListener;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.geofences.GeofencesFragment;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
 import com.gigigo.orchextrasdk.demo.ui.scanner.ScannerFragment;
 import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.TriggerLogFragment;
+import com.gigigo.orchextrasdk.demo.utils.integration.Ox3ManagerImp;
+import com.gigigo.orchextrasdk.demo.utils.integration.OxManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,13 +47,14 @@ public class MainActivity extends AppCompatActivity {
   TriggerLogFragment triggerLogFragment;
   GeofencesFragment geofencesFragment;
   private BottomNavigationView navigation;
-  private Orchextra orchextra;
+  private OxManager oxManager;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
     initView();
+    oxManager = new Ox3ManagerImp();
 
     scannerFragment = ScannerFragment.newInstance();
     geofencesFragment = GeofencesFragment.newInstance();
@@ -64,10 +64,8 @@ public class MainActivity extends AppCompatActivity {
       navigation.setSelectedItemId(R.id.navigation_scanner);
     }
 
-    orchextra = Orchextra.INSTANCE;
-    orchextra.setCustomActionListener(new OrchextraCustomActionListener() {
+    oxManager.setCustomSchemeReceiver(new OxManager.CustomActionListener() {
       @Override public void onCustomSchema(@NonNull String customSchema) {
-
         if ("custom://calculator".equals(customSchema)) {
 
           Intent browserIntent = new Intent(Intent.ACTION_VIEW,
@@ -81,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    orchextra.getToken(new OrchextraTokenReceiver() {
-      @Override public void onGetToken(@NonNull String oxToken) {
-        Log.d(TAG, "Token: " + oxToken);
+    oxManager.getToken(new OxManager.TokenReceiver() {
+      @Override public void onGetToken(@NonNull String token) {
+        Log.d(TAG, "Token: " + token);
       }
     });
   }
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override protected void onResume() {
     super.onResume();
-    if (!orchextra.isReady()) {
+    if (!oxManager.isReady()) {
       LoginActivity.open(this);
       finish();
     }
@@ -115,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     initToolbar();
 
-    navigation = (BottomNavigationView) findViewById(R.id.navigation);
+    navigation = findViewById(R.id.navigation);
     navigation.setOnNavigationItemSelectedListener(
         new BottomNavigationView.OnNavigationItemSelectedListener() {
 

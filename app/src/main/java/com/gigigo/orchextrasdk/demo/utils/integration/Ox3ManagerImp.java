@@ -81,6 +81,10 @@ public class Ox3ManagerImp implements OxManager {
     orchextra.finish();
   }
 
+  @Override public Boolean isReady() {
+    return orchextra.isReady();
+  }
+
   @Override public void getToken(final TokenReceiver tokenReceiver) {
     orchextra.getToken(new OrchextraTokenReceiver() {
       @Override public void onGetToken(@NotNull String oxToken) {
