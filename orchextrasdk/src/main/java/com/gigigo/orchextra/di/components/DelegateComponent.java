@@ -21,12 +21,12 @@ package com.gigigo.orchextra.di.components;
 import com.gigigo.orchextra.delegates.ConfigDelegateImpl;
 import com.gigigo.orchextra.di.modules.device.DelegateModule;
 import com.gigigo.orchextra.di.modules.device.DelegateModuleProvider;
-import com.gigigo.orchextra.di.scopes.PerDelegate;
+import com.gigigo.orchextra.di.scopes.PerDelegateExecution;
 
 import orchextra.dagger.Component;
 
 
-@PerDelegate @Component(dependencies = OrchextraComponent.class, modules = DelegateModule.class)
+@PerDelegateExecution @Component(dependencies = OrchextraComponent.class, modules = DelegateModule.class)
 public interface DelegateComponent extends DelegateModuleProvider {
   void injectConfigDelegate(ConfigDelegateImpl configDelegateImpl);
 }
