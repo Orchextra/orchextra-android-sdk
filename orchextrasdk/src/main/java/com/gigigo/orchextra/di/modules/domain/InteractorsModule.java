@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.di.modules.domain;
 
-import com.gigigo.orchextra.di.scopes.PerExecution;
+import com.gigigo.orchextra.di.scopes.PerExecutionOx;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusManager;
 import com.gigigo.orchextra.domain.initalization.observables.ConfigChangeObservable;
 import com.gigigo.orchextra.domain.interactors.beacons.BeaconEventsInteractor;
@@ -52,7 +52,7 @@ import orchextra.dagger.Provides;
 public class InteractorsModule {
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     SaveCrmUserInteractor provideSaveUserInteractor(
             AuthenticationService authenticationService,
             ConfigDomainService configDomainService,
@@ -61,20 +61,20 @@ public class InteractorsModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     SendConfigInteractor provideSendConfigInteractor(ConfigDomainService configDomainService, ConfigChangeObservable configChangeObservable) {
         return new SendConfigInteractor(configDomainService, configChangeObservable);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     RegionsProviderInteractor provideRegionsProviderInteractor(
             ObtainRegionsDomainService obtainRegionsDomainService) {
         return new RegionsProviderInteractor(obtainRegionsDomainService);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     BeaconEventsInteractor provideRegionCheckerInteractor(
             BeaconCheckerDomainService beaconCheckerDomainService, RegionCheckerDomainService regionCheckerDomainService,
             TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
@@ -85,7 +85,7 @@ public class InteractorsModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     GeofenceEventsInteractor provideGeofenceInteractor(
             TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
             GeofenceCheckerDomainService geofenceCheckerDomainService,
@@ -95,7 +95,7 @@ public class InteractorsModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     GeofencesProviderInteractor provideGeofencesProviderInteractor(
             ObtainGeofencesDomainService obtainGeofencesDomainService) {
         return new GeofencesProviderInteractor(obtainGeofencesDomainService);
@@ -103,20 +103,20 @@ public class InteractorsModule {
 
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     GetImageRecognitionCredentialsInteractor provideGetImageRecognitionCredentialsInteractor(GetImageRecognitionCredentialsService imageRecognitionCredentialsService) {
         return new GetImageRecognitionCredentialsInteractor(imageRecognitionCredentialsService);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     ScannerInteractor provideScannerInteractor(TriggerActionsFacadeDomainService triggerActionsFacadeDomainService,
                                                ObtainGeoLocationTask obtainGeoLocationTask) {
         return new ScannerInteractor(triggerActionsFacadeDomainService, obtainGeoLocationTask);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     ClearLocalStorageInteractor provideClearLocalStorageInteractor(LocalStorageService localStorageService) {
         return new ClearLocalStorageInteractor(localStorageService);
     }

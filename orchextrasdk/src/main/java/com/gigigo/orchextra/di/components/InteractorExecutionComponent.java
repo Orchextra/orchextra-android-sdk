@@ -21,7 +21,7 @@ package com.gigigo.orchextra.di.components;
 import com.gigigo.orchextra.control.invoker.InteractorExecution;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModule;
 import com.gigigo.orchextra.di.modules.domain.InteractorsModuleProvider;
-import com.gigigo.orchextra.di.scopes.PerExecution;
+import com.gigigo.orchextra.di.scopes.PerExecutionOx;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.entities.VuforiaCredentials;
 import com.gigigo.orchextra.domain.model.entities.authentication.ClientAuthData;
@@ -33,7 +33,7 @@ import java.util.List;
 
 import orchextra.dagger.Subcomponent;
 
-@PerExecution @Subcomponent(modules = InteractorsModule.class)
+@PerExecutionOx @Subcomponent(modules = InteractorsModule.class)
 public interface InteractorExecutionComponent extends InteractorsModuleProvider {
     void injectSaveUserInteractorExecution(InteractorExecution<ClientAuthData> interactorExecution);
     void injectConfigInteractorInteractorExecution(InteractorExecution<OrchextraUpdates> interactorExecution);

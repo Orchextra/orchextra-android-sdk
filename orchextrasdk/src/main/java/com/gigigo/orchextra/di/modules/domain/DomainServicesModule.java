@@ -24,7 +24,7 @@ import com.gigigo.orchextra.device.notificationpush.GcmInstanceIdRegisterImpl;
 import com.gigigo.orchextra.di.qualifiers.ActionsErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.ConfigErrorChecker;
 import com.gigigo.orchextra.di.qualifiers.CrmValidation;
-import com.gigigo.orchextra.di.scopes.PerExecution;
+import com.gigigo.orchextra.di.scopes.PerExecutionOx;
 import com.gigigo.orchextra.domain.Validator;
 import com.gigigo.orchextra.domain.abstractions.actions.ActionsSchedulerController;
 import com.gigigo.orchextra.domain.abstractions.device.DeviceDetailsProvider;
@@ -64,7 +64,7 @@ import orchextra.dagger.Provides;
 public class DomainServicesModule {
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     AuthenticationService provideAuthService(
             AuthenticationDataProvider authDataProvider,
             DeviceDetailsProvider deviceDetailsProvider, Session session,
@@ -75,7 +75,7 @@ public class DomainServicesModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     BeaconCheckerDomainService provideBeaconCheckerService(
             ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider,
             ConfigDataProvider configDataProvider) {
@@ -84,7 +84,7 @@ public class DomainServicesModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     RegionCheckerDomainService provideRegionCheckerService(
             ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
 
@@ -92,7 +92,7 @@ public class DomainServicesModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     EventUpdaterDomainService provideEventUpdaterService(
             ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
 
@@ -100,7 +100,7 @@ public class DomainServicesModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     GetActionDomainService provideGetActionService(
             ActionsDataProvider actionsDataProvider,
             @ActionsErrorChecker ServiceErrorChecker serviceErrorChecker,
@@ -110,20 +110,20 @@ public class DomainServicesModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     ScheduleActionDomainService provideScheduleActionService(
             ActionsSchedulerController actionsSchedulerController) {
         return new ScheduleActionDomainService(actionsSchedulerController);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     TriggerDomainService provideTriggerService(AppRunningMode appRunningMode) {
         return new TriggerDomainService(appRunningMode);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     TriggerActionsFacadeDomainService provideTriggerActionsFacadeService(
             TriggerDomainService triggerDomainService, GetActionDomainService getActionDomainService,
             ScheduleActionDomainService scheduleActionDomainService) {
@@ -131,7 +131,7 @@ public class DomainServicesModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     ConfigDomainService provideConfigService(ConfigDataProvider configDataProvider,
                                              AuthenticationDataProvider authenticationDataProvider,
                                              @ConfigErrorChecker ServiceErrorChecker errorChecker,
@@ -144,35 +144,35 @@ public class DomainServicesModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     ObtainRegionsDomainService provideObtainRegionsService(
             ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
         return new ObtainRegionsDomainService(proximityAndGeofencesLocalDataProvider);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     ObtainGeofencesDomainService provideObtainGeofencesService(
             ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
         return new ObtainGeofencesDomainService(proximityAndGeofencesLocalDataProvider);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     GcmInstanceIdRegister provideGcmInstanceIdRegister(ContextProvider contextProvider,
                                                        OrchextraLogger orchextraLogger) {
         return new GcmInstanceIdRegisterImpl(contextProvider.getApplicationContext(), orchextraLogger);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     GeofenceCheckerDomainService provideGeofenceCheckerService(
             ProximityAndGeofencesLocalDataProvider proximityAndGeofencesLocalDataProvider) {
         return new GeofenceCheckerDomainService(proximityAndGeofencesLocalDataProvider);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     FutureGeolocation provideFutureGeolocation() {
         return new FutureGeolocation();
     }
@@ -180,7 +180,7 @@ public class DomainServicesModule {
 
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     GetImageRecognitionCredentialsService
     provideGetImageRecognitionCredentialsService(ImageRecognitionLocalDataProvider
                                                          imageRecognitionLocalDataProvider) {
@@ -190,14 +190,14 @@ public class DomainServicesModule {
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     ObtainGeoLocationTask provideObtainGeoLocationTask(FutureGeolocation futureGeolocation,
                                                        GeolocationManager geolocationManager) {
         return new ObtainGeoLocationTask(futureGeolocation, geolocationManager);
     }
 
     @Provides
-    @PerExecution
+    @PerExecutionOx
     LocalStorageService provideLocalStorageService(ConfigDataProvider configDataProvider) {
         return new LocalStorageService(configDataProvider);
     }
