@@ -23,7 +23,7 @@ import com.gigigo.ggglib.network.defaultelements.RetryOnErrorPolicy;
 import com.gigigo.ggglib.network.executors.ApiServiceExecutor;
 import com.gigigo.ggglib.network.executors.RetrofitApiServiceExcecutor;
 import com.gigigo.orchextra.BuildConfig;
-import com.gigigo.orchextra.di.modules.data.qualifiers.AcceptLanguage;
+import com.gigigo.orchextra.di.modules.data.qualifiers.AcceptLanguageOx;
 import com.gigigo.orchextra.di.modules.data.qualifiers.ApiVersion;
 import com.gigigo.orchextra.di.modules.data.qualifiers.Endpoint;
 import com.gigigo.orchextra.di.modules.data.qualifiers.HeadersInterceptor;
@@ -74,7 +74,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    @AcceptLanguage
+    @AcceptLanguageOx
     String provideAcceptLanguage() {
         return Locale.getDefault().toString();
     }
@@ -109,7 +109,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    @HeadersInterceptor Interceptor provideHeadersInterceptor(@XAppSdk String xAppSdk, @AcceptLanguage String acceptLanguage, Session session) {
+    @HeadersInterceptor Interceptor provideHeadersInterceptor(@XAppSdk String xAppSdk, @AcceptLanguageOx
+        String acceptLanguage, Session session) {
         return new Headers(xAppSdk, acceptLanguage, session);
     }
 
