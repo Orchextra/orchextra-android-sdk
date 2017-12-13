@@ -36,15 +36,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.Toast;
-import com.gigigo.orchextra.core.Orchextra;
-import com.gigigo.orchextra.core.OrchextraErrorListener;
-import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggerLog;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter.TriggersAdapter;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.filter.FilterActivity;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.receiver.TriggerLogMemory;
+import com.gigigo.orchextrasdk.demo.utils.integration.Ox3ManagerImp;
+import com.gigigo.orchextrasdk.demo.utils.integration.OxManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -54,7 +53,7 @@ import java.util.Set;
 public class TriggerLogFragment extends Fragment {
 
   private static final String TAG = "TriggerLogFragment";
-  private Orchextra orchextra;
+  private OxManager oxManager;
   Set<TriggerLog> triggerLogs;
   List<TriggerType> filterTriggerTypes;
   CheckedTextView modifyFilterView;
@@ -76,10 +75,10 @@ public class TriggerLogFragment extends Fragment {
 
     View view = inflater.inflate(R.layout.fragment_trigger_log, container, false);
 
-    modifyFilterView = (CheckedTextView) view.findViewById(R.id.modify_filter_button);
-    filterCleanButton = (Button) view.findViewById(R.id.filter_clean_button);
-    cleanButton = (Button) view.findViewById(R.id.clean_button);
-    triggerLogList = (RecyclerView) view.findViewById(R.id.trigger_log_list);
+    modifyFilterView = view.findViewById(R.id.modify_filter_button);
+    filterCleanButton = view.findViewById(R.id.filter_clean_button);
+    cleanButton = view.findViewById(R.id.clean_button);
+    triggerLogList = view.findViewById(R.id.trigger_log_list);
     emptyListView = view.findViewById(R.id.empty_list_view);
 
     return view;
@@ -95,11 +94,11 @@ public class TriggerLogFragment extends Fragment {
   }
 
   private void initOrchextra() {
-    orchextra = Orchextra.INSTANCE;
-    orchextra.setErrorListener(new OrchextraErrorListener() {
-      @Override public void onError(@NonNull Error error) {
-        Log.e(TAG, error.toString());
-        Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+    oxManager = new Ox3ManagerImp();
+    oxManager.setErrorListener(new OxManager.ErrorListener() {
+      @Override public void onError(@NonNull String error) {
+        Log.e(TAG, error);
+        Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
       }
     });
   }
@@ -218,7 +217,7 @@ public class TriggerLogFragment extends Fragment {
   }
 
   @Override public void onDestroyView() {
-    orchextra.removeErrorListener();
+    oxManager.removeListeners();
     super.onDestroyView();
   }
 

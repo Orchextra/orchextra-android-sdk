@@ -76,7 +76,7 @@ public class Ox3ManagerImp implements OxManager {
     OrchextraOptions options =
         new OrchextraOptions.Builder().firebaseApiKey(config.getFirebaseApiKey())
             .firebaseApplicationId(config.getFirebaseApplicationId())
-            .debuggable(false)
+            .debuggable(true)
             .build();
 
     orchextra.init(application, config.getApiKey(), config.getApiSecret(), options);
@@ -102,6 +102,14 @@ public class Ox3ManagerImp implements OxManager {
     orchextra.getToken(new OrchextraTokenReceiver() {
       @Override public void onGetToken(@NotNull String oxToken) {
         tokenReceiver.onGetToken(oxToken);
+      }
+    });
+  }
+
+  @Override public void setErrorListener(final ErrorListener errorListener) {
+    orchextra.setErrorListener(new OrchextraErrorListener() {
+      @Override public void onError(@NotNull Error error) {
+        errorListener.onError(error.getMessage());
       }
     });
   }

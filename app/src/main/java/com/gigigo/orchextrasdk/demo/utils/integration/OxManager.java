@@ -38,6 +38,8 @@ public interface OxManager {
 
   void getToken(TokenReceiver tokenReceiver);
 
+  void setErrorListener(ErrorListener errorListener);
+
   void setBusinessUnits(List<String> businessUnits);
 
   void setCustomSchemeReceiver(CustomActionListener customSchemeReceiver);

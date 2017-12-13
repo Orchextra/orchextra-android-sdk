@@ -29,8 +29,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
-import com.gigigo.orchextra.core.OrchextraErrorListener;
-import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
 import com.gigigo.orchextra.core.domain.entities.TriggerType;
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver;
@@ -38,6 +36,8 @@ import com.gigigo.orchextra.imagerecognizer.OxImageRecognizerImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.scanner.custom.CustomScannerImp;
+import com.gigigo.orchextrasdk.demo.utils.integration.Ox3ManagerImp;
+import com.gigigo.orchextrasdk.demo.utils.integration.OxManager;
 
 public class ScannerFragment extends Fragment {
 
@@ -46,7 +46,7 @@ public class ScannerFragment extends Fragment {
   private Button oxCustomScannerButton;
   private Button oxImageRecognitionButton;
   private Button dispatchQRbutton;
-  Orchextra orchextra;
+  private OxManager oxManager;
 
   public ScannerFragment() {
   }
@@ -76,16 +76,18 @@ public class ScannerFragment extends Fragment {
   }
 
   private void initOrchextra() {
-    orchextra = Orchextra.INSTANCE;
-    orchextra.setErrorListener(new OrchextraErrorListener() {
-      @Override public void onError(@NonNull Error error) {
-        Log.e(TAG, error.toString());
-        Toast.makeText(getContext(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+    oxManager = new Ox3ManagerImp();
+    oxManager.setErrorListener(new OxManager.ErrorListener() {
+      @Override public void onError(@NonNull String error) {
+        Log.e(TAG, error);
+        Toast.makeText(getContext(), "Error: " + error, Toast.LENGTH_SHORT).show();
       }
     });
   }
 
   private void initView() {
+
+    final Orchextra orchextra = Orchextra.INSTANCE;
 
     oxScannerButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -132,7 +134,7 @@ public class ScannerFragment extends Fragment {
   }
 
   @Override public void onDestroyView() {
-    orchextra.removeErrorListener();
+    oxManager.removeListeners();
     super.onDestroyView();
   }
 }
