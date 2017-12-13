@@ -32,6 +32,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../config/jacoco.gradle'
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.github.dcendents.android-maven'
 
 group = rootProject.ext.group
 version = rootProject.ext.version
