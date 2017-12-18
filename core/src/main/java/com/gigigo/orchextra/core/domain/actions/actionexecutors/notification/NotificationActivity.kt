@@ -60,6 +60,7 @@ class NotificationActivity : AppCompatActivity() {
 
           actionHandlerServiceExecutor.execute(action.copy(notification = Notification()))
         })
+        .setNegativeButton(android.R.string.cancel, { dialog, _ -> dialog.dismiss() })
         .show()
 
     dialog.setOnDismissListener {
