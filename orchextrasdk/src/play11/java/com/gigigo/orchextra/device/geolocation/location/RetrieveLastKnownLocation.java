@@ -18,7 +18,10 @@
 
 package com.gigigo.orchextra.device.geolocation.location;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.ggglib.permissions.PermissionChecker;
@@ -122,42 +125,64 @@ public class RetrieveLastKnownLocation {
   @SuppressWarnings("ResourceType") private void getLastKnownLocation() {
     if (googleApiClientConnector != null
         && googleApiClientConnector.getGoogleApiClient() != null
-        && googleApiClientConnector.isConnected()) {
-      Task<Location> lastLocation1 =
-          LocationServices.getFusedLocationProviderClient(contextProvider.getApplicationContext())
-              .getLastLocation();
-      lastLocation1.addOnCompleteListener(new OnCompleteListener<Location>() {
-        @Override public void onComplete(@NonNull Task<Location> task) {
-          if (onLastKnownLocationListener != null) {
-            onLastKnownLocationListener.onLastKnownLocation(task.getResult());
-          } else {
-            onLastKnownLocationListener.onLastKnownLocation(null);
+        && googleApiClientConnector.isConnected()
+        && isLocationPermissionGranted()) {
+
+      try {
+        Task<Location> lastLocation1 =
+            LocationServices.getFusedLocationProviderClient(contextProvider.getApplicationContext())
+                .getLastLocation();
+        lastLocation1.addOnCompleteListener(new OnCompleteListener<Location>() {
+          @Override public void onComplete(@NonNull Task<Location> task) {
+            if (onLastKnownLocationListener != null) {
+              onLastKnownLocationListener.onLastKnownLocation(task.getResult());
+            } else {
+              onLastKnownLocationListener.onLastKnownLocation(null);
+            }
           }
-        }
-      });
+        });
 
-      // Location lastLocation = LocationServices.getFusedLocationProviderClient(contextProvider.getApplicationContext())..FusedLocationApi.getLastLocation(
-      //   googleApiClientConnector.getGoogleApiClient());
-
-    }
-  }
-
-    private UserPermissionRequestResponseListener userPermissionResponseListener =
-        new UserPermissionRequestResponseListener() {
-          @Override public void onPermissionAllowed(boolean permissionAllowed) {
-            getLastKnownLocation();
-          }
-        };
-
-    @SuppressWarnings("ResourceType") private void getNetworkGpsLocation () {
-      Location location = retrieveLocationByGpsOrNetworkProvider.retrieveLocation();
-
-      if (onLastKnownLocationListener != null) {
-        onLastKnownLocationListener.onLastKnownLocation(location);
+        // Location lastLocation = LocationServices.getFusedLocationProviderClient(contextProvider.getApplicationContext())..FusedLocationApi.getLastLocation(
+        //   googleApiClientConnector.getGoogleApiClient());
+      } catch (Throwable throwable) {
+        //on error continues the flow
+        onLastKnownLocationListener.onLastKnownLocation(null);
       }
     }
-
-    public interface OnLastKnownLocationListener {
-      void onLastKnownLocation(Location location);
+    else
+    {
+      //if we don`t have fine location granted, return null gps position
+      onLastKnownLocationListener.onLastKnownLocation(null);
     }
   }
+
+  private boolean isLocationPermissionGranted() {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      return contextProvider.getApplicationContext()
+          .checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+          == PackageManager.PERMISSION_GRANTED;
+    } else {
+      return true;
+    }
+  }
+
+  private UserPermissionRequestResponseListener userPermissionResponseListener =
+      new UserPermissionRequestResponseListener() {
+        @Override public void onPermissionAllowed(boolean permissionAllowed) {
+          getLastKnownLocation();
+        }
+      };
+
+  @SuppressWarnings("ResourceType") private void getNetworkGpsLocation() {
+    Location location = retrieveLocationByGpsOrNetworkProvider.retrieveLocation();
+
+    if (onLastKnownLocationListener != null) {
+      onLastKnownLocationListener.onLastKnownLocation(location);
+    }
+  }
+
+  public interface OnLastKnownLocationListener {
+    void onLastKnownLocation(Location location);
+  }
+}
