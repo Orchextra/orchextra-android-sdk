@@ -22,6 +22,7 @@ import cucumber.api.java.Before
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
+import junit.framework.Assert.assertNotNull
 import org.junit.Rule
 
 @CucumberOptions(features = arrayOf("features"))
@@ -73,6 +74,11 @@ class StepDefinitions {
     }
   }
 
+  @Given("^The login view")
+  fun login_view() {
+    assertNotNull(activity)
+  }
+
   @When("^The app get a \"(.+)\" action with url \"(\\S+)\"$")
   fun simulate_get_action_with_url(action: String, url: String) {
     val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(activity as Context)
@@ -95,12 +101,38 @@ class StepDefinitions {
         notification = Notification(title, body)))
   }
 
-  @When("^The app get a notification action with notification title: \"(.+)\" and body: \"(.+)\"$")
+  @When(
+      "^The app get a \"notification\" action with notification title: \"(.+)\" and body: \"(.+)\"$")
   fun simulate_get_notification_action(title: String, body: String) {
     val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(activity as Context)
     actionHandlerServiceExecutor.execute(Action(
         type = NOTIFICATION,
         notification = Notification(title, body)))
+  }
+
+  @When("^I press \"(.+)\"$")
+  fun press_button(target: String) {
+    when (target) {
+      "start button" -> loginScreen.startButton.click()
+      else -> throw IllegalArgumentException("I press $target is not implemented")
+    }
+  }
+
+  @When("^I fill \"(.+)\" with \"(.+)\"$")
+  fun fill_data(target: String, value: String) {
+    when (target) {
+      "apiKey" -> loginScreen.apiKeyEditText {
+        clearText()
+        typeText(value)
+        Espresso.closeSoftKeyboard()
+      }
+      "apiSecretpiKey" -> loginScreen.apiSecretEditText {
+        clearText()
+        typeText(value)
+        Espresso.closeSoftKeyboard()
+      }
+      else -> throw IllegalArgumentException("I fill $target with $value is not implemented")
+    }
   }
 
   @Then("^I should see a webview with title: \"(\\S+)\"$")
@@ -132,8 +164,26 @@ class StepDefinitions {
     // TODO check scanner
   }
 
-  @Then("^I should see nothing$")
-  fun check_nothings() {
+  @Then("^I should see \"(.+)\"$")
+  fun check_nothings(target: String) {
     // TODO check nothings
+    // nothing
+    // login error
+  }
+
+  @Then("^The \"(.+)\" is present$")
+  fun check_present(target: String) {
+    when (target) {
+      "Orchextra logo and text" -> loginScreen.logoLayout.isDisplayed()
+      "ApiKey field" -> loginScreen.apiKeyEditText.isDisplayed()
+      "ApiSecrect field" -> loginScreen.apiSecretEditText.isDisplayed()
+      "login button" -> loginScreen.startButton.isDisplayed()
+      else -> throw IllegalArgumentException("The $target is present is not implemented")
+    }
+  }
+
+  @Then("^I am at the camera screen$")
+  fun check_camera_screen() {
+    // TODO check camera screen
   }
 }
