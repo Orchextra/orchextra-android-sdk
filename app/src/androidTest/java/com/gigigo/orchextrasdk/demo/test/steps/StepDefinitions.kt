@@ -73,7 +73,7 @@ class StepDefinitions {
     }
   }
 
-  @When("^The app get a (.+) action with url (\\S+)$")
+  @When("^The app get a \"(.+)\" action with url \"(\\S+)\"$")
   fun simulate_get_action_with_url(action: String, url: String) {
     val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(activity as Context)
     actionHandlerServiceExecutor.execute(Action(
@@ -81,13 +81,13 @@ class StepDefinitions {
         url = url))
   }
 
-  @When("^The app get a (.+) action$")
+  @When("^The app get a \"(.+)\" action$")
   fun simulate_get_action(action: String) {
     val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(activity as Context)
     actionHandlerServiceExecutor.execute(Action(type = ActionType.fromOxType(action)))
   }
 
-  @When("^The app get any action with notification title: (.+) and body: (.+)$")
+  @When("^The app get any action with notification title: \"(.+)\" and body: \"(.+)\"$")
   fun simulate_get_action_with_notification(title: String, body: String) {
     val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(activity as Context)
     actionHandlerServiceExecutor.execute(Action(
@@ -95,7 +95,7 @@ class StepDefinitions {
         notification = Notification(title, body)))
   }
 
-  @When("^The app get a notification action with notification title: (.+) and body: (.+)$")
+  @When("^The app get a notification action with notification title: \"(.+)\" and body: \"(.+)\"$")
   fun simulate_get_notification_action(title: String, body: String) {
     val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(activity as Context)
     actionHandlerServiceExecutor.execute(Action(
@@ -103,7 +103,7 @@ class StepDefinitions {
         notification = Notification(title, body)))
   }
 
-  @Then("^I should see a webview with title: (\\S+)$")
+  @Then("^I should see a webview with title: \"(\\S+)\"$")
   fun show_webview_title(title: String) {
     webViewScreen {
       idle(3000L)
@@ -122,8 +122,7 @@ class StepDefinitions {
     // TODO check deep link
   }
 
-  //  @Then("^I should see notification with title: \"(.+)\" and body: \"(.+)\"$")
-  @Then("^I should see notification with title: (.+) and body: (.+)$")
+  @Then("^I should see notification with title: \"(.+)\" and body: \"(.+)\"$")
   fun check_notification(title: String, body: String) {
     // TODO check notification
   }
