@@ -32,8 +32,9 @@ android {
     versionName "7.0.3" // parent.ext.androidVersionName
     //for VuforiaCredentials,VuforiaCredentials Only work with armv7 lib.so, in this case we exclude all
     //less than armv7, but not with exclude, wit Ndk { abifilters
+    //asv mandatory for realm(not exits realm.so version for mips64, armeabi
     ndk {
-      abiFilters "armeabi-v7a"
+      abiFilters "armeabi-v7a","x86_64","x86","mips","arm64-v8a"
     }
     //java8
     //        jackOptions {

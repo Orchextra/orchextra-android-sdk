@@ -42,6 +42,11 @@ android {
     versionCode parent.ext.androidVersionCode
     versionName parent.ext.androidVersionName
 
+    //asv mandatory for realm(not exits realm.so version for mips64, armeabi
+    ndk {
+      abiFilters "armeabi-v7a","x86_64","x86","mips","arm64-v8a"
+    }
+
     buildConfigField INT, "BACKGROUND_BEACONS_RANGING_TIME", MIN_RAGGING_TIME
     buildConfigField LONG, "BACKGROUND_BEACONS_SCAN_TIME", BACKGROUND_BEACONS_SCAN_TIME
     buildConfigField LONG, "BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME",
