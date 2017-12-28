@@ -1,9 +1,10 @@
 #!groovy
 
-@Library('github.com/red-panda-ci/jenkins-pipeline-library@v1.4.2') _
+@Library('github.com/red-panda-ci/jenkins-pipeline-library@v2.4.0') _
 
 // Initialize global condig
-cfg = jplConfig('orchextra-sdk', 'android', '', [ hipchat:'', slack:'#integrations', email:'qa+orchextra@gigigo.com' ])
+cfg = jplConfig('orchextra-sdk', 'android', '', [ hipchat:'', slack:'#integrations', email:'qa+orchextra-android-sdkk@gigigo.com' ])
+cfg.androidPackages = '"build-tools;22.0.1" "platforms;android-22" "build-tools;25.0.2" "platforms;android-25" "build-tools;26.0.2" "platforms;android-26"'
 
 pipeline {
     agent none
@@ -12,7 +13,7 @@ pipeline {
         stage ('Initialize') {
             agent { label 'docker' }
             steps  {
-                jplCheckoutSCM(cfg)
+                jplStart(cfg)
             }
         }
         stage ('Build') {
@@ -32,8 +33,7 @@ pipeline {
         stage ('Release confirm') {
             when { branch 'release/v*' }
             steps {
-                // jplPromoteBuild(cfg)
-                echo "Mock release confirm"
+                jplPromoteBuild(cfg)
             }
         }
         stage ('Release finish') {
@@ -41,6 +41,13 @@ pipeline {
             when { branch 'release/v*' }
             steps {
                 jplCloseRelease(cfg)
+            }
+        }
+        stage ('PR Clean') {
+            agent { label 'docker' }
+            when { branch 'PR-*' }
+            steps {
+                deleteDir()
             }
         }
     }
