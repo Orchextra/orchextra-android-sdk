@@ -60,7 +60,7 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
       context.startForegroundService(intent);
     } else {
-      context.getApplicationContext().startService(intent);
+        context.getApplicationContext().startService(intent);
     }
   }
 

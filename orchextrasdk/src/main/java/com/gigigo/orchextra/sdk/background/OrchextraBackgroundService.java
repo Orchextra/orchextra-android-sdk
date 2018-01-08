@@ -18,18 +18,22 @@
 
 package com.gigigo.orchextra.sdk.background;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
-
+import android.support.v4ox.app.NotificationCompat;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
+import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
-import com.gigigo.orchextra.sdk.OrchextraManager;
-import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
+import com.gigigo.orchextra.sdk.OrchextraManager;
 import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
-
 import orchextra.javax.inject.Inject;
 
 public class OrchextraBackgroundService extends Service {
@@ -148,7 +152,23 @@ public class OrchextraBackgroundService extends Service {
 
   @Override public void onCreate() {
     super.onCreate();
+    //region For Oreo
+    if (Build.VERSION.SDK_INT >= 26) {
+      String CHANNEL_ID = "ox_back_channel_01";
+      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Channel 4 ox back",
+          NotificationManager.IMPORTANCE_DEFAULT);
 
+      ((NotificationManager) getSystemService(
+          Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+//asv the next BUilder i dont know if is works, withoutchannel
+      Notification notification =
+          new NotificationCompat.Builder(this.getBaseContext())//, CHANNEL_ID)
+
+              .setContentTitle("").setContentText("").build();
+
+      startForeground(1, notification);
+    }
+    //endregion
     InjectorImpl injector = OrchextraManager.getInjector();
     if (injector != null) {
       injector.injectServiceComponent(this);
