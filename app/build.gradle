@@ -56,6 +56,7 @@ android {
     testApplicationId "com.gigigo.orchextrasdk.demo.test"
     testInstrumentationRunner "com.gigigo.orchextrasdk.demo.test.CucumberTestRunner"
     vectorDrawables.useSupportLibrary = true
+    multiDexEnabled true
   }
 
   buildTypes {
@@ -123,6 +124,7 @@ android.applicationVariants.all { variant ->
 
 dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+  implementation 'com.android.support:multidex:1.0.1'
 
   implementation rootProject.ext.modules.core
   implementation rootProject.ext.modules.geofence
@@ -155,10 +157,14 @@ dependencies {
   androidTestImplementation rootProject.ext.testLibraries.espressoIntents, {
     exclude group: 'com.android.support', module: 'support-annotations'
   }
-  androidTestImplementation 'com.agoda.kakao:kakao:1.0.1'
+  androidTestImplementation('com.agoda.kakao:kakao:1.0.1') {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  }
 
   // Cucumber
-  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+  androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1') {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  }
   androidTestImplementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
   androidTestImplementation 'info.cukes:cucumber-android:1.2.5@jar'
   androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.4'

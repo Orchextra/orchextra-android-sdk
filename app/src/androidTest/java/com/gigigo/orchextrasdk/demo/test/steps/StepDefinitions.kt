@@ -113,7 +113,10 @@ class StepDefinitions {
   @When("^I press \"(.+)\"$")
   fun press_button(target: String) {
     when (target) {
-      "start button" -> loginScreen.startButton.click()
+      "start button" -> loginScreen {
+        startButton.click()
+        idle(3000L)
+      }
       else -> throw IllegalArgumentException("I press $target is not implemented")
     }
   }
@@ -139,7 +142,6 @@ class StepDefinitions {
   fun show_webview_title(title: String) {
     webViewScreen {
       idle(3000L)
-      // TODO check tittle
       toolbar.isVisible()
     }
   }

@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import com.gigigo.orchextrasdk.demo.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -44,7 +45,6 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.gigigo.orchextrasdk.demo.R;
 import java.util.List;
 
 public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
@@ -68,7 +68,7 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
       Bundle savedInstanceState) {
 
     View view = inflater.inflate(R.layout.fragment_geofences, container, false);
-    mapView = (MapView) view.findViewById(R.id.mapView);
+    mapView = view.findViewById(R.id.mapView);
 
     return view;
   }
@@ -125,7 +125,6 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
               googleMap.addMarker(new MarkerOptions().position(latLng)
                   .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_myposition)));
 
-
               googleMap.animateCamera(cameraUpdate);
             }
           }
@@ -144,15 +143,15 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
     });
   }
 
-  private void drawGeofences(List<Geofence> geofences) {
+  void drawGeofences(List<Geofence> geofences) {
     googleMap.clear();
 
-    BitmapDescriptor markerIcon = getMarkerIconFromDrawable(getResources().getDrawable(R.drawable.geofence_marker));
-
+    BitmapDescriptor markerIcon =
+        getMarkerIconFromDrawable(getResources().getDrawable(R.drawable.geofence_marker));
 
     for (Geofence geofence : geofences) {
-      googleMap.addMarker(new MarkerOptions().position(geofence.getCenter())
-          .icon(markerIcon).anchor(0.5f, 0.5f));
+      googleMap.addMarker(
+          new MarkerOptions().position(geofence.getCenter()).icon(markerIcon).anchor(0.5f, 0.5f));
 
       googleMap.addCircle(new CircleOptions().center(geofence.getCenter())
           .radius(geofence.getRadius())
@@ -164,7 +163,8 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
 
   private BitmapDescriptor getMarkerIconFromDrawable(Drawable drawable) {
     Canvas canvas = new Canvas();
-    Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+    Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+        Bitmap.Config.ARGB_8888);
     canvas.setBitmap(bitmap);
     drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
     drawable.draw(canvas);
