@@ -71,8 +71,6 @@ public class ConfigApiExternalClassToModelMapper
 
   @Override public ConfigurationInfoResult externalClassToModel(ApiConfigData apiConfigData) {
 
-
-
     //eddystone 666
     //asv a nivel de monitoring sea una region de ibeacon o de eddystone son iguals
     //lo q hacemos a continuación es crear una nueva lista de orcehxraBeacon y añadir de las dos fuentes

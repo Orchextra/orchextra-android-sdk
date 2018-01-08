@@ -20,12 +20,12 @@ package com.gigigo.orchextra.sdk.application.applifecycle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
-import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
-import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
-import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
-
+import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
+import com.gigigo.orchextra.domain.abstractions.lifecycle.AppStatusEventsListener;
+import com.gigigo.orchextra.sdk.background.OrchextraBackgroundService;
 
 public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
@@ -44,7 +44,7 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
   @Override public void onBackgroundStart() {
     orchextraLogger.log("SdkVersionAppInfo goes to background mode ");
-    if (orchextraStatusAccessor.isStarted()){
+    if (orchextraStatusAccessor.isStarted()) {
       orchextraLogger.log("Ox está iniciado  goes to background mode ");
       startServices();
     }
@@ -56,14 +56,18 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   }
 
   private void startServices() {
-    Intent intent= new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
-    context.getApplicationContext().startService(intent);
+    Intent intent = new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+      context.startForegroundService(intent);
+    } else {
+      context.getApplicationContext().startService(intent);
+    }
   }
 
   @Override public void onForegroundStart() {
     //Stop Monitoring && startRanging
     orchextraLogger.log("SdkVersionAppInfo Come to Foreground mode");
-    if (orchextraStatusAccessor.isStarted()){
+    if (orchextraStatusAccessor.isStarted()) {
       orchextraLogger.log("Ox está iniciado Come to Foreground mode");
       startForegroundTasks();
     }
@@ -74,16 +78,15 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
     foregroundTasksManager.finalizeForegroundTasks();
   }
 
-  @Override public void onServiceRecreated() {}
+  @Override public void onServiceRecreated() {
+  }
 
   private void stopServices() {
-    Intent intent= new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
+    Intent intent = new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
     context.stopService(intent);
   }
 
   private void startForegroundTasks() {
     foregroundTasksManager.startForegroundTasks();
   }
-
-
 }

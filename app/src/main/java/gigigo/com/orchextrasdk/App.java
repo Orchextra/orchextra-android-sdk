@@ -51,12 +51,12 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   //public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
 
   //woa Pro
-  //public static String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
-  //public static String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
+  public static String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
+  public static String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
 
   //test geofences
-  public static String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
-  public static String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
+  //public static String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
+  //public static String API_SECRET = "2f15ac2b9d291034a2f66eea784f9b3be6e668e6";
 
 
   @Override public void onCreate() {
