@@ -21,6 +21,7 @@ package com.gigigo.orchextra.sdk.background;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
 import com.gigigo.orchextra.sdk.OrchextraManager;
@@ -54,6 +55,7 @@ public class OrchextraBootBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void initTasksForBoot(Context context, String action) {
+        Log.e("","startServices 8");
         if (action!=null && action.equals(BOOT_COMPLETED_ACTION)) {
             try {
                 Intent pushIntent = new Intent(context, OrchextraBackgroundService.class);
@@ -62,6 +64,7 @@ public class OrchextraBootBroadcastReceiver extends BroadcastReceiver {
             }
             catch (Throwable throwable){
                 System.out.println("Error initTasksForBoot cannot startService on REBOOT");
+                Log.e("","startServices 9"+throwable.getMessage());
             }
         }
     }

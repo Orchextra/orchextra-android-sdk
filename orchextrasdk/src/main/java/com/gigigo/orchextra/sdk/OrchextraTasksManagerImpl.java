@@ -96,6 +96,13 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager {
         configDelegateImpl.sendConfiguration();
       }
     } else {
+      beaconScanner.startMonitoring();
+      if (appRunningMode == BACKGROUND
+          && OrchextraManager.getBackgroundModeScan()
+          == BeaconBackgroundModeScan.HARDCORE.getIntensity()) {
+        beaconScanner.initAvailableRegionsRangingScanner();
+        //asv if you go from fore to back inside region, never detect proximities. becarefull with battery
+      }
       configDelegateImpl.sendConfiguration();
     }
   }

@@ -21,6 +21,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import com.gigigo.orchextra.domain.abstractions.actions.CustomOrchextraSchemeReceiver;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraManagerCompletionCallback;
@@ -193,6 +194,7 @@ public final class Orchextra {
   }
 
   public static synchronized void pause(Context context) {
+    Log.e("","startServices 5");
     Intent i = new Intent(context, OrchextraBackgroundService.class);
     i.putExtra(OrchextraBootBroadcastReceiver.BOOT_COMPLETED_ACTION, false);
     i.putExtra(OrchextraBootBroadcastReceiver.PAUSE_SERVICES, true);
@@ -200,6 +202,7 @@ public final class Orchextra {
   }
 
   public static synchronized void reStart(Context context) {
+    Log.e("","startServices 6");
     Intent i = new Intent(context, OrchextraBackgroundService.class);
     i.putExtra(OrchextraBootBroadcastReceiver.BOOT_COMPLETED_ACTION, false);
     i.putExtra(OrchextraBootBroadcastReceiver.RESTART_SERVICES, true);
@@ -207,6 +210,7 @@ public final class Orchextra {
   }
 
   public static void refreshConfigurationInBackground(Context context) {
+    Log.e("","startServices 7");
     Intent i = new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
     i.putExtra(OrchextraBootBroadcastReceiver.REFRESH_CONFIG_ACTION, true);
     context.getApplicationContext().startService(i);

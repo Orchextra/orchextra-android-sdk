@@ -177,6 +177,9 @@ if( android.productFlavors.size() > 0 ) {
   //}
 }
 dependencies {
+
+  implementation 'com.android.support:appcompat-v7:26.0.2'//asv added for Oreo notificationBuilder with channel
+
   api(parent.ext.dependencies.dagger) {
     transitive = false
     exclude group: 'com.google.dagger', module: 'dagger'

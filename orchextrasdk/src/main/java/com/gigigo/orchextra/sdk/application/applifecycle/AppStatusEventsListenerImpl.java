@@ -21,6 +21,7 @@ package com.gigigo.orchextra.sdk.application.applifecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
 import com.gigigo.orchextra.domain.abstractions.foreground.ForegroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.initialization.OrchextraStatusAccessor;
@@ -58,9 +59,10 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   private void startServices() {
     Intent intent = new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
-      context.startForegroundService(intent);
+      Log.e("", "startServices 1");
+      context.getApplicationContext().startForegroundService(intent);
     } else {
-        context.getApplicationContext().startService(intent);
+      context.getApplicationContext().startService(intent);
     }
   }
 
@@ -82,6 +84,7 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
   }
 
   private void stopServices() {
+    Log.e("", "startServices 10");
     Intent intent = new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
     context.stopService(intent);
   }

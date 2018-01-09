@@ -26,7 +26,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.v4ox.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
@@ -152,6 +153,9 @@ public class OrchextraBackgroundService extends Service {
 
   @Override public void onCreate() {
     super.onCreate();
+
+    Log.e("", "startServices 2");
+
     //region For Oreo
     if (Build.VERSION.SDK_INT >= 26) {
       String CHANNEL_ID = "ox_back_channel_01";
@@ -160,12 +164,12 @@ public class OrchextraBackgroundService extends Service {
 
       ((NotificationManager) getSystemService(
           Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-//asv the next BUilder i dont know if is works, withoutchannel
+      //asv the next BUilder i dont know if is works, withoutchannel
       Notification notification =
-          new NotificationCompat.Builder(this.getBaseContext())//, CHANNEL_ID)
+          new NotificationCompat.Builder(this.getBaseContext() , CHANNEL_ID)
 
               .setContentTitle("").setContentText("").build();
-
+      Log.e("", "startServices 3");
       startForeground(1, notification);
     }
     //endregion
@@ -177,12 +181,20 @@ public class OrchextraBackgroundService extends Service {
     } else {
       mWasInjected = false;
     }
+
+    Log.e("", "startServices 4");
   }
 
   @Override public void onDestroy() {
-    if (mWasInjected) {
-      orchextraLogger.log("Service method :: onDestroy");
-      backgroundTasksManager.finalizeBackgroundTasks();
+
+    if (Build.VERSION.SDK_INT >= 26) {
+      Log.e("", "Oreo On destroy");
+    } else {
+
+      if (mWasInjected) {
+        orchextraLogger.log("Service method :: onDestroy");
+        backgroundTasksManager.finalizeBackgroundTasks();
+      }
     }
     super.onDestroy();
   }
