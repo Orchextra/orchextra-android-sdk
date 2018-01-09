@@ -19,6 +19,7 @@
 package com.gigigo.orchextrasdk.demo.utils.integration;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraOptions;
@@ -30,7 +31,6 @@ import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
 
 public class Ox3ManagerImp implements OxManager {
 
@@ -68,7 +68,7 @@ public class Ox3ManagerImp implements OxManager {
     });
 
     orchextra.setErrorListener(new OrchextraErrorListener() {
-      @Override public void onError(@NotNull Error error) {
+      @Override public void onError(@NonNull Error error) {
         statusListener.onError(error.getMessage());
       }
     });
@@ -100,7 +100,7 @@ public class Ox3ManagerImp implements OxManager {
 
   @Override public void getToken(final TokenReceiver tokenReceiver) {
     orchextra.getToken(new OrchextraTokenReceiver() {
-      @Override public void onGetToken(@NotNull String oxToken) {
+      @Override public void onGetToken(@NonNull String oxToken) {
         tokenReceiver.onGetToken(oxToken);
       }
     });
@@ -108,7 +108,7 @@ public class Ox3ManagerImp implements OxManager {
 
   @Override public void setErrorListener(final ErrorListener errorListener) {
     orchextra.setErrorListener(new OrchextraErrorListener() {
-      @Override public void onError(@NotNull Error error) {
+      @Override public void onError(@NonNull Error error) {
         errorListener.onError(error.getMessage());
       }
     });
@@ -120,7 +120,7 @@ public class Ox3ManagerImp implements OxManager {
 
   @Override public void setCustomSchemeReceiver(final CustomActionListener customSchemeReceiver) {
     orchextra.setCustomActionListener(new OrchextraCustomActionListener() {
-      @Override public void onCustomSchema(@NotNull String customSchema) {
+      @Override public void onCustomSchema(@NonNull String customSchema) {
         customSchemeReceiver.onCustomSchema(customSchema);
       }
     });

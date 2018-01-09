@@ -4,8 +4,10 @@ package com.gigigo.orchextrasdk.demo.test.steps
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.rule.ActivityTestRule
+import android.support.test.uiautomator.UiDevice
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType
@@ -24,6 +26,7 @@ import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import junit.framework.Assert.assertNotNull
 import org.junit.Rule
+
 
 @CucumberOptions(features = arrayOf("features"))
 class StepDefinitions {
@@ -149,6 +152,11 @@ class StepDefinitions {
   @Then("^I should see the browser$")
   fun open_browser() {
     // TODO browser intent
+    webViewScreen {
+      idle(3000L)
+      val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+      mDevice.pressBack()
+    }
   }
 
   @Then("^I should see the Deep link$")
