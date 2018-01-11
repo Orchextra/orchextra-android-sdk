@@ -53,7 +53,7 @@ allprojects {
         // Android config
         androidBuildToolsVersion = '26.0.2'
         androidMinSdkVersion = 14
-        androidTargetSdkVersion = 26
+        androidTargetSdkVersion = 25//this is for avoid fucking shit of notification in Oreo26
         androidCompileSdkVersion = 26
         androidApplicationId = 'com.gigigo.orchextra.sdk'
 

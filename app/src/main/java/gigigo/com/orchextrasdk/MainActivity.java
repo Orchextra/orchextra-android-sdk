@@ -216,8 +216,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     return dir.delete();
   }
 
-
-
   private String getUniqueCRMID() {
     String secureAndroidId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
         Settings.Secure.ANDROID_ID);

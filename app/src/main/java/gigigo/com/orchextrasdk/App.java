@@ -33,8 +33,9 @@ import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import gigigo.com.orchextrasdk.adonservices.UpdateConfigReceiver;
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
-  //public static String API_KEY = "338d65a6572be208f25a9a5815861543adaa4abb";
-  //public static String API_SECRET = "b29dac01598f9d8e2102aef73ac816c0786843ef";
+  //woah QA
+  public static String API_KEY = "ad46332237cbb9fd38ad38470a9bee6d4892d770";
+  public static String API_SECRET = "f5e2dd3ba0de46964775fc1b48c4895c73d263c5";
 
   public static final String SENDER_ID = "Your_Sender_ID";
   //if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
@@ -51,8 +52,8 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
   //public static String API_SECRET = "6bc18c500546f253699f61c11a62827679178400";
 
   //woa Pro
-  public static String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
-  public static String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
+  //public static String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
+  //public static String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
 
   //test geofences
   //public static String API_KEY = "3805de10dd1b363d3030456a86bf01a7449f4b4f";
@@ -69,8 +70,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
         "REALM /////////////////////////////////////\n\n\n\n\n\n\n REALM se ejecuta el onCreate ");
     String oxKey = API_KEY;
     String oxSecret = API_SECRET;
-    //oxKey = "fake";
-    //oxSecret = "fake ";
+
     OrchextraBuilder builder = new OrchextraBuilder(this)
         .setApiKeyAndSecret(oxKey, oxSecret)
         .setLogLevel(OrchextraLogLevel.NETWORK)
@@ -84,7 +84,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     //your can re set custom Scheme in other places(activities,services..)
     Orchextra.setCustomSchemeReceiver(this);
     //start Orchextra running, you can call stop() if you need
-  //   Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
+     //Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
 
     //region AdOns
     // mMotionServiceUtility = new MotionServiceUtility(this);

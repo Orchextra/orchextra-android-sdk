@@ -28,6 +28,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import com.gigigo.orchextra.device.notifications.AndroidNotificationBuilder;
 import com.gigigo.orchextra.di.injector.InjectorImpl;
 import com.gigigo.orchextra.domain.abstractions.background.BackgroundTasksManager;
 import com.gigigo.orchextra.domain.abstractions.device.OrchextraLogger;
@@ -158,8 +159,8 @@ public class OrchextraBackgroundService extends Service {
 
     //region For Oreo
     if (Build.VERSION.SDK_INT >= 26) {
-      String CHANNEL_ID = "ox_back_channel_01";
-      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Channel 4 ox back",
+      String CHANNEL_ID = AndroidNotificationBuilder.NOTIFICATION_OREO_ID;
+      NotificationChannel channel = new NotificationChannel(CHANNEL_ID, this.getPackageName(),
           NotificationManager.IMPORTANCE_DEFAULT);
 
       ((NotificationManager) getSystemService(

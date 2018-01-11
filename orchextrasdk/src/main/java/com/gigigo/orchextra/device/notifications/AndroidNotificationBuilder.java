@@ -42,7 +42,7 @@ public class AndroidNotificationBuilder {
   public static final String NOTIFICATION_ACTION_OX = "NOTIFICATION_ACTION_OX";
   public static final String HAVE_ACTIVITY_NOTIFICATION_OX = "HAVE_ACTIVITY_NOTIFICATION_OX";
 
-  private static final String NOTIFICATION_OREO_ID = "NOTIFICATION_OREO_ID";
+  public static final String NOTIFICATION_OREO_ID = "NOTIFICATION_OREO_ID";
 
   private final Context context;
 
