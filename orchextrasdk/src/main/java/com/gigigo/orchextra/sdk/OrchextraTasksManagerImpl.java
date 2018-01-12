@@ -17,6 +17,7 @@
  */
 package com.gigigo.orchextra.sdk;
 
+import android.os.Build;
 import com.gigigo.orchextra.delegates.ConfigDelegateImpl;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
 import com.gigigo.orchextra.domain.abstractions.beacons.BeaconScanner;
@@ -120,6 +121,15 @@ public class OrchextraTasksManagerImpl implements OrchextraTasksManager {
   @Override public void stopBackgroundServices() {
     //background Services have been already stopped at AppStatusEventsListenerImpl.onBackgroundEnd()
     //fix me appstatuslistener must call this method, not like now do
+    //asv esto es una chapuza...ahora ocurre q desde Oreo se ejecuta antes el stop q q se complete el strartForeground del oncreate
+    // y como en vez de estar a qui la logica del stop, se hace desde el applistenerdel lifecycle...pues condicion de carrera chunga :)
+
+    if (Build.VERSION.SDK_INT >= 26) {
+      //Intent intent = new Intent(this.getApplicationContext(), OrchextraBackgroundService.class);
+      //context.stopService(intent);
+      //pauseBackgroundTasks();
+      stopAllTasks();
+    }
   }
 
   @Override public void stopForegroundTasks() {

@@ -84,7 +84,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
     //your can re set custom Scheme in other places(activities,services..)
     Orchextra.setCustomSchemeReceiver(this);
     //start Orchextra running, you can call stop() if you need
-     //Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
+     Orchextra.start(); //for only one time, each time you start Orchextra get orchextra project configuration is call
 
     //region AdOns
     // mMotionServiceUtility = new MotionServiceUtility(this);

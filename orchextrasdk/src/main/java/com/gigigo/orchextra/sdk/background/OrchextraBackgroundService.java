@@ -190,13 +190,13 @@ public class OrchextraBackgroundService extends Service {
 
     if (Build.VERSION.SDK_INT >= 26) {
       Log.e("", "Oreo On destroy");
-    } else {
+    }
 
       if (mWasInjected) {
         orchextraLogger.log("Service method :: onDestroy");
         backgroundTasksManager.finalizeBackgroundTasks();
       }
-    }
+
     super.onDestroy();
   }
 }

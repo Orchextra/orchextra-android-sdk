@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import static gigigo.com.orchextrasdk.App.API_KEY;
 import static gigigo.com.orchextrasdk.App.API_SECRET;
 
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //orchextraSDK
     getViews();
     setListeners();
-   Orchextra.start();//step 2 start with bad credentials for ask permission
+    Orchextra.start();//step 2 start with bad credentials for ask permission
     //Ad-Ons Motion and Bluetooth the UpdateConfig in on Mainactivity
     //App.mMotionServiceUtility.stop();//motion
   }
@@ -83,11 +82,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       Orchextra.startScannerActivity();
     }
     if (v.getId() == R.id.button3) {
-      //if (isRunning) {
-      //  stopOrchextra();
-      //} else {
-      startOrchextra();
-      //}
+      if (isRunning) {
+        stopOrchextra();
+      } else {
+        startOrchextra();
+      }
     }
     //region orchextraWebview
 
@@ -153,8 +152,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     //endregion
 
-
-
     //region BindUser
     if (v.getId() == R.id.button8) {
 
@@ -173,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       //String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
       //String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
       Orchextra.start();
-      Orchextra.updateSDKCredentials(API_KEY,API_SECRET,true);
+      Orchextra.updateSDKCredentials(API_KEY, API_SECRET, true);
     }
     //endregion
 

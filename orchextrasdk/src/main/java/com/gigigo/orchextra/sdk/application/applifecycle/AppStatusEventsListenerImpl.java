@@ -85,8 +85,14 @@ public class AppStatusEventsListenerImpl implements AppStatusEventsListener {
 
   private void stopServices() {
     Log.e("", "startServices 10");
-    Intent intent = new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
-    context.stopService(intent);
+    if (Build.VERSION.SDK_INT < 26) {
+      Intent intent = new Intent(context.getApplicationContext(), OrchextraBackgroundService.class);
+      context.stopService(intent);
+    }
+    else
+    {
+      Log.e("", "startServices 10 oreo, not stop service until startforeground");
+    }
   }
 
   private void startForegroundTasks() {
