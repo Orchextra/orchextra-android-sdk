@@ -34,7 +34,7 @@ import java.util.List;
 
 public class Ox3ManagerImp implements OxManager {
 
-  Orchextra orchextra;
+  private Orchextra orchextra;
 
   public Ox3ManagerImp() {
     this.orchextra = Orchextra.INSTANCE;

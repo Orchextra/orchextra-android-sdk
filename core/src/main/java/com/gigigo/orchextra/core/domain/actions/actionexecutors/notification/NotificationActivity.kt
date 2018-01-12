@@ -27,7 +27,6 @@ import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
-import com.gigigo.orchextra.core.domain.entities.ActionType.NOTIFICATION
 import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE
@@ -55,7 +54,7 @@ class NotificationActivity : AppCompatActivity() {
           dialog.dismiss()
 
           val notificationActivityName = dbDataSource.getNotificationActivityName()
-          if (action.type == NOTIFICATION && notificationActivityName.isNotEmpty()) {
+          if (notificationActivityName.isNotEmpty()) {
             openCustomNotificationActivity(notificationActivityName)
           }
 

@@ -217,7 +217,10 @@ object Orchextra : OrchextraErrorListener {
     dbDataSource.saveNotificationActivityName(notificationActivityClass.canonicalName)
   }
 
-  fun getCrmManager(): CrmManager = crmManager as CrmManager
+  fun getCrmManager(): CrmManager {
+    checkInitialization()
+    return crmManager as CrmManager
+  }
 
   internal fun isDebuggable(): Boolean = debuggable
 
