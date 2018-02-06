@@ -195,10 +195,10 @@ object Orchextra : OrchextraErrorListener {
     }
   }
 
-  fun getToken(tokenReceiver: OrchextraTokenReceiver) {
+  fun getToken(tokenReceiver: (token: String) -> Unit) {
     getOxToken?.get(credentials,
         onSuccess = {
-          tokenReceiver.onGetToken(it)
+          tokenReceiver(it)
         },
         onError = {
           onError(it.toError())

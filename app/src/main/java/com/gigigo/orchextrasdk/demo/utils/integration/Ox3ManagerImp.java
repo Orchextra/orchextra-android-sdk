@@ -24,13 +24,14 @@ import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraOptions;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
-import com.gigigo.orchextra.core.OrchextraTokenReceiver;
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.OrchextraCustomActionListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
 import java.util.List;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class Ox3ManagerImp implements OxManager {
 
@@ -99,9 +100,10 @@ public class Ox3ManagerImp implements OxManager {
   }
 
   @Override public void getToken(final TokenReceiver tokenReceiver) {
-    orchextra.getToken(new OrchextraTokenReceiver() {
-      @Override public void onGetToken(@NonNull String oxToken) {
+    orchextra.getToken(new Function1<String, Unit>() {
+      @Override public Unit invoke(String oxToken) {
         tokenReceiver.onGetToken(oxToken);
+        return null;
       }
     });
   }
