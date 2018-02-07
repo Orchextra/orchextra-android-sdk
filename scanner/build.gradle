@@ -65,12 +65,14 @@ android {
       debuggable true
 
       version = "${rootProject.ext.version}-S"
+      project.ext.libraryVersion = "${rootProject.ext.version}-S"
     }
 
     quality {
       debuggable true
 
       version = "${rootProject.ext.version}-Q"
+      project.ext.libraryVersion = "${rootProject.ext.version}-Q"
     }
 
     release {
@@ -78,7 +80,19 @@ android {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-      version = rootProject.ext.version
+      if (project.hasProperty('debug')) {
+
+        version = "${rootProject.ext.version}-S"
+        project.ext.libraryVersion = "${rootProject.ext.version}-S"
+      } else if (project.hasProperty('quality')) {
+
+        version = "${rootProject.ext.version}-Q"
+        project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+      } else {
+
+        version = "${rootProject.ext.version}"
+        project.ext.libraryVersion = "${rootProject.ext.version}"
+      }
     }
   }
 

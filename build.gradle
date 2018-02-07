@@ -64,6 +64,26 @@ task clean(type: Delete) {
 
 import org.gradle.internal.os.OperatingSystem
 
+task deployDebugLib(type: Exec) {
+  workingDir "./"
+  def command = "./gradlew"
+  if (OperatingSystem.current().isWindows()) {
+    command = command + ".bat"
+  }
+
+  commandLine command, "install", "bintrayUpload", "-Pdebug"
+}
+
+task deployQualityLib(type: Exec) {
+  workingDir "./"
+  def command = "./gradlew"
+  if (OperatingSystem.current().isWindows()) {
+    command = command + ".bat"
+  }
+
+  commandLine command, "install", "bintrayUpload", "-Pquality"
+}
+
 task deployLib(type: Exec) {
   workingDir "./"
   def command = "./gradlew"
@@ -71,5 +91,5 @@ task deployLib(type: Exec) {
     command = command + ".bat"
   }
 
-  commandLine command, "install", 'bintrayUpload'
+  commandLine command, "install", "bintrayUpload"
 }

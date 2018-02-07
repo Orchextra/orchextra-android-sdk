@@ -49,8 +49,6 @@ ext {
   siteUrl = 'https://github.com/Orchextra/orchextra-android-sdk'
   gitUrl = 'https://github.com/Orchextra/orchextra-android-sdk.git'
 
-  libraryVersion = rootProject.ext.version
-
   developerId = 'gigigo-desarrollo'
   developerName = 'Android Gigigo'
   developerEmail = 'gigigo.desarrollo@gmail.com'
@@ -86,6 +84,7 @@ android {
       buildConfigField BOOLEAN, NETWORK_LOG, "true"
 
       version = "${rootProject.ext.version}-S"
+      project.ext.libraryVersion = "${rootProject.ext.version}-S"
     }
 
     quality {
@@ -96,6 +95,7 @@ android {
       buildConfigField BOOLEAN, NETWORK_LOG, "true"
 
       version = "${rootProject.ext.version}-Q"
+      project.ext.libraryVersion = "${rootProject.ext.version}-Q"
     }
 
     release {
@@ -103,11 +103,31 @@ android {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-      buildConfigField STRING, CORE_API_URL, '"https://core.orchextra.io/"'
-      buildConfigField STRING, TRIGGER_API_URL, '"https://tr.orchextra.io/"'
-      buildConfigField BOOLEAN, NETWORK_LOG, "false"
+      if (project.hasProperty('debug')) {
 
-      version = rootProject.ext.version
+        buildConfigField STRING, CORE_API_URL, '"https://core.s.orchextra.io/"'
+        buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
+        buildConfigField BOOLEAN, NETWORK_LOG, "true"
+
+        version = "${rootProject.ext.version}-S"
+        project.ext.libraryVersion = "${rootProject.ext.version}-S"
+      } else if (project.hasProperty('quality')) {
+
+        buildConfigField STRING, CORE_API_URL, '"https://core.q.orchextra.io/"'
+        buildConfigField STRING, TRIGGER_API_URL, '"https://tr.q.orchextra.io/"'
+        buildConfigField BOOLEAN, NETWORK_LOG, "true"
+
+        version = "${rootProject.ext.version}-Q"
+        project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+      } else {
+
+        buildConfigField STRING, CORE_API_URL, '"https://core.orchextra.io/"'
+        buildConfigField STRING, TRIGGER_API_URL, '"https://tr.orchextra.io/"'
+        buildConfigField BOOLEAN, NETWORK_LOG, "false"
+
+        version = "${rootProject.ext.version}"
+        project.ext.libraryVersion = "${rootProject.ext.version}"
+      }
     }
   }
 
