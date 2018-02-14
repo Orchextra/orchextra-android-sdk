@@ -1,6 +1,6 @@
 #!groovy
 
-@Library('github.com/red-panda-ci/jenkins-pipeline-library@v2.4.0') _
+@Library('github.com/red-panda-ci/jenkins-pipeline-library@v2.6.1') _
 
 // Initialize global condig
 cfg = jplConfig('orchextra-sdk', 'android', '', [ hipchat:'', slack:'#integrations', email:'qa+orchextra-android-sdkk@gigigo.com' ])
@@ -31,23 +31,16 @@ pipeline {
             }
         }
         stage ('Release confirm') {
-            when { branch 'release/v*' }
+            when { expression { env.BRANCH_NAME.startsWith('release/v') || env.BRANCH_NAME.startsWith('hotfix/v') } }
             steps {
                 jplPromoteBuild(cfg)
             }
         }
         stage ('Release finish') {
             agent { label 'docker' }
-            when { branch 'release/v*' }
+            when { expression { env.BRANCH_NAME.startsWith('release/v') || env.BRANCH_NAME.startsWith('hotfix/v') } }
             steps {
                 jplCloseRelease(cfg)
-            }
-        }
-        stage ('PR Clean') {
-            agent { label 'docker' }
-            when { branch 'PR-*' }
-            steps {
-                deleteDir()
             }
         }
     }
