@@ -24,7 +24,6 @@ import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraOptions;
 import com.gigigo.orchextra.core.OrchextraStatusListener;
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.OrchextraCustomActionListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
@@ -121,9 +120,11 @@ public class Ox3ManagerImp implements OxManager {
   }
 
   @Override public void setCustomSchemeReceiver(final CustomActionListener customSchemeReceiver) {
-    orchextra.setCustomActionListener(new OrchextraCustomActionListener() {
-      @Override public void onCustomSchema(@NonNull String customSchema) {
+    orchextra.setCustomActionListener(new Function1<String, Unit>() {
+      @Override public Unit invoke(String customSchema) {
         customSchemeReceiver.onCustomSchema(customSchema);
+
+        return null;
       }
     });
   }

@@ -32,6 +32,7 @@
   <string name="open_orchextra_scanner">Orchextra scanner</string>
   <string name="open_custom_scanner">Custom scanner</string>
   <string name="open_image_recognition">Image recognition</string>
+  <string name="scan_code">Scan code</string>
   <string name="start_orchextra">Start</string>
   <string name="finish_orchextra">Log out</string>
 

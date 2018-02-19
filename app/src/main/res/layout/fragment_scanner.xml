@@ -51,6 +51,14 @@
       />
 
   <Button
+      android:id="@+id/ox_scan_code_button"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:text="@string/scan_code"
+      style="@style/ButtonStyle"
+      />
+
+  <Button
       android:id="@+id/dispatch_qr_button"
       android:layout_width="match_parent"
       android:layout_height="50dp"

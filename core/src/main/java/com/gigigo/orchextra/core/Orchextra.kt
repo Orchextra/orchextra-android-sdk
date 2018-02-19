@@ -25,13 +25,14 @@ import android.content.SharedPreferences
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.OrchextraCustomActionListener
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScanCodeActionExecutor
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.IMAGE_RECOGNITION
 import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER
+import com.gigigo.orchextra.core.domain.entities.ActionType.SCANNER_WITHOUT_ACTION
 import com.gigigo.orchextra.core.domain.entities.Credentials
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxPoint
@@ -142,6 +143,12 @@ object Orchextra : OrchextraErrorListener {
     actionHandlerServiceExecutor.execute(Action(type = SCANNER))
   }
 
+  fun scanCode(scanCodeListener: (String) -> Unit) {
+    checkInitialization()
+    ScanCodeActionExecutor.oxCustomActionListener = { scanCodeListener(it) }
+    actionHandlerServiceExecutor.execute(Action(type = SCANNER_WITHOUT_ACTION))
+  }
+
   fun openImageRecognition() {
     checkInitialization()
     actionHandlerServiceExecutor.execute(Action(type = IMAGE_RECOGNITION))
@@ -183,8 +190,8 @@ object Orchextra : OrchextraErrorListener {
     this.orchextraErrorListener = null
   }
 
-  fun setCustomActionListener(orchextraCustomActionListener: OrchextraCustomActionListener) {
-    CustomActionExecutor.getInstance().orchextraCustomActionListener = orchextraCustomActionListener
+  fun setCustomActionListener(oxCustomActionListener: (String) -> Unit) {
+    CustomActionExecutor.oxCustomActionListener = { oxCustomActionListener(it) }
   }
 
   override fun onError(error: Error) {

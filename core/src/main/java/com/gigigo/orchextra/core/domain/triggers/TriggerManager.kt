@@ -25,6 +25,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerType
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Error
@@ -64,7 +65,7 @@ class TriggerManager(
         onError = { errorListener.onError(it.toError()) })
   }
 
-  var scanner by Delegates.observable(VoidTrigger<Any>() as OxTrigger<Any>)
+  var scanner by Delegates.observable(VoidTrigger<Any>() as OxTrigger<ScannerType>)
   { _, _, new ->
     ScannerActionExecutor.scanner = new
   }

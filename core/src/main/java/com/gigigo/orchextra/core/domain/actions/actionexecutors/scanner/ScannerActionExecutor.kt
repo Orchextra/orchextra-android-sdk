@@ -23,9 +23,15 @@ import com.gigigo.orchextra.core.domain.triggers.VoidTrigger
 
 object ScannerActionExecutor {
 
-  var scanner: OxTrigger<Any> = VoidTrigger()
+  var scanner: OxTrigger<ScannerType> = VoidTrigger()
 
-  fun open() {
+  fun open(scannerType: ScannerType) {
+    scanner.setConfig(scannerType)
     scanner.init()
   }
+}
+
+enum class ScannerType {
+  SCANNER,
+  SCANNER_WITHOUT_ACTION;
 }

@@ -38,6 +38,8 @@ import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.scanner.custom.CustomScannerImp;
 import com.gigigo.orchextrasdk.demo.utils.integration.Ox3ManagerImp;
 import com.gigigo.orchextrasdk.demo.utils.integration.OxManager;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class ScannerFragment extends Fragment {
 
@@ -45,6 +47,7 @@ public class ScannerFragment extends Fragment {
   private Button oxScannerButton;
   private Button oxCustomScannerButton;
   private Button oxImageRecognitionButton;
+  private Button oxScanCodeButton;
   private Button dispatchQRbutton;
   private OxManager oxManager;
 
@@ -63,6 +66,7 @@ public class ScannerFragment extends Fragment {
     oxScannerButton = view.findViewById(R.id.ox_scanner_button);
     oxCustomScannerButton = view.findViewById(R.id.ox_custom_scanner_button);
     oxImageRecognitionButton = view.findViewById(R.id.ox_image_recognition_button);
+    oxScanCodeButton = view.findViewById(R.id.ox_scan_code_button);
     dispatchQRbutton = view.findViewById(R.id.dispatch_qr_button);
 
     return view;
@@ -95,6 +99,24 @@ public class ScannerFragment extends Fragment {
           orchextra.getTriggerManager()
               .setScanner(OxScannerImp.Factory.create(getActivity().getApplication()));
           orchextra.openScanner();
+        } else {
+          Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
+        }
+      }
+    });
+
+    oxScanCodeButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        if (orchextra.isReady()) {
+          orchextra.getTriggerManager()
+              .setScanner(OxScannerImp.Factory.create(getActivity().getApplication()));
+          orchextra.scanCode(new Function1<String, Unit>() {
+            @Override public Unit invoke(String customSchema) {
+
+              Toast.makeText(getContext(), "Scanner: " + customSchema, Toast.LENGTH_SHORT).show();
+              return null;
+            }
+          });
         } else {
           Toast.makeText(getContext(), "SDK sin inicializar", Toast.LENGTH_SHORT).show();
         }

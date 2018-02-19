@@ -28,6 +28,10 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.ViewGroup
+import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerType
+import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.ActionType.SCAN_CODE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BARCODE
 import com.gigigo.orchextra.core.domain.entities.TriggerType.QR
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
@@ -66,14 +70,22 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
 
   override fun handleResult(rawResult: Result) {
 
-    if (rawResult.barcodeFormat.name == "QRCODE") {
-      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(QR withValue rawResult.contents))
-      finish()
-    } else {
-      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(BARCODE withValue rawResult.contents))
-      finish()
+    when (getScannerType()) {
+      ScannerType.SCANNER_WITHOUT_ACTION -> {
+        val actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(
+            this@ScannerActivity)
+        actionHandlerServiceExecutor.execute(Action(type = SCAN_CODE, url = rawResult.contents))
+      }
+      else ->
+        if (rawResult.barcodeFormat.name == "QRCODE") {
+          sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(QR withValue rawResult.contents))
+        } else {
+          sendBroadcast(
+              TriggerBroadcastReceiver.getTriggerIntent(BARCODE withValue rawResult.contents))
+        }
     }
 
+    finish()
     handler.postDelayed({ scannerView.resumeCameraPreview(this@ScannerActivity) }, 2000)
   }
 
@@ -83,7 +95,7 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
     scannerView.setResultHandler(this)
 
     if (ContextCompat.checkSelfPermission(this,
-        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
       scannerView.startCamera()
     } else {
       requestPermission()
@@ -110,12 +122,16 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
     scannerActivity = null
   }
 
+  private fun getScannerType(): ScannerType = intent.getSerializableExtra(TYPE_EXTRA) as ScannerType
+
   companion object Navigator {
     private var scannerActivity: ScannerActivity? = null
+    private val TYPE_EXTRA = "type_extra"
 
-    fun open(context: Context) {
+    fun open(context: Context, scannerType: ScannerType) {
       val intent = Intent(context, ScannerActivity::class.java)
       intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+      intent.putExtra(TYPE_EXTRA, scannerType)
       context.startActivity(intent)
     }
 
