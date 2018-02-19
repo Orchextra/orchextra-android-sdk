@@ -24,6 +24,7 @@ import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.Cus
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerType
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.webview.WebViewActionExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.BROWSER
@@ -74,7 +75,7 @@ class ActionDispatcherTest {
   @Test
   fun shouldExecuteCustomSchemeAction() {
     val customActionExecutor: CustomActionExecutor = mock()
-    val actionDispatcher = getActionDispatcher(customActionExecutor = customActionExecutor)
+    val actionDispatcher = getActionDispatcher()
 
     val action = Action(trackId = "test_123",
         type = CUSTOM_SCHEME,
@@ -82,13 +83,13 @@ class ActionDispatcherTest {
 
     actionDispatcher.executeAction(action)
 
-    verify(customActionExecutor).open(action.url)
+    verify(customActionExecutor).onCustomSchema(action.url)
   }
 
   @Test
   fun shouldExecutescannerAction() {
     val scannerActionExecutor: ScannerActionExecutor = mock()
-    val actionDispatcher = getActionDispatcher(scannerActionExecutor = scannerActionExecutor)
+    val actionDispatcher = getActionDispatcher()
 
     val action = Action(trackId = "test_123",
         type = SCANNER,
@@ -96,14 +97,13 @@ class ActionDispatcherTest {
 
     actionDispatcher.executeAction(action)
 
-    verify(scannerActionExecutor).open()
+    verify(scannerActionExecutor).open(ScannerType.SCANNER)
   }
 
   @Test
   fun shouldExecuteImageRecognitionAction() {
     val imageRecognitionActionExecutor: ImageRecognitionActionExecutor = mock()
-    val actionDispatcher = getActionDispatcher(
-        imageRecognitionActionExecutor = imageRecognitionActionExecutor)
+    val actionDispatcher = getActionDispatcher()
 
     val action = Action(trackId = "test_123",
         type = IMAGE_RECOGNITION,
@@ -150,15 +150,11 @@ class ActionDispatcherTest {
       confirmAction: ConfirmAction = mock(),
       browserActionExecutor: BrowserActionExecutor = mock(),
       webViewActionExecutor: WebViewActionExecutor = mock(),
-      customActionExecutor: CustomActionExecutor = mock(),
-      scannerActionExecutor: ScannerActionExecutor = mock(),
-      imageRecognitionActionExecutor: ImageRecognitionActionExecutor = mock(),
       notificationActionExecutor: NotificationActionExecutor = mock(),
       actionSchedulerManager: ActionSchedulerManager = mock()
   ): ActionDispatcher {
 
     return ActionDispatcher(confirmAction, browserActionExecutor, webViewActionExecutor,
-        customActionExecutor, scannerActionExecutor, imageRecognitionActionExecutor,
         notificationActionExecutor, actionSchedulerManager)
   }
 }
