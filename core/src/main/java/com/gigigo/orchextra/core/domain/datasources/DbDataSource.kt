@@ -67,6 +67,9 @@ interface DbDataSource {
   @Throws(DbException::class)
   fun getNotificationActivityName(): String
 
+  @Throws(DbException::class)
+  fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>)
+
   companion object Factory {
 
     var dbDataSource: DbDataSource? = null

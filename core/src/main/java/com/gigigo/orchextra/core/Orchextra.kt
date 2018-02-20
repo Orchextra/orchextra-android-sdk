@@ -97,17 +97,24 @@ object Orchextra : OrchextraErrorListener {
         })
 
     if (options.hasFirebaseConfig()) {
+      initFirebase(context, options)
+    }
 
-      val firebaseOptions = FirebaseOptions.Builder()
-          .setApplicationId(options.firebaseApplicationId)
-          .setApiKey(options.firebaseApiKey)
-          .build()
+    if (options.deviceBusinessUnits.isNotEmpty()) {
+      dbDataSource.saveDeviceBusinessUnits(options.deviceBusinessUnits)
+    }
+  }
 
-      try {
-        FirebaseApp.initializeApp(context, firebaseOptions)
-      } catch (e: Exception) {
-        e.printStackTrace()
-      }
+  private fun initFirebase(context: Application, options: OrchextraOptions) {
+    val firebaseOptions = FirebaseOptions.Builder()
+        .setApplicationId(options.firebaseApplicationId)
+        .setApiKey(options.firebaseApiKey)
+        .build()
+
+    try {
+      FirebaseApp.initializeApp(context, firebaseOptions)
+    } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 

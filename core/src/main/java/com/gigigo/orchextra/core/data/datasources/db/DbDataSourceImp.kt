@@ -59,6 +59,7 @@ class DbDataSourceImp(private val context: Context,
   private val WAIT_TIME_KEY = "wait_time_key"
   private val SCAN_TIME_KEY = "wait_time_key"
   private val NOTIFICATION_ACTIVITY_KEY = "notification_activity_key"
+  private val BUSINESS_UNITS = "business_units"
   private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()
   private val triggerListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbTrigger>(15, DAYS))
@@ -113,7 +114,13 @@ class DbDataSourceImp(private val context: Context,
     return if (stringDevice.isNotEmpty()) {
       deviceJsonAdapter.fromJson(stringDevice).toOxDevice()
     } else {
-      val newDevice = context.getBaseApiOxDevice().toOxDevice()
+      var newDevice = context.getBaseApiOxDevice().toOxDevice()
+
+      val deviceBusinessUnits = getDeviceBusinessUnits()
+      if (deviceBusinessUnits.isNotEmpty()) {
+        newDevice = newDevice.copy(businessUnits = deviceBusinessUnits)
+      }
+
       saveDevice(newDevice)
       newDevice
     }
@@ -155,6 +162,19 @@ class DbDataSourceImp(private val context: Context,
 
   override fun getNotificationActivityName(): String = sharedPreferences.getString(
       NOTIFICATION_ACTIVITY_KEY, "")
+
+  @SuppressLint("ApplySharedPref")
+  override fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>) {
+    val businessUnitsString = deviceBusinessUnits.reduce { acc, s -> acc + ";" + s }
+    val editor = sharedPreferences.edit()
+    editor?.putString(BUSINESS_UNITS, businessUnitsString)
+    editor?.commit()
+  }
+
+  private fun getDeviceBusinessUnits(): List<String> {
+    val businessUnitsString = sharedPreferences.getString(BUSINESS_UNITS, "")
+    return businessUnitsString.split(";")
+  }
 
   @Throws(SQLException::class)
   private fun removeOldTriggers() {

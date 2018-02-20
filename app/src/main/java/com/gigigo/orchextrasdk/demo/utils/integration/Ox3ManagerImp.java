@@ -28,6 +28,7 @@ import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
+import java.util.ArrayList;
 import java.util.List;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -73,9 +74,13 @@ public class Ox3ManagerImp implements OxManager {
       }
     });
 
+    List<String> deviceBusinessUnits = new ArrayList<>();
+    deviceBusinessUnits.add("it");
+
     OrchextraOptions options =
         new OrchextraOptions.Builder().firebaseApiKey(config.getFirebaseApiKey())
             .firebaseApplicationId(config.getFirebaseApplicationId())
+            .deviceBusinessUnits(deviceBusinessUnits)
             .debuggable(true)
             .build();
 
