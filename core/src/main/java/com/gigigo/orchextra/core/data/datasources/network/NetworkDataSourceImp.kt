@@ -98,7 +98,14 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
       val apiClientResponse = orchextraCoreApi.getAuthentication(
           credentials.toApiAuthRequest()).execute().body()
 
-      apiClientResponse?.data?.token ?: ""
+      val token = apiClientResponse?.data?.token ?: ""
+      sessionManager.saveSession(token)
+
+      val crm = dbDataSource.getCrm()
+      val device = dbDataSource.getDevice()
+      updateTokenData(TokenData(crm = crm, device = device))
+
+      token
     }
   }
 
@@ -165,13 +172,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return if (sessionManager.hasSession()) {
       makeCallWithRetryOnSessionFailed(call)
     } else {
-      val credentials = getAuthentication(orchextra.getCredentials(), true)
-      sessionManager.saveSession(credentials)
-
-      val crm = dbDataSource.getCrm()
-      val device = dbDataSource.getDevice()
-      updateTokenData(TokenData(crm = crm, device = device))
-
+      getAuthentication(orchextra.getCredentials(), true)
       call()
     }
   }
@@ -180,13 +181,7 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
     return try {
       call()
     } catch (exception: UnauthorizedException) {
-      val credentials = getAuthentication(orchextra.getCredentials(), true)
-      sessionManager.saveSession(credentials)
-
-      val crm = dbDataSource.getCrm()
-      val device = dbDataSource.getDevice()
-      updateTokenData(TokenData(crm = crm, device = device))
-
+      getAuthentication(orchextra.getCredentials(), true)
       call()
     }
   }
