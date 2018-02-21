@@ -24,13 +24,19 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiClientApp
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiDeviceInfo
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiNotificationPush
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiOxDevice
 import com.google.firebase.iid.FirebaseInstanceId
+import java.lang.Exception
 import java.util.Locale
 import java.util.TimeZone
+import java.util.UUID
+
+
+private val TAG = "ContextExtensions"
 
 fun Context.getBaseApiOxDevice(): ApiOxDevice = with(this) {
 
@@ -42,20 +48,15 @@ fun Context.getBaseApiOxDevice(): ApiOxDevice = with(this) {
     ""
   }
 
-  if (FirebaseInstanceId.getInstance().token != null) {
-
-    return ApiOxDevice(
-        instanceId = FirebaseInstanceId.getInstance().token!!,
-        secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
-        serialNumber = Build.SERIAL,
-        bluetoothMacAddress = bluetoothMacAddress,
-        wifiMacAddress = wifiManager.connectionInfo.macAddress,
-        clientApp = getApiClientApp(),
-        notificationPush = ApiNotificationPush(token = FirebaseInstanceId.getInstance().token!!),
-        device = getApiDeviceInfo())
-  } else {
-    throw IllegalStateException("InstanceId can't be null")
-  }
+  return ApiOxDevice(
+      instanceId = getIdToken(),
+      secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
+      serialNumber = Build.SERIAL,
+      bluetoothMacAddress = bluetoothMacAddress,
+      wifiMacAddress = wifiManager.connectionInfo.macAddress,
+      clientApp = getApiClientApp(),
+      notificationPush = ApiNotificationPush(token = getFirebaseToken()),
+      device = getApiDeviceInfo())
 }
 
 fun Context.getApiClientApp(): ApiClientApp = with(this) {
@@ -83,4 +84,17 @@ fun Context.getApiDeviceInfo(): ApiDeviceInfo = with(this) {
       language = Locale.getDefault().toString(),
       handset = handset,
       type = "ANDROID")
+}
+
+fun getIdToken(): String = if (getFirebaseToken().isEmpty()) {
+  UUID.randomUUID().toString()
+} else {
+  getFirebaseToken()
+}
+
+fun getFirebaseToken(): String = try {
+  FirebaseInstanceId.getInstance().token ?: ""
+} catch (e: Exception) {
+  Log.e(TAG, "getFirebaseToken()", e)
+  ""
 }

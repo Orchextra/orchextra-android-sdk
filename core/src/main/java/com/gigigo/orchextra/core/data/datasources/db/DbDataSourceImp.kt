@@ -134,6 +134,13 @@ class DbDataSourceImp(private val context: Context,
   }
 
   @SuppressLint("ApplySharedPref")
+  override fun clearDevice() {
+    val editor = sharedPreferences.edit()
+    editor?.putString(DEVICE_KEY, "")
+    editor?.commit()
+  }
+
+  @SuppressLint("ApplySharedPref")
   override fun saveWaitTime(waitTime: Long) {
     val editor = sharedPreferences.edit()
     editor?.putLong(WAIT_TIME_KEY, waitTime)

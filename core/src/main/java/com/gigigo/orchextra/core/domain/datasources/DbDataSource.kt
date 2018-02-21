@@ -50,6 +50,9 @@ interface DbDataSource {
   fun saveDevice(device: OxDevice)
 
   @Throws(DbException::class)
+  fun clearDevice()
+
+  @Throws(DbException::class)
   fun saveWaitTime(waitTime: Long)
 
   @Throws(DbException::class)
