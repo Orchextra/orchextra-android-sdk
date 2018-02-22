@@ -56,7 +56,7 @@ public class ForegroundNotificationBuilderImpl implements ForegroundNotification
   @Override
   public void addBuildNotification(BasicAction action, OrchextraNotification notification) {
     OrchextraActivityLifecycle.setForegroundNotificationBuilder(this);
-    OrchextraActivityLifecycle.addOrchextraNotification(action, notification);
+    OrchextraActivityLifecycle.addAndCheckOrchextraNotification(action, notification,contextProvider);
   }
 
   private void buildAcceptDialog(OrchextraNotification notification) {

@@ -72,7 +72,7 @@ public class App extends Application implements OrchextraCompletionCallback, Cus
         .setLogLevel(OrchextraLogLevel.NETWORK)
         .setOrchextraCompletionCallback(this)
         .setGcmSenderId(null)
-        .setNotificationActivityClass(MainActivity.class.toString())
+        .setNotificationActivityClass(new ArrayList<>(Arrays.asList(MainActivity.class.toString(), WebViewActivity.class.toString()));)
         //  .setImageRecognitionModule(new ImageRecognitionVuforiaImpl())
         .setBackgroundBeaconScanMode(BeaconBackgroundModeScan.HARDCORE);
     //init Orchextra with builder configuration

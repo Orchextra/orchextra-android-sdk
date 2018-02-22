@@ -47,6 +47,7 @@ import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraContextProvide
 import com.gigigo.orchextra.sdk.model.CrmUserDomainToCrmUserSdkConverter;
 import com.gigigo.orchextra.sdk.model.CrmUserGenderConverter;
 import com.gigigo.orchextra.sdk.scanner.ScannerManager;
+import java.util.List;
 import orchextra.dagger.Module;
 import orchextra.dagger.Provides;
 import orchextra.javax.inject.Singleton;
@@ -59,10 +60,10 @@ public class OrchextraModule {
 
     private final Context context;
     private final OrchextraManagerCompletionCallback orchextraCompletionCallback;
-    private final String notificationActivityClass ;
+    private final List<String> notificationActivityClass ;
     private CustomSchemeReceiverContainer customSchemeReceiverContainer;
 
-    public OrchextraModule(Context context, OrchextraManagerCompletionCallback orchextraCompletionCallback, String notificationActivityClass) {
+    public OrchextraModule(Context context, OrchextraManagerCompletionCallback orchextraCompletionCallback, List<String> notificationActivityClass) {
         this.context = context;
         this.orchextraCompletionCallback = orchextraCompletionCallback;
         this.notificationActivityClass = notificationActivityClass;

@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import com.gigigo.gggjavalib.general.utils.ConsistencyUtils;
+import com.gigigo.ggglib.ContextProvider;
 import com.gigigo.orchextra.device.notifications.AndroidNotificationBuilder;
 import com.gigigo.orchextra.device.notifications.ForegroundNotificationBuilderImpl;
 import com.gigigo.orchextra.device.notifications.NotificationReceiver;
@@ -47,10 +48,9 @@ import java.util.Stack;
 
   private final AppStatusEventsListener appStatusEventsListener;
   private final OrchextraLogger orchextraLogger;
-  private final String notificationActivityClass;
+  private static List<String> notificationActivityClass;
 
   private Stack<ActivityLifecyleWrapper> activityStack = new Stack<>();
-
 
   //region new feature waiting for notificationsactivity in foreground dialog notification
   private static List<OrchextraNotification> lstPendingOrchextraNotifications = new ArrayList<>();
@@ -63,11 +63,28 @@ import java.util.Stack;
     OrchextraActivityLifecycle.foregroundNotificationBuilder = foregroundNotificationBuilder;
   }
 
-  public static void addOrchextraNotification(BasicAction oxAction,
-      OrchextraNotification oxNotification) {
+  //public static boolean isOnNotificationActivityContext(ContextProvider contextProvider) {
+  //  boolean result = false;
+  //  if (contextProvider != null && contextProvider.getCurrentActivity() != null) {
+  //
+  //    for (String notificationActivityClassStr : notificationActivityClass) {
+  //
+  //      if (notificationActivityClassStr.equals(
+  //          contextProvider.getCurrentActivity().getClass().toString())) {
+  //        return true;
+  //      }
+  //    }
+  //  }
+  //  return result;
+  //}
+
+  public static void addAndCheckOrchextraNotification(BasicAction oxAction,
+      OrchextraNotification oxNotification, ContextProvider contextProvider) {
     if (foregroundNotificationBuilder != null) {
       lstPendingOrchextraNotifications.add(oxNotification);
       lstPendingOrchextraActionNotifications.add(oxAction);
+      checkShowOxNotificationWhenNotificationActivityAlreadyReached(
+          contextProvider.getCurrentActivity());
     } else {
       System.out.println(
           "YOU MUST TO SET FOREGROUND NOTIFICATION BUILDER, BEFORE ADD NOTIFICATIONS");
@@ -75,29 +92,33 @@ import java.util.Stack;
   }
 
   private static void checkShowOxNotificationWhenNotificationActivityAlreadyReached(
-      Activity activity, String notificationActivityClassStr) {
+      Activity activity) {
 
-    if (notificationActivityClassStr.equals(activity.getClass().toString())
-        && foregroundNotificationBuilder != null
+    if (foregroundNotificationBuilder != null
         && lstPendingOrchextraNotifications != null
         && lstPendingOrchextraNotifications.size() > 0) {
-      int sizeNotifications = lstPendingOrchextraNotifications.size();
-      for (int i = 0; i < sizeNotifications; i++) {
-        if (lstPendingOrchextraActionNotifications.get(i) != null) {
-          foregroundNotificationBuilder.buildNotification(
-              lstPendingOrchextraActionNotifications.get(i),
-              lstPendingOrchextraNotifications.get(i));
+
+      for (String notificationActivityClassStr : notificationActivityClass) {
+        if (notificationActivityClassStr.equals(activity.getClass().toString())) {
+          int sizeNotifications = lstPendingOrchextraNotifications.size();
+          for (int i = 0; i < sizeNotifications; i++) {
+            if (lstPendingOrchextraActionNotifications.get(i) != null) {
+              foregroundNotificationBuilder.buildNotification(
+                  lstPendingOrchextraActionNotifications.get(i),
+                  lstPendingOrchextraNotifications.get(i));
+            }
+          }
+
+          lstPendingOrchextraNotifications = new ArrayList<>();
+          lstPendingOrchextraActionNotifications = new ArrayList<>();
         }
       }
-
-      lstPendingOrchextraNotifications = new ArrayList<>();
-      lstPendingOrchextraActionNotifications = new ArrayList<>();
     }
   }
 
   //endregion
   public OrchextraActivityLifecycle(AppStatusEventsListener listener,
-      OrchextraLogger orchextraLogger, String notificationActivityClass) {
+      OrchextraLogger orchextraLogger, List<String> notificationActivityClass) {
     this.appStatusEventsListener = listener;
     this.orchextraLogger = orchextraLogger;
     this.notificationActivityClass = notificationActivityClass;
@@ -124,7 +145,13 @@ import java.util.Stack;
       startForegroundMode();
     }
     //EVALUATE INTENT WHEN ACTIVITY "HOME" ARE REACHED, NOT BEFORE
-    if (notificationActivityClass.equals(activity.getClass().toString())
+
+    String activityForHandlePush = "";
+    if (notificationActivityClass != null && notificationActivityClass.size() > 0) {
+      activityForHandlePush = notificationActivityClass.get(0);
+    }
+
+    if (activityForHandlePush.equals(activity.getClass().toString())
         && NotificationReceiver.mIntent != null
         && AndroidNotificationBuilder.NOTIFICATION_ACTION_OX.equals(
         NotificationReceiver.mIntent.getAction())) {
@@ -135,8 +162,7 @@ import java.util.Stack;
       }
     }
 
-    checkShowOxNotificationWhenNotificationActivityAlreadyReached(activity,
-        notificationActivityClass);
+    checkShowOxNotificationWhenNotificationActivityAlreadyReached(activity);
   }
 
   private void generateIntentWhenNotificationActivityOpened(Activity activity,

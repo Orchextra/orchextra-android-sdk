@@ -109,8 +109,7 @@ public class OrchextraManager implements Observer {
 
   @Inject ConfigChangeObservable configObservable;
 
-
-  private static String notificationActivityClass = "";
+  private static List<String> notificationActivityClass = new ArrayList<>();
 
   public static OrchextraManagerCompletionCallback getOrchextraCompletionCallback() {
     return orchextraCompletionCallback;
@@ -124,8 +123,6 @@ public class OrchextraManager implements Observer {
     OrchextraManager.instance = new OrchextraManager();
     OrchextraManager.instance.initOrchextra(application, orchextraCompletionCallback);
     try {
-
-
 
       mApplicationID = application.getPackageName();
       mApplicationVersion = application.getApplicationContext()
@@ -305,7 +302,7 @@ public class OrchextraManager implements Observer {
     return orchextraSDKLogLevel;
   }
 
-  public static void setNotificationActivityClass(String notificationActivityClass) {
+  public static void setNotificationActivityClass(List<String> notificationActivityClass) {
     OrchextraManager.notificationActivityClass = notificationActivityClass;
   }
 
@@ -348,7 +345,7 @@ public class OrchextraManager implements Observer {
 
   private void initDependencyInjection(Context applicationContext,
       OrchextraManagerCompletionCallback orchextraCompletionCallback,
-      String notificationActivityClass) {
+      List<String> notificationActivityClass) {
 
     OrchextraComponent orchextraComponent = DaggerOrchextraComponent.builder()
         .orchextraModule(new OrchextraModule(applicationContext, orchextraCompletionCallback,
@@ -425,7 +422,8 @@ public class OrchextraManager implements Observer {
 
       if (fromUser) {
         Orchextra.commitConfiguration();
-        System.out.println("FROM USER CHANGECERDENTIALS current Status:\n " + status.getStringValue());
+        System.out.println(
+            "FROM USER CHANGECERDENTIALS current Status:\n " + status.getStringValue());
       }
       System.out.println(
           "REALM ************ changeCredentials current Status:\n " + status.getStringValue());
@@ -437,7 +435,8 @@ public class OrchextraManager implements Observer {
 
       if (status == StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS) {
         start();
-        orchextraLogger.log("changeOrchextraCredentials  StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS");
+        orchextraLogger.log(
+            "changeOrchextraCredentials  StartStatusType.SDK_WAS_ALREADY_STARTED_WITH_DIFERENT_CREDENTIALS");
       }
     } catch (SdkAlreadyStartedException alreadyStartedException) {
       orchextraLogger.log(alreadyStartedException.getMessage(), OrchextraSDKLogLevel.WARN);
@@ -520,27 +519,29 @@ public class OrchextraManager implements Observer {
       System.out.println(
           "REALM ************ saveCredentials apikey:\n " + apiKey + "\n apisecret:\n" + apiSecret);
 
-
       OrchextraStatus status = new OrchextraStatus();
       status.setInitialized(true);
       status.setStarted(false);
       Session session = new Session(BuildConfig.TOKEN_TYPE_BEARER);
-      session.setAppParams(apiKey,apiSecret);
+      session.setAppParams(apiKey, apiSecret);
       status.setSession(session);
       OrchextraManager.instance.orchextraStatusDBDataSource.saveStatus(status);
 
-      OrchextraManager.instance.sessionDBDataSource.saveSdkAuthCredentials(new SdkAuthCredentials(apiKey, apiSecret));
-      OrchextraManager.instance.changeOrchextraCredentials(apiKey, apiSecret, true);//true 4 orchextra.start
+      OrchextraManager.instance.sessionDBDataSource.saveSdkAuthCredentials(
+          new SdkAuthCredentials(apiKey, apiSecret));
+      OrchextraManager.instance.changeOrchextraCredentials(apiKey, apiSecret,
+          true);//true 4 orchextra.start
     }
   }
 
-  public static void resetoxStatusRealmFix(){
+  public static void resetoxStatusRealmFix() {
     OrchextraStatus status = new OrchextraStatus();
     status.setInitialized(true);
     status.setStarted(true);
 
     OrchextraManager.instance.orchextraStatusDBDataSource.saveStatus(status);
   }
+
   public static void setGcmSendId(Application application, String gcmSenderId) {
     if (OrchextraManager.instance != null) {
       OrchextraManager.instance.gcmSenderId = gcmSenderId;

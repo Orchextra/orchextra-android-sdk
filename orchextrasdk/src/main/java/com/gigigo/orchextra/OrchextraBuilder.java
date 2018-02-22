@@ -1,9 +1,10 @@
 package com.gigigo.orchextra;
 
 import android.app.Application;
-
 import com.gigigo.imagerecognitioninterface.ImageRecognition;
 import com.gigigo.orchextra.device.bluetooth.beacons.BeaconBackgroundModeScan;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrchextraBuilder {
 
@@ -14,8 +15,9 @@ public class OrchextraBuilder {
   private ImageRecognition imageRecognitionModule;
   private OrchextraLogLevel orchextraLogLevel;
   private String gcmSenderId;
-  private String notificationActivityName = "";
+  private List<String> notificationActivityName = new ArrayList<>();
   private BeaconBackgroundModeScan bckBeaconMode = BeaconBackgroundModeScan.NORMAL;
+
   public BeaconBackgroundModeScan getBckBeaconMode() {
     return bckBeaconMode;
   }
@@ -108,11 +110,11 @@ public class OrchextraBuilder {
     return gcmSenderId;
   }
 
-  public String getNotificationActivityName() {
+  public List<String> getNotificationActivityName() {
     return this.notificationActivityName;
   }
 
-  public OrchextraBuilder setNotificationActivityClass(String mainActivityClass) {
+  public OrchextraBuilder setNotificationActivityClass(List<String> mainActivityClass) {
     this.notificationActivityName = mainActivityClass;
     return this;
   }
