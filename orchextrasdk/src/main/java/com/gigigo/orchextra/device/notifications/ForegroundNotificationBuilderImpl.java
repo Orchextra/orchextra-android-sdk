@@ -27,6 +27,7 @@ import com.gigigo.orchextra.domain.abstractions.notifications.ForegroundNotifica
 import com.gigigo.orchextra.domain.model.actions.ActionType;
 import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
 import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
+import com.gigigo.orchextra.sdk.application.applifecycle.OrchextraActivityLifecycle;
 import com.gigigo.orchextra.ui.dialogs.DialogOneOption;
 import com.gigigo.orchextra.ui.dialogs.DialogTwoOptions;
 
@@ -40,7 +41,7 @@ public class ForegroundNotificationBuilderImpl implements ForegroundNotification
   public ForegroundNotificationBuilderImpl(ContextProvider contextProvider) {
     this.contextProvider = contextProvider;
   }
-
+//this called by orchextra life cycle
   @Override public void buildNotification(BasicAction action, OrchextraNotification notification) {
     this.action = action;
     notification.setShown(true); //This prevent show and show again the dialog notification
@@ -51,19 +52,15 @@ public class ForegroundNotificationBuilderImpl implements ForegroundNotification
     }
   }
 
-  private void waitForActivity() {
-    if (contextProvider.getCurrentActivity() != null && contextProvider.getCurrentActivity()
-        .isFinishing() || contextProvider.getCurrentActivity() == null) {
-      try {
-        Thread.sleep(500);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
+  //this call from NotificationBehavior, dispatch action in FOREGROUND
+  @Override
+  public void addBuildNotification(BasicAction action, OrchextraNotification notification) {
+    OrchextraActivityLifecycle.setForegroundNotificationBuilder(this);
+    OrchextraActivityLifecycle.addOrchextraNotification(action, notification);
   }
 
   private void buildAcceptDialog(OrchextraNotification notification) {
-    waitForActivity();
+
     if (contextProvider.getCurrentActivity() != null) {
       DialogOneOption dialog =
           new DialogOneOption(contextProvider.getCurrentActivity(), notification.getTitle(),
@@ -76,12 +73,13 @@ public class ForegroundNotificationBuilderImpl implements ForegroundNotification
   }
 
   private void buildTwoOptionsDialog(OrchextraNotification notification) {
-    waitForActivity();
     if (contextProvider.getCurrentActivity() != null) {
       DialogTwoOptions dialog =
           new DialogTwoOptions(contextProvider.getCurrentActivity(), notification.getTitle(),
-              notification.getBody(), contextProvider.getCurrentActivity().getString(R.string.ox_accept_text),
-              positiveButtonListener, contextProvider.getCurrentActivity().getString(R.string.ox_cancel_text),
+              notification.getBody(),
+              contextProvider.getCurrentActivity().getString(R.string.ox_accept_text),
+              positiveButtonListener,
+              contextProvider.getCurrentActivity().getString(R.string.ox_cancel_text),
               negativeButtonListener);
 
       dialog.onCreateDialog().show();

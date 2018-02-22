@@ -59,7 +59,7 @@ public class NotificationBehaviorImpl implements NotificationBehavior {
       }
 
       foregroundNotificationBuilder.setActionDispatcherListener(actionDispatcherListener);
-      foregroundNotificationBuilder.buildNotification(action, notification);
+      foregroundNotificationBuilder.addBuildNotification(action, notification);
     } else {
       backgroundNotificationBuilder.buildNotification(action, notification);
     }

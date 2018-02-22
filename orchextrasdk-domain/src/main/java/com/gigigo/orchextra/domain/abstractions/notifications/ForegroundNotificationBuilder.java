@@ -19,7 +19,10 @@
 package com.gigigo.orchextra.domain.abstractions.notifications;
 
 import com.gigigo.orchextra.domain.abstractions.actions.ActionDispatcherListener;
+import com.gigigo.orchextra.domain.model.actions.strategy.BasicAction;
+import com.gigigo.orchextra.domain.model.actions.strategy.OrchextraNotification;
 
 public interface ForegroundNotificationBuilder extends NotificationBuilder {
   void setActionDispatcherListener(ActionDispatcherListener actionDispatcherListener);
+  void addBuildNotification(BasicAction action, OrchextraNotification notification);
 }
