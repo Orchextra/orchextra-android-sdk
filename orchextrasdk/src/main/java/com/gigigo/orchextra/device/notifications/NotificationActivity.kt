@@ -1,10 +1,9 @@
 package com.gigigo.orchextra.device.notifications
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7ox.app.AppCompatActivity
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.gigigo.orchextra.R
 import com.gigigo.orchextra.device.notifications.DialogType.ONE_BUTTON
@@ -107,9 +106,10 @@ class NotificationActivity : AppCompatActivity() {
     Log.e(TAG, "openCustomNotificationActivity($activityToStart)", exception)
   }
 
-  private fun getNotification(): OrchextraNotification = intent.extras.getSerializable(NOTIFICATION_EXTRA) as OrchextraNotification
+  private fun getNotification(): OrchextraNotification = intent.extras.getSerializable(
+      NOTIFICATION_EXTRA) as OrchextraNotification
 
-  private fun getDialogType(): DialogType = intent.extras.getSerializable (DIALOG_TYPE) as DialogType
+  private fun getDialogType(): DialogType = intent.extras.getSerializable(DIALOG_TYPE) as DialogType
 
   companion object Navigator {
 
