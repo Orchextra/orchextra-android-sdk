@@ -17,6 +17,10 @@
  */
 
 apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'com.github.dcendents.android-maven'
 
