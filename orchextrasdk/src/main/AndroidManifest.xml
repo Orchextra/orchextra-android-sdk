@@ -49,6 +49,12 @@
          android:launchMode="singleInstance"
           android:theme="@style/OxAppThemeNoBar"/>
 
+    <activity
+        android:name=".device.notifications.NotificationActivity"
+        android:theme="@style/Theme.Transparent">
+    </activity>
+
+
       <receiver android:name=".sdk.background.OrchextraBootBroadcastReceiver">
         <intent-filter>
           <action android:name="android.intent.action.BOOT_COMPLETED" />

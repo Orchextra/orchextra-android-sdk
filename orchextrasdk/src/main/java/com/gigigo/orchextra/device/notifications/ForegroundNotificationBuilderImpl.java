@@ -50,14 +50,6 @@ public class ForegroundNotificationBuilderImpl implements ForegroundNotification
         }
     }
 
-    //this call from NotificationBehavior, dispatch action in FOREGROUND
-    @Override public void addBuildNotification(BasicAction action,
-        OrchextraNotification notification) {
-        OrchextraActivityLifecycle.setForegroundNotificationBuilder(this);
-        OrchextraActivityLifecycle.addAndCheckOrchextraNotification(action, notification,
-            contextProvider);
-    }
-
     private void buildAcceptDialog(OrchextraNotification notification) {
         if (contextProvider.getCurrentActivity() != null) {
             NotificationActivity.Navigator.open(contextProvider.getApplicationContext(), notification,
