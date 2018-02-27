@@ -35,6 +35,10 @@ def MAX_RAGGING_TIME = '180000'
 def BACKGROUND_BEACONS_SCAN_TIME = '1100'
 def BACKGROUND_BEACONS_BEETWEEN_SCAN_TIME = '5000'
 
+repositories {
+  mavenCentral()
+}
+
 android {
 
   compileSdkVersion parent.ext.androidCompileSdkVersion
@@ -244,6 +248,7 @@ dependencies {
   androidTestImplementation(parent.ext.testDependencies.dexMakerMockito) {
     exclude group: 'org.hamcrest', module: 'hamcrest-core'
   }
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 // build a jar with source files
@@ -255,3 +260,4 @@ task sourcesJar(type: Jar) {
 artifacts {
   archives sourcesJar
 }
+
