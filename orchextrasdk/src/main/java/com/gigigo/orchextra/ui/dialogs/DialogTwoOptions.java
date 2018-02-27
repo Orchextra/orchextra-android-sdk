@@ -26,7 +26,7 @@ import android.view.ContextThemeWrapper;
 
 import com.gigigo.orchextra.R;
 
-public class DialogTwoOptions {
+public class DialogTwoOptions implements CustomDialog{
 
     private final String title;
     private final String message;
@@ -48,7 +48,7 @@ public class DialogTwoOptions {
         this.negativeListener = negativeListener;
     }
 
-    public Dialog onCreateDialog() {
+    @Override public Dialog onCreateDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AlertDialogCustom));
         AlertDialog dialog = builder.setIcon(R.drawable.ox_notification_large_icon)
                 .setTitle(title)

@@ -18,8 +18,9 @@
 
 package com.gigigo.orchextra.domain.model.actions.strategy;
 
-public class OrchextraNotification {
+import java.io.Serializable;
 
+public class OrchextraNotification implements Serializable {
   private String title;
   private String body;
   private boolean shown = false;

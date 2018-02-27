@@ -17,6 +17,9 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 apply plugin: 'com.neenbedankt.android-apt'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'com.github.dcendents.android-maven'
@@ -251,6 +254,7 @@ dependencies {
   androidTestCompile(parent.ext.testDependencies.dexMakerMockito) {
     exclude group: 'org.hamcrest', module: 'hamcrest-core'
   }
+  compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 // build a jar with source files
@@ -261,4 +265,7 @@ task sourcesJar(type: Jar) {
 
 artifacts {
   archives sourcesJar
+}
+repositories {
+  mavenCentral()
 }
