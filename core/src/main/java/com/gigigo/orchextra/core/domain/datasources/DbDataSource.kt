@@ -44,6 +44,9 @@ interface DbDataSource {
   fun saveCrm(crm: OxCRM)
 
   @Throws(DbException::class)
+  fun clearCrm()
+
+  @Throws(DbException::class)
   fun getDevice(): OxDevice
 
   @Throws(DbException::class)

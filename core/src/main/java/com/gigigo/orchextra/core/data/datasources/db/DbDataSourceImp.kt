@@ -108,6 +108,13 @@ class DbDataSourceImp(private val context: Context,
     editor?.commit()
   }
 
+  @SuppressLint("ApplySharedPref")
+  override fun clearCrm() {
+    val editor = sharedPreferences.edit()
+    editor?.putString(CRM_KEY, "")
+    editor?.commit()
+  }
+
   override fun getDevice(): OxDevice {
     val stringDevice = sharedPreferences.getString(DEVICE_KEY, "")
 

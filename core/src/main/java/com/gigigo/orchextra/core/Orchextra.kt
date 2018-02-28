@@ -223,6 +223,8 @@ object Orchextra : OrchextraErrorListener {
     this.credentials = Credentials()
     this.triggerManager.finish()
     sessionManager?.clearSession()
+    dbDataSource.clearDevice()
+    dbDataSource.clearCrm()
 
     changeStatus(false)
   }
