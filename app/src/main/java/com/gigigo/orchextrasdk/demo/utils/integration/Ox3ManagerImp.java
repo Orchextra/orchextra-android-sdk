@@ -27,7 +27,7 @@ import com.gigigo.orchextra.core.OrchextraStatusListener;
 import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
-import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
+import com.gigigo.orchextrasdk.demo.ui.MainActivity;
 import java.util.ArrayList;
 import java.util.List;
 import kotlin.Unit;
@@ -59,7 +59,7 @@ public class Ox3ManagerImp implements OxManager {
           orchextra.getTriggerManager()
               .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(application));
 
-          orchextra.setNotificationActivityClass(SettingsActivity.class);
+          orchextra.setNotificationActivityClass(MainActivity.class);
 
           statusListener.isReady();
         } else {

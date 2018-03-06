@@ -22,15 +22,17 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
 import android.support.v4.app.NotificationCompat
-import android.support.v4.app.TaskStackBuilder
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Notification
 
 
-class NotificationActionExecutor(private val context: Context) {
+class NotificationActionExecutor(private val context: Context,
+    private val dbDataSource: DbDataSource) {
 
   fun showNotification(notification: Notification, action: Action) {
 
@@ -58,12 +60,21 @@ class NotificationActionExecutor(private val context: Context) {
         .setContentTitle(title)
         .setContentText(body)
 
-    val resultIntent = NotificationActivity.getIntent(context, notification, action)
-    val stackBuilder = TaskStackBuilder.create(context)
-    stackBuilder.addParentStack(NotificationActivity::class.java)
-    stackBuilder.addNextIntent(resultIntent)
-    val resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-    notificationBuilder.setContentIntent(resultPendingIntent)
+    val notificationIntent = NotificationActivity.getIntent(context, notification, action)
+    val notificationActivityName = dbDataSource.getNotificationActivityName()
+
+    val pendingIntent = if (notificationActivityName.isNotEmpty()) {
+      val cls = Class.forName(notificationActivityName)
+      val backIntent = Intent(context, cls)
+      backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+      PendingIntent.getActivities(context, 0x73,
+          arrayOf(backIntent, notificationIntent), PendingIntent.FLAG_ONE_SHOT)
+    } else {
+      PendingIntent.getActivity(context, 0x73, notificationIntent, PendingIntent.FLAG_ONE_SHOT)
+    }
+
+    notificationBuilder.setContentIntent(pendingIntent)
     notificationBuilder.setAutoCancel(true)
 
     val mNotificationId = 1
@@ -74,6 +85,6 @@ class NotificationActionExecutor(private val context: Context) {
   companion object Factory {
 
     fun create(context: Context): NotificationActionExecutor = NotificationActionExecutor(
-        context)
+        context, DbDataSource.create(context))
   }
 }

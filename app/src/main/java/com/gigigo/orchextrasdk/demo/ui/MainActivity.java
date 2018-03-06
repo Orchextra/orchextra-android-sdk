@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
           browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           startActivity(browserIntent);
         } else {
-          Toast.makeText(MainActivity.this, "CustomSchema: " + customSchema, Toast.LENGTH_LONG)
-              .show();
+          Toast.makeText(getApplicationContext(), "CustomSchema: " + customSchema,
+              Toast.LENGTH_LONG).show();
         }
       }
     });
