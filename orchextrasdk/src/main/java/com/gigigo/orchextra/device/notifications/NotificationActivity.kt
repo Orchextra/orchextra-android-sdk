@@ -3,8 +3,7 @@ package com.gigigo.orchextra.device.notifications
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import android.support.v7ox.app.AppCompatActivity
 import com.gigigo.orchextra.R
 import com.gigigo.orchextra.device.notifications.DialogType.ONE_BUTTON
 import com.gigigo.orchextra.device.notifications.DialogType.TWO_BUTTON
@@ -25,65 +24,45 @@ class NotificationActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.ox_activity_notification)
 
-
     title = ""
 
     val notification = getNotification()
     val dialogType = getDialogType()
 
-    var dialog: CustomDialog
+    val customDialog: CustomDialog
 
     when (dialogType) {
       ONE_BUTTON -> {
-        dialog = DialogOneOption(this,
+        customDialog = DialogOneOption(this,
             notification.title, notification.body,
             getString(R.string.ox_accept_text),
-            { dialog, which ->
+            { _, _ ->
               finishWithAcceptation()
             }
         )
       }
       TWO_BUTTON -> {
-        dialog = DialogTwoOptions(this,
+        customDialog = DialogTwoOptions(this,
             notification.title, notification.body,
             getString(R.string.ox_accept_text),
-            { dialog, which ->
+            { _, _ ->
               finishWithAcceptation()
             },
             getString(R.string.ox_cancel_text),
-            { dialog, which ->
+            { _, _ ->
               finishWithCancelation()
             }
         )
       }
     }
 
-    dialog.onCreateDialog().show();
-
-
-    /*
-    val dialog = builder.setTitle("notification.title")
-        .setMessage("notification.body")
-        .setIcon(R.drawable.ox_notification_large_icon)
-        .setPositiveButton(android.R.string.ok, { dialog, _ ->
-          dialog.dismiss()
-
-          /*
-          val notificationActivityName = dbDataSource.getNotificationActivityName()
-          if (notificationActivityName.isNotEmpty()) {
-            openCustomNotificationActivity(notificationActivityName)
-          }
-
-          actionHandlerServiceExecutor.execute(action.copy(notification = Notification()))
-          */
-        })
-        .setNegativeButton(android.R.string.cancel, { dialog, _ -> dialog.dismiss() })
-        .show()
+    val dialog = customDialog.onCreateDialog()
 
     dialog.setOnDismissListener {
       finish()
     }
-    */
+
+    dialog.show()
   }
 
   private fun finishWithAcceptation() {
@@ -96,15 +75,6 @@ class NotificationActivity : AppCompatActivity() {
     onCancelled()
   }
 
-
-  private fun openCustomNotificationActivity(activityToStart: String) = try {
-    val cls = Class.forName(activityToStart)
-    val intent = Intent(this, cls)
-    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-    startActivity(intent)
-  } catch (exception: ClassNotFoundException) {
-    Log.e(TAG, "openCustomNotificationActivity($activityToStart)", exception)
-  }
 
   private fun getNotification(): OrchextraNotification = intent.extras.getSerializable(
       NOTIFICATION_EXTRA) as OrchextraNotification
