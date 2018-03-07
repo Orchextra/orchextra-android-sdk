@@ -3,7 +3,7 @@ package com.gigigo.orchextra.device.notifications
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7ox.app.AppCompatActivity
+import android.support.v7.app.AppCompatActivity
 import com.gigigo.orchextra.R
 import com.gigigo.orchextra.device.notifications.DialogType.ONE_BUTTON
 import com.gigigo.orchextra.device.notifications.DialogType.TWO_BUTTON
