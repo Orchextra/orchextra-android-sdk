@@ -19,34 +19,35 @@ apply from: 'dependencies.gradle'
 apply from: 'common_methods.gradle'
 
 buildscript {
-  ext.kotlin_version = '1.1.60'
+  ext.kotlin_version = '1.2.31'
   repositories {
     jcenter()
     google()
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.0.1'
+    classpath 'com.android.tools.build:gradle:3.1.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
     classpath 'com.google.gms:google-services:3.1.0'
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
   }
 }
 
 allprojects {
   ext {
-    compileSdkVersion = 26
-    buildToolsVersion = "26.0.2"
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.3"
     minSdkVersion = 16
-    targetSdkVersion = 26
+    targetSdkVersion = 27
 
-    supportLibVersion = "26.1.0"
+    supportLibVersion = "27.1.0"
   }
 
   repositories {
     jcenter()
+    google()
     maven { url "http://jcenter.bintray.com" }
     maven { url 'https://dl.bintray.com/gigigo-desarrollo/maven' }
     maven { url 'https://jitpack.io' }

@@ -18,25 +18,32 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.notification
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.support.v4.app.NotificationCompat
+import android.util.Log
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.Notification
 
-
 class NotificationActionExecutor(private val context: Context,
     private val dbDataSource: DbDataSource) {
 
   fun showNotification(notification: Notification, action: Action) {
 
+    Log.d(TAG, "showNotification()")
+
     if (Orchextra.isActivityRunning()) {
+      Log.d(TAG, "showDialog()")
       showDialog(context, notification, action)
     } else {
       showBarNotification(notification, action)
@@ -55,7 +62,17 @@ class NotificationActionExecutor(private val context: Context,
 
   private fun showBarNotification(notification: Notification, action: Action) = with(notification) {
 
-    val notificationBuilder = NotificationCompat.Builder(context, "OxChannel")
+    val manager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      val chan1 = NotificationChannel(PRIMARY_CHANNEL, context.getString(R.string.app_name),
+          NotificationManager.IMPORTANCE_DEFAULT)
+      chan1.lightColor = Color.RED
+      chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+      manager.createNotificationChannel(chan1)
+    }
+
+    val notificationBuilder = NotificationCompat.Builder(context, PRIMARY_CHANNEL)
         .setSmallIcon(R.drawable.ox_notification_large_icon)
         .setContentTitle(title)
         .setContentText(body)
@@ -78,11 +95,14 @@ class NotificationActionExecutor(private val context: Context,
     notificationBuilder.setAutoCancel(true)
 
     val mNotificationId = 1
-    val mNotifyMgr = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-    mNotifyMgr.notify(mNotificationId, notificationBuilder.build())
+
+    manager.notify(mNotificationId, notificationBuilder.build())
   }
 
   companion object Factory {
+
+    private const val TAG = "NotificationAction"
+    private const val PRIMARY_CHANNEL = "default"
 
     fun create(context: Context): NotificationActionExecutor = NotificationActionExecutor(
         context, DbDataSource.create(context))

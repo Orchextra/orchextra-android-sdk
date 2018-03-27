@@ -21,6 +21,8 @@ package com.gigigo.orchextra.core.domain.actions
 import android.app.IntentService
 import android.content.Context
 import android.content.Intent
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.Action
 
@@ -45,12 +47,16 @@ class ActionHandlerServiceExecutor(val context: Context) {
   fun execute(action: Action) {
     val intent = Intent(context, ActionHandlerService::class.java)
     intent.putExtra(ActionHandlerService.ACTION_EXTRA, action)
-    context.startService(intent)
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      context.startForegroundService(intent)
+    } else {
+      context.startService(intent)
+    }
   }
 
   companion object Factory {
 
-    fun create(context: Context): ActionHandlerServiceExecutor
-        = ActionHandlerServiceExecutor(context)
+    fun create(context: Context): ActionHandlerServiceExecutor = ActionHandlerServiceExecutor(
+        context)
   }
 }

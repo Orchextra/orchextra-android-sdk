@@ -43,10 +43,7 @@ ext {
                zbar                     : 'me.dm7.barcodescanner:zbar:1.8.4',
 
                stetho                   : 'com.facebook.stetho:stetho:1.5.0',
-               calligraphy              : 'uk.co.chrisjenx:calligraphy:2.3.0',
-
-               leakcanary               : 'com.squareup.leakcanary:leakcanary-android:1.5.1',
-               leakcanaryNoop           : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1']
+               calligraphy              : 'uk.co.chrisjenx:calligraphy:2.3.0']
 
 
   testLibraries = [junit            : 'junit:junit:4.12',
