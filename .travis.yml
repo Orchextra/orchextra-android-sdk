@@ -3,7 +3,7 @@ jdk: oraclejdk8
 
 env:
   global:
-  - ANDROID_TARGET=android-25
+  - ANDROID_TARGET=android-27
   - ANDROID_ABI=armeabi-v7a
   - ADB_INSTALL_TIMEOUT=8 # 8 minutes (2 minutes by default)
 
@@ -19,14 +19,12 @@ android:
     - tools
     - platform-tools
     - tools
-    - build-tools-22.0.1
-    - build-tools-26.0.2
-    - android-22
-    - android-26
+    - build-tools-26.1.0
+    - android-27
     - extra-android-support
     - extra-google-m2repository
-    - sys-img-armeabi-v7a-android-22
     - sys-img-armeabi-v7a-android-26
+    - sys-img-armeabi-v7a-android-27
     - extra-google-google_play_services
     - extra-android-m2repository
 
