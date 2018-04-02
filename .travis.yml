@@ -3,7 +3,7 @@ jdk: oraclejdk8
 
 env:
   global:
-  - ANDROID_TARGET=android-27
+  - ANDROID_TARGET=android-26
   - ANDROID_ABI=armeabi-v7a
   - ADB_INSTALL_TIMEOUT=8 # 8 minutes (2 minutes by default)
 
