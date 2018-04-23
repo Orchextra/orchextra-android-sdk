@@ -69,16 +69,6 @@ android {
   testOptions {
     unitTests.returnDefaultValues = true
   }
-  /*
-    dexOptions {
-      // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
-      preDexLibraries = preDexEnabled && !travisBuild && !jenkinsBuild
-    }
-  */
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_7 //java7
-    targetCompatibility JavaVersion.VERSION_1_7 //java7
-  }
 
   flavorDimensions "play"
 
