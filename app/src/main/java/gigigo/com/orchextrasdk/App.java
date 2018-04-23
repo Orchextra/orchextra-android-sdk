@@ -34,12 +34,12 @@ import gigigo.com.orchextrasdk.adonservices.UpdateConfigReceiver;
 
 public class App extends Application implements OrchextraCompletionCallback, CustomSchemeReceiver {
   //woah QA
-  public static String API_KEY = "ad46332237cbb9fd38ad38470a9bee6d4892d770";
-  public static String API_SECRET = "f5e2dd3ba0de46964775fc1b48c4895c73d263c5";
+  public static String API_KEY = "8286702045adf5a3ad816f70ecb80e4c91fbb8de";
+  public static String API_SECRET = "eab37080130215ced60eb9d5ff729049749ec205";
 
   public static final String SENDER_ID = "Your_Sender_ID";
   //if is not valid sender id, orchextra disabled push receive(only inform for using pushnotifications)
-  public static final String GIGIGO_URL = "http://research.gigigo.com";
+  public static final String GIGIGO_URL = "http://www.gigigo.com";
   public static final String CUSTOM_SCHEME = "webview://";
 
   // public static MotionServiceUtility mMotionServiceUtility;

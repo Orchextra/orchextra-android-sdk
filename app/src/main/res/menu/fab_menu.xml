@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <!-- First button is the initial Fab of the menu -->
+  <!-- Title here can be empty if you don't to add any action in the main button -->
+  <item
+      android:id="@+id/menuFAB"
+      android:icon="@drawable/create"
+      android:title=""/>
+
+  <!-- Options buttons of the Fab menu -->
+  <item
+      android:id="@+id/btnQR"
+      android:icon="@drawable/qr"
+      android:title="QR" />
+
+  <item
+      android:id="@+id/btnBarcode"
+      android:icon="@drawable/barcode"
+      android:title="BARCODE" />
+
+  <item
+      android:id="@+id/btnPhoto"
+      android:icon="@drawable/fullscreen"
+      android:title="PHOTO" />
+</menu>

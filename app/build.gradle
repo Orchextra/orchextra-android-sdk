@@ -17,6 +17,8 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 
 android {
@@ -114,15 +116,11 @@ configurations {
 }
 
 dependencies {
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
   implementation 'com.android.support:support-compat:26.0.2'
   implementation 'com.android.support:appcompat-v7:26.0.2'
 
-
-  //fab menu webview
-  implementation ('com.github.Gigigo-Android-Devs:fabmenu:proto') {
-    exclude module: 'support-v4'
-  }
 /* ASV NO BORRAR
   api("com.github.Orchextra.orchextra-android-sdk:orchextrasdk:513Test:play10Release@aar") {
     transitive = true
@@ -145,21 +143,5 @@ dependencies {
   //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
   playnoApi project(path: ':orchextrasdk')
 
- /* play7DebugImplementation project(path: ':orchextrasdk')
-  play8DebugImplementation project(path: ':orchextrasdk')
-  play9DebugImplementation project(path: ':orchextrasdk')
-  play10DebugImplementation project(path: ':orchextrasdk')
-  play11DebugImplementation project(path: ':orchextrasdk')
-  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-  playnoDebugImplementation project(path: ':orchextrasdk')
-
-  play7ReleaseImplementation project(path: ':orchextrasdk')
-  play8ReleaseImplementation project(path: ':orchextrasdk')
-  play9ReleaseImplementation project(path: ':orchextrasdk')
-  play10ReleaseImplementation project(path: ':orchextrasdk')
-  play11ReleaseImplementation project(path: ':orchextrasdk')
-  //test noplay, without play services, not work geofecing, segmentacion spatial, schedulable actions
-  playnoReleaseImplementation project(path: ':orchextrasdk')
-*/
   testImplementation parent.ext.testDependencies.junit
 }
