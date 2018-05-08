@@ -21,6 +21,8 @@ package com.gigigo.orchextra.core.domain.triggers
 import android.app.IntentService
 import android.content.Context
 import android.content.Intent
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.utils.LogUtils
 
@@ -35,12 +37,18 @@ class TriggerHandlerService : IntentService(TAG) {
 
   companion object Navigator {
     private val TAG = LogUtils.makeLogTag(TriggerHandlerService::class.java)
-    val TRIGGER_EXTRA = "trigger_extra"
+    private const val TRIGGER_EXTRA = "trigger_extra"
 
     fun start(context: Context, trigger: Trigger) {
       val intent = Intent(context, TriggerHandlerService::class.java)
       intent.putExtra(TRIGGER_EXTRA, trigger)
-      context.startService(intent)
+      try {
+        context.startService(intent)
+      } catch (exception: IllegalStateException) {
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+          context.startForegroundService(intent)
+        }
+      }
     }
   }
 }

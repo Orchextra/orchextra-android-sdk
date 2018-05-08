@@ -78,10 +78,11 @@ class ScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler {
       }
       else ->
         if (rawResult.barcodeFormat.name == "QRCODE") {
-          sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(QR withValue rawResult.contents))
+          sendBroadcast(
+              TriggerBroadcastReceiver.getTriggerIntent(this, QR withValue rawResult.contents))
         } else {
           sendBroadcast(
-              TriggerBroadcastReceiver.getTriggerIntent(BARCODE withValue rawResult.contents))
+              TriggerBroadcastReceiver.getTriggerIntent(this, BARCODE withValue rawResult.contents))
         }
     }
 

@@ -50,7 +50,7 @@ class GeofenceTransitionsIntentService : IntentService(TAG) {
           value = triggeringGeofences[0].requestId,
           event = getTransitionString(geofenceTransition))
 
-      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(this, trigger))
     } else {
       LOGE(TAG, getString(string.geofence_transition_invalid_type, geofenceTransition))
     }

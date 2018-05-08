@@ -79,10 +79,6 @@ object Orchextra : OrchextraErrorListener {
     this.getOxToken = GetOxToken.create(NetworkDataSource.create(context))
     this.dbDataSource = DbDataSource.create(context)
 
-    if (options.debuggable) {
-      initFileLogger(context)
-    }
-
     ActivityLifecycleManager(app = context,
         onActivityResumed = { isActivityRunning = true },
         onActivityPaused = { isActivityRunning = false })
@@ -139,10 +135,6 @@ object Orchextra : OrchextraErrorListener {
 
   fun setScanTime(scanTimeInSeconds: Long) {
     dbDataSource.saveScanTime(TimeUnit.SECONDS.toMillis(scanTimeInSeconds))
-  }
-
-  internal fun initFileLogger(context: Context) {
-//    LogUtils.fileLogging = FileLogging(context)
   }
 
   fun openScanner() {

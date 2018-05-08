@@ -42,7 +42,7 @@ class RegionsDetector(private val config: List<IndoorPositionConfig>,
     }
   }
 
-  fun getRegionFromBeacon(beacon: OxBeacon, isFromTimer: Boolean = false): OxBeaconRegion {
+  private fun getRegionFromBeacon(beacon: OxBeacon, isFromTimer: Boolean = false): OxBeaconRegion {
 
     val savedBeacon = ipdbDataSource.getBeacon(beacon.getValue())
 

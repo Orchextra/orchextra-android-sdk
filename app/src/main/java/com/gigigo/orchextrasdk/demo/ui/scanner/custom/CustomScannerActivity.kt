@@ -70,10 +70,12 @@ class CustomScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler
   override fun handleResult(rawResult: Result) {
 
     if (rawResult.barcodeFormat.name == "QRCODE") {
-      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(QR withValue rawResult.contents))
+      sendBroadcast(
+          TriggerBroadcastReceiver.getTriggerIntent(this, QR withValue rawResult.contents))
       finish()
     } else {
-      sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(BARCODE withValue rawResult.contents))
+      sendBroadcast(
+          TriggerBroadcastReceiver.getTriggerIntent(this, BARCODE withValue rawResult.contents))
       finish()
     }
 
@@ -86,7 +88,7 @@ class CustomScannerActivity : AppCompatActivity(), ZBarScannerView.ResultHandler
     scannerView.setResultHandler(this)
 
     if (ContextCompat.checkSelfPermission(this,
-        Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
       scannerView.startCamera()
     } else {
       requestPermission()

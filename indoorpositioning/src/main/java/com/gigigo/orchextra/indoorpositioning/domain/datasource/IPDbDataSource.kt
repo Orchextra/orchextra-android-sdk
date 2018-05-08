@@ -19,6 +19,7 @@
 package com.gigigo.orchextra.indoorpositioning.domain.datasource
 
 import android.content.Context
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.exceptions.DbException
 import com.gigigo.orchextra.indoorpositioning.data.IPDatabaseHelper
 import com.gigigo.orchextra.indoorpositioning.data.IPDbDataSourceImp
@@ -38,6 +39,12 @@ interface IPDbDataSource {
   @Throws(DbException::class)
   fun removeBeacon(id: String)
 
+  @Throws(DbException::class)
+  fun saveConfig(config: List<IndoorPositionConfig>)
+
+  @Throws(DbException::class)
+  fun getConfig(): List<IndoorPositionConfig>
+
   companion object Factory {
 
     var ipdbDataSource: IPDbDataSource? = null
@@ -45,7 +52,8 @@ interface IPDbDataSource {
     fun create(context: Context): IPDbDataSource {
 
       if (ipdbDataSource == null) {
-        ipdbDataSource = IPDbDataSourceImp(IPDatabaseHelper.create(context))
+        val sharedPref = context.getSharedPreferences("indoorpositioning", Context.MODE_PRIVATE)
+        ipdbDataSource = IPDbDataSourceImp(IPDatabaseHelper.create(context), sharedPref)
       }
       return ipdbDataSource as IPDbDataSource
     }

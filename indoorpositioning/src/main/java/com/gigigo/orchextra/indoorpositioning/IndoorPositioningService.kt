@@ -19,16 +19,15 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import android.app.AlarmManager
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Handler
 import android.os.IBinder
 import android.support.annotation.RequiresApi
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
-import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON_REGION
@@ -37,9 +36,11 @@ import com.gigigo.orchextra.core.domain.interactor.ValidateTrigger
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGD
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.gigigo.orchextra.core.utils.LogUtils.LOGW
 import com.gigigo.orchextra.indoorpositioning.domain.IndoorPositioningValidator
 import com.gigigo.orchextra.indoorpositioning.domain.RegionsDetector
+import com.gigigo.orchextra.indoorpositioning.domain.datasource.IPDbDataSource
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeaconRegion
 import com.gigigo.orchextra.indoorpositioning.scanner.BeaconScanner
@@ -48,25 +49,24 @@ import com.gigigo.orchextra.indoorpositioning.utils.extensions.getBeaconManager
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getType
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getValue
 import org.altbeacon.beacon.BeaconConsumer
-import java.util.ArrayList
 
 class IndoorPositioningService : Service(), BeaconConsumer {
 
   private lateinit var alarmManager: AlarmManager
   private lateinit var beaconScanner: BeaconScanner
   private lateinit var regionsDetector: RegionsDetector
-  private lateinit var config: List<IndoorPositionConfig>
   private lateinit var validator: IndoorPositioningValidator
   private lateinit var validateTrigger: ValidateTrigger
+  private lateinit var dataSource: IPDbDataSource
   private var isRunning: Boolean = false
   private var timerStarted = false
   private val handler = Handler()
-  private val CHECK_SERVICE_TIME_IN_SECONDS = 60
 
   override fun onCreate() {
     super.onCreate()
     this.isRunning = false
     this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    dataSource = IPDbDataSource.create(this)
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -81,7 +81,8 @@ class IndoorPositioningService : Service(), BeaconConsumer {
       isRunning = true
 
       val dbDataSource = DbDataSource.create(this)
-      config = intent.getParcelableArrayListExtra(CONFIG_EXTRA)
+      val config = dataSource.getConfig()
+
       validator = IndoorPositioningValidator(config)
       validateTrigger = ValidateTrigger.create(DbDataSource.create(applicationContext))
       beaconScanner = BeaconScannerImp(getBeaconManager(dbDataSource.getScanTime()), this)
@@ -111,7 +112,8 @@ class IndoorPositioningService : Service(), BeaconConsumer {
 
   private fun setAlarmService() {
     val time = System.currentTimeMillis() + CHECK_SERVICE_TIME_IN_SECONDS * 1000
-    alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent)
+    alarmManager.set(AlarmManager.RTC_WAKEUP, time,
+        IndoorPositioningReceiver.getIndoorPositioningIntent(this))
   }
 
   @RequiresApi(VERSION_CODES.JELLY_BEAN_MR2)
@@ -129,7 +131,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
           uptime = beacon.uptime)
 
       if (validateTrigger.isValid(trigger)) {
-        sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+        sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(this, trigger))
       }
     } else {
       LOGD(TAG, "Invalid beacon: $beacon")
@@ -151,7 +153,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
           event = beaconRegion.event)
 
       if (validateTrigger.isValid(trigger)) {
-        sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(trigger))
+        sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(this, trigger))
       }
     } else {
       LOGD(TAG, "Invalid region: $beaconRegion")
@@ -177,28 +179,21 @@ class IndoorPositioningService : Service(), BeaconConsumer {
 
   companion object Navigator {
     private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
-    private val CONFIG_EXTRA = "config_extra"
-    private var intent: Intent? = null
-    private var pendingIntent: PendingIntent? = null
+    private const val CHECK_SERVICE_TIME_IN_SECONDS = 10
 
-    fun start(context: Context, config: ArrayList<IndoorPositionConfig>) {
-      pendingIntent = IndoorPositioningReceiver.getIndoorPositioningIntent(context, config)
-      intent = Intent(context, IndoorPositioningService::class.java)
-      intent?.putParcelableArrayListExtra(CONFIG_EXTRA, config)
-      context.startService(intent)
+    fun start(context: Context) {
+      val intent = Intent(context, IndoorPositioningService::class.java)
+      try {
+        context.startService(intent)
+      } catch (exception: IllegalStateException) {
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+          context.startForegroundService(intent)
+        }
+      }
     }
 
     fun stop(context: Context) {
-
-      LOGD(TAG, "Stop indoorPositioningService")
-
-      if (intent != null) {
-        context.stopService(intent)
-      }
-      if (pendingIntent != null) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(pendingIntent)
-      }
+      LOGE(TAG, "Stop indoorPositioningService")
     }
   }
 }

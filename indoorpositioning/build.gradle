@@ -112,6 +112,7 @@ dependencies {
   implementation rootProject.ext.libraries.ormLite
   implementation rootProject.ext.libraries.ormLiteAndroid
   implementation rootProject.ext.libraries.altbeacon
+  implementation rootProject.ext.libraries.moshi
 
   implementation rootProject.ext.modules.core
 

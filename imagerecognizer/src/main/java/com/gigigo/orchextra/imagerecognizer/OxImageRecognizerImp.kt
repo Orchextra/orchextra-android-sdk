@@ -75,7 +75,7 @@ class OxImageRecognizerImp private constructor(
 
   private fun showResponseCode(code: String) {
     activity.sendBroadcast(
-        TriggerBroadcastReceiver.getTriggerIntent(IMAGE_RECOGNITION withValue code))
+        TriggerBroadcastReceiver.getTriggerIntent(activity, IMAGE_RECOGNITION withValue code))
   }
 
   companion object Factory {

@@ -150,7 +150,8 @@ public class ScannerFragment extends Fragment {
     dispatchQRbutton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Trigger qrTrigger = TriggerType.QR.withValue("qrcustomaction");
-        getActivity().sendBroadcast(TriggerBroadcastReceiver.Navigator.getTriggerIntent(qrTrigger));
+        getActivity().sendBroadcast(
+            TriggerBroadcastReceiver.Navigator.getTriggerIntent(getContext(), qrTrigger));
       }
     });
   }

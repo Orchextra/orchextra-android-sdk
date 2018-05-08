@@ -18,9 +18,11 @@
 
 package com.gigigo.orchextra.indoorpositioning.data
 
+import android.content.SharedPreferences
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.list.ListCachingStrategy
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.ttl.TtlCachingStrategy
 import com.gigigo.orchextra.core.data.datasources.db.persistors.Persistor
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.exceptions.DbException
 import com.gigigo.orchextra.indoorpositioning.data.models.DbOxBeacon
 import com.gigigo.orchextra.indoorpositioning.data.models.toDbOxBeacon
@@ -29,15 +31,27 @@ import com.gigigo.orchextra.indoorpositioning.data.persistors.OxBeaconPersistor
 import com.gigigo.orchextra.indoorpositioning.domain.datasource.IPDbDataSource
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.j256.ormlite.dao.Dao
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import java.sql.SQLException
 import java.util.concurrent.TimeUnit.DAYS
 
-class IPDbDataSourceImp(helper: IPDatabaseHelper) : IPDbDataSource {
+class IPDbDataSourceImp(helper: IPDatabaseHelper,
+    private val sharedPreferences: SharedPreferences) : IPDbDataSource {
 
   private val daoOxBeacons: Dao<DbOxBeacon, Int> = helper.getOxBeaconDao()
   private val oxBeaconPersistor: Persistor<DbOxBeacon> = OxBeaconPersistor(helper)
   private val beaconListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbOxBeacon>(30, DAYS))
+  private val configAdapter: JsonAdapter<List<IndoorPositionConfig>>
+
+
+  init {
+    val moshi = Moshi.Builder().build()
+    val type = Types.newParameterizedType(List::class.java, IndoorPositionConfig::class.java)
+    configAdapter = moshi.adapter(type)
+  }
 
   @Throws(DbException::class)
   override fun getBeacon(id: String): OxBeacon? {
@@ -104,5 +118,22 @@ class IPDbDataSourceImp(helper: IPDatabaseHelper) : IPDbDataSource {
     val deleteBuilder = daoOxBeacons.deleteBuilder()
     deleteBuilder.where().`in`("value", beaconIds)
     deleteBuilder.delete()
+  }
+
+  override fun saveConfig(config: List<IndoorPositionConfig>) {
+    val jsonData = configAdapter.toJson(config)
+    with(sharedPreferences.edit()) {
+      putString(CONFIG_KEY, jsonData)
+      commit()
+    }
+  }
+
+  override fun getConfig(): List<IndoorPositionConfig> {
+    val jsonData = sharedPreferences.getString(CONFIG_KEY, "{}")
+    return configAdapter.fromJson(jsonData) ?: arrayListOf()
+  }
+
+  companion object {
+    private const val CONFIG_KEY = "CONFIG_KEY"
   }
 }

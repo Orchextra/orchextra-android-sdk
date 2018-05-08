@@ -31,8 +31,6 @@ class TriggerBroadcastReceiver : BroadcastReceiver() {
 
   override fun onReceive(context: Context, intent: Intent) {
 
-    Orchextra.initFileLogger(context)
-
     val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA).copy(
         phoneStatus = getStatus())
     LOGD(TAG, "onTriggerReceived: $trigger")
@@ -41,13 +39,13 @@ class TriggerBroadcastReceiver : BroadcastReceiver() {
 
   companion object Navigator {
     private val TAG = LogUtils.makeLogTag(TriggerBroadcastReceiver::class.java)
-    val TRIGGER_RECEIVER = "com.gigigo.orchextra.TRIGGER_RECEIVER"
-    val TRIGGER_EXTRA = "trigger_extra"
+    private const val TRIGGER_RECEIVER = "com.gigigo.orchextra.TRIGGER_RECEIVER"
+    private const val TRIGGER_EXTRA = "trigger_extra"
 
-    fun getTriggerIntent(trigger: Trigger): Intent {
-      val intent = Intent()
-      intent.action = TRIGGER_RECEIVER
+    fun getTriggerIntent(context: Context, trigger: Trigger): Intent {
+      val intent = Intent(TRIGGER_RECEIVER)
       intent.putExtra(TRIGGER_EXTRA, trigger)
+      intent.setClass(context, TriggerBroadcastReceiver::class.java)
       return intent
     }
   }

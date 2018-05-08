@@ -45,7 +45,6 @@ class OxGeofenceImp(private val context: Application,
     private val geofencingClient: GeofencingClient) : OxTrigger<List<GeoMarketing>>, OnCompleteListener<Void> {
 
   private val TAG = LogUtils.makeLogTag(OxGeofenceImp::class.java)
-  private val GEOFENCES_ADDED_KEY = "GEOFENCES_ADDED_KEY"
   private var geofenceList: List<Geofence> = ArrayList()
   private var geofencePendingIntent: PendingIntent? = null
 
@@ -55,13 +54,8 @@ class OxGeofenceImp(private val context: Application,
       throw IllegalArgumentException("Empty geofence list")
     }
 
-    if (ContextCompat.checkSelfPermission(context,
-        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-      connectWithCallbacks()
-      addGeofences()
-    } else {
-      throw SecurityException("Geofence trigger needs ACCESS_FINE_LOCATION permission")
-    }
+    connectWithCallbacks()
+    addGeofences()
   }
 
   override fun setConfig(config: List<GeoMarketing>) {
@@ -73,8 +67,13 @@ class OxGeofenceImp(private val context: Application,
   }
 
   private fun addGeofences() {
-    geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
-        .addOnCompleteListener(this)
+    if (ContextCompat.checkSelfPermission(context,
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+      geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+          .addOnCompleteListener(this)
+    } else {
+      throw SecurityException("Geofence trigger needs ACCESS_FINE_LOCATION permission")
+    }
   }
 
   private fun removeGeofences() {
@@ -157,6 +156,7 @@ class OxGeofenceImp(private val context: Application,
   }
 
   companion object Factory {
+    private const val GEOFENCES_ADDED_KEY = "GEOFENCES_ADDED_KEY"
 
     fun create(context: Application): OxGeofenceImp = OxGeofenceImp(context,
         LocationServices.getGeofencingClient(context))

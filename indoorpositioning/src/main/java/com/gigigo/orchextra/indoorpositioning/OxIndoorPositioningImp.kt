@@ -21,21 +21,22 @@ package com.gigigo.orchextra.indoorpositioning
 import android.app.Application
 import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
-import java.util.*
+import com.gigigo.orchextra.indoorpositioning.domain.datasource.IPDbDataSource
 
-class OxIndoorPositioningImp private constructor(private val context: Application) :
-    OxTrigger<List<IndoorPositionConfig>> {
+class OxIndoorPositioningImp private constructor(private val context: Application,
+    private val dataSource: IPDbDataSource) : OxTrigger<List<IndoorPositionConfig>> {
 
   private lateinit var config: List<IndoorPositionConfig>
 
   override fun init() {
     if (config.isNotEmpty()) {
-      IndoorPositioningService.start(context, config as ArrayList<IndoorPositionConfig>)
+      IndoorPositioningService.start(context)
     }
   }
 
   override fun setConfig(config: List<IndoorPositionConfig>) {
     this.config = config
+    dataSource.saveConfig(config)
   }
 
   override fun finish() {
@@ -43,7 +44,7 @@ class OxIndoorPositioningImp private constructor(private val context: Applicatio
   }
 
   companion object Factory {
-
-    fun create(context: Application): OxIndoorPositioningImp = OxIndoorPositioningImp(context)
+    fun create(context: Application): OxIndoorPositioningImp =
+        OxIndoorPositioningImp(context, IPDbDataSource.create(context))
   }
 }

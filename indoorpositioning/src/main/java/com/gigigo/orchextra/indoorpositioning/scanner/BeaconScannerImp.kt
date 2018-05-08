@@ -23,6 +23,7 @@ import android.os.RemoteException
 import android.support.annotation.RequiresApi
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGD
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.toOxBeacon
 import org.altbeacon.beacon.BeaconConsumer
@@ -33,8 +34,6 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
     private val consumer: BeaconConsumer) : BeaconScanner {
 
   private var listener: (OxBeacon) -> Unit = {}
-
-  private val TAG = LogUtils.makeLogTag(BeaconScannerImp::class.java)
 
   override fun start(listener: (OxBeacon) -> Unit) {
     this.listener = listener
@@ -57,7 +56,7 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
       beaconManager.startRangingBeaconsInRegion(
           Region("com.gigigo.orchextra.beaconscanner", null, null, null))
     } catch (e: RemoteException) {
-      e.printStackTrace()
+      LOGE(TAG, "onBeaconServiceConnect()", e)
     }
   }
 
@@ -72,6 +71,6 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
   }
 
   companion object {
-    private val TAG = "BeaconScannerImp"
+    private val TAG = LogUtils.makeLogTag(BeaconScannerImp::class.java)
   }
 }
