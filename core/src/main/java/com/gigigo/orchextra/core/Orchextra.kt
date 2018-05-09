@@ -21,6 +21,8 @@ package com.gigigo.orchextra.core
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.support.v4.content.ContextCompat
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.customaction.CustomActionExecutor
@@ -41,6 +43,7 @@ import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
 import com.gigigo.orchextra.core.utils.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import java.util.concurrent.TimeUnit
@@ -83,10 +86,14 @@ object Orchextra : OrchextraErrorListener {
 
     getConfiguration(context, apiKey)
 
-    if (options.triggeringEnabled) {
+    if (ContextCompat.checkSelfPermission(context,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+        options.triggeringEnabled) {
       this.locationProvider.getLocation { point ->
         triggerManager.point = OxPoint(lat = point.lat, lng = point.lng)
       }
+    } else {
+      LOGE(TAG, "Location disabled!")
     }
 
     if (options.hasFirebaseConfig()) {
