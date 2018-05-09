@@ -5,12 +5,14 @@ class OrchextraOptions(
     val firebaseApiKey: String = "",
     val firebaseApplicationId: String = "",
     val deviceBusinessUnits: List<String> = arrayListOf(),
+    val triggeringEnabled: Boolean = false,
     val debuggable: Boolean = false) {
 
   private constructor(builder: Builder) : this(
       builder.firebaseApiKey,
       builder.firebaseApplicationId,
       builder.deviceBusinessUnits,
+      builder.triggeringEnabled,
       builder.debuggable)
 
   fun hasFirebaseConfig(): Boolean = firebaseApiKey.isNotEmpty()
@@ -25,6 +27,9 @@ class OrchextraOptions(
     var deviceBusinessUnits: List<String> = arrayListOf()
       private set
 
+    var triggeringEnabled: Boolean = false
+      private set
+
     var debuggable: Boolean = false
       private set
 
@@ -35,6 +40,9 @@ class OrchextraOptions(
 
     fun deviceBusinessUnits(
         deviceBusinessUnits: List<String>) = apply { this.deviceBusinessUnits = deviceBusinessUnits }
+
+    fun triggeringEnabled(
+        triggeringEnabled: Boolean) = apply { this.triggeringEnabled = triggeringEnabled }
 
     fun debuggable(debuggable: Boolean) = apply { this.debuggable = debuggable }
 

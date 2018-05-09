@@ -18,6 +18,7 @@
 
 package com.gigigo.orchextrasdk.demo.ui.scanner;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,7 +32,9 @@ import android.widget.Toast;
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
 import com.gigigo.orchextra.core.domain.entities.TriggerType;
+import com.gigigo.orchextra.core.domain.exceptions.OxException;
 import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver;
+import com.gigigo.orchextra.core.utils.PermissionsActivity;
 import com.gigigo.orchextra.imagerecognizer.OxImageRecognizerImp;
 import com.gigigo.orchextra.scanner.OxScannerImp;
 import com.gigigo.orchextrasdk.demo.R;
@@ -39,6 +42,7 @@ import com.gigigo.orchextrasdk.demo.ui.scanner.custom.CustomScannerImp;
 import com.gigigo.orchextrasdk.demo.utils.integration.Ox3ManagerImp;
 import com.gigigo.orchextrasdk.demo.utils.integration.OxManager;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
 public class ScannerFragment extends Fragment {
@@ -49,6 +53,7 @@ public class ScannerFragment extends Fragment {
   private Button oxImageRecognitionButton;
   private Button oxScanCodeButton;
   private Button dispatchQRbutton;
+  private Button requestLocationButton;
   private OxManager oxManager;
 
   public ScannerFragment() {
@@ -68,6 +73,7 @@ public class ScannerFragment extends Fragment {
     oxImageRecognitionButton = view.findViewById(R.id.ox_image_recognition_button);
     oxScanCodeButton = view.findViewById(R.id.ox_scan_code_button);
     dispatchQRbutton = view.findViewById(R.id.dispatch_qr_button);
+    requestLocationButton = view.findViewById(R.id.request_location_button);
 
     return view;
   }
@@ -152,6 +158,21 @@ public class ScannerFragment extends Fragment {
         Trigger qrTrigger = TriggerType.QR.withValue("qrcustomaction");
         getActivity().sendBroadcast(
             TriggerBroadcastReceiver.Navigator.getTriggerIntent(getContext(), qrTrigger));
+      }
+    });
+
+    requestLocationButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        PermissionsActivity.Navigator.open(getContext(), Manifest.permission.ACCESS_FINE_LOCATION,
+            new Function0<Unit>() {
+              @Override public Unit invoke() {
+                return null;
+              }
+            }, new Function1<OxException, Unit>() {
+              @Override public Unit invoke(OxException e) {
+                return null;
+              }
+            });
       }
     });
   }

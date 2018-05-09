@@ -36,7 +36,7 @@ class LocationProvider(context: Context) {
           val point = if (location != null) {
             Point(lat = location.latitude, lng = location.longitude)
           } else {
-            Point(lat = -1.0, lng = -1.0)
+            Point(lat = 0.0, lng = 0.0)
           }
 
           listener(point)

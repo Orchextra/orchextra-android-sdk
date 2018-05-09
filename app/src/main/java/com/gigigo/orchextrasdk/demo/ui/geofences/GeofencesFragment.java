@@ -18,6 +18,8 @@
 
 package com.gigigo.orchextrasdk.demo.ui.geofences;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -25,6 +27,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,15 +110,19 @@ public class GeofencesFragment extends Fragment implements OnMapReadyCallback {
     mapView.onLowMemory();
   }
 
-  @SuppressWarnings("MissingPermission") @Override public void onMapReady(GoogleMap googleMap) {
+  @Override public void onMapReady(GoogleMap googleMap) {
     this.googleMap = googleMap;
-    //this.googleMap.setMyLocationEnabled(true);
 
     getGeofences();
     showMyLocation();
   }
 
-  @SuppressWarnings("MissingPermission") private void showMyLocation() {
+  private void showMyLocation() {
+    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
+
     fusedLocationClient.getLastLocation()
         .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
           @Override public void onSuccess(Location location) {

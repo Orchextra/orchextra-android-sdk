@@ -81,6 +81,7 @@ public class Ox3ManagerImp implements OxManager {
         new OrchextraOptions.Builder().firebaseApiKey(config.getFirebaseApiKey())
             .firebaseApplicationId(config.getFirebaseApplicationId())
             .deviceBusinessUnits(deviceBusinessUnits)
+            .triggeringEnabled(true)
             .debuggable(true)
             .build();
 

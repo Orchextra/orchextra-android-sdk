@@ -65,4 +65,12 @@
       android:text="Dispatch QR Code"
       style="@style/ButtonStyle"
       />
+
+  <Button
+      android:id="@+id/request_location_button"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:text="Request location"
+      style="@style/ButtonStyle"
+      />
 </LinearLayout>
