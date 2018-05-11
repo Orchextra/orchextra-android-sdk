@@ -23,6 +23,7 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Build
+import android.os.Build.VERSION
 import android.provider.Settings
 import android.util.Log
 import com.gigigo.orchextra.core.data.datasources.network.models.ApiClientApp
@@ -36,30 +37,41 @@ import java.util.TimeZone
 import java.util.UUID
 
 
-private val TAG = "ContextExtensions"
+private const val TAG = "ContextExtensions"
 
-fun Context.getBaseApiOxDevice(): ApiOxDevice = with(this) {
+fun Context.getBaseApiOxDevice(anonymous: Boolean): ApiOxDevice = with(this) {
 
   val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
   val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-  val bluetoothMacAddress = if (bluetoothAdapter != null) {
-    bluetoothAdapter.address
-  } else {
-    ""
-  }
 
   return ApiOxDevice(
-      instanceId = getIdToken(),
-      secureId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
-      serialNumber = Build.SERIAL,
-      bluetoothMacAddress = bluetoothMacAddress,
-      wifiMacAddress = wifiManager.connectionInfo.macAddress,
+      instanceId = getIdToken(anonymous),
+      secureId = if (anonymous) {
+        "Anonymous"
+      } else {
+        Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+      },
+      serialNumber = if (anonymous) {
+        "Anonymous"
+      } else {
+        Build.SERIAL
+      },
+      bluetoothMacAddress = if (anonymous) {
+        "Anonymous"
+      } else {
+        bluetoothAdapter?.address
+      },
+      wifiMacAddress = if (anonymous) {
+        "Anonymous"
+      } else {
+        wifiManager?.connectionInfo?.macAddress
+      },
       clientApp = getApiClientApp(),
       notificationPush = ApiNotificationPush(token = getFirebaseToken()),
-      device = getApiDeviceInfo())
+      device = getApiDeviceInfo(anonymous))
 }
 
-fun Context.getApiClientApp(): ApiClientApp = with(this) {
+private fun Context.getApiClientApp(): ApiClientApp = with(this) {
   val packageInfo = applicationContext.packageManager.getPackageInfo(packageName, 0)
 
   return ApiClientApp(
@@ -70,7 +82,7 @@ fun Context.getApiClientApp(): ApiClientApp = with(this) {
       sdkDevice = "-")
 }
 
-fun Context.getApiDeviceInfo(): ApiDeviceInfo = with(this) {
+private fun Context.getApiDeviceInfo(anonymous: Boolean): ApiDeviceInfo = with(this) {
   val timeZone = TimeZone.getDefault()
   val handset = if (Build.MODEL.startsWith(Build.MANUFACTURER)) {
     Build.MODEL.capitalize()
@@ -80,19 +92,28 @@ fun Context.getApiDeviceInfo(): ApiDeviceInfo = with(this) {
 
   return ApiDeviceInfo(
       timeZone = "${timeZone.getDisplayName(false, TimeZone.SHORT)} ${timeZone.id}",
-      osVersion = Build.VERSION.SDK_INT.toString(),
+      osVersion = if (anonymous) {
+        "Anonymous"
+      } else {
+        VERSION.SDK_INT.toString()
+      },
       language = Locale.getDefault().toString(),
-      handset = handset,
+      handset = if (anonymous) {
+        "Anonymous"
+      } else {
+        handset
+      },
       type = "ANDROID")
 }
 
-fun getIdToken(): String = if (getFirebaseToken().isEmpty()) {
+private fun getIdToken(
+    anonymous: Boolean): String = if (getFirebaseToken().isEmpty() || anonymous) {
   UUID.randomUUID().toString()
 } else {
   getFirebaseToken()
 }
 
-fun getFirebaseToken(): String = try {
+private fun getFirebaseToken(): String = try {
   FirebaseInstanceId.getInstance().token ?: ""
 } catch (e: Exception) {
   Log.e(TAG, "getFirebaseToken()", e)

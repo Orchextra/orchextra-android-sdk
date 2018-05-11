@@ -76,6 +76,9 @@ interface DbDataSource {
   @Throws(DbException::class)
   fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>)
 
+  @Throws(DbException::class)
+  fun setAnonymous(anonymous: Boolean)
+
   companion object Factory {
 
     var dbDataSource: DbDataSource? = null

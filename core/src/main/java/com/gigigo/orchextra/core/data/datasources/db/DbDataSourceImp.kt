@@ -54,12 +54,6 @@ class DbDataSourceImp(private val context: Context,
     helper: DatabaseHelper,
     moshi: Moshi) : DbDataSource {
 
-  private val CRM_KEY = "crm_key"
-  private val DEVICE_KEY = "device_key"
-  private val WAIT_TIME_KEY = "wait_time_key"
-  private val SCAN_TIME_KEY = "wait_time_key"
-  private val NOTIFICATION_ACTIVITY_KEY = "notification_activity_key"
-  private val BUSINESS_UNITS = "business_units"
   private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()
   private val triggerListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbTrigger>(15, DAYS))
@@ -121,7 +115,9 @@ class DbDataSourceImp(private val context: Context,
     return if (stringDevice.isNotEmpty()) {
       deviceJsonAdapter.fromJson(stringDevice).toOxDevice()
     } else {
-      var newDevice = context.getBaseApiOxDevice().toOxDevice()
+
+      val anonymous = getAnonymous()
+      var newDevice = context.getBaseApiOxDevice(anonymous).toOxDevice()
 
       val deviceBusinessUnits = getDeviceBusinessUnits()
       if (deviceBusinessUnits.isNotEmpty()) {
@@ -177,6 +173,14 @@ class DbDataSourceImp(private val context: Context,
   override fun getNotificationActivityName(): String = sharedPreferences.getString(
       NOTIFICATION_ACTIVITY_KEY, "")
 
+  override fun setAnonymous(anonymous: Boolean) {
+    val editor = sharedPreferences.edit()
+    editor?.putBoolean(ANONYMOUS_KEY, anonymous)
+    editor?.commit()
+  }
+
+  private fun getAnonymous(): Boolean = sharedPreferences.getBoolean(ANONYMOUS_KEY, false)
+
   @SuppressLint("ApplySharedPref")
   override fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>) {
     val businessUnitsString = deviceBusinessUnits.reduce { acc, s -> acc + ";" + s }
@@ -209,5 +213,16 @@ class DbDataSourceImp(private val context: Context,
     val deleteBuilder = daoTriggers.deleteBuilder()
     deleteBuilder.where().`in`("value", triggerIds)
     deleteBuilder.delete()
+  }
+
+  companion object {
+    private const val TAG = "DbDataSourceImp"
+    private const val CRM_KEY = "crm_key"
+    private const val DEVICE_KEY = "device_key"
+    private const val WAIT_TIME_KEY = "wait_time_key"
+    private const val SCAN_TIME_KEY = "wait_time_key"
+    private const val NOTIFICATION_ACTIVITY_KEY = "notification_activity_key"
+    private const val ANONYMOUS_KEY = "ANONYMOUS_KEY"
+    private const val BUSINESS_UNITS = "business_units"
   }
 }
