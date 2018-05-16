@@ -18,9 +18,11 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
+import android.util.Log
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Configuration
+import com.gigigo.orchextra.core.domain.exceptions.DbException
 import com.gigigo.orchextra.core.domain.exceptions.NetworkException
 import com.gigigo.orchextra.core.domain.exceptions.OxException
 import com.gigigo.orchextra.core.domain.executor.PostExecutionThread
@@ -45,13 +47,29 @@ class GetConfiguration(threadExecutor: ThreadExecutor, postExecutionThread: Post
 
   override fun run() = try {
     val configuration = networkDataSource.getConfiguration(apiKey)
-    dbDataSource.saveWaitTime(TimeUnit.SECONDS.toMillis(configuration.requestWaitTime))
+
+    try {
+      dbDataSource.saveWaitTime(TimeUnit.SECONDS.toMillis(configuration.requestWaitTime))
+      dbDataSource.saveConfiguration(configuration)
+    } catch (e: DbException) {
+      Log.e(TAG, "GetConfiguration", e)
+    }
+
     notifySuccess(configuration)
+
   } catch (error: NetworkException) {
-    notifyError(error)
+    try {
+      val configuration = dbDataSource.getConfiguration()
+      notifySuccess(configuration)
+
+    } catch (dbError: DbException) {
+      notifyError(error)
+    }
   }
 
   companion object Factory {
+
+    private const val TAG = "GetConfiguration"
 
     fun create(networkDataSource: NetworkDataSource, dbDataSource: DbDataSource):
         GetConfiguration = GetConfiguration(

@@ -22,6 +22,7 @@ import android.content.Context
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.data.datasources.db.DatabaseHelper
 import com.gigigo.orchextra.core.data.datasources.db.DbDataSourceImp
+import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.entities.Trigger
@@ -30,6 +31,12 @@ import com.squareup.moshi.Moshi
 
 
 interface DbDataSource {
+
+  @Throws(DbException::class)
+  fun getConfiguration(): Configuration
+
+  @Throws(DbException::class)
+  fun saveConfiguration(configuration: Configuration)
 
   @Throws(DbException::class)
   fun getTrigger(value: String): Trigger

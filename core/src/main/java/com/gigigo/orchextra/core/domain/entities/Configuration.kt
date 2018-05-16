@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-val DEFAULT_REQUEST_WAIT_TIME = 120L
+const val DEFAULT_REQUEST_WAIT_TIME = 120L
 
 data class Configuration(
     val geoMarketing: List<GeoMarketing> = listOf(),

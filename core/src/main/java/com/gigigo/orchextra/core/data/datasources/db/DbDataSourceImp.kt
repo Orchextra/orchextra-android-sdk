@@ -35,6 +35,7 @@ import com.gigigo.orchextra.core.data.datasources.network.models.toApiOxDevice
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxCrm
 import com.gigigo.orchextra.core.data.datasources.network.models.toOxDevice
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
+import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.EMPTY_CRM
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
@@ -58,9 +59,25 @@ class DbDataSourceImp(private val context: Context,
   private val triggerListCachingStrategy = ListCachingStrategy(
       TtlCachingStrategy<DbTrigger>(15, DAYS))
   private val triggerPersistor: Persistor<DbTrigger> = TriggerPersistor(helper)
+
+  private val configurationAdapter = moshi.adapter(Configuration::class.java)
   private val crmJsonAdapter = moshi.adapter(ApiOxCrm::class.java)
   private val deviceJsonAdapter = moshi.adapter(ApiOxDevice::class.java)
 
+
+  @SuppressLint("ApplySharedPref")
+  override fun saveConfiguration(configuration: Configuration) {
+    val editor = sharedPreferences.edit()
+    editor?.putString(CONFIGURATION, configurationAdapter.toJson(configuration))
+    editor?.commit()
+  }
+
+  override fun getConfiguration(): Configuration = try {
+    val jsonData = sharedPreferences.getString(CONFIGURATION, null)
+    configurationAdapter.fromJson(jsonData)
+  } catch (e: Exception) {
+    throw DbException(-1, e.message ?: "DbException")
+  }
 
   override fun getTrigger(value: String): Trigger {
     try {
@@ -224,5 +241,6 @@ class DbDataSourceImp(private val context: Context,
     private const val NOTIFICATION_ACTIVITY_KEY = "notification_activity_key"
     private const val ANONYMOUS_KEY = "ANONYMOUS_KEY"
     private const val BUSINESS_UNITS = "business_units"
+    private const val CONFIGURATION = "configuration"
   }
 }
