@@ -26,9 +26,9 @@ ext {
                multidex                 : 'com.android.support:multidex:1.0.2',
                multidexInstrumentation  : 'com.android.support:multidex-instrumentation:1.0.2',
 
-               playServicesGcm          : 'com.google.android.gms:play-services-gcm:11.0.4',
-               playServicesLocation     : 'com.google.android.gms:play-services-location:11.0.4',
-               playServicesMaps         : 'com.google.android.gms:play-services-maps:11.0.4',
+               playServicesGcm          : 'com.google.android.gms:play-services-gcm:15.0.1',
+               playServicesLocation     : 'com.google.android.gms:play-services-location:15.0.1',
+               playServicesMaps         : 'com.google.android.gms:play-services-maps:15.0.1',
 
                retrofit                 : 'com.squareup.retrofit2:retrofit:2.3.0',
                retrofitMoshiConverter   : 'com.squareup.retrofit2:converter-moshi:2.3.0',

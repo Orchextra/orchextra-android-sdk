@@ -25,7 +25,7 @@ buildscript {
   dependencies {
     classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
     classpath 'com.applivery.gradle:applivery-deploy:1.0.0'
-    classpath 'io.fabric.tools:gradle:1.25.0'
+    classpath 'io.fabric.tools:gradle:1.25.4'
   }
 }
 
@@ -104,12 +104,12 @@ android {
   }
 
   configurations {
-    compile.exclude group: "org.jetbrains", module: "annotations"
+    implementation.exclude group: "org.jetbrains", module: "annotations"
   }
 }
 
 configurations {
-  compile.exclude group: "org.jetbrains", module: "annotations"
+  implementation.exclude group: "org.jetbrains", module: "annotations"
 }
 
 android.applicationVariants.all { variant ->
@@ -132,7 +132,7 @@ android.applicationVariants.all { variant ->
 
 dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-  implementation 'com.android.support:multidex:1.0.1'
+  implementation 'com.android.support:multidex:1.0.3'
 
   implementation rootProject.ext.modules.core
   implementation rootProject.ext.modules.geofence
@@ -146,8 +146,14 @@ dependencies {
   implementation "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
   implementation "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
   implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
-  implementation "com.google.android.gms:play-services-maps:11.0.4"
-  implementation "com.google.android.gms:play-services-location:11.0.4"
+
+/*  implementation "com.google.android.gms:play-services-maps:15.0.1"
+  implementation "com.google.android.gms:play-services-location:15.0.1"*/
+
+  implementation rootProject.ext.libraries.playServicesGcm
+  implementation rootProject.ext.libraries.playServicesLocation
+  implementation rootProject.ext.libraries.playServicesMaps
+
   implementation 'com.facebook.stetho:stetho:1.5.0'
   implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
 
@@ -181,7 +187,7 @@ dependencies {
   // Screenshots
   androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
 
-  compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+  implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
     transitive = true
   }
 }

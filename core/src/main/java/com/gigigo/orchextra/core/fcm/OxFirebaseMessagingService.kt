@@ -58,12 +58,12 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     if (remoteMessage.notification != null) {
-      Log.d(TAG, "Message Notification Body: " + remoteMessage.notification.body!!)
-      Log.d(TAG, "Message Notification Title: " + remoteMessage.notification.title!!)
+      Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
+      Log.d(TAG, "Message Notification Title: " + remoteMessage.notification!!.title!!)
 
       sendNotification(
-          title = remoteMessage.notification.title ?: "Orchextra",
-          body = remoteMessage.notification.body ?: "")
+          title = remoteMessage.notification!!.title ?: "Orchextra",
+          body = remoteMessage.notification!!.body ?: "")
     }
   }
 
