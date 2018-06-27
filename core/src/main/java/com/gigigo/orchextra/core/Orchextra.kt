@@ -86,7 +86,9 @@ object Orchextra : OrchextraErrorListener {
         onActivityResumed = { isActivityRunning = true },
         onActivityPaused = { isActivityRunning = false })
 
-    getConfiguration(context, apiKey)
+    getConfiguration(context, apiKey, {
+      crmManager?.updateAnonymousCustomField()
+    })
 
     if (ContextCompat.checkSelfPermission(context,
             android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
@@ -120,13 +122,14 @@ object Orchextra : OrchextraErrorListener {
     }
   }
 
-  private fun getConfiguration(context: Context, apiKey: String) {
+  private fun getConfiguration(context: Context, apiKey: String, configurationSuccess: () -> Unit) {
     val getConfiguration = GetConfiguration.create(NetworkDataSource.create(context),
         dbDataSource)
 
     getConfiguration.get(apiKey,
         onSuccess = {
           crmManager?.availableCustomFields = it.customFields
+          configurationSuccess()
           changeStatus(true)
         },
 

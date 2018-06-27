@@ -29,13 +29,16 @@ import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxCRM
 import com.gigigo.orchextra.core.domain.entities.OxDevice
 import com.gigigo.orchextra.core.domain.exceptions.OxException
+import com.gigigo.orchextra.core.domain.interactor.GetAnonymous
 import com.gigigo.orchextra.core.domain.interactor.GetTokenData
 import com.gigigo.orchextra.core.domain.interactor.UnbindCrm
 import com.gigigo.orchextra.core.domain.interactor.UpdateCrm
 import com.gigigo.orchextra.core.domain.interactor.UpdateDevice
 
 class CrmManager(private val getTokenData: GetTokenData,
-    private val updateCrm: UpdateCrm, private val updateDevice: UpdateDevice,
+    private val updateCrm: UpdateCrm,
+    private val getAnonymous: GetAnonymous,
+    private val updateDevice: UpdateDevice,
     private val unbindCrm: UnbindCrm,
     private val showError: (error: Error) -> Unit) {
 
@@ -51,6 +54,7 @@ class CrmManager(private val getTokenData: GetTokenData,
     updateCrm.update(crm,
         onSuccess = {
           this.crm = it
+          updateAnonymousCustomField()
           onSuccess(it)
         }, onError = onError)
   }
@@ -75,6 +79,18 @@ class CrmManager(private val getTokenData: GetTokenData,
         }
       }
     }
+  }
+
+  fun updateAnonymousCustomField() {
+    getAnonymous.get(onSuccess = {
+      if (crm.isNotEmpty()) {
+        updateCrm.update(
+            OxCRM(crmId = crm.crmId,
+                customFields = mapOf("consent_analytics" to it.not().toString())), {
+          crm = it
+        })
+      }
+    })
   }
 
   @JvmOverloads
@@ -146,6 +162,7 @@ class CrmManager(private val getTokenData: GetTokenData,
       return CrmManager(
           GetTokenData.create(networkDataSource, dbDataSource),
           UpdateCrm.create(networkDataSource, dbDataSource),
+          GetAnonymous.create(dbDataSource),
           UpdateDevice.create(networkDataSource, dbDataSource),
           UnbindCrm.create(networkDataSource, dbDataSource),
           showError)

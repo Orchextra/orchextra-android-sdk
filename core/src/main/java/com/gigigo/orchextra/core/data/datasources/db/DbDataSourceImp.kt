@@ -196,7 +196,7 @@ class DbDataSourceImp(private val context: Context,
     editor?.commit()
   }
 
-  private fun getAnonymous(): Boolean = sharedPreferences.getBoolean(ANONYMOUS_KEY, false)
+  override fun getAnonymous(): Boolean = sharedPreferences.getBoolean(ANONYMOUS_KEY, false)
 
   @SuppressLint("ApplySharedPref")
   override fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>) {

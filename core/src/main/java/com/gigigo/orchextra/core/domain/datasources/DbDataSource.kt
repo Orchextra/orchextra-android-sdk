@@ -86,6 +86,9 @@ interface DbDataSource {
   @Throws(DbException::class)
   fun setAnonymous(anonymous: Boolean)
 
+  @Throws(DbException::class)
+  fun getAnonymous(): Boolean
+
   companion object Factory {
 
     var dbDataSource: DbDataSource? = null
