@@ -35,10 +35,25 @@ allprojects {
 Add dependencies you need
 
 ```groovy
-  compile 'com.gigigo.orchextra:core:x.x.x'
-  compile 'com.gigigo.orchextra:geofence:x.x.x'
-  compile 'com.gigigo.orchextra:indoorpositioning:x.x.x'
-  compile 'com.gigigo.orchextra:scanner:x.x.x'
+  implementation 'com.gigigo.orchextra:core:x.x.x'
+  implementation 'com.gigigo.orchextra:geofence:x.x.x'
+  implementation 'com.gigigo.orchextra:indoorpositioning:x.x.x'
+  implementation 'com.gigigo.orchextra:scanner:x.x.x'
+```
+
+Staging environment
+```groovy
+  stagingImplementation 'com.gigigo.orchextra:core:x.x.x-S'
+  stagingImplementation 'com.gigigo.orchextra:geofence:x.x.x-S'
+  stagingImplementation 'com.gigigo.orchextra:indoorpositioning:x.x.x-S'
+  stagingImplementation 'com.gigigo.orchextra:scanner:x.x.x-S'
+```
+Quality environment
+```groovy
+  debugImplementation 'com.gigigo.orchextra:core:x.x.x-Q'
+  debugImplementation 'com.gigigo.orchextra:geofence:x.x.x-Q'
+  debugImplementation 'com.gigigo.orchextra:indoorpositioning:x.x.x-Q'
+  debugImplementation 'com.gigigo.orchextra:scanner:x.x.x-Q'
 ```
 
 ### Init Orchextra
@@ -47,10 +62,13 @@ Add dependencies you need
   Orchextra orchextra = Orchextra.INSTANCE;
   orchextra.setStatusListener(orchextraStatusListener);
   orchextra.setErrorListener(orchextraErrorListener);
-  
+
   OrchextraOptions options =
-      new OrchextraOptions.Builder().firebaseApiKey("AIza_1234")
-          .firebaseApplicationId("xxxx")
+      new OrchextraOptions.Builder().firebaseApiKey(config.getFirebaseApiKey())
+          .firebaseApplicationId(config.getFirebaseApplicationId())
+          .deviceBusinessUnits(deviceBusinessUnits)
+          .triggeringEnabled(true)
+          .anonymous(false)
           .debuggable(true)
           .build();
   
@@ -117,7 +135,7 @@ Update `version` in `dependencies.gradle` and execute `deployLib` gradle command
 License
 =======
 
-    Copyright 2017 Orchextra
+    Copyright 2018 Orchextra
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
