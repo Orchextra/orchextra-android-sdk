@@ -40,7 +40,6 @@ apply plugin: 'io.fabric'
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
     applicationId "com.gigigo.orchextrasdk.demo"
