@@ -49,7 +49,7 @@ android {
     versionName "3.0-RC" + generateAutoVersionCode()
 
     ndk {
-      abiFilters "armeabi-v7a"
+      abiFilters "armeabi-v7a", "x86"
     }
 
     testApplicationId "com.gigigo.orchextrasdk.demo.test"
