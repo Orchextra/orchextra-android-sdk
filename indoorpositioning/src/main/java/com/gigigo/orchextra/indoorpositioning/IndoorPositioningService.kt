@@ -86,10 +86,10 @@ class IndoorPositioningService : Service(), BeaconConsumer {
 
     val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
         .setSmallIcon(R.drawable.ox_notification_large_icon)
-        .setContentTitle("")
+        .setContentTitle(getString(R.string.app_name))
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-    startForeground(0x342, mBuilder.build())
+    startForeground(NOTIFICATION_ID, mBuilder.build())
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -131,6 +131,10 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     beaconScanner.stop()
     stopTimer()
     super.onDestroy()
+
+    val notificationManager = applicationContext.getSystemService(
+        Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.cancel(NOTIFICATION_ID)
   }
 
   private fun setAlarmService() {
@@ -202,8 +206,9 @@ class IndoorPositioningService : Service(), BeaconConsumer {
 
   companion object Navigator {
     private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
-    private const val CHECK_SERVICE_TIME_IN_SECONDS = 10
+    private const val CHECK_SERVICE_TIME_IN_SECONDS = 30
     private const val PRIMARY_CHANNEL = "default"
+    private const val NOTIFICATION_ID = 0x654
 
     fun start(context: Context) {
       val intent = Intent(context, IndoorPositioningService::class.java)

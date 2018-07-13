@@ -48,10 +48,18 @@ class TriggerHandlerService : IntentService(TAG) {
 
     val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
         .setSmallIcon(R.drawable.ox_notification_large_icon)
-        .setContentTitle("")
+        .setContentTitle(getString(R.string.app_name))
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-    startForeground(0x342, mBuilder.build())
+    startForeground(NOTIFICATION_ID, mBuilder.build())
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+
+    val notificationManager = applicationContext.getSystemService(
+        Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.cancel(NOTIFICATION_ID)
   }
 
   override fun onHandleIntent(intent: Intent) {
@@ -65,6 +73,7 @@ class TriggerHandlerService : IntentService(TAG) {
     private val TAG = LogUtils.makeLogTag(TriggerHandlerService::class.java)
     private const val TRIGGER_EXTRA = "trigger_extra"
     private const val PRIMARY_CHANNEL = "default"
+    private const val NOTIFICATION_ID = 0x654
 
     fun start(context: Context, trigger: Trigger) {
       val intent = Intent(context, TriggerHandlerService::class.java)
