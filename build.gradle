@@ -46,8 +46,8 @@ allprojects {
   }
 
   repositories {
-    jcenter()
     google()
+    jcenter()
     maven { url "http://jcenter.bintray.com" }
     maven { url 'https://dl.bintray.com/gigigo-desarrollo/maven' }
     maven { url 'https://jitpack.io' }
