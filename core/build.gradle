@@ -64,7 +64,6 @@ def NETWORK_LOG = "NETWORK_LOG"
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
     minSdkVersion rootProject.ext.minSdkVersion
@@ -156,8 +155,8 @@ dependencies {
   implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
   implementation rootProject.ext.libraries.playServicesLocation
 
-  implementation 'com.google.firebase:firebase-core:11.0.4'
-  implementation 'com.google.firebase:firebase-messaging:11.0.4'
+  implementation 'com.google.firebase:firebase-core:16.0.0'
+  implementation 'com.google.firebase:firebase-messaging:17.0.0'
 
   implementation rootProject.ext.libraries.retrofit
   implementation rootProject.ext.libraries.retrofitMoshiConverter

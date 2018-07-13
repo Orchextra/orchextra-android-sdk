@@ -4,7 +4,7 @@
 
 // Initialize global condig
 cfg = jplConfig('orchextra-sdk', 'android', '', [ hipchat:'', slack:'#integrations', email:'qa+orchextra-android-sdkk@gigigo.com' ])
-cfg.androidPackages = '"build-tools;22.0.1" "platforms;android-22" "build-tools;25.0.2" "platforms;android-25" "build-tools;26.0.2" "platforms;android-26"'
+cfg.androidPackages = '"build-tools;22.0.1" "platforms;android-22" "build-tools;25.0.2" "platforms;android-25" "build-tools;27.0.3" "platforms;android-27"'
 
 pipeline {
     agent none
