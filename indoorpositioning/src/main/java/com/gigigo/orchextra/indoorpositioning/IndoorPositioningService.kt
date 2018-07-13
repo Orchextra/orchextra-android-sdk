@@ -19,14 +19,19 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Handler
 import android.os.IBinder
 import android.support.annotation.RequiresApi
+import android.support.v4.app.NotificationCompat
+import com.gigigo.orchextra.core.R.string
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
@@ -67,6 +72,24 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     this.isRunning = false
     this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
     dataSource = IPDbDataSource.create(this)
+
+
+    val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      val chan1 = NotificationChannel(PRIMARY_CHANNEL, getString(string.app_name),
+          NotificationManager.IMPORTANCE_DEFAULT)
+      chan1.lightColor = Color.RED
+      chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+      manager.createNotificationChannel(chan1)
+    }
+
+    val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
+        .setSmallIcon(R.drawable.ox_notification_large_icon)
+        .setContentTitle("")
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    startForeground(0x342, mBuilder.build())
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -180,6 +203,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   companion object Navigator {
     private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
     private const val CHECK_SERVICE_TIME_IN_SECONDS = 10
+    private const val PRIMARY_CHANNEL = "default"
 
     fun start(context: Context) {
       val intent = Intent(context, IndoorPositioningService::class.java)

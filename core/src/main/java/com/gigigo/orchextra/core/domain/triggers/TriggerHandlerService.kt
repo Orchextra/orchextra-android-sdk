@@ -19,14 +19,40 @@
 package com.gigigo.orchextra.core.domain.triggers
 
 import android.app.IntentService
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
+import android.support.v4.app.NotificationCompat
+import com.gigigo.orchextra.core.R
+import com.gigigo.orchextra.core.R.string
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.utils.LogUtils
 
 class TriggerHandlerService : IntentService(TAG) {
+
+  override fun onCreate() {
+    super.onCreate()
+    val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      val chan1 = NotificationChannel(PRIMARY_CHANNEL, getString(string.app_name),
+          NotificationManager.IMPORTANCE_DEFAULT)
+      chan1.lightColor = Color.RED
+      chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+      manager.createNotificationChannel(chan1)
+    }
+
+    val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
+        .setSmallIcon(R.drawable.ox_notification_large_icon)
+        .setContentTitle("")
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    startForeground(0x342, mBuilder.build())
+  }
 
   override fun onHandleIntent(intent: Intent) {
 
@@ -38,6 +64,7 @@ class TriggerHandlerService : IntentService(TAG) {
   companion object Navigator {
     private val TAG = LogUtils.makeLogTag(TriggerHandlerService::class.java)
     private const val TRIGGER_EXTRA = "trigger_extra"
+    private const val PRIMARY_CHANNEL = "default"
 
     fun start(context: Context, trigger: Trigger) {
       val intent = Intent(context, TriggerHandlerService::class.java)
