@@ -23,7 +23,7 @@ import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 
 interface BeaconScanner {
 
-  fun start(listener: (OxBeacon) -> Unit)
+  fun start(listener: (OxBeacon) -> Unit, finish: () -> Unit)
 
   fun stop()
 

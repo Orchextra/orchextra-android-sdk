@@ -34,9 +34,11 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
     private val consumer: BeaconConsumer) : BeaconScanner {
 
   private var listener: (OxBeacon) -> Unit = {}
+  private var finish: () -> Unit = {}
 
-  override fun start(listener: (OxBeacon) -> Unit) {
+  override fun start(listener: (OxBeacon) -> Unit, finish: () -> Unit) {
     this.listener = listener
+    this.finish = finish
     startScan()
   }
 
@@ -50,6 +52,7 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
 
     beaconManager.addRangeNotifier { beacons, _ ->
       beacons.forEach { listener(it.toOxBeacon()) }
+      finish()
     }
 
     try {
