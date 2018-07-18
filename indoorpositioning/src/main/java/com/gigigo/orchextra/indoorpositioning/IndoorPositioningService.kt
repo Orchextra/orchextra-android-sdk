@@ -72,30 +72,11 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     this.isRunning = false
     this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
     dataSource = IPDbDataSource.create(this)
-
-
-    val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-    if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      val chan1 = NotificationChannel(PRIMARY_CHANNEL, getString(string.app_name),
-          NotificationManager.IMPORTANCE_DEFAULT)
-      chan1.lightColor = Color.RED
-      chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
-      manager.createNotificationChannel(chan1)
-
-      val handler = Handler()
-      handler.postDelayed({
-        val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
-            .setSmallIcon(R.drawable.ox_notification_large_icon)
-            .setContentTitle(getString(R.string.app_name))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        startForeground(NOTIFICATION_ID, mBuilder.build())
-      }, 4500)
-    }
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+    showNotification()
 
     if (!isRunning) {
       isRunning = true
@@ -202,6 +183,30 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   private fun startTimer() {
     timerStarted = true
     handler.postDelayed(runnable, 30 * 1000)
+  }
+
+
+  private fun showNotification() {
+
+    val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      val chan1 = NotificationChannel(PRIMARY_CHANNEL, getString(string.app_name),
+          NotificationManager.IMPORTANCE_DEFAULT)
+      chan1.lightColor = Color.RED
+      chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+      manager.createNotificationChannel(chan1)
+
+      val handler = Handler()
+      handler.postDelayed({
+        val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
+            .setSmallIcon(R.drawable.ox_notification_large_icon)
+            .setContentTitle(getString(R.string.app_name))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        startForeground(NOTIFICATION_ID, mBuilder.build())
+      }, 4000)
+    }
   }
 
   companion object Navigator {
