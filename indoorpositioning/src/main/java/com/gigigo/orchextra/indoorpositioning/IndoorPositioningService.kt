@@ -72,11 +72,11 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     this.isRunning = false
     this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
     dataSource = IPDbDataSource.create(this)
+
+    showNotification()
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-    showNotification()
 
     if (!isRunning) {
       isRunning = true
@@ -197,15 +197,15 @@ class IndoorPositioningService : Service(), BeaconConsumer {
       chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
       manager.createNotificationChannel(chan1)
 
-      val handler = Handler()
-      handler.postDelayed({
+//      val handler = Handler()
+//      handler.postDelayed({
         val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
             .setSmallIcon(R.drawable.ox_notification_large_icon)
             .setContentTitle(getString(R.string.app_name))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         startForeground(NOTIFICATION_ID, mBuilder.build())
-      }, 4000)
+//      }, 4000)
     }
   }
 
