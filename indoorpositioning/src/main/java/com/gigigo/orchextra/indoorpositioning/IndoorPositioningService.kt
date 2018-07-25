@@ -199,12 +199,15 @@ class IndoorPositioningService : Service(), BeaconConsumer {
 
 //      val handler = Handler()
 //      handler.postDelayed({
-        val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
-            .setSmallIcon(R.drawable.ox_notification_large_icon)
-            .setContentTitle(getString(R.string.app_name))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+      val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
+          .setSmallIcon(R.drawable.ox_notification_large_icon)
+          .setContentTitle(getString(R.string.app_name))
+          .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+          .setVibrate(longArrayOf(0, 0, 0))
+          .setLights(Color.RED, 0, 100)
+          .setSound(null)
 
-        startForeground(NOTIFICATION_ID, mBuilder.build())
+      startForeground(NOTIFICATION_ID, mBuilder.build())
 //      }, 4000)
     }
   }

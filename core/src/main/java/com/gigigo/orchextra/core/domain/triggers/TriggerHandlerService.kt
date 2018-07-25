@@ -50,6 +50,9 @@ class TriggerHandlerService : IntentService(TAG) {
         .setSmallIcon(R.drawable.ox_notification_large_icon)
         .setContentTitle(getString(R.string.app_name))
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setVibrate(longArrayOf(0, 0, 0))
+        .setLights(Color.RED, 0, 100)
+        .setSound(null)
 
     startForeground(NOTIFICATION_ID, mBuilder.build())
   }
