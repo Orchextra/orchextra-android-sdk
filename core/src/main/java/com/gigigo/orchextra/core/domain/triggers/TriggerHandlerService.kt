@@ -40,9 +40,11 @@ class TriggerHandlerService : IntentService(TAG) {
 
     if (VERSION.SDK_INT >= VERSION_CODES.O) {
       val chan1 = NotificationChannel(PRIMARY_CHANNEL, getString(string.app_name),
-          NotificationManager.IMPORTANCE_DEFAULT)
+          NotificationManager.IMPORTANCE_LOW)
       chan1.lightColor = Color.RED
       chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+      chan1.enableVibration(false)
+      chan1.setSound(null, null)
       manager.createNotificationChannel(chan1)
     }
 
