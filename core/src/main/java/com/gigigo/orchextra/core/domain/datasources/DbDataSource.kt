@@ -89,6 +89,12 @@ interface DbDataSource {
   @Throws(DbException::class)
   fun getAnonymous(): Boolean
 
+  @Throws(DbException::class)
+  fun setProximityEnabled(proximityEnabled: Boolean)
+
+  @Throws(DbException::class)
+  fun isProximityEnabled(): Boolean
+
   companion object Factory {
 
     var dbDataSource: DbDataSource? = null

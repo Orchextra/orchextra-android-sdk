@@ -198,9 +198,17 @@ class DbDataSourceImp(private val context: Context,
 
   override fun getAnonymous(): Boolean = sharedPreferences.getBoolean(ANONYMOUS_KEY, false)
 
+  override fun setProximityEnabled(proximityEnabled: Boolean) {
+    val editor = sharedPreferences.edit()
+    editor?.putBoolean(PROXIMITY_KEY, proximityEnabled)
+    editor?.commit()
+  }
+
+  override fun isProximityEnabled(): Boolean = sharedPreferences.getBoolean(PROXIMITY_KEY, false)
+
   @SuppressLint("ApplySharedPref")
   override fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>) {
-    val businessUnitsString = deviceBusinessUnits.reduce { acc, s -> acc + ";" + s }
+    val businessUnitsString = deviceBusinessUnits.reduce { acc, s -> "$acc;$s" }
     val editor = sharedPreferences.edit()
     editor?.putString(BUSINESS_UNITS, businessUnitsString)
     editor?.commit()
@@ -240,6 +248,7 @@ class DbDataSourceImp(private val context: Context,
     private const val SCAN_TIME_KEY = "wait_time_key"
     private const val NOTIFICATION_ACTIVITY_KEY = "notification_activity_key"
     private const val ANONYMOUS_KEY = "ANONYMOUS_KEY"
+    private const val PROXIMITY_KEY = "PROXIMITY_KEY"
     private const val BUSINESS_UNITS = "business_units"
     private const val CONFIGURATION = "configuration"
   }

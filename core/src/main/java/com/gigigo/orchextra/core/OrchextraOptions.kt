@@ -6,6 +6,7 @@ class OrchextraOptions(
     val firebaseApplicationId: String = "",
     val deviceBusinessUnits: List<String> = arrayListOf(),
     val triggeringEnabled: Boolean = false,
+    val proximityEnabled: Boolean = true,
     val anonymous: Boolean = false,
     val debuggable: Boolean = false) {
 
@@ -14,6 +15,7 @@ class OrchextraOptions(
       builder.firebaseApplicationId,
       builder.deviceBusinessUnits,
       builder.triggeringEnabled,
+      builder.proximityEnabled,
       builder.anonymous,
       builder.debuggable)
 
@@ -32,6 +34,9 @@ class OrchextraOptions(
     var triggeringEnabled: Boolean = false
       private set
 
+    var proximityEnabled: Boolean = true
+      private set
+
     var anonymous: Boolean = false
       private set
 
@@ -48,6 +53,9 @@ class OrchextraOptions(
 
     fun triggeringEnabled(
         triggeringEnabled: Boolean) = apply { this.triggeringEnabled = triggeringEnabled }
+
+    fun proximityEnabled(
+        proximityEnabled: Boolean) = apply { this.proximityEnabled = proximityEnabled }
 
     fun anonymous(anonymous: Boolean) = apply { this.anonymous = anonymous }
 

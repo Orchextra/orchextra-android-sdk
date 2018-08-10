@@ -26,6 +26,7 @@ import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.imagerecognition.ImageRecognitionActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerActionExecutor
 import com.gigigo.orchextra.core.domain.actions.actionexecutors.scanner.ScannerType
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Configuration
 import com.gigigo.orchextra.core.domain.entities.Error
@@ -37,12 +38,14 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.interactor.GetAction
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetTriggerList
+import com.gigigo.orchextra.core.utils.LogUtils.LOGD
 import kotlin.properties.Delegates
 
 class TriggerManager(
     private val getTriggerConfiguration: GetTriggerConfiguration,
     private val getTriggerList: GetTriggerList,
     private val getAction: GetAction,
+    private val dbDataSource: DbDataSource,
     private val actionHandlerServiceExecutor: ActionHandlerServiceExecutor,
     private var errorListener: OrchextraErrorListener) : TriggerListener {
 
@@ -97,7 +100,8 @@ class TriggerManager(
   }
 
   private fun initGeofenceTrigger() {
-    if (configuration.geoMarketing.isNotEmpty()) {
+    if (configuration.geoMarketing.isNotEmpty() && dbDataSource.isProximityEnabled()) {
+      LOGD(TAG, "initGeofenceTrigger() - ENABLED")
       geofence.setConfig(configuration.geoMarketing)
       try {
         geofence.init()
@@ -105,11 +109,14 @@ class TriggerManager(
         errorListener.onError(
             Error(code = Error.FATAL_ERROR, message = exception.message as String))
       }
+    } else {
+      LOGD(TAG, "initGeofenceTrigger() - DISABLED")
     }
   }
 
   private fun initIndoorPositioningTrigger() {
-    if (configuration.indoorPositionConfig.isNotEmpty()) {
+    if (configuration.indoorPositionConfig.isNotEmpty() && dbDataSource.isProximityEnabled()) {
+      LOGD(TAG, "initGeofenceTrigger() - ENABLED")
       indoorPositioning.setConfig(configuration.indoorPositionConfig)
       try {
         indoorPositioning.init()
@@ -117,6 +124,8 @@ class TriggerManager(
         errorListener.onError(
             Error(code = Error.FATAL_ERROR, message = exception.message as String))
       }
+    } else {
+      LOGD(TAG, "initIndoorPositioningTrigger() - DISABLED")
     }
   }
 
@@ -137,6 +146,8 @@ class TriggerManager(
 
   companion object Factory {
 
+    private const val TAG = "TriggerManager"
+
     fun create(context: Context): TriggerManager {
 
       val networkDataSource = NetworkDataSource.create(context)
@@ -145,6 +156,7 @@ class TriggerManager(
           GetTriggerConfiguration.create(networkDataSource),
           GetTriggerList.create(networkDataSource),
           GetAction.create(networkDataSource),
+          DbDataSource.create(context),
           ActionHandlerServiceExecutor.create(context),
           Orchextra)
     }

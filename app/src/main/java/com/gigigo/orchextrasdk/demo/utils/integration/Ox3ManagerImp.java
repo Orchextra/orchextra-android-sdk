@@ -82,6 +82,7 @@ public class Ox3ManagerImp implements OxManager {
             .firebaseApplicationId(config.getFirebaseApplicationId())
             .deviceBusinessUnits(deviceBusinessUnits)
             .triggeringEnabled(true)
+            .proximityEnabled(false)
             .anonymous(false)
             .debuggable(true)
             .build();

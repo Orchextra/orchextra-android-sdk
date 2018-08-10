@@ -76,19 +76,20 @@ object Orchextra : OrchextraErrorListener {
     this.actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(context)
     this.locationProvider = LocationProvider(context)
     this.sessionManager = SessionManager.create(context)
-    this.crmManager = CrmManager.create(context, { onError(it) })
+    this.crmManager = CrmManager.create(context) { onError(it) }
     this.getOxToken = GetOxToken.create(NetworkDataSource.create(context))
     this.dbDataSource = DbDataSource.create(context)
 
     dbDataSource.setAnonymous(options.anonymous)
+    dbDataSource.setProximityEnabled(options.proximityEnabled)
 
     ActivityLifecycleManager(app = context,
         onActivityResumed = { isActivityRunning = true },
         onActivityPaused = { isActivityRunning = false })
 
-    getConfiguration(context, apiKey, {
+    getConfiguration(context, apiKey) {
       crmManager?.updateAnonymousCustomField()
-    })
+    }
 
     if (ContextCompat.checkSelfPermission(context,
             android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
