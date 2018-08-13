@@ -63,7 +63,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   private lateinit var validator: IndoorPositioningValidator
   private lateinit var validateTrigger: ValidateTrigger
   private lateinit var dataSource: IPDbDataSource
-  private lateinit var dbDataSource: DbDataSource
+  private lateinit var coreDataSource: DbDataSource
   private var isRunning: Boolean = false
   private var timerStarted = false
   private val handler = Handler()
@@ -73,30 +73,26 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     this.isRunning = false
     this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
     dataSource = IPDbDataSource.create(this)
-    dbDataSource = DbDataSource.create(this)
+    coreDataSource = DbDataSource.create(this)
+    beaconScanner = BeaconScannerImp(getBeaconManager(coreDataSource.getScanTime()), this)
 
+    val config = dataSource.getConfig()
+    regionsDetector = RegionsDetector.create(config, this) { sendOxBeaconRegionEvent(it) }
+    validator = IndoorPositioningValidator(config)
+    validateTrigger = ValidateTrigger.create(coreDataSource)
     showNotification()
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-    if (dbDataSource.isProximityEnabled().not()) {
+    if (coreDataSource.isProximityEnabled().not()) {
       stopTimer()
       stopSelf()
       return START_NOT_STICKY
     }
 
-
     if (!isRunning) {
       isRunning = true
-
-      val dbDataSource = DbDataSource.create(this)
-      val config = dataSource.getConfig()
-
-      validator = IndoorPositioningValidator(config)
-      validateTrigger = ValidateTrigger.create(DbDataSource.create(applicationContext))
-      beaconScanner = BeaconScannerImp(getBeaconManager(dbDataSource.getScanTime()), this)
-      regionsDetector = RegionsDetector.create(config, this) { sendOxBeaconRegionEvent(it) }
       beaconScanner.start({
         regionsDetector.onBeaconDetect(it)
         sendOxBeaconEvent(it)
