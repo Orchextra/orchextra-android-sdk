@@ -231,7 +231,12 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     }
 
     fun stop(context: Context) {
-      LOGE(TAG, "Stop indoorPositioningService")
+      val intent = Intent(context, IndoorPositioningService::class.java)
+      try {
+        context.stopService(intent)
+      } catch (exception: Exception) {
+        LOGE(TAG, "Stop indoorPositioningService")
+      }
     }
   }
 }

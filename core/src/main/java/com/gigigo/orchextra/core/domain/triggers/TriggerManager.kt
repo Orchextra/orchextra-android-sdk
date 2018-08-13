@@ -111,12 +111,13 @@ class TriggerManager(
       }
     } else {
       LOGD(TAG, "initGeofenceTrigger() - DISABLED")
+      geofence.finish()
     }
   }
 
   private fun initIndoorPositioningTrigger() {
     if (configuration.indoorPositionConfig.isNotEmpty() && dbDataSource.isProximityEnabled()) {
-      LOGD(TAG, "initGeofenceTrigger() - ENABLED")
+      LOGD(TAG, "initIndoorPositioningTrigger() - ENABLED")
       indoorPositioning.setConfig(configuration.indoorPositionConfig)
       try {
         indoorPositioning.init()
@@ -126,6 +127,7 @@ class TriggerManager(
       }
     } else {
       LOGD(TAG, "initIndoorPositioningTrigger() - DISABLED")
+      indoorPositioning.finish()
     }
   }
 
