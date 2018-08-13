@@ -63,6 +63,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   private lateinit var validator: IndoorPositioningValidator
   private lateinit var validateTrigger: ValidateTrigger
   private lateinit var dataSource: IPDbDataSource
+  private lateinit var dbDataSource: DbDataSource
   private var isRunning: Boolean = false
   private var timerStarted = false
   private val handler = Handler()
@@ -72,11 +73,19 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     this.isRunning = false
     this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
     dataSource = IPDbDataSource.create(this)
+    dbDataSource = DbDataSource.create(this)
 
     showNotification()
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+    if (dbDataSource.isProximityEnabled().not()) {
+      stopTimer()
+      stopSelf()
+      return START_NOT_STICKY
+    }
+
 
     if (!isRunning) {
       isRunning = true
