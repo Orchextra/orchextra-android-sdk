@@ -28,14 +28,16 @@ fun GeoMarketing.toGeofence(): Geofence = with(this) {
   var event = 0
 
   if (notifyOnEntry && !notifyOnExit) {
-    event = Geofence.GEOFENCE_TRANSITION_ENTER or GeofencingRequest.INITIAL_TRIGGER_DWELL
+    event = Geofence.GEOFENCE_TRANSITION_ENTER or GeofencingRequest.INITIAL_TRIGGER_ENTER
 
   } else if (!notifyOnEntry && notifyOnExit) {
-    event = Geofence.GEOFENCE_TRANSITION_EXIT or GeofencingRequest.INITIAL_TRIGGER_DWELL
+    event = Geofence.GEOFENCE_TRANSITION_EXIT
 
   } else if (notifyOnEntry && notifyOnExit) {
-    event = Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT or GeofencingRequest.INITIAL_TRIGGER_DWELL
+    event = Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT   or GeofencingRequest.INITIAL_TRIGGER_ENTER
   }
+
+
 
   return Geofence.Builder()
       .setRequestId(code)
