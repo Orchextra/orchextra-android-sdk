@@ -137,8 +137,7 @@ class OxGeofenceImp(private val context: Application,
     val builder = GeofencingRequest.Builder()
     builder.setInitialTrigger(
         GeofencingRequest.INITIAL_TRIGGER_ENTER
-            or GeofencingRequest.INITIAL_TRIGGER_EXIT
-            or GeofencingRequest.INITIAL_TRIGGER_DWELL)
+            )
     builder.addGeofences(geofenceList)
     return builder.build()
   }

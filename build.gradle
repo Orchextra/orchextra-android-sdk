@@ -69,7 +69,7 @@ task deployDebugLib(type: Exec) {
   workingDir "./"
   def command = "./gradlew"
   if (OperatingSystem.current().isWindows()) {
-    command = command + ".bat"
+    command = "gradlew.bat"
   }
 
   commandLine command, "install", "bintrayUpload", "-Pdebug"
@@ -79,7 +79,7 @@ task deployQualityLib(type: Exec) {
   workingDir "./"
   def command = "./gradlew"
   if (OperatingSystem.current().isWindows()) {
-    command = command + ".bat"
+    command = "gradlew.bat"
   }
 
   commandLine command, "install", "bintrayUpload", "-Pquality"
@@ -89,7 +89,7 @@ task deployLib(type: Exec) {
   workingDir "./"
   def command = "./gradlew"
   if (OperatingSystem.current().isWindows()) {
-    command = command + ".bat"
+    command = "gradlew.bat"
   }
 
   commandLine command, "install", "bintrayUpload"

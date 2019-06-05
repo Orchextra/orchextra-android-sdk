@@ -34,7 +34,7 @@ fun GeoMarketing.toGeofence(): Geofence = with(this) {
     event = Geofence.GEOFENCE_TRANSITION_EXIT
 
   } else if (notifyOnEntry && notifyOnExit) {
-    event = Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT   or GeofencingRequest.INITIAL_TRIGGER_ENTER
+    event = Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT
   }
 
 
