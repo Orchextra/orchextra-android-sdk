@@ -27,101 +27,105 @@ def EXIT_TRIGGER_TIME_IN_SECONDS = "EXIT_TRIGGER_TIME_IN_SECONDS"
 group = rootProject.ext.group
 
 ext {
-  bintrayRepo = 'maven'
-  bintrayName = 'com.gigigo.orchextra:indoorpositioning'
+    bintrayRepo = 'maven'
+    bintrayName = 'com.gigigo.orchextra:indoorpositioning'
 
-  publishedGroupId = 'com.gigigo.orchextra'
-  libraryName = 'indoorpositioning'
-  artifact = 'indoorpositioning'
+    publishedGroupId = 'com.gigigo.orchextra'
+    libraryName = 'indoorpositioning'
+    artifact = 'indoorpositioning'
 
-  libraryDescription = 'Orchextra indoorpositioning'
+    libraryDescription = 'Orchextra indoorpositioning'
 
-  siteUrl = 'https://github.com/Orchextra/orchextra-android-sdk'
-  gitUrl = 'https://github.com/Orchextra/orchextra-android-sdk.git'
+    siteUrl = 'https://github.com/Orchextra/orchextra-android-sdk'
+    gitUrl = 'https://github.com/Orchextra/orchextra-android-sdk.git'
 
-  libraryVersion = rootProject.ext.version
+    libraryVersion = rootProject.ext.version
 
-  developerId = 'gigigo-desarrollo'
-  developerName = 'Android Gigigo'
-  developerEmail = 'gigigo.desarrollo@gmail.com'
+    developerId = 'gigigo-desarrollo'
+    developerName = 'Android Gigigo'
+    developerEmail = 'gigigo.desarrollo@gmail.com'
 
-  licenseName = 'The Apache Software License, Version 2.0'
-  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-  allLicenses = ["Apache-2.0"]
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
-  defaultConfig {
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 1
-    versionName "1.0"
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
 
-    buildConfigField INT, EXIT_TRIGGER_TIME_IN_SECONDS, '120'
+        buildConfigField INT, EXIT_TRIGGER_TIME_IN_SECONDS, '120'
 
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-  buildTypes {
-    debug {
-      debuggable true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            debuggable true
 
-      version = "${rootProject.ext.version}-S"
-      project.ext.libraryVersion = "${rootProject.ext.version}-S"
+            version = "${rootProject.ext.version}-S"
+            project.ext.libraryVersion = "${rootProject.ext.version}-S"
+        }
+
+        quality {
+            debuggable true
+
+            version = "${rootProject.ext.version}-Q"
+        }
+
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            if (project.hasProperty('debug')) {
+
+                version = "${rootProject.ext.version}-S"
+                project.ext.libraryVersion = "${rootProject.ext.version}-S"
+            } else if (project.hasProperty('quality')) {
+
+                version = "${rootProject.ext.version}-Q"
+                project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+            } else {
+
+                version = "${rootProject.ext.version}"
+                project.ext.libraryVersion = "${rootProject.ext.version}"
+            }
+        }
     }
 
-    quality {
-      debuggable true
-
-      version = "${rootProject.ext.version}-Q"
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
     }
 
-    release {
-      debuggable false
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-      if (project.hasProperty('debug')) {
-
-        version = "${rootProject.ext.version}-S"
-        project.ext.libraryVersion = "${rootProject.ext.version}-S"
-      } else if (project.hasProperty('quality')) {
-
-        version = "${rootProject.ext.version}-Q"
-        project.ext.libraryVersion = "${rootProject.ext.version}-Q"
-      } else {
-
-        version = "${rootProject.ext.version}"
-        project.ext.libraryVersion = "${rootProject.ext.version}"
-      }
+    androidExtensions {
+        experimental = true
     }
-  }
-
-  lintOptions {
-    quiet true
-    abortOnError false
-    ignoreWarnings true
-  }
 }
 
 dependencies {
-  implementation rootProject.ext.libraries.kotlinStdLib
-  implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-  implementation rootProject.ext.libraries.ormLite
-  implementation rootProject.ext.libraries.ormLiteAndroid
-  implementation rootProject.ext.libraries.altbeacon
-  implementation rootProject.ext.libraries.moshi
+    implementation rootProject.ext.libraries.kotlinStdLib
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation rootProject.ext.libraries.ormLite
+    implementation rootProject.ext.libraries.ormLiteAndroid
+    implementation rootProject.ext.libraries.altbeacon
+    implementation rootProject.ext.libraries.moshi
 
-  implementation rootProject.ext.modules.core
+    implementation rootProject.ext.modules.core
 
-  testImplementation rootProject.ext.testLibraries.kluent
-  testImplementation rootProject.ext.testLibraries.junit
-  androidTestImplementation rootProject.ext.testLibraries.kluent
-  androidTestImplementation 'com.android.support.test:runner:0.5'
-  androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
+    testImplementation rootProject.ext.testLibraries.kluent
+    testImplementation rootProject.ext.testLibraries.junit
+    androidTestImplementation rootProject.ext.testLibraries.kluent
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

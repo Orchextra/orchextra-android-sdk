@@ -19,16 +19,16 @@ apply from: 'dependencies.gradle'
 apply from: 'common_methods.gradle'
 
 buildscript {
-  ext.kotlin_version = '1.2.41'
+  ext.kotlin_version = '1.3.50'
   repositories {
     jcenter()
     google()
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.1.3'
+    classpath 'com.android.tools.build:gradle:3.5.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
+    classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
     classpath 'com.google.gms:google-services:4.0.1'
     classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
     classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
@@ -37,10 +37,9 @@ buildscript {
 
 allprojects {
   ext {
-    compileSdkVersion = 27
-    buildToolsVersion = "27.0.3"
+    compileSdkVersion = 29
     minSdkVersion = 16
-    targetSdkVersion = 27
+    targetSdkVersion = 29
 
     supportLibVersion = "27.1.1"
   }

@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 include  ':core', ':scanner', ':geofence', ':indoorpositioning', ':imagerecognizer'
-//':app',
+//':app'
