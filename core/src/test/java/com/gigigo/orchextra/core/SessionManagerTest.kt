@@ -64,7 +64,7 @@ class SessionManagerTest {
     sessionManager.clearSession()
 
     verify(editorMock).putString(TOKEN_KEY, token)
-    verify(editorMock).commit()
+    verify(editorMock).apply()
   }
 
   @Test
