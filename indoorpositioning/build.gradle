@@ -25,6 +25,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 def EXIT_TRIGGER_TIME_IN_SECONDS = "EXIT_TRIGGER_TIME_IN_SECONDS"
 
 group = rootProject.ext.group
+version = rootProject.ext.version
 
 ext {
     bintrayRepo = 'maven'
@@ -56,8 +57,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         buildConfigField INT, EXIT_TRIGGER_TIME_IN_SECONDS, '120'
 
@@ -111,7 +110,7 @@ android {
 
 dependencies {
     implementation rootProject.ext.libraries.kotlinStdLib
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation rootProject.ext.libraries.appCompat
     implementation rootProject.ext.libraries.ormLite
     implementation rootProject.ext.libraries.ormLiteAndroid
     implementation rootProject.ext.libraries.altbeacon
@@ -122,7 +121,7 @@ dependencies {
     testImplementation rootProject.ext.testLibraries.kluent
     testImplementation rootProject.ext.testLibraries.junit
     androidTestImplementation rootProject.ext.testLibraries.kluent
-    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation rootProject.ext.testLibraries.supportTestRunner
     androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

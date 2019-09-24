@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.core.data.datasources.db
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.list.ListCachingStrategy
@@ -68,16 +67,18 @@ class DbDataSourceImp(
     private val deviceJsonAdapter = moshi.adapter(ApiOxDevice::class.java)
 
 
-    @SuppressLint("ApplySharedPref")
     override fun saveConfiguration(configuration: Configuration) {
         val editor = sharedPreferences.edit()
         editor?.putString(CONFIGURATION, configurationAdapter.toJson(configuration))
-        editor?.commit()
+        editor?.apply()
     }
 
     override fun getConfiguration(): Configuration = try {
         val jsonData = sharedPreferences.getString(CONFIGURATION, null)
-        configurationAdapter.fromJson(jsonData)
+        jsonData ?: throw DbException(-1, "configuration data exception")
+        configurationAdapter.fromJson(jsonData) ?: throw DbException(
+            -1, "configuration data parse exception"
+        )
     } catch (e: Exception) {
         throw DbException(-1, e.message ?: "DbException")
     }
@@ -108,86 +109,78 @@ class DbDataSourceImp(
 
         val stringCrm = sharedPreferences.getString(CRM_KEY, "")
 
-        return if (stringCrm?.isNotEmpty() == true) {
-            crmJsonAdapter.fromJson(stringCrm).toOxCrm()
-        } else {
-            EMPTY_CRM
-        }
+        return if (stringCrm?.isNotEmpty() == true)
+            crmJsonAdapter.fromJson(stringCrm)?.toOxCrm() ?: EMPTY_CRM
+        else EMPTY_CRM
     }
 
-    @SuppressLint("ApplySharedPref")
     override fun saveCrm(crm: OxCRM) {
         val editor = sharedPreferences.edit()
         editor?.putString(CRM_KEY, crmJsonAdapter.toJson(crm.toApiOxCrm()))
-        editor?.commit()
+        editor?.apply()
     }
 
-    @SuppressLint("ApplySharedPref")
     override fun clearCrm() {
         val editor = sharedPreferences.edit()
         editor?.putString(CRM_KEY, "")
-        editor?.commit()
+        editor?.apply()
     }
 
     override fun getDevice(): OxDevice {
         val stringDevice = sharedPreferences.getString(DEVICE_KEY, "")
 
         return if (stringDevice?.isNotEmpty() == true) {
-            deviceJsonAdapter.fromJson(stringDevice).toOxDevice()
-        } else {
-
-            val anonymous = getAnonymous()
-            var newDevice = context.getBaseApiOxDevice(anonymous).toOxDevice()
-
-            val deviceBusinessUnits = getDeviceBusinessUnits()
-            if (deviceBusinessUnits.isNotEmpty()) {
-                newDevice = newDevice.copy(businessUnits = deviceBusinessUnits)
-            }
-
-            saveDevice(newDevice)
-            newDevice
-        }
+            deviceJsonAdapter.fromJson(stringDevice)?.toOxDevice() ?: newDevice()
+        } else newDevice()
     }
 
-    @SuppressLint("ApplySharedPref")
+    private fun newDevice(): OxDevice {
+        val anonymous = getAnonymous()
+        var newDevice = context.getBaseApiOxDevice(anonymous).toOxDevice()
+
+        val deviceBusinessUnits = getDeviceBusinessUnits()
+        if (deviceBusinessUnits.isNotEmpty()) {
+            newDevice = newDevice.copy(businessUnits = deviceBusinessUnits)
+        }
+
+        saveDevice(newDevice)
+        return newDevice
+    }
+
     override fun saveDevice(device: OxDevice) {
         val editor = sharedPreferences.edit()
         editor?.putString(DEVICE_KEY, deviceJsonAdapter.toJson(device.toApiOxDevice()))
-        editor?.commit()
+        editor?.apply()
     }
 
-    @SuppressLint("ApplySharedPref")
     override fun clearDevice() {
         val editor = sharedPreferences.edit()
         editor?.putString(DEVICE_KEY, "")
-        editor?.commit()
+        editor?.apply()
     }
 
-    @SuppressLint("ApplySharedPref")
     override fun saveWaitTime(waitTime: Long) {
         val editor = sharedPreferences.edit()
         editor?.putLong(WAIT_TIME_KEY, waitTime)
-        editor?.commit()
+        editor?.apply()
     }
 
     override fun getWaitTime(): Long =
         sharedPreferences.getLong(WAIT_TIME_KEY, TimeUnit.SECONDS.toMillis(120))
 
-    @SuppressLint("ApplySharedPref")
     override fun saveScanTime(scanTimeInMillis: Long) {
         val editor = sharedPreferences.edit()
         editor?.putLong(SCAN_TIME_KEY, scanTimeInMillis)
-        editor?.commit()
+        editor?.apply()
     }
 
     override fun getScanTime(): Long =
         sharedPreferences.getLong(SCAN_TIME_KEY, TimeUnit.SECONDS.toMillis(60))
 
-    @SuppressLint("ApplySharedPref")
     override fun saveNotificationActivityName(notificationActivityName: String) {
         val editor = sharedPreferences.edit()
         editor?.putString(NOTIFICATION_ACTIVITY_KEY, notificationActivityName)
-        editor?.commit()
+        editor?.apply()
     }
 
     override fun getNotificationActivityName(): String =
@@ -209,12 +202,11 @@ class DbDataSourceImp(
 
     override fun isProximityEnabled(): Boolean = sharedPreferences.getBoolean(PROXIMITY_KEY, false)
 
-    @SuppressLint("ApplySharedPref")
     override fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>) {
         val businessUnitsString = deviceBusinessUnits.reduce { acc, s -> "$acc;$s" }
         val editor = sharedPreferences.edit()
         editor?.putString(BUSINESS_UNITS, businessUnitsString)
-        editor?.commit()
+        editor?.apply()
     }
 
     private fun getDeviceBusinessUnits(): List<String> {

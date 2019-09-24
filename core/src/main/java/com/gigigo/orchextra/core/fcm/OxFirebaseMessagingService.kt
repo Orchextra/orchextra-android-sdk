@@ -26,108 +26,116 @@ import com.squareup.moshi.Moshi
 
 class OxFirebaseMessagingService : FirebaseMessagingService() {
 
-  private val moshi = Moshi.Builder().build()
-  private val apiActionAdapter = moshi.adapter(ApiAction::class.java)
-  private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
-  private lateinit var dbDataSource: DbDataSource
+    private val moshi = Moshi.Builder().build()
+    private val apiActionAdapter = moshi.adapter(ApiAction::class.java)
+    private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
+    private lateinit var dbDataSource: DbDataSource
 
-  override fun onCreate() {
-    super.onCreate()
-    actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(this)
-    dbDataSource = DbDataSource.create(baseContext)
-  }
-
-  override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-
-    Log.d(TAG, "From: " + remoteMessage!!.from)
-
-    if (remoteMessage.data.isNotEmpty()) {
-      Log.d(TAG, "Message data payload: " + remoteMessage.data)
-
-
-      if (remoteMessage.data.containsKey("isOrchextra")
-          && remoteMessage.data["isOrchextra"] != "true") {
-        LogUtils.LOGD(TAG, "isOrchextra == false")
-        return
-      }
-
-      if (remoteMessage.data.containsKey("action")) {
-        val action = apiActionAdapter.fromJson(remoteMessage.data["action"]).toAction()
-        handleAction(action)
-      }
+    override fun onCreate() {
+        super.onCreate()
+        actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(this)
+        dbDataSource = DbDataSource.create(baseContext)
     }
 
-    if (remoteMessage.notification != null) {
-      Log.d(TAG, "Message Notification Body: " + remoteMessage.notification!!.body!!)
-      Log.d(TAG, "Message Notification Title: " + remoteMessage.notification!!.title!!)
+    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
 
-      sendNotification(
-          title = remoteMessage.notification!!.title ?: "Orchextra",
-          body = remoteMessage.notification!!.body ?: "")
-    }
-  }
+        Log.d(TAG, "From: ${remoteMessage?.from}")
 
-  private fun handleAction(action: Action) {
-    actionHandlerServiceExecutor.execute(action)
-  }
+        if (remoteMessage?.data?.isNotEmpty() == true) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.data)
 
-  private fun sendNotification(title: String, body: String) {
+            if (remoteMessage.data.containsKey("isOrchextra")
+                && remoteMessage.data["isOrchextra"] != "true"
+            ) {
+                LogUtils.LOGD(TAG, "isOrchextra == false")
+                return
+            }
 
-    if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      createNotificationChannel()
-    }
+            if (remoteMessage.data.containsKey("action")) {
+                remoteMessage.data["action"]?.let {
+                    apiActionAdapter.fromJson(it)?.toAction()?.let { action ->
+                        handleAction(action)
+                    }
+                }
+            }
+        }
 
-    val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-        .setSmallIcon(R.drawable.ox_close)
-        .setContentTitle(title)
-        .setContentText(body)
-        .setAutoCancel(true)
-        .setSound(defaultSoundUri)
+        remoteMessage?.notification?.let { notification ->
+            Log.d(TAG, "Message Notification Body: ${notification.body}")
+            Log.d(TAG, "Message Notification Title: ${notification.title}")
 
-    val notificationActivityName = dbDataSource.getNotificationActivityName()
-    if (notificationActivityName.isNotEmpty()) {
-      if (getNotificationActivityClass(notificationActivityName) != null) {
-        val intent = Intent(this, getNotificationActivityClass(notificationActivityName))
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent,
-            PendingIntent.FLAG_ONE_SHOT)
-
-        notificationBuilder.setContentIntent(pendingIntent)
-      }
+            sendNotification(
+                title = notification.title ?: "Orchextra",
+                body = notification.body ?: ""
+            )
+        }
     }
 
-    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.notify(0x9387, notificationBuilder.build())
-  }
+    private fun handleAction(action: Action) {
+        actionHandlerServiceExecutor.execute(action)
+    }
 
-  @RequiresApi(VERSION_CODES.O)
-  private fun createNotificationChannel() {
+    private fun sendNotification(title: String, body: String) {
 
-    val mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            createNotificationChannel()
+        }
 
-    val name = getString(R.string.app_name)
-    val description = getString(R.string.app_name)
-    val importance = NotificationManager.IMPORTANCE_DEFAULT
-    val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ox_close)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setAutoCancel(true)
+            .setSound(defaultSoundUri)
 
-    mChannel.description = description
-    mChannel.enableLights(true)
+        val notificationActivityName = dbDataSource.getNotificationActivityName()
+        if (notificationActivityName.isNotEmpty()) {
+            if (getNotificationActivityClass(notificationActivityName) != null) {
+                val intent = Intent(this, getNotificationActivityClass(notificationActivityName))
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                val pendingIntent = PendingIntent.getActivity(
+                    this, 0, intent,
+                    PendingIntent.FLAG_ONE_SHOT
+                )
 
-    mChannel.lightColor = Color.RED
-    mChannel.enableVibration(true)
-    mChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
-    mNotificationManager.createNotificationChannel(mChannel)
-  }
+                notificationBuilder.setContentIntent(pendingIntent)
+            }
+        }
 
-  private fun getNotificationActivityClass(activityName: String): Class<*>? = try {
-    Class.forName(activityName)
-  } catch (exception: ClassNotFoundException) {
-    null
-  }
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(0x9387, notificationBuilder.build())
+    }
 
-  companion object {
-    private val TAG = "OxFirebaseMsgService"
-    private val CHANNEL_ID = "ox_push_notification"
-  }
+    @RequiresApi(VERSION_CODES.O)
+    private fun createNotificationChannel() {
+
+        val mNotificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val name = getString(R.string.app_name)
+        val description = getString(R.string.app_name)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val mChannel = NotificationChannel(CHANNEL_ID, name, importance)
+
+        mChannel.description = description
+        mChannel.enableLights(true)
+
+        mChannel.lightColor = Color.RED
+        mChannel.enableVibration(true)
+        mChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+        mNotificationManager.createNotificationChannel(mChannel)
+    }
+
+    private fun getNotificationActivityClass(activityName: String): Class<*>? = try {
+        Class.forName(activityName)
+    } catch (exception: ClassNotFoundException) {
+        null
+    }
+
+    companion object {
+        private val TAG = "OxFirebaseMsgService"
+        private val CHANNEL_ID = "ox_push_notification"
+    }
 }

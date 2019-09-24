@@ -43,8 +43,10 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -161,11 +163,11 @@ class NetworkDataSourceImp(private val orchextra: Orchextra,
   }
 
   override fun unbindCrm() {
-    makeCallWithRetry({
-      val requestBody: RequestBody = RequestBody.create(MediaType.parse("application/json"),
-          "{\"crm\":null }")
+    makeCallWithRetry {
+      val requestBody: RequestBody =
+        "{\"crm\":null }".toRequestBody("application/json".toMediaTypeOrNull())
       orchextraCoreApi.updateTokenData(requestBody).execute().body()
-    })
+    }
   }
 
   private fun <T> makeCallWithRetry(call: () -> T?): T? {

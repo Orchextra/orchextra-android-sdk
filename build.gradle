@@ -40,8 +40,6 @@ allprojects {
     compileSdkVersion = 29
     minSdkVersion = 16
     targetSdkVersion = 29
-
-    supportLibVersion = "27.1.1"
   }
 
   repositories {

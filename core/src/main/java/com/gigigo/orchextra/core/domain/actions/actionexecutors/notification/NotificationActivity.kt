@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.notification
 
-import android.app.AlertDialog
+import android.support.v7.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -46,7 +46,7 @@ class NotificationActivity : AppCompatActivity() {
     val notification = getNotification()
     val action = getAction()
 
-    val builder = AlertDialog.Builder(this)
+    val builder = android.support.v7.app.AlertDialog.Builder(this)
     val dialog = builder.setTitle(notification.title)
         .setMessage(notification.body)
         .setIcon(R.drawable.ox_notification_large_icon)
