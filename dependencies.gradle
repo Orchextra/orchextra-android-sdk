@@ -19,7 +19,7 @@
 ext {
 
     group = 'com.gigigo.orchextra'
-    version = '3.2.3'
+    version = '3.2.6'
 
 
     libraries = [kotlinStdLib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
