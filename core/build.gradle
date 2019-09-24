@@ -158,8 +158,8 @@ dependencies {
     implementation rootProject.ext.libraries.appCompat
     implementation rootProject.ext.libraries.playServicesLocation
 
-    implementation 'com.google.firebase:firebase-core:16.0.0'
-    implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation rootProject.ext.libraries.firebaseCore
+    implementation rootProject.ext.libraries.firebaseMessaging
 
     implementation rootProject.ext.libraries.retrofit
     implementation rootProject.ext.libraries.retrofitMoshiConverter

@@ -42,7 +42,6 @@ import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.exceptions.UnauthorizedException
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -52,139 +51,143 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 
-class NetworkDataSourceImp(private val orchextra: Orchextra,
+class NetworkDataSourceImp(
+    private val orchextra: Orchextra,
     private val sessionManager: SessionManager,
-    private val dbDataSource: DbDataSource) : NetworkDataSource {
+    private val dbDataSource: DbDataSource
+) : NetworkDataSource {
 
-  private val orchextraCoreApi: OrchextraCoreApi
-  private val orchextraTriggerApi: OrchextraTriggerApi
+    private val orchextraCoreApi: OrchextraCoreApi
+    private val orchextraTriggerApi: OrchextraTriggerApi
 
-  init {
+    init {
 
-    val okHttpBuilder = OkHttpClient.Builder()
-        .writeTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(10, TimeUnit.SECONDS)
-        .connectTimeout(10, TimeUnit.SECONDS)
-    okHttpBuilder.addInterceptor(ErrorInterceptor())
-    okHttpBuilder.addInterceptor(SessionInterceptor(sessionManager))
+        val okHttpBuilder = OkHttpClient.Builder()
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+        okHttpBuilder.addInterceptor(ErrorInterceptor())
+        okHttpBuilder.addInterceptor(SessionInterceptor(sessionManager))
 
-    if (Orchextra.isDebuggable()) {
-      val loggingInterceptor = HttpLoggingInterceptor()
-      loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-      okHttpBuilder.addInterceptor(loggingInterceptor)
+        if (Orchextra.isDebuggable()) {
+            val loggingInterceptor = HttpLoggingInterceptor()
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            okHttpBuilder.addInterceptor(loggingInterceptor)
+        }
+
+        val retrofitCore = Retrofit.Builder()
+            .baseUrl(BuildConfig.CORE_API_URL)
+            .client(okHttpBuilder.build())
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val retrofitTrigger = Retrofit.Builder()
+            .baseUrl(BuildConfig.TRIGGER_API_URL)
+            .client(okHttpBuilder.build())
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        orchextraCoreApi = retrofitCore.create(OrchextraCoreApi::class.java)
+        orchextraTriggerApi = retrofitTrigger.create(OrchextraTriggerApi::class.java)
     }
 
-    val retrofitCore = Retrofit.Builder()
-        .baseUrl(BuildConfig.CORE_API_URL)
-        .client(okHttpBuilder.build())
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
+    override fun getAuthentication(credentials: Credentials, forceNew: Boolean): String {
 
-    val retrofitTrigger = Retrofit.Builder()
-        .baseUrl(BuildConfig.TRIGGER_API_URL)
-        .client(okHttpBuilder.build())
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
+        return if (!forceNew && sessionManager.hasSession()) {
+            sessionManager.getSession()
 
-    orchextraCoreApi = retrofitCore.create(OrchextraCoreApi::class.java)
-    orchextraTriggerApi = retrofitTrigger.create(OrchextraTriggerApi::class.java)
-  }
+        } else {
 
-  override fun getAuthentication(credentials: Credentials, forceNew: Boolean): String {
+            val apiClientResponse = orchextraCoreApi.getAuthentication(
+                credentials.toApiAuthRequest()
+            ).execute().body()
 
-    return if (!forceNew && sessionManager.hasSession()) {
-      sessionManager.getSession()
+            val token = apiClientResponse?.data?.token ?: ""
+            sessionManager.saveSession(token)
 
-    } else {
+            val crm = dbDataSource.getCrm()
+            val device = dbDataSource.getDevice()
+            updateTokenData(TokenData(crm = crm, device = device))
 
-      val apiClientResponse = orchextraCoreApi.getAuthentication(
-          credentials.toApiAuthRequest()).execute().body()
-
-      val token = apiClientResponse?.data?.token ?: ""
-      sessionManager.saveSession(token)
-
-      val crm = dbDataSource.getCrm()
-      val device = dbDataSource.getDevice()
-      updateTokenData(TokenData(crm = crm, device = device))
-
-      token
-    }
-  }
-
-  override fun getConfiguration(apiKey: String): Configuration {
-    val apiResponse = orchextraCoreApi.getConfiguration(apiKey).execute().body()
-
-    return apiResponse?.data?.toConfiguration() as Configuration
-  }
-
-  override fun getTriggerConfiguration(apiKey: String): Configuration {
-    val apiResponse = orchextraTriggerApi.getConfiguration(apiKey).execute().body()
-
-    return apiResponse?.data?.toConfiguration() as Configuration
-  }
-
-  override fun getTriggerList(point: OxPoint): Configuration {
-    val request = ApiList(ApiGeoLocation(ApiPoint(lat = point.lat, lng = point.lng)))
-    val apiResponse = makeCallWithRetry { orchextraTriggerApi.getList(request).execute().body() }
-
-    return apiResponse?.data?.toConfiguration() as Configuration
-  }
-
-  override fun getAction(trigger: Trigger): Action {
-    val apiResponse = makeCallWithRetry {
-      orchextraTriggerApi.getAction(trigger.toApiTrigger()).execute().body()
+            token
+        }
     }
 
-    return apiResponse?.data?.toAction() as Action
-  }
+    override fun getConfiguration(apiKey: String): Configuration {
+        val apiResponse = orchextraCoreApi.getConfiguration(apiKey).execute().body()
 
-  override fun confirmAction(id: String) {
-    if (id == "-1") {
-      LOGE("NetworkDataSourceImp", "Confirm action called without Id")
-    } else {
-      makeCallWithRetry { orchextraTriggerApi.confirmAction(id).execute().body() }
-    }
-  }
-
-  override fun getTokenData(): TokenData {
-    val apiResponse = makeCallWithRetry({
-      orchextraCoreApi.getTokenData().execute().body()
-    })
-
-    return apiResponse?.data?.toTokenData() as TokenData
-  }
-
-  override fun updateTokenData(tokenData: TokenData): TokenData {
-    val apiResponse = makeCallWithRetry {
-      orchextraCoreApi.updateTokenData(tokenData.toApiTokenData()).execute().body()
+        return apiResponse?.data?.toConfiguration() as Configuration
     }
 
-    return apiResponse?.data?.toTokenData() as TokenData
-  }
+    override fun getTriggerConfiguration(apiKey: String): Configuration {
+        val apiResponse = orchextraTriggerApi.getConfiguration(apiKey).execute().body()
 
-  override fun unbindCrm() {
-    makeCallWithRetry {
-      val requestBody: RequestBody =
-        "{\"crm\":null }".toRequestBody("application/json".toMediaTypeOrNull())
-      orchextraCoreApi.updateTokenData(requestBody).execute().body()
+        return apiResponse?.data?.toConfiguration() as Configuration
     }
-  }
 
-  private fun <T> makeCallWithRetry(call: () -> T?): T? {
-    return if (sessionManager.hasSession()) {
-      makeCallWithRetryOnSessionFailed(call)
-    } else {
-      getAuthentication(orchextra.getCredentials(), true)
-      call()
-    }
-  }
+    override fun getTriggerList(point: OxPoint): Configuration {
+        val request = ApiList(ApiGeoLocation(ApiPoint(lat = point.lat, lng = point.lng)))
+        val apiResponse =
+            makeCallWithRetry { orchextraTriggerApi.getList(request).execute().body() }
 
-  private fun <T> makeCallWithRetryOnSessionFailed(call: () -> T?): T? {
-    return try {
-      call()
-    } catch (exception: UnauthorizedException) {
-      getAuthentication(orchextra.getCredentials(), true)
-      call()
+        return apiResponse?.data?.toConfiguration() as Configuration
     }
-  }
+
+    override fun getAction(trigger: Trigger): Action {
+        val apiResponse = makeCallWithRetry {
+            orchextraTriggerApi.getAction(trigger.toApiTrigger()).execute().body()
+        }
+
+        return apiResponse?.data?.toAction() as Action
+    }
+
+    override fun confirmAction(id: String) {
+        if (id == "-1") {
+            LOGE("NetworkDataSourceImp", "Confirm action called without Id")
+        } else {
+            makeCallWithRetry { orchextraTriggerApi.confirmAction(id).execute().body() }
+        }
+    }
+
+    override fun getTokenData(): TokenData {
+        val apiResponse = makeCallWithRetry {
+            orchextraCoreApi.getTokenData().execute().body()
+        }
+
+        return apiResponse?.data?.toTokenData() as TokenData
+    }
+
+    override fun updateTokenData(tokenData: TokenData): TokenData {
+        val apiResponse = makeCallWithRetry {
+            orchextraCoreApi.updateTokenData(tokenData.toApiTokenData()).execute().body()
+        }
+
+        return apiResponse?.data?.toTokenData() as TokenData
+    }
+
+    override fun unbindCrm() {
+        makeCallWithRetry {
+            val requestBody: RequestBody =
+                "{\"crm\":null }".toRequestBody("application/json".toMediaTypeOrNull())
+            orchextraCoreApi.updateTokenData(requestBody).execute().body()
+        }
+    }
+
+    private fun <T> makeCallWithRetry(call: () -> T?): T? {
+        return if (sessionManager.hasSession()) {
+            makeCallWithRetryOnSessionFailed(call)
+        } else {
+            getAuthentication(orchextra.getCredentials(), true)
+            call()
+        }
+    }
+
+    private fun <T> makeCallWithRetryOnSessionFailed(call: () -> T?): T? {
+        return try {
+            call()
+        } catch (exception: UnauthorizedException) {
+            getAuthentication(orchextra.getCredentials(), true)
+            call()
+        }
+    }
 }

@@ -17,7 +17,9 @@ import com.gigigo.orchextra.core.data.datasources.network.models.ApiAction
 import com.gigigo.orchextra.core.data.datasources.network.models.toAction
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
+import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.TokenData
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -37,11 +39,24 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
         dbDataSource = DbDataSource.create(baseContext)
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onNewToken(p0: String) {
+        super.onNewToken(p0)
 
-        Log.d(TAG, "From: ${remoteMessage?.from}")
+        val networkDataSource = NetworkDataSource.create(this)
+        val dbDataSource = DbDataSource.create(this)
+        dbDataSource.clearDevice()
 
-        if (remoteMessage?.data?.isNotEmpty() == true) {
+        val crm = dbDataSource.getCrm()
+        val device = dbDataSource.getDevice()
+        networkDataSource.updateTokenData(TokenData(crm = crm, device = device))
+
+        Log.w(TAG, "Refreshed token")
+    }
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+
+        Log.d(TAG, "From: ${remoteMessage.from}")
+
+        if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
 
             if (remoteMessage.data.containsKey("isOrchextra")
@@ -60,7 +75,7 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
             }
         }
 
-        remoteMessage?.notification?.let { notification ->
+        remoteMessage.notification?.let { notification ->
             Log.d(TAG, "Message Notification Body: ${notification.body}")
             Log.d(TAG, "Message Notification Title: ${notification.title}")
 
@@ -135,7 +150,7 @@ class OxFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     companion object {
-        private val TAG = "OxFirebaseMsgService"
-        private val CHANNEL_ID = "ox_push_notification"
+        private const val TAG = "OxFirebaseMsgService"
+        private const val CHANNEL_ID = "ox_push_notification"
     }
 }

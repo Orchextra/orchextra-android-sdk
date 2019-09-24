@@ -34,13 +34,13 @@ enum class ActionType {
 
     companion object {
         fun fromOxType(value: String): ActionType = when (value) {
-            "browser" -> ActionType.BROWSER
-            "webview" -> ActionType.WEBVIEW
-            "custom_scheme" -> ActionType.CUSTOM_SCHEME
-            "scan" -> ActionType.SCANNER
-            "scan_vuforia" -> ActionType.IMAGE_RECOGNITION
-            "notification" -> ActionType.NOTIFICATION
-            else -> ActionType.NOTHING
+            "browser" -> BROWSER
+            "webview" -> WEBVIEW
+            "custom_scheme" -> CUSTOM_SCHEME
+            "scan" -> SCANNER
+            "scan_vuforia" -> IMAGE_RECOGNITION
+            "notification" -> NOTIFICATION
+            else -> NOTHING
         }
     }
 }
@@ -48,7 +48,7 @@ enum class ActionType {
 @Parcelize
 data class Action(
     val trackId: String = "-1",
-    val type: ActionType,
+    val type: ActionType = ActionType.NOTHING,
     val url: String = "",
     val notification: Notification = Notification(),
     val schedule: Schedule = Schedule()
