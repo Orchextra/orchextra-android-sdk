@@ -18,10 +18,9 @@
 
 package com.gigigo.orchextra.indoorpositioning.domain.models
 
-import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.util.Date
+import java.util.*
 
 @Parcelize
 data class OxBeacon(
@@ -46,28 +45,29 @@ data class OxBeacon(
     var temperature: Float = 0F,
     var pduCount: Long = 0,
     var uptime: Long = 0,
-    val lastDetection: Date) : Parcelable {
+    val lastDetection: Date
+) : Parcelable {
 
-  fun getTemperatureInCelsius(): Float {
-    val tmp = temperature / 256F
+    fun getTemperatureInCelsius(): Float {
+        val tmp = temperature / 256F
 
-    if (tmp == (1 shl 7).toFloat()) { // 0x8000
-      return 0F
+        if (tmp == (1 shl 7).toFloat()) { // 0x8000
+            return 0F
+        }
+        return if (tmp > (1 shl 7)) tmp - (1 shl 8) else tmp
     }
-    return if (tmp > (1 shl 7)) tmp - (1 shl 8) else tmp
-  }
 
-  fun getDistanceQualifier(): String = when {
-    distance < 0.5 -> "immediate"
-    distance < 5 -> "near"
-    distance < 20 -> "far"
-    else -> "unknown"
-  }
+    fun getDistanceQualifier(): String = when {
+        distance < 0.5 -> "immediate"
+        distance < 5 -> "near"
+        distance < 20 -> "far"
+        else -> "unknown"
+    }
 
-  companion object {
-    const val TYPE_EDDYSTONE_UID = 0
-    const val TYPE_EDDYSTONE_URL = 1
-    const val TYPE_ALTBEACON = 2
-    const val TYPE_IBEACON = 3
-  }
+    companion object {
+        const val TYPE_EDDYSTONE_UID = 0
+        const val TYPE_EDDYSTONE_URL = 1
+        const val TYPE_ALTBEACON = 2
+        const val TYPE_IBEACON = 3
+    }
 }

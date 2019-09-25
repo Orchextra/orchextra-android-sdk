@@ -43,17 +43,22 @@ ext {
                  moshi                    : 'com.squareup.moshi:moshi:1.8.0'
     ]
 
-    testLibraries = [junit            : 'junit:junit:4.12',
-                     kluent           : 'org.amshove.kluent:kluent:1.26',
-                     mockitoKotlin    : 'com.nhaarman:mockito-kotlin:1.5.0',
-                     supportTestRunner: 'com.android.support.test:runner:1.0.2',
-                     supportTestRules : 'com.android.support.test:rules:1.0.2',
-                     espressoCore     : 'com.android.support.test.espresso:espresso-core:3.0.2',
-                     espressoIntents  : 'com.android.support.test.espresso:espresso-intents:3.0.2']
+    testLibraries = [
+            junit            : 'junit:junit:4.12',
+            kluent           : 'org.amshove.kluent:kluent:1.26',
+            assertj          : 'org.assertj:assertj-core:3.11.1',
+            mockitoKotlin    : 'com.nhaarman:mockito-kotlin:1.5.0',
+            supportTestRunner: 'com.android.support.test:runner:1.0.2',
+            supportTestRules : 'com.android.support.test:rules:1.0.2',
+            espressoCore     : 'com.android.support.test.espresso:espresso-core:3.0.2',
+            espressoIntents  : 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    ]
 
-    modules = [core             : project(':core'),
-               geofence         : project(':geofence'),
-               imageRecognizer  : project(':imagerecognizer'),
-               indoorPositioning: project(':indoorpositioning'),
-               scanner          : project(':scanner')]
+    modules = [
+            core             : project(':core'),
+            geofence         : project(':geofence'),
+            imageRecognizer  : project(':imagerecognizer'),
+            indoorPositioning: project(':indoorpositioning'),
+            scanner          : project(':scanner')
+    ]
 }
