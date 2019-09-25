@@ -39,8 +39,8 @@ android:
 before_install:
   - chmod +x gradlew
   - cd $TRAVIS_BUILD_DIR/
-  - pip install --upgrade pip
-  - pip install --user codecov
+  - pip3 install --upgrade pip
+  - pip3 install --user codecov
 
 before_script:
   - echo no | android create avd --force -n test -t android-28 --abi google_apis/armeabi-v7a

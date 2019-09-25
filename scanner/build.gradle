@@ -118,7 +118,7 @@ dependencies {
     implementation rootProject.ext.libraries.kotlinStdLib
     implementation rootProject.ext.libraries.appCompat
     implementation rootProject.ext.libraries.multidex
-    
+
     implementation(rootProject.ext.libraries.zbar) {
         exclude module: 'support-v4'
     }
