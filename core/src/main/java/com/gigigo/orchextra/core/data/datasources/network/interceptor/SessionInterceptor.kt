@@ -23,32 +23,33 @@ import com.gigigo.orchextra.core.domain.datasources.SessionManager
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Response
-import java.util.Locale
+import java.util.*
 
+
+private const val UNAUTHORIZED = 401
 
 class SessionInterceptor(private val sessionManager: SessionManager) : Interceptor {
 
-  private val UNAUTHORIZED = 401
 
-  override fun intercept(chain: Chain): Response {
+    override fun intercept(chain: Chain): Response {
 
-    val requestBuilder = chain.request().newBuilder()
-        .addHeader("X-orx-version", "ANDROID_" + BuildConfig.VERSION_NAME)
-        .addHeader("Accept-Language", Locale.getDefault().toString())
-        .addHeader("Content-Type", "application/json")
+        val requestBuilder = chain.request().newBuilder()
+            .addHeader("X-orx-version", "ANDROID_" + BuildConfig.VERSION_NAME)
+            .addHeader("Accept-Language", Locale.getDefault().toString())
+            .addHeader("Content-Type", "application/json")
 
-    if (sessionManager.hasSession()) {
-      requestBuilder.addHeader("Authorization", "JWT ${sessionManager.getSession()}")
+        if (sessionManager.hasSession()) {
+            requestBuilder.addHeader("Authorization", "JWT ${sessionManager.getSession()}")
+        }
+
+        val request = requestBuilder.build()
+
+        val response = chain.proceed(request)
+
+        if (response.code == UNAUTHORIZED) {
+            sessionManager.clearSession()
+        }
+
+        return response
     }
-
-    val request = requestBuilder.build()
-
-    val response = chain.proceed(request)
-
-    if (response.code() == UNAUTHORIZED) {
-      sessionManager.clearSession()
-    }
-
-    return response
-  }
 }

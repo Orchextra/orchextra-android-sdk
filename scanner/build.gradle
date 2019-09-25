@@ -23,107 +23,112 @@ apply from: '../config/jacoco.gradle'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = rootProject.ext.group
+version = rootProject.ext.version
 
 ext {
-  bintrayRepo = 'maven'
-  bintrayName = 'com.gigigo.orchextra:scanner'
+    bintrayRepo = 'maven'
+    bintrayName = 'com.gigigo.orchextra:scanner'
 
-  publishedGroupId = 'com.gigigo.orchextra'
-  libraryName = 'scanner'
-  artifact = 'scanner'
+    publishedGroupId = 'com.gigigo.orchextra'
+    libraryName = 'scanner'
+    artifact = 'scanner'
 
-  libraryDescription = 'Orchextra scanner'
+    libraryDescription = 'Orchextra scanner'
 
-  siteUrl = 'https://github.com/Orchextra/orchextra-android-sdk'
-  gitUrl = 'https://github.com/Orchextra/orchextra-android-sdk.git'
+    siteUrl = 'https://github.com/Orchextra/orchextra-android-sdk'
+    gitUrl = 'https://github.com/Orchextra/orchextra-android-sdk.git'
 
-  libraryVersion = rootProject.ext.version
+    libraryVersion = rootProject.ext.version
 
-  developerId = 'gigigo-desarrollo'
-  developerName = 'Android Gigigo'
-  developerEmail = 'gigigo.desarrollo@gmail.com'
+    developerId = 'gigigo-desarrollo'
+    developerName = 'Android Gigigo'
+    developerEmail = 'gigigo.desarrollo@gmail.com'
 
-  licenseName = 'The Apache Software License, Version 2.0'
-  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-  allLicenses = ["Apache-2.0"]
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
-  defaultConfig {
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 1
-    versionName "1.0"
-
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-
-  packagingOptions {
-    exclude 'lib/mips/*'
-    exclude 'lib/mips64/*'
-    exclude 'lib/x86_64/*'
-    exclude 'lib/armeabi/*'
-    exclude 'lib/arm64-v8a/*'
-  }
-
-  buildTypes {
-    debug {
-      debuggable true
-
-      version = "${rootProject.ext.version}-S"
-      project.ext.libraryVersion = "${rootProject.ext.version}-S"
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    quality {
-      debuggable true
-
-      version = "${rootProject.ext.version}-Q"
-      project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+    packagingOptions {
+        exclude 'lib/mips/*'
+        exclude 'lib/mips64/*'
+        exclude 'lib/x86_64/*'
+        exclude 'lib/armeabi/*'
+        exclude 'lib/arm64-v8a/*'
     }
 
-    release {
-      debuggable false
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    buildTypes {
+        debug {
+            debuggable true
 
-      if (project.hasProperty('debug')) {
+            version = "${rootProject.ext.version}-S"
+            project.ext.libraryVersion = "${rootProject.ext.version}-S"
+        }
 
-        version = "${rootProject.ext.version}-S"
-        project.ext.libraryVersion = "${rootProject.ext.version}-S"
-      } else if (project.hasProperty('quality')) {
+        quality {
+            debuggable true
 
-        version = "${rootProject.ext.version}-Q"
-        project.ext.libraryVersion = "${rootProject.ext.version}-Q"
-      } else {
+            version = "${rootProject.ext.version}-Q"
+            project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+        }
 
-        version = "${rootProject.ext.version}"
-        project.ext.libraryVersion = "${rootProject.ext.version}"
-      }
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            if (project.hasProperty('debug')) {
+
+                version = "${rootProject.ext.version}-S"
+                project.ext.libraryVersion = "${rootProject.ext.version}-S"
+            } else if (project.hasProperty('quality')) {
+
+                version = "${rootProject.ext.version}-Q"
+                project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+            } else {
+
+                version = "${rootProject.ext.version}"
+                project.ext.libraryVersion = "${rootProject.ext.version}"
+            }
+        }
     }
-  }
 
-  lintOptions {
-    quiet true
-    abortOnError false
-    ignoreWarnings true
-  }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
-  implementation rootProject.ext.libraries.kotlinStdLib
-  implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
-  implementation(rootProject.ext.libraries.zbar) {
-    exclude module: 'support-v4'
-  }
+    implementation rootProject.ext.libraries.kotlinStdLib
+    implementation rootProject.ext.libraries.appCompat
+    implementation rootProject.ext.libraries.multidex
 
-  implementation rootProject.ext.modules.core
+    implementation(rootProject.ext.libraries.zbar) {
+        exclude module: 'support-v4'
+    }
 
-  testImplementation rootProject.ext.testLibraries.junit
-  androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
+    implementation rootProject.ext.modules.core
+
+    testImplementation rootProject.ext.testLibraries.junit
+    androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

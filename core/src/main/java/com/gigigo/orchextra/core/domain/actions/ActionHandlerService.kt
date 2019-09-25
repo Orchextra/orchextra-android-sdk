@@ -26,31 +26,37 @@ import com.gigigo.orchextra.core.domain.entities.Action
 
 class ActionHandlerService : IntentService(TAG) {
 
-  override fun onHandleIntent(intent: Intent) {
+    override fun onHandleIntent(intent: Intent?) {
 
-    val actionDispatcher: ActionDispatcher = ActionDispatcher.create(this)
-    val action = intent.getParcelableExtra<Action>(ACTION_EXTRA)
-    Log.d(TAG, "Execute action: $action")
-    actionDispatcher.executeAction(action)
-  }
+        val actionDispatcher: ActionDispatcher = ActionDispatcher.create(this)
+        val action = intent?.getParcelableExtra<Action>(ACTION_EXTRA)
+        if (action == null) {
+            Log.d(TAG, "Action empty")
+            return
+        }
 
-  companion object {
-    private val TAG = "ActionHandlerService"
-    val ACTION_EXTRA = "action_extra"
-  }
+        Log.d(TAG, "Execute action: $action")
+        actionDispatcher.executeAction(action)
+    }
+
+    companion object {
+        private const val TAG = "ActionHandlerService"
+        const val ACTION_EXTRA = "action_extra"
+    }
 }
 
 class ActionHandlerServiceExecutor(val context: Context) {
 
-  fun execute(action: Action) {
-    val intent = Intent(context, ActionHandlerService::class.java)
-    intent.putExtra(ActionHandlerService.ACTION_EXTRA, action)
-    context.startService(intent)
-  }
+    fun execute(action: Action) {
+        val intent = Intent(context, ActionHandlerService::class.java)
+        intent.putExtra(ActionHandlerService.ACTION_EXTRA, action)
+        context.startService(intent)
+    }
 
-  companion object Factory {
+    companion object Factory {
 
-    fun create(context: Context): ActionHandlerServiceExecutor = ActionHandlerServiceExecutor(
-        context)
-  }
+        fun create(context: Context): ActionHandlerServiceExecutor = ActionHandlerServiceExecutor(
+            context
+        )
+    }
 }

@@ -24,32 +24,32 @@ import com.gigigo.orchextra.core.domain.datasources.SessionManager
 
 class SessionManagerImp(private val sharedPreferences: SharedPreferences) : SessionManager {
 
-  private val TOKEN_KEY = "token_key"
-  private var token = ""
+    private val TOKEN_KEY = "token_key"
+    private var token = ""
 
-  @SuppressLint("CommitPrefEdits")
-  override fun saveSession(token: String) {
-    this.token = token
-    val editor = sharedPreferences.edit()
-    editor?.putString(TOKEN_KEY, token)
-    editor?.commit()
-  }
-
-  override fun getSession(): String {
-    return if (token.isNotEmpty()) {
-      token
-    } else {
-      sharedPreferences.getString(TOKEN_KEY, "")
+    @SuppressLint("CommitPrefEdits")
+    override fun saveSession(token: String) {
+        this.token = token
+        val editor = sharedPreferences.edit()
+        editor?.putString(TOKEN_KEY, token)
+        editor?.commit()
     }
-  }
 
-  override fun hasSession(): Boolean = getSession().isNotEmpty()
+    override fun getSession(): String {
+        return if (token.isNotEmpty()) {
+            token
+        } else {
+            sharedPreferences.getString(TOKEN_KEY, "") ?: ""
+        }
+    }
 
-  @SuppressLint("CommitPrefEdits")
-  override fun clearSession() {
-    token = ""
-    val editor = sharedPreferences.edit()
-    editor?.putString(TOKEN_KEY, token)
-    editor?.commit()
-  }
+    override fun hasSession(): Boolean = getSession().isNotEmpty()
+
+    @SuppressLint("CommitPrefEdits")
+    override fun clearSession() {
+        token = ""
+        val editor = sharedPreferences.edit()
+        editor?.putString(TOKEN_KEY, token)
+        editor?.apply()
+    }
 }

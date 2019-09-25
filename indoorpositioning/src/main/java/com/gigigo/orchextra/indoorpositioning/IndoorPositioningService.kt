@@ -29,8 +29,8 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Handler
 import android.os.IBinder
-import android.support.annotation.RequiresApi
-import android.support.v4.app.NotificationCompat
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import com.gigigo.orchextra.core.R.string
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Trigger

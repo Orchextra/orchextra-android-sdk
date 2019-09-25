@@ -23,6 +23,7 @@ apply from: '../config/jacoco.gradle'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = rootProject.ext.group
+version = rootProject.ext.version
 
 ext {
   bintrayRepo = 'maven'
@@ -54,10 +55,8 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 1
-    versionName "1.0"
-
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    multiDexEnabled true
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
     debug {
@@ -100,12 +99,16 @@ android {
     abortOnError false
     ignoreWarnings true
   }
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation rootProject.ext.libraries.kotlinStdLib
-  implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+  implementation rootProject.ext.libraries.appCompat
+  implementation rootProject.ext.libraries.multidex
 
   implementation rootProject.ext.libraries.playServicesLocation
 

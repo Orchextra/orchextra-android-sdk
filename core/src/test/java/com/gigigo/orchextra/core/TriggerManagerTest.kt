@@ -20,6 +20,7 @@ package com.gigigo.orchextra.core
 
 import com.gigigo.orchextra.core.data.datasources.network.models.toError
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
+import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.datasources.NetworkDataSource
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType.WEBVIEW
@@ -42,53 +43,68 @@ import org.junit.Test
 
 class TriggerManagerTest {
 
-  private val TEST_SUCCESS_TRIGGER = QR withValue "test_123"
-  private val TEST_ERROR_TRIGGER = BARCODE withValue "test_error_123"
-  private val TEST_ACTION = Action(trackId = "test_123", type = WEBVIEW,
-      url = "https://www.google.es")
-  private val TEST_NETWORK_EXCEPTION = NetworkException(-1, "error")
+    private val TEST_SUCCESS_TRIGGER = QR withValue "test_123"
+    private val TEST_ERROR_TRIGGER = BARCODE withValue "test_error_123"
+    private val TEST_ACTION = Action(
+        trackId = "test_123", type = WEBVIEW,
+        url = "https://www.google.es"
+    )
+    private val TEST_NETWORK_EXCEPTION = NetworkException(-1, "error")
 
-  @Test
-  fun shouldExecuteAction() {
-    val actionHandlerServiceExecutor: ActionHandlerServiceExecutor = mock()
-    val triggerManager = getTriggerManager(
-        actionHandlerServiceExecutor = actionHandlerServiceExecutor)
+    @Test
+    fun shouldExecuteAction() {
+        val actionHandlerServiceExecutor: ActionHandlerServiceExecutor = mock()
+        val triggerManager = getTriggerManager(
+            actionHandlerServiceExecutor = actionHandlerServiceExecutor
+        )
 
-    triggerManager.onTriggerDetected(TEST_SUCCESS_TRIGGER)
+        triggerManager.onTriggerDetected(TEST_SUCCESS_TRIGGER)
 
-    verify(actionHandlerServiceExecutor).execute(eq(TEST_ACTION))
-  }
-
-  @Test
-  fun shouldNotifyGetActionError() {
-    val orchextraErrorListener: OrchextraErrorListener = mock()
-    val triggerManager = getTriggerManager(orchextraErrorListener = orchextraErrorListener)
-
-    triggerManager.onTriggerDetected(TEST_ERROR_TRIGGER)
-
-    verify(orchextraErrorListener).onError(eq(TEST_NETWORK_EXCEPTION.toError()))
-  }
-
-  private fun getTriggerManager(actionHandlerServiceExecutor: ActionHandlerServiceExecutor = mock(),
-      orchextraErrorListener: OrchextraErrorListener = mock()): TriggerManager {
-
-    val networkDataSource = mock<NetworkDataSource> {
-      on { getAction(TEST_SUCCESS_TRIGGER) } doReturn TEST_ACTION
-      on { getAction(TEST_ERROR_TRIGGER) } doThrow TEST_NETWORK_EXCEPTION
+        verify(actionHandlerServiceExecutor).execute(eq(TEST_ACTION))
     }
 
-    val getTriggerList = GetTriggerList(ThreadExecutorMock(),
-        PostExecutionThreadMock(), networkDataSource)
-    val getTriggerConfiguration = GetTriggerConfiguration(ThreadExecutorMock(),
-        PostExecutionThreadMock(), networkDataSource)
-    val getAction = GetAction(ThreadExecutorMock(),
-        PostExecutionThreadMock(), networkDataSource)
+    @Test
+    fun shouldNotifyGetActionError() {
+        val orchextraErrorListener: OrchextraErrorListener = mock()
+        val triggerManager = getTriggerManager(orchextraErrorListener = orchextraErrorListener)
 
-    return TriggerManager(
-        getTriggerConfiguration = getTriggerConfiguration,
-        getTriggerList = getTriggerList,
-        getAction = getAction,
-        actionHandlerServiceExecutor = actionHandlerServiceExecutor,
-        errorListener = orchextraErrorListener)
-  }
+        triggerManager.onTriggerDetected(TEST_ERROR_TRIGGER)
+
+        verify(orchextraErrorListener).onError(eq(TEST_NETWORK_EXCEPTION.toError()))
+    }
+
+    private fun getTriggerManager(
+        actionHandlerServiceExecutor: ActionHandlerServiceExecutor = mock(),
+        orchextraErrorListener: OrchextraErrorListener = mock()
+    ): TriggerManager {
+
+        val networkDataSource = mock<NetworkDataSource> {
+            on { getAction(TEST_SUCCESS_TRIGGER) } doReturn TEST_ACTION
+            on { getAction(TEST_ERROR_TRIGGER) } doThrow TEST_NETWORK_EXCEPTION
+        }
+
+        val dbDataSource = mock<DbDataSource>()
+
+        val getTriggerList = GetTriggerList(
+            ThreadExecutorMock(),
+            PostExecutionThreadMock(), networkDataSource
+        )
+        val getTriggerConfiguration = GetTriggerConfiguration(
+            ThreadExecutorMock(),
+            PostExecutionThreadMock(), networkDataSource
+        )
+        val getAction = GetAction(
+            ThreadExecutorMock(),
+            PostExecutionThreadMock(), networkDataSource
+        )
+
+        return TriggerManager(
+            getTriggerConfiguration = getTriggerConfiguration,
+            getTriggerList = getTriggerList,
+            getAction = getAction,
+            actionHandlerServiceExecutor = actionHandlerServiceExecutor,
+            errorListener = orchextraErrorListener,
+            dbDataSource = dbDataSource
+        )
+    }
 }

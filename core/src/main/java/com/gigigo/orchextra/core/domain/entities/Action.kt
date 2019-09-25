@@ -18,71 +18,47 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 enum class ActionType {
-  BROWSER,
-  WEBVIEW,
-  CUSTOM_SCHEME,
-  SCANNER,
-  SCANNER_WITHOUT_ACTION,
-  SCAN_CODE,
-  IMAGE_RECOGNITION,
-  NOTIFICATION,
-  NOTHING;
+    BROWSER,
+    WEBVIEW,
+    CUSTOM_SCHEME,
+    SCANNER,
+    SCANNER_WITHOUT_ACTION,
+    SCAN_CODE,
+    IMAGE_RECOGNITION,
+    NOTIFICATION,
+    NOTHING;
 
-  companion object {
-    fun fromOxType(value: String): ActionType = when (value) {
-      "browser" -> ActionType.BROWSER
-      "webview" -> ActionType.WEBVIEW
-      "custom_scheme" -> ActionType.CUSTOM_SCHEME
-      "scan" -> ActionType.SCANNER
-      "scan_vuforia" -> ActionType.IMAGE_RECOGNITION
-      "notification" -> ActionType.NOTIFICATION
-      else -> ActionType.NOTHING
+    companion object {
+        fun fromOxType(value: String): ActionType = when (value) {
+            "browser" -> BROWSER
+            "webview" -> WEBVIEW
+            "custom_scheme" -> CUSTOM_SCHEME
+            "scan" -> SCANNER
+            "scan_vuforia" -> IMAGE_RECOGNITION
+            "notification" -> NOTIFICATION
+            else -> NOTHING
+        }
     }
-  }
 }
 
+@Parcelize
 data class Action(
     val trackId: String = "-1",
-    val type: ActionType,
+    val type: ActionType = ActionType.NOTHING,
     val url: String = "",
     val notification: Notification = Notification(),
-    val schedule: Schedule = Schedule()) : Parcelable {
+    val schedule: Schedule = Schedule()
+) : Parcelable {
 
-  fun hasNotification(): Boolean {
-    return notification.isNotEmpty()
-  }
-
-  fun hasSchedule(): Boolean {
-    return schedule.isValid()
-  }
-
-  constructor(source: Parcel) : this(
-      source.readString(),
-      ActionType.values()[source.readInt()],
-      source.readString(),
-      source.readParcelable<Notification>(Notification::class.java.classLoader),
-      source.readParcelable<Schedule>(Schedule::class.java.classLoader)
-  )
-
-  override fun describeContents() = 0
-
-  override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-    writeString(trackId)
-    writeInt(type.ordinal)
-    writeString(url)
-    writeParcelable(notification, 0)
-    writeParcelable(schedule, 0)
-  }
-
-  companion object {
-    @JvmField
-    val CREATOR: Parcelable.Creator<Action> = object : Parcelable.Creator<Action> {
-      override fun createFromParcel(source: Parcel): Action = Action(source)
-      override fun newArray(size: Int): Array<Action?> = arrayOfNulls(size)
+    fun hasNotification(): Boolean {
+        return notification.isNotEmpty()
     }
-  }
+
+    fun hasSchedule(): Boolean {
+        return schedule.isValid()
+    }
 }

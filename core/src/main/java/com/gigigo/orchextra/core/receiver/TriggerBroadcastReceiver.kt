@@ -26,13 +26,19 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.triggers.TriggerHandlerService
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGD
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 
 class TriggerBroadcastReceiver : BroadcastReceiver() {
 
   override fun onReceive(context: Context, intent: Intent) {
 
-    val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA).copy(
-        phoneStatus = getStatus())
+    val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)?.copy(
+      phoneStatus = getStatus()
+    )
+    if (trigger == null) {
+      LOGE(TAG, "trigger is null")
+      return
+    }
     LOGD(TAG, "onTriggerReceived: $trigger")
     TriggerHandlerService.start(context, trigger)
   }
