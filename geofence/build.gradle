@@ -55,8 +55,8 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    multiDexEnabled true
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
     debug {
@@ -99,11 +99,16 @@ android {
     abortOnError false
     ignoreWarnings true
   }
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
 }
 
 dependencies {
   implementation rootProject.ext.libraries.kotlinStdLib
   implementation rootProject.ext.libraries.appCompat
+  implementation rootProject.ext.libraries.multidex
 
   implementation rootProject.ext.libraries.playServicesLocation
 

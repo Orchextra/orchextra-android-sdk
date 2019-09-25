@@ -69,8 +69,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -138,6 +138,10 @@ android {
     androidExtensions {
         experimental = true
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dexcount {
@@ -156,6 +160,7 @@ dependencies {
     implementation rootProject.ext.libraries.kotlinStdLib
 
     implementation rootProject.ext.libraries.appCompat
+    implementation rootProject.ext.libraries.multidex
     implementation rootProject.ext.libraries.playServicesLocation
 
     implementation rootProject.ext.libraries.firebaseCore

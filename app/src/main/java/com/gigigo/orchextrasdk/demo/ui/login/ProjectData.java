@@ -18,8 +18,8 @@
 
 package com.gigigo.orchextrasdk.demo.ui.login;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.gigigo.orchextrasdk.demo.BuildConfig;
 import java.util.ArrayList;
 import java.util.List;

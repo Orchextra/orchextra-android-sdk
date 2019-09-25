@@ -1,14 +1,11 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import android.os.Parcel
-import android.support.test.runner.AndroidJUnit4
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.util.*
 
-@RunWith(AndroidJUnit4::class)
 class OxBeaconAndroidTest {
 
     @Test

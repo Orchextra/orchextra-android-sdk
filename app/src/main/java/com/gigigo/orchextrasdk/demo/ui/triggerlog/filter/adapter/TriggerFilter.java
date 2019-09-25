@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextrasdk.demo.ui.triggerlog.filter.adapter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.gigigo.orchextra.core.domain.entities.TriggerType;
 
 public class TriggerFilter {

@@ -24,7 +24,8 @@ ext {
 
     libraries = [kotlinStdLib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
 
-                 appCompat                : 'com.android.support:appcompat-v7:28.0.0',
+                 appCompat                : 'androidx.appcompat:appcompat:1.0.0',
+                 multidex                 : 'com.android.support:multidex:1.0.3',
                  playServicesLocation     : 'com.google.android.gms:play-services-location:17.0.0',
                  firebaseCore             : 'com.google.firebase:firebase-core:17.2.0',
                  firebaseMessaging        : 'com.google.firebase:firebase-messaging:20.0.0',
@@ -48,9 +49,9 @@ ext {
             kluent           : 'org.amshove.kluent:kluent:1.26',
             assertj          : 'org.assertj:assertj-core:3.11.1',
             mockitoKotlin    : 'com.nhaarman:mockito-kotlin:1.5.0',
-            supportTestRunner: 'com.android.support.test:runner:1.0.2',
-            supportTestRules : 'com.android.support.test:rules:1.0.2',
-            espressoCore     : 'com.android.support.test.espresso:espresso-core:3.0.2',
+            supportTestRunner: 'androidx.test:runner:1.1.0',
+            supportTestRules : 'androidx.test:rules:1.1.0',
+            espressoCore     : 'androidx.test.espresso:espresso-core:3.1.0',
             espressoIntents  : 'com.android.support.test.espresso:espresso-intents:3.0.2'
     ]
 

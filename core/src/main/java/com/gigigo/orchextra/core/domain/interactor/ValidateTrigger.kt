@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextra.core.domain.interactor
 
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.Trigger
