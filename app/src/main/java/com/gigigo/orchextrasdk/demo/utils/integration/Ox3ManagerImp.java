@@ -75,11 +75,12 @@ public class Ox3ManagerImp implements OxManager {
     });
 
     List<String> deviceBusinessUnits = new ArrayList<>();
-    deviceBusinessUnits.add("it");
+    deviceBusinessUnits.add("es");
 
     OrchextraOptions options =
-        new OrchextraOptions.Builder().firebaseApiKey(config.getFirebaseApiKey())
-            .firebaseApplicationId(config.getFirebaseApplicationId())
+        new OrchextraOptions.Builder()
+            //.firebaseApiKey(config.getFirebaseApiKey())
+            //.firebaseApplicationId(config.getFirebaseApplicationId())
             .deviceBusinessUnits(deviceBusinessUnits)
             .triggeringEnabled(true)
             .proximityEnabled(true)

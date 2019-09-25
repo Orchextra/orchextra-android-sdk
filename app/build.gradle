@@ -74,6 +74,8 @@ android {
     release {
       signingConfig signingConfigs.debug
       minifyEnabled false
+      debuggable true
+
       proguardFiles getDefaultProguardFile('proguard-android.txt')
     }
   }
@@ -116,14 +118,16 @@ android.applicationVariants.all { variant ->
   def adb = android.getAdbExe().toString()
   def variantName = variant.name.capitalize()
 
-  def grantPermissionTask = tasks.create("grant${variantName}Permissions") << {
-    "${adb} devices".execute().text.eachLine {
-      if (it.endsWith("device")) {
-        def device = it.split()[0]
-        println "Granting permissions on devices ${device}"
-        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.CAMERA".execute()
-        "${adb} -s ${device} shell pm grant ${applicationId} android.permission.ACCESS_FINE_LOCATION".
-            execute()
+  def grantPermissionTask = tasks.create("grant${variantName}Permissions") {
+    doLast {
+      "${adb} devices".execute().text.eachLine {
+        if (it.endsWith("device")) {
+          def device = it.split()[0]
+          println "Granting permissions on devices ${device}"
+          "${adb} -s ${device} shell pm grant ${applicationId} android.permission.CAMERA".execute()
+          "${adb} -s ${device} shell pm grant ${applicationId} android.permission.ACCESS_FINE_LOCATION".
+              execute()
+        }
       }
     }
   }

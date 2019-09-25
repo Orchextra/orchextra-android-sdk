@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Created by Orchextra
   ~
   ~ Copyright (C) 2017 Gigigo Mobile Services SL
@@ -17,60 +16,68 @@
   ~ limitations under the License.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.scanner.ScannerFragment"
     >
-
-  <Button
-      android:id="@+id/ox_scanner_button"
+  <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:layout_marginTop="58dp"
-      android:text="@string/open_orchextra_scanner"
-      style="@style/ButtonStyle"
-      />
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      tools:context=".ui.scanner.ScannerFragment"
+      >
 
-  <Button
-      android:id="@+id/ox_custom_scanner_button"
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:text="@string/open_custom_scanner"
-      style="@style/ButtonStyle"
-      />
+    <Button
+        android:id="@+id/ox_scanner_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="58dp"
+        android:text="@string/open_orchextra_scanner"
+        style="@style/ButtonStyle"
+        />
 
-  <Button
-      android:id="@+id/ox_image_recognition_button"
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:text="@string/open_image_recognition"
-      style="@style/ButtonStyle"
-      />
+    <Button
+        android:id="@+id/ox_custom_scanner_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/open_custom_scanner"
+        style="@style/ButtonStyle"
+        />
 
-  <Button
-      android:id="@+id/ox_scan_code_button"
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:text="@string/scan_code"
-      style="@style/ButtonStyle"
-      />
+    <Button
+        android:id="@+id/ox_image_recognition_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/open_image_recognition"
+        style="@style/ButtonStyle"
+        />
 
-  <Button
-      android:id="@+id/dispatch_qr_button"
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:text="Dispatch QR Code"
-      style="@style/ButtonStyle"
-      />
+    <Button
+        android:id="@+id/ox_scan_code_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/scan_code"
+        style="@style/ButtonStyle"
+        />
 
-  <Button
-      android:id="@+id/request_location_button"
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:text="Request location"
-      style="@style/ButtonStyle"
-      />
-</LinearLayout>
+    <Button
+        android:id="@+id/dispatch_qr_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Dispatch QR Code"
+        style="@style/ButtonStyle"
+        />
+
+    <Button
+        android:id="@+id/request_location_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Request location"
+        style="@style/ButtonStyle"
+        />
+  </LinearLayout>
+
+</ScrollView>

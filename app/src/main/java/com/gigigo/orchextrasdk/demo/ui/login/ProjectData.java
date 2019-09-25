@@ -20,7 +20,6 @@ package com.gigigo.orchextrasdk.demo.ui.login;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.gigigo.orchextrasdk.demo.BuildConfig;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,19 +51,19 @@ public final class ProjectData {
 
     List<ProjectData> projectDataList = new ArrayList<>();
 
-    if (BuildConfig.BUILD_TYPE == "release") {
+    //if (BuildConfig.BUILD_TYPE == "release") {
+    //
+    //  projectDataList.add(
+    //      new ProjectData("[UAT] WOAH MARKETS", "ef08c4dccb7649b9956296a863db002a68240be2",
+    //          "6bc18c500546f253699f61c11a62827679178400"));
+    //} else if (BuildConfig.BUILD_TYPE == "quality") {
+    //
+    //  projectDataList.add(new ProjectData("Orchextra Demo - {{staging}}",
+    //      "3b1f7352079beaede1b234e798bdf05a0266a0ff", "df22059fd20c5b4b6e6465ab6b044628ea9a0726"));
+    //} else {
 
-      projectDataList.add(
-          new ProjectData("[UAT] WOAH MARKETS", "ef08c4dccb7649b9956296a863db002a68240be2",
-              "6bc18c500546f253699f61c11a62827679178400"));
-    } else if (BuildConfig.BUILD_TYPE == "quality") {
-
-      projectDataList.add(new ProjectData("Orchextra Demo - {{staging}}",
-          "3b1f7352079beaede1b234e798bdf05a0266a0ff", "df22059fd20c5b4b6e6465ab6b044628ea9a0726"));
-    } else {
-
-      projectDataList.add(new ProjectData("AndroidSDK", "34a4654b9804eab82aae05b2a5f949eb2a9f412c",
-          "2d5bce79e3e6e9cabf6d7b040d84519197dc22f3"));
+      projectDataList.add(new ProjectData("AndroidSDK", "fd4cf104e0a0523afb1882dc03d8514e00599c3c",
+          "1030b31c9e234dc66bba1332ec0e9d6e6836f9f0"));
 
       projectDataList.add(new ProjectData("IOS", "d4a03e91a8d86db81b6981218e5782ef52800a12",
           "21fa16e12ef489631c0b69406943c5ec811dd767"));
@@ -80,7 +79,7 @@ public final class ProjectData {
       projectDataList.add(
           new ProjectData("ANDROID TEST", "122f51a9f80a93270dfbd61b027155936031bba9",
               "54b0294038ae8118db6d996d4db4e082aa8447df"));
-    }
+    //}
 
     return projectDataList;
   }

@@ -28,6 +28,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,8 +43,8 @@ public class LoginActivity extends AppCompatActivity {
 
   public static final String API_KEY_KEY = "api_key_key";
   private OxManager oxManager;
-  private String apiKey = "";
-  private String apiSecret = "";
+  private String apiKey = "fd4cf104e0a0523afb1882dc03d8514e00599c3c";
+  private String apiSecret = "1030b31c9e234dc66bba1332ec0e9d6e6836f9f0";
   List<ProjectData> projectDataList;
   EditText projectNameEditText;
   EditText apiKeyEditText;
@@ -159,6 +160,11 @@ public class LoginActivity extends AppCompatActivity {
         .firebaseApplicationId("1:327008883283:android:5a0b51c3ef8892e0")
         .build();
 
+    oxManager.setCustomSchemeReceiver(new OxManager.CustomActionListener() {
+      @Override public void onCustomSchema(@NonNull String customSchema) {
+        Log.d("onCustomSchema", "customSchema: "+customSchema);
+      }
+    });
     oxManager.init(getApplication(), config, new OxManager.StatusListener() {
       @Override public void isReady() {
         MainActivity.open(LoginActivity.this);
