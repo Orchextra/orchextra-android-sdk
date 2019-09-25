@@ -44,6 +44,7 @@ before_install:
   - pip3 install --user codecov
 
 before_script:
+  - echo travis launch tests v3.2.6
   - echo no | android create avd --force -n test -t android-28 --abi google_apis/armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
