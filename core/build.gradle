@@ -81,8 +81,8 @@ android {
             buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
             buildConfigField BOOLEAN, NETWORK_LOG, "true"
 
-            version = "${rootProject.ext.version}-S"
-            project.ext.libraryVersion = "${rootProject.ext.version}-S"
+            version = "${rootProject.ext.version}-D"
+            project.ext.libraryVersion = "${rootProject.ext.version}-D"
         }
 
         quality {
@@ -107,8 +107,8 @@ android {
                 buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
                 buildConfigField BOOLEAN, NETWORK_LOG, "true"
 
-                version = "${rootProject.ext.version}-S"
-                project.ext.libraryVersion = "${rootProject.ext.version}-S"
+                version = "${rootProject.ext.version}-D"
+                project.ext.libraryVersion = "${rootProject.ext.version}-D"
             } else if (project.hasProperty('quality')) {
 
                 buildConfigField STRING, CORE_API_URL, '"https://core.q.orchextra.io/"'
