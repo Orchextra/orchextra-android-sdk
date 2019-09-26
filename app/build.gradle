@@ -46,7 +46,7 @@ android {
         minSdkVersion 18 //rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode generateAutoVersionCode()
-        versionName "3.0-RC" + generateAutoVersionCode()
+        versionName version + "_" + generateAutoVersionCode()
 
         ndk {
             abiFilters "armeabi-v7a", "x86"
