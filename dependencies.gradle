@@ -19,7 +19,7 @@
 ext {
 
     group = 'com.gigigo.orchextra'
-    version = '3.2.6.2'
+    version = '3.2.6-beta01'
 
     compileSdkVersion = 29
     minSdkVersion = 16
@@ -29,7 +29,7 @@ ext {
             kotlinStdLib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
 
             appCompat                : 'androidx.appcompat:appcompat:1.0.0',
-            multidex                 : 'com.android.support:multidex:1.0.3',
+            multidex                 : 'androidx.multidex:multidex:2.0.0',
             playServicesLocation     : 'com.google.android.gms:play-services-location:17.0.0',
             firebaseCore             : 'com.google.firebase:firebase-core:17.2.0',
             firebaseMessaging        : 'com.google.firebase:firebase-messaging:20.0.0',
@@ -56,7 +56,7 @@ ext {
             supportTestRunner: 'androidx.test:runner:1.1.0',
             supportTestRules : 'androidx.test:rules:1.1.0',
             espressoCore     : 'androidx.test.espresso:espresso-core:3.1.0',
-            espressoIntents  : 'com.android.support.test.espresso:espresso-intents:3.0.2'
+            espressoIntents  : 'androidx.test.espresso:espresso-intents:3.1.0'
     ]
 
     modules = [

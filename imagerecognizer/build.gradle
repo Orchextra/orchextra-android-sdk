@@ -82,7 +82,5 @@ dependencies {
 
     testImplementation rootProject.ext.testLibraries.junit
     testImplementation rootProject.ext.testLibraries.kluent
-    androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation rootProject.ext.testLibraries.espressoCore
 }

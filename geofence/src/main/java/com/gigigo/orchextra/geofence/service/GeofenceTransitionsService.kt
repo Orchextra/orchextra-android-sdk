@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.geofence
+package com.gigigo.orchextra.geofence.service
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -38,6 +38,8 @@ import com.gigigo.orchextra.core.receiver.TriggerBroadcastReceiver
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.gigigo.orchextra.core.utils.LogUtils.LOGI
+import com.gigigo.orchextra.geofence.GeofenceErrorMessages
+import com.gigigo.orchextra.geofence.R
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 
@@ -77,7 +79,10 @@ class GeofenceTransitionsService : Service() {
         val event = GeofencingEvent.fromIntent(intent)
 
         if (event == null || event.hasError()) {
-            val errorMessage = GeofenceErrorMessages.getErrorString(this, event.errorCode)
+            val errorMessage = GeofenceErrorMessages.getErrorString(
+                this,
+                event.errorCode
+            )
             LOGE(TAG, errorMessage)
             return START_REDELIVER_INTENT
         }
@@ -97,7 +102,9 @@ class GeofenceTransitionsService : Service() {
 
             sendBroadcast(TriggerBroadcastReceiver.getTriggerIntent(this, trigger))
         } else {
-            LOGE(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition))
+            LOGE(
+                TAG, getString(
+                    R.string.geofence_transition_invalid_type, geofenceTransition))
         }
 
         return START_NOT_STICKY
@@ -160,7 +167,9 @@ class GeofenceTransitionsService : Service() {
 
     private fun getNotification(): Notification {
         LogUtils.LOGD(TAG, "showNotification()")
-        return NotificationCompat.Builder(this, PRIMARY_CHANNEL)
+        return NotificationCompat.Builder(this,
+            PRIMARY_CHANNEL
+        )
             .setSmallIcon(R.drawable.ox_notification_large_icon)
             .setContentTitle(getString(R.string.app_name))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

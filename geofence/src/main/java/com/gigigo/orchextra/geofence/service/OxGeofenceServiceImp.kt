@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.geofence
+package com.gigigo.orchextra.geofence.service
 
 import android.Manifest
 import android.app.Application
@@ -30,7 +30,9 @@ import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGD
-import com.gigigo.orchextra.core.utils.LogUtils.LOGE
+import com.gigigo.orchextra.geofence.GeofenceErrorMessages
+import com.gigigo.orchextra.geofence.GeofenceTransitionsIntentService
+import com.gigigo.orchextra.geofence.R
 import com.gigigo.orchextra.geofence.utils.toGeofence
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.Geofence
@@ -40,21 +42,23 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 
-
-class OxGeofenceImp(
+class OxGeofenceServiceImp private constructor(
     private val context: Application,
     private val geofencingClient: GeofencingClient
 ) : OxTrigger<List<GeoMarketing>>, OnCompleteListener<Void> {
 
-    private val TAG = LogUtils.makeLogTag(OxGeofenceImp::class.java)
     private var geofenceList: List<Geofence> = ArrayList()
     private var geofencePendingIntent: PendingIntent? = null
 
     override fun init() {
-        require(geofenceList.isNotEmpty()) { "Empty geofence list" }
-
+        if (geofenceList.isEmpty()) {
+            LOGD(TAG, "Config is null")
+            return
+        }
         connectWithCallbacks()
         addGeofences()
+
+        GeofenceTransitionsService.start(context)
     }
 
     override fun setConfig(config: List<GeoMarketing>) {
@@ -62,14 +66,14 @@ class OxGeofenceImp(
     }
 
     override fun finish() {
+        GeofenceTransitionsService.stop(context)
         removeGeofences()
     }
 
     private fun addGeofences() {
-        if (ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+        if (
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED
         ) {
             geofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
                 .addOnCompleteListener(this)
@@ -80,6 +84,20 @@ class OxGeofenceImp(
 
     private fun removeGeofences() {
         geofencingClient.removeGeofences(getGeofencePendingIntent()).addOnCompleteListener(this)
+    }
+
+    private fun getGeofencePendingIntent(): PendingIntent {
+        if (geofencePendingIntent != null) {
+            return geofencePendingIntent as PendingIntent
+        }
+
+        val intent = Intent(context, GeofenceTransitionsIntentService::class.java)
+        geofencePendingIntent = PendingIntent.getService(
+            context, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        return geofencePendingIntent as PendingIntent
     }
 
     private fun connectWithCallbacks() {
@@ -102,7 +120,7 @@ class OxGeofenceImp(
     }
 
     private val connectionFailedListener = GoogleApiClient.OnConnectionFailedListener {
-        LOGE(TAG, "connectionFailedListener")
+        LogUtils.LOGE(TAG, "connectionFailedListener")
     }
 
     override fun onComplete(task: Task<Void>) {
@@ -115,26 +133,11 @@ class OxGeofenceImp(
             LOGD(TAG, "onComplete: $messageId")
         } else {
             task.exception?.let {
-                LOGE(TAG, it.message ?: "no exception message")
+                LogUtils.LOGE(TAG, it.message ?: "no exception message")
             }
             val errorMessage = GeofenceErrorMessages.getErrorString(context, task.exception)
-            LOGE(TAG, "onComplete: $errorMessage")
+            LogUtils.LOGE(TAG, "onComplete: $errorMessage")
         }
-    }
-
-    private fun getGeofencePendingIntent(): PendingIntent {
-
-        if (geofencePendingIntent != null) {
-            return geofencePendingIntent as PendingIntent
-        }
-
-        val intent = Intent(context, GeofenceTransitionsIntentService::class.java)
-        geofencePendingIntent = PendingIntent.getService(
-            context, 0, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        return geofencePendingIntent as PendingIntent
     }
 
     private fun getGeofencingRequest(): GeofencingRequest {
@@ -147,9 +150,8 @@ class OxGeofenceImp(
     }
 
     private fun getGeofencesAdded(): Boolean {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-            GEOFENCES_ADDED_KEY, false
-        )
+        return PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(GEOFENCES_ADDED_KEY, false)
     }
 
     private fun updateGeofencesAdded(added: Boolean) {
@@ -160,11 +162,12 @@ class OxGeofenceImp(
     }
 
     companion object Factory {
+        private val TAG = LogUtils.makeLogTag(OxGeofenceServiceImp::class.java)
         private const val GEOFENCES_ADDED_KEY = "GEOFENCES_ADDED_KEY"
 
-        fun create(context: Application): OxGeofenceImp = OxGeofenceImp(
-            context,
-            LocationServices.getGeofencingClient(context)
-        )
+        fun create(context: Application) =
+            OxGeofenceServiceImp(
+                context, LocationServices.getGeofencingClient(context)
+            )
     }
 }

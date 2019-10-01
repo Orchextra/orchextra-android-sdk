@@ -181,9 +181,7 @@ dependencies {
     androidTestImplementation rootProject.ext.testLibraries.mockitoKotlin
     androidTestImplementation rootProject.ext.testLibraries.supportTestRunner
     androidTestImplementation rootProject.ext.testLibraries.supportTestRules
-    androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation rootProject.ext.testLibraries.espressoCore
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

@@ -2,9 +2,9 @@ package com.gigigo.orchextrasdk.demo.test.steps
 
 
 import android.os.Build
-import android.support.test.InstrumentationRegistry
-import android.support.test.InstrumentationRegistry.getTargetContext
-import android.support.test.espresso.EspressoException
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry.getTargetContext
+import androidx.test.espresso.EspressoException
 import com.gigigo.orchextrasdk.demo.test.util.SpoonScreenshotAction
 import cucumber.api.Scenario
 import cucumber.api.java.After
@@ -52,7 +52,7 @@ class HelperSteps {
     private fun grantWritePermissionsForScreenshots() {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         try {
-          val instrumentation = InstrumentationRegistry.getInstrumentation()
+          val instrumentation = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
           val appPackage = getTargetContext().packageName
           instrumentation.uiAutomation.executeShellCommand("pm grant " + appPackage
               + " android.permission.READ_EXTERNAL_STORAGE")
@@ -69,7 +69,7 @@ class HelperSteps {
     fun grantLocationPermissions() {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         try {
-          val instrumentation = InstrumentationRegistry.getInstrumentation()
+          val instrumentation = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation()
           val appPackage = getTargetContext().packageName
           instrumentation.uiAutomation.executeShellCommand("pm grant " + appPackage
               + " android.permission.ACCESS_FINE_LOCATION")

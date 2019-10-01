@@ -19,7 +19,9 @@
 package com.gigigo.orchextrasdk.demo.utils.integration;
 
 import android.app.Application;
+
 import androidx.annotation.NonNull;
+
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraOptions;
@@ -28,8 +30,10 @@ import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
