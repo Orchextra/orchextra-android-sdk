@@ -66,6 +66,12 @@
         <action android:name="com.google.firebase.MESSAGING_EVENT"/>
       </intent-filter>
     </service>
+
+    <service
+        android:name=".domain.location.LocationUpdatesService"
+        android:enabled="true"
+        android:exported="true"
+        android:foregroundServiceType="location" />
   </application>
 
 </manifest>

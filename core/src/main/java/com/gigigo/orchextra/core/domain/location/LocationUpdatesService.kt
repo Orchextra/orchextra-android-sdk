@@ -112,9 +112,9 @@ class LocationUpdatesService : Service() {
             val channel = NotificationChannel(
                 NOTIFICATION_CHANNEL,
                 getString(R.string.app_name),
-                NotificationManager.IMPORTANCE_HIGH
+                NotificationManager.IMPORTANCE_NONE
             )
-            channel.setSound(Uri.EMPTY, null);
+            channel.setSound(Uri.EMPTY, null)
             // Set the Notification Channel for the Notification Manager.
             notificationManager?.createNotificationChannel(channel)
         }
@@ -217,7 +217,7 @@ class LocationUpdatesService : Service() {
     }
 
     private fun onNewLocation(location: Location) {
-        Log.d(TAG, "New location: $location")
+        Log.d(TAG, "Ox location: $location")
 
         // Notify anyone listening for broadcasts about the new location.
         val intent = Intent(ACTION_BROADCAST)
@@ -255,6 +255,7 @@ class LocationUpdatesService : Service() {
      *
      * @param context The [Context].
      */
+    @Suppress("DEPRECATION")
     private fun serviceIsRunningInForeground(context: Context): Boolean {
         val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager
         val isForeground = manager?.getRunningServices(Integer.MAX_VALUE)

@@ -100,11 +100,5 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="5c1cf9e92eec9c44892bfbcf7d3d3d1f2a925bf4" />
-
-        <service
-            android:name=".utils.location.LocationUpdatesService"
-            android:enabled="true"
-            android:exported="true"
-            android:foregroundServiceType="location" />
     </application>
 </manifest>

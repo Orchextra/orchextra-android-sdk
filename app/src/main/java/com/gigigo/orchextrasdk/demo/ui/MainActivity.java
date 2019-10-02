@@ -33,6 +33,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.gigigo.orchextra.core.domain.entities.OxPoint;
+import com.gigigo.orchextra.core.domain.location.OxLocationListener;
+import com.gigigo.orchextra.core.domain.location.OxLocationUpdates;
 import com.gigigo.orchextrasdk.demo.R;
 import com.gigigo.orchextrasdk.demo.ui.geofences.GeofencesFragment;
 import com.gigigo.orchextrasdk.demo.ui.login.LoginActivity;
@@ -41,8 +43,6 @@ import com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity;
 import com.gigigo.orchextrasdk.demo.ui.triggerlog.TriggerLogFragment;
 import com.gigigo.orchextrasdk.demo.utils.integration.Ox3ManagerImp;
 import com.gigigo.orchextrasdk.demo.utils.integration.OxManager;
-import com.gigigo.orchextrasdk.demo.utils.location.OxLocationListener;
-import com.gigigo.orchextrasdk.demo.utils.location.OxLocationUpdates;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
