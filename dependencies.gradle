@@ -19,7 +19,7 @@
 ext {
 
     group = 'com.gigigo.orchextra'
-    version = '3.2.6-beta01'
+    version = '3.2.7'
 
     compileSdkVersion = 29
     minSdkVersion = 16
