@@ -19,14 +19,19 @@
 package com.gigigo.orchextra.indoorpositioning
 
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Handler
 import android.os.IBinder
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import com.gigigo.orchextra.core.R.string
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType.BEACON
@@ -58,6 +63,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
   private lateinit var validator: IndoorPositioningValidator
   private lateinit var validateTrigger: ValidateTrigger
   private lateinit var dataSource: IPDbDataSource
+  private lateinit var coreDataSource: DbDataSource
   private var isRunning: Boolean = false
   private var timerStarted = false
   private val handler = Handler()
@@ -67,30 +73,32 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     this.isRunning = false
     this.alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
     dataSource = IPDbDataSource.create(this)
+    coreDataSource = DbDataSource.create(this)
+    beaconScanner = BeaconScannerImp(getBeaconManager(coreDataSource.getScanTime()), this)
+
+    val config = dataSource.getConfig()
+    regionsDetector = RegionsDetector.create(config, this) { sendOxBeaconRegionEvent(it) }
+    validator = IndoorPositioningValidator(config)
+    validateTrigger = ValidateTrigger.create(coreDataSource)
+    showNotification()
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-    LOGD(TAG, "onStartCommand")
-
-    if (intent == null) {
+    if (coreDataSource.isProximityEnabled().not()) {
+      stopTimer()
+      stopSelf()
       return START_NOT_STICKY
     }
 
     if (!isRunning) {
       isRunning = true
-
-      val dbDataSource = DbDataSource.create(this)
-      val config = dataSource.getConfig()
-
-      validator = IndoorPositioningValidator(config)
-      validateTrigger = ValidateTrigger.create(DbDataSource.create(applicationContext))
-      beaconScanner = BeaconScannerImp(getBeaconManager(dbDataSource.getScanTime()), this)
-      regionsDetector = RegionsDetector.create(config, this, { sendOxBeaconRegionEvent(it) })
-      beaconScanner.start {
+      beaconScanner.start({
         regionsDetector.onBeaconDetect(it)
         sendOxBeaconEvent(it)
-      }
+      }, {
+        stopSelf()
+      })
     } else {
       LOGW(TAG, "IndoorPositioningService is already running")
     }
@@ -98,7 +106,7 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     setAlarmService()
     startTimer()
 
-    return START_STICKY
+    return START_NOT_STICKY
   }
 
   override fun onBind(intent: Intent?): IBinder? = null
@@ -108,9 +116,14 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     beaconScanner.stop()
     stopTimer()
     super.onDestroy()
+
+    val notificationManager = applicationContext.getSystemService(
+        Context.NOTIFICATION_SERVICE) as NotificationManager
+    notificationManager.cancel(NOTIFICATION_ID)
   }
 
   private fun setAlarmService() {
+    LOGD(TAG, "setAlarmService()")
     val time = System.currentTimeMillis() + CHECK_SERVICE_TIME_IN_SECONDS * 1000
     alarmManager.set(AlarmManager.RTC_WAKEUP, time,
         IndoorPositioningReceiver.getIndoorPositioningIntent(this))
@@ -177,9 +190,40 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     handler.postDelayed(runnable, 30 * 1000)
   }
 
+
+  private fun showNotification() {
+
+    LOGD(TAG, "showNotification()")
+
+    val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      val channel = NotificationChannel(PRIMARY_CHANNEL, getString(string.app_name),
+          NotificationManager.IMPORTANCE_LOW).apply {
+        lightColor = Color.RED
+        lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+        enableVibration(false)
+        setSound(null, null)
+      }
+      manager.createNotificationChannel(channel)
+
+      val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
+          .setSmallIcon(R.drawable.ox_notification_large_icon)
+          .setContentTitle(getString(R.string.app_name))
+          .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+          .setVibrate(longArrayOf(0, 0, 0))
+          .setLights(Color.RED, 0, 100)
+          .setSound(null)
+
+      startForeground(NOTIFICATION_ID, mBuilder.build())
+    }
+  }
+
   companion object Navigator {
     private val TAG = LogUtils.makeLogTag(IndoorPositioningService::class.java)
-    private const val CHECK_SERVICE_TIME_IN_SECONDS = 10
+    private const val CHECK_SERVICE_TIME_IN_SECONDS = 30
+    private const val PRIMARY_CHANNEL = "default"
+    private const val NOTIFICATION_ID = 0x654
 
     fun start(context: Context) {
       val intent = Intent(context, IndoorPositioningService::class.java)
@@ -193,7 +237,12 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     }
 
     fun stop(context: Context) {
-      LOGE(TAG, "Stop indoorPositioningService")
+      val intent = Intent(context, IndoorPositioningService::class.java)
+      try {
+        context.stopService(intent)
+      } catch (exception: Exception) {
+        LOGE(TAG, "Stop indoorPositioningService")
+      }
     }
   }
 }

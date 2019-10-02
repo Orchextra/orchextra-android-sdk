@@ -129,8 +129,8 @@ class IPDbDataSourceImp(helper: IPDatabaseHelper,
   }
 
   override fun getConfig(): List<IndoorPositionConfig> {
-    val jsonData = sharedPreferences.getString(CONFIG_KEY, "{}")
-    return configAdapter.fromJson(jsonData) ?: arrayListOf()
+    val jsonData = sharedPreferences.getString(CONFIG_KEY, "{}") ?: return emptyList()
+    return configAdapter.fromJson(jsonData) ?: emptyList()
   }
 
   companion object {

@@ -29,66 +29,70 @@ import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeaconRegion
 import com.gigigo.orchextra.indoorpositioning.domain.models.STAY_EVENT
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getValue
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.isInRegion
-import java.util.Date
+import java.util.*
 
-class RegionsDetector(private val config: List<IndoorPositionConfig>,
+class RegionsDetector(
+    private val config: List<IndoorPositionConfig>,
     private val ipdbDataSource: IPDbDataSource,
-    private val onRegionDetect: (beaconRegion: OxBeaconRegion) -> Unit) {
+    private val onRegionDetect: (beaconRegion: OxBeaconRegion) -> Unit
+) {
 
-  fun onBeaconDetect(beacon: OxBeacon) {
-    val region = getRegionFromBeacon(beacon)
-    if (region.event != STAY_EVENT) {
-      onRegionDetect(region)
+    fun onBeaconDetect(beacon: OxBeacon) {
+        val region = getRegionFromBeacon(beacon)
+        if (region.event != STAY_EVENT) {
+            onRegionDetect(region)
+        }
     }
-  }
 
-  private fun getRegionFromBeacon(beacon: OxBeacon, isFromTimer: Boolean = false): OxBeaconRegion {
+    fun getRegionFromBeacon(beacon: OxBeacon, isFromTimer: Boolean = false): OxBeaconRegion {
 
-    val savedBeacon = ipdbDataSource.getBeacon(beacon.getValue())
-
-    return if (savedBeacon == null) {
-      ipdbDataSource.saveOrUpdateBeacon(beacon)
-      OxBeaconRegion(value = getCode(beacon), event = ENTER_EVENT, beacon = beacon)
-    } else {
-      if (isFromTimer && isExpired(savedBeacon)) {
-        ipdbDataSource.removeBeacon(beacon.getValue())
-        OxBeaconRegion(value = getCode(beacon), event = EXIT_EVENT, beacon = beacon)
-      } else {
-        ipdbDataSource.saveOrUpdateBeacon(beacon)
-        OxBeaconRegion(value = getCode(beacon), event = STAY_EVENT, beacon = beacon)
-      }
+        val savedBeacon = ipdbDataSource.getBeacon(beacon.getValue())
+        return if (savedBeacon == null) {
+            ipdbDataSource.saveOrUpdateBeacon(beacon)
+            OxBeaconRegion(value = getCode(beacon), event = ENTER_EVENT, beacon = beacon)
+        } else {
+            if (isFromTimer && isExpired(savedBeacon)) {
+                ipdbDataSource.removeBeacon(beacon.getValue())
+                OxBeaconRegion(value = getCode(beacon), event = EXIT_EVENT, beacon = beacon)
+            } else {
+                ipdbDataSource.saveOrUpdateBeacon(beacon)
+                OxBeaconRegion(value = getCode(beacon), event = STAY_EVENT, beacon = beacon)
+            }
+        }
     }
-  }
 
-  private fun getCode(beacon: OxBeacon): String {
-    val beaconConfig = config.find { beacon.isInRegion(it) }
-    return beaconConfig?.code ?: "-1"
-  }
-
-  fun checkForExitEvents() {
-    val beacons = ipdbDataSource.getBeacons()
-    beacons.forEach {
-      val region = getRegionFromBeacon(it, true)
-      if (region.event != STAY_EVENT) {
-        onRegionDetect(region)
-      }
+    private fun getCode(beacon: OxBeacon): String {
+        val beaconConfig = config.find { beacon.isInRegion(it) }
+        return beaconConfig?.code ?: "-1"
     }
-  }
 
-  private fun isExpired(beacon: OxBeacon): Boolean =
-      beacon.lastDetection.time < Date().time - (BuildConfig.EXIT_TRIGGER_TIME_IN_SECONDS * 1000)
-
-  companion object Factory {
-
-    var regionsDetector: RegionsDetector? = null
-
-    fun create(config: List<IndoorPositionConfig>, context: Context,
-        onRegionDetect: (beaconRegion: OxBeaconRegion) -> Unit): RegionsDetector {
-
-      if (regionsDetector == null) {
-        regionsDetector = RegionsDetector(config, IPDbDataSource.create(context), onRegionDetect)
-      }
-      return regionsDetector as RegionsDetector
+    fun checkForExitEvents() {
+        val beacons = ipdbDataSource.getBeacons()
+        beacons.forEach {
+            val region = getRegionFromBeacon(it, true)
+            if (region.event != STAY_EVENT) {
+                onRegionDetect(region)
+            }
+        }
     }
-  }
+
+    private fun isExpired(beacon: OxBeacon): Boolean =
+        beacon.lastDetection.time < Date().time - (BuildConfig.EXIT_TRIGGER_TIME_IN_SECONDS * 1000)
+
+    companion object Factory {
+
+        var regionsDetector: RegionsDetector? = null
+
+        fun create(
+            config: List<IndoorPositionConfig>, context: Context,
+            onRegionDetect: (beaconRegion: OxBeaconRegion) -> Unit
+        ): RegionsDetector {
+
+            if (regionsDetector == null) {
+                regionsDetector =
+                    RegionsDetector(config, IPDbDataSource.create(context), onRegionDetect)
+            }
+            return regionsDetector as RegionsDetector
+        }
+    }
 }

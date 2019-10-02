@@ -19,7 +19,7 @@
 package com.gigigo.orchextrasdk.demo.utils.integration;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import java.util.List;
 
 public interface OxManager {

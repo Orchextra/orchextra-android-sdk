@@ -20,7 +20,7 @@ package com.gigigo.orchextrasdk.demo.ui.triggerlog.adapter;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.gigigo.orchextra.core.domain.entities.Trigger;
 import java.util.Date;
 

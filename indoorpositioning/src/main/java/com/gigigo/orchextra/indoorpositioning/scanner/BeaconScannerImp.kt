@@ -20,7 +20,7 @@ package com.gigigo.orchextra.indoorpositioning.scanner
 
 import android.os.Build.VERSION_CODES
 import android.os.RemoteException
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGD
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE
@@ -34,9 +34,11 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
     private val consumer: BeaconConsumer) : BeaconScanner {
 
   private var listener: (OxBeacon) -> Unit = {}
+  private var finish: () -> Unit = {}
 
-  override fun start(listener: (OxBeacon) -> Unit) {
+  override fun start(listener: (OxBeacon) -> Unit, finish: () -> Unit) {
     this.listener = listener
+    this.finish = finish
     startScan()
   }
 
@@ -50,6 +52,7 @@ class BeaconScannerImp(private val beaconManager: BeaconManager,
 
     beaconManager.addRangeNotifier { beacons, _ ->
       beacons.forEach { listener(it.toOxBeacon()) }
+      finish()
     }
 
     try {

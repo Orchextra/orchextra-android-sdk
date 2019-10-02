@@ -57,7 +57,7 @@
           android:paddingTop="20dp"
           >
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -72,7 +72,7 @@
               tools:text="Project example name"
               style="@style/SettingsTextStyle"
               />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
             android:layout_marginRight="40dp"
             android:orientation="vertical"
             >
-          <android.support.design.widget.TextInputLayout
+          <com.google.android.material.textfield.TextInputLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="15dp"
@@ -95,10 +95,10 @@
                 tools:text="keidjqqdmaon3847713e"
                 style="@style/SettingsTextStyle"
                 />
-          </android.support.design.widget.TextInputLayout>
+          </com.google.android.material.textfield.TextInputLayout>
 
 
-          <android.support.design.widget.TextInputLayout
+          <com.google.android.material.textfield.TextInputLayout
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="20dp"
@@ -112,7 +112,7 @@
                 tools:text="keidjqqdmaon3847713e"
                 style="@style/SettingsTextStyle"
                 />
-          </android.support.design.widget.TextInputLayout>
+          </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
       </LinearLayout>
 

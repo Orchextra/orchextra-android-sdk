@@ -19,7 +19,9 @@
 package com.gigigo.orchextrasdk.demo.utils.integration;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+
 import com.gigigo.orchextra.core.Orchextra;
 import com.gigigo.orchextra.core.OrchextraErrorListener;
 import com.gigigo.orchextra.core.OrchextraOptions;
@@ -28,111 +30,129 @@ import com.gigigo.orchextra.core.domain.entities.Error;
 import com.gigigo.orchextra.geofence.OxGeofenceImp;
 import com.gigigo.orchextra.indoorpositioning.OxIndoorPositioningImp;
 import com.gigigo.orchextrasdk.demo.ui.MainActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
 public class Ox3ManagerImp implements OxManager {
 
-  private Orchextra orchextra;
+    private Orchextra orchextra;
 
-  public Ox3ManagerImp() {
-    this.orchextra = Orchextra.INSTANCE;
-  }
-
-  @Override public void startImageRecognition() {
-    orchextra.openImageRecognition();
-  }
-
-  @Override public void startScanner() {
-    orchextra.openScanner();
-  }
-
-  @Override public void init(final Application application, Config config,
-      final StatusListener statusListener) {
-
-    orchextra.setStatusListener(new OrchextraStatusListener() {
-      @Override public void onStatusChange(boolean isReady) {
-        if (isReady) {
-          orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(application));
-          orchextra.getTriggerManager()
-              .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(application));
-
-          orchextra.setNotificationActivityClass(MainActivity.class);
-
-          statusListener.isReady();
-        } else {
-          statusListener.onError("SDK isn't ready");
-        }
-      }
-    });
-
-    orchextra.setErrorListener(new OrchextraErrorListener() {
-      @Override public void onError(@NonNull Error error) {
-        statusListener.onError(error.getMessage());
-      }
-    });
-
-    List<String> deviceBusinessUnits = new ArrayList<>();
-    deviceBusinessUnits.add("it");
-
-    OrchextraOptions options =
-        new OrchextraOptions.Builder().firebaseApiKey(config.getFirebaseApiKey())
-            .firebaseApplicationId(config.getFirebaseApplicationId())
-            .deviceBusinessUnits(deviceBusinessUnits)
-            .triggeringEnabled(true)
-            .anonymous(false)
-            .debuggable(true)
-            .build();
-
-    orchextra.init(application, config.getApiKey(), config.getApiSecret(), options);
-    orchextra.setScanTime(30);
-  }
-
-  @Override public void finish() {
-    orchextra.finish();
-  }
-
-  @Override public void removeListeners() {
-    if (orchextra != null) {
-      orchextra.removeStatusListener();
-      orchextra.removeErrorListener();
+    public Ox3ManagerImp() {
+        this.orchextra = Orchextra.INSTANCE;
     }
-  }
 
-  @Override public Boolean isReady() {
-    return orchextra.isReady();
-  }
+    @Override
+    public void startImageRecognition() {
+        orchextra.openImageRecognition();
+    }
 
-  @Override public void getToken(final TokenReceiver tokenReceiver) {
-    orchextra.getToken(new Function1<String, Unit>() {
-      @Override public Unit invoke(String oxToken) {
-        tokenReceiver.onGetToken(oxToken);
-        return null;
-      }
-    });
-  }
+    @Override
+    public void startScanner() {
+        orchextra.openScanner();
+    }
 
-  @Override public void setErrorListener(final ErrorListener errorListener) {
-    orchextra.setErrorListener(new OrchextraErrorListener() {
-      @Override public void onError(@NonNull Error error) {
-        errorListener.onError(error.getMessage());
-      }
-    });
-  }
+    @Override
+    public void init(final Application application, Config config,
+                     final StatusListener statusListener) {
 
-  @Override public void setBusinessUnits(List<String> businessUnits) {
-    orchextra.getCrmManager().setDeviceData(null, businessUnits);
-  }
+        orchextra.setStatusListener(new OrchextraStatusListener() {
+            @Override
+            public void onStatusChange(boolean isReady) {
+                if (isReady) {
+                    orchextra.getTriggerManager().setGeofence(OxGeofenceImp.Factory.create(application));
+                    orchextra.getTriggerManager()
+                            .setIndoorPositioning(OxIndoorPositioningImp.Factory.create(application));
 
-  @Override public void setCustomSchemeReceiver(final CustomActionListener customSchemeReceiver) {
-    orchextra.setCustomActionListener(new Function1<String, Unit>() {
-      @Override public Unit invoke(String customSchema) {
-        customSchemeReceiver.onCustomSchema(customSchema);
+                    orchextra.setNotificationActivityClass(MainActivity.class);
 
-        return null;
-      }
-    });
-  }
+                    statusListener.isReady();
+                } else {
+                    statusListener.onError("SDK isn't ready");
+                }
+            }
+        });
+
+        orchextra.setErrorListener(new OrchextraErrorListener() {
+            @Override
+            public void onError(@NonNull Error error) {
+                statusListener.onError(error.getMessage());
+            }
+        });
+
+        List<String> deviceBusinessUnits = new ArrayList<>();
+        deviceBusinessUnits.add("es");
+
+        OrchextraOptions options =
+                new OrchextraOptions.Builder().firebaseApiKey(config.getFirebaseApiKey())
+                        .firebaseApplicationId(config.getFirebaseApplicationId())
+                        .deviceBusinessUnits(deviceBusinessUnits)
+                        .triggeringEnabled(true)
+                        .proximityEnabled(true)
+                        .anonymous(false)
+                        .debuggable(true)
+                        .build();
+
+        orchextra.init(application, config.getApiKey(), config.getApiSecret(), options);
+        orchextra.setScanTime(30);
+    }
+
+    @Override
+    public void finish() {
+        orchextra.finish();
+    }
+
+    @Override
+    public void removeListeners() {
+        if (orchextra != null) {
+            orchextra.removeStatusListener();
+            orchextra.removeErrorListener();
+        }
+    }
+
+    @Override
+    public Boolean isReady() {
+        return orchextra.isReady();
+    }
+
+    @Override
+    public void getToken(final TokenReceiver tokenReceiver) {
+        orchextra.getToken(new Function1<String, Unit>() {
+            @Override
+            public Unit invoke(String oxToken) {
+                tokenReceiver.onGetToken(oxToken);
+                return null;
+            }
+        });
+    }
+
+    @Override
+    public void setErrorListener(final ErrorListener errorListener) {
+        orchextra.setErrorListener(new OrchextraErrorListener() {
+            @Override
+            public void onError(@NonNull Error error) {
+                errorListener.onError(error.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void setBusinessUnits(List<String> businessUnits) {
+        orchextra.getCrmManager().setDeviceData(null, businessUnits);
+    }
+
+    @Override
+    public void setCustomSchemeReceiver(final CustomActionListener customSchemeReceiver) {
+        orchextra.setCustomActionListener(new Function1<String, Unit>() {
+            @Override
+            public Unit invoke(String customSchema) {
+                customSchemeReceiver.onCustomSchema(customSchema);
+
+                return null;
+            }
+        });
+    }
 }

@@ -18,46 +18,52 @@
 
 ext {
 
-  group = 'com.gigigo.orchextra'
-  version = '3.0.0'
+    group = 'com.gigigo.orchextra'
+    version = '3.2.7'
 
-  libraries = [kotlinStdLib             : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+    compileSdkVersion = 29
+    minSdkVersion = 16
+    targetSdkVersion = 29
 
-               multidex                 : 'com.android.support:multidex:1.0.2',
-               multidexInstrumentation  : 'com.android.support:multidex-instrumentation:1.0.2',
+    libraries = [
+            kotlinStdLib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
 
-               playServicesGcm          : 'com.google.android.gms:play-services-gcm:11.0.4',
-               playServicesLocation     : 'com.google.android.gms:play-services-location:11.0.4',
-               playServicesMaps         : 'com.google.android.gms:play-services-maps:11.0.4',
+            appCompat                : 'androidx.appcompat:appcompat:1.0.0',
+            multidex                 : 'androidx.multidex:multidex:2.0.0',
+            playServicesLocation     : 'com.google.android.gms:play-services-location:17.0.0',
+            firebaseCore             : 'com.google.firebase:firebase-core:17.2.0',
+            firebaseMessaging        : 'com.google.firebase:firebase-messaging:20.0.0',
 
-               retrofit                 : 'com.squareup.retrofit2:retrofit:2.3.0',
-               retrofitMoshiConverter   : 'com.squareup.retrofit2:converter-moshi:2.3.0',
-               okhttp3                  : 'com.squareup.okhttp3:okhttp:3.8.0',
-               okhttp3LoggingInterceptor: 'com.squareup.okhttp3:logging-interceptor:3.8.0',
+            retrofit                 : 'com.squareup.retrofit2:retrofit:2.6.0',
+            retrofitMoshiConverter   : 'com.squareup.retrofit2:converter-moshi:2.6.0',
+            okhttp3                  : 'com.squareup.okhttp3:okhttp:4.0.1',
+            okhttp3LoggingInterceptor: 'com.squareup.okhttp3:logging-interceptor:4.0.1',
 
-               imagerecognitionVuforia  : 'com.github.Gigigo-Android-Devs.gigigo-imageRecognition-library-android:imagerecognition.vuforia:1.0.4',
+            imagerecognitionVuforia  : 'com.github.Gigigo-Android-Devs.gigigo-imageRecognition-library-android:imagerecognition.vuforia:1.0.4',
 
-               ormLite                  : 'com.j256.ormlite:ormlite-core:5.0',
-               ormLiteAndroid           : 'com.j256.ormlite:ormlite-android:5.0',
-               altbeacon                : 'org.altbeacon:android-beacon-library:2.12.1',
-               zbar                     : 'me.dm7.barcodescanner:zbar:1.8.4',
-               moshi                    : 'com.squareup.moshi:moshi:1.5.0',
+            ormLite                  : 'com.j256.ormlite:ormlite-core:5.0',
+            ormLiteAndroid           : 'com.j256.ormlite:ormlite-android:5.0',
+            altbeacon                : 'org.altbeacon:android-beacon-library:2.12.1',
+            zbar                     : 'me.dm7.barcodescanner:zbar:1.8.4',
+            moshi                    : 'com.squareup.moshi:moshi:1.8.0'
+    ]
 
-               stetho                   : 'com.facebook.stetho:stetho:1.5.0',
-               calligraphy              : 'uk.co.chrisjenx:calligraphy:2.3.0']
+    testLibraries = [
+            junit            : 'junit:junit:4.12',
+            kluent           : 'org.amshove.kluent:kluent:1.26',
+            assertj          : 'org.assertj:assertj-core:3.11.1',
+            mockitoKotlin    : 'com.nhaarman:mockito-kotlin:1.5.0',
+            supportTestRunner: 'androidx.test:runner:1.1.0',
+            supportTestRules : 'androidx.test:rules:1.1.0',
+            espressoCore     : 'androidx.test.espresso:espresso-core:3.1.0',
+            espressoIntents  : 'androidx.test.espresso:espresso-intents:3.1.0'
+    ]
 
-
-  testLibraries = [junit            : 'junit:junit:4.12',
-                   kluent           : 'org.amshove.kluent:kluent:1.26',
-                   mockitoKotlin    : 'com.nhaarman:mockito-kotlin:1.5.0',
-                   supportTestRunner: 'com.android.support.test:runner:0.5',
-                   supportTestRules : 'com.android.support.test:rules:0.5',
-                   espressoCore     : 'com.android.support.test.espresso:espresso-core:2.2.2',
-                   espressoIntents  : 'com.android.support.test.espresso:espresso-intents:2.2.2']
-
-  modules = [core             : project(':core'),
-             geofence         : project(':geofence'),
-             imageRecognizer  : project(':imagerecognizer'),
-             indoorPositioning: project(':indoorpositioning'),
-             scanner          : project(':scanner')]
+    modules = [
+            core             : project(':core'),
+            geofence         : project(':geofence'),
+            imageRecognizer  : project(':imagerecognizer'),
+            indoorPositioning: project(':indoorpositioning'),
+            scanner          : project(':scanner')
+    ]
 }

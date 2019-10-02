@@ -18,7 +18,6 @@
 
 package com.gigigo.orchextra.core.data.datasources.db
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.gigigo.orchextra.core.data.datasources.db.caching.strategy.list.ListCachingStrategy
@@ -50,197 +49,202 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.DAYS
 
 
-class DbDataSourceImp(private val context: Context,
+class DbDataSourceImp(
+    private val context: Context,
     private val sharedPreferences: SharedPreferences,
     helper: DatabaseHelper,
-    moshi: Moshi) : DbDataSource {
+    moshi: Moshi
+) : DbDataSource {
 
-  private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()
-  private val triggerListCachingStrategy = ListCachingStrategy(
-      TtlCachingStrategy<DbTrigger>(15, DAYS))
-  private val triggerPersistor: Persistor<DbTrigger> = TriggerPersistor(helper)
+    private val daoTriggers: Dao<DbTrigger, Int> = helper.getTriggerDao()
+    private val triggerListCachingStrategy = ListCachingStrategy(
+        TtlCachingStrategy<DbTrigger>(15, DAYS)
+    )
+    private val triggerPersistor: Persistor<DbTrigger> = TriggerPersistor(helper)
 
-  private val configurationAdapter = moshi.adapter(Configuration::class.java)
-  private val crmJsonAdapter = moshi.adapter(ApiOxCrm::class.java)
-  private val deviceJsonAdapter = moshi.adapter(ApiOxDevice::class.java)
+    private val configurationAdapter = moshi.adapter(Configuration::class.java)
+    private val crmJsonAdapter = moshi.adapter(ApiOxCrm::class.java)
+    private val deviceJsonAdapter = moshi.adapter(ApiOxDevice::class.java)
 
 
-  @SuppressLint("ApplySharedPref")
-  override fun saveConfiguration(configuration: Configuration) {
-    val editor = sharedPreferences.edit()
-    editor?.putString(CONFIGURATION, configurationAdapter.toJson(configuration))
-    editor?.commit()
-  }
-
-  override fun getConfiguration(): Configuration = try {
-    val jsonData = sharedPreferences.getString(CONFIGURATION, null)
-    configurationAdapter.fromJson(jsonData)
-  } catch (e: Exception) {
-    throw DbException(-1, e.message ?: "DbException")
-  }
-
-  override fun getTrigger(value: String): Trigger {
-    try {
-      val dbTrigger = daoTriggers.queryBuilder().where().eq("value", value).queryForFirst()
-      removeOldTriggers()
-
-      return dbTrigger?.toTrigger() ?: Trigger(VOID, "")
-    } catch (e: SQLException) {
-      throw DbException(-1, e.message ?: "")
+    override fun saveConfiguration(configuration: Configuration) {
+        val editor = sharedPreferences.edit()
+        editor?.putString(CONFIGURATION, configurationAdapter.toJson(configuration))
+        editor?.apply()
     }
-  }
 
-  override fun saveTrigger(trigger: Trigger) {
-    try {
-      val dbTrigger = trigger.toDbTrigger()
-      dbTrigger.dbPersistedTime = System.currentTimeMillis()
-      triggerPersistor.persist(dbTrigger)
-
-    } catch (e: SQLException) {
-      throw DbException(-1, e.message ?: "")
+    override fun getConfiguration(): Configuration = try {
+        val jsonData = sharedPreferences.getString(CONFIGURATION, null)
+        jsonData ?: throw DbException(-1, "configuration data exception")
+        configurationAdapter.fromJson(jsonData) ?: throw DbException(
+            -1, "configuration data parse exception"
+        )
+    } catch (e: Exception) {
+        throw DbException(-1, e.message ?: "DbException")
     }
-  }
 
-  override fun getCrm(): OxCRM {
+    override fun getTrigger(value: String): Trigger {
+        try {
+            val dbTrigger = daoTriggers.queryBuilder().where().eq("value", value).queryForFirst()
+            removeOldTriggers()
 
-    val stringCrm = sharedPreferences.getString(CRM_KEY, "")
-
-    return if (stringCrm.isNotEmpty()) {
-      crmJsonAdapter.fromJson(stringCrm).toOxCrm()
-    } else {
-      EMPTY_CRM
+            return dbTrigger?.toTrigger() ?: Trigger(VOID, "")
+        } catch (e: SQLException) {
+            throw DbException(-1, e.message ?: "")
+        }
     }
-  }
 
-  @SuppressLint("ApplySharedPref")
-  override fun saveCrm(crm: OxCRM) {
-    val editor = sharedPreferences.edit()
-    editor?.putString(CRM_KEY, crmJsonAdapter.toJson(crm.toApiOxCrm()))
-    editor?.commit()
-  }
+    override fun saveTrigger(trigger: Trigger) {
+        try {
+            val dbTrigger = trigger.toDbTrigger()
+            dbTrigger.dbPersistedTime = System.currentTimeMillis()
+            triggerPersistor.persist(dbTrigger)
 
-  @SuppressLint("ApplySharedPref")
-  override fun clearCrm() {
-    val editor = sharedPreferences.edit()
-    editor?.putString(CRM_KEY, "")
-    editor?.commit()
-  }
-
-  override fun getDevice(): OxDevice {
-    val stringDevice = sharedPreferences.getString(DEVICE_KEY, "")
-
-    return if (stringDevice.isNotEmpty()) {
-      deviceJsonAdapter.fromJson(stringDevice).toOxDevice()
-    } else {
-
-      val anonymous = getAnonymous()
-      var newDevice = context.getBaseApiOxDevice(anonymous).toOxDevice()
-
-      val deviceBusinessUnits = getDeviceBusinessUnits()
-      if (deviceBusinessUnits.isNotEmpty()) {
-        newDevice = newDevice.copy(businessUnits = deviceBusinessUnits)
-      }
-
-      saveDevice(newDevice)
-      newDevice
+        } catch (e: SQLException) {
+            throw DbException(-1, e.message ?: "")
+        }
     }
-  }
 
-  @SuppressLint("ApplySharedPref")
-  override fun saveDevice(device: OxDevice) {
-    val editor = sharedPreferences.edit()
-    editor?.putString(DEVICE_KEY, deviceJsonAdapter.toJson(device.toApiOxDevice()))
-    editor?.commit()
-  }
+    override fun getCrm(): OxCRM {
 
-  @SuppressLint("ApplySharedPref")
-  override fun clearDevice() {
-    val editor = sharedPreferences.edit()
-    editor?.putString(DEVICE_KEY, "")
-    editor?.commit()
-  }
+        val stringCrm = sharedPreferences.getString(CRM_KEY, "")
 
-  @SuppressLint("ApplySharedPref")
-  override fun saveWaitTime(waitTime: Long) {
-    val editor = sharedPreferences.edit()
-    editor?.putLong(WAIT_TIME_KEY, waitTime)
-    editor?.commit()
-  }
-
-  override fun getWaitTime(): Long =
-      sharedPreferences.getLong(WAIT_TIME_KEY, TimeUnit.SECONDS.toMillis(120))
-
-  @SuppressLint("ApplySharedPref")
-  override fun saveScanTime(scanTimeInMillis: Long) {
-    val editor = sharedPreferences.edit()
-    editor?.putLong(SCAN_TIME_KEY, scanTimeInMillis)
-    editor?.commit()
-  }
-
-  override fun getScanTime(): Long =
-      sharedPreferences.getLong(SCAN_TIME_KEY, TimeUnit.SECONDS.toMillis(60))
-
-  @SuppressLint("ApplySharedPref")
-  override fun saveNotificationActivityName(notificationActivityName: String) {
-    val editor = sharedPreferences.edit()
-    editor?.putString(NOTIFICATION_ACTIVITY_KEY, notificationActivityName)
-    editor?.commit()
-  }
-
-  override fun getNotificationActivityName(): String = sharedPreferences.getString(
-      NOTIFICATION_ACTIVITY_KEY, "")
-
-  override fun setAnonymous(anonymous: Boolean) {
-    val editor = sharedPreferences.edit()
-    editor?.putBoolean(ANONYMOUS_KEY, anonymous)
-    editor?.commit()
-  }
-
-  override fun getAnonymous(): Boolean = sharedPreferences.getBoolean(ANONYMOUS_KEY, false)
-
-  @SuppressLint("ApplySharedPref")
-  override fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>) {
-    val businessUnitsString = deviceBusinessUnits.reduce { acc, s -> acc + ";" + s }
-    val editor = sharedPreferences.edit()
-    editor?.putString(BUSINESS_UNITS, businessUnitsString)
-    editor?.commit()
-  }
-
-  private fun getDeviceBusinessUnits(): List<String> {
-    val businessUnitsString = sharedPreferences.getString(BUSINESS_UNITS, "")
-    return businessUnitsString.split(";")
-  }
-
-  @Throws(SQLException::class)
-  private fun removeOldTriggers() {
-    val dbTriggers = daoTriggers.queryForAll()
-
-    if (!triggerListCachingStrategy.isValid(dbTriggers)) {
-      deleteDbTriggers(triggerListCachingStrategy.candidatesToPurgue(dbTriggers))
+        return if (stringCrm?.isNotEmpty() == true)
+            crmJsonAdapter.fromJson(stringCrm)?.toOxCrm() ?: EMPTY_CRM
+        else EMPTY_CRM
     }
-  }
 
-  @Throws(SQLException::class)
-  private fun deleteDbTriggers(purgue: List<DbTrigger>) {
-    internalDeleteTriggers(purgue.map { it.value })
-  }
+    override fun saveCrm(crm: OxCRM) {
+        val editor = sharedPreferences.edit()
+        editor?.putString(CRM_KEY, crmJsonAdapter.toJson(crm.toApiOxCrm()))
+        editor?.apply()
+    }
 
-  @Throws(SQLException::class)
-  private fun internalDeleteTriggers(triggerIds: List<String>) {
-    val deleteBuilder = daoTriggers.deleteBuilder()
-    deleteBuilder.where().`in`("value", triggerIds)
-    deleteBuilder.delete()
-  }
+    override fun clearCrm() {
+        val editor = sharedPreferences.edit()
+        editor?.putString(CRM_KEY, "")
+        editor?.apply()
+    }
 
-  companion object {
-    private const val TAG = "DbDataSourceImp"
-    private const val CRM_KEY = "crm_key"
-    private const val DEVICE_KEY = "device_key"
-    private const val WAIT_TIME_KEY = "wait_time_key"
-    private const val SCAN_TIME_KEY = "wait_time_key"
-    private const val NOTIFICATION_ACTIVITY_KEY = "notification_activity_key"
-    private const val ANONYMOUS_KEY = "ANONYMOUS_KEY"
-    private const val BUSINESS_UNITS = "business_units"
-    private const val CONFIGURATION = "configuration"
-  }
+    override fun getDevice(): OxDevice {
+        val stringDevice = sharedPreferences.getString(DEVICE_KEY, "")
+
+        return if (stringDevice?.isNotEmpty() == true) {
+            deviceJsonAdapter.fromJson(stringDevice)?.toOxDevice() ?: newDevice()
+        } else newDevice()
+    }
+
+    private fun newDevice(): OxDevice {
+        val anonymous = getAnonymous()
+        var newDevice = context.getBaseApiOxDevice(anonymous).toOxDevice()
+
+        val deviceBusinessUnits = getDeviceBusinessUnits()
+        if (deviceBusinessUnits.isNotEmpty()) {
+            newDevice = newDevice.copy(businessUnits = deviceBusinessUnits)
+        }
+
+        saveDevice(newDevice)
+        return newDevice
+    }
+
+    override fun saveDevice(device: OxDevice) {
+        val editor = sharedPreferences.edit()
+        editor?.putString(DEVICE_KEY, deviceJsonAdapter.toJson(device.toApiOxDevice()))
+        editor?.apply()
+    }
+
+    override fun clearDevice() {
+        val editor = sharedPreferences.edit()
+        editor?.putString(DEVICE_KEY, "")
+        editor?.apply()
+    }
+
+    override fun saveWaitTime(waitTime: Long) {
+        val editor = sharedPreferences.edit()
+        editor?.putLong(WAIT_TIME_KEY, waitTime)
+        editor?.apply()
+    }
+
+    override fun getWaitTime(): Long =
+        sharedPreferences.getLong(WAIT_TIME_KEY, TimeUnit.SECONDS.toMillis(120))
+
+    override fun saveScanTime(scanTimeInMillis: Long) {
+        val editor = sharedPreferences.edit()
+        editor?.putLong(SCAN_TIME_KEY, scanTimeInMillis)
+        editor?.apply()
+    }
+
+    override fun getScanTime(): Long =
+        sharedPreferences.getLong(SCAN_TIME_KEY, TimeUnit.SECONDS.toMillis(60))
+
+    override fun saveNotificationActivityName(notificationActivityName: String) {
+        val editor = sharedPreferences.edit()
+        editor?.putString(NOTIFICATION_ACTIVITY_KEY, notificationActivityName)
+        editor?.apply()
+    }
+
+    override fun getNotificationActivityName(): String =
+        sharedPreferences.getString(NOTIFICATION_ACTIVITY_KEY, "") ?: ""
+
+    override fun setAnonymous(anonymous: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor?.putBoolean(ANONYMOUS_KEY, anonymous)
+        editor?.apply()
+    }
+
+    override fun getAnonymous(): Boolean = sharedPreferences.getBoolean(ANONYMOUS_KEY, false)
+
+    override fun setProximityEnabled(proximityEnabled: Boolean) {
+        val editor = sharedPreferences.edit()
+        editor?.putBoolean(PROXIMITY_KEY, proximityEnabled)
+        editor?.apply()
+    }
+
+    override fun isProximityEnabled(): Boolean = sharedPreferences.getBoolean(PROXIMITY_KEY, false)
+
+    override fun saveDeviceBusinessUnits(deviceBusinessUnits: List<String>) {
+        val businessUnitsString = deviceBusinessUnits.reduce { acc, s -> "$acc;$s" }
+        val editor = sharedPreferences.edit()
+        editor?.putString(BUSINESS_UNITS, businessUnitsString)
+        editor?.apply()
+    }
+
+    private fun getDeviceBusinessUnits(): List<String> {
+        val businessUnitsString = sharedPreferences.getString(BUSINESS_UNITS, "")
+        return businessUnitsString?.split(";") ?: emptyList()
+    }
+
+    @Throws(SQLException::class)
+    private fun removeOldTriggers() {
+        val dbTriggers = daoTriggers.queryForAll()
+
+        if (!triggerListCachingStrategy.isValid(dbTriggers)) {
+            deleteDbTriggers(triggerListCachingStrategy.candidatesToPurgue(dbTriggers))
+        }
+    }
+
+    @Throws(SQLException::class)
+    private fun deleteDbTriggers(purgue: List<DbTrigger>) {
+        internalDeleteTriggers(purgue.map { it.value })
+    }
+
+    @Throws(SQLException::class)
+    private fun internalDeleteTriggers(triggerIds: List<String>) {
+        val deleteBuilder = daoTriggers.deleteBuilder()
+        deleteBuilder.where().`in`("value", triggerIds)
+        deleteBuilder.delete()
+    }
+
+    companion object {
+        private const val TAG = "DbDataSourceImp"
+        private const val CRM_KEY = "crm_key"
+        private const val DEVICE_KEY = "device_key"
+        private const val WAIT_TIME_KEY = "wait_time_key"
+        private const val SCAN_TIME_KEY = "wait_time_key"
+        private const val NOTIFICATION_ACTIVITY_KEY = "notification_activity_key"
+        private const val ANONYMOUS_KEY = "ANONYMOUS_KEY"
+        private const val PROXIMITY_KEY = "PROXIMITY_KEY"
+        private const val BUSINESS_UNITS = "business_units"
+        private const val CONFIGURATION = "configuration"
+    }
 }

@@ -18,11 +18,11 @@
 
 package com.gigigo.orchextra.core.domain.actions.actionexecutors.notification
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
@@ -31,57 +31,58 @@ import com.gigigo.orchextra.core.utils.LogUtils
 
 class NotificationActivity : AppCompatActivity() {
 
-  private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
+    private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_notification)
-    actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(this)
-    title = ""
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_notification)
+        actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(this)
+        title = ""
 
-    showDialog()
-  }
-
-  private fun showDialog() {
-    val notification = getNotification()
-    val action = getAction()
-
-    val builder = AlertDialog.Builder(this)
-    val dialog = builder.setTitle(notification.title)
-        .setMessage(notification.body)
-        .setIcon(R.drawable.ox_notification_large_icon)
-        .setPositiveButton(android.R.string.ok, { dialog, _ ->
-          dialog.dismiss()
-          actionHandlerServiceExecutor.execute(action.copy(notification = Notification()))
-        })
-        .setNegativeButton(android.R.string.cancel, { dialog, _ -> dialog.dismiss() })
-        .show()
-
-    dialog.setOnDismissListener { finish() }
-  }
-
-  private fun getNotification(): Notification = intent.getParcelableExtra(NOTIFICATION_EXTRA)
-
-  private fun getAction(): Action = intent.getParcelableExtra(ACTION_EXTRA)
-
-  companion object Navigator {
-
-    private val TAG = LogUtils.makeLogTag(NotificationActivity::class.java)
-    private val NOTIFICATION_EXTRA = "notification_extra"
-    private val ACTION_EXTRA = "action_extra"
-
-    fun open(context: Context, notification: Notification, action: Action) {
-      val intent = getIntent(context, notification, action)
-      context.startActivity(intent)
+        showDialog()
     }
 
-    fun getIntent(context: Context, notification: Notification, action: Action): Intent {
-      val intent = Intent(context, NotificationActivity::class.java)
-      intent.putExtra(NOTIFICATION_EXTRA, notification)
-      intent.putExtra(ACTION_EXTRA, action)
-      intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    private fun showDialog() {
+        val notification = getNotification()
+        val action = getAction()
 
-      return intent
+        val builder = AlertDialog.Builder(this)
+        val dialog = builder.setTitle(notification.title)
+            .setMessage(notification.body)
+            .setIcon(R.drawable.ox_notification_large_icon)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                actionHandlerServiceExecutor.execute(action.copy(notification = Notification()))
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .show()
+
+        dialog.setOnDismissListener { finish() }
     }
-  }
+
+    private fun getNotification(): Notification =
+        intent.getParcelableExtra(NOTIFICATION_EXTRA) ?: Notification()
+
+    private fun getAction(): Action = intent.getParcelableExtra(ACTION_EXTRA) ?: Action()
+
+    companion object Navigator {
+
+        private val TAG = LogUtils.makeLogTag(NotificationActivity::class.java)
+        private const val NOTIFICATION_EXTRA = "notification_extra"
+        private const val ACTION_EXTRA = "action_extra"
+
+        fun open(context: Context, notification: Notification, action: Action) {
+            val intent = getIntent(context, notification, action)
+            context.startActivity(intent)
+        }
+
+        fun getIntent(context: Context, notification: Notification, action: Action): Intent {
+            val intent = Intent(context, NotificationActivity::class.java)
+            intent.putExtra(NOTIFICATION_EXTRA, notification)
+            intent.putExtra(ACTION_EXTRA, action)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+
+            return intent
+        }
+    }
 }

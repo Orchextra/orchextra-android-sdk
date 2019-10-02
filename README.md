@@ -1,5 +1,5 @@
 # Orchextra SDK for Android
-[![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=ocm_integration)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
+[![Build Status](https://travis-ci.org/Orchextra/orchextra-android-sdk.svg?branch=master)](https://travis-ci.org/Orchextra/orchextra-android-sdk)
 [![codecov.io](https://codecov.io/github/Orchextra/orchextra-android-sdk/coverage.svg?branch=master)](https://codecov.io/github/Orchextra/orchextra-android-sdk)
 [![Download](https://api.bintray.com/packages/gigigo-desarrollo/maven/com.gigigo.orchextra%3Acore/images/download.svg)](https://bintray.com/gigigo-desarrollo/maven/com.gigigo.orchextra%3Acore/_latestVersion)
 
@@ -9,7 +9,8 @@ A library that gives you access to Orchextra platform from your Android sdkVersi
 Start by creating a project in [Orchextra Dashboard](https://dashboard.orchextra.io/start/login), if you haven't done it yet. Go to "Setting" > "SDK Configuration" to get the **api key** and **api secret**, you will need these values to start Orchextra SDK.
 
 # Overview
-Orchextra SDK is composed of **Orchextra Core**, and add-ons
+Orchextra SDK is composed of **Orchextra Core**, and add-on
+
 
 #### Orchextra Core
 - Geofences
@@ -125,6 +126,7 @@ Quality environment
 
 ## Deploy Orchextra to [Gigigo repository](https://bintray.com/gigigo-desarrollo/maven)
 
+Add `bintray.user` and `bintray.apikey` on your **local.propeties**
 Update `version` in `dependencies.gradle` and execute `deployLib` gradle command.
 
 ```gradle

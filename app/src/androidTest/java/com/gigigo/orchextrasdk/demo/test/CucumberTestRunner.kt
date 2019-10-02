@@ -1,7 +1,7 @@
 package com.gigigo.orchextrasdk.demo.test
 
 import android.os.Bundle
-import android.support.test.runner.MonitoringInstrumentation
+import androidx.test.runner.MonitoringInstrumentation
 import cucumber.api.android.CucumberInstrumentationCore
 
 class CucumberTestRunner : MonitoringInstrumentation() {

@@ -18,7 +18,7 @@
 
 package com.gigigo.orchextrasdk.demo.utils;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import com.gigigo.orchextrasdk.demo.utils.widget.CustomFieldView;
 import java.util.HashMap;
 import java.util.List;
