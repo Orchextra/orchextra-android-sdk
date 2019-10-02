@@ -41,7 +41,7 @@ import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetOxToken
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
-import com.gigigo.orchextra.core.utils.LocationProvider
+import com.gigigo.orchextra.core.domain.location.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.google.firebase.FirebaseApp
@@ -49,6 +49,7 @@ import com.google.firebase.FirebaseOptions
 import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
+    const val NOTIFICATION_CHANNEL = "Orchextra"
 
     private val TAG = LogUtils.makeLogTag(Orchextra::class.java)
     private var getOxToken: GetOxToken? = null
@@ -147,7 +148,7 @@ object Orchextra : OrchextraErrorListener {
 
             onError = {
                 changeStatus(false)
-                LogUtils.LOGE(TAG, "getConfiguration: ${it.error}")
+                LOGE(TAG, "getConfiguration: ${it.error}")
             })
     }
 
@@ -183,12 +184,10 @@ object Orchextra : OrchextraErrorListener {
 
     internal fun getCredentials(): Credentials = credentials
 
-    fun isReady(): Boolean = Orchextra.isReady
+    fun isReady(): Boolean = isReady
 
     private fun checkInitialization() {
-        if (!isReady) {
-            throw IllegalStateException("You must call init()")
-        }
+        check(isReady) { "You must call init()" }
     }
 
     fun setStatusListener(orchextraStatusListener: OrchextraStatusListener) {

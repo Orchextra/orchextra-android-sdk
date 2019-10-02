@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Created by Orchextra
   ~
   ~ Copyright (C) 2016 Gigigo Mobile Services SL
@@ -19,87 +18,93 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gigigo.orchextrasdk.demo">
 
-  <uses-permission android:name="android.permission.INTERNET"/>
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-  <application
-      xmlns:tools="http://schemas.android.com/tools"
-      android:name=".MyApplication"
-      android:icon="@drawable/ic_launcher"
-      android:label="@string/app_name"
-      android:supportsRtl="true"
-      android:theme="@style/AppTheme"
-      tools:replace="android:theme">
-    <activity
-        android:name=".ui.login.LoginActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/AppTheme.NoActionBar">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
+    <application xmlns:tools="http://schemas.android.com/tools"
+        android:name=".MyApplication"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme">
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
-    <activity
-        android:name=".ui.MainActivity"
-        android:parentActivityName=".ui.login.LoginActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value=".ui.login.LoginActivity"/>
-    </activity>
-    <activity
-        android:name=".ui.scanner.custom.CustomScannerActivity"
-        android:parentActivityName=".ui.MainActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value=".ui.MainActivity"/>
-    </activity>
-    <activity
-        android:name=".ui.settings.SettingsActivity"
-        android:label="@string/title_settings"
-        android:parentActivityName=".ui.MainActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value=".ui.MainActivity"/>
-    </activity>
-    <activity
-        android:name=".ui.triggerlog.filter.FilterActivity"
-        android:label="@string/title_triggers_filter"
-        android:parentActivityName=".ui.MainActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value=".ui.MainActivity"/>
-    </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:parentActivityName=".ui.login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.login.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".ui.scanner.custom.CustomScannerActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/title_settings"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.triggerlog.filter.FilterActivity"
+            android:label="@string/title_triggers_filter"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
 
-    <receiver
-        android:name=".ui.triggerlog.receiver.TriggerLogBroadcastReceiver"
-        android:exported="true">
-      <intent-filter>
-        <action android:name="com.gigigo.orchextra.TRIGGER_RECEIVER"/>
-      </intent-filter>
-    </receiver>
+        <receiver
+            android:name=".ui.triggerlog.receiver.TriggerLogBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.gigigo.orchextra.TRIGGER_RECEIVER" />
+            </intent-filter>
+        </receiver>
 
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="@string/google_maps_key"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
-    <activity
-        android:name=".ui.settings.edit.EditActivity"
-        android:label="@string/title_activity_edit"
-        android:parentActivityName=".ui.settings.SettingsActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-      <meta-data
-          android:name="android.support.PARENT_ACTIVITY"
-          android:value="com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity"/>
-    </activity>
-    <meta-data
-        android:name="io.fabric.ApiKey"
-        android:value="5c1cf9e92eec9c44892bfbcf7d3d3d1f2a925bf4"
-        />
-  </application>
+        <activity
+            android:name=".ui.settings.edit.EditActivity"
+            android:label="@string/title_activity_edit"
+            android:parentActivityName=".ui.settings.SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gigigo.orchextrasdk.demo.ui.settings.SettingsActivity" />
+        </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5c1cf9e92eec9c44892bfbcf7d3d3d1f2a925bf4" />
+
+        <service
+            android:name=".utils.location.LocationUpdatesService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="location" />
+    </application>
 </manifest>

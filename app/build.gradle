@@ -23,18 +23,14 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
-        classpath 'com.applivery.gradle:applivery-deploy:1.0.0'
         classpath 'io.fabric.tools:gradle:1.27.1'
     }
 }
 
 apply plugin: 'com.android.application'
 apply from: rootProject.file('gradle/checkstyle.gradle')
-apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'applivery-plugin'
 apply from: '../config/jacoco.gradle'
 apply plugin: 'io.fabric'
 
@@ -72,6 +68,7 @@ android {
         }
 
         release {
+            debuggable true
             signingConfig signingConfigs.debug
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt')
@@ -101,14 +98,6 @@ android {
     packagingOptions {
         exclude 'LICENSE.txt'
     }
-
-    configurations {
-        implementation.exclude group: "org.jetbrains", module: "annotations"
-    }
-}
-
-configurations {
-    implementation.exclude group: "org.jetbrains", module: "annotations"
 }
 
 dependencies {
@@ -154,28 +143,8 @@ dependencies {
     androidTestImplementation 'info.cukes:cucumber-android:1.2.5@jar'
     androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.4'
     androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
-
 }
 
-dexcount {
-    format = "list"
-    includeClasses = false
-    includeFieldCount = true
-    includeTotalMethodCount = true
-    orderByMethodCount = false
-    verbose = true
-    maxTreeDepth = Integer.MAX_VALUE
-    enableForInstantRun = false
-    runOnEachAssemble = false
-}
+apply plugin: 'com.google.gms.google-services'
 
-applivery {
-    appId = "59a69f3ae2272dd77951a75b"
-    buildPath = "./app/build/outputs/apk/debug/app-debug.apk"
-    apiKey = "$System.env.APPLIVERY_API_KEY"
-}
 
-repositories {
-    mavenCentral()
-    maven { url 'https://maven.fabric.io/public' }
-}

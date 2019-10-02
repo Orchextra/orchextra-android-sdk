@@ -16,30 +16,30 @@
  * limitations under the License.
  */
 
-package com.gigigo.orchextra.core.utils
+package com.gigigo.orchextra.core.domain.location
 
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import com.gigigo.orchextra.core.domain.entities.Point
 import com.google.android.gms.location.LocationServices
 
 class LocationProvider(context: Context) {
 
-  private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(
-      context)
+    private val fusedLocationClient =
+        LocationServices.getFusedLocationProviderClient(context)
 
-  fun getLocation(listener: (Point) -> Unit) {
+    fun getLocation(listener: (Point) -> Unit) {
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                Log.d("OX fusedLocation", "Location updated")
+                val point = if (location != null) {
+                    Point(lat = location.latitude, lng = location.longitude)
+                } else {
+                    Point(lat = 0.0, lng = 0.0)
+                }
 
-    fusedLocationClient.lastLocation
-        .addOnSuccessListener { location: Location? ->
-
-          val point = if (location != null) {
-            Point(lat = location.latitude, lng = location.longitude)
-          } else {
-            Point(lat = 0.0, lng = 0.0)
-          }
-
-          listener(point)
-        }
-  }
+                listener(point)
+            }
+    }
 }

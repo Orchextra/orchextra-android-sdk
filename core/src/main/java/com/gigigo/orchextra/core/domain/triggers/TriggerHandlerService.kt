@@ -28,6 +28,7 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import androidx.core.app.NotificationCompat
 import android.util.Log
+import com.gigigo.orchextra.core.Orchextra.NOTIFICATION_CHANNEL
 import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.R.string
 import com.gigigo.orchextra.core.domain.entities.Trigger
@@ -40,26 +41,27 @@ class TriggerHandlerService : IntentService(TAG) {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
-            val chan1 = NotificationChannel(
-                PRIMARY_CHANNEL, getString(string.app_name),
+            val channel = NotificationChannel(
+                NOTIFICATION_CHANNEL, getString(string.app_name),
                 NotificationManager.IMPORTANCE_LOW
-            )
-            chan1.lightColor = Color.RED
-            chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
-            chan1.enableVibration(false)
-            chan1.setSound(null, null)
-            manager.createNotificationChannel(chan1)
+            ).apply {
+                lightColor = Color.RED
+                lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+                enableVibration(false)
+                setSound(null, null)
+            }
+            manager.createNotificationChannel(channel)
         }
 
-        val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
-            .setSmallIcon(R.drawable.ox_notification_large_icon)
+        val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
+            .setSmallIcon(R.drawable.ox_notification_alpha_small_icon)
             .setContentTitle(getString(R.string.app_name))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
             .setVibrate(longArrayOf(0, 0, 0))
             .setLights(Color.RED, 0, 100)
             .setSound(null)
 
-        startForeground(NOTIFICATION_ID, mBuilder.build())
+        startForeground(NOTIFICATION_ID, notificationBuilder.build())
     }
 
     override fun onDestroy() {
@@ -85,7 +87,6 @@ class TriggerHandlerService : IntentService(TAG) {
     companion object Navigator {
         private val TAG = LogUtils.makeLogTag(TriggerHandlerService::class.java)
         private const val TRIGGER_EXTRA = "trigger_extra"
-        private const val PRIMARY_CHANNEL = "default"
         private const val NOTIFICATION_ID = 0x654
 
         fun start(context: Context, trigger: Trigger) {
