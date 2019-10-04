@@ -29,91 +29,100 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 
 class FileLogging(private val context: Context) {
 
-  fun log(priority: Int, tag: String, message: String, t: Throwable? = null) {
+    fun log(priority: Int, tag: String, message: String, t: Throwable? = null) {
 
-    val fileNameTimeStamp = SimpleDateFormat("dd-MM-yyyy", Locale.US).format(Date())
-    val logFile = File("sdcard/ox_log_$fileNameTimeStamp.md")
-    if (!logFile.exists()) {
-      try {
-        logFile.createNewFile()
-        writeHeader(logFile)
-      } catch (e: IOException) {
-        Log.e("FileLogging", e.message)
-      }
+        val fileNameTimeStamp = SimpleDateFormat("dd-MM-yyyy", Locale.US).format(Date())
+        val logFile = File("sdcard/ox_log_$fileNameTimeStamp.md")
+        if (!logFile.exists()) {
+            try {
+                logFile.createNewFile()
+                writeHeader(logFile)
+            } catch (e: IOException) {
+                Log.e("FileLogging", e.message ?: "no message")
+            }
+
+        }
+
+        writeLog(context, logFile, priority, tag, message)
+    }
+
+    private fun writeHeader(file: File) {
+        try {
+            val buf = BufferedWriter(FileWriter(file, true))
+            buf.append("# Ox log")
+            buf.newLine()
+            buf.append("Time | Battery | Status | Priority | Tag | Log")
+            buf.newLine()
+            buf.append(":---:|:---:|:---:")
+            buf.newLine()
+            buf.close()
+        } catch (e: IOException) {
+            Log.e("", e.message ?: "no message")
+        }
+    }
+
+    private fun writeLog(
+        context: Context,
+        file: File,
+        priority: Int,
+        tag: String,
+        message: String
+    ) {
+        try {
+
+            val logTimeStamp =
+                SimpleDateFormat("E MMM dd yyyy 'at' hh:mm:ss:SSS aaa", Locale.US).format(
+                    Date()
+                )
+            val batteryLevel = getBatteryLevel(context)
+            val status = if (Orchextra.isActivityRunning()) {
+                "foreground"
+            } else {
+                "background"
+            }
+
+            val buf = BufferedWriter(FileWriter(file, true))
+            buf.append(
+                "$logTimeStamp | $batteryLevel % | $status | ${getPriority(priority)} | $tag | $message"
+            )
+            buf.newLine()
+            buf.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun getBatteryLevel(context: Context): Float {
+        val batteryIntent =
+            context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val level = batteryIntent?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: -1
+        val scale = batteryIntent?.getIntExtra(BatteryManager.EXTRA_SCALE, -1) ?: -1
+
+        // Error checking that probably isn't needed but I added just in case.
+        return if (level == -1 || scale == -1) {
+            50.0f
+        } else level.toFloat() / scale.toFloat() * 100.0f
 
     }
 
-    writeLog(context, logFile, priority, tag, message)
-  }
-
-  private fun writeHeader(file: File) {
-    try {
-      val buf = BufferedWriter(FileWriter(file, true))
-      buf.append("# Ox log")
-      buf.newLine()
-      buf.append("Time | Battery | Status | Priority | Tag | Log")
-      buf.newLine()
-      buf.append(":---:|:---:|:---:")
-      buf.newLine()
-      buf.close()
-    } catch (e: IOException) {
-      Log.e("", e.message)
+    private fun getPriority(priority: Int) = when (priority) {
+        2 -> "VERBOSE"
+        3 -> "DEBUG"
+        4 -> "INFO"
+        5 -> "WARN"
+        6 -> "ERROR"
+        7 -> "ASSERT"
+        else -> "UNKNOWN"
     }
-  }
 
-  private fun writeLog(context: Context, file: File, priority: Int, tag: String, message: String) {
-    try {
 
-      val logTimeStamp = SimpleDateFormat("E MMM dd yyyy 'at' hh:mm:ss:SSS aaa", Locale.US).format(
-          Date())
-      val batteryLevel = getBatteryLevel(context)
-      val status = if (Orchextra.isActivityRunning()) {
-        "foreground"
-      } else {
-        "background"
-      }
+    companion object {
 
-      val buf = BufferedWriter(FileWriter(file, true))
-      buf.append(
-          "$logTimeStamp | $batteryLevel % | $status | ${getPriority(priority)} | $tag | $message")
-      buf.newLine()
-      buf.close()
-    } catch (e: IOException) {
-      e.printStackTrace()
+        private val TAG = FileLogging::class.java.simpleName
     }
-  }
-
-  fun getBatteryLevel(context: Context): Float {
-    val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-    val level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
-    val scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
-
-    // Error checking that probably isn't needed but I added just in case.
-    return if (level == -1 || scale == -1) {
-      50.0f
-    } else level.toFloat() / scale.toFloat() * 100.0f
-
-  }
-
-  private fun getPriority(priority: Int) = when (priority) {
-    2 -> "VERBOSE"
-    3 -> "DEBUG"
-    4 -> "INFO"
-    5 -> "WARN"
-    6 -> "ERROR"
-    7 -> "ASSERT"
-    else -> "UNKNOWN"
-  }
-
-
-  companion object {
-
-    private val TAG = FileLogging::class.java.simpleName
-  }
 }

@@ -20,7 +20,7 @@ package com.gigigo.orchextra.indoorpositioning.scanner
 
 import android.os.Build.VERSION_CODES
 import android.os.RemoteException
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGD
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE

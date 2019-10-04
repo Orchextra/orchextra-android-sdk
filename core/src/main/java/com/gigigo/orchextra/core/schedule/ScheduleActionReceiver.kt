@@ -29,26 +29,30 @@ import com.gigigo.orchextra.core.domain.entities.Schedule
 
 class ScheduleActionReceiver : BroadcastReceiver() {
 
-  private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
+    private lateinit var actionHandlerServiceExecutor: ActionHandlerServiceExecutor
 
-  override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(context: Context, intent: Intent) {
 
-    val action = intent.getParcelableExtra<Action>(ACTION_EXTRA)
-    Log.d(TAG, "onScheduledActionReceive: $action")
+        val action = intent.getParcelableExtra<Action>(ACTION_EXTRA)
+        if (action == null) {
+            Log.e(TAG, "action is null")
+            return
+        }
 
-    actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(context)
-    actionHandlerServiceExecutor.execute(action.copy(schedule = Schedule()))
-  }
-
-  companion object {
-    private val TAG = "ScheduleActionReceiver"
-    val ACTION_EXTRA = "action_extra"
-
-    fun getSchedulerActionIntent(context: Context, action: Action): PendingIntent {
-
-      val alarmIntent = Intent(context, ScheduleActionReceiver::class.java)
-      alarmIntent.putExtra(ACTION_EXTRA, action)
-      return PendingIntent.getBroadcast(context, 0, alarmIntent, 0)
+        Log.d(TAG, "onScheduledActionReceive: $action")
+        actionHandlerServiceExecutor = ActionHandlerServiceExecutor.create(context)
+        actionHandlerServiceExecutor.execute(action.copy(schedule = Schedule()))
     }
-  }
+
+    companion object {
+        private const val TAG = "ScheduleActionReceiver"
+        const val ACTION_EXTRA = "action_extra"
+
+        fun getSchedulerActionIntent(context: Context, action: Action): PendingIntent {
+
+            val alarmIntent = Intent(context, ScheduleActionReceiver::class.java)
+            alarmIntent.putExtra(ACTION_EXTRA, action)
+            return PendingIntent.getBroadcast(context, 0, alarmIntent, 0)
+        }
+    }
 }

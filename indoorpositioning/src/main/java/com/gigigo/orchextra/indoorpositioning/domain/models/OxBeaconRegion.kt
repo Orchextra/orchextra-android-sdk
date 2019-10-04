@@ -18,9 +18,9 @@
 
 package com.gigigo.orchextra.indoorpositioning.domain.models
 
-val ENTER_EVENT = "enter"
-val STAY_EVENT = "stay"
-val EXIT_EVENT = "exit"
+const val ENTER_EVENT = "enter"
+const val STAY_EVENT = "stay"
+const val EXIT_EVENT = "exit"
 
 data class OxBeaconRegion(
     val value: String,

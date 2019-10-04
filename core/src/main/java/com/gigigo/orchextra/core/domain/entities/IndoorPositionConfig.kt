@@ -18,9 +18,10 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class IndoorPositionConfig constructor(
     val code: String = "",
     val uuid: String = "",
@@ -29,39 +30,5 @@ data class IndoorPositionConfig constructor(
     val minor: Int = -1,
     val major: Int = -1,
     val notifyOnEntry: Boolean = true,
-    val notifyOnExit: Boolean = true) : Parcelable {
-
-  constructor(source: Parcel) : this(
-      source.readString(),
-      source.readString(),
-      source.readString(),
-      source.readString(),
-      source.readInt(),
-      source.readInt(),
-      1 == source.readInt(),
-      1 == source.readInt()
-  )
-
-  override fun describeContents() = 0
-
-  override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-    writeString(code)
-    writeString(uuid)
-    writeString(namespace)
-    writeString(instanceId)
-    writeInt(minor)
-    writeInt(major)
-    writeInt((if (notifyOnEntry) 1 else 0))
-    writeInt((if (notifyOnExit) 1 else 0))
-  }
-
-  companion object {
-    @JvmField
-    val CREATOR: Parcelable.Creator<IndoorPositionConfig> = object : Parcelable.Creator<IndoorPositionConfig> {
-      override fun createFromParcel(source: Parcel): IndoorPositionConfig = IndoorPositionConfig(
-          source)
-
-      override fun newArray(size: Int): Array<IndoorPositionConfig?> = arrayOfNulls(size)
-    }
-  }
-}
+    val notifyOnExit: Boolean = true
+) : Parcelable

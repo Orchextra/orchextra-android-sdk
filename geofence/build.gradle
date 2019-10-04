@@ -23,6 +23,7 @@ apply from: '../config/jacoco.gradle'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = rootProject.ext.group
+version = rootProject.ext.version
 
 ext {
   bintrayRepo = 'maven'
@@ -54,17 +55,15 @@ android {
   defaultConfig {
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 1
-    versionName "1.0"
-
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    multiDexEnabled true
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
     debug {
       debuggable true
 
-      version = "${rootProject.ext.version}-S"
-      project.ext.libraryVersion = "${rootProject.ext.version}-S"
+      version = "${rootProject.ext.version}-D"
+      project.ext.libraryVersion = "${rootProject.ext.version}-D"
     }
 
     quality {
@@ -80,15 +79,14 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
       if (project.hasProperty('debug')) {
+        version = "${rootProject.ext.version}-D"
+        project.ext.libraryVersion = "${rootProject.ext.version}-D"
 
-        version = "${rootProject.ext.version}-S"
-        project.ext.libraryVersion = "${rootProject.ext.version}-S"
       } else if (project.hasProperty('quality')) {
-
         version = "${rootProject.ext.version}-Q"
         project.ext.libraryVersion = "${rootProject.ext.version}-Q"
-      } else {
 
+      } else {
         version = "${rootProject.ext.version}"
         project.ext.libraryVersion = "${rootProject.ext.version}"
       }
@@ -100,12 +98,16 @@ android {
     abortOnError false
     ignoreWarnings true
   }
+
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation rootProject.ext.libraries.kotlinStdLib
-  implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+  implementation rootProject.ext.libraries.appCompat
+  implementation rootProject.ext.libraries.multidex
 
   implementation rootProject.ext.libraries.playServicesLocation
 
@@ -113,9 +115,7 @@ dependencies {
 
   testImplementation rootProject.ext.testLibraries.junit
   testImplementation rootProject.ext.testLibraries.kluent
-  androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
+  androidTestImplementation rootProject.ext.testLibraries.espressoCore
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

@@ -18,38 +18,20 @@
 
 package com.gigigo.orchextra.core.domain.entities
 
-import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Notification constructor(
     val title: String = "",
-    val body: String = "") : Parcelable {
+    val body: String = ""
+) : Parcelable {
 
-  fun isEmpty(): Boolean {
-    return title.isBlank() && body.isBlank()
-  }
-
-  fun isNotEmpty(): Boolean {
-    return !isEmpty()
-  }
-
-  constructor(source: Parcel) : this(
-      source.readString(),
-      source.readString()
-  )
-
-  override fun describeContents() = 0
-
-  override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-    writeString(title)
-    writeString(body)
-  }
-
-  companion object {
-    @JvmField
-    val CREATOR: Parcelable.Creator<Notification> = object : Parcelable.Creator<Notification> {
-      override fun createFromParcel(source: Parcel): Notification = Notification(source)
-      override fun newArray(size: Int): Array<Notification?> = arrayOfNulls(size)
+    fun isEmpty(): Boolean {
+        return title.isBlank() && body.isBlank()
     }
-  }
+
+    fun isNotEmpty(): Boolean {
+        return !isEmpty()
+    }
 }

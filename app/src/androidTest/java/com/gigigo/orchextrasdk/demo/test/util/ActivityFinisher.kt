@@ -3,9 +3,9 @@ package com.gigigo.orchextrasdk.demo.test.util
 import android.app.Activity
 import android.os.Handler
 import android.os.Looper
-import android.support.test.runner.lifecycle.ActivityLifecycleMonitor
-import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
-import android.support.test.runner.lifecycle.Stage
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitor
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import androidx.test.runner.lifecycle.Stage
 
 import java.util.ArrayList
 import java.util.EnumSet

@@ -26,33 +26,37 @@ import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.triggers.TriggerHandlerService
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGD
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 
 class TriggerBroadcastReceiver : BroadcastReceiver() {
 
-  override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(context: Context, intent: Intent) {
 
-    val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA).copy(
-        phoneStatus = getStatus())
-    LOGD(TAG, "onTriggerReceived: $trigger")
-    TriggerHandlerService.start(context, trigger)
-  }
-
-  companion object Navigator {
-    private val TAG = LogUtils.makeLogTag(TriggerBroadcastReceiver::class.java)
-    private const val TRIGGER_RECEIVER = "com.gigigo.orchextra.TRIGGER_RECEIVER"
-    private const val TRIGGER_EXTRA = "trigger_extra"
-
-    fun getTriggerIntent(context: Context, trigger: Trigger): Intent {
-      val intent = Intent(TRIGGER_RECEIVER)
-      intent.putExtra(TRIGGER_EXTRA, trigger)
-      intent.setClass(context, TriggerBroadcastReceiver::class.java)
-      return intent
+        val trigger = intent.getParcelableExtra<Trigger>(TRIGGER_EXTRA)?.copy(
+            phoneStatus = getStatus()
+        )
+        if (trigger == null) {
+            LOGE(TAG, "trigger is null")
+            return
+        }
+        LOGD(TAG, "onTriggerReceived: $trigger")
+        TriggerHandlerService.start(context, trigger)
     }
-  }
 
-  private fun getStatus(): String = if (Orchextra.isActivityRunning()) {
-    "foreground"
-  } else {
-    "background"
-  }
+    companion object Navigator {
+        private val TAG = LogUtils.makeLogTag(TriggerBroadcastReceiver::class.java)
+        private const val TRIGGER_RECEIVER = "com.gigigo.orchextra.TRIGGER_RECEIVER"
+        private const val TRIGGER_EXTRA = "trigger_extra"
+
+        fun getTriggerIntent(context: Context, trigger: Trigger): Intent {
+            val intent = Intent(TRIGGER_RECEIVER)
+            intent.putExtra(TRIGGER_EXTRA, trigger)
+            intent.setClass(context, TriggerBroadcastReceiver::class.java)
+            return intent
+        }
+    }
+
+    private fun getStatus(): String =
+        if (Orchextra.isActivityRunning()) "foreground"
+        else "background"
 }

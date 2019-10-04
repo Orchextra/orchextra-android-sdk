@@ -17,14 +17,14 @@
  */
 
 buildscript {
-  repositories {
-    jcenter()
-    mavenCentral()
-  }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
 
-  dependencies {
-    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
-  }
+    dependencies {
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
+    }
 }
 
 apply plugin: 'com.android.library'
@@ -35,27 +35,28 @@ apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = rootProject.ext.group
+version = rootProject.ext.version
 
 ext {
-  bintrayRepo = 'maven'
-  bintrayName = 'com.gigigo.orchextra:core'
+    bintrayRepo = 'maven'
+    bintrayName = 'com.gigigo.orchextra:core'
 
-  publishedGroupId = 'com.gigigo.orchextra'
-  libraryName = 'core'
-  artifact = 'core'
+    publishedGroupId = 'com.gigigo.orchextra'
+    libraryName = 'core'
+    artifact = 'core'
 
-  libraryDescription = 'Orchextra core'
+    libraryDescription = 'Orchextra core'
 
-  siteUrl = 'https://github.com/Orchextra/orchextra-android-sdk'
-  gitUrl = 'https://github.com/Orchextra/orchextra-android-sdk.git'
+    siteUrl = 'https://github.com/Orchextra/orchextra-android-sdk'
+    gitUrl = 'https://github.com/Orchextra/orchextra-android-sdk.git'
 
-  developerId = 'gigigo-desarrollo'
-  developerName = 'Android Gigigo'
-  developerEmail = 'gigigo.desarrollo@gmail.com'
+    developerId = 'gigigo-desarrollo'
+    developerName = 'Android Gigigo'
+    developerEmail = 'gigigo.desarrollo@gmail.com'
 
-  licenseName = 'The Apache Software License, Version 2.0'
-  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-  allLicenses = ["Apache-2.0"]
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
 
 def CORE_API_URL = "CORE_API_URL"
@@ -63,119 +64,124 @@ def TRIGGER_API_URL = "TRIGGER_API_URL"
 def NETWORK_LOG = "NETWORK_LOG"
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
-  defaultConfig {
-    minSdkVersion rootProject.ext.minSdkVersion
-    targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 1
-    versionName "3.0.0"
-
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-
-  buildTypes {
-    debug {
-      debuggable true
-
-      buildConfigField STRING, CORE_API_URL, '"https://core.s.orchextra.io/"'
-      buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
-      buildConfigField BOOLEAN, NETWORK_LOG, "true"
-
-      version = "${rootProject.ext.version}-S"
-      project.ext.libraryVersion = "${rootProject.ext.version}-S"
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    quality {
-      debuggable true
+    buildTypes {
+        debug {
+            debuggable true
 
-      buildConfigField STRING, CORE_API_URL, '"https://core.q.orchextra.io/"'
-      buildConfigField STRING, TRIGGER_API_URL, '"https://tr.q.orchextra.io/"'
-      buildConfigField BOOLEAN, NETWORK_LOG, "true"
+            buildConfigField STRING, CORE_API_URL, '"https://core.s.orchextra.io/"'
+            buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
+            buildConfigField BOOLEAN, NETWORK_LOG, "true"
 
-      version = "${rootProject.ext.version}-Q"
-      project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+            version = "${rootProject.ext.version}-D"
+            project.ext.libraryVersion = "${rootProject.ext.version}-D"
+        }
+
+        quality {
+            debuggable true
+
+            buildConfigField STRING, CORE_API_URL, '"https://core.q.orchextra.io/"'
+            buildConfigField STRING, TRIGGER_API_URL, '"https://tr.q.orchextra.io/"'
+            buildConfigField BOOLEAN, NETWORK_LOG, "true"
+
+            version = "${rootProject.ext.version}-Q"
+            project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+        }
+
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            if (project.hasProperty('debug')) {
+
+                buildConfigField STRING, CORE_API_URL, '"https://core.s.orchextra.io/"'
+                buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
+                buildConfigField BOOLEAN, NETWORK_LOG, "true"
+
+                version = "${rootProject.ext.version}-D"
+                project.ext.libraryVersion = "${rootProject.ext.version}-D"
+            } else if (project.hasProperty('quality')) {
+
+                buildConfigField STRING, CORE_API_URL, '"https://core.q.orchextra.io/"'
+                buildConfigField STRING, TRIGGER_API_URL, '"https://tr.q.orchextra.io/"'
+                buildConfigField BOOLEAN, NETWORK_LOG, "true"
+
+                version = "${rootProject.ext.version}-Q"
+                project.ext.libraryVersion = "${rootProject.ext.version}-Q"
+            } else {
+
+                buildConfigField STRING, CORE_API_URL, '"https://core.orchextra.io/"'
+                buildConfigField STRING, TRIGGER_API_URL, '"https://tr.orchextra.io/"'
+                buildConfigField BOOLEAN, NETWORK_LOG, "false"
+
+                version = "${rootProject.ext.version}"
+                project.ext.libraryVersion = "${rootProject.ext.version}"
+            }
+        }
     }
 
-    release {
-      debuggable false
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-      if (project.hasProperty('debug')) {
-
-        buildConfigField STRING, CORE_API_URL, '"https://core.s.orchextra.io/"'
-        buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
-        buildConfigField BOOLEAN, NETWORK_LOG, "true"
-
-        version = "${rootProject.ext.version}-S"
-        project.ext.libraryVersion = "${rootProject.ext.version}-S"
-      } else if (project.hasProperty('quality')) {
-
-        buildConfigField STRING, CORE_API_URL, '"https://core.q.orchextra.io/"'
-        buildConfigField STRING, TRIGGER_API_URL, '"https://tr.q.orchextra.io/"'
-        buildConfigField BOOLEAN, NETWORK_LOG, "true"
-
-        version = "${rootProject.ext.version}-Q"
-        project.ext.libraryVersion = "${rootProject.ext.version}-Q"
-      } else {
-
-        buildConfigField STRING, CORE_API_URL, '"https://core.orchextra.io/"'
-        buildConfigField STRING, TRIGGER_API_URL, '"https://tr.orchextra.io/"'
-        buildConfigField BOOLEAN, NETWORK_LOG, "false"
-
-        version = "${rootProject.ext.version}"
-        project.ext.libraryVersion = "${rootProject.ext.version}"
-      }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
     }
-  }
 
-  lintOptions {
-    quiet true
-    abortOnError false
-    ignoreWarnings true
-  }
+    androidExtensions {
+        experimental = true
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dexcount {
-  format = "list"
-  includeClasses = false
-  includeFieldCount = true
-  includeTotalMethodCount = true
-  orderByMethodCount = false
-  verbose = true
-  maxTreeDepth = Integer.MAX_VALUE
-  enableForInstantRun = false
-  runOnEachAssemble = false
+    format = "list"
+    includeClasses = false
+    includeFieldCount = true
+    includeTotalMethodCount = true
+    orderByMethodCount = false
+    verbose = true
+    maxTreeDepth = Integer.MAX_VALUE
+    enableForInstantRun = false
+    runOnEachAssemble = false
 }
 
 dependencies {
-  implementation rootProject.ext.libraries.kotlinStdLib
+    implementation rootProject.ext.libraries.kotlinStdLib
 
-  implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
-  implementation rootProject.ext.libraries.playServicesLocation
+    implementation rootProject.ext.libraries.appCompat
+    implementation rootProject.ext.libraries.multidex
+    implementation rootProject.ext.libraries.playServicesLocation
 
-  implementation 'com.google.firebase:firebase-core:16.0.0'
-  implementation 'com.google.firebase:firebase-messaging:17.0.0'
+    implementation rootProject.ext.libraries.firebaseCore
+    implementation rootProject.ext.libraries.firebaseMessaging
 
-  implementation rootProject.ext.libraries.retrofit
-  implementation rootProject.ext.libraries.retrofitMoshiConverter
-  implementation rootProject.ext.libraries.okhttp3
-  implementation rootProject.ext.libraries.okhttp3LoggingInterceptor
+    implementation rootProject.ext.libraries.retrofit
+    implementation rootProject.ext.libraries.retrofitMoshiConverter
+    implementation rootProject.ext.libraries.okhttp3
+    implementation rootProject.ext.libraries.okhttp3LoggingInterceptor
 
-  implementation rootProject.ext.libraries.ormLite
-  implementation rootProject.ext.libraries.ormLiteAndroid
+    implementation rootProject.ext.libraries.ormLite
+    implementation rootProject.ext.libraries.ormLiteAndroid
 
-  testImplementation rootProject.ext.testLibraries.mockitoKotlin
-  testImplementation rootProject.ext.testLibraries.kluent
-  testImplementation rootProject.ext.testLibraries.junit
+    testImplementation rootProject.ext.testLibraries.mockitoKotlin
+    testImplementation rootProject.ext.testLibraries.kluent
+    testImplementation rootProject.ext.testLibraries.junit
 
-  androidTestImplementation rootProject.ext.testLibraries.mockitoKotlin
-  androidTestImplementation rootProject.ext.testLibraries.supportTestRunner
-  androidTestImplementation rootProject.ext.testLibraries.supportTestRules
-  androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
-    exclude group: 'com.android.support', module: 'support-annotations'
-  })
+    androidTestImplementation rootProject.ext.testLibraries.mockitoKotlin
+    androidTestImplementation rootProject.ext.testLibraries.supportTestRunner
+    androidTestImplementation rootProject.ext.testLibraries.supportTestRules
+    androidTestImplementation rootProject.ext.testLibraries.espressoCore
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

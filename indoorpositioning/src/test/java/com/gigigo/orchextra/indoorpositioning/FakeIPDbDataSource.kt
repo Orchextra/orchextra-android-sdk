@@ -18,49 +18,61 @@
 
 package com.gigigo.orchextra.indoorpositioning
 
+import com.gigigo.orchextra.core.domain.entities.IndoorPositionConfig
 import com.gigigo.orchextra.indoorpositioning.domain.datasource.IPDbDataSource
 import com.gigigo.orchextra.indoorpositioning.domain.models.OxBeacon
 import com.gigigo.orchextra.indoorpositioning.utils.extensions.getValue
-import java.util.Date
+import java.util.*
 
 class FakeIPDbDataSource : IPDbDataSource {
 
-  private val beaconDb = mutableListOf<OxBeacon>()
+    private val beaconDb = mutableListOf<OxBeacon>()
+    private var positionConfig: List<IndoorPositionConfig> = emptyList()
 
-  init {
-    beaconDb.add(SAVED_BEACON)
-    beaconDb.add(SAVED_OLD_BEACON)
-  }
-
-  override fun getBeacon(id: String): OxBeacon? {
-    beaconDb.map { if (id == it.getValue()) return it }
-    return null
-  }
-
-  override fun getBeacons(): List<OxBeacon> = beaconDb
-
-  override fun saveOrUpdateBeacon(beacon: OxBeacon) {
-    beaconDb.add(beacon)
-  }
-
-  override fun removeBeacon(id: String) {
-    val beacon = getBeacon(id)
-    if (beacon != null) {
-      beaconDb.remove(beacon)
+    init {
+        beaconDb.add(SAVED_BEACON)
+        beaconDb.add(SAVED_OLD_BEACON)
     }
-  }
 
-  companion object {
-    val SAVED_BEACON = OxBeacon(
-        uuid = "test_uuid",
-        minor = 4,
-        major = 9,
-        lastDetection = Date())
+    override fun saveConfig(config: List<IndoorPositionConfig>) {
+        positionConfig = config
+    }
 
-    val SAVED_OLD_BEACON = OxBeacon(
-        uuid = "test_uuid_old",
-        minor = 5,
-        major = 10,
-        lastDetection = Date(50 * 1000))
-  }
+    override fun getConfig(): List<IndoorPositionConfig> {
+        return positionConfig
+    }
+
+    override fun getBeacon(id: String): OxBeacon? {
+        beaconDb.map { if (id == it.getValue()) return it }
+        return null
+    }
+
+    override fun getBeacons(): List<OxBeacon> = beaconDb
+
+    override fun saveOrUpdateBeacon(beacon: OxBeacon) {
+        beaconDb.add(beacon)
+    }
+
+    override fun removeBeacon(id: String) {
+        val beacon = getBeacon(id)
+        if (beacon != null) {
+            beaconDb.remove(beacon)
+        }
+    }
+
+    companion object {
+        val SAVED_BEACON = OxBeacon(
+            uuid = "test_uuid",
+            minor = 4,
+            major = 9,
+            lastDetection = Date()
+        )
+
+        val SAVED_OLD_BEACON = OxBeacon(
+            uuid = "test_uuid_old",
+            minor = 5,
+            major = 10,
+            lastDetection = Date(50 * 1000)
+        )
+    }
 }

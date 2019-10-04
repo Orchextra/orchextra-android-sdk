@@ -27,7 +27,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import android.util.Log
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
@@ -73,7 +73,7 @@ class NotificationActionExecutor(private val context: Context,
     }
 
     val notificationBuilder = NotificationCompat.Builder(context, PRIMARY_CHANNEL)
-        .setSmallIcon(R.drawable.ox_notification_large_icon)
+        .setSmallIcon(R.drawable.ox_notification_alpha_small_icon)
         .setContentTitle(title)
         .setContentText(body)
 

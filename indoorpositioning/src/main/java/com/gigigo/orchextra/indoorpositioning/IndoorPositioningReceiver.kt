@@ -23,18 +23,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 
-class IndoorPositioningReceiver() : BroadcastReceiver() {
+class IndoorPositioningReceiver : BroadcastReceiver() {
 
-  override fun onReceive(context: Context, intent: Intent) {
-    IndoorPositioningService.start(context)
-  }
-
-  companion object {
-
-    fun getIndoorPositioningIntent(context: Context): PendingIntent {
-      val alarmIntent = Intent(context, IndoorPositioningReceiver::class.java)
-      return PendingIntent.getBroadcast(context, 0x432, alarmIntent,
-          PendingIntent.FLAG_UPDATE_CURRENT)
+    override fun onReceive(context: Context, intent: Intent) {
+        IndoorPositioningService.start(context)
     }
-  }
+
+    companion object {
+
+        fun getIndoorPositioningIntent(context: Context): PendingIntent {
+            val alarmIntent = Intent(context, IndoorPositioningReceiver::class.java)
+            return PendingIntent.getBroadcast(
+                context, 0x432, alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
+    }
 }
