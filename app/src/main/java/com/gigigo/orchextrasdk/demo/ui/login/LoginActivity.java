@@ -155,8 +155,8 @@ public class LoginActivity extends AppCompatActivity {
 
     OxManager.Config config = new OxManager.Config.Builder().apiKey(apiKey)
         .apiSecret(apiSecret)
-        .firebaseApiKey("AIzaSyDlMIjwx2r0oc0W7O4WPb7CvRhjCVHOZBk")
-        .firebaseApplicationId("1:327008883283:android:5a0b51c3ef8892e0")
+        //.firebaseApiKey("AIzaSyDlMIjwx2r0oc0W7O4WPb7CvRhjCVHOZBk")
+        //.firebaseApplicationId("1:327008883283:android:5a0b51c3ef8892e0")
         .build();
 
     oxManager.setCustomSchemeReceiver(new OxManager.CustomActionListener() {

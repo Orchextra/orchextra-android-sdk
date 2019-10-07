@@ -1,5 +1,7 @@
 package com.gigigo.orchextra.core.domain.location
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -11,6 +13,8 @@ import android.os.IBinder
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.gigigo.orchextra.core.domain.entities.OxPoint
+
+
 
 private val TAG = OxLocationUpdates::class.java.simpleName
 
@@ -24,6 +28,8 @@ class OxLocationUpdates {
 
     // Tracks the bound state of the service.
     private var isBound = false
+
+    private var pendingIntent: PendingIntent? = null
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, connected: IBinder) {
@@ -50,6 +56,10 @@ class OxLocationUpdates {
 
     fun stopLocationUpdates() {
         service?.removeLocationUpdates()
+    }
+
+    fun pendingIntentToLaunch(pendingIntent: PendingIntent){
+        this.pendingIntent = pendingIntent
     }
 
     fun onCreate() {
@@ -96,6 +106,15 @@ class OxLocationUpdates {
                 intent.getParcelableExtra<Location>(LocationUpdatesService.EXTRA_LOCATION)
             if (location != null) {
                 listener?.onLocationUpdated(OxPoint(location.latitude, location.longitude))
+
+                pendingIntent.let {
+                    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        System.currentTimeMillis() + 3000,
+                        pendingIntent
+                    )
+                }
             }
         }
     }
