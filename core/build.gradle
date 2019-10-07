@@ -71,6 +71,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        versionCode generateAutoVersionCode()
+        versionName version
     }
 
     buildTypes {
@@ -81,8 +84,8 @@ android {
             buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
             buildConfigField BOOLEAN, NETWORK_LOG, "true"
 
-            version = "${rootProject.ext.version}-S"
-            project.ext.libraryVersion = "${rootProject.ext.version}-S"
+            version = "${rootProject.ext.version}-D"
+            project.ext.libraryVersion = "${rootProject.ext.version}-D"
         }
 
         quality {
@@ -107,8 +110,8 @@ android {
                 buildConfigField STRING, TRIGGER_API_URL, '"https://tr.s.orchextra.io/"'
                 buildConfigField BOOLEAN, NETWORK_LOG, "true"
 
-                version = "${rootProject.ext.version}-S"
-                project.ext.libraryVersion = "${rootProject.ext.version}-S"
+                version = "${rootProject.ext.version}-D"
+                project.ext.libraryVersion = "${rootProject.ext.version}-D"
             } else if (project.hasProperty('quality')) {
 
                 buildConfigField STRING, CORE_API_URL, '"https://core.q.orchextra.io/"'
@@ -181,9 +184,7 @@ dependencies {
     androidTestImplementation rootProject.ext.testLibraries.mockitoKotlin
     androidTestImplementation rootProject.ext.testLibraries.supportTestRunner
     androidTestImplementation rootProject.ext.testLibraries.supportTestRules
-    androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation rootProject.ext.testLibraries.espressoCore
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

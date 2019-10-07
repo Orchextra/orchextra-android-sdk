@@ -66,8 +66,8 @@ android {
         debug {
             debuggable true
 
-            version = "${rootProject.ext.version}-S"
-            project.ext.libraryVersion = "${rootProject.ext.version}-S"
+            version = "${rootProject.ext.version}-D"
+            project.ext.libraryVersion = "${rootProject.ext.version}-D"
         }
 
         quality {
@@ -83,8 +83,8 @@ android {
 
             if (project.hasProperty('debug')) {
 
-                version = "${rootProject.ext.version}-S"
-                project.ext.libraryVersion = "${rootProject.ext.version}-S"
+                version = "${rootProject.ext.version}-D"
+                project.ext.libraryVersion = "${rootProject.ext.version}-D"
             } else if (project.hasProperty('quality')) {
 
                 version = "${rootProject.ext.version}-Q"
@@ -133,9 +133,7 @@ dependencies {
     testImplementation rootProject.ext.testLibraries.junit
     androidTestImplementation rootProject.ext.testLibraries.assertj
     androidTestImplementation rootProject.ext.testLibraries.supportTestRunner
-    androidTestImplementation(rootProject.ext.testLibraries.espressoCore, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation rootProject.ext.testLibraries.espressoCore
 }
 
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'

@@ -198,13 +198,14 @@ class IndoorPositioningService : Service(), BeaconConsumer {
     val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      val chan1 = NotificationChannel(PRIMARY_CHANNEL, getString(string.app_name),
-          NotificationManager.IMPORTANCE_LOW)
-      chan1.lightColor = Color.RED
-      chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
-      chan1.enableVibration(false)
-      chan1.setSound(null, null)
-      manager.createNotificationChannel(chan1)
+      val channel = NotificationChannel(PRIMARY_CHANNEL, getString(string.app_name),
+          NotificationManager.IMPORTANCE_LOW).apply {
+        lightColor = Color.RED
+        lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+        enableVibration(false)
+        setSound(null, null)
+      }
+      manager.createNotificationChannel(channel)
 
       val mBuilder = NotificationCompat.Builder(this, PRIMARY_CHANNEL)
           .setSmallIcon(R.drawable.ox_notification_large_icon)

@@ -28,7 +28,8 @@ import android.os.Bundle;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

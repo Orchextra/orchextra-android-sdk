@@ -73,7 +73,7 @@ class NotificationActionExecutor(private val context: Context,
     }
 
     val notificationBuilder = NotificationCompat.Builder(context, PRIMARY_CHANNEL)
-        .setSmallIcon(R.drawable.ox_notification_large_icon)
+        .setSmallIcon(R.drawable.ox_notification_alpha_small_icon)
         .setContentTitle(title)
         .setContentText(body)
 

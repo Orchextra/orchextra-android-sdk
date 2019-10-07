@@ -4,10 +4,10 @@ package com.gigigo.orchextrasdk.demo.test.steps
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.Espresso
-import android.support.test.rule.ActivityTestRule
-import android.support.test.uiautomator.UiDevice
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.espresso.Espresso
+import androidx.test.rule.ActivityTestRule
+import androidx.test.uiautomator.UiDevice
 import com.gigigo.orchextra.core.domain.actions.ActionHandlerServiceExecutor
 import com.gigigo.orchextra.core.domain.entities.Action
 import com.gigigo.orchextra.core.domain.entities.ActionType
@@ -154,7 +154,7 @@ class StepDefinitions {
     // TODO browser intent
     webViewScreen {
       idle(3000L)
-      val mDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+      val mDevice = UiDevice.getInstance(androidx.test.platform.app.InstrumentationRegistry.getInstrumentation())
       mDevice.pressBack()
     }
   }

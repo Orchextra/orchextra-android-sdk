@@ -19,29 +19,33 @@
 ext {
 
     group = 'com.gigigo.orchextra'
-    version = '3.2.6'
+    version = '3.2.8'
 
+    compileSdkVersion = 29
+    minSdkVersion = 16
+    targetSdkVersion = 29
 
-    libraries = [kotlinStdLib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+    libraries = [
+            kotlinStdLib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
 
-                 appCompat                : 'androidx.appcompat:appcompat:1.0.0',
-                 multidex                 : 'com.android.support:multidex:1.0.3',
-                 playServicesLocation     : 'com.google.android.gms:play-services-location:17.0.0',
-                 firebaseCore             : 'com.google.firebase:firebase-core:17.2.0',
-                 firebaseMessaging        : 'com.google.firebase:firebase-messaging:20.0.0',
+            appCompat                : 'androidx.appcompat:appcompat:1.0.0',
+            multidex                 : 'androidx.multidex:multidex:2.0.0',
+            playServicesLocation     : 'com.google.android.gms:play-services-location:17.0.0',
+            firebaseCore             : 'com.google.firebase:firebase-core:17.2.0',
+            firebaseMessaging        : 'com.google.firebase:firebase-messaging:20.0.0',
 
-                 retrofit                 : 'com.squareup.retrofit2:retrofit:2.6.0',
-                 retrofitMoshiConverter   : 'com.squareup.retrofit2:converter-moshi:2.6.0',
-                 okhttp3                  : 'com.squareup.okhttp3:okhttp:4.0.1',
-                 okhttp3LoggingInterceptor: 'com.squareup.okhttp3:logging-interceptor:4.0.1',
+            retrofit                 : 'com.squareup.retrofit2:retrofit:2.6.0',
+            retrofitMoshiConverter   : 'com.squareup.retrofit2:converter-moshi:2.6.0',
+            okhttp3                  : 'com.squareup.okhttp3:okhttp:4.0.1',
+            okhttp3LoggingInterceptor: 'com.squareup.okhttp3:logging-interceptor:4.0.1',
 
-                 imagerecognitionVuforia  : 'com.github.Gigigo-Android-Devs.gigigo-imageRecognition-library-android:imagerecognition.vuforia:1.0.4',
+            imagerecognitionVuforia  : 'com.github.Gigigo-Android-Devs.gigigo-imageRecognition-library-android:imagerecognition.vuforia:1.0.4',
 
-                 ormLite                  : 'com.j256.ormlite:ormlite-core:5.0',
-                 ormLiteAndroid           : 'com.j256.ormlite:ormlite-android:5.0',
-                 altbeacon                : 'org.altbeacon:android-beacon-library:2.12.1',
-                 zbar                     : 'me.dm7.barcodescanner:zbar:1.8.4',
-                 moshi                    : 'com.squareup.moshi:moshi:1.8.0'
+            ormLite                  : 'com.j256.ormlite:ormlite-core:5.0',
+            ormLiteAndroid           : 'com.j256.ormlite:ormlite-android:5.0',
+            altbeacon                : 'org.altbeacon:android-beacon-library:2.12.1',
+            zbar                     : 'me.dm7.barcodescanner:zbar:1.8.4',
+            moshi                    : 'com.squareup.moshi:moshi:1.8.0'
     ]
 
     testLibraries = [
@@ -52,7 +56,7 @@ ext {
             supportTestRunner: 'androidx.test:runner:1.1.0',
             supportTestRules : 'androidx.test:rules:1.1.0',
             espressoCore     : 'androidx.test.espresso:espresso-core:3.1.0',
-            espressoIntents  : 'com.android.support.test.espresso:espresso-intents:3.0.2'
+            espressoIntents  : 'androidx.test.espresso:espresso-intents:3.1.0'
     ]
 
     modules = [

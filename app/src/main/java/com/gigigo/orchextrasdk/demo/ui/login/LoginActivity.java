@@ -133,7 +133,6 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   void loadProjectData() {
-
     apiKeyEditText.setText(projectDataList.get(currentProject).getApiKey());
     apiSecretEditText.setText(projectDataList.get(currentProject).getApiSecret());
   }

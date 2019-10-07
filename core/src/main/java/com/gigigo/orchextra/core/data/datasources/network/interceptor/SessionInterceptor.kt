@@ -34,7 +34,7 @@ class SessionInterceptor(private val sessionManager: SessionManager) : Intercept
     override fun intercept(chain: Chain): Response {
 
         val requestBuilder = chain.request().newBuilder()
-            .addHeader("X-orx-version", "ANDROID_" + BuildConfig.VERSION_NAME)
+            .addHeader("X-orx-version", "ANDROID_${BuildConfig.VERSION_NAME}")
             .addHeader("Accept-Language", Locale.getDefault().toString())
             .addHeader("Content-Type", "application/json")
 

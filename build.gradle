@@ -26,21 +26,16 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.5.0'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath 'com.android.tools.build:gradle:3.5.1'
     classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
-    classpath 'com.google.gms:google-services:4.0.1'
-    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
     classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+    classpath 'com.google.gms:google-services:4.3.2'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
   }
 }
 
 allprojects {
-  ext {
-    compileSdkVersion = 29
-    minSdkVersion = 16
-    targetSdkVersion = 29
-  }
 
   repositories {
     google()
@@ -48,7 +43,6 @@ allprojects {
     maven { url "http://jcenter.bintray.com" }
     maven { url 'https://dl.bintray.com/gigigo-desarrollo/maven' }
     maven { url 'https://jitpack.io' }
-    maven { url 'https://maven.google.com' }
   }
 
   tasks.withType(Javadoc).all {
