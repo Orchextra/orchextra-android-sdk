@@ -16,23 +16,11 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        jcenter()
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.27.1'
-    }
-}
-
 apply plugin: 'com.android.application'
 apply from: rootProject.file('gradle/checkstyle.gradle')
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../config/jacoco.gradle'
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -124,10 +112,6 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     implementation 'me.dm7.barcodescanner:zbar:1.9.8'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
-        transitive = true
-    }
-
 
     testImplementation 'junit:junit:4.12'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
@@ -139,12 +123,11 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-//    androidTestImplementation 'androidx.annotation:annotation:1.1.0'
     androidTestImplementation 'info.cukes:cucumber-android:1.2.5@jar'
     androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.4'
     androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
 }
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'
 
 
