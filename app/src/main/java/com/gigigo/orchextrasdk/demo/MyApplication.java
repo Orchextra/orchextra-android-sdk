@@ -20,23 +20,20 @@ package com.gigigo.orchextrasdk.demo;
 
 import androidx.multidex.MultiDexApplication;
 
-import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
-import io.fabric.sdk.android.Fabric;
 
 public class MyApplication extends MultiDexApplication {
 
-  public void onCreate() {
-    super.onCreate();
+    public void onCreate() {
+        super.onCreate();
 
-    if (LeakCanary.isInAnalyzerProcess(this)) {
-      // This process is dedicated to LeakCanary for heap analysis.
-      // You should not init your app in this process.
-      return;
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        Stetho.initializeWithDefaults(this);
     }
-    LeakCanary.install(this);
-    Stetho.initializeWithDefaults(this);
-    Fabric.with(this, new Crashlytics());
-  }
 }
