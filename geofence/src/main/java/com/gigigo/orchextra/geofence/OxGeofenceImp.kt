@@ -30,6 +30,7 @@ import com.gigigo.orchextra.core.domain.entities.GeoMarketing
 import com.gigigo.orchextra.core.domain.triggers.OxTrigger
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGD
+import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.gigigo.orchextra.geofence.utils.toGeofence
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.Geofence
@@ -115,23 +116,23 @@ class OxGeofenceImp private constructor(
     }
 
     private val connectionFailedListener = GoogleApiClient.OnConnectionFailedListener {
-        LogUtils.LOGE(TAG, "connectionFailedListener")
+        LOGE(TAG, "connectionFailedListener")
     }
 
     override fun onComplete(task: Task<Void>) {
         if (task.isSuccessful) {
             updateGeofencesAdded(!getGeofencesAdded())
 
-            val messageId =
-                if (getGeofencesAdded()) R.string.geofences_added
-                else R.string.geofences_removed
-            LOGD(TAG, "onComplete: $messageId")
+            val message =
+                if (getGeofencesAdded()) context.getString(R.string.geofences_added)
+                else context.getString(R.string.geofences_removed)
+            LOGD(TAG, "onComplete: $message")
         } else {
             task.exception?.let {
-                LogUtils.LOGE(TAG, it.message ?: "no exception message")
+                LOGE(TAG, it.message ?: "no exception message")
+                val errorMessage = GeofenceErrorMessages.getErrorString(context, it)
+                LOGE(TAG, "onComplete: $errorMessage")
             }
-            val errorMessage = GeofenceErrorMessages.getErrorString(context, task.exception)
-            LogUtils.LOGE(TAG, "onComplete: $errorMessage")
         }
     }
 
