@@ -51,7 +51,7 @@ class OxLocationUpdates {
     fun startLocationUpdates() {
         if (service == null) Log.e(TAG, "Location Service is not connected")
         if (!isBound) Log.e(TAG, "Location Service is not bound")
-        service?.requestLocationUpdates()
+        service?.requestLocationUpdates(true)
     }
 
     fun stopLocationUpdates() {

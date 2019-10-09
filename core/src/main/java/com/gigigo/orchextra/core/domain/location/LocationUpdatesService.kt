@@ -75,23 +75,31 @@ class LocationUpdatesService : Service() {
     private var serviceHandler: Handler? = null
 
     /**
+     * Location to build a debuggable notification message
+     */
+    private var location: Location? = null
+
+    /**
      * Returns the [NotificationCompat] used as part of the foreground service.
      */
-    private val notification: Notification
+    public val notification: Notification
         get() {
             val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
                 .setContentTitle(getString(R.string.ox_location_notification_title))
+//                .setContentText(locationMessage() ?: "") // just for debug
                 .setOngoing(true)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setSmallIcon(R.drawable.ox_notification_alpha_small_icon)
             return builder.build()
         }
 
     override fun onCreate() {
+        Log.i(TAG, "onCreate")
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 super.onLocationResult(locationResult)
+                Log.i(TAG, "onLocationResult")
                 locationResult?.lastLocation?.let { location ->
                     onNewLocation(location)
                 }
@@ -128,6 +136,7 @@ class LocationUpdatesService : Service() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        Log.i(TAG, "onConfigurationChanged")
         changingConfiguration = true
     }
 
@@ -172,9 +181,13 @@ class LocationUpdatesService : Service() {
      * Makes a request for location updates. Note that in this sample we merely log the
      * [SecurityException].
      */
-    fun requestLocationUpdates() {
+    fun requestLocationUpdates(startService: Boolean) {
         Log.i(TAG, "Requesting location updates")
-        startService(Intent(applicationContext, LocationUpdatesService::class.java))
+
+        if (startService) {
+            startService(Intent(applicationContext, LocationUpdatesService::class.java))
+        }
+
         try {
             fusedLocationClient?.requestLocationUpdates(
                 locationRequest,
@@ -217,7 +230,8 @@ class LocationUpdatesService : Service() {
     }
 
     private fun onNewLocation(location: Location) {
-        Log.d(TAG, "Ox location: $location")
+        this.location = location
+        Log.d(TAG, "Ox location: ${locationMessage() ?: location}")
 
         // Notify anyone listening for broadcasts about the new location.
         val intent = Intent(ACTION_BROADCAST)
@@ -228,6 +242,18 @@ class LocationUpdatesService : Service() {
         if (serviceIsRunningInForeground(this)) {
             notificationManager?.notify(NOTIFICATION_ID, notification)
         }
+    }
+
+    private fun locationMessage(): String? {
+        val location = this.location ?: return null
+
+        val mockMessage =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                if (location.isFromMockProvider) "mock" else "no-mock"
+            } else {
+                "unknown"
+            }
+        return "lat ${location.latitude} lng ${location.longitude} $mockMessage "
     }
 
     /**
@@ -290,6 +316,6 @@ class LocationUpdatesService : Service() {
         /**
          * The identifier for the notification displayed for the foreground service.
          */
-        private const val NOTIFICATION_ID = 12345678
+        public const val NOTIFICATION_ID = 12345678
     }
 }

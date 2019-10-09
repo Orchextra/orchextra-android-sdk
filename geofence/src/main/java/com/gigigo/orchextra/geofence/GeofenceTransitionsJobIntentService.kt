@@ -22,6 +22,10 @@ import com.google.android.gms.location.GeofencingEvent
  */
 class GeofenceTransitionsJobIntentService : JobIntentService() {
 
+    override fun onCreate() {
+        super.onCreate()
+        LOGD(TAG, "onCreate")
+    }
     /**
      * Handles incoming intents.
      * @param intent sent by Location Services. This Intent is provided to Location
@@ -46,7 +50,6 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
         if (geofenceTransition == GEOFENCE_TRANSITION_ENTER ||
             geofenceTransition == GEOFENCE_TRANSITION_EXIT
         ) {
-
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
             val triggeringGeofences = geofencingEvent.triggeringGeofences
             triggeringGeofences.firstOrNull()?.requestId?.let { requestId ->

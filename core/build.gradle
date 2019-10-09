@@ -71,6 +71,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        versionCode generateAutoVersionCode()
+        versionName version
     }
 
     buildTypes {
