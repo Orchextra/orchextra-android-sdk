@@ -19,7 +19,6 @@ import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.gigigo.orchextra.core.BuildConfig
 import com.gigigo.orchextra.core.Orchextra.NOTIFICATION_CHANNEL
 import com.gigigo.orchextra.core.R
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -27,7 +26,6 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-
 
 /**
  * A bound and started service that is promoted to a foreground service when location updates have
@@ -191,7 +189,6 @@ class LocationUpdatesService : Service() {
         } catch (unlikely: SecurityException) {
             Log.e(TAG, "Lost location permission. Could not request updates. $unlikely")
         }
-
     }
 
     /**
@@ -206,7 +203,6 @@ class LocationUpdatesService : Service() {
         } catch (unlikely: SecurityException) {
             Log.e(TAG, "Lost location permission. Could not remove updates. $unlikely")
         }
-
     }
 
     private fun getLastLocation() {
@@ -230,6 +226,9 @@ class LocationUpdatesService : Service() {
         // Notify anyone listening for broadcasts about the new location.
         val intent = Intent(ACTION_BROADCAST)
         intent.putExtra(EXTRA_LOCATION, location)
+
+        OxLocationUpdates.saveLastLocation(applicationContext, location)
+
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
 
         // Update notification content if running as a foreground service.
