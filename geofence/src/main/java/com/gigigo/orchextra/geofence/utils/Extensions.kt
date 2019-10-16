@@ -37,8 +37,6 @@ fun GeoMarketing.toGeofence(): Geofence = with(this) {
     event = Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT
   }
 
-
-
   return Geofence.Builder()
       .setRequestId(code)
       .setCircularRegion(point.lat, point.lng, radius.toFloat())

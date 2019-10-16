@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.location.Location
 import android.os.IBinder
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.gigigo.orchextra.core.domain.entities.OxPoint
@@ -97,6 +98,30 @@ class OxLocationUpdates {
             if (location != null) {
                 listener?.onLocationUpdated(OxPoint(location.latitude, location.longitude))
             }
+        }
+    }
+
+    companion object {
+
+        var LOCATION_LAT = "LOCATION_LAT"
+        var LOCATION_LON = "LOCATION_LON"
+        var LOCATION_PROVIDER = "LOCATION_PROVIDER"
+
+        fun saveLastLocation(context: Context, location: Location) {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            sharedPreferences.edit().putString(LOCATION_LAT, location.latitude.toString()).apply()
+            sharedPreferences.edit().putString(LOCATION_LON, location.longitude.toString()).apply()
+            sharedPreferences.edit().putString(LOCATION_PROVIDER, location.provider).apply()
+        }
+
+        fun getLastLocationSaved(context: Context): Location {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+            val location = Location(sharedPreferences.getString(LOCATION_PROVIDER, ""))
+            location.latitude = sharedPreferences.getString(LOCATION_LAT, "")?.toDouble() ?: 0.0
+            location.longitude = sharedPreferences.getString(LOCATION_LON, "")?.toDouble() ?: 0.0
+
+            return location
         }
     }
 }

@@ -21,6 +21,7 @@ package com.gigigo.orchextra.geofence
 import android.Manifest
 import android.app.Application
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -59,7 +60,10 @@ class OxGeofenceImp private constructor(
     }
 
     override fun setConfig(config: List<GeoMarketing>) {
-        geofenceList = config.map { it.toGeofence() }
+        geofenceList = config.map {
+            saveGeofenceRadius(context, it.code, it.radius)
+            it.toGeofence()
+        }
     }
 
     override fun finish() {
@@ -161,5 +165,18 @@ class OxGeofenceImp private constructor(
 
         fun create(context: Application) =
             OxGeofenceImp(context, LocationServices.getGeofencingClient(context))
+
+        fun saveGeofenceRadius(context: Context, code: String, radius: Int) {
+            PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putInt(code, radius)
+                .apply()
+        }
+
+        fun getGeofenceRadius(context: Context,code: String):Int {
+            return PreferenceManager.getDefaultSharedPreferences(context)
+                .getInt(code, -1)
+        }
+
     }
 }
