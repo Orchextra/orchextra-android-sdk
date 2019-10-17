@@ -49,6 +49,8 @@ import com.google.firebase.FirebaseOptions
 import java.util.concurrent.TimeUnit
 
 object Orchextra : OrchextraErrorListener {
+    const val PRIMARY_CHANNEL_GEOFENCES = "geofences_channel"
+    const val NOTIFICATION_ID_GEOFENCES = 2
     const val NOTIFICATION_CHANNEL = "Orchextra"
 
     private val TAG = LogUtils.makeLogTag(Orchextra::class.java)

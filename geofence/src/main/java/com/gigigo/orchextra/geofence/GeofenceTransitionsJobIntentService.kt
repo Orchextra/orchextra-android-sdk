@@ -14,9 +14,6 @@ import androidx.core.app.JobIntentService
 import androidx.core.app.NotificationCompat
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R.string
-import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationActionExecutor
-import com.gigigo.orchextra.core.domain.entities.Action
-import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.location.OxLocationUpdates
@@ -68,12 +65,13 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
         if (geofenceTransition == GEOFENCE_TRANSITION_ENTER || geofenceTransition == GEOFENCE_TRANSITION_EXIT) {
 
             if (Orchextra.isDebuggable()) {
-                val notification = Notification(
-                    "Transition: ${getTransitionString(geofenceTransition)} || NetOK: $isNetworkAvailable | AreYouIn?$geofenceInside",
-                    "${location.latitude},${location.longitude}|Pro:${location.provider}|Ac:${location.accuracy}|Bea:${location.bearing}"
-                )
+                val lastLocation = OxLocationUpdates.getLastLocationSaved(applicationContext)
 
-                showBarNotification(notification, Action())
+                val description = "Geofence Event"
+                val title = "Transition: ${getTransitionString(geofenceTransition)} || NetOK: $isNetworkAvailable | AreYouIn?$geofenceInside"
+                val bigtext = "${location.latitude},${location.longitude}|Pro:${location.provider}|Ac:${location.accuracy}|Bea:${location.bearing}|DistanceTo:${location.distanceTo( lastLocation)}"
+
+                showBarNotification(title, description, bigtext)
             }
 
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
@@ -116,37 +114,38 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
         }
     }
 
-    private fun showBarNotification(notification: Notification, action: Action) =
-        with(notification) {
+    private fun showBarNotification(title: String, description: String, bigText: String) {
 
-            val manager =
-                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val manager =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            if (VERSION.SDK_INT >= VERSION_CODES.O) {
-                val chan1 = NotificationChannel(
-                    NotificationActionExecutor.PRIMARY_CHANNEL,
-                    applicationContext.getString(string.app_name),
-                    NotificationManager.IMPORTANCE_DEFAULT
-                )
-                chan1.lightColor = Color.RED
-                chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
-                manager.createNotificationChannel(chan1)
-            }
-
-            val notificationBuilder = NotificationCompat.Builder(
-                applicationContext,
-                NotificationActionExecutor.PRIMARY_CHANNEL
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+            val chan1 = NotificationChannel(
+                Orchextra.PRIMARY_CHANNEL_GEOFENCES,
+                applicationContext.getString(string.app_name),
+                NotificationManager.IMPORTANCE_DEFAULT
             )
-                .setSmallIcon(com.gigigo.orchextra.core.R.drawable.ox_notification_alpha_small_icon)
-                .setContentTitle(title)
-                .setContentText(body)
-
-            notificationBuilder.setAutoCancel(true)
-
-            val mNotificationId = 1
-
-            manager.notify(mNotificationId, notificationBuilder.build())
+            chan1.lightColor = Color.RED
+            chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+            chan1.enableVibration(true)
+            manager.createNotificationChannel(chan1)
         }
+
+        val notificationBuilder = NotificationCompat.Builder(
+            applicationContext,
+            Orchextra.PRIMARY_CHANNEL_GEOFENCES
+        )
+            .setSmallIcon(com.gigigo.orchextra.core.R.drawable.ox_notification_alpha_small_icon)
+            .setContentTitle(title)
+            .setContentText(description)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
+
+        notificationBuilder.setAutoCancel(true)
+
+        val mNotificationId = Orchextra.NOTIFICATION_ID_GEOFENCES
+
+        manager.notify(mNotificationId, notificationBuilder.build())
+    }
 
     private fun isNetworkAvailable(context: Context): Boolean {
         if (context == null) {
