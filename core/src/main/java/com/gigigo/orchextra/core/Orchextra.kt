@@ -39,9 +39,9 @@ import com.gigigo.orchextra.core.domain.entities.Error
 import com.gigigo.orchextra.core.domain.entities.OxPoint
 import com.gigigo.orchextra.core.domain.interactor.GetConfiguration
 import com.gigigo.orchextra.core.domain.interactor.GetOxToken
+import com.gigigo.orchextra.core.domain.location.LocationProvider
 import com.gigigo.orchextra.core.domain.triggers.TriggerManager
 import com.gigigo.orchextra.core.utils.ActivityLifecycleManager
-import com.gigigo.orchextra.core.domain.location.LocationProvider
 import com.gigigo.orchextra.core.utils.LogUtils
 import com.gigigo.orchextra.core.utils.LogUtils.LOGE
 import com.google.firebase.FirebaseApp
@@ -249,9 +249,9 @@ object Orchextra : OrchextraErrorListener {
         return crmManager as CrmManager
     }
 
-    internal fun isDebuggable(): Boolean = debuggable
+    fun isDebuggable(): Boolean = debuggable
 
-    internal fun isActivityRunning() = isActivityRunning
+    fun isActivityRunning() = isActivityRunning
 
     internal fun provideSharedPreferences(
         context: Context
