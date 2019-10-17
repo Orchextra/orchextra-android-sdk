@@ -1,10 +1,22 @@
 package com.gigigo.orchextra.geofence
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.location.Location
+import android.net.ConnectivityManager
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.preference.PreferenceManager
 import androidx.core.app.JobIntentService
+import androidx.core.app.NotificationCompat
+import com.gigigo.orchextra.core.Orchextra
+import com.gigigo.orchextra.core.R.string
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationActionExecutor
+import com.gigigo.orchextra.core.domain.entities.Action
+import com.gigigo.orchextra.core.domain.entities.Notification
 import com.gigigo.orchextra.core.domain.entities.Trigger
 import com.gigigo.orchextra.core.domain.entities.TriggerType
 import com.gigigo.orchextra.core.domain.location.OxLocationUpdates
@@ -33,6 +45,9 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
      */
     override fun onHandleWork(intent: Intent) {
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
+
+        val isNetworkAvailable = isNetworkAvailable(applicationContext)
+
         if (geofencingEvent.hasError()) {
             val errorMessage = GeofenceErrorMessages.getErrorString(
                 this,
@@ -44,36 +59,29 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
 
         // Get the transition type.
         val geofenceTransition = geofencingEvent.geofenceTransition
+        val location = geofencingEvent.triggeringLocation
         val transition = getTransitionString(geofenceTransition)
         LOGD(TAG, "OX Geofence triggered $transition")
 
-//        checkGeofenceByRadius(geofenceTransition, geofencingEvent)
+        val geofenceInside = checkGeofenceByRadius(geofenceTransition, geofencingEvent)
 
         if (geofenceTransition == GEOFENCE_TRANSITION_ENTER || geofenceTransition == GEOFENCE_TRANSITION_EXIT) {
+
+            if (Orchextra.isDebuggable()) {
+                val notification = Notification(
+                    "Transition: ${getTransitionString(geofenceTransition)} || NetOK: $isNetworkAvailable | AreYouIn?$geofenceInside",
+                    "${location.latitude},${location.longitude}|Pro:${location.provider}|Ac:${location.accuracy}|Bea:${location.bearing}"
+                )
+
+                showBarNotification(notification, Action())
+            }
 
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
             val triggeringGeofences = geofencingEvent.triggeringGeofences
             triggeringGeofences.firstOrNull()?.requestId?.let { requestId ->
 
-                if (geofenceTransition == GEOFENCE_TRANSITION_ENTER) {
-                    if (!isSent(geofenceTransition, requestId)) {
-                        LOGE(TAG, "Geofence $requestId saved, showing notification EXIT")
-                        saveRequestId(geofenceTransition, requestId)
-                        deleteTransitionExit(requestId)
-                        sendTriggerBroadcast(transition, requestId)
-                    } else {
-                        LOGE(TAG, "Geofence $requestId already saved ENTER")
-                    }
-                }else if (geofenceTransition == GEOFENCE_TRANSITION_EXIT){
-                    if (!isSent(geofenceTransition, requestId)) {
-                        LOGE(TAG, "Geofence $requestId saved, showing notification EXIT")
-                        saveRequestId(geofenceTransition, requestId)
-                        deleteTransitionEnter(requestId)
-                        sendTriggerBroadcast(transition, requestId)
-                    } else {
-                        LOGE(TAG, "Geofence $requestId already saved EXIT")
-                    }
-                }
+                sendTriggerBroadcast(transition, requestId)
+//                sendEventWithCachePreferences(geofenceTransition, transition, requestId)
             }
         } else {
             // Log the error.
@@ -81,10 +89,88 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
         }
     }
 
+    private fun sendEventWithCachePreferences(
+        geofenceTransition: Int,
+        transition: String,
+        requestId: String
+    ) {
+
+        if (geofenceTransition == GEOFENCE_TRANSITION_ENTER) {
+            if (!isSent(geofenceTransition, requestId)) {
+                LOGE(TAG, "Geofence $requestId saved, showing notification EXIT")
+                saveRequestId(geofenceTransition, requestId)
+                deleteTransitionExit(requestId)
+                sendTriggerBroadcast(transition, requestId)
+            } else {
+                LOGE(TAG, "Geofence $requestId already saved ENTER")
+            }
+        } else if (geofenceTransition == GEOFENCE_TRANSITION_EXIT) {
+            if (!isSent(geofenceTransition, requestId)) {
+                LOGE(TAG, "Geofence $requestId saved, showing notification EXIT")
+                saveRequestId(geofenceTransition, requestId)
+                deleteTransitionEnter(requestId)
+                sendTriggerBroadcast(transition, requestId)
+            } else {
+                LOGE(TAG, "Geofence $requestId already saved EXIT")
+            }
+        }
+    }
+
+    private fun showBarNotification(notification: Notification, action: Action) =
+        with(notification) {
+
+            val manager =
+                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            if (VERSION.SDK_INT >= VERSION_CODES.O) {
+                val chan1 = NotificationChannel(
+                    NotificationActionExecutor.PRIMARY_CHANNEL,
+                    applicationContext.getString(string.app_name),
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+                chan1.lightColor = Color.RED
+                chan1.lockscreenVisibility = android.app.Notification.VISIBILITY_PRIVATE
+                manager.createNotificationChannel(chan1)
+            }
+
+            val notificationBuilder = NotificationCompat.Builder(
+                applicationContext,
+                NotificationActionExecutor.PRIMARY_CHANNEL
+            )
+                .setSmallIcon(com.gigigo.orchextra.core.R.drawable.ox_notification_alpha_small_icon)
+                .setContentTitle(title)
+                .setContentText(body)
+
+            notificationBuilder.setAutoCancel(true)
+
+            val mNotificationId = 1
+
+            manager.notify(mNotificationId, notificationBuilder.build())
+        }
+
+    private fun isNetworkAvailable(context: Context): Boolean {
+        if (context == null) {
+            return false
+        }
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        // if no network is available networkInfo will be null, otherwise check if we are connected
+        try {
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
+                return true
+            }
+        } catch (e: Exception) {
+            LOGE(TAG, "isNetworkAvailable()" + e.message)
+        }
+
+        return false
+    }
+
     private fun checkGeofenceByRadius(
         geofenceTransition: Int,
         geofencingEvent: GeofencingEvent
-    ) {
+    ): Boolean {
         val lastLocationSaved = OxLocationUpdates.getLastLocationSaved(applicationContext)
         val transitionLocation = geofencingEvent.triggeringLocation
 
@@ -94,21 +180,41 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
             when (geofenceTransition) {
                 GEOFENCE_TRANSITION_ENTER -> {
 
-                    val geofenceLocation = insideGeofenceLocation(lastLocationSaved, transitionLocation, radius.toFloat())
-                    if (geofenceLocation != null) {
+                    val geofenceLocation = insideGeofenceLocation(
+                        lastLocationSaved,
+                        transitionLocation,
+                        radius.toFloat()
+                    )
+                    return if (geofenceLocation != null) {
                         LOGD(TAG, "OX Geofence in!!")
+                        true
+                    } else {
+                        false
                     }
                 }
                 GEOFENCE_TRANSITION_EXIT -> {
-                    val geofenceLocation = insideGeofenceLocation(lastLocationSaved, transitionLocation, radius.toFloat())
-                    if (geofenceLocation == null) {
+                    val geofenceLocation = insideGeofenceLocation(
+                        lastLocationSaved,
+                        transitionLocation,
+                        radius.toFloat()
+                    )
+                    return if (geofenceLocation == null) {
                         LOGD(TAG, "OX Geofence Out!!")
+                        false
+                    } else {
+                        true
                     }
                 }
-                else -> // Log the error.
-                    LOGE(TAG, getString(R.string.geofence_transition_invalid_type, geofenceTransition))
+                else -> {// Log the error.
+                    LOGE(
+                        TAG,
+                        getString(R.string.geofence_transition_invalid_type, geofenceTransition)
+                    )
+                    return false
+                }
             }
         }
+        return false
     }
 
     private fun deleteTransitionExit(requestId: String) {
