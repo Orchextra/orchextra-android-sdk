@@ -128,6 +128,6 @@ dependencies {
     androidTestImplementation 'com.squareup.spoon:spoon-client:1.7.1'
 }
 
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 
 
