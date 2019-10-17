@@ -27,8 +27,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
-import androidx.core.app.NotificationCompat
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.gigigo.orchextra.core.Orchextra
 import com.gigigo.orchextra.core.R
 import com.gigigo.orchextra.core.domain.datasources.DbDataSource
@@ -39,7 +39,6 @@ class NotificationActionExecutor(private val context: Context,
     private val dbDataSource: DbDataSource) {
 
   fun showNotification(notification: Notification, action: Action) {
-
     Log.d(TAG, "showNotification()")
 
     if (Orchextra.isActivityRunning()) {
@@ -102,7 +101,7 @@ class NotificationActionExecutor(private val context: Context,
   companion object Factory {
 
     private const val TAG = "NotificationAction"
-    private const val PRIMARY_CHANNEL = "default"
+    const val PRIMARY_CHANNEL = "default"
 
     fun create(context: Context): NotificationActionExecutor = NotificationActionExecutor(
         context, DbDataSource.create(context))
