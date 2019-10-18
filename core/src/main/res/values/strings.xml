@@ -22,5 +22,5 @@
   <string name="ox_scanner_title">Orchextra scanner</string>
   <string name="ox_imagerecognizer_title">Orchextra image recognizer</string>
 
-  <string name="ox_location_notification_title">Location updates</string>
+  <string name="ox_location_notification_title">Locating position… </string>
 </resources>

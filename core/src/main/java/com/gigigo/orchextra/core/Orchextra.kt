@@ -52,6 +52,8 @@ object Orchextra : OrchextraErrorListener {
     const val PRIMARY_CHANNEL_GEOFENCES = "geofences_channel"
     const val NOTIFICATION_ID_GEOFENCES = 2
     const val NOTIFICATION_CHANNEL = "Orchextra"
+    const val NOTIFICATION_CHANNEL_LOCATION = "location_channel"
+
 
     private val TAG = LogUtils.makeLogTag(Orchextra::class.java)
     private var getOxToken: GetOxToken? = null
