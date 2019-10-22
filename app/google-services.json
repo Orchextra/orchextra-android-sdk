@@ -1,0 +1,122 @@
+{
+  "project_info": {
+    "project_number": "16766692704",
+    "firebase_url": "https://orchextra-app.firebaseio.com",
+    "project_id": "orchextra-app",
+    "storage_bucket": "orchextra-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16766692704:android:1e43f6370e561f5c8d8205",
+        "android_client_info": {
+          "package_name": "com.gigigo.orchextrasdk.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16766692704-e3c7u7i03ugnsejp3crfb8vn1638igkg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gigigo.orchextrasdk.demo",
+            "certificate_hash": "5c21b73b9a547b937764b4163396900de4528d1b"
+          }
+        },
+        {
+          "client_id": "16766692704-l6ruco6f0jknhuchecd9l060suprflpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxle-A3CksAwXvcRChsRLdpEJ60hFwQG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16766692704-l6ruco6f0jknhuchecd9l060suprflpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16766692704:android:9e7462a7f6a9e4a98d8205",
+        "android_client_info": {
+          "package_name": "com.gigigo.orchextrasdk.demo.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16766692704-tmg0qe3t6s5gumhdejvo9vodmel43q81.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gigigo.orchextrasdk.demo.debug",
+            "certificate_hash": "5c21b73b9a547b937764b4163396900de4528d1b"
+          }
+        },
+        {
+          "client_id": "16766692704-l6ruco6f0jknhuchecd9l060suprflpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxle-A3CksAwXvcRChsRLdpEJ60hFwQG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16766692704-l6ruco6f0jknhuchecd9l060suprflpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16766692704:android:0458107aa8d651f08d8205",
+        "android_client_info": {
+          "package_name": "com.gigigo.orchextrasdk.demo.quality"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16766692704-f08r94bcrso3280t9kvitr89q79vto7v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gigigo.orchextrasdk.demo.quality",
+            "certificate_hash": "5c21b73b9a547b937764b4163396900de4528d1b"
+          }
+        },
+        {
+          "client_id": "16766692704-l6ruco6f0jknhuchecd9l060suprflpe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxle-A3CksAwXvcRChsRLdpEJ60hFwQG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16766692704-l6ruco6f0jknhuchecd9l060suprflpe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

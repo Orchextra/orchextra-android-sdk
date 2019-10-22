@@ -1,33 +1,25 @@
 package com.gigigo.orchextra.core.domain.location
 
 import android.app.ActivityManager
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.location.Location
-import android.net.Uri
 import android.os.Binder
-import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.gigigo.orchextra.core.BuildConfig
-import com.gigigo.orchextra.core.Orchextra.NOTIFICATION_CHANNEL
-import com.gigigo.orchextra.core.R
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationHelper
+import com.gigigo.orchextra.core.domain.actions.actionexecutors.notification.NotificationHelper.NotificationLocationData
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-
 
 /**
  * A bound and started service that is promoted to a foreground service when location updates have
@@ -56,8 +48,6 @@ class LocationUpdatesService : Service() {
      */
     private var changingConfiguration = false
 
-    private var notificationManager: NotificationManager? = null
-
     /**
      * Contains parameters used by [com.google.android.gms.location.FusedLocationProviderApi].
      */
@@ -80,19 +70,7 @@ class LocationUpdatesService : Service() {
      */
     private var location: Location? = null
 
-    /**
-     * Returns the [NotificationCompat] used as part of the foreground service.
-     */
-    private val notification: Notification
-        get() {
-            val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL)
-                .setContentTitle(getString(R.string.ox_location_notification_title))
-//                .setContentText(locationMessage() ?: "") // just for debug
-                .setOngoing(true)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setSmallIcon(R.drawable.ox_notification_alpha_small_icon)
-            return builder.build()
-        }
+    private lateinit var notificationHelper: NotificationHelper
 
     override fun onCreate() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -111,20 +89,9 @@ class LocationUpdatesService : Service() {
         val handlerThread = HandlerThread(TAG)
         handlerThread.start()
         serviceHandler = Handler(handlerThread.looper)
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // Android O requires a Notification Channel.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create the channel for the notification
-            val channel = NotificationChannel(
-                NOTIFICATION_CHANNEL,
-                getString(R.string.app_name),
-                NotificationManager.IMPORTANCE_NONE
-            )
-            channel.setSound(Uri.EMPTY, null)
-            // Set the Notification Channel for the Notification Manager.
-            notificationManager?.createNotificationChannel(channel)
-        }
+        notificationHelper  =  NotificationHelper(applicationContext)
+        notificationHelper.init()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -166,7 +133,12 @@ class LocationUpdatesService : Service() {
         // do nothing. Otherwise, we make this service a foreground service.
         if (!changingConfiguration) {
             Log.i(TAG, "Starting foreground service")
-            startForeground(NOTIFICATION_ID, notification)
+
+            startForeground(NOTIFICATION_ID, location?.let { NotificationLocationData(it) }?.let {
+                notificationHelper.buildNotificationLocation(
+                    it
+                )
+            })
         }
         return true // Ensures onRebind() is called when a client re-binds.
     }
@@ -191,7 +163,6 @@ class LocationUpdatesService : Service() {
         } catch (unlikely: SecurityException) {
             Log.e(TAG, "Lost location permission. Could not request updates. $unlikely")
         }
-
     }
 
     /**
@@ -206,7 +177,6 @@ class LocationUpdatesService : Service() {
         } catch (unlikely: SecurityException) {
             Log.e(TAG, "Lost location permission. Could not remove updates. $unlikely")
         }
-
     }
 
     private fun getLastLocation() {
@@ -225,29 +195,20 @@ class LocationUpdatesService : Service() {
 
     private fun onNewLocation(location: Location) {
         this.location = location
-        Log.d(TAG, "Ox location: ${locationMessage() ?: location}")
+        Log.d(TAG, "Ox location: ${NotificationLocationData.locationMessage(location) ?: location}")
 
         // Notify anyone listening for broadcasts about the new location.
         val intent = Intent(ACTION_BROADCAST)
         intent.putExtra(EXTRA_LOCATION, location)
+
+        OxLocationUpdates.saveLastLocation(applicationContext, location)
+
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
 
         // Update notification content if running as a foreground service.
         if (serviceIsRunningInForeground(this)) {
-            notificationManager?.notify(NOTIFICATION_ID, notification)
+            notificationHelper.notifyLocation(NOTIFICATION_ID, location)
         }
-    }
-
-    private fun locationMessage(): String? {
-        val location = this.location ?: return null
-
-        val mockMessage =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                if (location.isFromMockProvider) "mock" else "no-mock"
-            } else {
-                "unknown"
-            }
-        return "lat ${location.latitude} lng ${location.longitude} $mockMessage "
     }
 
     /**
